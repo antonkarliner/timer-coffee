@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show HapticFeedback;
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:coffee_timer/config/supabase_endpoint_resolver.dart';
 import 'package:coffeico/coffeico.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image/image.dart' as img;
@@ -569,7 +570,8 @@ class _RoasterLogoState extends State<RoasterLogo>
                       )
                     : CachedNetworkImage(
                         cacheKey: _normalizeUrl(_currentUrl!),
-                        imageUrl: _currentUrl!,
+                        imageUrl:
+                            SupabaseEndpointResolver.localizeStorageUrl(_currentUrl!),
                         cacheManager: RoasterLogoCacheManager.instance,
                         fit: BoxFit.contain,
                         placeholder: (context, url) =>

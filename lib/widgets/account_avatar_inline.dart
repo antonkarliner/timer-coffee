@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:coffee_timer/config/supabase_endpoint_resolver.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -94,7 +95,7 @@ class _AccountAvatarInlineState extends State<AccountAvatarInline> {
         width: size,
         height: size,
         child: CachedNetworkImage(
-          imageUrl: _imageUrl!,
+          imageUrl: SupabaseEndpointResolver.localizeStorageUrl(_imageUrl!),
           fit: BoxFit.cover,
           placeholder: (context, url) =>
               Icon(Icons.person, size: size, color: iconColor),

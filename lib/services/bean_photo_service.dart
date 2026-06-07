@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:image/image.dart' as img;
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../config/supabase_endpoint_resolver.dart';
 import '../utils/app_logger.dart';
 
 /// Service for compressing and uploading bean cover photos to Supabase Storage.
@@ -49,7 +50,9 @@ class BeanPhotoService {
           .createSignedUrl(path, 60 * 60 * 24 * 365 * 10);
 
       AppLogger.debug('[BeanPhotoService] Uploaded photo for bean $beansUuid');
-      return signedUrl;
+      // Store the canonical direct-host URL so proxy-region uploads don't leak
+      // an api.timer.coffee host into shared data.
+      return SupabaseEndpointResolver.canonicalizeStorageUrl(signedUrl);
     } catch (e) {
       AppLogger.error('[BeanPhotoService] Upload failed', errorObject: e);
       return null;

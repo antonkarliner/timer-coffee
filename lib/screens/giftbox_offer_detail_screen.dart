@@ -17,6 +17,7 @@ import '../providers/snow_provider.dart';
 import '../theme/design_tokens.dart';
 import '../utils/app_logger.dart';
 import '../widgets/gift_discount_chip.dart';
+import 'package:coffee_timer/config/supabase_endpoint_resolver.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../utils/region_labels.dart';
 import '../widgets/base_buttons.dart';
@@ -326,7 +327,7 @@ class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
         color: Colors.grey.shade100,
         alignment: Alignment.center,
         child: Image.network(
-          offer.imageUrl!,
+          SupabaseEndpointResolver.localizeStorageUrl(offer.imageUrl!),
           fit: BoxFit.contain,
           errorBuilder: (_, __, ___) => _placeholderHero(),
           loadingBuilder: (context, child, progress) {

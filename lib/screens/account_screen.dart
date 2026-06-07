@@ -1,5 +1,6 @@
 import 'dart:io'; // For Platform checks if needed later
 import 'package:auto_route/auto_route.dart';
+import 'package:coffee_timer/config/supabase_endpoint_resolver.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coffee_timer/providers/database_provider.dart';
 import 'package:flutter/foundation.dart'; // Import for compute
@@ -422,8 +423,10 @@ class _AccountScreenState extends State<AccountScreen> {
       final imageUrlResponse = supabase.storage
           .from('user-profile-pictures')
           .getPublicUrl(imagePath);
+      // Canonicalize to the direct Supabase host before persisting, so a
+      // proxy-region user never writes an api.timer.coffee URL into shared data.
       final newImageUrl =
-          imageUrlResponse; // Assuming getPublicUrl returns the string directly
+          SupabaseEndpointResolver.canonicalizeStorageUrl(imageUrlResponse);
 
       // Update Supabase DB
       await supabase
@@ -768,7 +771,9 @@ class _AccountScreenState extends State<AccountScreen> {
                           backgroundColor: Colors.grey.shade300,
                           child: ClipOval(
                             child: CachedNetworkImage(
-                              imageUrl: _profilePictureUrl ?? _defaultAvatarUrl,
+                              imageUrl:
+                                  SupabaseEndpointResolver.localizeStorageUrl(
+                                      _profilePictureUrl ?? _defaultAvatarUrl),
                               placeholder: (context, url) => const Center(
                                   child: CircularProgressIndicator()),
                               errorWidget: (context, url, error) => const Icon(

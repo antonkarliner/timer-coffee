@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:coffeico/coffeico.dart';
+import 'package:coffee_timer/config/supabase_endpoint_resolver.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:auto_size_text_plus/auto_size_text_plus.dart';
 
@@ -138,7 +139,9 @@ class CoffeeBeanGridCard extends StatelessWidget {
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
                                 child: CachedNetworkImage(
-                                  imageUrl: bean.photoUrl!,
+                                  imageUrl:
+                                      SupabaseEndpointResolver.localizeStorageUrl(
+                                          bean.photoUrl!),
                                   height: 50,
                                   width: double.infinity,
                                   fit: BoxFit.cover,

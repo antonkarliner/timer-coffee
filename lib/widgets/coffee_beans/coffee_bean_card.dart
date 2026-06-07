@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:coffeico/coffeico.dart';
+import 'package:coffee_timer/config/supabase_endpoint_resolver.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 
 import '../../app_router.gr.dart';
@@ -102,7 +103,9 @@ class CoffeeBeanCard extends StatelessWidget {
                           width: logoHeight,
                           child: bean.photoUrl != null
                               ? CachedNetworkImage(
-                                  imageUrl: bean.photoUrl!,
+                                  imageUrl:
+                                      SupabaseEndpointResolver.localizeStorageUrl(
+                                          bean.photoUrl!),
                                   height: logoHeight,
                                   width: logoHeight,
                                   fit: BoxFit.cover,

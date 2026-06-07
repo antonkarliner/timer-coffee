@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:coffee_timer/config/network_timeouts.dart';
+import 'package:coffee_timer/config/supabase_endpoint_resolver.dart';
 import 'package:coffee_timer/database/database.dart';
 import 'package:coffee_timer/env/env.dart';
 import 'package:coffee_timer/models/supported_locale_model.dart';
@@ -331,9 +332,20 @@ void main() async {
   final purchaseManager = PurchaseManager();
   unawaited(purchaseManager.restorePurchasesIfSupported());
 
+  // Resolve which Supabase endpoint to use: the direct URL, or the reverse proxy
+  // for regions where Supabase is blocked (cached, self-healing — see
+  // SupabaseEndpointResolver). Falls back to direct if resolution itself fails.
+  String supabaseUrl;
+  try {
+    supabaseUrl = await SupabaseEndpointResolver.resolve();
+  } catch (e) {
+    AppLogger.error('Supabase endpoint resolution failed', errorObject: e);
+    supabaseUrl = SupabaseEndpointResolver.directUrl;
+  }
+
   // Initialize Supabase with timeout protection
   try {
-    await Supabase.initialize(url: Env.supaUrl, anonKey: Env.supaKey).timeout(
+    await Supabase.initialize(url: supabaseUrl, anonKey: Env.supaKey).timeout(
       NetworkTimeouts.handshake,
       onTimeout: () {
         AppLogger.warning('Supabase initialization timed out');
@@ -375,6 +387,13 @@ void main() async {
         'Anonymous sign-in failed or timed out; continuing offline',
         errorObject: e,
       );
+      // Self-heal: a direct connection that fails here usually means the user is
+      // now behind a network that blocks Supabase (e.g. travelled into Russia).
+      // Pin the proxy so the next launch routes around the block. Supabase's
+      // singleton init can't be redone in-process, so recovery lands next launch.
+      if (supabaseUrl == SupabaseEndpointResolver.directUrl) {
+        await SupabaseEndpointResolver.forceProxy();
+      }
     }
   }
 

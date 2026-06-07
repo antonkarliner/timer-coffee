@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'package:coffee_timer/config/supabase_endpoint_resolver.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 
 import '../models/gift_offer_model.dart';
@@ -419,7 +420,7 @@ class GiftOfferCard extends StatelessWidget {
         child: AspectRatio(
           aspectRatio: 4 / 3,
           child: Image.network(
-            offer.imageUrl!,
+            SupabaseEndpointResolver.localizeStorageUrl(offer.imageUrl!),
             fit: BoxFit.contain,
             errorBuilder: (_, __, ___) => _placeholderBox(),
             loadingBuilder: (context, child, loadingProgress) {

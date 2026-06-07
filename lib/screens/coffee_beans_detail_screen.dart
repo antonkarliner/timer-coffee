@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coffeico/coffeico.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:coffee_timer/config/supabase_endpoint_resolver.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 
@@ -319,7 +320,7 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen>
             Center(
               child: InteractiveViewer(
                 child: CachedNetworkImage(
-                  imageUrl: url,
+                  imageUrl: SupabaseEndpointResolver.localizeStorageUrl(url),
                   fit: BoxFit.contain,
                   errorWidget: (_, __, ___) => const Icon(
                     Icons.broken_image,
@@ -533,7 +534,8 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen>
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(AppRadius.small),
                     child: CachedNetworkImage(
-                      imageUrl: bean.photoUrl!,
+                      imageUrl:
+                          SupabaseEndpointResolver.localizeStorageUrl(bean.photoUrl!),
                       width: double.infinity,
                       fit: BoxFit.contain,
                       placeholder: (_, __) => const AspectRatio(
