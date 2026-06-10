@@ -1,0 +1,8 @@
+Nieuw:
+• Compact startscherm — kop klapt in bij scrollen.
+
+Verbeterd:
+• Grote netwerkrevisie: betere stabiliteit en sterkere offline ondersteuning.
+
+Opgelost:
+• Kleine bugfixes en interfacepolish.

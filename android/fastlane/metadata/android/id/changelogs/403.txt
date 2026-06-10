@@ -1,0 +1,8 @@
+Baru:
+• Layar Beranda ringkas — tajuk menyusut saat digulir.
+
+Ditingkatkan:
+• Perombakan besar jaringan: stabilitas lebih baik dan dukungan offline lebih kuat.
+
+Diperbaiki:
+• Perbaikan bug kecil dan penyempurnaan antarmuka.

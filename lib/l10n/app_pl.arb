@@ -1222,5 +1222,10 @@
   "recipeCreationFormatIssueInvalidExpression": "Ilości kawy i wody muszą używać pełnego wyrażenia mnożnika.",
   "recipeCreationFormatIssueUnbalancedParentheses": "Ten krok zawiera niezrównoważone nawiasy.",
   "recipeCreationFormatIssueAmbiguousAmount": "Doprecyzuj, czy ta ilość dotyczy kawy czy wody.",
-  "recipeCreationFormatIssueUnknown": "Ten krok wymaga korekty formatu."
+  "recipeCreationFormatIssueUnknown": "Ten krok wymaga korekty formatu.",
+  "helpAndFAQ": "Pomoc i FAQ",
+  "helpHomeSubtitle": "Przewodniki i odpowiedzi dotyczące aplikacji",
+  "helpEmptyState": "Treść pomocy nie jest jeszcze dostępna.",
+  "helpLoadFailed": "Nie udało się załadować treści pomocy.",
+  "helpRetry": "Spróbuj ponownie"
 }

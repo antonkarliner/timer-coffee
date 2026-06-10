@@ -1222,5 +1222,10 @@
   "recipeCreationFormatIssueInvalidExpression": "Кількості кави й води мають використовувати повний вираз із множником.",
   "recipeCreationFormatIssueUnbalancedParentheses": "У цьому кроці незбалансовані дужки.",
   "recipeCreationFormatIssueAmbiguousAmount": "Уточніть, чи ця кількість стосується кави або води.",
-  "recipeCreationFormatIssueUnknown": "Цей крок потребує виправлення формату."
+  "recipeCreationFormatIssueUnknown": "Цей крок потребує виправлення формату.",
+  "helpAndFAQ": "Довідка та FAQ",
+  "helpHomeSubtitle": "Інструкції та відповіді про застосунок",
+  "helpEmptyState": "Довідковий вміст поки що недоступний.",
+  "helpLoadFailed": "Не вдалося завантажити довідковий вміст.",
+  "helpRetry": "Повторити"
 }

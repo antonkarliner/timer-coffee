@@ -1617,5 +1617,10 @@
   "recipeCreationFormatIssueInvalidExpression": "Οι ποσότητες καφέ και νερού πρέπει να χρησιμοποιούν πλήρη έκφραση πολλαπλασιαστή.",
   "recipeCreationFormatIssueUnbalancedParentheses": "Αυτό το βήμα περιέχει μη ισορροπημένες παρενθέσεις.",
   "recipeCreationFormatIssueAmbiguousAmount": "Διευκρινίστε αν αυτή η ποσότητα αφορά καφέ ή νερό.",
-  "recipeCreationFormatIssueUnknown": "Αυτό το βήμα χρειάζεται διόρθωση μορφής."
+  "recipeCreationFormatIssueUnknown": "Αυτό το βήμα χρειάζεται διόρθωση μορφής.",
+  "helpAndFAQ": "Βοήθεια & Συχνές ερωτήσεις",
+  "helpHomeSubtitle": "Οδηγοί και απαντήσεις για την εφαρμογή",
+  "helpEmptyState": "Το περιεχόμενο βοήθειας δεν είναι ακόμη διαθέσιμο.",
+  "helpLoadFailed": "Δεν ήταν δυνατή η φόρτωση του περιεχομένου βοήθειας.",
+  "helpRetry": "Επανάληψη"
 }

@@ -1,0 +1,8 @@
+Novo:
+• Tela inicial compacta — o cabeçalho recolhe ao rolar.
+
+Melhorias:
+• Grande reformulação da rede: mais estabilidade e suporte offline mais forte.
+
+Correções:
+• Pequenas correções de bugs e polimento da interface.

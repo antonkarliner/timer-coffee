@@ -1,0 +1,8 @@
+Nowości:
+• Kompaktowy ekran główny — nagłówek zwija się podczas przewijania.
+
+Ulepszenia:
+• Duża przebudowa sieci: lepsza stabilność i lepsze wsparcie offline.
+
+Poprawki:
+• Drobne poprawki błędów i dopracowanie interfejsu.

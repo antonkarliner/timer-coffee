@@ -1222,5 +1222,10 @@
   "recipeCreationFormatIssueInvalidExpression": "Jumlah kopi dan air harus menggunakan ekspresi pengali yang lengkap.",
   "recipeCreationFormatIssueUnbalancedParentheses": "Langkah ini berisi tanda kurung yang tidak seimbang.",
   "recipeCreationFormatIssueAmbiguousAmount": "Perjelas apakah jumlah ini untuk kopi atau air.",
-  "recipeCreationFormatIssueUnknown": "Langkah ini membutuhkan perbaikan format."
+  "recipeCreationFormatIssueUnknown": "Langkah ini membutuhkan perbaikan format.",
+  "helpAndFAQ": "Bantuan & FAQ",
+  "helpHomeSubtitle": "Panduan dan jawaban tentang aplikasi",
+  "helpEmptyState": "Konten bantuan belum tersedia.",
+  "helpLoadFailed": "Tidak dapat memuat konten bantuan.",
+  "helpRetry": "Coba lagi"
 }

@@ -1,15 +1,8 @@
-Denne oppdateringen legger til nye måter å oppdage, brygge og administrere kaffeoppskriftene dine på.
-
 Nytt:
-• Samlinger: bla gjennom kuraterte oppskriftssamlinger, som iskaffeoppskrifter for varme dager.
-• Manuelle bryggekontroller: gå bakover eller fremover under bryggingen når du trenger mer kontroll.
-• Malingsgrad per pose: lagre en kverninnstilling for hver pose med bønner.
-• To nye bryggemetoder: Timemore B75 og Espro Bloom Brewer.
-• Automatisk oversettelse av bønneanmeldelser.
+• Sammenleggbar Hjemskjerm-overskrift — rulling gir deg nå mer plass til det som betyr noe.
 
 Forbedret:
-• Mer pålitelig enhetskonvertering under oppretting av oppskrifter, med valgfri AI-verifisering.
-• Ulike forbedringer av brukergrensesnitt og brukeropplevelse i hele appen.
+• Stor nettverksoppdatering: mer pålitelig synkronisering og forbedret frakoblet opplevelse.
 
 Rettet:
-• Flere små feil.
+• Mindre feilrettinger og visuelle forbedringer i hele appen.

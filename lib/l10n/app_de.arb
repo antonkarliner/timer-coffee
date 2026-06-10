@@ -1222,5 +1222,10 @@
   "recipeCreationFormatIssueInvalidExpression": "Kaffee- und Wassermengen müssen einen vollständigen Multiplikatorausdruck verwenden.",
   "recipeCreationFormatIssueUnbalancedParentheses": "Dieser Schritt enthält unausgewogene Klammern.",
   "recipeCreationFormatIssueAmbiguousAmount": "Stelle klar, ob diese Menge zu Kaffee oder Wasser gehört.",
-  "recipeCreationFormatIssueUnknown": "Dieser Schritt benötigt eine Formatkorrektur."
+  "recipeCreationFormatIssueUnknown": "Dieser Schritt benötigt eine Formatkorrektur.",
+  "helpAndFAQ": "Hilfe & FAQ",
+  "helpHomeSubtitle": "Anleitungen und Antworten zur App",
+  "helpEmptyState": "Hilfeinhalte sind noch nicht verfügbar.",
+  "helpLoadFailed": "Hilfeinhalte konnten nicht geladen werden.",
+  "helpRetry": "Erneut versuchen"
 }

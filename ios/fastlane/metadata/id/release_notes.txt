@@ -1,15 +1,8 @@
-Pembaruan ini menambahkan cara baru untuk menemukan, menyeduh, dan mengelola resep kopi Anda.
-
 Baru:
-• Koleksi: jelajahi koleksi resep pilihan, seperti resep kopi es untuk hari yang panas.
-• Kontrol seduhan manual: maju atau mundur selama penyeduhan saat Anda membutuhkan kontrol lebih.
-• Tingkat kehalusan gilingan per kantong: simpan pengaturan gilingan untuk setiap kantong biji kopi.
-• Dua metode seduh baru: Timemore B75 dan Espro Bloom Brewer.
-• Terjemahan otomatis untuk ulasan biji kopi.
+• Header Layar beranda yang dapat diciutkan — menggulir kini memberi Anda lebih banyak ruang untuk hal yang penting.
 
 Ditingkatkan:
-• Konversi satuan yang lebih andal selama pembuatan resep, dengan verifikasi AI opsional.
-• Berbagai peningkatan UI dan UX di seluruh aplikasi.
+• Peningkatan besar pada jaringan: sinkronisasi lebih andal dan pengalaman offline yang lebih baik.
 
 Diperbaiki:
-• Beberapa bug kecil.
+• Perbaikan bug kecil dan penyempurnaan visual di seluruh aplikasi.

@@ -1,15 +1,8 @@
-Bu güncelleme, kahve tariflerini keşfetmek, demlemek ve yönetmek için yeni yollar ekler.
-
 Yeni:
-• Koleksiyonlar: sıcak günler için soğuk kahve tarifleri gibi özenle seçilmiş tarif koleksiyonlarına göz at.
-• Manuel demleme kontrolleri: daha fazla kontrole ihtiyaç duyduğunda demleme sırasında geri veya ileri git.
-• Paket başına öğütme boyutu: her çekirdek paketi için bir öğütme ayarı kaydet.
-• İki yeni demleme yöntemi: Timemore B75 ve Espro Bloom Brewer.
-• Çekirdek yorumları için otomatik çeviri.
+• Daraltılabilir Ana ekran başlığı — kaydırma artık önemli olan şeyler için size daha fazla alan sağlıyor.
 
 İyileştirildi:
-• Tarif oluşturma sırasında, isteğe bağlı AI doğrulamasıyla daha güvenilir birim dönüştürme.
-• Uygulama genelinde çeşitli UI ve UX iyileştirmeleri.
+• Büyük ağ bağlantısı güncellemesi: daha güvenilir senkronizasyon ve iyileştirilmiş çevrimdışı deneyim.
 
 Düzeltildi:
-• Birkaç küçük hata.
+• Uygulama genelinde küçük hata düzeltmeleri ve görsel iyileştirmeler.

@@ -1544,5 +1544,10 @@
   "recipeCreationFormatIssueInvalidExpression": "Kaffe- og vannmengder må bruke et komplett multiplikatoruttrykk.",
   "recipeCreationFormatIssueUnbalancedParentheses": "Dette steget inneholder ubalanserte parenteser.",
   "recipeCreationFormatIssueAmbiguousAmount": "Gjør det tydelig om denne mengden gjelder kaffe eller vann.",
-  "recipeCreationFormatIssueUnknown": "Dette steget trenger en formatkorrigering."
+  "recipeCreationFormatIssueUnknown": "Dette steget trenger en formatkorrigering.",
+  "helpAndFAQ": "Hjelp og vanlige spørsmål",
+  "helpHomeSubtitle": "Veiledninger og svar om appen",
+  "helpEmptyState": "Hjelpeinnhold er ikke tilgjengelig ennå.",
+  "helpLoadFailed": "Kunne ikke laste inn hjelpeinnhold.",
+  "helpRetry": "Prøv igjen"
 }

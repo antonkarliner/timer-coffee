@@ -1,0 +1,8 @@
+Neu:
+• Kompakter Startbildschirm — Kopfbereich klappt beim Scrollen ein.
+
+Verbessert:
+• Umfassende Netzwerk-Überarbeitung: mehr Stabilität und bessere Offline-Nutzung.
+
+Behoben:
+• Kleinere Fehlerbehebungen und Feinschliff der Oberfläche.

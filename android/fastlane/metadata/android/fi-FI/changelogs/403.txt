@@ -1,0 +1,8 @@
+Uutta:
+• Tiiviimpi Etusivu — otsake kutistuu vieritettäessä.
+
+Parannettu:
+• Merkittävä verkkouudistus: parempi vakaus ja vahvempi offline-tuki.
+
+Korjattu:
+• Pieniä virhekorjauksia ja käyttöliittymän viimeistelyä.

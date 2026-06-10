@@ -37,7 +37,7 @@ platform :ios do
       app_identifier: ["timer.coffee", "timer.coffee.TimerCoffeeWidgetExtension"],
       type: "appstore",
   )
-    build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
+    build_app(workspace: "Runner.xcworkspace", scheme: "Runner", clean: true)
     upload_to_app_store
   end
 

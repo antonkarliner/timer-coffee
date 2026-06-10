@@ -1,15 +1,8 @@
-Questo aggiornamento aggiunge nuovi modi per scoprire, preparare e gestire le tue ricette di caffè.
-
 Novità:
-• Raccolte: sfoglia raccolte di ricette curate, come ricette di caffè freddo per le giornate calde.
-• Controlli manuali di preparazione: vai indietro o avanti durante la preparazione quando hai bisogno di più controllo.
-• Grado di macinatura per sacchetto: salva un’impostazione di macinatura per ogni sacchetto di chicchi.
-• Due nuovi metodi di preparazione: Timemore B75 ed Espro Bloom Brewer.
-• Traduzione automatica per le recensioni dei chicchi.
+• Intestazione comprimibile della Schermata principale: lo scorrimento ora ti offre più spazio per ciò che conta.
 
-Miglioramenti:
-• Conversione delle unità più affidabile durante la creazione delle ricette, con verifica IA facoltativa.
-• Vari miglioramenti dell’interfaccia utente e dell’esperienza utente in tutta l’app.
+Migliorato:
+• Importante aggiornamento della rete: sincronizzazione più affidabile ed esperienza offline migliorata.
 
 Correzioni:
-• Diversi piccoli bug.
+• Correzioni di bug minori e perfezionamenti visivi in tutta l’app.

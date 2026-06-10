@@ -1,15 +1,8 @@
-Deze update voegt nieuwe manieren toe om je koffierecepten te ontdekken, te zetten en te beheren.
-
 Nieuw:
-• Collecties: blader door samengestelde receptcollecties, zoals ijskoffierecepten voor warme dagen.
-• Handmatige zetbediening: ga achteruit of vooruit tijdens het zetten wanneer je meer controle nodig hebt.
-• Maalgraad per zak: sla een maalinstelling op voor elke zak bonen.
-• Twee nieuwe zetmethoden: Timemore B75 en Espro Bloom Brewer.
-• Automatische vertaling voor boonreviews.
+• Inklapbare header op het Startscherm — scrollen geeft je nu meer ruimte voor wat belangrijk is.
 
 Verbeterd:
-• Betrouwbaardere omrekening van eenheden tijdens het maken van recepten, met optionele AI-verificatie.
-• Diverse UI- en UX-verbeteringen in de hele app.
+• Grote bijwerking van de netwerkfunctionaliteit: betrouwbaarder synchroniseren en een verbeterde offline-ervaring.
 
 Opgelost:
-• Enkele kleine bugs.
+• Kleine bugfixes en visuele verfijningen in de hele app.

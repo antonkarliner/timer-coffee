@@ -1393,5 +1393,10 @@
   "recipeCreationFormatIssueInvalidExpression": "Količine kave i vode moraju koristiti potpun izraz množitelja.",
   "recipeCreationFormatIssueUnbalancedParentheses": "Ovaj korak sadrži neuravnotežene zagrade.",
   "recipeCreationFormatIssueAmbiguousAmount": "Pojasnite odnosi li se ova količina na kavu ili vodu.",
-  "recipeCreationFormatIssueUnknown": "Ovaj korak treba ispravak formata."
+  "recipeCreationFormatIssueUnknown": "Ovaj korak treba ispravak formata.",
+  "helpAndFAQ": "Pomoć i česta pitanja",
+  "helpHomeSubtitle": "Vodiči i odgovori o aplikaciji",
+  "helpEmptyState": "Sadržaj pomoći još nije dostupan.",
+  "helpLoadFailed": "Nije moguće učitati sadržaj pomoći.",
+  "helpRetry": "Pokušaj ponovno"
 }

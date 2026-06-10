@@ -1,0 +1,8 @@
+Nytt:
+• Kompakt hjemskjerm — toppfeltet trekkes sammen ved rulling.
+
+Forbedret:
+• Stor overhaling av nettverk: bedre stabilitet og bedre frakoblet bruk.
+
+Rettet:
+• Mindre feilrettinger og finpuss av grensesnittet.

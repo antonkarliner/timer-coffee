@@ -1222,5 +1222,10 @@
   "recipeCreationFormatIssueInvalidExpression": "Le quantità di caffè e acqua devono usare un’espressione moltiplicatore completa.",
   "recipeCreationFormatIssueUnbalancedParentheses": "Questo passaggio contiene parentesi non bilanciate.",
   "recipeCreationFormatIssueAmbiguousAmount": "Chiarisci se questa quantità riguarda il caffè o l’acqua.",
-  "recipeCreationFormatIssueUnknown": "Questo passaggio richiede una correzione del formato."
+  "recipeCreationFormatIssueUnknown": "Questo passaggio richiede una correzione del formato.",
+  "helpAndFAQ": "Aiuto e FAQ",
+  "helpHomeSubtitle": "Guide e risposte sull'app",
+  "helpEmptyState": "I contenuti della guida non sono ancora disponibili.",
+  "helpLoadFailed": "Impossibile caricare i contenuti della guida.",
+  "helpRetry": "Riprova"
 }

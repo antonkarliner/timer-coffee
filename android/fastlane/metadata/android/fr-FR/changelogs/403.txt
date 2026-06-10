@@ -1,0 +1,8 @@
+Nouveau :
+• Écran d’accueil compact — l’en-tête se réduit au défilement.
+
+Amélioré :
+• Grande refonte du réseau : meilleure stabilité et support hors ligne renforcé.
+
+Corrigé :
+• Corrections de bugs mineurs et peaufinage de l’interface.

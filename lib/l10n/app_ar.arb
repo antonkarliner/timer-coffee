@@ -1222,5 +1222,10 @@
   "recipeCreationFormatIssueInvalidExpression": "يجب أن تستخدم كميات القهوة والماء تعبير مضاعف مكتمل.",
   "recipeCreationFormatIssueUnbalancedParentheses": "تحتوي هذه الخطوة على أقواس غير متوازنة.",
   "recipeCreationFormatIssueAmbiguousAmount": "وضح ما إذا كانت هذه الكمية تخص القهوة أم الماء.",
-  "recipeCreationFormatIssueUnknown": "تحتاج هذه الخطوة إلى تصحيح التنسيق."
+  "recipeCreationFormatIssueUnknown": "تحتاج هذه الخطوة إلى تصحيح التنسيق.",
+  "helpAndFAQ": "المساعدة والأسئلة الشائعة",
+  "helpHomeSubtitle": "أدلة وإجابات حول التطبيق",
+  "helpEmptyState": "محتوى المساعدة غير متوفر بعد.",
+  "helpLoadFailed": "تعذّر تحميل محتوى المساعدة.",
+  "helpRetry": "إعادة المحاولة"
 }

@@ -1,15 +1,8 @@
-Ta aktualizacja dodaje nowe sposoby odkrywania, parzenia i zarządzania przepisami na kawę.
-
 Nowości:
-• Kolekcje: przeglądaj wyselekcjonowane kolekcje przepisów, np. przepisy na kawę mrożoną na gorące dni.
-• Ręczne sterowanie parzeniem: przechodź wstecz lub do przodu podczas parzenia, gdy potrzebujesz większej kontroli.
-• Stopień mielenia dla każdej paczki: zapisuj ustawienie mielenia dla każdej paczki ziaren.
-• Dwie nowe metody parzenia: Timemore B75 i Espro Bloom Brewer.
-• Automatyczne tłumaczenie recenzji ziaren.
+• Zwijany nagłówek ekranu głównego — przewijanie daje teraz więcej miejsca na to, co ważne.
 
 Ulepszenia:
-• Bardziej niezawodne przeliczanie jednostek podczas tworzenia przepisu, z opcjonalną weryfikacją AI.
-• Różne ulepszenia UI i UX w całej aplikacji.
+• Duża aktualizacja sieci: bardziej niezawodna synchronizacja i lepsze działanie w trybie offline.
 
 Naprawiono:
-• Kilka drobnych błędów.
+• Drobne poprawki błędów i udoskonalenia wizualne w całej aplikacji.

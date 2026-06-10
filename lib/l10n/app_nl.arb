@@ -1222,5 +1222,10 @@
   "recipeCreationFormatIssueInvalidExpression": "Koffie- en waterhoeveelheden moeten een volledige vermenigvuldigingsuitdrukking gebruiken.",
   "recipeCreationFormatIssueUnbalancedParentheses": "Deze stap bevat ongelijke haakjes.",
   "recipeCreationFormatIssueAmbiguousAmount": "Maak duidelijk of deze hoeveelheid bij koffie of water hoort.",
-  "recipeCreationFormatIssueUnknown": "Deze stap heeft een formaatcorrectie nodig."
+  "recipeCreationFormatIssueUnknown": "Deze stap heeft een formaatcorrectie nodig.",
+  "helpAndFAQ": "Help & veelgestelde vragen",
+  "helpHomeSubtitle": "Handleidingen en antwoorden over de app",
+  "helpEmptyState": "Help-inhoud is nog niet beschikbaar.",
+  "helpLoadFailed": "Kan help-inhoud niet laden.",
+  "helpRetry": "Opnieuw proberen"
 }

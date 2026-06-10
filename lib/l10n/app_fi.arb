@@ -1074,5 +1074,10 @@
   "recipeCreationFormatIssueInvalidExpression": "Kahvin ja veden määrien on käytettävä kokonaista kertoimen lauseketta.",
   "recipeCreationFormatIssueUnbalancedParentheses": "Tässä vaiheessa on epätasapainoiset sulkeet.",
   "recipeCreationFormatIssueAmbiguousAmount": "Selvennä, kuuluuko tämä määrä kahville vai vedelle.",
-  "recipeCreationFormatIssueUnknown": "Tämä vaihe tarvitsee muotokorjauksen."
+  "recipeCreationFormatIssueUnknown": "Tämä vaihe tarvitsee muotokorjauksen.",
+  "helpAndFAQ": "Ohje ja UKK",
+  "helpHomeSubtitle": "Oppaita ja vastauksia sovelluksesta",
+  "helpEmptyState": "Ohjesisältöä ei ole vielä saatavilla.",
+  "helpLoadFailed": "Ohjesisällön lataaminen epäonnistui.",
+  "helpRetry": "Yritä uudelleen"
 }

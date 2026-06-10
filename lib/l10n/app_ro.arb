@@ -1222,5 +1222,10 @@
   "recipeCreationFormatIssueInvalidExpression": "Cantitățile de cafea și apă trebuie să folosească o expresie completă cu multiplicator.",
   "recipeCreationFormatIssueUnbalancedParentheses": "Acest pas conține paranteze neechilibrate.",
   "recipeCreationFormatIssueAmbiguousAmount": "Clarifică dacă această cantitate aparține cafelei sau apei.",
-  "recipeCreationFormatIssueUnknown": "Acest pas are nevoie de o corectare a formatului."
+  "recipeCreationFormatIssueUnknown": "Acest pas are nevoie de o corectare a formatului.",
+  "helpAndFAQ": "Ajutor și întrebări frecvente",
+  "helpHomeSubtitle": "Ghiduri și răspunsuri despre aplicație",
+  "helpEmptyState": "Conținutul de ajutor nu este încă disponibil.",
+  "helpLoadFailed": "Conținutul de ajutor nu a putut fi încărcat.",
+  "helpRetry": "Reîncearcă"
 }

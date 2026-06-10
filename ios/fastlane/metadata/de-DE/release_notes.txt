@@ -1,15 +1,8 @@
-Dieses Update bietet neue Möglichkeiten, deine Kaffeerezepte zu entdecken, zu brühen und zu verwalten.
-
 Neu:
-• Sammlungen: Durchsuche kuratierte Rezeptsammlungen, wie Eiskaffee-Rezepte für heiße Tage.
-• Manuelle Brühsteuerung: Wechsle beim Brühen vor oder zurück, wenn du mehr Kontrolle benötigst.
-• Mahlgrad pro Packung: Speichere eine Mahleinstellung für jede Packung Bohnen.
-• Zwei neue Brühmethoden: Timemore B75 und Espro Bloom Brewer.
-• Automatische Übersetzung für Bohnenbewertungen.
+• Einklappbarer Header des Startbildschirms — beim Scrollen hast du jetzt mehr Platz für das Wesentliche.
 
 Verbessert:
-• Zuverlässigere Einheitenumrechnung bei der Rezepterstellung, mit optionaler KI-Überprüfung.
-• Verschiedene UI- und UX-Verbesserungen in der gesamten App.
+• Umfassende Netzwerk-Aktualisierung: zuverlässigere Synchronisierung und verbessertes Offline-Erlebnis.
 
 Behoben:
-• Mehrere kleine Fehler.
+• Kleinere Fehlerbehebungen und visuelle Verfeinerungen in der gesamten App.

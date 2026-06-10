@@ -1393,5 +1393,10 @@
   "recipeCreationFormatIssueInvalidExpression": "커피와 물의 양은 완전한 배수 표현식을 사용해야 합니다.",
   "recipeCreationFormatIssueUnbalancedParentheses": "이 단계에는 균형이 맞지 않는 괄호가 있습니다.",
   "recipeCreationFormatIssueAmbiguousAmount": "이 양이 커피인지 물인지 명확히 해주세요.",
-  "recipeCreationFormatIssueUnknown": "이 단계는 형식 수정이 필요합니다."
+  "recipeCreationFormatIssueUnknown": "이 단계는 형식 수정이 필요합니다.",
+  "helpAndFAQ": "도움말 및 FAQ",
+  "helpHomeSubtitle": "앱에 대한 가이드와 답변",
+  "helpEmptyState": "도움말 콘텐츠를 아직 사용할 수 없습니다.",
+  "helpLoadFailed": "도움말 콘텐츠를 불러올 수 없습니다.",
+  "helpRetry": "다시 시도"
 }

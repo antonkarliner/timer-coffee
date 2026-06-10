@@ -1395,5 +1395,10 @@
   "recipeCreationFormatIssueInvalidExpression": "مقدارهای قهوه و آب باید از عبارت ضربی کامل استفاده کنند.",
   "recipeCreationFormatIssueUnbalancedParentheses": "این مرحله پرانتزهای نامتوازن دارد.",
   "recipeCreationFormatIssueAmbiguousAmount": "روشن کنید این مقدار مربوط به قهوه است یا آب.",
-  "recipeCreationFormatIssueUnknown": "این مرحله به اصلاح قالب نیاز دارد."
+  "recipeCreationFormatIssueUnknown": "این مرحله به اصلاح قالب نیاز دارد.",
+  "helpAndFAQ": "راهنما و پرسش‌های متداول",
+  "helpHomeSubtitle": "راهنماها و پاسخ‌هایی درباره برنامه",
+  "helpEmptyState": "محتوای راهنما هنوز در دسترس نیست.",
+  "helpLoadFailed": "بارگیری محتوای راهنما ممکن نشد.",
+  "helpRetry": "تلاش دوباره"
 }

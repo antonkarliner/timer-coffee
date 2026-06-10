@@ -1,15 +1,8 @@
-Esta actualización añade nuevas formas de descubrir, preparar y gestionar tus recetas de café.
-
 Nuevo:
-• Colecciones: explora colecciones de recetas seleccionadas, como recetas de café frío para días calurosos.
-• Controles manuales de preparación: retrocede o avanza durante la preparación cuando necesites más control.
-• Tamaño de molienda por bolsa: guarda un ajuste de molienda para cada bolsa de granos.
-• Dos nuevos métodos de preparación: Timemore B75 y Espro Bloom Brewer.
-• Traducción automática para reseñas de granos.
+• Encabezado contraíble de la Pantalla de inicio — al desplazarte ahora tienes más espacio para lo que importa.
 
-Mejoras:
-• Conversión de unidades más confiable durante la creación de recetas, con verificación opcional por IA.
-• Varias mejoras de interfaz y experiencia de usuario en toda la app.
+Mejorado:
+• Actualización importante de red: sincronización más confiable y mejor experiencia sin conexión.
 
-Correcciones:
-• Varios errores pequeños.
+Corregido:
+• Correcciones menores de errores y mejoras visuales en toda la app.

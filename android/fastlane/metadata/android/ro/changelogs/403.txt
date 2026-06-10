@@ -1,0 +1,8 @@
+Nou:
+• Ecran principal compact — antetul se restrânge la derulare.
+
+Îmbunătățiri:
+• Revizie majoră a rețelei: stabilitate mai bună și suport offline mai puternic.
+
+Remedieri:
+• Corecturi minore de erori și finisări ale interfeței.

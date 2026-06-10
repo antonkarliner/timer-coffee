@@ -1,15 +1,8 @@
-Această actualizare adaugă noi modalități de a descoperi, prepara și gestiona rețetele tale de cafea.
-
 Nou:
-• Colecții: răsfoiește colecții de rețete atent selectate, precum rețete de cafea cu gheață pentru zilele călduroase.
-• Controale manuale pentru preparare: mergi înapoi sau înainte în timpul preparării atunci când ai nevoie de mai mult control.
-• Mărimea Măcinăturii per pungă: salvează o setare de măcinare pentru fiecare pungă de boabe.
-• Două metode de preparare noi: Timemore B75 și Espro Bloom Brewer.
-• Traducere automată pentru recenziile boabelor.
+• Antet pliabil al ecranului principal — derularea îți oferă acum mai mult spațiu pentru ceea ce contează.
 
 Îmbunătățit:
-• Conversie a unităților mai fiabilă în timpul creării rețetelor, cu verificare AI opțională.
-• Diverse îmbunătățiri ale interfeței și experienței utilizatorului în întreaga aplicație.
+• Actualizare majoră a rețelisticii: sincronizare mai fiabilă și experiență offline îmbunătățită.
 
 Remediat:
-• Câteva erori minore.
+• Remedieri minore de erori și rafinamente vizuale în întreaga aplicație.

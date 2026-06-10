@@ -1222,5 +1222,10 @@
   "recipeCreationFormatIssueInvalidExpression": "コーヒーと水の分量は完全な乗数式を使う必要があります。",
   "recipeCreationFormatIssueUnbalancedParentheses": "この手順には対応していない括弧があります。",
   "recipeCreationFormatIssueAmbiguousAmount": "この分量がコーヒーか水かを明確にしてください。",
-  "recipeCreationFormatIssueUnknown": "この手順は形式の修正が必要です。"
+  "recipeCreationFormatIssueUnknown": "この手順は形式の修正が必要です。",
+  "helpAndFAQ": "ヘルプとFAQ",
+  "helpHomeSubtitle": "アプリの使い方と回答",
+  "helpEmptyState": "ヘルプコンテンツはまだ利用できません。",
+  "helpLoadFailed": "ヘルプコンテンツを読み込めませんでした。",
+  "helpRetry": "再試行"
 }

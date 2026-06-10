@@ -1,15 +1,8 @@
-Tämä päivitys lisää uusia tapoja löytää, uuttaa ja hallita kahvireseptejäsi.
-
 Uutta:
-• Kokoelmat: selaa kuratoituja reseptikokoelmia, kuten jääkahvireseptejä kuumille päiville.
-• Manuaaliset uuton hallintatoiminnot: siirry taaksepäin tai eteenpäin uuton aikana, kun tarvitset enemmän hallintaa.
-• Pussikohtainen Jauhatuksen karkeus: tallenna jauhatusasetus jokaiselle papupussille.
-• Kaksi uutta valmistusmenetelmää: Timemore B75 ja Espro Bloom Brewer.
-• Papuarvostelujen automaattinen käännös.
+• Kutistuva Etusivun otsake — vierittäminen antaa nyt enemmän tilaa olennaiselle.
 
 Parannettu:
-• Luotettavampi yksikkömuunnos reseptiä luotaessa, valinnaisella tekoälytarkistuksella.
-• Erilaisia käyttöliittymän ja käyttökokemuksen parannuksia kaikkialla sovelluksessa.
+• Merkittävä verkkoyhteyksien päivitys: luotettavampi synkronointi ja parannettu käyttökokemus offline-tilassa.
 
 Korjattu:
-• Useita pieniä virheitä.
+• Pieniä virheenkorjauksia ja visuaalisia viimeistelyjä kautta sovelluksen.

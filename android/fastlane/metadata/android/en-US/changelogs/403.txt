@@ -1,0 +1,9 @@
+New:
+• Compact Home screen — header collapses on scroll.
+
+Improved:
+• Major networking overhaul: better stability and stronger offline support.
+
+Fixed:
+• Minor bug fixes and interface polish.
+

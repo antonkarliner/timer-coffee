@@ -1222,5 +1222,10 @@
   "recipeCreationFormatIssueInvalidExpression": "As quantidades de café e água devem usar uma expressão multiplicadora completa.",
   "recipeCreationFormatIssueUnbalancedParentheses": "Este passo contém parênteses desequilibrados.",
   "recipeCreationFormatIssueAmbiguousAmount": "Esclareça se esta quantidade pertence ao café ou à água.",
-  "recipeCreationFormatIssueUnknown": "Este passo precisa de uma correção de formato."
+  "recipeCreationFormatIssueUnknown": "Este passo precisa de uma correção de formato.",
+  "helpAndFAQ": "Ajuda e FAQ",
+  "helpHomeSubtitle": "Guias e respostas sobre o app",
+  "helpEmptyState": "O conteúdo de ajuda ainda não está disponível.",
+  "helpLoadFailed": "Não foi possível carregar o conteúdo de ajuda.",
+  "helpRetry": "Tentar novamente"
 }

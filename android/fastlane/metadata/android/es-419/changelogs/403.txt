@@ -1,0 +1,8 @@
+Nuevo:
+• Pantalla de inicio compacta: el encabezado se contrae al desplazarse.
+
+Mejoras:
+• Gran renovación de red: más estabilidad y mejor soporte sin conexión.
+
+Corregido:
+• Correcciones menores de errores y mejoras de interfaz.

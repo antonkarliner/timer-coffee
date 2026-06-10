@@ -1,15 +1,8 @@
-Cette mise à jour ajoute de nouvelles façons de découvrir, préparer et gérer vos recettes de café.
-
 Nouveau :
-• Collections : parcourez des collections de recettes sélectionnées, comme des recettes de café glacé pour les journées chaudes.
-• Commandes manuelles de préparation : reculez ou avancez pendant la préparation lorsque vous avez besoin de plus de contrôle.
-• Taille de mouture par paquet : enregistrez un réglage de mouture pour chaque paquet de grains.
-• Deux nouvelles méthodes d'extraction : Timemore B75 et Espro Bloom Brewer.
-• Traduction automatique des avis sur les grains.
+• En-tête repliable de l’écran d’accueil — le défilement vous offre désormais plus d’espace pour ce qui compte.
 
-Améliorations :
-• Conversion d'unités plus fiable lors de la création de recettes, avec vérification facultative par IA.
-• Diverses améliorations de l'interface utilisateur et de l'expérience utilisateur dans toute l'application.
+Amélioré :
+• Mise à jour majeure de la mise en réseau : synchronisation plus fiable et expérience hors ligne améliorée.
 
-Corrections :
-• Plusieurs petits bugs corrigés.
+Corrigé :
+• Corrections de bugs mineurs et améliorations visuelles dans toute l’app.

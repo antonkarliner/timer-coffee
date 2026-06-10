@@ -1861,5 +1861,25 @@
   "recipeCreationFormatIssueUnknown": "This step needs a format correction.",
   "@recipeCreationFormatIssueUnknown": {
     "description": "Fallback validation issue message."
+  },
+  "helpAndFAQ": "Help & FAQ",
+  "@helpAndFAQ": {
+    "description": "Title of the Help / FAQ section and its hub entry."
+  },
+  "helpHomeSubtitle": "Guides and answers about the app",
+  "@helpHomeSubtitle": {
+    "description": "Subtitle shown at the top of the Help home screen."
+  },
+  "helpEmptyState": "Help content is not available yet.",
+  "@helpEmptyState": {
+    "description": "Shown when there is no cached help content to display."
+  },
+  "helpLoadFailed": "Could not load help content.",
+  "@helpLoadFailed": {
+    "description": "Shown when refreshing help content fails."
+  },
+  "helpRetry": "Retry",
+  "@helpRetry": {
+    "description": "Button to retry loading help content."
   }
 }

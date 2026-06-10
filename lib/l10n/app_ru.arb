@@ -1222,5 +1222,10 @@
   "recipeCreationFormatIssueInvalidExpression": "Количество кофе и воды должно использовать полное выражение с множителем.",
   "recipeCreationFormatIssueUnbalancedParentheses": "В этом шаге несбалансированные скобки.",
   "recipeCreationFormatIssueAmbiguousAmount": "Уточните, относится ли это количество к кофе или воде.",
-  "recipeCreationFormatIssueUnknown": "Для этого шага нужно исправить формат."
+  "recipeCreationFormatIssueUnknown": "Для этого шага нужно исправить формат.",
+  "helpAndFAQ": "Помощь и FAQ",
+  "helpHomeSubtitle": "Руководства и ответы о приложении",
+  "helpEmptyState": "Справочные материалы пока недоступны.",
+  "helpLoadFailed": "Не удалось загрузить справочные материалы.",
+  "helpRetry": "Повторить"
 }

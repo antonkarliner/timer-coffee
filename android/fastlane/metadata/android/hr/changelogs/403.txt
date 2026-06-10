@@ -1,0 +1,8 @@
+Novo:
+• Kompaktni Početni zaslon — zaglavlje se sažima pri pomicanju.
+
+Poboljšano:
+• Velika prerada mreže: bolja stabilnost i jača izvanmrežna podrška.
+
+Ispravljeno:
+• Manji ispravci grešaka i dotjerano sučelje.

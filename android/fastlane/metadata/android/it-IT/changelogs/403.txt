@@ -1,0 +1,8 @@
+Novità:
+• Schermata principale compatta: l'intestazione si comprime durante lo scorrimento.
+
+Miglioramenti:
+• Importante revisione della rete: più stabilità e supporto offline più solido.
+
+Correzioni:
+• Piccole correzioni di bug e rifiniture dell'interfaccia.

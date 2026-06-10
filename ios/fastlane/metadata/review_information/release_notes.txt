@@ -1,15 +1,8 @@
-This update adds new ways to discover, brew, and manage your coffee recipes.
-
 New:
-• Collections: browse curated recipe collections, like iced coffee recipes for hot days.
-• Manual brew controls: move backward or forward during brewing when you need more control.
-• Per-bag grind size: save a grind setting for each bag of beans.
-• Two new brewing methods: Timemore B75 and Espro Bloom Brewer.
-• Automatic translation for bean reviews.
+• Collapsible Home screen header — scrolling now gives you more space for what matters.
 
 Improved:
-• More reliable unit conversion during recipe creation, with optional AI verification.
-• Various UI and UX improvements throughout the app.
+• Major networking update: more reliable syncing and improved offline experience.
 
 Fixed:
-• Several small bugs.
+• Minor bug fixes and visual refinements throughout the app.

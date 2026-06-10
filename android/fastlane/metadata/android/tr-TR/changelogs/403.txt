@@ -1,0 +1,8 @@
+Yeni:
+• Kompakt Ana ekran — kaydırınca başlık daralır.
+
+Geliştirildi:
+• Ağ altyapısı yenilendi: daha iyi kararlılık ve daha güçlü çevrimdışı destek.
+
+Düzeltildi:
+• Küçük hata düzeltmeleri ve arayüz iyileştirmeleri.
