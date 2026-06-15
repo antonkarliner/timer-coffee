@@ -14,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart'; // Added for sync t
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart'; // Ensure Intl is imported if needed for locale logic
 import 'package:coffee_timer/models/launch_popup_model.dart';
+import 'package:coffee_timer/models/help_models.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:coffee_timer/models/gift_offer_model.dart';
 import 'package:flutter/material.dart';
@@ -1001,6 +1002,7 @@ class DatabaseProvider {
             DateTime.now().toUtc().toIso8601String(), // Ensure UTC
         'import_id': recipe.importId,
         'is_imported': recipe.isImported,
+        'original_author_id': recipe.originalAuthorId,
         'ispublic': effectiveIsPublic, // Preserve/reflect known public status
         'needs_moderation_review':
             effectiveNeedsModeration, // Guarded by effectiveIsPublic
@@ -1201,6 +1203,10 @@ class DatabaseProvider {
             ), // Update local time
             importId: drift.Value(recipe.importId), // Keep import ID
             isImported: drift.Value(true),
+            // Refresh attribution from the original; keep local value as
+            // fallback for rows imported before the column existed remotely
+            originalAuthorId: drift.Value(
+                response['original_author_id'] ?? recipe.originalAuthorId),
             // Ensure needs_moderation_review is false when updating from cloud
             needsModerationReview: const drift.Value(false),
           );
@@ -1350,8 +1356,24 @@ class DatabaseProvider {
           ? coffeeFactsFuture
           : coffeeFactsFuture.timeout(NetworkTimeouts.smallSync);
 
+      final helpCategoriesFuture =
+          Supabase.instance.client.from('help_categories').select();
+      final helpCategoriesRequest = isFirstLaunch
+          ? helpCategoriesFuture
+          : helpCategoriesFuture.timeout(NetworkTimeouts.smallSync);
+
+      final helpArticlesFuture =
+          Supabase.instance.client.from('help_articles').select();
+      final helpArticlesRequest = isFirstLaunch
+          ? helpArticlesFuture
+          : helpArticlesFuture.timeout(NetworkTimeouts.smallSync);
+
       // Run all requests in parallel
-      final responses = await Future.wait([coffeeFactsRequest]);
+      final responses = await Future.wait([
+        coffeeFactsRequest,
+        helpCategoriesRequest,
+        helpArticlesRequest,
+      ]);
 
       // Process the responses
       final coffeeFactsResponse = responses[0] as List<dynamic>;
@@ -1359,17 +1381,69 @@ class DatabaseProvider {
           .map((json) => CoffeeFactsCompanionExtension.fromJson(json))
           .toList();
 
+      final helpCategories = (responses[1] as List<dynamic>)
+          .map((json) => HelpCategoriesCompanionExtension.fromJson(json))
+          .toList();
+      final helpArticles = (responses[2] as List<dynamic>)
+          .map((json) => HelpArticlesCompanionExtension.fromJson(json))
+          .toList();
+
       await _db.transaction(() async {
         await _db.batch((batch) {
           batch.insertAllOnConflictUpdate(_db.coffeeFacts, coffeeFacts);
         });
       });
+
+      // Guard against a transient empty response wiping the offline cache.
+      if (helpCategories.isNotEmpty) {
+        await _db.helpDao.replaceAll(helpCategories, helpArticles);
+      }
     } catch (error) {
       AppLogger.error(
         'Error fetching and storing extra data',
         errorObject: AppLogger.sanitize(error),
       );
       // Optionally, handle the error
+    }
+  }
+
+  // --- Help / FAQ content (read from local cache, English fallback) ---
+
+  Future<List<HelpCategoryModel>> getHelpCategories(String locale) =>
+      _db.helpDao.getCategories(locale);
+
+  Future<List<HelpArticleModel>> getHelpArticles(
+          String categorySlug, String locale) =>
+      _db.helpDao.getArticles(categorySlug, locale);
+
+  Future<HelpArticleModel?> getHelpArticle(String slug, String locale) =>
+      _db.helpDao.getArticle(slug, locale);
+
+  /// Re-fetches help content from Supabase and refreshes the local cache.
+  /// Rethrows on failure so callers (e.g. a retry button) can surface an error.
+  Future<void> refreshHelpContent() async {
+    try {
+      final categoriesResponse =
+          await Supabase.instance.client.from('help_categories').select();
+      final articlesResponse =
+          await Supabase.instance.client.from('help_articles').select();
+
+      final helpCategories = (categoriesResponse as List<dynamic>)
+          .map((json) => HelpCategoriesCompanionExtension.fromJson(json))
+          .toList();
+      final helpArticles = (articlesResponse as List<dynamic>)
+          .map((json) => HelpArticlesCompanionExtension.fromJson(json))
+          .toList();
+
+      if (helpCategories.isNotEmpty) {
+        await _db.helpDao.replaceAll(helpCategories, helpArticles);
+      }
+    } catch (error) {
+      AppLogger.error(
+        'Error refreshing help content',
+        errorObject: AppLogger.sanitize(error),
+      );
+      rethrow;
     }
   }
 

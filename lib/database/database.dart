@@ -10,6 +10,7 @@ import '../models/user_stat_model.dart';
 import '../models/coffee_beans_model.dart';
 import 'package:coffee_timer/models/beans_stats_models.dart';
 import '../models/recipe_collection_model.dart';
+import '../models/help_models.dart';
 import '../database/schema_versions.dart';
 import 'package:uuid/uuid.dart';
 import 'package:collection/collection.dart';
@@ -26,6 +27,7 @@ part 'user_stats_dao.dart';
 part 'coffee_beans_dao.dart';
 part 'beans_stats_dao.dart';
 part 'recipe_collections_dao.dart';
+part 'help_dao.dart';
 
 class SupportedLocales extends Table {
   TextColumn get locale =>
@@ -65,6 +67,10 @@ class Recipes extends Table {
   TextColumn get importId => text().named('import_id').nullable()();
   BoolColumn get isImported =>
       boolean().named('is_imported').withDefault(const Constant(false))();
+  // Provenance: user id of the original recipe author, stamped at import time
+  // and carried through copies. Null for original works.
+  TextColumn get originalAuthorId =>
+      text().named('original_author_id').nullable()();
   // New column for tracking moderation status
   BoolColumn get needsModerationReview => boolean()
       .named('needs_moderation_review')
@@ -277,6 +283,46 @@ class RecipeCollectionMembers extends Table {
   Set<Column> get primaryKey => {collectionId, recipeId};
 }
 
+class HelpCategories extends Table {
+  TextColumn get categorySlug =>
+      text().named('category_slug').withLength(min: 1, max: 255)();
+  TextColumn get locale => text()
+      .named('locale')
+      .references(SupportedLocales, #locale, onDelete: KeyAction.cascade)
+      .withLength(min: 2, max: 10)();
+  TextColumn get title => text().named('title')();
+  TextColumn get icon => text().named('icon').nullable()();
+  IntColumn get sortOrder =>
+      integer().named('sort_order').withDefault(const Constant(0))();
+  BoolColumn get isTranslated =>
+      boolean().named('is_translated').withDefault(const Constant(false))();
+  DateTimeColumn get updatedAt => dateTime().named('updated_at').nullable()();
+
+  @override
+  Set<Column> get primaryKey => {categorySlug, locale};
+}
+
+class HelpArticles extends Table {
+  TextColumn get articleSlug =>
+      text().named('article_slug').withLength(min: 1, max: 255)();
+  TextColumn get locale => text()
+      .named('locale')
+      .references(SupportedLocales, #locale, onDelete: KeyAction.cascade)
+      .withLength(min: 2, max: 10)();
+  TextColumn get categorySlug =>
+      text().named('category_slug').withLength(min: 1, max: 255)();
+  TextColumn get title => text().named('title')();
+  TextColumn get body => text().named('body')();
+  IntColumn get sortOrder =>
+      integer().named('sort_order').withDefault(const Constant(0))();
+  BoolColumn get isTranslated =>
+      boolean().named('is_translated').withDefault(const Constant(false))();
+  DateTimeColumn get updatedAt => dateTime().named('updated_at').nullable()();
+
+  @override
+  Set<Column> get primaryKey => {articleSlug, locale};
+}
+
 @DriftDatabase(
   tables: [
     SupportedLocales,
@@ -291,6 +337,8 @@ class RecipeCollectionMembers extends Table {
     RecipeCollections,
     RecipeCollectionLocalizations,
     RecipeCollectionMembers,
+    HelpCategories,
+    HelpArticles,
   ],
   daos: [
     RecipesDao,
@@ -304,6 +352,7 @@ class RecipeCollectionMembers extends Table {
     CoffeeBeansDao,
     BeansStatsDao,
     RecipeCollectionsDao,
+    HelpDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -322,7 +371,7 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   int get schemaVersion =>
-      35; // Added RecipeCollections tables
+      37; // Added originalAuthorId to Recipes
 
   String _generateUuidV7() {
     return _uuid.v7();
@@ -797,6 +846,14 @@ class AppDatabase extends _$AppDatabase {
               await m.createTable(recipeCollections);
               await m.createTable(recipeCollectionLocalizations);
               await m.createTable(recipeCollectionMembers);
+            },
+            from35To36: (m, schema) async {
+              await m.createTable(helpCategories);
+              await m.createTable(helpArticles);
+            },
+            from36To37: (m, schema) async {
+              await m.addColumn(
+                  schema.recipes, schema.recipes.originalAuthorId);
             },
           )(m, oldVersion, newVersion);
         },

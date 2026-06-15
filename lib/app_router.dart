@@ -102,6 +102,19 @@ class AppRouter extends RootStackRouter {
           page: InfoRoute.page,
           path: '/info',
         ),
+        // Help / FAQ / Manuals
+        AutoRoute(
+          page: HelpHomeRoute.page,
+          path: '/help',
+        ),
+        AutoRoute(
+          page: HelpCategoryRoute.page,
+          path: '/help/category/:categorySlug',
+        ),
+        AutoRoute(
+          page: HelpArticleRoute.page,
+          path: '/help/article/:slug',
+        ),
         AutoRoute(
           page: GiftBoxListRoute.page,
           path: '/giftbox',
