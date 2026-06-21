@@ -223,8 +223,6 @@ class RecipeNavigationService {
         final updatedRecipe = await recipeProvider.getRecipeById(newRecipeId);
 
         if (updatedRecipe != null) {
-          // Clear import status for the copied recipe
-          await userRecipeProvider.clearImportStatus(newRecipeId);
           return CopyResult.success(newRecipeId, updatedRecipe);
         } else {
           return CopyResult.failure(l10n.recipeLoadErrorGeneric);

@@ -22,6 +22,7 @@ class RecipeModel {
   final int? coffeeChroniclerSliderPosition;
   final String? importId;
   final bool isImported;
+  final String? originalAuthorId;
   final bool isPublic;
 
   RecipeModel({
@@ -46,6 +47,7 @@ class RecipeModel {
     this.coffeeChroniclerSliderPosition,
     this.importId,
     this.isImported = false,
+    this.originalAuthorId,
     this.isPublic = false,
   });
 
@@ -71,6 +73,7 @@ class RecipeModel {
     int? coffeeChroniclerSliderPosition,
     String? importId,
     bool? isImported,
+    String? originalAuthorId,
     bool? isPublic,
   }) {
     return RecipeModel(
@@ -98,6 +101,7 @@ class RecipeModel {
           coffeeChroniclerSliderPosition ?? this.coffeeChroniclerSliderPosition,
       importId: importId ?? this.importId,
       isImported: isImported ?? this.isImported,
+      originalAuthorId: originalAuthorId ?? this.originalAuthorId,
       isPublic: isPublic ?? this.isPublic,
     );
   }

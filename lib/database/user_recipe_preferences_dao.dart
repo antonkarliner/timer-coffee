@@ -92,6 +92,24 @@ class UserRecipePreferencesDao extends DatabaseAccessor<AppDatabase>
     }
   }
 
+  /// Clears the per-user custom coffee/water amount overrides for a recipe.
+  ///
+  /// Used when the recipe's base amounts are edited: the old absolute override
+  /// (a fixed brew size from a previous "Start brewing") no longer matches the
+  /// new base and would otherwise keep rescaling the steps on the detail screen.
+  /// Writes explicit nulls (unlike [updatePreferences], where null means "leave
+  /// unchanged"). No-op when no preference row exists.
+  Future<void> clearCustomAmounts(String recipeId) async {
+    await (update(userRecipePreferences)
+          ..where((tbl) => tbl.recipeId.equals(recipeId)))
+        .write(
+      const UserRecipePreferencesCompanion(
+        customCoffeeAmount: Value(null),
+        customWaterAmount: Value(null),
+      ),
+    );
+  }
+
   Future<UserRecipePreference?> getLastUsedRecipe() async {
     return (select(userRecipePreferences)
           ..orderBy([(tbl) => OrderingTerm.desc(tbl.lastUsed)])

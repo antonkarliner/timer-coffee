@@ -44,6 +44,7 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
       vendorId: recipeData.vendorId,
       importId: recipeData.importId,
       isImported: recipeData.isImported,
+      originalAuthorId: recipeData.originalAuthorId,
       isPublic: recipeData.isPublic,
     );
   }
@@ -95,6 +96,7 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
         vendorId: recipeData.vendorId,
         importId: recipeData.importId,
         isImported: recipeData.isImported,
+        originalAuthorId: recipeData.originalAuthorId,
         isPublic: recipeData.isPublic,
       ));
     }

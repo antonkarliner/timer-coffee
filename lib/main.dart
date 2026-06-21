@@ -32,6 +32,7 @@ import './providers/snow_provider.dart';
 import 'widgets/global_snow_overlay.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:coffee_timer/services/connection_analytics_service.dart';
 import 'package:coffee_timer/services/notification_service.dart';
 import 'package:coffee_timer/services/live_activity_service.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
@@ -396,6 +397,12 @@ void main() async {
       }
     }
   }
+
+  // Fire-and-forget: record whether this session reached Supabase directly or
+  // via the reverse proxy (deduped to one report per device per day). Runs after
+  // the endpoint is resolved and auth is attempted, so it routes through the
+  // same active endpoint.
+  unawaited(ConnectionAnalyticsService.reportConnectionType());
 
   final user = Supabase.instance.client.auth.currentUser;
   if (!kIsWeb && user != null) {

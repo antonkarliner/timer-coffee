@@ -1,6 +1,7 @@
 const Set<String> scalableUnits = {
   // Common English abbreviations and variants
   'g', 'g.', 'gs',
+  'gr', 'gr.', 'grs',
   'mg', 'mg.', 'mgs',
   'ml', 'ml.', 'mll',
   'oz', 'oz.', 'ozs',

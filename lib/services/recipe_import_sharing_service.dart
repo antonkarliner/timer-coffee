@@ -610,6 +610,7 @@ class RecipeImportSharingService {
                   'is_deleted': false,
                   'import_id': localRecipe.importId,
                   'is_imported': localRecipe.isImported,
+                  'original_author_id': localRecipe.originalAuthorId,
                   'last_modified': DateTime.now().toUtc().toIso8601String(),
                 };
 

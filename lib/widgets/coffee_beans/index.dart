@@ -5,6 +5,7 @@
 
 // Main UI Components
 export 'coffee_beans_app_bar.dart';
+export 'beans_total_summary.dart';
 export 'coffee_beans_filter_chips.dart';
 export 'coffee_beans_bottom_bar.dart';
 export 'coffee_beans_empty_state.dart';

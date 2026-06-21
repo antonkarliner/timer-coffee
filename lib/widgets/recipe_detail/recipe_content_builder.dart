@@ -141,21 +141,23 @@ class _RecipeContentBuilderState extends State<RecipeContentBuilder> {
         ],
         const SizedBox(height: 16),
         // Rich text with markdown-like links; disable for user recipes
-        if (!(effectiveRecipeId?.startsWith('usr-') ?? false))
-          RichTextLinks(
-            text: recipe.shortDescription,
-            onTapUrl: (uri) async {
-              if (await canLaunchUrl(uri)) {
-                await launchUrl(uri);
-              }
-            },
-          )
-        else
-          Text(
-            recipe.shortDescription,
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-        const SizedBox(height: 16),
+        if (recipe.shortDescription.isNotEmpty) ...[
+          if (!(effectiveRecipeId?.startsWith('usr-') ?? false))
+            RichTextLinks(
+              text: recipe.shortDescription,
+              onTapUrl: (uri) async {
+                if (await canLaunchUrl(uri)) {
+                  await launchUrl(uri);
+                }
+              },
+            )
+          else
+            Text(
+              recipe.shortDescription,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+          const SizedBox(height: 16),
+        ],
         BeanSelectionRow(
           selectedBeanUuid: controller.selectedBeanUuid,
           selectedBeanName: controller.selectedBeanName,

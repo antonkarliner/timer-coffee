@@ -199,6 +199,38 @@ void main() {
       expect(recipeProperties['recipe_index'], 1);
     });
 
+    test('registers roaster profile events (general category)', () {
+      service.track(
+        'roaster_profile_viewed',
+        properties: {
+          'roaster_slug': 'acme-coffee',
+          'roaster_name': 'Acme Coffee',
+          'roaster_id': 'roaster-1',
+          'verified': true,
+        },
+      );
+      service.track(
+        'roaster_link_tapped',
+        properties: {
+          'link_type': 'website',
+          'roaster_slug': 'acme-coffee',
+          'roaster_name': 'Acme Coffee',
+          'roaster_id': 'roaster-1',
+        },
+      );
+
+      final events = service.bufferedEventsForTesting;
+      expect(events.map((event) => event['event_name']).toList(), [
+        'roaster_profile_viewed',
+        'roaster_link_tapped',
+      ]);
+      expect(events.every((event) => event['category'] == 'general'), isTrue);
+
+      final tapProperties = events[1]['properties'] as Map<String, dynamic>;
+      expect(tapProperties['link_type'], 'website');
+      expect(tapProperties['roaster_slug'], 'acme-coffee');
+    });
+
     test('buffers beta_feature_toggled under general category', () {
       service.track(
         'beta_feature_toggled',

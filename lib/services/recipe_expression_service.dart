@@ -8,10 +8,14 @@ class RecipeExpressionIssue {
   final String message;
   final bool isBlocking;
 
+  /// The amount text this issue refers to (e.g. "15g"), when applicable.
+  final String? amount;
+
   const RecipeExpressionIssue({
     required this.code,
     required this.message,
     this.isBlocking = true,
+    this.amount,
   });
 }
 
@@ -58,10 +62,11 @@ class _ConversionResult {
 }
 
 class _ResolvedPlaceholder {
-  final String placeholder;
+  /// Null means the amount could not be assigned and must stay unconverted.
+  final String? placeholder;
   final RecipeExpressionIssue? issue;
 
-  const _ResolvedPlaceholder({required this.placeholder, this.issue});
+  const _ResolvedPlaceholder({this.placeholder, this.issue});
 }
 
 class RecipeExpressionService {
@@ -156,6 +161,7 @@ class RecipeExpressionService {
     'wasser',
     'acqua',
     'agua',
+    'apă',
     'вода',
     'воды',
     'воду',
@@ -450,12 +456,14 @@ class RecipeExpressionService {
         kind: kind,
         matchStart: start,
         matchEnd: match.end,
+        amountText: match.group(0)!,
         value: upper,
         coffeeAmount: coffeeAmount,
         waterAmount: waterAmount,
       );
-      final placeholder = resolved.placeholder;
       if (resolved.issue != null) issues.add(resolved.issue!);
+      final placeholder = resolved.placeholder;
+      if (placeholder == null) return match.group(0)!;
       final baseAmount = placeholder == finalCoffeeAmount
           ? coffeeAmount
           : waterAmount;
@@ -480,12 +488,14 @@ class RecipeExpressionService {
         kind: kind,
         matchStart: start,
         matchEnd: match.end,
+        amountText: match.group(0)!,
         value: value,
         coffeeAmount: coffeeAmount,
         waterAmount: waterAmount,
       );
-      final placeholder = resolved.placeholder;
       if (resolved.issue != null) issues.add(resolved.issue!);
+      final placeholder = resolved.placeholder;
+      if (placeholder == null) return match.group(0)!;
       final baseAmount = placeholder == finalCoffeeAmount
           ? coffeeAmount
           : waterAmount;
@@ -503,6 +513,7 @@ class RecipeExpressionService {
     required RecipeStepKind kind,
     required int matchStart,
     required int matchEnd,
+    required String amountText,
     required double value,
     required double coffeeAmount,
     required double waterAmount,
@@ -515,26 +526,42 @@ class RecipeExpressionService {
         .substring(contextStart, contextEnd)
         .toLowerCase();
 
-    final hasCoffeeContext = _coffeeContextKeywords.any(
-      (keyword) => context.contains(keyword),
+    final coffeeDistance = _nearestKeywordDistance(
+      context,
+      contextStart,
+      matchStart,
+      matchEnd,
+      _coffeeContextKeywords,
     );
-    final hasWaterContext = _waterContextKeywords.any(
-      (keyword) => context.contains(keyword),
+    final waterDistance = _nearestKeywordDistance(
+      context,
+      contextStart,
+      matchStart,
+      matchEnd,
+      _waterContextKeywords,
     );
 
-    if (hasCoffeeContext && !hasWaterContext) {
+    if (coffeeDistance != null && waterDistance == null) {
       return const _ResolvedPlaceholder(placeholder: finalCoffeeAmount);
     }
-    if (hasWaterContext && !hasCoffeeContext) {
+    if (waterDistance != null && coffeeDistance == null) {
       return const _ResolvedPlaceholder(placeholder: finalWaterAmount);
     }
-    if (hasCoffeeContext && hasWaterContext) {
-      return const _ResolvedPlaceholder(
-        placeholder: finalWaterAmount,
+    if (coffeeDistance != null && waterDistance != null) {
+      if (coffeeDistance < waterDistance) {
+        return const _ResolvedPlaceholder(placeholder: finalCoffeeAmount);
+      }
+      if (waterDistance < coffeeDistance) {
+        return const _ResolvedPlaceholder(placeholder: finalWaterAmount);
+      }
+      // Coffee and water wording are exactly equidistant — leave the amount
+      // unconverted and let the user decide.
+      return _ResolvedPlaceholder(
         issue: RecipeExpressionIssue(
           code: 'ambiguous_amount',
           message:
-              'A step amount is close to both coffee and water wording. Clarify whether it belongs to coffee or water.',
+              'A step amount is equally close to coffee and water wording. Clarify whether it belongs to coffee or water.',
+          amount: amountText,
         ),
       );
     }
@@ -546,18 +573,48 @@ class RecipeExpressionService {
     final coffeeScore = calculateCleanScore(value / coffeeAmount);
     final waterScore = calculateCleanScore(value / waterAmount);
     final isAmbiguous = (coffeeScore - waterScore).abs() < 5;
+    if (isAmbiguous) {
+      return _ResolvedPlaceholder(
+        issue: RecipeExpressionIssue(
+          code: 'ambiguous_amount',
+          message:
+              'A step amount could not be confidently assigned to coffee or water.',
+          amount: amountText,
+        ),
+      );
+    }
     return _ResolvedPlaceholder(
       placeholder: multiplier['type'] == 'coffee'
           ? finalCoffeeAmount
           : finalWaterAmount,
-      issue: isAmbiguous
-          ? const RecipeExpressionIssue(
-              code: 'ambiguous_amount',
-              message:
-                  'A step amount could not be confidently assigned to coffee or water.',
-            )
-          : null,
     );
+  }
+
+  /// Smallest gap in characters between the amount match and any keyword
+  /// occurrence inside the context window, or null when no keyword is found.
+  static int? _nearestKeywordDistance(
+    String lowerContext,
+    int contextStart,
+    int matchStart,
+    int matchEnd,
+    Set<String> keywords,
+  ) {
+    int? best;
+    for (final keyword in keywords) {
+      var searchFrom = 0;
+      while (true) {
+        final index = lowerContext.indexOf(keyword, searchFrom);
+        if (index < 0) break;
+        final keywordStart = contextStart + index;
+        final keywordEnd = keywordStart + keyword.length;
+        final distance = keywordEnd <= matchStart
+            ? matchStart - keywordEnd
+            : (keywordStart >= matchEnd ? keywordStart - matchEnd : 0);
+        if (best == null || distance < best) best = distance;
+        searchFrom = index + 1;
+      }
+    }
+    return best;
   }
 
   static bool _shouldSkipAmount(String text, int start, int end) {

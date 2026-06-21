@@ -331,6 +331,28 @@
   "inventory": "Inventory",
   "amountLeft": "Amount Left",
   "enterAmountLeft": "Enter amount left",
+  "beansTotalLeftLabel": "Total left",
+  "@beansTotalLeftLabel": {
+    "description": "Label for the coffee inventory summary on the My Beans screen when no filter is active, followed by the total grams remaining across all beans."
+  },
+  "beansFilteredLabel": "Filtered",
+  "@beansFilteredLabel": {
+    "description": "Label for the coffee inventory summary on the My Beans screen when a filter or search is active, indicating the shown amount covers only the filtered beans."
+  },
+  "beansAmountOfTotal": "{amount} of {total}",
+  "@beansAmountOfTotal": {
+    "description": "Shows a filtered amount of coffee against the grand total, e.g. '320 g of 842 g'.",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "320 g"
+      },
+      "total": {
+        "type": "String",
+        "example": "842 g"
+      }
+    }
+  },
   "selectHarvestDate": "Select Harvest Date",
   "selectRoastDate": "Select Roast Date",
   "selectDate": "Select date",
@@ -1861,6 +1883,27 @@
   "recipeCreationFormatIssueUnknown": "This step needs a format correction.",
   "@recipeCreationFormatIssueUnknown": {
     "description": "Fallback validation issue message."
+  },
+  "recipeCreationFormatIssueAmbiguousAmountValue": "Could not tell whether \"{amount}\" refers to coffee or water.",
+  "@recipeCreationFormatIssueAmbiguousAmountValue": {
+    "description": "Validation issue message for an ambiguous amount, including the amount text itself.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "recipeCreationFormatIssuesSaveAsIsHint": "You can also save as is — unresolved amounts will stay fixed and won't scale when you change servings.",
+  "@recipeCreationFormatIssuesSaveAsIsHint": {
+    "description": "Dialog hint explaining the consequence of saving without fixing format issues."
+  },
+  "recipeCreationFormatIssuesSaveAsIs": "Save as is",
+  "@recipeCreationFormatIssuesSaveAsIs": {
+    "description": "Dialog action that saves the recipe without converting problematic amounts."
+  },
+  "recipeCreationFormatIssuesEditSteps": "Edit steps",
+  "@recipeCreationFormatIssuesEditSteps": {
+    "description": "Dialog action that returns to editing the recipe steps."
   },
   "helpAndFAQ": "Help & FAQ",
   "@helpAndFAQ": {

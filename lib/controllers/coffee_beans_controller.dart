@@ -46,6 +46,7 @@ class CoffeeBeansController extends ChangeNotifier {
   // --- Data State ---
   List<CoffeeBeansModel> _allBeans = [];
   List<CoffeeBeansModel> _filteredBeans = [];
+  double _grandTotalGramsLeft = 0;
   bool _isLoading = false;
   String? _error;
 
@@ -82,6 +83,24 @@ class CoffeeBeansController extends ChangeNotifier {
   // --- Computed Properties ---
   bool get hasActiveFilters {
     return _filterOptions.hasActiveFilters || _viewState.hasActiveSearch;
+  }
+
+  /// Sum of the tracked "amount left" (grams) across the beans currently in
+  /// scope (after filters and search). Beans without a tracked weight
+  /// contribute nothing.
+  double get scopedGramsLeft => _sumGramsLeft(_filteredBeans);
+
+  /// Sum of the tracked "amount left" (grams) across all non-deleted beans,
+  /// ignoring any active filter or search. Used to show the grand total
+  /// alongside a filtered subtotal.
+  double get grandTotalGramsLeft => _grandTotalGramsLeft;
+
+  double _sumGramsLeft(List<CoffeeBeansModel> beans) {
+    var total = 0.0;
+    for (final bean in beans) {
+      total += bean.validatedPackageWeightGrams ?? 0;
+    }
+    return total;
   }
 
   double calculateBottomBarLift(BuildContext context) {
@@ -189,6 +208,18 @@ class CoffeeBeansController extends ChangeNotifier {
 
       // Apply sorting
       _filteredBeans = _sortService.applySorting(searchFiltered, _sortOptions);
+
+      // Compute the grand total of tracked grams across ALL non-deleted beans,
+      // independent of the active filters/search, so the summary can show
+      // "<filtered> of <grand total>". Falls back to the in-scope sum if the
+      // provider is unavailable.
+      final provider = _coffeeBeansProvider;
+      if (provider != null) {
+        final allBeans = await provider.fetchAllCoffeeBeans();
+        _grandTotalGramsLeft = _sumGramsLeft(allBeans);
+      } else {
+        _grandTotalGramsLeft = _sumGramsLeft(_allBeans);
+      }
 
       _setError(null);
     } catch (e) {

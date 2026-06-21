@@ -50,12 +50,6 @@ class RecipeBasicInfoCard extends StatelessWidget {
               ),
               maxLines: 3,
               onChanged: onShortDescriptionChanged,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return l10n.recipeCreationScreenShortDescriptionValidator;
-                }
-                return null;
-              },
             ),
           ],
         ),

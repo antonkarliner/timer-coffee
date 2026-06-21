@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/foundation.dart';
 import '../models/recipe_model.dart';
 import '../database/database.dart';
@@ -106,6 +107,14 @@ class UserRecipeProvider with ChangeNotifier {
     AppLogger.debug(
         'DEBUG: Recipe ${AppLogger.sanitize(recipe.id)} is becoming public: $isBecomingPublic (existing: ${existingRecipe?.isPublic}, new: ${recipe.isPublic})');
 
+    // When the recipe's base coffee/water amounts change, any saved per-user
+    // custom amount override (written by "Start brewing") becomes stale: it is a
+    // fixed brew size that no longer matches the new base and would keep
+    // rescaling the steps on the detail screen. Clear it so the edit takes hold.
+    final bool baseAmountsChanged = existingRecipe != null &&
+        (existingRecipe.coffeeAmount != recipe.coffeeAmount ||
+            existingRecipe.waterAmount != recipe.waterAmount);
+
     // Safety log: moderation flag transition
     if (isBecomingPublic && existingRecipe != null) {
       AppLogger.security(
@@ -129,6 +138,9 @@ class UserRecipeProvider with ChangeNotifier {
       isImported: recipe.isImported != null
           ? drift.Value(recipe.isImported!)
           : const drift.Value.absent(),
+      originalAuthorId: recipe.originalAuthorId != null
+          ? drift.Value(recipe.originalAuthorId!)
+          : const drift.Value.absent(),
       isPublic: recipe.isPublic != null
           ? drift.Value(recipe.isPublic!)
           : const drift.Value.absent(),
@@ -143,6 +155,10 @@ class UserRecipeProvider with ChangeNotifier {
     // Wrap database operations in a transaction
     await _database.transaction(() async {
       await _database.recipesDao.insertOrUpdateRecipe(recipeCompanion);
+
+      if (baseAmountsChanged) {
+        await _database.userRecipePreferencesDao.clearCustomAmounts(recipe.id);
+      }
 
       // Update steps for user recipes: delete ALL existing steps across locales, then recreate under canonical 'en'
       await _database.stepsDao.deleteStepsForRecipe(recipe.id);
@@ -180,10 +196,44 @@ class UserRecipeProvider with ChangeNotifier {
           .insertOrUpdateLocalization(localizationCompanion);
     });
 
+    // Mirror the cleared override to Supabase so the next preference download
+    // does not restore the stale amount. Fire-and-forget; the local DB is the
+    // source of truth. Skipped for anonymous users (no remote prefs).
+    if (baseAmountsChanged &&
+        user != null &&
+        !user.isAnonymous &&
+        recipe.id.startsWith('usr-')) {
+      unawaited(_clearCustomAmountsInSupabase(recipe.id, user.id));
+    }
+
     final index = _userRecipes.indexWhere((element) => element.id == recipe.id);
     if (index >= 0) {
       _userRecipes[index] = recipe;
       notifyListeners();
+    }
+  }
+
+  /// Nulls the custom coffee/water override for [recipeId] in Supabase so a
+  /// later preference download cannot re-apply a stale brew size after the
+  /// recipe's base amounts were edited.
+  Future<void> _clearCustomAmountsInSupabase(
+      String recipeId, String userId) async {
+    try {
+      await Supabase.instance.client
+          .from('user_recipe_preferences')
+          .update({
+            'custom_coffee_amount': null,
+            'custom_water_amount': null,
+            'last_used': DateTime.now().toUtc().toIso8601String(),
+          })
+          .eq('user_id', userId)
+          .eq('recipe_id', recipeId)
+          .timeout(NetworkTimeouts.handshake);
+    } catch (e) {
+      AppLogger.warning(
+        'Failed to clear custom amounts in Supabase',
+        errorObject: e,
+      );
     }
   }
 
@@ -368,12 +418,15 @@ class UserRecipeProvider with ChangeNotifier {
           brewTime: drift.Value(originalRecipe.brewTime.inSeconds),
           vendorId: drift.Value(newVendorId),
           lastModified: drift.Value(nowUtc), // Use UTC time
-          // Copy import status if applicable, though unlikely for non-user recipes
+          // importId is provenance (original author attribution) and must
+          // survive copying; isImported is a UX flag meaning "not yours yet"
+          // and a copy is always the user's own recipe.
           importId: originalRecipe.importId != null
               ? drift.Value(originalRecipe.importId!)
               : const drift.Value.absent(),
-          isImported: originalRecipe.isImported != null
-              ? drift.Value(originalRecipe.isImported!)
+          isImported: const drift.Value(false),
+          originalAuthorId: originalRecipe.originalAuthorId != null
+              ? drift.Value(originalRecipe.originalAuthorId!)
               : const drift.Value.absent(),
           isPublic: drift.Value(originalRecipe.isPublic), // Copy isPublic field
         );
@@ -430,6 +483,15 @@ class UserRecipeProvider with ChangeNotifier {
     }
   }
 
+  // Extracts the author's user id from a 'usr-<uuid>-<timestamp>' recipe id
+  // or 'usr-<uuid>' vendor id. Returns null for legacy/truncated ids.
+  static final _authorIdPattern = RegExp(
+      r'^usr-([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})');
+  static String? _extractAuthorUserId(dynamic id) {
+    if (id is! String) return null;
+    return _authorIdPattern.firstMatch(id)?.group(1);
+  }
+
   // Import a recipe fetched from Supabase
   Future<String?> importSupabaseRecipe(
       Map<String, dynamic> supabaseRecipeData) async {
@@ -461,6 +523,14 @@ class UserRecipeProvider with ChangeNotifier {
           importId: drift.Value(supabaseRecipeData['import_id'] ??
               originalSupabaseId), // Preserve existing or use original ID
           // --- MODIFICATION END ---
+          // Attribution provenance: prefer the value already stamped on the
+          // source row (survives re-share chains); for legacy rows derive the
+          // author from the root recipe id / vendor id, which embed it.
+          originalAuthorId: drift.Value(
+              supabaseRecipeData['original_author_id'] ??
+                  _extractAuthorUserId(supabaseRecipeData['import_id']) ??
+                  _extractAuthorUserId(originalSupabaseId) ??
+                  _extractAuthorUserId(supabaseRecipeData['vendor_id'])),
           id: drift.Value(newLocalRecipeId),
           brewingMethodId: drift.Value(supabaseRecipeData['brewing_method_id']),
           coffeeAmount: drift.Value(
@@ -630,32 +700,6 @@ class UserRecipeProvider with ChangeNotifier {
       AppLogger.error('Error updating user recipe IDs after login',
           errorObject: e);
       // Consider re-throwing or handling the error more gracefully
-    }
-  }
-
-  // Method to clear import status for a given recipe ID
-  Future<void> clearImportStatus(String recipeId) async {
-    try {
-      await _database.transaction(() async {
-        final updateCompanion = RecipesCompanion(
-          importId: const drift.Value(null), // Set importId to null
-          isImported: const drift.Value(false), // Set isImported to false
-          lastModified: drift.Value(DateTime.now().toUtc()), // Update timestamp
-        );
-        await (_database.update(_database.recipes)
-              ..where((tbl) => tbl.id.equals(recipeId)))
-            .write(updateCompanion);
-      });
-      AppLogger.debug(
-          'Cleared import status for recipe ${AppLogger.sanitize(recipeId)}');
-      // Optionally, update local state if needed, though a full refresh might be better
-      // notifyListeners();
-    } catch (e) {
-      AppLogger.error(
-          'Error clearing import status for recipe ${AppLogger.sanitize(recipeId)}',
-          errorObject: e);
-      // Rethrow or handle as needed
-      rethrow;
     }
   }
 

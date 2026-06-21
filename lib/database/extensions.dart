@@ -22,6 +22,9 @@ extension RecipesCompanionExtension on RecipesCompanion {
           ? Value(json['import_id'])
           : const Value.absent(),
       isImported: Value(json['is_imported'] ?? false),
+      originalAuthorId: json['original_author_id'] != null
+          ? Value(json['original_author_id'])
+          : const Value.absent(),
       isPublic: Value(json['is_public'] ?? false),
       needsModerationReview: Value(json['needs_moderation_review'] ?? false),
     );
@@ -43,6 +46,9 @@ extension RecipesCompanionExtension on RecipesCompanion {
           ? Value(json['import_id'])
           : const Value.absent(),
       isImported: Value(json['is_imported'] ?? false),
+      originalAuthorId: json['original_author_id'] != null
+          ? Value(json['original_author_id'])
+          : const Value.absent(),
       isPublic: Value(json['ispublic'] ??
           false), // Note: Supabase uses 'ispublic' (lowercase)
       needsModerationReview: Value(json['needs_moderation_review'] ?? false),
@@ -61,6 +67,8 @@ extension RecipesCompanionExtension on RecipesCompanion {
       'last_modified': lastModified.value?.toUtc().toIso8601String(),
       'import_id': importId.present ? importId.value : null,
       'is_imported': isImported.present ? isImported.value : false,
+      'original_author_id':
+          originalAuthorId.present ? originalAuthorId.value : null,
       'ispublic': isPublic.present
           ? isPublic.value
           : false, // Use actual isPublic value
@@ -164,6 +172,41 @@ extension CoffeeFactsCompanionExtension on CoffeeFactsCompanion {
       id: Value(json['id']),
       fact: Value(json['fact']),
       locale: Value(json['locale']),
+    );
+  }
+}
+
+extension HelpCategoriesCompanionExtension on HelpCategoriesCompanion {
+  static HelpCategoriesCompanion fromJson(Map<String, dynamic> json) {
+    return HelpCategoriesCompanion(
+      categorySlug: Value(json['slug']),
+      locale: Value(json['locale']),
+      title: Value(json['title']),
+      icon: json['icon'] != null
+          ? Value(json['icon'] as String)
+          : const Value.absent(),
+      sortOrder: Value(json['sort_order'] ?? 0),
+      isTranslated: Value(json['is_translated'] ?? false),
+      updatedAt: json['updated_at'] != null
+          ? Value(DateTime.parse(json['updated_at']))
+          : const Value.absent(),
+    );
+  }
+}
+
+extension HelpArticlesCompanionExtension on HelpArticlesCompanion {
+  static HelpArticlesCompanion fromJson(Map<String, dynamic> json) {
+    return HelpArticlesCompanion(
+      articleSlug: Value(json['slug']),
+      locale: Value(json['locale']),
+      categorySlug: Value(json['category_slug']),
+      title: Value(json['title']),
+      body: Value(json['body']),
+      sortOrder: Value(json['sort_order'] ?? 0),
+      isTranslated: Value(json['is_translated'] ?? false),
+      updatedAt: json['updated_at'] != null
+          ? Value(DateTime.parse(json['updated_at']))
+          : const Value.absent(),
     );
   }
 }

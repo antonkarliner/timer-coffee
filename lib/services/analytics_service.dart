@@ -24,7 +24,8 @@ import '../utils/app_logger.dart';
 ///   reviews_translated_batch
 /// - **general**: app_opened, screen_viewed, recipe_created, recipe_shared,
 ///   collection interactions and sharing, donation_screen_viewed,
-///   donation_button_tapped, donation_completed, donation_failed
+///   donation_button_tapped, donation_completed, donation_failed,
+///   roaster_profile_viewed, roaster_link_tapped
 class AnalyticsService extends ChangeNotifier {
   AnalyticsService._();
 
@@ -85,6 +86,9 @@ class AnalyticsService extends ChangeNotifier {
     'donation_button_tapped': 'general',
     'donation_completed': 'general',
     'donation_failed': 'general',
+    // Roaster profiles
+    'roaster_profile_viewed': 'general',
+    'roaster_link_tapped': 'general',
     // Onboarding & journey
     'onboarding_completed': 'general',
     'journey_started': 'general',

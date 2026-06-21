@@ -285,7 +285,6 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
     setState(() {
       _isFirstPageValid =
           _recipeNameController.text.isNotEmpty &&
-          _shortDescriptionController.text.isNotEmpty &&
           _selectedBrewingMethodId != null &&
           _coffeeAmount > 0 &&
           _waterAmount > 0 &&
@@ -461,20 +460,28 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
     );
   }
 
-  Future<void> _showExpressionIssuesDialog(
+  /// Returns true when the user chose to save without converting the
+  /// problematic amounts ("Save as is").
+  Future<bool> _showExpressionIssuesDialog(
     RecipeExpressionProcessingResult processing,
-  ) {
+  ) async {
     final l10n = AppLocalizations.of(context)!;
+    // _steps[0] is the always-present preparation step (order 1); visible
+    // brew steps are numbered from order 2.
+    String stepLabel(RecipeExpressionStepResult result) =>
+        result.step.order == 1
+        ? l10n.recipeCreationScreenPreparationStepTitle
+        : l10n.recipeCreationScreenBrewStepTitle('${result.step.order - 1}');
     final issueRows = processing.stepResults
         .where((result) => result.issues.isNotEmpty)
         .map(
           (result) =>
-              '${l10n.step} ${result.step.order}: '
+              '${stepLabel(result)}: '
               '${result.issues.map((issue) => _localizedExpressionIssue(l10n, issue)).join(' ')}',
         )
         .join('\n\n');
 
-    return showDialog<void>(
+    final saveAsIs = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
         shape: RoundedRectangleBorder(
@@ -487,20 +494,33 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
               l10n.recipeCreationFormatIssuesBody,
               if (issueRows.isNotEmpty) issueRows,
               l10n.recipeCreationFormatIssuesFixHint,
+              l10n.recipeCreationFormatIssuesSaveAsIsHint,
             ].join('\n\n'),
           ),
         ),
         actions: [
           AppTextButton(
-            label: l10n.ok,
-            onPressed: () => Navigator.of(dialogContext).pop(),
+            label: l10n.recipeCreationFormatIssuesSaveAsIs,
+            onPressed: () => Navigator.of(dialogContext).pop(true),
             isFullWidth: false,
             height: AppButton.heightSmall,
             padding: AppButton.paddingSmall,
           ),
+          SizedBox(
+            height: 56,
+            child: AppElevatedButton(
+              label: l10n.recipeCreationFormatIssuesEditSteps,
+              onPressed: () => Navigator.of(dialogContext).pop(false),
+              isFullWidth: false,
+              height: 56,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              elevation: 0,
+            ),
+          ),
         ],
       ),
     );
+    return saveAsIs ?? false;
   }
 
   String _localizedExpressionIssue(
@@ -515,7 +535,10 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
       case 'unbalanced_parentheses':
         return l10n.recipeCreationFormatIssueUnbalancedParentheses;
       case 'ambiguous_amount':
-        return l10n.recipeCreationFormatIssueAmbiguousAmount;
+        final amount = issue.amount;
+        return amount != null
+            ? l10n.recipeCreationFormatIssueAmbiguousAmountValue(amount)
+            : l10n.recipeCreationFormatIssueAmbiguousAmount;
       default:
         return l10n.recipeCreationFormatIssueUnknown;
     }
@@ -633,6 +656,7 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
             : 'usr-${currentUser?.id ?? 'anonymous'}',
         importId: isUpdate ? widget.recipe!.importId : null,
         isImported: isUpdate ? widget.recipe!.isImported : false,
+        originalAuthorId: isUpdate ? widget.recipe!.originalAuthorId : null,
       );
 
       RecipeExpressionProcessingResult processing =
@@ -679,10 +703,11 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
       }
 
       if (processing.hasBlockingIssues) {
-        if (mounted) {
-          await _showExpressionIssuesDialog(processing);
-        }
-        return;
+        if (!mounted) return;
+        // Ambiguous amounts were left unconverted, so "save as is" stores
+        // them as plain numbers that won't scale with servings.
+        final saveAsIs = await _showExpressionIssuesDialog(processing);
+        if (!saveAsIs) return;
       }
 
       final recipeData = rawRecipeData.copyWith(steps: processing.steps);

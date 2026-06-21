@@ -14,6 +14,7 @@ import '../models/roaster_profile_model.dart';
 import '../providers/bean_review_provider.dart';
 import '../providers/recipe_provider.dart';
 import '../providers/roaster_profile_provider.dart';
+import '../services/analytics_service.dart';
 import '../theme/design_tokens.dart';
 import '../widgets/base_buttons.dart';
 import '../widgets/containers/section_card.dart';
@@ -94,6 +95,17 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
       });
       return;
     }
+
+    AnalyticsService.instance.track(
+      'roaster_profile_viewed',
+      properties: {
+        'roaster_slug': profile.slug,
+        'roaster_name': profile.roasterName,
+        'roaster_id': profile.id,
+        'verified': profile.adminUserId != null &&
+            profile.adminUserId!.isNotEmpty,
+      },
+    );
 
     // Load recipes (only if admin user exists) and initial reviews in parallel
     final adminUserId = profile.adminUserId;
@@ -582,34 +594,74 @@ class _LinksRow extends StatelessWidget {
 
   const _LinksRow({required this.profile});
 
-  Future<void> _open(String? url) async {
+  Future<void> _open(String? url, String linkType) async {
     if (url == null) return;
-    final uri = Uri.tryParse(url);
+    var uri = Uri.tryParse(url);
     if (uri == null) return;
+
+    // For the website link, attach UTM params for future attribution.
+    if (linkType == 'website') {
+      uri = _withUtm(uri);
+    }
+
+    AnalyticsService.instance.track(
+      'roaster_link_tapped',
+      properties: {
+        'link_type': linkType,
+        'roaster_slug': profile.slug,
+        'roaster_name': profile.roasterName,
+        'roaster_id': profile.id,
+      },
+    );
+
     await launchUrl(uri, mode: LaunchMode.externalApplication);
+  }
+
+  /// Appends Timer.Coffee UTM parameters to [uri] without clobbering any UTM
+  /// params the roaster may already have set on their own link.
+  Uri _withUtm(Uri uri) {
+    const utm = {
+      'utm_source': 'timercoffee',
+      'utm_medium': 'app',
+      'utm_campaign': 'roaster_profile',
+    };
+    final params = Map<String, String>.from(uri.queryParameters);
+    utm.forEach((key, value) => params.putIfAbsent(key, () => value));
+    return uri.replace(queryParameters: params);
   }
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    final links = <({Widget icon, String? url})>[
-      (icon: Icon(Icons.language_outlined), url: profile.websiteUrl),
+    final links = <({Widget icon, String? url, String type})>[
+      (
+        icon: Icon(Icons.language_outlined),
+        url: profile.websiteUrl,
+        type: 'website',
+      ),
       (
         icon: FaIcon(FontAwesomeIcons.instagram,
             color: colorScheme.primary, size: AppIconSize.medium),
         url: profile.instagramUrl,
+        type: 'instagram',
       ),
       (
         icon: FaIcon(FontAwesomeIcons.xTwitter,
             color: colorScheme.primary, size: AppIconSize.medium),
         url: profile.twitterUrl,
+        type: 'twitter',
       ),
-      (icon: Icon(Icons.facebook_outlined), url: profile.facebookUrl),
+      (
+        icon: Icon(Icons.facebook_outlined),
+        url: profile.facebookUrl,
+        type: 'facebook',
+      ),
       (
         icon: FaIcon(FontAwesomeIcons.tiktok,
             color: colorScheme.primary, size: AppIconSize.medium),
         url: profile.tiktokUrl,
+        type: 'tiktok',
       ),
     ].where((l) => l.url != null).toList();
 
@@ -620,7 +672,7 @@ class _LinksRow extends StatelessWidget {
           icon: l.icon,
           color: colorScheme.primary,
           iconSize: AppIconSize.medium,
-          onPressed: () => _open(l.url),
+          onPressed: () => _open(l.url, l.type),
         );
       }).toList(),
     );

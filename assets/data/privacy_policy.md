@@ -1,6 +1,6 @@
 # Privacy Policy for Timer.Coffee
 
-Last Updated: 22.05.2026
+Last Updated: 16.06.2026
 
 1. INTRODUCTION
 
@@ -37,6 +37,7 @@ This is the core data of the product. We store it so the app can remember your b
 - Bean records, such as roaster, bean name, origin, variety, tasting notes, processing method, elevation, harvest date, roast date, region, roast level, grind size, cupping score, notes, farmer, farm, package weight, favorite state, cover photo URL, and sync metadata, so you can track and reuse your bean information.
 - Recipe preferences, such as favorites, last-used timestamps, slider positions, custom amounts, and custom grind size, so the app can remember how you like to brew.
 - Recipe import events, recording your anonymized user identifier, the source recipe identifier, and a timestamp when you import a recipe shared by another user, so creators can see how many people have imported their public recipes.
+- Recipe provenance, recording the original creator's user identifier on recipes you import or copy from another user, so the original author can be credited if the recipe is later shared publicly. This reference is removed automatically if the original author deletes their account.
 
 d. Notifications and Live Activities
 
@@ -71,12 +72,13 @@ g. Anonymous Usage Analytics
 
 We collect anonymous usage analytics so we can understand which features people actually use, where the brewing flow drops off, and how donation behavior relates to usage patterns. This data helps us improve the app without knowing who you are.
 
-- The app collects anonymous event data such as brew starts and completions, bean additions, bean review interactions (creating, editing, deleting, and translating reviews), recipe creation and sharing, collection interactions and sharing, screen views, donation funnel interactions, and onboarding and first-steps journey progress. No personal information such as your name, email, or account ID is included in analytics events.
+- The app collects anonymous event data such as brew starts and completions, bean additions, bean review interactions (creating, editing, deleting, and translating reviews), recipe creation and sharing, collection interactions and sharing, screen views, roaster profile views and taps on a roaster's external links (such as their website or social media), donation funnel interactions, and onboarding and first-steps journey progress. No personal information such as your name, email, or account ID is included in analytics events.
 - Each installation is identified by a randomly generated ID that is not linked to your Supabase account or any other identifying information. A random session ID is generated each time you open the app.
 - Events are buffered on-device and sent in batches to a Supabase Edge Function. Your IP address is stripped server-side before storage.
 - Analytics events are organized into three categories — brewing analytics, bean analytics, and general usage analytics — each of which you can enable or disable independently in the app's Settings screen. All three categories are enabled by default.
 - We can also disable all analytics collection remotely via a server-side feature flag, without requiring an app update.
 - Raw analytics events are retained for 90 days and then automatically deleted. Pre-aggregated daily metrics that contain no device-level identifiers may be retained indefinitely.
+- In regions where our backend is blocked, the app automatically routes through a reverse proxy to keep working. To understand how many users rely on this, the app records an anonymous connection event noting only whether the session connected directly or through the proxy, plus the platform (iOS, Android, or web). At most one such event is recorded per device per day. These events contain no user ID, account information, or location.
 
 3. COOKIES
 

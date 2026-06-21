@@ -160,6 +160,50 @@ void main() {
     });
   });
 
+  group('clearCustomAmounts', () {
+    test('nulls custom coffee and water amounts', () async {
+      await db.userRecipePreferencesDao.updatePreferences(
+        'r1',
+        customCoffeeAmount: 20.0,
+        customWaterAmount: 240.0,
+      );
+
+      await db.userRecipePreferencesDao.clearCustomAmounts('r1');
+
+      final prefs =
+          await db.userRecipePreferencesDao.getPreferencesForRecipe('r1');
+      expect(prefs!.customCoffeeAmount, isNull);
+      expect(prefs.customWaterAmount, isNull);
+    });
+
+    test('leaves other preference fields untouched', () async {
+      await db.userRecipePreferencesDao.updatePreferences(
+        'r1',
+        isFavorite: true,
+        customGrindSize: 'medium-coarse',
+        sweetnessSliderPosition: 3,
+        customCoffeeAmount: 20.0,
+        customWaterAmount: 240.0,
+      );
+
+      await db.userRecipePreferencesDao.clearCustomAmounts('r1');
+
+      final prefs =
+          await db.userRecipePreferencesDao.getPreferencesForRecipe('r1');
+      expect(prefs!.isFavorite, isTrue);
+      expect(prefs.customGrindSize, 'medium-coarse');
+      expect(prefs.sweetnessSliderPosition, 3);
+    });
+
+    test('is a no-op when no preference row exists', () async {
+      await db.userRecipePreferencesDao.clearCustomAmounts('missing');
+
+      final prefs =
+          await db.userRecipePreferencesDao.getPreferencesForRecipe('missing');
+      expect(prefs, isNull);
+    });
+  });
+
   group('getLastUsedRecipe', () {
     test('returns null when no preferences exist', () async {
       final result = await db.userRecipePreferencesDao.getLastUsedRecipe();

@@ -65,6 +65,13 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
               },
               child: Column(
                 children: [
+                  // Inventory total summary (amount of coffee left)
+                  BeansTotalSummary(
+                    scopedGrams: controller.scopedGramsLeft,
+                    grandTotalGrams: controller.grandTotalGramsLeft,
+                    hasActiveFilters: controller.hasActiveFilters,
+                  ),
+
                   // Filter Chips
                   CoffeeBeansFilterChips(
                     filterOptions: controller.filterOptions,
