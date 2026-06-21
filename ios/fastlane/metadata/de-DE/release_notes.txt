@@ -1,8 +1,2 @@
-Neu:
-• Einklappbarer Header des Startbildschirms — beim Scrollen hast du jetzt mehr Platz für das Wesentliche.
-
 Verbessert:
-• Umfassende Netzwerk-Aktualisierung: zuverlässigere Synchronisierung und verbessertes Offline-Erlebnis.
-
-Behoben:
-• Kleinere Fehlerbehebungen und visuelle Verfeinerungen in der gesamten App.
+• Dieses Update bringt viele Verbesserungen, die darauf abzielen, von Nutzern erstellte Rezepte stabiler zu machen. Danke an alle, die Fehler melden und Ideen teilen!

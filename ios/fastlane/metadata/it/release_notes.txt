@@ -1,8 +1,2 @@
-Novità:
-• Intestazione comprimibile della Schermata principale: lo scorrimento ora ti offre più spazio per ciò che conta.
-
-Migliorato:
-• Importante aggiornamento della rete: sincronizzazione più affidabile ed esperienza offline migliorata.
-
-Correzioni:
-• Correzioni di bug minori e perfezionamenti visivi in tutta l’app.
+Miglioramenti:
+• Questo aggiornamento introduce molti miglioramenti pensati per rendere più stabili le ricette create dagli utenti. Grazie a tutti coloro che segnalano bug e condividono idee!

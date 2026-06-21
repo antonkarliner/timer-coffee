@@ -1,8 +1,2 @@
-Novidades:
-• Cabeçalho recolhível da Tela inicial — ao rolar, agora você tem mais espaço para o que importa.
-
 Melhorias:
-• Grande atualização de rede: sincronização mais confiável e experiência offline aprimorada.
-
-Correções:
-• Pequenas correções de bugs e refinamentos visuais em todo o app.
+• Esta atualização traz muitas melhorias voltadas a tornar as receitas criadas pelo usuário mais estáveis. Obrigado a todos que relatam bugs e compartilham ideias!

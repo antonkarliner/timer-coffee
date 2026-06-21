@@ -1,8 +1,2 @@
-Nieuw:
-• Inklapbare header op het Startscherm — scrollen geeft je nu meer ruimte voor wat belangrijk is.
-
 Verbeterd:
-• Grote bijwerking van de netwerkfunctionaliteit: betrouwbaarder synchroniseren en een verbeterde offline-ervaring.
-
-Opgelost:
-• Kleine bugfixes en visuele verfijningen in de hele app.
+• Deze update bevat veel verbeteringen die erop gericht zijn door gebruikers gemaakte recepten stabieler te maken. Bedankt aan iedereen die bugs meldt en ideeën deelt!

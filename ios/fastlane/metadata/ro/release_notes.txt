@@ -1,8 +1,2 @@
-Nou:
-• Antet pliabil al ecranului principal — derularea îți oferă acum mai mult spațiu pentru ceea ce contează.
-
 Îmbunătățit:
-• Actualizare majoră a rețelisticii: sincronizare mai fiabilă și experiență offline îmbunătățită.
-
-Remediat:
-• Remedieri minore de erori și rafinamente vizuale în întreaga aplicație.
+• Această actualizare aduce multe îmbunătățiri menite să facă rețetele create de utilizatori mai stabile. Mulțumim tuturor celor care raportează erori și împărtășesc idei!

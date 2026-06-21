@@ -1,8 +1,2 @@
-Nuevo:
-• Cabecera plegable de la Pantalla de inicio — al desplazarte, ahora tendrás más espacio para lo que importa.
-
 Mejoras:
-• Importante actualización de red: sincronización más fiable y experiencia sin conexión mejorada.
-
-Correcciones:
-• Correcciones de errores menores y ajustes visuales en toda la app.
+• Esta actualización trae muchas mejoras destinadas a hacer que las recetas creadas por los usuarios sean más estables. ¡Gracias a todos los que informáis de errores y compartís ideas!

@@ -1,8 +1,2 @@
-Nytt:
-• Sammenleggbar Hjemskjerm-overskrift — rulling gir deg nå mer plass til det som betyr noe.
-
 Forbedret:
-• Stor nettverksoppdatering: mer pålitelig synkronisering og forbedret frakoblet opplevelse.
-
-Rettet:
-• Mindre feilrettinger og visuelle forbedringer i hele appen.
+• Denne oppdateringen gir mange forbedringer som skal gjøre brukeropprettede oppskrifter mer stabile. Takk til alle som rapporterer feil og deler ideer!

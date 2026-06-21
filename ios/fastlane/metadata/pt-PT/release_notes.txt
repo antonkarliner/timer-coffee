@@ -1,8 +1,2 @@
-Novo:
-• Cabeçalho recolhível do ecrã Início — ao deslocar, agora tem mais espaço para o que importa.
-
-Melhorado:
-• Grande atualização de rede: sincronização mais fiável e experiência offline melhorada.
-
-Corrigido:
-• Pequenas correções de erros e refinamentos visuais em toda a app.
+Melhorias:
+• Esta atualização traz muitas melhorias destinadas a tornar as receitas criadas pelos utilizadores mais estáveis. Obrigado a todos os que comunicam erros e partilham ideias!

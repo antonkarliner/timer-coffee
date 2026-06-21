@@ -1,0 +1,2 @@
+Améliorations :
+• Cette mise à jour apporte de nombreuses améliorations pour rendre les recettes créées par les utilisateurs plus stables. Merci à toutes les personnes qui signalent des bugs et partagent leurs idées !

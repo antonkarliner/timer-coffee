@@ -1,8 +1,2 @@
-Nuevo:
-• Encabezado contraíble de la Pantalla de inicio — al desplazarte ahora tienes más espacio para lo que importa.
-
-Mejorado:
-• Actualización importante de red: sincronización más confiable y mejor experiencia sin conexión.
-
-Corregido:
-• Correcciones menores de errores y mejoras visuales en toda la app.
+Mejoras:
+• Esta actualización trae muchas mejoras destinadas a hacer que las recetas creadas por usuarios sean más estables. ¡Gracias a todos los que reportan errores y comparten ideas!

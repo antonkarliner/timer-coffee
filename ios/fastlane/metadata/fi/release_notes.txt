@@ -1,8 +1,2 @@
-Uutta:
-• Kutistuva Etusivun otsake — vierittäminen antaa nyt enemmän tilaa olennaiselle.
-
 Parannettu:
-• Merkittävä verkkoyhteyksien päivitys: luotettavampi synkronointi ja parannettu käyttökokemus offline-tilassa.
-
-Korjattu:
-• Pieniä virheenkorjauksia ja visuaalisia viimeistelyjä kautta sovelluksen.
+• Tämä päivitys tuo mukanaan paljon parannuksia, joiden tarkoituksena on tehdä käyttäjien luomista resepteistä vakaampia. Kiitos kaikille, jotka ilmoittavat virheistä ja jakavat ideoita!

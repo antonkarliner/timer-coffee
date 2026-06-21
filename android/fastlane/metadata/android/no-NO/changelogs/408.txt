@@ -1,0 +1,2 @@
+Forbedret:
+• Denne oppdateringen gir mange forbedringer som gjør brukeropprettede oppskrifter mer stabile. Takk til alle som rapporterer feil og deler ideer!

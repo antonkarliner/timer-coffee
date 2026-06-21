@@ -1,8 +1,2 @@
-Baru:
-• Header Layar beranda yang dapat diciutkan — menggulir kini memberi Anda lebih banyak ruang untuk hal yang penting.
-
 Ditingkatkan:
-• Peningkatan besar pada jaringan: sinkronisasi lebih andal dan pengalaman offline yang lebih baik.
-
-Diperbaiki:
-• Perbaikan bug kecil dan penyempurnaan visual di seluruh aplikasi.
+• Pembaruan ini menghadirkan banyak peningkatan yang bertujuan membuat resep yang dibuat pengguna menjadi lebih stabil. Terima kasih kepada semua yang melaporkan bug dan membagikan ide!

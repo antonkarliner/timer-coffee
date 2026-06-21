@@ -1,8 +1,2 @@
-New:
-• Collapsible Home screen header — scrolling now gives you more space for what matters.
-
 Improved:
-• Major networking update: more reliable syncing and improved offline experience.
-
-Fixed:
-• Minor bug fixes and visual refinements throughout the app.
+• This update brings a lot of improvements aimed at making user-created recipes more stable. Thanks to everyone who reports bugs and shares ideas!

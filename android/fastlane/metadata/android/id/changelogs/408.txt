@@ -1,0 +1,2 @@
+Ditingkatkan:
+• Pembaruan ini membawa banyak peningkatan agar resep buatan pengguna lebih stabil. Terima kasih kepada semua yang melaporkan bug dan berbagi ide!

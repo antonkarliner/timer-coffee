@@ -1,8 +1,2 @@
-Novo:
-• Sklopivo zaglavlje početnog zaslona — pomicanje vam sada daje više prostora za ono što je važno.
-
 Poboljšano:
-• Veliko ažuriranje mrežnih funkcija: pouzdanija sinkronizacija i poboljšano iskustvo rada izvan mreže.
-
-Ispravljeno:
-• Manji ispravci grešaka i vizualna poboljšanja u cijeloj aplikaciji.
+• Ovo ažuriranje donosi mnoga poboljšanja usmjerena na to da recepti koje su kreirali korisnici budu stabilniji. Hvala svima koji prijavljuju greške i dijele ideje!

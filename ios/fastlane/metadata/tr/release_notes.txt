@@ -1,8 +1,2 @@
-Yeni:
-• Daraltılabilir Ana ekran başlığı — kaydırma artık önemli olan şeyler için size daha fazla alan sağlıyor.
-
 İyileştirildi:
-• Büyük ağ bağlantısı güncellemesi: daha güvenilir senkronizasyon ve iyileştirilmiş çevrimdışı deneyim.
-
-Düzeltildi:
-• Uygulama genelinde küçük hata düzeltmeleri ve görsel iyileştirmeler.
+• Bu güncelleme, kullanıcıların oluşturduğu tarifleri daha stabil hale getirmeyi amaçlayan birçok iyileştirme getiriyor. Hata bildiren ve fikirlerini paylaşan herkese teşekkürler!

@@ -1,8 +1,2 @@
-Nowości:
-• Zwijany nagłówek ekranu głównego — przewijanie daje teraz więcej miejsca na to, co ważne.
-
-Ulepszenia:
-• Duża aktualizacja sieci: bardziej niezawodna synchronizacja i lepsze działanie w trybie offline.
-
-Naprawiono:
-• Drobne poprawki błędów i udoskonalenia wizualne w całej aplikacji.
+Ulepszono:
+• Ta aktualizacja wprowadza wiele usprawnień mających na celu zwiększenie stabilności przepisów tworzonych przez użytkowników. Dziękujemy wszystkim, którzy zgłaszają błędy i dzielą się pomysłami!
