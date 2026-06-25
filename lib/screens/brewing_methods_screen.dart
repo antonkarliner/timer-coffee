@@ -6,6 +6,7 @@ import '../models/brewing_method_model.dart';
 import '../providers/recipe_provider.dart';
 import '../models/recipe_model.dart';
 import '../app_router.gr.dart';
+import '../services/analytics_service.dart';
 import '../services/moments_service.dart';
 import '../services/onboarding_service.dart';
 import '../theme/design_tokens.dart';
@@ -370,6 +371,10 @@ class _QuickActionsHeaderDelegate extends SliverPersistentHeaderDelegate {
 class _CoffeeDayBanner extends StatelessWidget {
   const _CoffeeDayBanner();
 
+  /// Session-scoped guard so the coffee-day impression is logged once, not on
+  /// every rebuild of the (frequently rebuilt) banner.
+  static bool _coffeeDayImpressionLogged = false;
+
   @override
   Widget build(BuildContext context) {
     return Consumer<MomentsService>(
@@ -383,6 +388,15 @@ class _CoffeeDayBanner extends StatelessWidget {
         // during build.
         WidgetsBinding.instance.addPostFrameCallback((_) {
           moments.markDiscovered('coffee_day');
+          // Impression: guard against the banner's frequent rebuilds so we
+          // log once per session, not per frame.
+          if (!_coffeeDayImpressionLogged) {
+            _coffeeDayImpressionLogged = true;
+            AnalyticsService.maybeInstance?.track(
+              'moment_shown',
+              properties: {'moment_id': 'coffee_day'},
+            );
+          }
         });
 
         final l10n = AppLocalizations.of(context)!;
@@ -438,7 +452,16 @@ class _CoffeeDayBanner extends StatelessWidget {
                       color: theme.colorScheme.onPrimaryContainer,
                       size: AppIconSize.medium,
                     ),
-                    onPressed: () => moments.dismissCoffeeDayThisYear(),
+                    onPressed: () {
+                      AnalyticsService.maybeInstance?.track(
+                        'moment_interacted',
+                        properties: {
+                          'moment_id': 'coffee_day',
+                          'action': 'dismiss',
+                        },
+                      );
+                      moments.dismissCoffeeDayThisYear();
+                    },
                   ),
                 ],
               ),

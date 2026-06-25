@@ -44,6 +44,13 @@ void main() {
       expect(secondInstallId, equals(firstInstallId));
     });
 
+    test('maybeInstance is null before init, non-null after', () async {
+      expect(AnalyticsService.maybeInstance, isNull);
+      final prefs = await SharedPreferences.getInstance();
+      final service = await AnalyticsService.initialize(prefs);
+      expect(AnalyticsService.maybeInstance, same(service));
+    });
+
     test('all categories enabled by default', () async {
       final prefs = await SharedPreferences.getInstance();
       await AnalyticsService.initialize(prefs);
@@ -229,6 +236,44 @@ void main() {
       final tapProperties = events[1]['properties'] as Map<String, dynamic>;
       expect(tapProperties['link_type'], 'website');
       expect(tapProperties['roaster_slug'], 'acme-coffee');
+    });
+
+    test('registers moment events (general category)', () {
+      service.track(
+        'moment_shown',
+        properties: {
+          'moment_id': 'in_sync',
+          'in_sync_count': 5,
+          'country_count': 3,
+        },
+      );
+      service.track(
+        'moment_interacted',
+        properties: {'moment_id': 'anniversary', 'action': 'open_diary'},
+      );
+      service.track('moment_discovered', properties: {'moment_id': 'steam_puff'});
+
+      final events = service.bufferedEventsForTesting;
+      expect(events.map((event) => event['event_name']).toList(), [
+        'moment_shown',
+        'moment_interacted',
+        'moment_discovered',
+      ]);
+      expect(events.every((event) => event['category'] == 'general'), isTrue);
+
+      final shownProperties = events.first['properties'] as Map<String, dynamic>;
+      expect(shownProperties['moment_id'], 'in_sync');
+      expect(shownProperties['in_sync_count'], 5);
+      expect(shownProperties['country_count'], 3);
+    });
+
+    test('is no-op for moment events when general category disabled', () async {
+      await service.setGeneralEnabled(false);
+      service.track('moment_shown', properties: {'moment_id': 'in_sync'});
+      service.track('moment_interacted',
+          properties: {'moment_id': 'coffee_day', 'action': 'dismiss'});
+      service.track('moment_discovered', properties: {'moment_id': 'in_sync'});
+      expect(service.bufferLength, 0);
     });
 
     test('buffers beta_feature_toggled under general category', () {

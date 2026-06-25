@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../app_router.gr.dart';
+import '../services/analytics_service.dart';
 import '../theme/design_tokens.dart';
 import 'base_buttons.dart';
 
@@ -60,7 +61,16 @@ class AnniversaryCelebration extends StatelessWidget {
               const SizedBox(height: AppSpacing.sm),
               AppTextButton(
                 label: l10n.mts_anniversaryDiaryLink,
-                onPressed: () => context.router.push(BrewDiaryRoute()),
+                onPressed: () {
+                  AnalyticsService.maybeInstance?.track(
+                    'moment_interacted',
+                    properties: {
+                      'moment_id': 'anniversary',
+                      'action': 'open_diary',
+                    },
+                  );
+                  context.router.push(BrewDiaryRoute());
+                },
                 icon: Icons.library_books,
               ),
             ],

@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../database/database.dart';
+import 'analytics_service.dart';
 
 /// Per-UTC-hour minimum match count for the in-sync brew celebration.
 ///
@@ -147,6 +148,10 @@ class MomentsService extends ChangeNotifier {
   Future<void> markDiscovered(String id) async {
     if (isDiscovered(id)) return;
     await _prefs.setBool(_keyMomentDiscovered(id), true);
+    // First-ever discovery of this moment (fire-and-forget). maybeInstance
+    // no-ops if analytics isn't initialised (e.g. unit tests).
+    AnalyticsService.maybeInstance
+        ?.track('moment_discovered', properties: {'moment_id': id});
     notifyListeners();
   }
 

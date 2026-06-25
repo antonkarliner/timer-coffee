@@ -11,6 +11,7 @@ import 'package:image/image.dart' as img;
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../services/analytics_service.dart';
 import '../services/moments_service.dart';
 import 'roaster_logo_cache_manager.dart';
 
@@ -171,6 +172,10 @@ class _RoasterLogoState extends State<RoasterLogo>
     } catch (_) {
       // No provider in scope; just play the animation.
     }
+    AnalyticsService.maybeInstance?.track(
+      'moment_interacted',
+      properties: {'moment_id': 'steam_puff', 'action': 'double_tap'},
+    );
     setState(() => _showSteam = true);
     _steamController
       ..reset()

@@ -148,6 +148,8 @@ class _FinishScreenState extends State<FinishScreen> {
     setState(() => _showAnniversary = true);
     await moments.markDiscovered('anniversary');
     await moments.markAnniversaryShownThisYear();
+    AnalyticsService.instance
+        .track('moment_shown', properties: {'moment_id': 'anniversary'});
     _maybeFireFallingBeans();
   }
 
@@ -169,6 +171,11 @@ class _FinishScreenState extends State<FinishScreen> {
       });
       if (forced.count >= _inSyncThreshold) {
         await moments.markDiscovered('in_sync');
+        AnalyticsService.instance.track('moment_shown', properties: {
+          'moment_id': 'in_sync',
+          'in_sync_count': forced.count,
+          'country_count': forced.countries.length,
+        });
       }
       return;
     }
@@ -223,6 +230,11 @@ class _FinishScreenState extends State<FinishScreen> {
 
       if (count >= _inSyncThreshold) {
         await moments.markDiscovered('in_sync');
+        AnalyticsService.instance.track('moment_shown', properties: {
+          'moment_id': 'in_sync',
+          'in_sync_count': count,
+          'country_count': countries.length,
+        });
       }
     } on TimeoutException catch (e) {
       AppLogger.error('In-sync query timed out', errorObject: e);

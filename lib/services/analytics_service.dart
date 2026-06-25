@@ -25,7 +25,9 @@ import '../utils/app_logger.dart';
 /// - **general**: app_opened, screen_viewed, recipe_created, recipe_shared,
 ///   collection interactions and sharing, donation_screen_viewed,
 ///   donation_button_tapped, donation_completed, donation_failed,
-///   roaster_profile_viewed, roaster_link_tapped
+///   roaster_profile_viewed, roaster_link_tapped, and the "moments"
+///   (surprise-and-delight) events moment_shown, moment_interacted,
+///   moment_discovered
 class AnalyticsService extends ChangeNotifier {
   AnalyticsService._();
 
@@ -39,6 +41,11 @@ class AnalyticsService extends ChangeNotifier {
     );
     return _instance!;
   }
+
+  /// Null-safe accessor — returns null before [initialize]. Use from contexts
+  /// that may run before init (e.g. services, widget tests) where tripping the
+  /// [instance] assert is undesirable.
+  static AnalyticsService? get maybeInstance => _instance;
 
   // ──────────────────── Constants ────────────────────
 
@@ -103,6 +110,10 @@ class AnalyticsService extends ChangeNotifier {
     'notification_scheduled': 'general',
     // Advanced / beta feature toggles
     'beta_feature_toggled': 'general',
+    // Moments (surprise-and-delight / easter eggs)
+    'moment_shown': 'general',
+    'moment_interacted': 'general',
+    'moment_discovered': 'general',
   };
 
   // ──────────────────── State ────────────────────
