@@ -1,5 +1,18 @@
 {
   "@@locale": "tr",
+  "reviewRequiresOwnedBeans": "Yorum yazmak için bu kavurucudan bir paket ekleyin.",
+  "@reviewRequiresOwnedBeans": {
+    "description": "Hint shown when the user cannot write a review because they have not logged any beans from this roaster"
+  },
+  "roasterBagsLogged": "{count, plural, other{toplulukça eklenen {count} paket}}",
+  "@roasterBagsLogged": {
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "userRecipesTitle": "Tariflerin",
   "userRecipesSectionCreated": "Senin oluşturdukların",
   "userRecipesSectionImported": "Senin içe aktardıkların",
@@ -1083,7 +1096,7 @@
   "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "roasterProfile": "Kavurucu profili",
   "roasterRecipes": "Tarifler",
-  "roasterReviews": "Yorumlar",
+  "roasterReviews": "Çekirdek yorumları",
   "roasterWebsite": "Web Sitesi",
   "roasterLinks": "Bağlantılar",
   "roasterLocation": "Konum",

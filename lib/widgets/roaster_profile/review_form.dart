@@ -15,6 +15,7 @@ import '../../models/brewing_method_model.dart';
 import '../../models/coffee_beans_model.dart';
 import '../../providers/bean_review_provider.dart';
 import '../../providers/coffee_beans_provider.dart';
+import '../../utils/roaster_matching.dart';
 import '../../services/analytics_service.dart';
 import '../../services/authentication_service.dart';
 import '../../theme/design_tokens.dart';
@@ -32,6 +33,7 @@ Future<bool> showReviewForm(
   BuildContext context, {
   String? roasterProfileId,
   required String roasterName,
+  List<String> roasterAliases = const [],
   BeanReviewModel? existingReview,
   CoffeeBeansModel? preselectedBean,
   String sourceScreen = 'unknown',
@@ -62,6 +64,7 @@ Future<bool> showReviewForm(
     builder: (_) => _ReviewFormSheet(
       roasterProfileId: roasterProfileId,
       roasterName: roasterName,
+      roasterAliases: roasterAliases,
       existingReview: existingReview,
       preselectedBean: preselectedBean,
     ),
@@ -72,12 +75,14 @@ Future<bool> showReviewForm(
 class _ReviewFormSheet extends StatefulWidget {
   final String? roasterProfileId;
   final String roasterName;
+  final List<String> roasterAliases;
   final BeanReviewModel? existingReview;
   final CoffeeBeansModel? preselectedBean;
 
   const _ReviewFormSheet({
     required this.roasterProfileId,
     required this.roasterName,
+    this.roasterAliases = const [],
     this.existingReview,
     this.preselectedBean,
   });
@@ -215,9 +220,17 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
         Provider.of<BeanReviewProvider>(context, listen: false);
 
     final all = await beansProvider.fetchAllCoffeeBeans();
-    final roasterLower = widget.roasterName.trim().toLowerCase();
+    // Alias-aware match: a bean belongs to this roaster if its (free-text)
+    // roaster string equals the canonical name OR any alias, compared
+    // case- and accent-insensitively (mirrors the server-side resolver).
+    final acceptableRoasters = <String>{
+      normalizeRoasterName(widget.roasterName),
+      ...widget.roasterAliases.map(normalizeRoasterName),
+    }..removeWhere((s) => s.isEmpty);
     final roasterBeans = all
-        .where((b) => b.roaster.toLowerCase() == roasterLower && !b.isDeleted)
+        .where((b) =>
+            acceptableRoasters.contains(normalizeRoasterName(b.roaster)) &&
+            !b.isDeleted)
         .toList();
 
     // Fetch which beans the user has already reviewed so we can exclude them
@@ -572,7 +585,7 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
                   )
                 else if (_matchingBeans.isEmpty)
                   Text(
-                    l10n.noRecipesYet,
+                    l10n.reviewRequiresOwnedBeans,
                     style: AppTextStyles.caption.copyWith(
                       color: colorScheme.onSurface.withOpacity(0.5),
                     ),

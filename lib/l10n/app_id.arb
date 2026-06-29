@@ -1,5 +1,18 @@
 {
   "@@locale": "id",
+  "reviewRequiresOwnedBeans": "Tambahkan biji kopi dari roaster ini untuk menulis ulasan.",
+  "@reviewRequiresOwnedBeans": {
+    "description": "Hint shown when the user cannot write a review because they have not logged any beans from this roaster"
+  },
+  "roasterBagsLogged": "{count, plural, other{{count} kemasan dicatat oleh komunitas}}",
+  "@roasterBagsLogged": {
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "beansStatsSectionTitle": "Statistik biji",
   "totalBeansBrewedLabel": "Total biji yang digunakan",
   "newBeansTriedLabel": "Biji baru yang dicoba",
@@ -1083,7 +1096,7 @@
   "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "roasterProfile": "Profil roaster",
   "roasterRecipes": "Resep",
-  "roasterReviews": "Ulasan",
+  "roasterReviews": "Ulasan biji kopi",
   "roasterWebsite": "Situs web",
   "roasterLinks": "Tautan",
   "roasterLocation": "Lokasi",

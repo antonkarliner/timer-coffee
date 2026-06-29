@@ -1,5 +1,18 @@
 {
   "@@locale": "pl",
+  "reviewRequiresOwnedBeans": "Dodaj paczkę od tej palarni, aby napisać recenzję.",
+  "@reviewRequiresOwnedBeans": {
+    "description": "Hint shown when the user cannot write a review because they have not logged any beans from this roaster"
+  },
+  "roasterBagsLogged": "{count, plural, =1{społeczność dodała 1 paczkę} few{społeczność dodała {count} paczki} many{społeczność dodała {count} paczek} other{społeczność dodała {count} paczki}}",
+  "@roasterBagsLogged": {
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "userRecipesTitle": "Twoje przepisy",
   "userRecipesSectionCreated": "Utworzone przez Ciebie",
   "userRecipesSectionImported": "Zaimportowane przez Ciebie",
@@ -1083,7 +1096,7 @@
   "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "roasterProfile": "Profil palarni",
   "roasterRecipes": "Przepisy",
-  "roasterReviews": "Recenzje",
+  "roasterReviews": "Recenzje ziaren",
   "roasterWebsite": "Strona internetowa",
   "roasterLinks": "Linki",
   "roasterLocation": "Lokalizacja",

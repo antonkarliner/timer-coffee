@@ -1,5 +1,18 @@
 {
   "@@locale": "fr",
+  "reviewRequiresOwnedBeans": "Ajoutez un paquet de ce torréfacteur pour écrire un avis.",
+  "@reviewRequiresOwnedBeans": {
+    "description": "Hint shown when the user cannot write a review because they have not logged any beans from this roaster"
+  },
+  "roasterBagsLogged": "{count, plural, =1{1 paquet enregistré par la communauté} other{{count} paquets enregistrés par la communauté}}",
+  "@roasterBagsLogged": {
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "userRecipesTitle": "Vos recettes",
   "userRecipesSectionCreated": "Créées par vous",
   "userRecipesSectionImported": "Importées par vous",
@@ -1083,7 +1096,7 @@
   "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "roasterProfile": "Profil du torréfacteur",
   "roasterRecipes": "Recettes",
-  "roasterReviews": "Avis",
+  "roasterReviews": "Avis sur les grains",
   "roasterWebsite": "Site Web",
   "roasterLinks": "Liens",
   "roasterLocation": "Localisation",

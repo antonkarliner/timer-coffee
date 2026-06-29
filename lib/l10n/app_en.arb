@@ -1550,8 +1550,17 @@
     }
   },
   "roasterProfile": "Roaster Profile",
+  "roasterBagsLogged": "{count, plural, =1{1 bag logged by the community} other{{count} bags logged by the community}}",
+  "@roasterBagsLogged": {
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "roasterRecipes": "Recipes",
-  "roasterReviews": "Reviews",
+  "roasterReviews": "Bean Reviews",
   "roasterWebsite": "Website",
   "roasterLinks": "Links",
   "roasterLocation": "Location",
@@ -1562,6 +1571,10 @@
   "yourReview": "Your Review",
   "addReview": "Add Review",
   "writeReview": "Write a Review",
+  "reviewRequiresOwnedBeans": "Log a bag from this roaster to write a review.",
+  "@reviewRequiresOwnedBeans": {
+    "description": "Hint shown when the user cannot write a review because they have not logged any beans from this roaster"
+  },
   "translateReview": "Translate",
   "translateAllReviews": "Translate all reviews",
   "showOriginal": "Show original",

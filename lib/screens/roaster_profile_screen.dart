@@ -3,7 +3,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:material_symbols_icons/symbols.dart';
+import 'package:coffeico/coffeico.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -12,6 +12,7 @@ import '../l10n/app_localizations.dart';
 import '../models/bean_review_model.dart';
 import '../models/roaster_profile_model.dart';
 import '../providers/bean_review_provider.dart';
+import '../providers/coffee_beans_provider.dart';
 import '../providers/recipe_provider.dart';
 import '../providers/roaster_profile_provider.dart';
 import '../services/analytics_service.dart';
@@ -27,6 +28,7 @@ import '../services/feature_flags/feature_flags_repository.dart';
 import '../services/roaster_color_service.dart';
 import '../utils/icon_utils.dart';
 import '../utils/roaster_background_color.dart';
+import '../utils/roaster_matching.dart';
 import '../app_router.gr.dart';
 
 @RoutePage()
@@ -54,6 +56,9 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
   bool _loadingMore = false;
   bool _hasMorePages = true;
   bool _translatingAll = false;
+  // Whether the user owns an unreviewed bean from this roaster — gates the
+  // "Write a Review" button (reviews require an owned bean record).
+  bool _canReview = false;
   static const int _pageSize = 20;
 
   final ScrollController _scrollController = ScrollController();
@@ -120,6 +125,7 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
         limit: _pageSize,
       ),
       reviewProvider.fetchAggregateRating(profile.id),
+      _computeCanReview(profile),
     ]);
 
     if (!mounted) return;
@@ -127,6 +133,7 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
     setState(() {
       _profile = profile;
       _recipes = futures[0] as List<Map<String, dynamic>>;
+      _canReview = futures[3] as bool;
       _loadingProfile = false;
       _loadingReviews = false;
       _hasMorePages = initialReviews.length >= _pageSize;
@@ -149,6 +156,33 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
       if (mounted) {
         setState(() => _roasterColorResult = colorResult);
       }
+    }
+  }
+
+  /// Whether the current user has at least one non-deleted, not-yet-reviewed
+  /// bean from this roaster. Mirrors the review form's bean filter (exact,
+  /// case-insensitive roaster-name match) so the "Write a Review" button only
+  /// enables when the form would actually be usable.
+  Future<bool> _computeCanReview(RoasterProfileModel profile) async {
+    final beansProvider =
+        Provider.of<CoffeeBeansProvider>(context, listen: false);
+    final reviewProvider =
+        Provider.of<BeanReviewProvider>(context, listen: false);
+    try {
+      final beans = await beansProvider.fetchAllCoffeeBeans();
+      final userReviews = await reviewProvider.fetchUserReviews();
+      final reviewedUuids = userReviews
+          .where((r) => r.coffeeBeansUuid != null)
+          .map((r) => r.coffeeBeansUuid!)
+          .toSet();
+      final acceptableRoasters = profile.matchableRoasterNames;
+      return beans.any((b) =>
+          !b.isDeleted &&
+          acceptableRoasters.contains(normalizeRoasterName(b.roaster)) &&
+          !reviewedUuids.contains(b.beansUuid));
+    } catch (_) {
+      // Fail closed: keep the button disabled if eligibility can't be resolved.
+      return false;
     }
   }
 
@@ -188,6 +222,7 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
       context,
       roasterProfileId: _profile!.id,
       roasterName: _profile!.roasterName,
+      roasterAliases: _profile!.aliasList,
       existingReview: existingReview,
       sourceScreen: 'roaster_profile',
     );
@@ -202,7 +237,13 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
         limit: _pageSize,
       );
       await reviewProvider.fetchAggregateRating(_profile!.id);
-      if (mounted) setState(() => _loadingReviews = false);
+      final canReview = await _computeCanReview(_profile!);
+      if (mounted) {
+        setState(() {
+          _loadingReviews = false;
+          _canReview = canReview;
+        });
+      }
     }
   }
 
@@ -442,14 +483,9 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
             ),
             child: SectionCard(
               title: l10n.roasterReviews,
-              icon: Symbols.rate_review,
+              icon: Coffeico.bean,
               isCollapsible: false,
               paddingChild: false,
-              trailing: AppTextButton(
-                label: l10n.writeReview,
-                onPressed: _openReviewForm,
-                isFullWidth: false,
-              ),
               child: Consumer<BeanReviewProvider>(
                 builder: (context, reviewProvider, _) {
                   final summary =
@@ -469,10 +505,25 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      if (profile.loggedBagCount > 0)
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                            AppSpacing.cardPadding,
+                            AppSpacing.sm,
+                            AppSpacing.cardPadding,
+                            AppSpacing.xs,
+                          ),
+                          child: Text(
+                            l10n.roasterBagsLogged(profile.loggedBagCount),
+                            style: AppTextStyles.caption.copyWith(
+                              color: colorScheme.onSurface.withOpacity(0.6),
+                            ),
+                          ),
+                        ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(
+                        padding: EdgeInsets.fromLTRB(
                           AppSpacing.cardPadding,
-                          AppSpacing.sm,
+                          profile.loggedBagCount > 0 ? 0 : AppSpacing.sm,
                           AppSpacing.cardPadding,
                           AppSpacing.sm,
                         ),
@@ -500,6 +551,7 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
                                   )
                                 : AppTextButton(
                                     label: l10n.translateAllReviews,
+                                    icon: Icons.translate,
                                     onPressed: () => _translateAllReviews(
                                       reviewProvider,
                                       translatableIds,
@@ -537,7 +589,36 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
                           padding: EdgeInsets.all(AppSpacing.base),
                           child: Center(child: CircularProgressIndicator()),
                         ),
-                      const SizedBox(height: AppSpacing.sm),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(
+                          AppSpacing.cardPadding,
+                          AppSpacing.sm,
+                          AppSpacing.cardPadding,
+                          AppSpacing.cardPadding,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            AppElevatedButton(
+                              label: l10n.writeReview,
+                              icon: Icons.rate_review_outlined,
+                              onPressed:
+                                  _canReview ? () => _openReviewForm() : null,
+                            ),
+                            if (!_canReview) ...[
+                              const SizedBox(height: AppSpacing.xs),
+                              Text(
+                                l10n.reviewRequiresOwnedBeans,
+                                style: AppTextStyles.caption.copyWith(
+                                  color:
+                                      colorScheme.onSurface.withOpacity(0.6),
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
                     ],
                   );
                 },

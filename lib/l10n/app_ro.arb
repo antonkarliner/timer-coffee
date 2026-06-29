@@ -1,5 +1,18 @@
 {
   "@@locale": "ro",
+  "reviewRequiresOwnedBeans": "Adaugă un pachet de la acest prăjitor pentru a scrie o recenzie.",
+  "@reviewRequiresOwnedBeans": {
+    "description": "Hint shown when the user cannot write a review because they have not logged any beans from this roaster"
+  },
+  "roasterBagsLogged": "{count, plural, =1{1 pachet adăugat de comunitate} few{{count} pachete adăugate de comunitate} other{{count} de pachete adăugate de comunitate}}",
+  "@roasterBagsLogged": {
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "userRecipesTitle": "Rețetele tale",
   "userRecipesSectionCreated": "Create de tine",
   "userRecipesSectionImported": "Importate de tine",
@@ -1083,7 +1096,7 @@
   "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "roasterProfile": "Profilul prăjitoriei",
   "roasterRecipes": "Rețete",
-  "roasterReviews": "Recenzii",
+  "roasterReviews": "Recenzii despre boabe",
   "roasterWebsite": "Site web",
   "roasterLinks": "Linkuri",
   "roasterLocation": "Locație",

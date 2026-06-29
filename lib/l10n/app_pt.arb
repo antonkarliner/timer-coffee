@@ -1,5 +1,18 @@
 {
   "@@locale": "pt",
+  "reviewRequiresOwnedBeans": "Adicione um pacote deste torrefador para escrever uma avaliação.",
+  "@reviewRequiresOwnedBeans": {
+    "description": "Hint shown when the user cannot write a review because they have not logged any beans from this roaster"
+  },
+  "roasterBagsLogged": "{count, plural, =1{1 pacote registrado pela comunidade} other{{count} pacotes registrados pela comunidade}}",
+  "@roasterBagsLogged": {
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "userRecipesTitle": "Suas receitas",
   "userRecipesSectionCreated": "Criadas por você",
   "userRecipesSectionImported": "Importadas por você",
@@ -1083,7 +1096,7 @@
   "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "roasterProfile": "Perfil da torrefação",
   "roasterRecipes": "Receitas",
-  "roasterReviews": "Avaliações",
+  "roasterReviews": "Avaliações de grãos",
   "roasterWebsite": "Site",
   "roasterLinks": "Links",
   "roasterLocation": "Localização",

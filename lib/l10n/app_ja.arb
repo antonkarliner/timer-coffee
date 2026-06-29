@@ -1,5 +1,18 @@
 {
   "@@locale": "ja",
+  "reviewRequiresOwnedBeans": "レビューを書くには、このロースターの豆を追加してください。",
+  "@reviewRequiresOwnedBeans": {
+    "description": "Hint shown when the user cannot write a review because they have not logged any beans from this roaster"
+  },
+  "roasterBagsLogged": "{count, plural, other{コミュニティが登録した{count}袋}}",
+  "@roasterBagsLogged": {
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "userRecipesTitle": "あなたのレシピ",
   "userRecipesSectionCreated": "あなたが作成",
   "userRecipesSectionImported": "あなたがインポート",
@@ -1083,7 +1096,7 @@
   "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "roasterProfile": "ロースターのプロフィール",
   "roasterRecipes": "レシピ",
-  "roasterReviews": "レビュー",
+  "roasterReviews": "豆のレビュー",
   "roasterWebsite": "ウェブサイト",
   "roasterLinks": "リンク",
   "roasterLocation": "所在地",

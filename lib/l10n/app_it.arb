@@ -1,5 +1,18 @@
 {
   "@@locale": "it",
+  "reviewRequiresOwnedBeans": "Aggiungi una confezione di questo torrefattore per scrivere una recensione.",
+  "@reviewRequiresOwnedBeans": {
+    "description": "Hint shown when the user cannot write a review because they have not logged any beans from this roaster"
+  },
+  "roasterBagsLogged": "{count, plural, =1{1 confezione registrata dalla comunità} other{{count} confezioni registrate dalla comunità}}",
+  "@roasterBagsLogged": {
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "userRecipesTitle": "Le tue ricette",
   "userRecipesSectionCreated": "Create da te",
   "userRecipesSectionImported": "Importate da te",
@@ -1083,7 +1096,7 @@
   "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "roasterProfile": "Profilo della torrefazione",
   "roasterRecipes": "Ricette",
-  "roasterReviews": "Recensioni",
+  "roasterReviews": "Recensioni dei chicchi",
   "roasterWebsite": "Sito web",
   "roasterLinks": "Link",
   "roasterLocation": "Posizione",

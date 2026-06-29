@@ -1,5 +1,18 @@
 {
   "@@locale": "ko",
+  "reviewRequiresOwnedBeans": "리뷰를 작성하려면 이 로스터의 원두를 추가하세요.",
+  "@reviewRequiresOwnedBeans": {
+    "description": "Hint shown when the user cannot write a review because they have not logged any beans from this roaster"
+  },
+  "roasterBagsLogged": "{count, plural, other{커뮤니티가 등록한 {count}봉지}}",
+  "@roasterBagsLogged": {
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "beansStatsSectionTitle": "원두 통계",
   "totalBeansBrewedLabel": "사용한 원두 총량",
   "newBeansTriedLabel": "처음 시도한 원두",
@@ -1254,7 +1267,7 @@
   "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "roasterProfile": "로스터리 프로필",
   "roasterRecipes": "레시피",
-  "roasterReviews": "리뷰",
+  "roasterReviews": "원두 리뷰",
   "roasterWebsite": "웹사이트",
   "roasterLinks": "링크",
   "roasterLocation": "위치",

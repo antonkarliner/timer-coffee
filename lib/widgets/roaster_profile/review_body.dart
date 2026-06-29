@@ -204,6 +204,7 @@ class _ReviewBodyState extends State<ReviewBody> {
           children: [
             AppTextButton(
               label: _showTranslation ? l10n.showOriginal : l10n.translateReview,
+              icon: Icons.translate,
               onPressed: () =>
                   setState(() => _showTranslation = !_showTranslation),
               isFullWidth: false,
@@ -240,6 +241,7 @@ class _ReviewBodyState extends State<ReviewBody> {
           else
             AppTextButton(
               label: l10n.translateReview,
+              icon: Icons.translate,
               onPressed: () => _onTranslatePressed(readerLocale),
               isFullWidth: false,
             ),

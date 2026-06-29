@@ -1,5 +1,18 @@
 {
   "@@locale": "fa",
+  "reviewRequiresOwnedBeans": "برای نوشتن نظر، یک بسته از این رستری اضافه کنید.",
+  "@reviewRequiresOwnedBeans": {
+    "description": "Hint shown when the user cannot write a review because they have not logged any beans from this roaster"
+  },
+  "roasterBagsLogged": "{count, plural, other{{count} بسته ثبت‌شده توسط جامعه کاربران}}",
+  "@roasterBagsLogged": {
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "userRecipesTitle": "دستورهای شما",
   "userRecipesSectionCreated": "ایجاد شده توسط شما",
   "userRecipesSectionImported": "وارد شده توسط شما",
@@ -1256,7 +1269,7 @@
   "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "roasterProfile": "پروفایل رُستری",
   "roasterRecipes": "دستورها",
-  "roasterReviews": "نظرها",
+  "roasterReviews": "نظرهای دانه قهوه",
   "roasterWebsite": "وب‌سایت",
   "roasterLinks": "پیوندها",
   "roasterLocation": "موقعیت",

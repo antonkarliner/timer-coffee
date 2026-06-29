@@ -1,5 +1,18 @@
 {
   "@@locale": "de",
+  "reviewRequiresOwnedBeans": "Füge einen Beutel dieser Rösterei hinzu, um eine Bewertung zu schreiben.",
+  "@reviewRequiresOwnedBeans": {
+    "description": "Hint shown when the user cannot write a review because they have not logged any beans from this roaster"
+  },
+  "roasterBagsLogged": "{count, plural, =1{1 Packung von der Community hinzugefügt} other{{count} Packungen von der Community hinzugefügt}}",
+  "@roasterBagsLogged": {
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "userRecipesTitle": "Deine Rezepte",
   "userRecipesSectionCreated": "Von dir erstellt",
   "userRecipesSectionImported": "Von dir importiert",
@@ -1083,7 +1096,7 @@
   "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "roasterProfile": "Röstereiprofil",
   "roasterRecipes": "Rezepte",
-  "roasterReviews": "Bewertungen",
+  "roasterReviews": "Bohnenbewertungen",
   "roasterWebsite": "Webseite",
   "roasterLinks": "Links",
   "roasterLocation": "Standort",

@@ -1,5 +1,7 @@
 // lib/models/roaster_profile_model.dart
 
+import 'package:coffee_timer/utils/roaster_matching.dart';
+
 class RoasterProfileModel {
   final String id;
   final String slug;
@@ -21,6 +23,14 @@ class RoasterProfileModel {
   final bool isActive;
   final String? dominantColorHex;
 
+  /// Comma-separated alternative names for this roaster (raw, as stored).
+  final String? aliases;
+
+  /// Total bean bags from this roaster logged by the community (all users,
+  /// incl. anonymous). Sourced from `global_coffee_beans` via the
+  /// `get_roaster_profile` RPC. Defaults to 0 when not provided.
+  final int loggedBagCount;
+
   const RoasterProfileModel({
     required this.id,
     required this.slug,
@@ -41,6 +51,8 @@ class RoasterProfileModel {
     this.tiktokUrl,
     required this.isActive,
     this.dominantColorHex,
+    this.aliases,
+    this.loggedBagCount = 0,
   });
 
   factory RoasterProfileModel.fromJson(Map<String, dynamic> json) {
@@ -64,8 +76,25 @@ class RoasterProfileModel {
       tiktokUrl: json['tiktok_url'] as String?,
       isActive: json['is_active'] as bool? ?? false,
       dominantColorHex: json['dominant_color_hex'] as String?,
+      aliases: json['aliases'] as String?,
+      loggedBagCount: (json['logged_bag_count'] as num?)?.toInt() ?? 0,
     );
   }
+
+  /// Aliases as a trimmed, non-empty list (raw casing preserved).
+  List<String> get aliasList => (aliases ?? '')
+      .split(',')
+      .map((s) => s.trim())
+      .where((s) => s.isNotEmpty)
+      .toList();
+
+  /// Canonical name plus aliases, normalized (trimmed, unaccented, lowercased),
+  /// for matching a user's free-text bean roaster string to this roaster
+  /// (alias-aware, mirrors the server-side resolver).
+  Set<String> get matchableRoasterNames => <String>{
+        normalizeRoasterName(roasterName),
+        ...aliasList.map(normalizeRoasterName),
+      }..removeWhere((s) => s.isEmpty);
 
   /// Returns a human-readable location string, e.g. "Berlin, Bavaria, Germany"
   String? get locationLabel {

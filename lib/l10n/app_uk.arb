@@ -1,5 +1,18 @@
 {
   "@@locale": "uk",
+  "reviewRequiresOwnedBeans": "Додайте пачку цього обсмажувача, щоб написати відгук.",
+  "@reviewRequiresOwnedBeans": {
+    "description": "Hint shown when the user cannot write a review because they have not logged any beans from this roaster"
+  },
+  "roasterBagsLogged": "{count, plural, one{спільнота додала {count} пачку} few{спільнота додала {count} пачки} many{спільнота додала {count} пачок} other{спільнота додала {count} пачки}}",
+  "@roasterBagsLogged": {
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "userRecipesTitle": "Ваші рецепти",
   "userRecipesSectionCreated": "Створені вами",
   "userRecipesSectionImported": "Імпортовані вами",
@@ -1083,7 +1096,7 @@
   "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "roasterProfile": "Профіль обсмажувача",
   "roasterRecipes": "Рецепти",
-  "roasterReviews": "Відгуки",
+  "roasterReviews": "Відгуки про зерна",
   "roasterWebsite": "Вебсайт",
   "roasterLinks": "Посилання",
   "roasterLocation": "Місце",

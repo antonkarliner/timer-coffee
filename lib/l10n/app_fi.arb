@@ -1,5 +1,18 @@
 {
   "@@locale": "fi",
+  "reviewRequiresOwnedBeans": "Lisää tämän paahtimon pussi kirjoittaaksesi arvostelun.",
+  "@reviewRequiresOwnedBeans": {
+    "description": "Hint shown when the user cannot write a review because they have not logged any beans from this roaster"
+  },
+  "roasterBagsLogged": "{count, plural, =1{yhteisö on kirjannut 1 pussin} other{yhteisö on kirjannut {count} pussia}}",
+  "@roasterBagsLogged": {
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "userRecipesTitle": "Omat reseptit",
   "userRecipesSectionCreated": "Tekemäsi",
   "userRecipesSectionImported": "Tuomasi",
@@ -935,7 +948,7 @@
   "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "roasterProfile": "Paahtimon profiili",
   "roasterRecipes": "Reseptit",
-  "roasterReviews": "Arvostelut",
+  "roasterReviews": "Papuarvostelut",
   "roasterWebsite": "Verkkosivusto",
   "roasterLinks": "Linkit",
   "roasterLocation": "Sijainti",

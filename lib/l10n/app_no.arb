@@ -1,5 +1,18 @@
 {
   "@@locale": "no",
+  "reviewRequiresOwnedBeans": "Legg til en pose fra dette brenneriet for å skrive en anmeldelse.",
+  "@reviewRequiresOwnedBeans": {
+    "description": "Hint shown when the user cannot write a review because they have not logged any beans from this roaster"
+  },
+  "roasterBagsLogged": "{count, plural, =1{1 pose logget av fellesskapet} other{{count} poser logget av fellesskapet}}",
+  "@roasterBagsLogged": {
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "beansStatsSectionTitle": "Bønnestatistikk",
   "totalBeansBrewedLabel": "Totalt bryggede bønner",
   "newBeansTriedLabel": "Nye bønner prøvd",
@@ -1405,7 +1418,7 @@
   "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "roasterProfile": "Brenneriprofil",
   "roasterRecipes": "Oppskrifter",
-  "roasterReviews": "Anmeldelser",
+  "roasterReviews": "Bønneanmeldelser",
   "roasterWebsite": "Nettsted",
   "roasterLinks": "Lenker",
   "roasterLocation": "Sted",

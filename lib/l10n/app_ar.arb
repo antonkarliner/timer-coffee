@@ -1,5 +1,18 @@
 {
   "@@locale": "ar",
+  "reviewRequiresOwnedBeans": "أضف كيسًا من هذا المحمّص لكتابة مراجعة.",
+  "@reviewRequiresOwnedBeans": {
+    "description": "Hint shown when the user cannot write a review because they have not logged any beans from this roaster"
+  },
+  "roasterBagsLogged": "{count, plural, zero{0 كيس مُسجّل من المجتمع} one{كيس واحد مُسجّل من المجتمع} two{كيسان مُسجّلان من المجتمع} few{{count} أكياس مُسجّلة من المجتمع} many{{count} كيسًا مُسجّلًا من المجتمع} other{{count} كيس مُسجّل من المجتمع}}",
+  "@roasterBagsLogged": {
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "userRecipesTitle": "وصفاتك",
   "userRecipesSectionCreated": "أنشأتها",
   "userRecipesSectionImported": "استوردتها",
@@ -1083,7 +1096,7 @@
   "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "roasterProfile": "ملف المحمصة",
   "roasterRecipes": "الوصفات",
-  "roasterReviews": "المراجعات",
+  "roasterReviews": "مراجعات حبوب القهوة",
   "roasterWebsite": "الموقع الإلكتروني",
   "roasterLinks": "الروابط",
   "roasterLocation": "الموقع",
