@@ -1521,6 +1521,25 @@
       }
     }
   },
+  "notifBeanReviewDepletionTitle": "You finished {beanName} by {roaster} — how was it?",
+  "@notifBeanReviewDepletionTitle": {
+    "placeholders": {
+      "beanName": {
+        "type": "String"
+      },
+      "roaster": {
+        "type": "String"
+      }
+    }
+  },
+  "notifBeanReviewDepletionTitleNoRoaster": "You finished {beanName} — how was it?",
+  "@notifBeanReviewDepletionTitleNoRoaster": {
+    "placeholders": {
+      "beanName": {
+        "type": "String"
+      }
+    }
+  },
   "notifBeanReviewNudgeBody": "Tap to add your review.",
   "settingsBeanReviewNudge": "Bean review reminders",
   "settingsBeanReviewNudgeSubtitle": "Once you've brewed a bag 5 times, nudge you to leave a review",
@@ -1764,10 +1783,6 @@
   "@mts_momentTitle_coffee_day": {
     "description": "Moment title in the discovery sheet"
   },
-  "mts_momentTitle_steam_puff": "Steam puff",
-  "@mts_momentTitle_steam_puff": {
-    "description": "Moment title in the discovery sheet"
-  },
   "mts_momentTitle_in_sync": "Brewed together",
   "@mts_momentTitle_in_sync": {
     "description": "Moment title in the discovery sheet"
@@ -1780,10 +1795,6 @@
   "@mts_momentLockedHint_coffee_day": {
     "description": "Locked teaser for the Coffee Day moment"
   },
-  "mts_momentLockedHint_steam_puff": "Logos enjoy a quick double act.",
-  "@mts_momentLockedHint_steam_puff": {
-    "description": "Locked teaser for the steam puff moment"
-  },
   "mts_momentLockedHint_in_sync": "When the world brews together…",
   "@mts_momentLockedHint_in_sync": {
     "description": "Locked teaser for the in-sync moment"
@@ -1795,10 +1806,6 @@
   "mts_momentDescription_coffee_day": "A warm hello on October 1st — International Coffee Day.",
   "@mts_momentDescription_coffee_day": {
     "description": "Unlocked description for the Coffee Day moment"
-  },
-  "mts_momentDescription_steam_puff": "A tiny puff of steam floats up from a roaster's logo.",
-  "@mts_momentDescription_steam_puff": {
-    "description": "Unlocked description for the steam puff moment"
   },
   "mts_momentDescription_in_sync": "A salute to the others brewing alongside you in the same moment.",
   "@mts_momentDescription_in_sync": {
@@ -1937,5 +1944,87 @@
   "helpRetry": "Retry",
   "@helpRetry": {
     "description": "Button to retry loading help content."
+  },
+  "roasterContributionCardTitle": "{roaster} isn't on Timer.Coffee yet",
+  "@roasterContributionCardTitle": {
+    "description": "Title of the in-app card prompting the user to contribute a website for a roaster that has no database entry yet.",
+    "placeholders": {
+      "roaster": {
+        "type": "String",
+        "example": "Onyx Coffee Lab"
+      }
+    }
+  },
+  "roasterContributionCardBody": "Share their website to help us add it sooner.",
+  "@roasterContributionCardBody": {
+    "description": "Body text of the roaster-contribution prompt card."
+  },
+  "roasterContributionCardAdd": "Add website",
+  "@roasterContributionCardAdd": {
+    "description": "Primary button on the roaster-contribution prompt card; opens the contribution form."
+  },
+  "roasterContributionCardDismiss": "Not now",
+  "@roasterContributionCardDismiss": {
+    "description": "Secondary button on the roaster-contribution prompt card; dismisses it."
+  },
+  "roasterContributionSheetTitle": "Help add {roaster} to Timer.Coffee",
+  "@roasterContributionSheetTitle": {
+    "description": "Title of the roaster-contribution bottom sheet form.",
+    "placeholders": {
+      "roaster": {
+        "type": "String",
+        "example": "Onyx Coffee Lab"
+      }
+    }
+  },
+  "roasterContributionSheetSubtitle": "Your suggestion helps us verify and add them faster.",
+  "@roasterContributionSheetSubtitle": {
+    "description": "Explanatory subtitle under the contribution sheet title."
+  },
+  "roasterContributionWebsiteLabel": "Website",
+  "@roasterContributionWebsiteLabel": {
+    "description": "Label for the required website field in the contribution form."
+  },
+  "roasterContributionWebsiteHint": "roaster.com",
+  "@roasterContributionWebsiteHint": {
+    "description": "Placeholder/hint for the website field in the contribution form."
+  },
+  "roasterContributionInstagramLabel": "Instagram",
+  "@roasterContributionInstagramLabel": {
+    "description": "Label for the optional Instagram field in the contribution form."
+  },
+  "roasterContributionCityLabel": "City",
+  "@roasterContributionCityLabel": {
+    "description": "Label for the optional city field in the contribution form."
+  },
+  "roasterContributionSubmit": "Submit",
+  "@roasterContributionSubmit": {
+    "description": "Submit button on the roaster-contribution form."
+  },
+  "roasterContributionInvalidUrl": "Enter a valid website (e.g. roaster.com)",
+  "@roasterContributionInvalidUrl": {
+    "description": "Inline error shown when the entered website is not a valid URL."
+  },
+  "roasterContributionSuccess": "Thanks — we'll review it soon.",
+  "@roasterContributionSuccess": {
+    "description": "Confirmation shown after a roaster contribution is submitted."
+  },
+  "roasterContributionError": "Couldn't submit. Please try again.",
+  "@roasterContributionError": {
+    "description": "Error shown when submitting a roaster contribution fails."
+  },
+  "roasterContributionNotifTitle": "{roaster} isn't on Timer.Coffee yet",
+  "@roasterContributionNotifTitle": {
+    "description": "Title of the local notification nudging the user to contribute a roaster's website.",
+    "placeholders": {
+      "roaster": {
+        "type": "String",
+        "example": "Onyx Coffee Lab"
+      }
+    }
+  },
+  "roasterContributionNotifBody": "Share their website to help us add them faster.",
+  "@roasterContributionNotifBody": {
+    "description": "Body of the local notification nudging the user to contribute a roaster's website."
   }
 }
