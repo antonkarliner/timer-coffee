@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:coffee_timer/utils/device_profiler.dart';

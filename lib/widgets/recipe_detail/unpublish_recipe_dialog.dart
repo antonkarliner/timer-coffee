@@ -5,7 +5,7 @@ import 'package:coffee_timer/widgets/base_buttons.dart';
 
 /// Dialog for confirming whether to unpublish a recipe by making it private.
 class UnpublishRecipeDialog extends StatelessWidget {
-  const UnpublishRecipeDialog({Key? key}) : super(key: key);
+  const UnpublishRecipeDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

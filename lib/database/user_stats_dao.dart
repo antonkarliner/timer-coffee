@@ -125,7 +125,8 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future<List<String>> fetchDistinctBrewingMethodsForBean(
-      String beansUuid) async {
+    String beansUuid,
+  ) async {
     final query = customSelect(
       'SELECT brewing_method_id FROM user_stats '
       'WHERE coffee_beans_uuid = ? AND is_deleted = false '
@@ -140,8 +141,9 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
 
   Future<List<UserStatsModel>> fetchStatsByBeanUuid(String beansUuid) async {
     final query = select(userStats)
-      ..where((t) =>
-          t.coffeeBeansUuid.equals(beansUuid) & t.isDeleted.equals(false))
+      ..where(
+        (t) => t.coffeeBeansUuid.equals(beansUuid) & t.isDeleted.equals(false),
+      )
       ..orderBy([
         (t) => OrderingTerm(expression: t.createdAt, mode: OrderingMode.desc),
       ]);
@@ -156,9 +158,11 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
   }) async {
     final query = selectOnly(userStats)
       ..addColumns([userStats.coffeeAmount])
-      ..where(userStats.coffeeBeansUuid.equals(beansUuid) &
-          userStats.isDeleted.equals(false) &
-          userStats.coffeeAmount.isBiggerThanValue(0));
+      ..where(
+        userStats.coffeeBeansUuid.equals(beansUuid) &
+            userStats.isDeleted.equals(false) &
+            userStats.coffeeAmount.isBiggerThanValue(0),
+      );
     final values = (await query.get())
         .map((row) => row.read(userStats.coffeeAmount))
         .whereType<double>()
@@ -174,9 +178,11 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
   }) async {
     final query = selectOnly(userStats)
       ..addColumns([userStats.coffeeAmount])
-      ..where(userStats.isDeleted.equals(false) &
-          userStats.coffeeAmount.isBiggerThanValue(0) &
-          userStats.createdAt.isBiggerOrEqualValue(since));
+      ..where(
+        userStats.isDeleted.equals(false) &
+            userStats.coffeeAmount.isBiggerThanValue(0) &
+            userStats.createdAt.isBiggerOrEqualValue(since),
+      );
     final values = (await query.get())
         .map((row) => row.read(userStats.coffeeAmount))
         .whereType<double>()
@@ -279,11 +285,11 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
   ) async {
     await batch((batch) {
       for (final update in updates) {
-        if (update.statUuid.present && update.statUuid.value != null) {
+        if (update.statUuid.present) {
           batch.update(
             userStats,
             update,
-            where: (tbl) => tbl.statUuid.equals(update.statUuid.value!),
+            where: (tbl) => tbl.statUuid.equals(update.statUuid.value),
           );
         } else if (update.id.present && update.id.value != null) {
           batch.update(

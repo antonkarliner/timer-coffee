@@ -3,6 +3,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:coffee_timer/models/roaster_profile_model.dart';
+import 'package:coffee_timer/services/roaster_directory_service.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
 
 class RoasterProfileProvider extends ChangeNotifier {
@@ -70,18 +71,10 @@ class RoasterProfileProvider extends ChangeNotifier {
       return _nameSlugCache[key];
     }
     try {
-      final response = await Supabase.instance.client.rpc(
-        'get_roaster_profile_by_name',
-        params: {'p_roaster_name': roasterName.trim()},
-      );
-      if (response != null) {
-        final map = response as Map;
-        _nameSlugCache[key] = map['slug'] as String?;
-        _nameProfileIdCache[key] = map['id'] as String?;
-      } else {
-        _nameSlugCache[key] = null;
-        _nameProfileIdCache[key] = null;
-      }
+      final bundle =
+          await RoasterDirectoryService.instance.fetchBundle(roasterName);
+      _nameSlugCache[key] = bundle?['slug'];
+      _nameProfileIdCache[key] = bundle?['profile_id'];
       return _nameSlugCache[key];
     } catch (error) {
       AppLogger.error(

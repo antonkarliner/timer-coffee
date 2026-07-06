@@ -26,9 +26,9 @@ class BackgroundOcrManager {
   BackgroundOcrManager({
     required OcrService ocrService,
     int maxConcurrentOperations = 2,
-  })  : _ocrService = ocrService,
-        _maxConcurrentOperations = maxConcurrentOperations,
-        _monitor = OcrPerformanceMonitor() {
+  }) : _ocrService = ocrService,
+       _maxConcurrentOperations = maxConcurrentOperations,
+       _monitor = OcrPerformanceMonitor() {
     _monitor.initialize();
   }
 
@@ -55,15 +55,17 @@ class BackgroundOcrManager {
         }
 
         _activeOperations++;
-        final future = _processSingleImage(image).then((result) {
-          _activeOperations--;
-          if (result != null) {
-            _pendingResults.add(result);
-          }
-        }).catchError((error) {
-          _activeOperations--;
-          _log('Background OCR error for image: $error');
-        });
+        final future = _processSingleImage(image)
+            .then((result) {
+              _activeOperations--;
+              if (result != null) {
+                _pendingResults.add(result);
+              }
+            })
+            .catchError((error) {
+              _activeOperations--;
+              _log('Background OCR error for image: $error');
+            });
 
         futures.add(future);
       }
@@ -128,7 +130,8 @@ class BackgroundOcrManager {
 
       if (fileSize > maxFileSizeBytes) {
         _log(
-            'Background OCR: Skipping large image $fileName (${(fileSize / 1024 / 1024).toStringAsFixed(2)}MB)');
+          'Background OCR: Skipping large image $fileName (${(fileSize / 1024 / 1024).toStringAsFixed(2)}MB)',
+        );
         return ImageProcessingResult.failure(
           fileName: fileName,
           imageIndex: 0,
@@ -147,19 +150,21 @@ class BackgroundOcrManager {
       performanceMetrics['preprocessMs'] = preprocessMs;
 
       _log(
-          'Background OCR: Preprocessing completed in ${preprocessMs}ms for $fileName');
+        'Background OCR: Preprocessing completed in ${preprocessMs}ms for $fileName',
+      );
 
       // Perform OCR
       final ocrSw = Stopwatch()..start();
-      final ocrText = await _ocrService.recognizeText(preprocessedFile ?? file);
+      final ocrText = await _ocrService.recognizeText(preprocessedFile);
       final ocrMs = ocrSw.elapsedMilliseconds;
       performanceMetrics['ocrMs'] = ocrMs;
 
       _log(
-          'Background OCR: Native OCR completed in ${ocrMs}ms for $fileName (chars: ${ocrText.length})');
+        'Background OCR: Native OCR completed in ${ocrMs}ms for $fileName (chars: ${ocrText.length})',
+      );
 
       // Clean up preprocessed file
-      if (preprocessedFile != null && preprocessedFile.path != file.path) {
+      if (preprocessedFile.path != file.path) {
         try {
           await preprocessedFile.delete();
         } catch (e) {
@@ -180,7 +185,7 @@ class BackgroundOcrManager {
         ocrText: ocrText,
         performanceMetrics: performanceMetrics,
       );
-    } catch (e, st) {
+    } catch (e) {
       _log('Background OCR: Error processing $fileName: $e');
       return ImageProcessingResult.failure(
         fileName: fileName,

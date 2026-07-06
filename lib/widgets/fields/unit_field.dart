@@ -89,7 +89,7 @@ class UnitField extends StatefulWidget {
   final ElevationUnit? initialElevationUnit;
 
   const UnitField({
-    Key? key,
+    super.key,
     required this.label,
     this.hintText,
     this.helperText,
@@ -110,7 +110,7 @@ class UnitField extends StatefulWidget {
     this.showUnitToggle = true,
     this.initialWeightUnit,
     this.initialElevationUnit,
-  }) : super(key: key);
+  });
 
   @override
   State<UnitField> createState() => _UnitFieldState();

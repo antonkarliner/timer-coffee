@@ -30,7 +30,7 @@ class CoffeeBeansFilterChips extends StatelessWidget {
   final VoidCallback onClearAll;
 
   const CoffeeBeansFilterChips({
-    Key? key,
+    super.key,
     required this.filterOptions,
     required this.searchQuery,
     required this.onRoasterRemoved,
@@ -38,7 +38,7 @@ class CoffeeBeansFilterChips extends StatelessWidget {
     required this.onFavoriteRemoved,
     required this.onSearchRemoved,
     required this.onClearAll,
-  }) : super(key: key);
+  });
 
   /// Returns true if any filters are currently active
   bool get hasActiveFilters {

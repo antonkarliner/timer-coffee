@@ -9,6 +9,7 @@ import 'package:coffee_timer/config/network_timeouts.dart';
 import 'package:coffee_timer/models/bean_review_model.dart';
 import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
+import 'package:coffee_timer/utils/persistent_ttl_cache.dart';
 
 class RatingsSummary {
   final double? avgRating;
@@ -44,6 +45,8 @@ class BeanReviewProvider extends ChangeNotifier {
   final Map<String, RatingsSummary> _ratingsCache = {};
   // User's own review per bean UUID (null value means "fetched, no review")
   final Map<String, BeanReviewModel?> _userBeanReviewCache = {};
+  final PersistentTtlCache _userReviewPersistentCache =
+      PersistentTtlCache('user_bean_review_');
   // In-memory translation cache, keyed by "$reviewId|$targetLocale".
   // The server holds the durable cache; this avoids re-invoking the edge
   // function within a single session.
@@ -144,6 +147,21 @@ class BeanReviewProvider extends ChangeNotifier {
     }
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null) return null;
+
+    final persistentKey = '${user.id}_$beansUuid';
+    final persisted = await _userReviewPersistentCache.read(
+      persistentKey,
+      maxAge: const Duration(hours: 12),
+    );
+    if (persisted != null) {
+      final rawReview = persisted['review'] as Map<String, dynamic>?;
+      final review = rawReview != null
+          ? BeanReviewModel.fromJson(rawReview)
+          : null;
+      _userBeanReviewCache[beansUuid] = review;
+      return review;
+    }
+
     try {
       final response = await Supabase.instance.client
           .from('bean_reviews')
@@ -156,6 +174,11 @@ class BeanReviewProvider extends ChangeNotifier {
           ? BeanReviewModel.fromJson(Map<String, dynamic>.from(response as Map))
           : null;
       _userBeanReviewCache[beansUuid] = review;
+      await _userReviewPersistentCache.write(persistentKey, {
+        'review': response != null
+            ? Map<String, dynamic>.from(response as Map)
+            : null,
+      });
       return review;
     } catch (error) {
       AppLogger.error(
@@ -192,26 +215,34 @@ class BeanReviewProvider extends ChangeNotifier {
     try {
       await Supabase.instance.client.from('bean_reviews').insert({
         'user_id': user.id,
-        if (roasterProfileId != null) 'roaster_profile_id': roasterProfileId,
+        'roaster_profile_id': ?roasterProfileId,
         'roaster_name': roasterName,
         'bean_name': beanName,
-        if (coffeeBeansUuid != null) 'coffee_beans_uuid': coffeeBeansUuid,
+        'coffee_beans_uuid': ?coffeeBeansUuid,
         'rating': rating,
-        if (reviewText != null) 'review_text': reviewText,
-        if (sweetness != null) 'sweetness': sweetness,
-        if (acidity != null) 'acidity': acidity,
-        if (fruitiness != null) 'fruitiness': fruitiness,
-        if (body != null) 'body': body,
-        if (brewingMethodId != null) 'brewing_method_id': brewingMethodId,
-        if (wouldBuyAgain != null) 'would_buy_again': wouldBuyAgain,
+        'review_text': ?reviewText,
+        'sweetness': ?sweetness,
+        'acidity': ?acidity,
+        'fruitiness': ?fruitiness,
+        'body': ?body,
+        'brewing_method_id': ?brewingMethodId,
+        'would_buy_again': ?wouldBuyAgain,
         if (flavorTags != null && flavorTags.isNotEmpty)
           'flavor_tags': flavorTags,
-        if (bitterness != null) 'bitterness': bitterness,
-        if (aftertaste != null) 'aftertaste': aftertaste,
+        'bitterness': ?bitterness,
+        'aftertaste': ?aftertaste,
         'is_public': true,
       }).timeout(NetworkTimeouts.handshake);
       if (roasterProfileId != null) _invalidateCacheForRoaster(roasterProfileId);
-      if (coffeeBeansUuid != null) _userBeanReviewCache.remove(coffeeBeansUuid);
+      if (coffeeBeansUuid != null) {
+        _userBeanReviewCache.remove(coffeeBeansUuid);
+        final uid = Supabase.instance.client.auth.currentUser?.id;
+        if (uid != null) {
+          unawaited(
+            _userReviewPersistentCache.remove('${uid}_$coffeeBeansUuid'),
+          );
+        }
+      }
 
       final hasTasteProfile = sweetness != null ||
           acidity != null ||
@@ -222,7 +253,7 @@ class BeanReviewProvider extends ChangeNotifier {
       AnalyticsService.instance.track(
         'review_added',
         properties: {
-          if (coffeeBeansUuid != null) 'bean_uuid': coffeeBeansUuid,
+          'bean_uuid': ?coffeeBeansUuid,
           'has_roaster_profile': roasterProfileId != null,
           'has_text': reviewText != null && reviewText.isNotEmpty,
           'rating': rating.round(),
@@ -255,23 +286,28 @@ class BeanReviewProvider extends ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       final key = 'notif_bean_review_tap_ms_$beansUuid';
+      final triggerKey = 'notif_bean_review_tap_trigger_$beansUuid';
       final tapMs = prefs.getInt(key);
       if (tapMs == null) return;
       final secondsSinceTap =
           (DateTime.now().millisecondsSinceEpoch - tapMs) ~/ 1000;
       if (secondsSinceTap < 0 || secondsSinceTap > 60 * 60) {
         await prefs.remove(key);
+        await prefs.remove(triggerKey);
         return;
       }
+      final trigger = prefs.getString(triggerKey);
       AnalyticsService.instance.track(
         'review_added_after_notification',
         properties: {
           'bean_uuid': beansUuid,
           'notification_type': 'bean_review_nudge',
+          'trigger': ?trigger,
           'seconds_since_tap': secondsSinceTap,
         },
       );
       await prefs.remove(key);
+      await prefs.remove(triggerKey);
     } catch (e) {
       AppLogger.debug('Review attribution check failed: $e');
     }
@@ -326,7 +362,7 @@ class BeanReviewProvider extends ChangeNotifier {
       AnalyticsService.instance.track(
         'review_edited',
         properties: {
-          if (coffeeBeansUuid != null) 'bean_uuid': coffeeBeansUuid,
+          'bean_uuid': ?coffeeBeansUuid,
           'rating': rating.round(),
           'has_text': reviewText != null && reviewText.isNotEmpty,
           'has_taste_profile': hasTasteProfile,
@@ -336,7 +372,15 @@ class BeanReviewProvider extends ChangeNotifier {
       );
 
       _invalidateCacheForRoaster(roasterProfileId);
-      if (coffeeBeansUuid != null) _userBeanReviewCache.remove(coffeeBeansUuid);
+      if (coffeeBeansUuid != null) {
+        _userBeanReviewCache.remove(coffeeBeansUuid);
+        final uid = Supabase.instance.client.auth.currentUser?.id;
+        if (uid != null) {
+          unawaited(
+            _userReviewPersistentCache.remove('${uid}_$coffeeBeansUuid'),
+          );
+        }
+      }
       // Server trigger has already cleared `bean_review_translations` for this
       // review; mirror that in the in-memory cache so listeners reload.
       _invalidateTranslationsForReview(reviewId);
@@ -369,7 +413,7 @@ class BeanReviewProvider extends ChangeNotifier {
       AnalyticsService.instance.track(
         'review_deleted',
         properties: {
-          if (coffeeBeansUuid != null) 'bean_uuid': coffeeBeansUuid,
+          'bean_uuid': ?coffeeBeansUuid,
           'has_roaster_profile': roasterProfileId != null,
         },
       );
@@ -385,7 +429,15 @@ class BeanReviewProvider extends ChangeNotifier {
         // Ratings count changed — clear so it refreshes next time.
         _ratingsCache.remove(roasterProfileId);
       }
-      if (coffeeBeansUuid != null) _userBeanReviewCache.remove(coffeeBeansUuid);
+      if (coffeeBeansUuid != null) {
+        _userBeanReviewCache.remove(coffeeBeansUuid);
+        final uid = Supabase.instance.client.auth.currentUser?.id;
+        if (uid != null) {
+          unawaited(
+            _userReviewPersistentCache.remove('${uid}_$coffeeBeansUuid'),
+          );
+        }
+      }
       _invalidateTranslationsForReview(reviewId);
       notifyListeners();
       return true;
@@ -669,6 +721,7 @@ class BeanReviewProvider extends ChangeNotifier {
     _ratingsCache.clear();
     _userBeanReviewCache.clear();
     _translationCache.clear();
+    unawaited(_userReviewPersistentCache.clear());
     notifyListeners();
   }
 }

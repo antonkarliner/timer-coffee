@@ -351,9 +351,9 @@ class AuthenticationService {
     if (googleUser == null) {
       return false;
     }
-    final googleAuth = await googleUser?.authentication;
-    final accessToken = googleAuth?.accessToken;
-    final idToken = googleAuth?.idToken;
+    final googleAuth = await googleUser.authentication;
+    final accessToken = googleAuth.accessToken;
+    final idToken = googleAuth.idToken;
 
     if (accessToken == null) {
       throw 'No Access Token found.';

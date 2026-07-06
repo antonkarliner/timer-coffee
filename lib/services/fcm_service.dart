@@ -45,7 +45,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('pending_external_url', externalUrl);
         AppLogger.debug(
-            'Cached external URL for iOS terminated state: $externalUrl');
+          'Cached external URL for iOS terminated state: $externalUrl',
+        );
       } catch (e) {
         AppLogger.error('Failed to cache external URL for iOS', errorObject: e);
       }
@@ -89,7 +90,8 @@ class FcmService {
       // Using the top-level function _firebaseMessagingBackgroundHandler
       if (!kIsWeb) {
         FirebaseMessaging.onBackgroundMessage(
-            _firebaseMessagingBackgroundHandler);
+          _firebaseMessagingBackgroundHandler,
+        );
         AppLogger.debug('Background message handler registered');
       }
 
@@ -111,7 +113,8 @@ class FcmService {
       // Handle notification tap when app is in background
       FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
         AppLogger.debug(
-            'Notification opened app from background: ${message.messageId}, data=${message.data}');
+          'Notification opened app from background: ${message.messageId}, data=${message.data}',
+        );
         _handleNotificationTap(message);
       });
 
@@ -166,7 +169,8 @@ class FcmService {
       final granted =
           settings.authorizationStatus == AuthorizationStatus.authorized;
       AppLogger.debug(
-          'Checking permission status: ${settings.authorizationStatus}');
+        'Checking permission status: ${settings.authorizationStatus}',
+      );
       return granted;
     } catch (e) {
       AppLogger.error('Error checking FCM permission status', errorObject: e);
@@ -180,7 +184,8 @@ class FcmService {
       final token = await _messaging.getToken();
       _cachedToken = token;
       AppLogger.debug(
-          'FCM token retrieved: ${token != null ? 'success' : 'null'}');
+        'FCM token retrieved: ${token != null ? 'success' : 'null'}',
+      );
       return token;
     } catch (e) {
       AppLogger.error('Failed to get FCM token', errorObject: e);
@@ -200,8 +205,10 @@ class FcmService {
   }
 
   /// Store FCM token with reuse logic in database
-  Future<void> storeToken(
-      {required String userId, required String token}) async {
+  Future<void> storeToken({
+    required String userId,
+    required String token,
+  }) async {
     try {
       _cachedToken = token;
       final supabase = Supabase.instance.client;
@@ -214,29 +221,34 @@ class FcmService {
         final prefs = await SharedPreferences.getInstance();
         currentLocale = prefs.getString('locale') ?? _fallbackLocale;
         AppLogger.debug(
-            'Retrieved locale from SharedPreferences: $currentLocale');
+          'Retrieved locale from SharedPreferences: $currentLocale',
+        );
       } catch (e) {
         AppLogger.warning(
-            'Failed to retrieve locale from SharedPreferences, using default: $currentLocale');
+          'Failed to retrieve locale from SharedPreferences, using default: $currentLocale',
+        );
       }
       final rawLocale = currentLocale;
       String localeForDb = _normalizeLocaleCode(currentLocale);
       if (rawLocale != localeForDb) {
         AppLogger.debug(
-            'Normalized locale for token storage: "$rawLocale" -> "$localeForDb"');
+          'Normalized locale for token storage: "$rawLocale" -> "$localeForDb"',
+        );
       }
 
       Future<T> runWithLocaleFallback<T>(
-          Future<T> Function(String locale) operation) async {
+        Future<T> Function(String locale) operation,
+      ) async {
         try {
           return await operation(localeForDb);
         } on PostgrestException catch (e) {
-          final message = e.message ?? '';
+          final message = e.message;
           if (e.code == '23514' &&
               message.contains('valid_locale') &&
               localeForDb != _fallbackLocale) {
             AppLogger.warning(
-                'Locale "$localeForDb" rejected by database, retrying with "$_fallbackLocale".');
+              'Locale "$localeForDb" rejected by database, retrying with "$_fallbackLocale".',
+            );
             localeForDb = _fallbackLocale;
             return await operation(localeForDb);
           }
@@ -300,10 +312,11 @@ class FcmService {
             .eq('device_type', platform)
             .eq('is_active', false)
             .gte(
-                'updated_at',
-                DateTime.now()
-                    .subtract(const Duration(hours: 24))
-                    .toIso8601String())
+              'updated_at',
+              DateTime.now()
+                  .subtract(const Duration(hours: 24))
+                  .toIso8601String(),
+            )
             .order('updated_at', ascending: false)
             .limit(1)
             .maybeSingle();
@@ -313,7 +326,8 @@ class FcmService {
           final existingTokenToReactivate =
               recentInactiveTokens['token'] as String;
           AppLogger.debug(
-              'Reactivating recent inactive token instead of creating new: $existingTokenToReactivate');
+            'Reactivating recent inactive token instead of creating new: $existingTokenToReactivate',
+          );
 
           await runWithLocaleFallback((locale) {
             return supabase
@@ -332,7 +346,8 @@ class FcmService {
           });
 
           AppLogger.info(
-              'Existing FCM token reactivated with new token value for user: $userId');
+            'Existing FCM token reactivated with new token value for user: $userId',
+          );
         } else {
           // Check if token exists for ANY user (not just current user) before inserting
           final tokenExistsForAnyUser = await supabase
@@ -345,16 +360,21 @@ class FcmService {
           if (tokenExistsForAnyUser != null) {
             // Token exists for different user - reassign it to current user
             AppLogger.debug(
-                'Token exists for different user, reassigning to current user: $userId');
+              'Token exists for different user, reassigning to current user: $userId',
+            );
             await runWithLocaleFallback((locale) {
-              return supabase.schema('service').from('user_fcm_tokens').update({
-                'user_id': userId,
-                'device_type': platform,
-                'is_active': true,
-                'updated_at': now,
-                'last_used_at': now,
-                'locale': locale,
-              }).eq('token', token);
+              return supabase
+                  .schema('service')
+                  .from('user_fcm_tokens')
+                  .update({
+                    'user_id': userId,
+                    'device_type': platform,
+                    'is_active': true,
+                    'updated_at': now,
+                    'last_used_at': now,
+                    'locale': locale,
+                  })
+                  .eq('token', token);
             });
             AppLogger.info('Existing FCM token reassigned to user: $userId');
           } else {
@@ -364,18 +384,15 @@ class FcmService {
             // from the select check above.
             AppLogger.debug('Upserting FCM token: $token');
             await runWithLocaleFallback((locale) {
-              return supabase.schema('service').from('user_fcm_tokens').upsert(
-                {
-                  'user_id': userId,
-                  'token': token,
-                  'device_type': platform,
-                  'is_active': true,
-                  'updated_at': now,
-                  'created_at': now,
-                  'locale': locale,
-                },
-                onConflict: 'token',
-              );
+              return supabase.schema('service').from('user_fcm_tokens').upsert({
+                'user_id': userId,
+                'token': token,
+                'device_type': platform,
+                'is_active': true,
+                'updated_at': now,
+                'created_at': now,
+                'locale': locale,
+              }, onConflict: 'token');
             });
             AppLogger.info('FCM token upserted for user: $userId');
           }
@@ -391,7 +408,7 @@ class FcmService {
           .eq('device_type', platform)
           .neq('token', token);
 
-      final List<Map<String, dynamic>> otherTokensList = otherTokens ?? [];
+      final List<Map<String, dynamic>> otherTokensList = otherTokens;
       for (final tokenData in otherTokensList) {
         final otherToken = tokenData['token'] as String?;
         if (otherToken != null && otherToken.isNotEmpty) {
@@ -413,7 +430,8 @@ class FcmService {
       }
 
       AppLogger.info(
-          'FCM token storage completed successfully for user: $userId');
+        'FCM token storage completed successfully for user: $userId',
+      );
     } catch (e) {
       AppLogger.error('Error storing FCM token', errorObject: e);
       AppLogger.error('FCM token storage error details: ${e.toString()}');
@@ -457,7 +475,8 @@ class FcmService {
       final trimmed = externalUrl.trim();
       if (trimmed.isNotEmpty) {
         AppLogger.debug(
-            'External URL extracted from external_url field: $trimmed');
+          'External URL extracted from external_url field: $trimmed',
+        );
         return trimmed;
       }
     }
@@ -468,7 +487,8 @@ class FcmService {
       final trimmed = deepLink.trim();
       if (trimmed.isNotEmpty) {
         AppLogger.debug(
-            'Internal link extracted from deep_link field: $trimmed');
+          'Internal link extracted from deep_link field: $trimmed',
+        );
         return trimmed;
       }
     }
@@ -491,7 +511,8 @@ class FcmService {
   Future<void> _handleForegroundMessage(RemoteMessage message) async {
     AppLogger.debug('FCM message received in foreground: ${message.messageId}');
     AppLogger.debug(
-        'FCM message content: title="${message.notification?.title}", body="${message.notification?.body}"');
+      'FCM message content: title="${message.notification?.title}", body="${message.notification?.body}"',
+    );
     AppLogger.debug('FCM data: ${message.data}');
 
     // Skip live activity content-state pushes — they update the widget silently.
@@ -500,7 +521,8 @@ class FcmService {
     // (required by FCM to forward Live Activity pushes to APNs).
     if (_isLiveActivityPush(message)) {
       AppLogger.debug(
-          'Skipping local notification for live activity push: ${message.messageId}');
+        'Skipping local notification for live activity push: ${message.messageId}',
+      );
       return;
     }
 
@@ -508,7 +530,8 @@ class FcmService {
     // meaningful text to show the user.
     if (message.notification == null) {
       AppLogger.debug(
-          'Skipping local notification for data-only FCM message: ${message.messageId}');
+        'Skipping local notification for data-only FCM message: ${message.messageId}',
+      );
       return;
     }
 
@@ -530,13 +553,14 @@ class FcmService {
 
       AppLogger.debug('Local notification shown for foreground FCM message');
     } catch (e) {
-      AppLogger.error('Error showing local notification for foreground message',
-          errorObject: e);
+      AppLogger.error(
+        'Error showing local notification for foreground message',
+        errorObject: e,
+      );
     }
   }
 
-  static final RegExp _liveActivityTitlePattern =
-      RegExp(r'^Step \d+ of \d+$');
+  static final RegExp _liveActivityTitlePattern = RegExp(r'^Step \d+ of \d+$');
 
   bool _isLiveActivityPush(RemoteMessage message) {
     if (message.data['message_type'] == 'live_activity_update') return true;
@@ -549,18 +573,21 @@ class FcmService {
   /// Handle notification tap events
   void _handleNotificationTap(RemoteMessage message) {
     AppLogger.debug(
-        'Handling notification tap: id=${message.messageId}, data=${message.data}, notification=${message.notification}');
+      'Handling notification tap: id=${message.messageId}, data=${message.data}, notification=${message.notification}',
+    );
 
     final openInBrowser = message.data['open_in_browser'];
     final linkType = message.data['link_type'];
     final notificationLink = _extractNotificationLink(message.data);
     if (notificationLink != null) {
       AppLogger.debug(
-          'Link from notification tap: $notificationLink (link_type=$linkType, open_in_browser=$openInBrowser)');
+        'Link from notification tap: $notificationLink (link_type=$linkType, open_in_browser=$openInBrowser)',
+      );
       onNotificationTapped.add(notificationLink);
     } else {
       AppLogger.warning(
-          'Notification tap had no actionable link; data keys=${message.data.keys.toList()}');
+        'Notification tap had no actionable link; data keys=${message.data.keys.toList()}',
+      );
     }
   }
 
@@ -575,11 +602,13 @@ class FcmService {
       );
 
       // Cache external URL for iOS terminated-state recovery (same key main.dart reads)
-      final linkType =
-          (message.data['link_type'] as String?)?.trim().toLowerCase();
+      final linkType = (message.data['link_type'] as String?)
+          ?.trim()
+          .toLowerCase();
 
       final openInBrowserRaw = message.data['open_in_browser'];
-      final openInBrowser = openInBrowserRaw == true ||
+      final openInBrowser =
+          openInBrowserRaw == true ||
           (openInBrowserRaw is String &&
               openInBrowserRaw.trim().toLowerCase() == 'true');
 

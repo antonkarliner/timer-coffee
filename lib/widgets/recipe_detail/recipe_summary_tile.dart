@@ -3,16 +3,17 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/recipe_summary.dart';
 import 'package:coffee_timer/models/recipe_model.dart';
 import 'package:coffee_timer/controllers/recipe_detail_controller.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
 
 class RecipeSummaryTile extends StatelessWidget {
   final RecipeModel recipe;
   final RecipeDetailController controller;
 
   const RecipeSummaryTile({
-    Key? key,
+    super.key,
     required this.recipe,
     required this.controller,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,18 +21,20 @@ class RecipeSummaryTile extends StatelessWidget {
       animation: controller,
       builder: (context, child) {
         return ExpansionTile(
+          // Align the header and expanded body with the other left-aligned
+          // content on the recipe detail screen — ExpansionTile otherwise
+          // insets them by an extra 16px.
+          tilePadding: EdgeInsets.zero,
+          expandedCrossAxisAlignment: CrossAxisAlignment.start,
+          childrenPadding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
           title: Text(AppLocalizations.of(context)!.recipesummary),
-          //subtitle: Text(AppLocalizations.of(context)!.recipesummarynote),
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                RecipeSummary.fromRecipe(
-                  recipe,
-                  currentCoffeeAmount: controller.currentCoffeeAmount,
-                  currentWaterAmount: controller.currentWaterAmount,
-                ).summary,
-              ),
+            Text(
+              RecipeSummary.fromRecipe(
+                recipe,
+                currentCoffeeAmount: controller.currentCoffeeAmount,
+                currentWaterAmount: controller.currentWaterAmount,
+              ).summary,
             ),
           ],
         );

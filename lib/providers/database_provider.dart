@@ -12,11 +12,11 @@ import 'package:diacritic/diacritic.dart';
 import 'package:drift/drift.dart' as drift;
 import 'package:shared_preferences/shared_preferences.dart'; // Added for sync timestamps
 import 'package:uuid/uuid.dart';
-import 'package:intl/intl.dart'; // Ensure Intl is imported if needed for locale logic
 import 'package:coffee_timer/models/launch_popup_model.dart';
 import 'package:coffee_timer/models/help_models.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:coffee_timer/models/gift_offer_model.dart';
+import 'package:coffee_timer/services/roaster_directory_service.dart';
 import 'package:flutter/material.dart';
 
 class YearlyPercentileResult {
@@ -84,7 +84,8 @@ class DatabaseProvider {
 
   Future<void> _markPendingPrefSync(String recipeId) async {
     final prefs = await SharedPreferences.getInstance();
-    final ids = (prefs.getStringList(_pendingPrefSyncKey) ?? <String>[]).toSet();
+    final ids = (prefs.getStringList(_pendingPrefSyncKey) ?? <String>[])
+        .toSet();
     if (ids.add(recipeId)) {
       await prefs.setStringList(_pendingPrefSyncKey, ids.toList());
     }
@@ -92,7 +93,8 @@ class DatabaseProvider {
 
   Future<void> _clearPendingPrefSync(String recipeId) async {
     final prefs = await SharedPreferences.getInstance();
-    final ids = (prefs.getStringList(_pendingPrefSyncKey) ?? <String>[]).toSet();
+    final ids = (prefs.getStringList(_pendingPrefSyncKey) ?? <String>[])
+        .toSet();
     if (ids.remove(recipeId)) {
       await prefs.setStringList(_pendingPrefSyncKey, ids.toList());
     }
@@ -155,22 +157,23 @@ class DatabaseProvider {
   Future<void> _seedFromBundledAssets() async {
     const dir = 'assets/data/seed';
     try {
-      final recipesJson = (jsonDecode(
-        await rootBundle.loadString('$dir/recipes.json'),
-      ) as List)
-          .cast<Map<String, dynamic>>();
-      final brewingJson = (jsonDecode(
-        await rootBundle.loadString('$dir/brewing_methods.json'),
-      ) as List)
-          .cast<Map<String, dynamic>>();
-      final localesJson = (jsonDecode(
-        await rootBundle.loadString('$dir/supported_locales.json'),
-      ) as List)
-          .cast<Map<String, dynamic>>();
-      final factsJson = (jsonDecode(
-        await rootBundle.loadString('$dir/coffee_facts.json'),
-      ) as List)
-          .cast<Map<String, dynamic>>();
+      final recipesJson =
+          (jsonDecode(await rootBundle.loadString('$dir/recipes.json')) as List)
+              .cast<Map<String, dynamic>>();
+      final brewingJson =
+          (jsonDecode(await rootBundle.loadString('$dir/brewing_methods.json'))
+                  as List)
+              .cast<Map<String, dynamic>>();
+      final localesJson =
+          (jsonDecode(
+                    await rootBundle.loadString('$dir/supported_locales.json'),
+                  )
+                  as List)
+              .cast<Map<String, dynamic>>();
+      final factsJson =
+          (jsonDecode(await rootBundle.loadString('$dir/coffee_facts.json'))
+                  as List)
+              .cast<Map<String, dynamic>>();
 
       final recipes = recipesJson
           .map((j) => RecipesCompanionExtension.fromJson(j))
@@ -200,7 +203,10 @@ class DatabaseProvider {
           // Reference data first, then recipes, then their dependent rows — correct
           // FK order even though constraints are disabled during first launch.
           batch.insertAllOnConflictUpdate(_db.brewingMethods, brewingMethods);
-          batch.insertAllOnConflictUpdate(_db.supportedLocales, supportedLocales);
+          batch.insertAllOnConflictUpdate(
+            _db.supportedLocales,
+            supportedLocales,
+          );
           batch.insertAllOnConflictUpdate(_db.recipes, recipes);
           batch.insertAllOnConflictUpdate(
             _db.recipeLocalizations,
@@ -252,7 +258,9 @@ class DatabaseProvider {
 
   Future<void> _fetchAndStoreCollections({required bool isFirstLaunch}) async {
     try {
-      final base = Supabase.instance.client.from('recipe_collections').select(
+      final base = Supabase.instance.client
+          .from('recipe_collections')
+          .select(
             '*, recipe_collection_localization(*), recipe_collection_members(*)',
           );
       final response = isFirstLaunch
@@ -274,32 +282,36 @@ class DatabaseProvider {
         final id = row['id'] as String;
         final lastModifiedStr = row['last_modified'] as String?;
 
-        collectionRows.add(RecipeCollectionsCompanion(
-          id: drift.Value(id),
-          emoji: drift.Value(row['emoji'] as String? ?? ''),
-          displayOrder: drift.Value(row['display_order'] as int? ?? 0),
-          isPublished: drift.Value(row['is_published'] as bool? ?? true),
-          lastModified: drift.Value(
-            lastModifiedStr != null ? DateTime.parse(lastModifiedStr) : null,
+        collectionRows.add(
+          RecipeCollectionsCompanion(
+            id: drift.Value(id),
+            emoji: drift.Value(row['emoji'] as String? ?? ''),
+            displayOrder: drift.Value(row['display_order'] as int? ?? 0),
+            isPublished: drift.Value(row['is_published'] as bool? ?? true),
+            lastModified: drift.Value(
+              lastModifiedStr != null ? DateTime.parse(lastModifiedStr) : null,
+            ),
           ),
-        ));
+        );
 
-        final locs = (row['recipe_collection_localization']
-                as List<dynamic>? ??
-            const [])
-            .cast<Map<String, dynamic>>();
+        final locs =
+            (row['recipe_collection_localization'] as List<dynamic>? ??
+                    const [])
+                .cast<Map<String, dynamic>>();
         for (final l in locs) {
-          localizationRows.add(RecipeCollectionLocalizationsCompanion(
-            collectionId: drift.Value(l['collection_id'] as String? ?? id),
-            locale: drift.Value(l['locale'] as String),
-            name: drift.Value(l['name'] as String? ?? ''),
-            description: drift.Value(l['description'] as String?),
-          ));
+          localizationRows.add(
+            RecipeCollectionLocalizationsCompanion(
+              collectionId: drift.Value(l['collection_id'] as String? ?? id),
+              locale: drift.Value(l['locale'] as String),
+              name: drift.Value(l['name'] as String? ?? ''),
+              description: drift.Value(l['description'] as String?),
+            ),
+          );
         }
 
-        final members = (row['recipe_collection_members'] as List<dynamic>? ??
-                const [])
-            .cast<Map<String, dynamic>>();
+        final members =
+            (row['recipe_collection_members'] as List<dynamic>? ?? const [])
+                .cast<Map<String, dynamic>>();
         membersByCollection[id] = [
           for (final m in members)
             RecipeCollectionMembersCompanion(
@@ -324,16 +336,14 @@ class DatabaseProvider {
         // Upsert collections themselves first (FKs depend on them).
         if (collectionRows.isNotEmpty) {
           await _db.batch((b) {
-            b.insertAllOnConflictUpdate(
-                _db.recipeCollections, collectionRows);
+            b.insertAllOnConflictUpdate(_db.recipeCollections, collectionRows);
           });
         }
 
         // Replace localizations per collection (in lieu of fragile id-based
         // upsert from a server-generated SERIAL).
         for (final id in remoteIds) {
-          await _db.recipeCollectionsDao
-              .deleteLocalizationsForCollection(id);
+          await _db.recipeCollectionsDao.deleteLocalizationsForCollection(id);
         }
         for (final loc in localizationRows) {
           await _db.recipeCollectionsDao.upsertLocalization(loc);
@@ -345,8 +355,10 @@ class DatabaseProvider {
           final filtered = entry.value
               .where((m) => localRecipeIds.contains(m.recipeId.value))
               .toList();
-          await _db.recipeCollectionsDao
-              .replaceMembersForCollection(entry.key, filtered);
+          await _db.recipeCollectionsDao.replaceMembersForCollection(
+            entry.key,
+            filtered,
+          );
         }
       });
     } catch (error) {
@@ -410,10 +422,7 @@ class DatabaseProvider {
           .single()
           .timeout(NetworkTimeouts.smallSync);
 
-      final offer = GiftOffer.fromMap(
-        (response as Map<String, dynamic>),
-        locale,
-      );
+      final offer = GiftOffer.fromMap(response, locale);
 
       if (_isOfferExpired(offer)) return null;
       return offer;
@@ -439,10 +448,7 @@ class DatabaseProvider {
           .single()
           .timeout(NetworkTimeouts.smallSync);
 
-      final offer = GiftOffer.fromMap(
-        (response as Map<String, dynamic>),
-        locale,
-      );
+      final offer = GiftOffer.fromMap(response, locale);
 
       if (_isOfferExpired(offer)) return null;
       return offer;
@@ -823,10 +829,10 @@ class DatabaseProvider {
         NetworkTimeouts.smallSync,
       );
 
-      if (downloadResponse == null || (downloadResponse as List).isEmpty) {
+      if (downloadResponse.isEmpty) {
         AppLogger.debug('No new or updated remote recipes to download/insert.');
       } else {
-        final remoteRecipesData = downloadResponse as List<dynamic>;
+        final remoteRecipesData = downloadResponse;
         AppLogger.debug(
           'Found ${remoteRecipesData.length} remote recipes to download/insert.',
         );
@@ -1206,7 +1212,8 @@ class DatabaseProvider {
             // Refresh attribution from the original; keep local value as
             // fallback for rows imported before the column existed remotely
             originalAuthorId: drift.Value(
-                response['original_author_id'] ?? recipe.originalAuthorId),
+              response['original_author_id'] ?? recipe.originalAuthorId,
+            ),
             // Ensure needs_moderation_review is false when updating from cloud
             needsModerationReview: const drift.Value(false),
           );
@@ -1325,9 +1332,7 @@ class DatabaseProvider {
           .timeout(NetworkTimeouts.handshake);
 
       if (response != null) {
-        _launchPopupModel = LaunchPopupModel.fromMap(
-          response as Map<String, dynamic>,
-        );
+        _launchPopupModel = LaunchPopupModel.fromMap(response);
       } else {
         _launchPopupModel = null;
       }
@@ -1356,14 +1361,16 @@ class DatabaseProvider {
           ? coffeeFactsFuture
           : coffeeFactsFuture.timeout(NetworkTimeouts.smallSync);
 
-      final helpCategoriesFuture =
-          Supabase.instance.client.from('help_categories').select();
+      final helpCategoriesFuture = Supabase.instance.client
+          .from('help_categories')
+          .select();
       final helpCategoriesRequest = isFirstLaunch
           ? helpCategoriesFuture
           : helpCategoriesFuture.timeout(NetworkTimeouts.smallSync);
 
-      final helpArticlesFuture =
-          Supabase.instance.client.from('help_articles').select();
+      final helpArticlesFuture = Supabase.instance.client
+          .from('help_articles')
+          .select();
       final helpArticlesRequest = isFirstLaunch
           ? helpArticlesFuture
           : helpArticlesFuture.timeout(NetworkTimeouts.smallSync);
@@ -1413,8 +1420,9 @@ class DatabaseProvider {
       _db.helpDao.getCategories(locale);
 
   Future<List<HelpArticleModel>> getHelpArticles(
-          String categorySlug, String locale) =>
-      _db.helpDao.getArticles(categorySlug, locale);
+    String categorySlug,
+    String locale,
+  ) => _db.helpDao.getArticles(categorySlug, locale);
 
   Future<HelpArticleModel?> getHelpArticle(String slug, String locale) =>
       _db.helpDao.getArticle(slug, locale);
@@ -1423,10 +1431,12 @@ class DatabaseProvider {
   /// Rethrows on failure so callers (e.g. a retry button) can surface an error.
   Future<void> refreshHelpContent() async {
     try {
-      final categoriesResponse =
-          await Supabase.instance.client.from('help_categories').select();
-      final articlesResponse =
-          await Supabase.instance.client.from('help_articles').select();
+      final categoriesResponse = await Supabase.instance.client
+          .from('help_categories')
+          .select();
+      final articlesResponse = await Supabase.instance.client
+          .from('help_articles')
+          .select();
 
       final helpCategories = (categoriesResponse as List<dynamic>)
           .map((json) => HelpCategoriesCompanionExtension.fromJson(json))
@@ -1619,7 +1629,7 @@ class DatabaseProvider {
             params: {
               'p_year': year,
               'p_user_id': user.id,
-              if (liters != null) 'p_liters': liters,
+              'p_liters': ?liters,
             },
           )
           .timeout(NetworkTimeouts.handshake);
@@ -1822,54 +1832,24 @@ class DatabaseProvider {
   Future<Map<String, String?>> fetchCachedRoasterLogoUrls(
     String roasterName,
   ) async {
-    // Normalize the roaster name the same way you do in fetchRoasterLogoUrls
     final normalizedRoasterName = removeDiacritics(roasterName).toLowerCase();
 
-    // If we’ve already fetched logos for this roaster, return immediately:
     if (_roasterLogoCache.containsKey(normalizedRoasterName)) {
       return _roasterLogoCache[normalizedRoasterName]!;
     }
 
-    // Otherwise, call your existing fetchRoasterLogoUrls or the RPC
-    final logoUrls = await fetchRoasterLogoUrls(roasterName);
-
-    // Store the result in the cache, so next time we skip the network call
-    _roasterLogoCache[normalizedRoasterName] = logoUrls;
-
-    // Return it
-    return logoUrls;
-  }
-
-  Future<Map<String, String?>> fetchRoasterLogoUrls(String roasterName) async {
     try {
-      // We no longer remove diacritics here because unaccent handles it on the DB side.
-      // But we do convert to lower if desired. Example:
-      final searchTerm = roasterName.trim();
-
-      final response = await Supabase.instance.client
-          .rpc('search_roaster_unaccent', params: {'search_name': searchTerm})
-          .maybeSingle()
-          .timeout(NetworkTimeouts.handshake);
-      // maybeSingle() means: if multiple rows are returned, pick the first, else null.
-
-      if (response != null) {
-        return {
-          'original': response['roaster_logo_url'] as String?,
-          'mirror': response['roaster_logo_mirror_url'] as String?,
-          'dominant_color_hex': response['dominant_color_hex'] as String?,
-        };
-      }
-
-      AppLogger.debug(
-        'No matching data found for roaster',
-        errorObject: {'roasterName': AppLogger.sanitize(roasterName)},
-      );
-      return {'original': null, 'mirror': null};
-    } catch (error) {
-      AppLogger.error(
-        'Exception fetching roaster logo URLs',
-        errorObject: AppLogger.sanitize(error),
-      );
+      final bundle =
+          await RoasterDirectoryService.instance.fetchBundle(roasterName);
+      final logoUrls = <String, String?>{
+        'original': bundle?['roaster_logo_url'],
+        'mirror': bundle?['roaster_logo_mirror_url'],
+        'dominant_color_hex': bundle?['dominant_color_hex'],
+      };
+      _roasterLogoCache[normalizedRoasterName] = logoUrls;
+      return logoUrls;
+    } catch (_) {
+      // Error: not cached so the next call retries.
       return {'original': null, 'mirror': null};
     }
   }
@@ -1964,18 +1944,14 @@ class DatabaseProvider {
       'user_id': user.id,
       'recipe_id': recipeId,
       'last_used': DateTime.now().toUtc().toIso8601String(),
-      if (isFavorite != null) 'is_favorite': isFavorite,
-      if (sweetnessSliderPosition != null)
-        'sweetness_slider_position': sweetnessSliderPosition,
-      if (strengthSliderPosition != null)
-        'strength_slider_position': strengthSliderPosition,
-      if (coffeeChroniclerSliderPosition != null)
-        'coffee_chronicler_slider_position':
-            coffeeChroniclerSliderPosition, // Add this line
-      if (customCoffeeAmount != null)
-        'custom_coffee_amount': customCoffeeAmount,
-      if (customWaterAmount != null) 'custom_water_amount': customWaterAmount,
-      if (customGrindSize != null) 'custom_grind_size': customGrindSize,
+      'is_favorite': ?isFavorite,
+      'sweetness_slider_position': ?sweetnessSliderPosition,
+      'strength_slider_position': ?strengthSliderPosition,
+      'coffee_chronicler_slider_position':
+          ?coffeeChroniclerSliderPosition, // Add this line
+      'custom_coffee_amount': ?customCoffeeAmount,
+      'custom_water_amount': ?customWaterAmount,
+      'custom_grind_size': ?customGrindSize,
     };
 
     // This runs fire-and-forget from the caller's perspective, but the method
@@ -2384,7 +2360,6 @@ class DatabaseProvider {
           .where(
             (p) =>
                 p.recipeId.present &&
-                p.recipeId.value != null &&
                 existingRecipeIds.contains(p.recipeId.value),
           )
           .toList();
@@ -2395,7 +2370,6 @@ class DatabaseProvider {
             .where(
               (p) =>
                   p.recipeId.present &&
-                  p.recipeId.value != null &&
                   !existingRecipeIds.contains(p.recipeId.value),
             )
             .map((p) => p.recipeId.value)
@@ -2555,7 +2529,7 @@ class DatabaseProvider {
       );
 
       // Update Supabase if the recipe was moderated (status changed)
-      if (moderationPassed && user != null && !user.isAnonymous) {
+      if (moderationPassed && !user.isAnonymous) {
         try {
           await Supabase.instance.client
               .from('user_recipes')

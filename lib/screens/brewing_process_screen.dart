@@ -5,7 +5,6 @@ import 'dart:io';
 import 'dart:math' as math; // Added for math functions
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // Added for system UI constants
 import 'package:provider/provider.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:flutter_animate/flutter_animate.dart'; // Added for animations
@@ -35,11 +34,11 @@ class LocalizedNumberText extends StatelessWidget {
   final TextStyle? style;
 
   const LocalizedNumberText({
-    Key? key,
+    super.key,
     required this.currentNumber,
     required this.totalNumber,
     this.style,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +65,7 @@ class BrewingProcessScreen extends StatefulWidget {
   final int? coffeeChroniclerSliderPosition;
 
   const BrewingProcessScreen({
-    Key? key,
+    super.key,
     required this.recipe,
     required this.coffeeAmount,
     required this.waterAmount,
@@ -75,7 +74,7 @@ class BrewingProcessScreen extends StatefulWidget {
     required this.strengthSliderPosition,
     required this.brewingMethodName,
     this.coffeeChroniclerSliderPosition,
-  }) : super(key: key);
+  });
 
   @override
   State<BrewingProcessScreen> createState() => _BrewingProcessScreenState();
@@ -94,7 +93,6 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   late Animation<double> _pulseAnimation;
 
   late AnimationController _colorController;
-  late Animation<Color?> _colorAnimation;
 
   late AnimationController
   _endBrewAnimationController; // For end of brew animation
@@ -1184,33 +1182,12 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       child: IconButton(
         tooltip: isBack ? loc.previousStep : loc.nextStep,
         iconSize: AppIconSize.large,
-        color: colorScheme.onSurface.withOpacity(0.5),
-        disabledColor: colorScheme.onSurface.withOpacity(0.2),
+        color: colorScheme.onSurface.withValues(alpha: 0.5),
+        disabledColor: colorScheme.onSurface.withValues(alpha: 0.2),
         onPressed: isDisabled
             ? null
             : (isBack ? _goToPreviousStepManually : _goToNextStepManually),
         icon: Icon(pointsLeft ? Icons.chevron_left : Icons.chevron_right),
-      ),
-    );
-  }
-
-  void _navigateToFinishScreenSkip() {
-    // Ensure it only navigates once and if mounted
-    if (!mounted) return;
-    _navigatedToFinish = true;
-    _endLiveActivity(reason: 'completed');
-
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => FinishScreen(
-          brewingMethodName: widget.brewingMethodName,
-          recipe: widget.recipe,
-          waterAmount: widget.waterAmount,
-          coffeeAmount: widget.coffeeAmount,
-          sweetnessSliderPosition: widget.sweetnessSliderPosition,
-          strengthSliderPosition: widget.strengthSliderPosition,
-        ),
       ),
     );
   }
@@ -1369,7 +1346,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                                                         color: theme
                                                             .colorScheme
                                                             .onSurface
-                                                            .withOpacity(0.7),
+                                                            .withValues(alpha: 0.7),
                                                       ),
                                                     ),
                                                   ],
@@ -1565,7 +1542,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                           style: TextStyle(
                             color: Theme.of(
                               context,
-                            ).colorScheme.onSurface.withOpacity(0.6),
+                            ).colorScheme.onSurface.withValues(alpha: 0.6),
                             fontSize: 18,
                           ),
                         ),
@@ -1575,7 +1552,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                           style: TextStyle(
                             color: Theme.of(
                               context,
-                            ).colorScheme.onSurface.withOpacity(0.6),
+                            ).colorScheme.onSurface.withValues(alpha: 0.6),
                             fontSize: 22,
                             height: 1.3,
                           ),

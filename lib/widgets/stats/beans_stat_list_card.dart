@@ -4,7 +4,7 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 /// Generic card that shows a capped preview list and a "Show more" modal for full lists.
 class BeansStatListCard<T> extends StatelessWidget {
   const BeansStatListCard({
-    Key? key,
+    super.key,
     required this.label,
     required this.leadingIcon,
     this.countFuture,
@@ -12,7 +12,7 @@ class BeansStatListCard<T> extends StatelessWidget {
     required this.fullListFuture,
     required this.itemBuilder,
     required this.emptyText,
-  }) : super(key: key);
+  });
 
   final String label;
   final Widget leadingIcon;
@@ -185,7 +185,7 @@ class BeansStatListCard<T> extends StatelessWidget {
 
 class _FullListModal<T> extends StatelessWidget {
   const _FullListModal({
-    Key? key,
+    super.key,
     required this.label,
     required this.leadingIcon,
     this.countFuture,
@@ -193,7 +193,7 @@ class _FullListModal<T> extends StatelessWidget {
     required this.itemBuilder,
     required this.emptyText,
     required this.scrollController,
-  }) : super(key: key);
+  });
 
   final String label;
   final Widget leadingIcon;

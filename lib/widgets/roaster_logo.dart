@@ -1,18 +1,13 @@
 import 'dart:async';
 import 'dart:developer';
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show HapticFeedback;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coffee_timer/config/supabase_endpoint_resolver.dart';
 import 'package:coffeico/coffeico.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image/image.dart' as img;
 import 'package:flutter/foundation.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../services/analytics_service.dart';
-import '../services/moments_service.dart';
 import 'roaster_logo_cache_manager.dart';
 
 class RoasterLogo extends StatefulWidget {
@@ -89,8 +84,7 @@ class RoasterLogo extends StatefulWidget {
   }
 }
 
-class _RoasterLogoState extends State<RoasterLogo>
-    with SingleTickerProviderStateMixin {
+class _RoasterLogoState extends State<RoasterLogo> {
   static SharedPreferences? _prefs;
   static Future<void>? _prefsInitializer;
   static const String _cacheVersionKey = 'aspect_ratio_cache_version';
@@ -106,22 +100,9 @@ class _RoasterLogoState extends State<RoasterLogo>
   Color? _bgColor;
   BoxFit? _fit;
 
-  // Steam puff cameo — fires on double-tap, ~600ms.
-  late final AnimationController _steamController;
-  bool _showSteam = false;
-
   @override
   void initState() {
     super.initState();
-    _steamController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 850),
-    );
-    _steamController.addStatusListener((status) {
-      if (status == AnimationStatus.completed && mounted) {
-        setState(() => _showSteam = false);
-      }
-    });
     _currentUrl = RoasterLogo.preferredInitialUrl(
       originalUrl: widget.originalUrl,
       mirrorUrl: widget.mirrorUrl,
@@ -152,91 +133,6 @@ class _RoasterLogoState extends State<RoasterLogo>
     _bgColor = null;
 
     unawaited(_initialize());
-  }
-
-  @override
-  void dispose() {
-    _steamController.dispose();
-    super.dispose();
-  }
-
-  /// Double-tap easter egg: a small steam puff drifts up from the top of the
-  /// logo. Idempotent: re-tapping while the puff is mid-animation simply
-  /// restarts the cycle.
-  void _handleDoubleTap() {
-    HapticFeedback.selectionClick();
-    // Best-effort discovery mark — silently no-op if MomentsService isn't
-    // provided (e.g. in widget tests that pump the logo in isolation).
-    try {
-      context.read<MomentsService>().markDiscovered('steam_puff');
-    } catch (_) {
-      // No provider in scope; just play the animation.
-    }
-    AnalyticsService.maybeInstance?.track(
-      'moment_interacted',
-      properties: {'moment_id': 'steam_puff', 'action': 'double_tap'},
-    );
-    setState(() => _showSteam = true);
-    _steamController
-      ..reset()
-      ..forward();
-  }
-
-  /// Builds a pair of mirrored steam puffs that drift up-and-outward from the
-  /// logo's left and right edges. Sized in logical pixels relative to the
-  /// logo height so the cameo scales with the host (a 40px logo gets a 36px
-  /// puff; a hero header logo gets a meatier puff).
-  ///
-  /// Both puffs are rendered as positioned `💨` `Text` glyphs inside the
-  /// surrounding `Stack`. The left puff is mirrored via `Transform.scale`
-  /// so the motion lines visually trail toward the logo on both sides.
-  List<Widget> _buildSteamPuffs() {
-    final puffSize = (widget.height * 0.9).clamp(28.0, 64.0);
-    return [
-      _buildSteamPuff(left: false, puffSize: puffSize),
-      _buildSteamPuff(left: true, puffSize: puffSize),
-    ];
-  }
-
-  Widget _buildSteamPuff({required bool left, required double puffSize}) {
-    return AnimatedBuilder(
-      animation: _steamController,
-      builder: (context, _) {
-        final v = _steamController.value;
-        // Eased out so the puff shoots out fast and decelerates.
-        final eased = Curves.easeOutCubic.transform(v);
-        // Horizontal drift: the puff exits the logo bounds and keeps going.
-        final dx = (puffSize * 0.55) + eased * (puffSize * 1.4);
-        // Slight upward arc, peaks around 70% of the cycle.
-        final dy = -math.sin(v * math.pi * 0.7) * (puffSize * 0.35);
-        // Grow slightly as it leaves; fade out near the end.
-        final scale = 0.55 + eased * 0.55;
-        final opacity = (1 - v * v).clamp(0.0, 1.0);
-
-        // Anchor so we sit on the side of the logo at vertical center.
-        final logoH = widget.height;
-        final logoW = widget.width ?? widget.height;
-        final topAnchor = (logoH - puffSize) / 2 + dy;
-
-        return Positioned(
-          left: left ? -dx : null,
-          right: left ? null : -dx,
-          top: topAnchor,
-          width: logoW,
-          child: Align(
-            alignment: left ? Alignment.centerLeft : Alignment.centerRight,
-            child: Opacity(
-              opacity: opacity,
-              child: Transform.scale(
-                scaleX: left ? -scale : scale,
-                scaleY: scale,
-                child: Text('💨', style: TextStyle(fontSize: puffSize)),
-              ),
-            ),
-          ),
-        );
-      },
-    );
   }
 
   Future<void> _initialize() async {
@@ -503,21 +399,7 @@ class _RoasterLogoState extends State<RoasterLogo>
 
   @override
   Widget build(BuildContext context) {
-    // Always wrap in a Stack so the logo's tree position stays stable across
-    // _showSteam toggles. If we swapped between `logo` and `Stack([logo, …])`
-    // on each tap, the underlying CachedNetworkImage's Element would reattach
-    // and the placeholder icon would flash for one frame.
-    return GestureDetector(
-      onDoubleTap: _handleDoubleTap,
-      child: Stack(
-        clipBehavior: Clip.none,
-        fit: StackFit.passthrough,
-        children: [
-          _buildLogo(context),
-          if (_showSteam) ..._buildSteamPuffs(),
-        ],
-      ),
-    );
+    return _buildLogo(context);
   }
 
   Widget _buildLogo(BuildContext context) {
@@ -599,154 +481,156 @@ class _RoasterLogoState extends State<RoasterLogo>
 
   // --- Static Analysis Functions (moved from original for clarity) ---
   static Future<BoxFit> _computeFit(Uint8List bytes) async {
-    try {
-      final img.Image? image = img.decodeImage(bytes);
-      if (image == null) return BoxFit.contain;
+    return await compute((Uint8List bytes) {
+      try {
+        final img.Image? image = img.decodeImage(bytes);
+        if (image == null) return BoxFit.contain;
 
-      // Check for transparency
-      bool hasTransparency = false;
-      for (int y = 0; y < image.height && !hasTransparency; y++) {
-        for (int x = 0; x < image.width; x++) {
-          if (image.getPixel(x, y).a < 200) {
-            hasTransparency = true;
-            break;
+        // Check for transparency
+        bool hasTransparency = false;
+        for (int y = 0; y < image.height && !hasTransparency; y++) {
+          for (int x = 0; x < image.width; x++) {
+            if (image.getPixel(x, y).a < 200) {
+              hasTransparency = true;
+              break;
+            }
           }
         }
+
+        if (hasTransparency) {
+          // Transparency-based cropping heuristic
+          int top = 0,
+              bottom = image.height - 1,
+              left = 0,
+              right = image.width - 1;
+          bool topFound = false,
+              bottomFound = false,
+              leftFound = false,
+              rightFound = false;
+
+          for (int y = 0; y < image.height; y++) {
+            for (int x = 0; x < image.width; x++) {
+              if (image.getPixel(x, y).a > 0) {
+                top = y;
+                topFound = true;
+                break;
+              }
+            }
+            if (topFound) break;
+          }
+
+          for (int y = image.height - 1; y >= 0; y--) {
+            for (int x = 0; x < image.width; x++) {
+              if (image.getPixel(x, y).a > 0) {
+                bottom = y;
+                bottomFound = true;
+                break;
+              }
+            }
+            if (bottomFound) break;
+          }
+
+          for (int x = 0; x < image.width; x++) {
+            for (int y = 0; y < image.height; y++) {
+              if (image.getPixel(x, y).a > 0) {
+                left = x;
+                leftFound = true;
+                break;
+              }
+            }
+            if (leftFound) break;
+          }
+
+          for (int x = image.width - 1; x >= 0; x--) {
+            for (int y = 0; y < image.height; y++) {
+              if (image.getPixel(x, y).a > 0) {
+                right = x;
+                rightFound = true;
+                break;
+              }
+            }
+            if (rightFound) break;
+          }
+
+          final w = right - left;
+          final h = bottom - top;
+          final isSquare = ((w - h).abs() / (w > h ? w : h)) <= 0.15;
+          return isSquare ? BoxFit.cover : BoxFit.contain;
+        } else {
+          // Opaque image: detect solid margins
+          List<img.Pixel> corners = [
+            image.getPixel(0, 0),
+            image.getPixel(image.width - 1, 0),
+            image.getPixel(0, image.height - 1),
+            image.getPixel(image.width - 1, image.height - 1),
+          ];
+          int avgR = 0, avgG = 0, avgB = 0;
+          for (var p in corners) {
+            avgR += p.r.toInt();
+            avgG += p.g.toInt();
+            avgB += p.b.toInt();
+          }
+          avgR = (avgR ~/ 4);
+          avgG = (avgG ~/ 4);
+          avgB = (avgB ~/ 4);
+
+          bool isBg(img.Pixel p) {
+            const int delta = 30;
+            return (p.r - avgR).abs() <= delta &&
+                (p.g - avgG).abs() <= delta &&
+                (p.b - avgB).abs() <= delta;
+          }
+
+          final int threshW = (image.width * 0.10).floor();
+          final int threshH = (image.height * 0.10).floor();
+
+          int top = 0;
+          for (; top < image.height; top++) {
+            int diffCount = 0;
+            for (int x = 0; x < image.width; x++) {
+              if (!isBg(image.getPixel(x, top))) diffCount++;
+            }
+            if (diffCount > threshW) break;
+          }
+          int bottom = image.height - 1;
+          for (; bottom >= 0; bottom--) {
+            int diffCount = 0;
+            for (int x = 0; x < image.width; x++) {
+              if (!isBg(image.getPixel(x, bottom))) diffCount++;
+            }
+            if (diffCount > threshW) break;
+          }
+          int left = 0;
+          for (; left < image.width; left++) {
+            int diffCount = 0;
+            for (int y = 0; y < image.height; y++) {
+              if (!isBg(image.getPixel(left, y))) diffCount++;
+            }
+            if (diffCount > threshH) break;
+          }
+          int right = image.width - 1;
+          for (; right >= 0; right--) {
+            int diffCount = 0;
+            for (int y = 0; y < image.height; y++) {
+              if (!isBg(image.getPixel(right, y))) diffCount++;
+            }
+            if (diffCount > threshH) break;
+          }
+
+          final w = right - left;
+          final h = bottom - top;
+          final double horizMargin = (image.width - w) / image.width;
+          final double vertMargin = (image.height - h) / image.height;
+          if (horizMargin >= 0.15 || vertMargin >= 0.15) {
+            return BoxFit.cover;
+          }
+          final isSquare = ((w - h).abs() / (w > h ? w : h)) <= 0.15;
+          return isSquare ? BoxFit.cover : BoxFit.contain;
+        }
+      } catch (_) {
+        return BoxFit.contain;
       }
-
-      if (hasTransparency) {
-        // Transparency-based cropping heuristic
-        int top = 0,
-            bottom = image.height - 1,
-            left = 0,
-            right = image.width - 1;
-        bool topFound = false,
-            bottomFound = false,
-            leftFound = false,
-            rightFound = false;
-
-        for (int y = 0; y < image.height; y++) {
-          for (int x = 0; x < image.width; x++) {
-            if (image.getPixel(x, y).a > 0) {
-              top = y;
-              topFound = true;
-              break;
-            }
-          }
-          if (topFound) break;
-        }
-
-        for (int y = image.height - 1; y >= 0; y--) {
-          for (int x = 0; x < image.width; x++) {
-            if (image.getPixel(x, y).a > 0) {
-              bottom = y;
-              bottomFound = true;
-              break;
-            }
-          }
-          if (bottomFound) break;
-        }
-
-        for (int x = 0; x < image.width; x++) {
-          for (int y = 0; y < image.height; y++) {
-            if (image.getPixel(x, y).a > 0) {
-              left = x;
-              leftFound = true;
-              break;
-            }
-          }
-          if (leftFound) break;
-        }
-
-        for (int x = image.width - 1; x >= 0; x--) {
-          for (int y = 0; y < image.height; y++) {
-            if (image.getPixel(x, y).a > 0) {
-              right = x;
-              rightFound = true;
-              break;
-            }
-          }
-          if (rightFound) break;
-        }
-
-        final w = right - left;
-        final h = bottom - top;
-        final isSquare = ((w - h).abs() / (w > h ? w : h)) <= 0.15;
-        return isSquare ? BoxFit.cover : BoxFit.contain;
-      } else {
-        // Opaque image: detect solid margins
-        List<img.Pixel> corners = [
-          image.getPixel(0, 0),
-          image.getPixel(image.width - 1, 0),
-          image.getPixel(0, image.height - 1),
-          image.getPixel(image.width - 1, image.height - 1),
-        ];
-        int avgR = 0, avgG = 0, avgB = 0;
-        for (var p in corners) {
-          avgR += p.r.toInt();
-          avgG += p.g.toInt();
-          avgB += p.b.toInt();
-        }
-        avgR = (avgR ~/ 4);
-        avgG = (avgG ~/ 4);
-        avgB = (avgB ~/ 4);
-
-        bool isBg(img.Pixel p) {
-          const int delta = 30;
-          return (p.r - avgR).abs() <= delta &&
-              (p.g - avgG).abs() <= delta &&
-              (p.b - avgB).abs() <= delta;
-        }
-
-        final int threshW = (image.width * 0.10).floor();
-        final int threshH = (image.height * 0.10).floor();
-
-        int top = 0;
-        for (; top < image.height; top++) {
-          int diffCount = 0;
-          for (int x = 0; x < image.width; x++) {
-            if (!isBg(image.getPixel(x, top))) diffCount++;
-          }
-          if (diffCount > threshW) break;
-        }
-        int bottom = image.height - 1;
-        for (; bottom >= 0; bottom--) {
-          int diffCount = 0;
-          for (int x = 0; x < image.width; x++) {
-            if (!isBg(image.getPixel(x, bottom))) diffCount++;
-          }
-          if (diffCount > threshW) break;
-        }
-        int left = 0;
-        for (; left < image.width; left++) {
-          int diffCount = 0;
-          for (int y = 0; y < image.height; y++) {
-            if (!isBg(image.getPixel(left, y))) diffCount++;
-          }
-          if (diffCount > threshH) break;
-        }
-        int right = image.width - 1;
-        for (; right >= 0; right--) {
-          int diffCount = 0;
-          for (int y = 0; y < image.height; y++) {
-            if (!isBg(image.getPixel(right, y))) diffCount++;
-          }
-          if (diffCount > threshH) break;
-        }
-
-        final w = right - left;
-        final h = bottom - top;
-        final double horizMargin = (image.width - w) / image.width;
-        final double vertMargin = (image.height - h) / image.height;
-        if (horizMargin >= 0.15 || vertMargin >= 0.15) {
-          return BoxFit.cover;
-        }
-        final isSquare = ((w - h).abs() / (w > h ? w : h)) <= 0.15;
-        return isSquare ? BoxFit.cover : BoxFit.contain;
-      }
-    } catch (_) {
-      return BoxFit.contain;
-    }
+    }, bytes);
   }
 
   static Future<Color?> _analyzeEdgeLuminance(

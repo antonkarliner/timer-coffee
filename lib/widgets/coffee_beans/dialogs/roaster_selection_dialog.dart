@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
-import 'package:coffee_timer/services/coffee_beans_filter_service.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 
@@ -17,10 +16,10 @@ class RoasterSelectionDialog extends StatefulWidget {
   final List<String> availableRoasters;
 
   const RoasterSelectionDialog({
-    Key? key,
+    super.key,
     required this.selectedRoasters,
     required this.availableRoasters,
-  }) : super(key: key);
+  });
 
   @override
   State<RoasterSelectionDialog> createState() => _RoasterSelectionDialogState();
@@ -42,10 +41,7 @@ class _RoasterSelectionDialogState extends State<RoasterSelectionDialog> {
     return AlertDialog(
       title: Text(
         loc.selectRoaster,
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-        ),
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
       ),
       content: Container(
         width: double.maxFinite,
@@ -53,10 +49,7 @@ class _RoasterSelectionDialogState extends State<RoasterSelectionDialog> {
           shrinkWrap: true,
           children: widget.availableRoasters.map((roaster) {
             return CheckboxListTile(
-              title: Text(
-                roaster,
-                style: AppTextStyles.caption,
-              ),
+              title: Text(roaster, style: AppTextStyles.caption),
               value: _tempSelectedRoasters.contains(roaster),
               onChanged: (bool? value) {
                 setState(() {

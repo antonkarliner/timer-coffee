@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 
 class GlobalSnowOverlay extends StatelessWidget {
   final bool isSnowing;
-  const GlobalSnowOverlay({Key? key, required this.isSnowing})
-      : super(key: key);
+  const GlobalSnowOverlay({super.key, required this.isSnowing});
 
   @override
   Widget build(BuildContext context) {

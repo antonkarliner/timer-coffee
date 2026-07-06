@@ -12,14 +12,14 @@ class AmountFields extends StatelessWidget {
   final VoidCallback onWaterFocus;
 
   const AmountFields({
-    Key? key,
+    super.key,
     required this.coffeeController,
     required this.waterController,
     required this.onCoffeeChanged,
     required this.onWaterChanged,
     required this.onCoffeeFocus,
     required this.onWaterFocus,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

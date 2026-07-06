@@ -8,10 +8,10 @@ class RecipeDetailTitle extends StatelessWidget {
   final String brewingMethodName;
 
   const RecipeDetailTitle({
-    Key? key,
+    super.key,
     required this.brewingMethodIcon,
     required this.brewingMethodName,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

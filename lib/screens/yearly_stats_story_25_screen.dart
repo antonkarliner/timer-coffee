@@ -196,7 +196,6 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
   late Animation<double> _slide2Row5Fade;
   bool _slide2Row2Started = false;
   Timer? _slide2Row5DelayTimer;
-  bool _slide2Row5Pending = false;
 
   late AnimationController _slide3Row2Controller;
   late AnimationController _slide3Row3Controller;
@@ -254,7 +253,6 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
   final FocusNode _wishFocusNode = FocusNode();
   bool _isSendingWish = false;
   bool _wishSent = false;
-  bool _wishSkipped = false;
   String? _wishError;
   String? _receivedWish;
   final GlobalKey _shareButtonKey = GlobalKey();
@@ -269,14 +267,12 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
   bool _trackedLastSlide = false;
 
   String _appBarTitle = '';
-  int _slide1Index = 0;
   int _slide2Index = 1;
   int _slide3Index = -1;
   int _slide4Index = -1;
   int _slide5Index = -1;
   int _slide6Index = -1;
   int _slide7Index = -1;
-  int _postcardIndex = -1;
   int _ctaIndex = -1;
   final GlobalKey _postcardInputKey = GlobalKey();
   final GlobalKey _postcardButtonsKey = GlobalKey();
@@ -909,7 +905,7 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
         },
       ),
     );
-    _slide1Index = index++;
+    index++;
 
     stories.add(
       _StoryConfig(
@@ -918,7 +914,6 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
         onStart: () {
           _stopGlobalCountTicker(reset: true);
           _slide2Row2Started = false;
-          _slide2Row5Pending = false;
           _slide2Row5DelayTimer?.cancel();
           _slide2FadeController.reset();
           _slide2Row4Controller.reset();
@@ -1037,7 +1032,7 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
                       _scratchRevealBox(
                         containerKey: _slide4ScratchKey,
                         scratchKey: ValueKey(
-                          'slide4-${_slide4ScratchSeed}-single',
+                          'slide4-$_slide4ScratchSeed-single',
                         ),
                         child: _slide4DetailsSinglePeak(peak, dateFmt),
                         onReveal: handleReveal,
@@ -1063,7 +1058,7 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
                     _scratchRevealBox(
                       containerKey: _slide4ScratchKey,
                       scratchKey: ValueKey(
-                        'slide4-${_slide4ScratchSeed}-multi',
+                        'slide4-$_slide4ScratchSeed-multi',
                       ),
                       child: _slide4DetailsMultiPeak(
                           mostRecent, peak.count, litersValue),
@@ -1090,7 +1085,7 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
                   _scratchRevealBox(
                     containerKey: _slide4ScratchKey,
                     scratchKey: ValueKey(
-                      'slide4-${_slide4ScratchSeed}-time',
+                      'slide4-$_slide4ScratchSeed-time',
                     ),
                     child: _slide4DetailsBrewTime(timeLabel),
                     onReveal: handleReveal,
@@ -1163,7 +1158,7 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
         builder: (context, data) => _postcardSlide(data),
       ),
     );
-    _postcardIndex = index++;
+    index++;
 
     stories.add(
       _StoryConfig(
@@ -1195,7 +1190,6 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
     _slide5IgnorePause = index == _slide5Index && _isPaused;
     if (index != _slide2Index) {
       _stopGlobalCountTicker(reset: false);
-      _slide2Row5Pending = false;
       _slide2Row5DelayTimer?.cancel();
     }
     _slide7IgnorePause = index == _slide7Index && _isPaused;
@@ -1298,10 +1292,8 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
   void _scheduleSlide2Row5Delay() {
     if (_slide2Row5Controller.status == AnimationStatus.completed ||
         _slide2Row5Controller.isAnimating) {
-      _slide2Row5Pending = false;
       return;
     }
-    _slide2Row5Pending = true;
     _slide2Row5DelayTimer?.cancel();
     if (_isPaused) {
       return;
@@ -1310,7 +1302,6 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
       if (!mounted || _currentStoryIndex != _slide2Index || _isPaused) return;
       if (_slide2Row4Controller.status == AnimationStatus.completed &&
           _slide2Row5Controller.status != AnimationStatus.completed) {
-        _slide2Row5Pending = false;
         _slide2Row5Controller.forward();
       }
     });
@@ -1967,34 +1958,6 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
   // ------------------------
   // Slides
   // ------------------------
-  Widget _simpleSlide({
-    String? title,
-    String? subtitle,
-    String? footer,
-    required String emoji,
-    List<InlineSpan>? titleSpans,
-  }) {
-    return _slideSurface(
-      emoji: emoji,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (title != null) _titleText(title!),
-          if (titleSpans != null) _titleRich(titleSpans),
-          if (subtitle != null) ...[
-            const SizedBox(height: 12),
-            _subtitleText(subtitle!),
-          ],
-          if (footer != null) ...[
-            const SizedBox(height: 16),
-            _subtitleText(footer!),
-          ],
-        ],
-      ),
-    );
-  }
-
   Widget _globalCommunitySlide(_StoryData data) {
     final countText =
         _globalCountSnap ? '100.000+' : _formatBrews(_globalCountValue);
@@ -2416,7 +2379,6 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
                   const SizedBox(height: AppSpacing.sm),
                   _buildActionButton(l10n.yearlyStats25PostcardSkip, () {
                     setState(() {
-                      _wishSkipped = true;
                       _wishError = null;
                     });
                     _goToNextStory();
@@ -2844,7 +2806,6 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
   Future<void> _shareRecap(_StoryData data) async {
     if (kIsWeb) return;
     final overlayState = Overlay.of(context);
-    if (overlayState == null) return;
     final GlobalKey repaintBoundaryKey = GlobalKey();
     _shareOverlay?.remove();
     _shareOverlay = OverlayEntry(
@@ -2932,7 +2893,7 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
     }
 
     final overlay = Overlay.of(context);
-    final overlayObject = overlay?.context.findRenderObject();
+    final overlayObject = overlay.context.findRenderObject();
     if (overlayObject is RenderBox && overlayObject.hasSize) {
       final offset = overlayObject.localToGlobal(Offset.zero);
       final size = overlayObject.size;
@@ -3112,8 +3073,8 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
         'event': event,
         'platform': _platformParam(),
         'locale': locale,
-        if (appVersion != null) 'app_version': appVersion,
-        if (installId != null) 'install_id': installId,
+        'app_version': ?appVersion,
+        'install_id': ?installId,
       };
       await supabase
           .schema(_trackingSchema)
@@ -3131,7 +3092,7 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
   // ------------------------
   Widget _slideSurface({required Widget child, required String emoji}) {
     const offWhite = Color(0xFFF7F5F0);
-    final overlayColor = offWhite.withOpacity(_emojiOverlayOpacity);
+    final overlayColor = offWhite.withValues(alpha: _emojiOverlayOpacity);
     return Container(
       color: offWhite,
       child: Stack(
@@ -3213,37 +3174,6 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
     );
   }
 
-  double _computeTitleFontSize(double maxWidth, BuildContext context) {
-    final text = AppLocalizations.of(context)!.yearlyStats25Slide1Title;
-    const minSize = 22.0;
-    final maxSize = _storyTitleFontSize;
-    int low = minSize.round();
-    int high = maxSize.round();
-    int best = low;
-    final textDirection = Directionality.of(context);
-    final painter = TextPainter(
-      textDirection: textDirection,
-      maxLines: 2,
-    );
-
-    while (low <= high) {
-      final mid = (low + high) ~/ 2;
-      painter.text = TextSpan(
-        text: text,
-        style: _storyTitleStyle.copyWith(fontSize: mid.toDouble()),
-      );
-      painter.layout(maxWidth: maxWidth);
-      if (!painter.didExceedMaxLines) {
-        best = mid;
-        low = mid + 1;
-      } else {
-        high = mid - 1;
-      }
-    }
-
-    return best.toDouble();
-  }
-
   double _computeTitleFontSizeForText(
     String text,
     double maxWidth,
@@ -3302,56 +3232,6 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
       overflow: TextOverflow.visible,
       softWrap: true,
       style: _storyTitleStyle.copyWith(fontSize: resolvedSize),
-    );
-  }
-
-  Widget _titleRich(
-    List<InlineSpan> spans, {
-    int? maxLines,
-    double? fontSize,
-  }) {
-    final resolvedSize =
-        fontSize ?? _resolvedTitleFontSize ?? _storyTitleFontSize;
-    final resolvedMaxLines = maxLines ?? _defaultTitleMaxLines;
-    final minFontSize = math.min(resolvedSize, _minStoryTitleFontSize);
-    return AutoSizeText.rich(
-      TextSpan(
-        style: _storyTitleStyle.copyWith(fontSize: resolvedSize),
-        children: spans,
-      ),
-      textAlign: TextAlign.left,
-      maxLines: resolvedMaxLines,
-      minFontSize: minFontSize,
-      maxFontSize: resolvedSize,
-      stepGranularity: _storyTextStepGranularity,
-      wrapWords: false,
-      overflow: TextOverflow.visible,
-      softWrap: true,
-    );
-  }
-
-  Widget _titleHighlightedText(
-    String text,
-    List<String> highlights, {
-    int? maxLines,
-    double? fontSize,
-  }) {
-    final resolvedSize =
-        fontSize ?? _resolvedTitleFontSize ?? _storyTitleFontSize;
-    final baseStyle = _storyTitleStyle.copyWith(fontSize: resolvedSize);
-    final highlightStyle = _storyTitleStyle.copyWith(
-        fontSize: resolvedSize, fontWeight: FontWeight.w700);
-    final resolvedMaxLines = maxLines ?? _defaultTitleMaxLines;
-    final minFontSize = math.min(resolvedSize, _minStoryTitleFontSize);
-    return _buildHighlightedText(
-      text,
-      highlights,
-      baseStyle,
-      highlightStyle,
-      maxLines: resolvedMaxLines,
-      minFontSize: minFontSize,
-      maxFontSize: resolvedSize,
-      wrapWords: false,
     );
   }
 
@@ -3738,7 +3618,7 @@ class _ShareRecapWidgetState extends State<_ShareRecapWidget> {
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   color:
-                      const Color(0xFFF7F5F0).withOpacity(_emojiOverlayOpacity),
+                      const Color(0xFFF7F5F0).withValues(alpha: _emojiOverlayOpacity),
                 ),
               ),
             ),
@@ -3977,7 +3857,6 @@ class _ScratchReveal extends StatefulWidget {
   final String label;
   final VoidCallback onReveal;
   final BorderRadius borderRadius;
-  final Color overlayColor;
   final Color backgroundColor;
   final TextStyle labelStyle;
   final double revealThreshold;
@@ -3992,7 +3871,6 @@ class _ScratchReveal extends StatefulWidget {
     required this.label,
     required this.onReveal,
     required this.borderRadius,
-    this.overlayColor = const Color(0xFFEAE4D9),
     this.backgroundColor = Colors.white,
     this.labelStyle = const TextStyle(
       fontSize: 16,
@@ -4112,7 +3990,7 @@ class _ScratchRevealState extends State<_ScratchReveal>
                       return CustomPaint(
                         painter: _ScratchPainter(
                           points: _points,
-                          overlayColor: widget.overlayColor,
+                          overlayColor: const Color(0xFFEAE4D9),
                           borderRadius: widget.borderRadius,
                           label: widget.label,
                           labelStyle: widget.labelStyle,
@@ -4169,7 +4047,7 @@ class _ScratchPainter extends CustomPainter {
     final rrect = borderRadius.toRRect(rect);
 
     canvas.saveLayer(rect, Paint());
-    final paint = Paint()..color = overlayColor.withOpacity(overlayOpacity);
+    final paint = Paint()..color = overlayColor.withValues(alpha: overlayOpacity);
     canvas.drawRRect(rrect, paint);
 
     if (showShimmer && overlayOpacity > 0) {
@@ -4178,9 +4056,9 @@ class _ScratchPainter extends CustomPainter {
         begin: Alignment(-1.2 + 2.4 * shimmerValue, -0.8),
         end: Alignment(-0.2 + 2.4 * shimmerValue, 0.8),
         colors: [
-          Colors.white.withOpacity(0.0),
-          Colors.white.withOpacity(shimmerOpacity),
-          Colors.white.withOpacity(0.0),
+          Colors.white.withValues(alpha: 0.0),
+          Colors.white.withValues(alpha: shimmerOpacity),
+          Colors.white.withValues(alpha: 0.0),
         ],
         stops: const [0.0, 0.5, 1.0],
       );

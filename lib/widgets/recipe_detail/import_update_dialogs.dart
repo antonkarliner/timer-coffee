@@ -8,9 +8,9 @@ class RecipeImportDialog extends StatelessWidget {
   final String recipeName;
 
   const RecipeImportDialog({
-    Key? key,
+    super.key,
     required this.recipeName,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +44,9 @@ class RecipeUpdateDialog extends StatelessWidget {
   final String recipeName;
 
   const RecipeUpdateDialog({
-    Key? key,
+    super.key,
     required this.recipeName,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

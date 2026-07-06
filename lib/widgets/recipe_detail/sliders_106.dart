@@ -8,12 +8,12 @@ class SweetnessStrengthSliders extends StatelessWidget {
   final ValueChanged<int> onStrengthChanged;
 
   const SweetnessStrengthSliders({
-    Key? key,
+    super.key,
     required this.sweetnessPosition,
     required this.strengthPosition,
     required this.onSweetnessChanged,
     required this.onStrengthChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

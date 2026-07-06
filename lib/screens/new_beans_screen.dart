@@ -41,10 +41,10 @@ import 'package:coffee_timer/widgets/new_beans/image_flow/collected_data_dialog.
 class NewBeansScreen extends StatefulWidget {
   final String? uuid;
 
-  const NewBeansScreen({Key? key, this.uuid}) : super(key: key);
+  const NewBeansScreen({super.key, this.uuid});
 
   @override
-  _NewBeansScreenState createState() => _NewBeansScreenState();
+  State<NewBeansScreen> createState() => _NewBeansScreenState();
 }
 
 class _NewBeansScreenState extends State<NewBeansScreen> {
@@ -315,10 +315,10 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     _validateForm();
 
     // Refresh cover photo card when auth state changes (e.g. after sign-in)
-    _authStateSubscription =
-        Supabase.instance.client.auth.onAuthStateChange.listen((_) {
-      if (mounted) setState(() {});
-    });
+    _authStateSubscription = Supabase.instance.client.auth.onAuthStateChange
+        .listen((_) {
+          if (mounted) setState(() {});
+        });
   }
 
   @override
@@ -835,11 +835,11 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     d.remove('meta');
 
     // Sanitize Unknown -> null/empty handling, and coerce types
-    String _str(dynamic v) =>
+    String stringValue(dynamic v) =>
         (v == null || v == 'Unknown') ? '' : (v is String ? v : v.toString());
-    String? _nullableStr(dynamic v) =>
+    String? nullableString(dynamic v) =>
         (v == null || v == 'Unknown') ? null : (v is String ? v : v.toString());
-    int? _toInt(dynamic v) {
+    int? toInt(dynamic v) {
       if (v == null || v == 'Unknown') return null;
       if (v is int) return v;
       if (v is double) return v.toInt();
@@ -847,7 +847,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       return null;
     }
 
-    double? _toDouble(dynamic v) {
+    double? toDouble(dynamic v) {
       if (v == null || v == 'Unknown') return null;
       if (v is double) return v;
       if (v is int) return v.toDouble();
@@ -855,7 +855,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       return null;
     }
 
-    DateTime? _toDate(dynamic v) {
+    DateTime? toDate(dynamic v) {
       if (v == null || v == 'Unknown') return null;
       if (v is DateTime) return v;
       if (v is String) return DateTime.tryParse(v);
@@ -865,21 +865,21 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       setState(() {
-        _roasterController.text = _str(d['roaster']);
-        _nameController.text = _str(d['name']);
-        _originController.text = _str(d['origin']);
+        _roasterController.text = stringValue(d['roaster']);
+        _nameController.text = stringValue(d['name']);
+        _originController.text = stringValue(d['origin']);
 
-        final elev = _toInt(d['elevation']);
+        final elev = toInt(d['elevation']);
         _elevationController.text = elev?.toString() ?? '';
 
-        final cup = _toDouble(d['cuppingScore']);
+        final cup = toDouble(d['cuppingScore']);
         _cuppingScoreController.text = cup?.toString() ?? '';
 
-        _notesController.text = _str(d['notes']);
-        _farmerController.text = _str(d['farmer']);
-        _farmController.text = _str(d['farm']);
+        _notesController.text = stringValue(d['notes']);
+        _farmerController.text = stringValue(d['farmer']);
+        _farmController.text = stringValue(d['farm']);
 
-        final tn = _nullableStr(d['tastingNotes']);
+        final tn = nullableString(d['tastingNotes']);
         _tastingNotes = (tn == null || tn.trim().isEmpty)
             ? []
             : tn
@@ -888,14 +888,14 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                   .where((e) => e.isNotEmpty && e != 'Unknown')
                   .toList();
 
-        variety = _nullableStr(d['variety']);
-        processingMethod = _nullableStr(d['processingMethod']);
-        roastLevel = _nullableStr(d['roastLevel']);
-        region = _nullableStr(d['region']);
+        variety = nullableString(d['variety']);
+        processingMethod = nullableString(d['processingMethod']);
+        roastLevel = nullableString(d['roastLevel']);
+        region = nullableString(d['region']);
 
-        harvestDate = _toDate(d['harvestDate']);
-        roastDate = _toDate(d['roastDate']);
-        packageWeightGrams = _toDouble(d['packageWeightGrams']);
+        harvestDate = toDate(d['harvestDate']);
+        roastDate = toDate(d['roastDate']);
+        packageWeightGrams = toDouble(d['packageWeightGrams']);
 
         // Trigger validation after filling fields from image flow
         // Note: The listeners will automatically trigger validation
@@ -1002,13 +1002,13 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
           );
 
           if (shouldDiscard == true) {
-            if (mounted) {
+            if (context.mounted) {
               context.router.pop();
             }
           }
         } else {
           // When there are no unsaved changes, allow navigation
-          if (mounted) {
+          if (context.mounted) {
             context.router.pop();
           }
         }
@@ -1190,11 +1190,13 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                             fit: BoxFit.cover,
                           )
                         : Image.network(
-                            SupabaseEndpointResolver.localizeStorageUrl(_photoUrl!),
+                            SupabaseEndpointResolver.localizeStorageUrl(
+                              _photoUrl!,
+                            ),
                             height: 160,
                             width: double.infinity,
                             fit: BoxFit.cover,
-                            errorBuilder: (_, __, ___) => const SizedBox(
+                            errorBuilder: (_, _, _) => const SizedBox(
                               height: 160,
                               child: Center(child: Icon(Icons.broken_image)),
                             ),
@@ -1760,8 +1762,8 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                       }
                     },
                     grindSize: _grindSizeController.text,
-                    grindSizeOptions:
-                        coffeeBeansProvider.fetchAllDistinctGrindSizes(),
+                    grindSizeOptions: coffeeBeansProvider
+                        .fetchAllDistinctGrindSizes(),
                     onGrindSizeChanged: (v) {
                       final newText = v ?? '';
                       if (_grindSizeController.text != newText) {

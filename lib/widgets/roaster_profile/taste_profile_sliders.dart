@@ -66,7 +66,7 @@ class TasteProfileSliders extends StatelessWidget {
               child: Text(
                 l10n.tasteProfileScaLabel,
                 style: AppTextStyles.caption.copyWith(
-                  color: colorScheme.onSurface.withOpacity(0.7),
+                  color: colorScheme.onSurface.withValues(alpha: 0.7),
                 ),
               ),
             ),
@@ -79,7 +79,7 @@ class TasteProfileSliders extends StatelessWidget {
                 minWidth: AppIconSize.medium,
                 minHeight: AppIconSize.medium,
               ),
-              color: colorScheme.onSurface.withOpacity(0.7),
+              color: colorScheme.onSurface.withValues(alpha: 0.7),
               tooltip: l10n.tasteProfileInfoTooltip,
               onPressed: () => _showTasteProfileInfoDialog(context, l10n),
             ),
@@ -192,7 +192,7 @@ class _TasteDimensionRow extends StatelessWidget {
               child: Text(
                 label,
                 style: AppTextStyles.caption.copyWith(
-                  color: colorScheme.onSurface.withOpacity(0.7),
+                  color: colorScheme.onSurface.withValues(alpha: 0.7),
                 ),
               ),
             ),
@@ -206,11 +206,11 @@ class _TasteDimensionRow extends StatelessWidget {
                         ? SliderTheme.of(context)
                         : SliderTheme.of(context).copyWith(
                             activeTrackColor:
-                                colorScheme.onSurface.withOpacity(0.25),
+                                colorScheme.onSurface.withValues(alpha: 0.25),
                             inactiveTrackColor:
-                                colorScheme.onSurface.withOpacity(0.12),
+                                colorScheme.onSurface.withValues(alpha: 0.12),
                             thumbColor:
-                                colorScheme.onSurface.withOpacity(0.35),
+                                colorScheme.onSurface.withValues(alpha: 0.35),
                           ),
                     child: Slider(
                       value: value,
@@ -244,7 +244,7 @@ class _SegmentedDotTrack extends StatelessWidget {
       return Container(
         height: trackHeight,
         decoration: BoxDecoration(
-          color: colorScheme.onSurface.withOpacity(0.12),
+          color: colorScheme.onSurface.withValues(alpha: 0.12),
           borderRadius: BorderRadius.circular(trackHeight / 2),
         ),
       );
@@ -269,7 +269,7 @@ class _SegmentedDotTrack extends StatelessWidget {
                 child: Container(
                   height: trackHeight,
                   decoration: BoxDecoration(
-                    color: colorScheme.onSurface.withOpacity(0.12),
+                    color: colorScheme.onSurface.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(trackHeight / 2),
                   ),
                 ),

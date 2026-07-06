@@ -39,13 +39,13 @@ import '../utils/app_logger.dart'; // Import AppLogger
 class RecipeDetailScreen extends StatelessWidget {
   final String brewingMethodId;
   final String
-      recipeId; // This is the ID passed in the route (could be usr-...)
+  recipeId; // This is the ID passed in the route (could be usr-...)
 
   const RecipeDetailScreen({
-    Key? key,
+    super.key,
     @PathParam('brewingMethodId') required this.brewingMethodId,
     @PathParam('recipeId') required this.recipeId,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -63,13 +63,13 @@ class RecipeDetailBase extends StatefulWidget {
   final String initialRecipeId; // The ID passed from the route
 
   const RecipeDetailBase({
-    Key? key,
+    super.key,
     this.brewingMethodId,
     required this.initialRecipeId,
-  }) : super(key: key);
+  });
 
   @override
-  _RecipeDetailBaseState createState() => _RecipeDetailBaseState();
+  State<RecipeDetailBase> createState() => _RecipeDetailBaseState();
 }
 
 class _RecipeDetailBaseState extends State<RecipeDetailBase> {
@@ -82,7 +82,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
   String? _selectedBeanGrindSize;
   String _brewingMethodName = "";
   String?
-      _effectiveRecipeId; // The ID used to load the recipe (might change after import)
+  _effectiveRecipeId; // The ID used to load the recipe (might change after import)
 
   // Loading and error state
   bool _isLoading = true;
@@ -99,14 +99,12 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     _effectiveRecipeId = widget.initialRecipeId; // Start with the initial ID
 
     // Set up authentication state change listener
-    _authStateSubscription =
-        Supabase.instance.client.auth.onAuthStateChange.listen(
-      (AuthState data) {
-        if (mounted) {
-          _handleAuthenticationChange(data);
-        }
-      },
-    );
+    _authStateSubscription = Supabase.instance.client.auth.onAuthStateChange
+        .listen((AuthState data) {
+          if (mounted) {
+            _handleAuthenticationChange(data);
+          }
+        });
 
     // Use WidgetsBinding to ensure context is available for AppLocalizations
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -114,7 +112,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
         setState(() {
           _brewingMethodName =
               AppLocalizations.of(context)?.unknownBrewingMethod ??
-                  "Unknown Brewing Method";
+              "Unknown Brewing Method";
         });
         _performInitialRecipeCheck(); // Start the check
         _loadSelectedBean();
@@ -243,7 +241,8 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       final ownsRecipePrefix = 'usr-$currentUserId-';
       if (currentRecipeId.startsWith(ownsRecipePrefix)) {
         AppLogger.debug(
-            'Recipe ID already belongs to current user, no remap needed');
+          'Recipe ID already belongs to current user, no remap needed',
+        );
         return;
       }
 
@@ -252,12 +251,14 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       final parts = currentRecipeId.split('-');
       if (parts.length < 3) {
         AppLogger.debug(
-            'Invalid usr-* recipe ID format, cannot extract timestamp for remap');
+          'Invalid usr-* recipe ID format, cannot extract timestamp for remap',
+        );
         return;
       }
       final timestamp = parts.last;
       AppLogger.debug(
-          'Remap path: extracted timestamp="$timestamp" from "$currentRecipeId"');
+        'Remap path: extracted timestamp="$timestamp" from "$currentRecipeId"',
+      );
 
       final newRecipeId = 'usr-$currentUserId-$timestamp';
       AppLogger.debug('Attempting remap to newRecipeId="$newRecipeId"');
@@ -266,28 +267,33 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       if (!mounted) return;
       final newResult =
           await RecipeLoadingService.loadRecipeAndInitializeController(
-        context,
-        newRecipeId,
-        RecipeDetailController(), // Temporary controller for checking
-      );
+            context,
+            newRecipeId,
+            RecipeDetailController(), // Temporary controller for checking
+          );
 
       if (newResult.isSuccess && newResult.recipe != null) {
         AppLogger.debug(
-            'Remap succeeded: found recipe under newRecipeId="$newRecipeId". Updating effectiveRecipeId and reloading details.');
+          'Remap succeeded: found recipe under newRecipeId="$newRecipeId". Updating effectiveRecipeId and reloading details.',
+        );
         if (!mounted) return;
         setState(() {
           _effectiveRecipeId = newRecipeId;
         });
         await _loadRecipeDetails(newRecipeId);
         AppLogger.debug(
-            'Effective recipe ID updated from "$currentRecipeId" to "$newRecipeId"');
+          'Effective recipe ID updated from "$currentRecipeId" to "$newRecipeId"',
+        );
       } else {
         AppLogger.debug(
-            'Remap attempt: recipe not found under newRecipeId="$newRecipeId". Leaving effectiveRecipeId unchanged.');
+          'Remap attempt: recipe not found under newRecipeId="$newRecipeId". Leaving effectiveRecipeId unchanged.',
+        );
       }
     } catch (e) {
-      AppLogger.debug('Error during authentication change handling',
-          errorObject: e);
+      AppLogger.debug(
+        'Error during authentication change handling',
+        errorObject: e,
+      );
     }
   }
 
@@ -300,11 +306,11 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
 
     if (!mounted) return;
 
-    if (result == null) {
+    _selectedBeanGrindSize = result.grindSize;
+    if (result.uuid == null) {
       _selectedBeanGrindSize = null;
       _controller.clearBeanSelection();
     } else {
-      _selectedBeanGrindSize = result.grindSize;
       _controller.setBeanSelection(
         uuid: result.uuid,
         name: result.name,
@@ -325,8 +331,9 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     if (beanGrind != null && beanGrind.isNotEmpty) {
       _controller.applyBeanGrindSize(beanGrind);
     } else {
-      _controller
-          .resetGrindSizeToFallback(recipe.customGrindSize ?? recipe.grindSize);
+      _controller.resetGrindSizeToFallback(
+        recipe.customGrindSize ?? recipe.grindSize,
+      );
     }
   }
 
@@ -338,7 +345,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
         return AddCoffeeBeansWidget(
           onSelect: (String selectedBeanUuid) async {
             await _updateSelectedBean(selectedBeanUuid);
-            Navigator.of(context).pop();
+            if (context.mounted) Navigator.of(context).pop();
           },
         );
       },
@@ -377,13 +384,13 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
 
     if (_updatedRecipe == null) {
       final l10n = AppLocalizations.of(context)!;
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(l10n.recipeLoadErrorGeneric)));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.recipeLoadErrorGeneric)));
       return;
     }
 
     if (!mounted) return;
-
     setState(() => _isSharing = true);
 
     final result = await RecipeImportSharingService.shareRecipe(
@@ -392,13 +399,17 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       shareRecipeId: shareRecipeId,
     );
     AppLogger.debug(
-        'Share result - success: ${result.success}, resolvedRecipeId: ${result.resolvedRecipeId}');
+      'Share result - success: ${result.success}, resolvedRecipeId: ${result.resolvedRecipeId}',
+    );
 
     if (result.success) {
-      AnalyticsService.instance.track('recipe_shared', properties: {
-        'recipe_id': shareRecipeId,
-        'brewing_method_id': _updatedRecipe?.brewingMethodId,
-      });
+      AnalyticsService.instance.track(
+        'recipe_shared',
+        properties: {
+          'recipe_id': shareRecipeId,
+          'brewing_method_id': _updatedRecipe?.brewingMethodId,
+        },
+      );
     }
 
     // If service remapped to a stable usr-<user>-<timestamp> id during share, persist it.
@@ -416,21 +427,26 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     // Only user recipes should be marked public in local user-recipe storage.
     final String effectiveSharedId = result.resolvedRecipeId ?? shareRecipeId;
     final bool isUserRecipe = effectiveSharedId.startsWith('usr-');
-    if (result.success && isUserRecipe && mounted) {
+    if (result.success && isUserRecipe && context.mounted) {
       setState(() {
         _updatedRecipe = _updatedRecipe?.copyWith(isPublic: true);
       });
       if (_updatedRecipe != null) {
-        final userRecipeProvider =
-            Provider.of<UserRecipeProvider>(context, listen: false);
-        await userRecipeProvider
-            .updateUserRecipe(_updatedRecipe!.copyWith(isPublic: true));
+        final userRecipeProvider = Provider.of<UserRecipeProvider>(
+          context,
+          listen: false,
+        );
+        await userRecipeProvider.updateUserRecipe(
+          _updatedRecipe!.copyWith(isPublic: true),
+        );
       }
       AppLogger.debug(
-          'Updated local user recipe database and state - isPublic: true');
+        'Updated local user recipe database and state - isPublic: true',
+      );
     } else if (result.success && !isUserRecipe) {
       AppLogger.debug(
-          'Skipping local user-recipe persistence after sharing built-in recipe: $effectiveSharedId');
+        'Skipping local user-recipe persistence after sharing built-in recipe: $effectiveSharedId',
+      );
     }
 
     if (mounted) {
@@ -438,12 +454,13 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     }
 
     AppLogger.debug(
-        'After sharing, recipe $shareRecipeId isPublic: ${_updatedRecipe?.isPublic}');
+      'After sharing, recipe $shareRecipeId isPublic: ${_updatedRecipe?.isPublic}',
+    );
   }
 
   /// Navigates to edit recipe using RecipeNavigationService
   void _navigateToEditRecipe(BuildContext context, RecipeModel recipe) async {
-    final result = await RecipeNavigationService.navigateToEditRecipe(
+    await RecipeNavigationService.navigateToEditRecipe(
       context: context,
       recipe: recipe,
       effectiveRecipeId: _effectiveRecipeId ?? widget.initialRecipeId,
@@ -457,8 +474,10 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
 
   /// Navigates to copy recipe using RecipeNavigationService
   Future<void> _navigateToCopyRecipe(
-      BuildContext context, RecipeModel recipeToCopy) async {
-    final result = await RecipeNavigationService.navigateToCopyRecipe(
+    BuildContext context,
+    RecipeModel recipeToCopy,
+  ) async {
+    await RecipeNavigationService.navigateToCopyRecipe(
       context: context,
       recipeToCopy: recipeToCopy,
     );
@@ -470,48 +489,60 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     if (recipe == null) return;
 
     final l10n = AppLocalizations.of(context)!;
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
 
     try {
-      final userRecipeProvider =
-          Provider.of<UserRecipeProvider>(context, listen: false);
+      final userRecipeProvider = Provider.of<UserRecipeProvider>(
+        context,
+        listen: false,
+      );
       await userRecipeProvider.unpublishRecipe(_effectiveRecipeId ?? recipe.id);
 
-      ScaffoldMessenger.of(context).showSnackBar(
+      if (!context.mounted) return;
+      scaffoldMessenger.showSnackBar(
         SnackBar(content: Text(l10n.recipeUnpublishSuccess)),
       );
 
       // Refresh the recipe data to reflect the privacy status change
       await _loadRecipeDetails(_effectiveRecipeId ?? recipe.id);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.recipeUnpublishError(e.toString()))),
-      );
+      if (context.mounted) {
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.recipeUnpublishError(e.toString()))),
+        );
+      }
     }
   }
 
   /// Saves custom amounts and navigates to preparation screen
   Future<void> _saveCustomAmountsAndNavigate(
-      BuildContext context, RecipeModel recipe) async {
+    BuildContext context,
+    RecipeModel recipe,
+  ) async {
     // Use _effectiveRecipeId when saving
     final String idToSave = _effectiveRecipeId ?? widget.initialRecipeId;
 
     // Ensure context is valid before accessing Providers
-    if (!mounted) return;
+    if (!context.mounted) return;
 
     final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
-    double customCoffeeAmount = double.tryParse(
-            _controller.coffeeController.text.replaceAll(',', '.')) ??
+    double customCoffeeAmount =
+        double.tryParse(
+          _controller.coffeeController.text.replaceAll(',', '.'),
+        ) ??
         recipe.coffeeAmount;
-    double customWaterAmount = double.tryParse(
-            _controller.waterController.text.replaceAll(',', '.')) ??
+    double customWaterAmount =
+        double.tryParse(
+          _controller.waterController.text.replaceAll(',', '.'),
+        ) ??
         recipe.waterAmount;
 
-    final String controllerGrind =
-        _controller.grindSizeController.text.trim();
+    final String controllerGrind = _controller.grindSizeController.text.trim();
     // Value used for the actual brew — the attached bean's grind size takes
     // effect here when present.
-    final String? effectiveGrindSize =
-        controllerGrind.isEmpty ? null : controllerGrind;
+    final String? effectiveGrindSize = controllerGrind.isEmpty
+        ? null
+        : controllerGrind;
 
     // Value persisted as the recipe's manual override. If the displayed grind
     // size came from the attached bean (and wasn't manually edited since),
@@ -522,17 +553,22 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
         : effectiveGrindSize;
 
     await recipeProvider.saveCustomAmounts(
-        idToSave, customCoffeeAmount, customWaterAmount,
-        customGrindSize: grindSizeToPersist);
+      idToSave,
+      customCoffeeAmount,
+      customWaterAmount,
+      customGrindSize: grindSizeToPersist,
+    );
 
     // Use effective ID for slider logic check
     if (idToSave == '106' || idToSave == '1002') {
       await recipeProvider.saveSliderPositions(
         idToSave,
-        sweetnessSliderPosition:
-            idToSave == '106' ? _controller.sweetnessSliderPosition : null,
-        strengthSliderPosition:
-            idToSave == '106' ? _controller.strengthSliderPosition : null,
+        sweetnessSliderPosition: idToSave == '106'
+            ? _controller.sweetnessSliderPosition
+            : null,
+        strengthSliderPosition: idToSave == '106'
+            ? _controller.strengthSliderPosition
+            : null,
         coffeeChroniclerSliderPosition: idToSave == '1002'
             ? _controller.coffeeChroniclerSliderPosition
             : null,
@@ -544,25 +580,28 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       coffeeAmount: customCoffeeAmount,
       waterAmount: customWaterAmount,
       grindSize: effectiveGrindSize ?? recipe.grindSize,
-      sweetnessSliderPosition:
-          idToSave == '106' ? _controller.sweetnessSliderPosition : null,
-      strengthSliderPosition:
-          idToSave == '106' ? _controller.strengthSliderPosition : null,
+      sweetnessSliderPosition: idToSave == '106'
+          ? _controller.sweetnessSliderPosition
+          : null,
+      strengthSliderPosition: idToSave == '106'
+          ? _controller.strengthSliderPosition
+          : null,
       coffeeChroniclerSliderPosition: idToSave == '1002'
           ? _controller.coffeeChroniclerSliderPosition
           : null,
     );
 
     // Ensure context is valid before navigating
-    if (!mounted) return;
+    if (!context.mounted) return;
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => PreparationScreen(
-            recipe: updatedRecipeForNav,
-            brewingMethodName: _brewingMethodName,
-            coffeeChroniclerSliderPosition:
-                updatedRecipeForNav.coffeeChroniclerSliderPosition),
+          recipe: updatedRecipeForNav,
+          brewingMethodName: _brewingMethodName,
+          coffeeChroniclerSliderPosition:
+              updatedRecipeForNav.coffeeChroniclerSliderPosition,
+        ),
       ),
     );
   }

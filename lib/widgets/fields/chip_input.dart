@@ -59,7 +59,7 @@ class ChipInput extends StatefulWidget {
   final TextCapitalization textCapitalization;
 
   const ChipInput({
-    Key? key,
+    super.key,
     required this.label,
     this.hintText,
     this.helperText,
@@ -77,7 +77,7 @@ class ChipInput extends StatefulWidget {
     this.semanticIdentifier,
     this.inputFormatters,
     this.textCapitalization = TextCapitalization.sentences,
-  }) : super(key: key);
+  });
 
   @override
   State<ChipInput> createState() => _ChipInputState();
@@ -185,9 +185,11 @@ class _ChipInputState extends State<ChipInput> {
 
   List<String> _getFilteredSuggestions(String query) {
     return widget.suggestions
-        .where((suggestion) =>
-            suggestion.toLowerCase().contains(query.toLowerCase()) &&
-            (!_chips.contains(suggestion) || widget.allowDuplicates))
+        .where(
+          (suggestion) =>
+              suggestion.toLowerCase().contains(query.toLowerCase()) &&
+              (!_chips.contains(suggestion) || widget.allowDuplicates),
+        )
         .take(8) // Limit to 8 suggestions
         .toList();
   }
@@ -214,8 +216,9 @@ class _ChipInputState extends State<ChipInput> {
 
     // Check max chips limit
     if (widget.maxChips != null && _chips.length >= widget.maxChips!) {
-      _showError(AppLocalizations.of(context)!
-          .chipInputMaxTagsError(widget.maxChips!));
+      _showError(
+        AppLocalizations.of(context)!.chipInputMaxTagsError(widget.maxChips!),
+      );
       return;
     }
 
@@ -250,9 +253,9 @@ class _ChipInputState extends State<ChipInput> {
   }
 
   void _showError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   void _onFieldSubmitted(String value) {
@@ -285,9 +288,7 @@ class _ChipInputState extends State<ChipInput> {
               const SizedBox(width: AppSpacing.xs),
               Text(
                 '*',
-                style: AppTextStyles.fieldLabel.copyWith(
-                  color: Colors.red,
-                ),
+                style: AppTextStyles.fieldLabel.copyWith(color: Colors.red),
               ),
             ],
           ],
@@ -300,20 +301,18 @@ class _ChipInputState extends State<ChipInput> {
             spacing: AppSpacing.xs,
             runSpacing: AppSpacing.xs,
             children: _chips
-                .map((chip) => Chip(
-                      label: Text(
-                        _capitalize(chip),
-                        style: chipTheme.labelStyle,
-                      ),
-                      onDeleted:
-                          widget.enabled ? () => _removeChip(chip) : null,
-                      backgroundColor: chipTheme.backgroundColor,
-                      deleteIcon: Icon(
-                        Icons.close,
-                        size: AppIconSize.small,
-                        color: chipTheme.labelStyle?.color,
-                      ),
-                    ))
+                .map(
+                  (chip) => Chip(
+                    label: Text(_capitalize(chip), style: chipTheme.labelStyle),
+                    onDeleted: widget.enabled ? () => _removeChip(chip) : null,
+                    backgroundColor: chipTheme.backgroundColor,
+                    deleteIcon: Icon(
+                      Icons.close,
+                      size: AppIconSize.small,
+                      color: chipTheme.labelStyle?.color,
+                    ),
+                  ),
+                )
                 .toList(),
           ),
           const SizedBox(height: AppSpacing.sm),
@@ -333,7 +332,8 @@ class _ChipInputState extends State<ChipInput> {
               onFieldSubmitted: _onFieldSubmitted,
               style: theme.textTheme.bodyLarge,
               decoration: InputDecoration(
-                hintText: widget.hintText ??
+                hintText:
+                    widget.hintText ??
                     AppLocalizations.of(context)!.chipInputHintText,
                 helperText: widget.helperText,
                 errorText: widget.errorText,
@@ -386,9 +386,7 @@ class _ChipInputState extends State<ChipInput> {
                 helperStyle: AppTextStyles.body.copyWith(
                   color: Colors.grey.shade600,
                 ),
-                errorStyle: AppTextStyles.body.copyWith(
-                  color: Colors.red,
-                ),
+                errorStyle: AppTextStyles.body.copyWith(color: Colors.red),
               ),
             ),
           ),
@@ -400,9 +398,7 @@ class _ChipInputState extends State<ChipInput> {
             padding: const EdgeInsets.only(top: AppSpacing.xs),
             child: Text(
               widget.errorText!,
-              style: AppTextStyles.body.copyWith(
-                color: Colors.red,
-              ),
+              style: AppTextStyles.body.copyWith(color: Colors.red),
             ),
           ),
       ],
@@ -410,12 +406,15 @@ class _ChipInputState extends State<ChipInput> {
   }
 
   String _capitalize(String input) {
-    return input.split(' ').map((str) {
-      if (str.isNotEmpty) {
-        return str[0].toUpperCase() + str.substring(1).toLowerCase();
-      }
-      return str;
-    }).join(' ');
+    return input
+        .split(' ')
+        .map((str) {
+          if (str.isNotEmpty) {
+            return str[0].toUpperCase() + str.substring(1).toLowerCase();
+          }
+          return str;
+        })
+        .join(' ');
   }
 }
 
@@ -449,7 +448,6 @@ class _SuggestionsOverlayState extends State<_SuggestionsOverlay> {
     final fieldPosition = renderBox.localToGlobal(Offset.zero);
 
     // Calculate available space
-    final safeAreaTop = mediaQuery.padding.top;
     final safeAreaBottom = mediaQuery.padding.bottom;
     final screenHeight = mediaQuery.size.height;
 
@@ -466,8 +464,10 @@ class _SuggestionsOverlayState extends State<_SuggestionsOverlay> {
     // Calculate horizontal position to stay within screen bounds
     final dropdownWidth = fieldSize.width;
     final screenWidth = mediaQuery.size.width;
-    final left =
-        math.max(0, math.min(fieldPosition.dx, screenWidth - dropdownWidth));
+    final left = math.max(
+      0,
+      math.min(fieldPosition.dx, screenWidth - dropdownWidth),
+    );
 
     return Positioned(
       left: left.toDouble(),
@@ -477,9 +477,7 @@ class _SuggestionsOverlayState extends State<_SuggestionsOverlay> {
         elevation: 4.0,
         borderRadius: BorderRadius.circular(AppRadius.field),
         child: ConstrainedBox(
-          constraints: BoxConstraints(
-            maxHeight: dropdownHeight,
-          ),
+          constraints: BoxConstraints(maxHeight: dropdownHeight),
           child: Container(
             decoration: BoxDecoration(
               color: theme.colorScheme.surface,

@@ -41,8 +41,12 @@ class OcrFallbackMetrics {
   int totalSuccesses = 0;
   final List<Map<String, dynamic>> decisionLog = [];
 
-  void recordAttempt(OcrFallbackStrategy strategy, bool success,
-      Duration duration, String? error) {
+  void recordAttempt(
+    OcrFallbackStrategy strategy,
+    bool success,
+    Duration duration,
+    String? error,
+  ) {
     totalAttempts++;
 
     switch (strategy) {
@@ -75,8 +79,9 @@ class OcrFallbackMetrics {
       'retrySuccesses': retrySuccesses,
       'totalAttempts': totalAttempts,
       'totalSuccesses': totalSuccesses,
-      'successRate':
-          totalAttempts > 0 ? (totalSuccesses / totalAttempts) * 100 : 0,
+      'successRate': totalAttempts > 0
+          ? (totalSuccesses / totalAttempts) * 100
+          : 0,
       'decisionLog': decisionLog,
     };
   }
@@ -85,7 +90,6 @@ class OcrFallbackMetrics {
 /// Handles OCR fallback strategies with retry logic (cloud fallback removed)
 class OcrFallbackHandler {
   final OcrService _nativeOcrService;
-  final BeansLabelParserClient _cloudClient;
   final OcrFallbackMetrics metrics = OcrFallbackMetrics();
   final OcrPerformanceMonitor _monitor = OcrPerformanceMonitor();
   final OcrPerformanceHistory _history = OcrPerformanceHistory.instance;
@@ -99,8 +103,7 @@ class OcrFallbackHandler {
     required BeansLabelParserClient cloudClient,
     this.maxRetryAttempts = 3,
     this.retryDelaysMs = const [1000, 2000, 4000], // 1s, 2s, 4s
-  })  : _nativeOcrService = nativeOcrService,
-        _cloudClient = cloudClient {
+  }) : _nativeOcrService = nativeOcrService {
     // Initialize performance monitoring
     _monitor.initialize();
     // Initialize performance history
@@ -182,7 +185,11 @@ class OcrFallbackHandler {
     );
 
     metrics.recordAttempt(
-        OcrFallbackStrategy.native, result.isSuccess, result.duration, error);
+      OcrFallbackStrategy.native,
+      result.isSuccess,
+      result.duration,
+      error,
+    );
 
     // Record performance metric
     endMonitoring(
@@ -218,8 +225,10 @@ class OcrFallbackHandler {
 
     for (int i = 0; i < maxRetryAttempts - 1; i++) {
       final attemptNumber = i + 2; // +2 because we already attempted once
-      final delay = retryDelaysMs[
-          i < retryDelaysMs.length ? i : retryDelaysMs.length - 1];
+      final delay =
+          retryDelaysMs[i < retryDelaysMs.length
+              ? i
+              : retryDelaysMs.length - 1];
 
       if (delay > 0) {
         _log('Waiting ${delay}ms before retry attempt $attemptNumber');
@@ -239,11 +248,19 @@ class OcrFallbackHandler {
           error: result.error,
         );
         metrics.recordAttempt(
-            OcrFallbackStrategy.retry, true, result.duration, null);
+          OcrFallbackStrategy.retry,
+          true,
+          result.duration,
+          null,
+        );
         break;
       } else {
         metrics.recordAttempt(
-            OcrFallbackStrategy.retry, false, result.duration, result.error);
+          OcrFallbackStrategy.retry,
+          false,
+          result.duration,
+          result.error,
+        );
       }
     }
 

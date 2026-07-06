@@ -359,9 +359,8 @@ class AppDatabase extends _$AppDatabase {
   final bool enableForeignKeyConstraints;
   final Uuid _uuid = Uuid();
 
-  AppDatabase(QueryExecutor executor, {bool? enableForeignKeyConstraints})
-      : enableForeignKeyConstraints = enableForeignKeyConstraints ?? true,
-        super(executor);
+  AppDatabase(super.executor, {bool? enableForeignKeyConstraints})
+      : enableForeignKeyConstraints = enableForeignKeyConstraints ?? true;
 
   AppDatabase.withDefault({bool enableForeignKeyConstraints = true})
       : this(_openConnection(),

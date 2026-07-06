@@ -33,7 +33,7 @@ class CoffeeBeansGridView extends StatelessWidget {
   final SortOption sortOption;
 
   const CoffeeBeansGridView({
-    Key? key,
+    super.key,
     required this.beans,
     required this.viewState,
     this.scrollController,
@@ -41,7 +41,7 @@ class CoffeeBeansGridView extends StatelessWidget {
     required this.onFavoriteToggle,
     required this.onTap,
     this.sortOption = SortOption.dateAdded,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

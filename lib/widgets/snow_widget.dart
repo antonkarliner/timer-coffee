@@ -17,7 +17,7 @@ class SnowWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _SnowWidgetState createState() => _SnowWidgetState();
+  State<SnowWidget> createState() => _SnowWidgetState();
 }
 
 class _SnowWidgetState extends State<SnowWidget>

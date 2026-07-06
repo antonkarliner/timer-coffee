@@ -13,10 +13,10 @@ import '../widgets/base_buttons.dart';
 
 @RoutePage()
 class CoffeeBeansScreen extends StatefulWidget {
-  const CoffeeBeansScreen({Key? key}) : super(key: key);
+  const CoffeeBeansScreen({super.key});
 
   @override
-  _CoffeeBeansScreenState createState() => _CoffeeBeansScreenState();
+  State<CoffeeBeansScreen> createState() => _CoffeeBeansScreenState();
 }
 
 class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
@@ -84,9 +84,7 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
                   ),
 
                   // Content
-                  Expanded(
-                    child: _buildContent(context, controller),
-                  ),
+                  Expanded(child: _buildContent(context, controller)),
                 ],
               ),
             ),
@@ -133,11 +131,7 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.error_outline,
-              size: 64,
-              color: Colors.grey[400],
-            ),
+            Icon(Icons.error_outline, size: 64, color: Colors.grey[400]),
             const SizedBox(height: 16),
             Text(
               'Error: ${controller.error}',
@@ -183,7 +177,7 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
             onFavoriteToggle: (bean) =>
                 _handleFavoriteToggle(context, controller, bean),
             onTap: (bean) =>
-                controller.navigateToBeanDetail(context, bean.beansUuid!),
+                controller.navigateToBeanDetail(context, bean.beansUuid),
             sortOption: controller.sortOptions.sortOption,
           )
         : CoffeeBeansGridView(
@@ -194,7 +188,7 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
             onFavoriteToggle: (bean) =>
                 _handleFavoriteToggle(context, controller, bean),
             onTap: (bean) =>
-                controller.navigateToBeanDetail(context, bean.beansUuid!),
+                controller.navigateToBeanDetail(context, bean.beansUuid),
             sortOption: controller.sortOptions.sortOption,
           );
   }
@@ -204,9 +198,12 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
     CoffeeBeansController controller,
     CoffeeBeansModel bean,
   ) async {
-    final coffeeBeansProvider =
-        Provider.of<CoffeeBeansProvider>(context, listen: false);
-    await coffeeBeansProvider.deleteCoffeeBeans(bean.beansUuid!);
+    final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+      context,
+      listen: false,
+    );
+    await coffeeBeansProvider.deleteCoffeeBeans(bean.beansUuid);
+    if (!context.mounted) return;
     await controller.refreshData(context);
   }
 
@@ -215,10 +212,15 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
     CoffeeBeansController controller,
     CoffeeBeansModel bean,
   ) async {
-    final coffeeBeansProvider =
-        Provider.of<CoffeeBeansProvider>(context, listen: false);
+    final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+      context,
+      listen: false,
+    );
     await coffeeBeansProvider.toggleFavoriteStatus(
-        bean.beansUuid!, !bean.isFavorite);
+      bean.beansUuid,
+      !bean.isFavorite,
+    );
+    if (!context.mounted) return;
     await controller.refreshData(context);
   }
 }

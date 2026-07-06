@@ -194,7 +194,7 @@ class _SectionCardState extends State<SectionCard>
                     Text(
                       widget.subtitle!,
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: colorScheme.onSurface.withOpacity(0.7),
+                        color: colorScheme.onSurface.withValues(alpha: 0.7),
                       ),
                     ),
                   ],
@@ -214,7 +214,7 @@ class _SectionCardState extends State<SectionCard>
                         _iconRotation.value * 3.14159, // 180 degrees in radians
                     child: Icon(
                       Icons.expand_more,
-                      color: colorScheme.onSurface.withOpacity(0.6),
+                      color: colorScheme.onSurface.withValues(alpha: 0.6),
                     ),
                   );
                 },
@@ -234,7 +234,7 @@ class _SectionCardState extends State<SectionCard>
             Divider(
               height: 1,
               thickness: AppStroke.border,
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
+              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.12),
             ),
           if (widget.paddingChild)
             Padding(

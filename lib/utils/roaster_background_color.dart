@@ -13,18 +13,18 @@ Color? roasterBackgroundColor({
   required RoasterColorResult result,
   required Brightness brightness,
 }) {
-  const _base = Color(0xFFFFFFFF);
-  const _baseDark = Color(0xFF1C1C1E);
+  const base = Color(0xFFFFFFFF);
+  const baseDark = Color(0xFF1C1C1E);
 
   return switch (result) {
     RoasterColorNone() => null,
     RoasterColorMonochrome() => brightness == Brightness.light
         ? Color.alphaBlend(
-            const Color(0xFF000000).withValues(alpha: 0.50), _base)
+            const Color(0xFF000000).withValues(alpha: 0.50), base)
         : Color.alphaBlend(
-            const Color(0xFFFFFFFF).withValues(alpha: 0.55), _baseDark),
+            const Color(0xFFFFFFFF).withValues(alpha: 0.55), baseDark),
     RoasterColorVibrant(color: final c) => brightness == Brightness.light
-        ? Color.alphaBlend(c.withValues(alpha: 0.50), _base)
-        : Color.alphaBlend(c.withValues(alpha: 0.55), _baseDark),
+        ? Color.alphaBlend(c.withValues(alpha: 0.50), base)
+        : Color.alphaBlend(c.withValues(alpha: 0.55), baseDark),
   };
 }

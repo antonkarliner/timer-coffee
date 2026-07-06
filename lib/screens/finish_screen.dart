@@ -142,14 +142,16 @@ class _FinishScreenState extends State<FinishScreen> {
     final moments = Provider.of<MomentsService>(context, listen: false);
     await moments.earliestBrewAt();
     if (!mounted) return;
-    final shouldShow = moments.isFirstBrewAnniversary &&
-        !moments.isAnniversaryShownThisYear();
+    final shouldShow =
+        moments.isFirstBrewAnniversary && !moments.isAnniversaryShownThisYear();
     if (!shouldShow) return;
     setState(() => _showAnniversary = true);
     await moments.markDiscovered('anniversary');
     await moments.markAnniversaryShownThisYear();
-    AnalyticsService.instance
-        .track('moment_shown', properties: {'moment_id': 'anniversary'});
+    AnalyticsService.instance.track(
+      'moment_shown',
+      properties: {'moment_id': 'anniversary'},
+    );
     _maybeFireFallingBeans();
   }
 
@@ -171,11 +173,14 @@ class _FinishScreenState extends State<FinishScreen> {
       });
       if (forced.count >= _inSyncThreshold) {
         await moments.markDiscovered('in_sync');
-        AnalyticsService.instance.track('moment_shown', properties: {
-          'moment_id': 'in_sync',
-          'in_sync_count': forced.count,
-          'country_count': forced.countries.length,
-        });
+        AnalyticsService.instance.track(
+          'moment_shown',
+          properties: {
+            'moment_id': 'in_sync',
+            'in_sync_count': forced.count,
+            'country_count': forced.countries.length,
+          },
+        );
       }
       return;
     }
@@ -230,11 +235,14 @@ class _FinishScreenState extends State<FinishScreen> {
 
       if (count >= _inSyncThreshold) {
         await moments.markDiscovered('in_sync');
-        AnalyticsService.instance.track('moment_shown', properties: {
-          'moment_id': 'in_sync',
-          'in_sync_count': count,
-          'country_count': countries.length,
-        });
+        AnalyticsService.instance.track(
+          'moment_shown',
+          properties: {
+            'moment_id': 'in_sync',
+            'in_sync_count': count,
+            'country_count': countries.length,
+          },
+        );
       }
     } on TimeoutException catch (e) {
       AppLogger.error('In-sync query timed out', errorObject: e);
@@ -360,11 +368,13 @@ class _FinishScreenState extends State<FinishScreen> {
     // Reschedule engagement notifications (pushes brew reminders forward)
     final database = Provider.of<AppDatabase>(context, listen: false);
     final locale = Localizations.localeOf(context).languageCode;
-    unawaited(LocalNotificationSchedulerService.instance.rescheduleAll(
-      database: database,
-      onboarding: onboarding,
-      locale: locale,
-    ));
+    unawaited(
+      LocalNotificationSchedulerService.instance.rescheduleAll(
+        database: database,
+        onboarding: onboarding,
+        locale: locale,
+      ),
+    );
   }
 
   void insertBrewingDataToSupabase() async {
@@ -407,15 +417,18 @@ class _FinishScreenState extends State<FinishScreen> {
     if (user != null) {
       try {
         final statUuid = _uuid.v7();
+        final userStatProvider = Provider.of<UserStatProvider>(
+          context,
+          listen: false,
+        );
+        final database = Provider.of<AppDatabase>(context, listen: false);
+        final locale = Localizations.localeOf(context).languageCode;
 
         // Fetch the coffee beans UUID from SharedPreferences
         final prefs = await SharedPreferences.getInstance();
         final coffeeBeansUuid = prefs.getString('selectedBeanUuid');
 
-        await Provider.of<UserStatProvider>(
-          context,
-          listen: false,
-        ).insertUserStat(
+        await userStatProvider.insertUserStat(
           recipeId: widget.recipe.id,
           coffeeAmount: widget.coffeeAmount,
           waterAmount: widget.waterAmount,
@@ -434,17 +447,24 @@ class _FinishScreenState extends State<FinishScreen> {
               'brewing_method_id': widget.recipe.brewingMethodId,
             },
           );
-          if (mounted) {
-            final database =
-                Provider.of<AppDatabase>(context, listen: false);
-            final locale = Localizations.localeOf(context).languageCode;
-            unawaited(LocalNotificationSchedulerService.instance
+          unawaited(
+            LocalNotificationSchedulerService.instance
                 .maybeScheduleBeanReviewNudge(
-              database: database,
-              beansUuid: coffeeBeansUuid,
-              locale: locale,
-            ));
-          }
+                  database: database,
+                  beansUuid: coffeeBeansUuid,
+                  locale: locale,
+                ),
+          );
+          // Plan 011, Channel B: if this bean's roaster is a pending
+          // candidate, schedule a one-shot "help add this roaster" nudge.
+          unawaited(
+            LocalNotificationSchedulerService.instance
+                .maybeScheduleRoasterContribNudgeOnBrew(
+                  database: database,
+                  beansUuid: coffeeBeansUuid,
+                  locale: locale,
+                ),
+          );
         }
         AppLogger.debug(
           'Inserted new stat with UUID: $statUuid and Coffee Beans UUID: $coffeeBeansUuid',
@@ -467,6 +487,12 @@ class _FinishScreenState extends State<FinishScreen> {
         AppLogger.debug('No coffee amount to subtract from bean weight');
         return;
       }
+      final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+        context,
+        listen: false,
+      );
+      final database = Provider.of<AppDatabase>(context, listen: false);
+      final locale = Localizations.localeOf(context).languageCode;
 
       // Get the selected bean UUID from SharedPreferences
       final prefs = await SharedPreferences.getInstance();
@@ -477,12 +503,6 @@ class _FinishScreenState extends State<FinishScreen> {
         return;
       }
 
-      // Get the CoffeeBeansProvider from context
-      final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
-        context,
-        listen: false,
-      );
-
       // Update the bean weight
       final newWeight = await coffeeBeansProvider.updateBeanWeightAfterBrew(
         coffeeBeansUuid,
@@ -491,6 +511,19 @@ class _FinishScreenState extends State<FinishScreen> {
 
       if (newWeight != null) {
         AppLogger.debug('Successfully updated bean weight to ${newWeight}g');
+        // Bag just emptied (weight crossed to ~0) — a high-intent moment to
+        // ask for a review. updateBeanWeightAfterBrew returns null when the
+        // bean was already empty, so this fires only on the crossing brew.
+        if (newWeight < 0.1) {
+          unawaited(
+            LocalNotificationSchedulerService.instance
+                .maybeScheduleBeanReviewNudgeOnDepletion(
+                  database: database,
+                  beansUuid: coffeeBeansUuid,
+                  locale: locale,
+                ),
+          );
+        }
       } else {
         AppLogger.debug('Bean weight update failed or was not applicable');
       }
@@ -517,8 +550,10 @@ class _FinishScreenState extends State<FinishScreen> {
     }
 
     // Skip if the user already has permission — no need to ask again.
-    final alreadyGranted =
-        await NotificationService.instance.permissions.hasNotificationPermission;
+    final alreadyGranted = await NotificationService
+        .instance
+        .permissions
+        .hasNotificationPermission;
     if (alreadyGranted) {
       await prefs.setBool(shownKey, true);
       return;
@@ -533,6 +568,7 @@ class _FinishScreenState extends State<FinishScreen> {
       properties: {'brew_count': 1},
     );
     await prefs.setBool(shownKey, true);
+    if (!mounted) return;
 
     final result = await showDialog<bool>(
       context: context,
@@ -702,7 +738,9 @@ class _FinishScreenState extends State<FinishScreen> {
         .toDouble();
 
     final showInSync =
-        _inSyncResolved && _inSyncCount != null && _inSyncCount! >= _inSyncThreshold;
+        _inSyncResolved &&
+        _inSyncCount != null &&
+        _inSyncCount! >= _inSyncThreshold;
 
     return Scaffold(
       appBar: AppBar(
@@ -751,11 +789,7 @@ class _FinishScreenState extends State<FinishScreen> {
                     else if (_showAnniversary)
                       const AnniversaryCelebration(shouldShow: true)
                     else if (showInSync)
-                      _buildInSyncCard(
-                        context,
-                        _inSyncCount!,
-                        _inSyncCountries,
-                      )
+                      _buildInSyncCard(context, _inSyncCount!, _inSyncCountries)
                     else
                       Semantics(
                         identifier: 'coffeeFactCard',
@@ -774,7 +808,9 @@ class _FinishScreenState extends State<FinishScreen> {
                                       child: RichText(
                                         textAlign: TextAlign.center,
                                         text: TextSpan(
-                                          style: DefaultTextStyle.of(context).style,
+                                          style: DefaultTextStyle.of(
+                                            context,
+                                          ).style,
                                           children: <TextSpan>[
                                             TextSpan(
                                               text:
@@ -786,7 +822,9 @@ class _FinishScreenState extends State<FinishScreen> {
                                             ),
                                             TextSpan(
                                               text: '${snapshot.data}',
-                                              style: const TextStyle(fontSize: 20),
+                                              style: const TextStyle(
+                                                fontSize: 20,
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -801,51 +839,59 @@ class _FinishScreenState extends State<FinishScreen> {
                               },
                         ),
                       ),
-                const SizedBox(height: 20),
-                Semantics(
-                  identifier: 'homeButton',
-                  child: AppElevatedButton(
-                    label: AppLocalizations.of(context)!.home,
-                    onPressed: () => context.router.push(const HomeRoute()),
-                    backgroundColor: Theme.of(context).colorScheme.surface,
-                    foregroundColor: Theme.of(context).colorScheme.primary,
-                    height: AppButton.heightLarge,
-                    width: homeButtonWidth,
-                  ),
+                    const SizedBox(height: 20),
+                    Semantics(
+                      identifier: 'homeButton',
+                      child: AppElevatedButton(
+                        label: AppLocalizations.of(context)!.home,
+                        onPressed: () => context.router.push(const HomeRoute()),
+                        backgroundColor: Theme.of(context).colorScheme.surface,
+                        foregroundColor: Theme.of(context).colorScheme.primary,
+                        height: AppButton.heightLarge,
+                        width: homeButtonWidth,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    if (kIsWeb || !Platform.isIOS)
+                      Semantics(
+                        identifier: 'buyMeACoffeeButton',
+                        child: AppElevatedButton(
+                          label: AppLocalizations.of(context)!.support,
+                          onPressed: () async => _openExternalDonationLink(),
+                          icon: Icons.local_cafe,
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.surface,
+                          foregroundColor: Theme.of(
+                            context,
+                          ).colorScheme.primary,
+                          height: AppButton.heightLarge,
+                          width: supportButtonWidth,
+                        ),
+                      )
+                    else if (!kIsWeb && Platform.isIOS)
+                      Semantics(
+                        identifier: 'supportButton',
+                        child: AppElevatedButton(
+                          label: AppLocalizations.of(context)!.support,
+                          onPressed: () =>
+                              context.router.push(const DonationRoute()),
+                          icon: Icons.local_cafe,
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.surface,
+                          foregroundColor: Theme.of(
+                            context,
+                          ).colorScheme.primary,
+                          height: AppButton.heightLarge,
+                          width: supportButtonWidth,
+                        ),
+                      ),
+                  ],
                 ),
-                const SizedBox(height: 20),
-                if (kIsWeb || !Platform.isIOS)
-                  Semantics(
-                    identifier: 'buyMeACoffeeButton',
-                    child: AppElevatedButton(
-                      label: AppLocalizations.of(context)!.support,
-                      onPressed: () async => _openExternalDonationLink(),
-                      icon: Icons.local_cafe,
-                      backgroundColor: Theme.of(context).colorScheme.surface,
-                      foregroundColor: Theme.of(context).colorScheme.primary,
-                      height: AppButton.heightLarge,
-                      width: supportButtonWidth,
-                    ),
-                  )
-                else if (!kIsWeb && Platform.isIOS)
-                  Semantics(
-                    identifier: 'supportButton',
-                    child: AppElevatedButton(
-                      label: AppLocalizations.of(context)!.support,
-                      onPressed: () =>
-                          context.router.push(const DonationRoute()),
-                      icon: Icons.local_cafe,
-                      backgroundColor: Theme.of(context).colorScheme.surface,
-                      foregroundColor: Theme.of(context).colorScheme.primary,
-                      height: AppButton.heightLarge,
-                      width: supportButtonWidth,
-                    ),
-                  ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
           if (_showFallingBeans)
             Positioned.fill(
               child: FallingBeansOverlay(

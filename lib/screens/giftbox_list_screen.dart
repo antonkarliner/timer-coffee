@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text_plus/auto_size_text_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -31,7 +30,6 @@ class _GiftBoxListScreenState extends State<GiftBoxListScreen> {
   late final RegionService _regionService;
   List<GiftOffer> _offers = [];
   bool _loading = true;
-  String? _regionCode;
   String? _error;
   bool _showInfo = false;
   Locale? _lastLocale;
@@ -66,7 +64,6 @@ class _GiftBoxListScreenState extends State<GiftBoxListScreen> {
       if (!mounted) return;
       setState(() {
         _offers = offers;
-        _regionCode = detectedRegion;
         _loading = false;
       });
     } catch (e) {
@@ -118,7 +115,7 @@ class _GiftBoxListScreenState extends State<GiftBoxListScreen> {
               Icons.ac_unit,
               color: isSnowing
                   ? theme.colorScheme.primary
-                  : theme.colorScheme.primary.withOpacity(0.75),
+                  : theme.colorScheme.primary.withValues(alpha: 0.75),
             ),
           ),
         ],
@@ -328,8 +325,7 @@ class GiftOfferCard extends StatelessWidget {
                                     .map((r) => _chip(
                                         localizeRegion(
                                             r, AppLocalizations.of(context)!),
-                                        theme))
-                                    .toList(),
+                                        theme)),
                               ],
                             ),
                           ],
@@ -422,7 +418,7 @@ class GiftOfferCard extends StatelessWidget {
           child: Image.network(
             SupabaseEndpointResolver.localizeStorageUrl(offer.imageUrl!),
             fit: BoxFit.contain,
-            errorBuilder: (_, __, ___) => _placeholderBox(),
+            errorBuilder: (_, _, _) => _placeholderBox(),
             loadingBuilder: (context, child, loadingProgress) {
               if (loadingProgress == null) return child;
               return _placeholderBox();
@@ -472,40 +468,6 @@ class _ExpiringSoonStrip extends StatelessWidget {
           ),
           Icon(Icons.chevron_right, size: 20, color: fg),
         ],
-      ),
-    );
-  }
-}
-
-class _PromoCodeBadge extends StatelessWidget {
-  final String code;
-  const _PromoCodeBadge({required this.code});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
-    return InkWell(
-      onTap: () {
-        Clipboard.setData(ClipboardData(text: code));
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.holidayGiftBoxPromoCopied)));
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
-        decoration: BoxDecoration(
-          color: theme.colorScheme.primary.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(AppRadius.chip),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(code, style: theme.textTheme.labelMedium),
-            const SizedBox(width: AppSpacing.xs),
-            const Icon(Icons.copy, size: 16),
-          ],
-        ),
       ),
     );
   }

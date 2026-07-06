@@ -116,8 +116,8 @@ class StickyActionBar extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         backgroundColor: colorScheme.primary,
         foregroundColor: colorScheme.onPrimary,
-        disabledBackgroundColor: colorScheme.primary.withOpacity(0.5),
-        disabledForegroundColor: colorScheme.onPrimary.withOpacity(0.5),
+        disabledBackgroundColor: colorScheme.primary.withValues(alpha: 0.5),
+        disabledForegroundColor: colorScheme.onPrimary.withValues(alpha: 0.5),
         elevation: 0,
       ),
     );
@@ -136,7 +136,7 @@ class StickyActionBar extends StatelessWidget {
               onPressed: secondaryDisabled ? null : onSecondaryPressed,
               style: OutlinedButton.styleFrom(
                 foregroundColor: colorScheme.primary,
-                disabledForegroundColor: colorScheme.primary.withOpacity(0.5),
+                disabledForegroundColor: colorScheme.primary.withValues(alpha: 0.5),
                 side: BorderSide(
                   color: colorScheme.primary,
                   width: AppStroke.border,
@@ -169,8 +169,8 @@ class StickyActionBar extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               backgroundColor: colorScheme.primary,
               foregroundColor: colorScheme.onPrimary,
-              disabledBackgroundColor: colorScheme.primary.withOpacity(0.5),
-              disabledForegroundColor: colorScheme.onPrimary.withOpacity(0.5),
+              disabledBackgroundColor: colorScheme.primary.withValues(alpha: 0.5),
+              disabledForegroundColor: colorScheme.onPrimary.withValues(alpha: 0.5),
               elevation: 0,
             ),
           ),

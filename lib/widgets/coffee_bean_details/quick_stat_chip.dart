@@ -85,7 +85,7 @@ class QuickStatChip extends StatelessWidget {
             padding ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(borderRadius),
-          color: backgroundColor ?? theme.colorScheme.surface.withOpacity(0.8),
+          color: backgroundColor ?? theme.colorScheme.surface.withValues(alpha: 0.8),
         ),
         child: Column(
           mainAxisSize:

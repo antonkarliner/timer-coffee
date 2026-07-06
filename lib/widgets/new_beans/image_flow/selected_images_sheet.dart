@@ -168,12 +168,14 @@ class _SelectedImagesSheetState extends State<SelectedImagesSheet> {
 
                     // Ensure dialog paints this frame
                     await Future.delayed(const Duration(milliseconds: 10));
+                    if (!context.mounted) return;
 
                     // Close the selection sheet first so OCR can proceed
                     Navigator.pop(context);
 
                     // Run the confirmation which triggers the OCR flow in controller
                     await widget.onConfirm(_images);
+                    if (!context.mounted) return;
 
                     // Dismiss the analyzing dialog once controller toggles loading off,
                     // but as a safety, close it here after confirm returns in case it remains.

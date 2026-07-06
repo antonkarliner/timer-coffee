@@ -30,7 +30,7 @@ class RecipeContentBuilder extends StatefulWidget {
   final VoidCallback onWaterFocus;
 
   const RecipeContentBuilder({
-    Key? key,
+    super.key,
     required this.recipe,
     required this.controller,
     required this.effectiveRecipeId,
@@ -40,7 +40,7 @@ class RecipeContentBuilder extends StatefulWidget {
     required this.onWaterAmountChanged,
     required this.onCoffeeFocus,
     required this.onWaterFocus,
-  }) : super(key: key);
+  });
 
   @override
   State<RecipeContentBuilder> createState() => _RecipeContentBuilderState();

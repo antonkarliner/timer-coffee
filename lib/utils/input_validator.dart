@@ -77,4 +77,36 @@ class InputValidator {
     final sanitizedEmail = sanitizeInput(email);
     return isValidEmail(sanitizedEmail) ? sanitizedEmail : null;
   }
+
+  /// Normalizes a user-entered website URL for submission.
+  ///
+  /// Structural validation only (no reachability check) — mirrors the
+  /// server-side check in the `submit-roaster-contribution` edge function so the
+  /// client and server agree. Returns a canonical `http(s)://…` URL, or `null`
+  /// when the input is not a plausible website. A missing scheme is filled in as
+  /// `https://`; the fragment is dropped; bare IPs, `localhost`, and `.local`
+  /// hosts are rejected (SSRF hygiene, since the enrichment worker later fetches
+  /// this URL server-side).
+  static String? normalizeWebsiteUrl(String raw) {
+    final value = raw.trim();
+    if (value.isEmpty || value.length > 2048) return null;
+    final withScheme = RegExp(r'^https?://', caseSensitive: false).hasMatch(value)
+        ? value
+        : 'https://$value';
+    // NB: don't use Uri.isAbsolute here — it is false when a fragment is
+    // present. The scheme + host checks below are the real validity gate.
+    final uri = Uri.tryParse(withScheme);
+    if (uri == null) return null;
+    final scheme = uri.scheme.toLowerCase();
+    if (scheme != 'http' && scheme != 'https') return null;
+    final host = uri.host.toLowerCase();
+    if (host.isEmpty || !host.contains('.')) return null; // require a domain
+    if (host == 'localhost' || host.endsWith('.local')) return null;
+    if (RegExp(r'^\d{1,3}(\.\d{1,3}){3}$').hasMatch(host)) return null; // bare IPv4
+    if (host.contains(':')) return null; // IPv6 literal
+    return uri.removeFragment().toString();
+  }
+
+  /// Whether [raw] is a plausible website URL (see [normalizeWebsiteUrl]).
+  static bool isValidWebsiteUrl(String raw) => normalizeWebsiteUrl(raw) != null;
 }

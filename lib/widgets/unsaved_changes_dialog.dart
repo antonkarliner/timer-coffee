@@ -5,8 +5,8 @@ import 'package:coffee_timer/widgets/base_buttons.dart';
 
 class UnsavedChangesDialog extends StatelessWidget {
   const UnsavedChangesDialog({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

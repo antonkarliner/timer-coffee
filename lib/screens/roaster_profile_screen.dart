@@ -378,7 +378,7 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
                       Divider(
                         height: 1,
                         thickness: 1,
-                        color: colorScheme.onSurface.withOpacity(0.15),
+                        color: colorScheme.onSurface.withValues(alpha: 0.15),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
@@ -516,7 +516,7 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
                           child: Text(
                             l10n.roasterBagsLogged(profile.loggedBagCount),
                             style: AppTextStyles.caption.copyWith(
-                              color: colorScheme.onSurface.withOpacity(0.6),
+                              color: colorScheme.onSurface.withValues(alpha: 0.6),
                             ),
                           ),
                         ),
@@ -611,7 +611,7 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
                                 l10n.reviewRequiresOwnedBeans,
                                 style: AppTextStyles.caption.copyWith(
                                   color:
-                                      colorScheme.onSurface.withOpacity(0.6),
+                                      colorScheme.onSurface.withValues(alpha: 0.6),
                                 ),
                                 textAlign: TextAlign.center,
                               ),
@@ -770,7 +770,7 @@ class _DisclaimerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).colorScheme.onSurface.withOpacity(0.6);
+    final color = Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6);
     final style = AppTextStyles.caption.copyWith(color: color);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,

@@ -23,7 +23,7 @@ class DeleteButton extends StatelessWidget {
         Icons.remove_circle_outline,
         size: iconSize,
         color: isDisabled
-            ? theme.colorScheme.onSurface.withOpacity(0.3)
+            ? theme.colorScheme.onSurface.withValues(alpha: 0.3)
             : Colors.red,
       ),
       onPressed: isDisabled ? null : onPressed,

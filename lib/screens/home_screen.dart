@@ -32,7 +32,7 @@ import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPre
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -43,7 +43,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   bool _showBanner = false; // Banner flag
   bool _yearlyStats25BannerDismissed = false;
   bool _giftBoxBannerDismissed = false;
-  String? _detectedCountry;
   late final Future<int> _yearlyBrews2025Future;
 
   static const String _yearlyStats25BannerDismissedKey =
@@ -69,16 +68,20 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       if (mounted) {
         initialLocale = Provider.of<Locale>(context, listen: false);
         if (kIsWeb) {
-          var recipeProvider =
-              Provider.of<RecipeProvider>(context, listen: false);
-          var tempLocale =
-              const Locale('av'); // An example temporary locale for simulation
+          var recipeProvider = Provider.of<RecipeProvider>(
+            context,
+            listen: false,
+          );
+          var tempLocale = const Locale(
+            'av',
+          ); // An example temporary locale for simulation
           recipeProvider.setLocale(tempLocale).then((_) {
             Future.delayed(const Duration(milliseconds: 100), () {
               if (mounted) {
                 // Check mounted again before accessing provider
                 recipeProvider.setLocale(
-                    initialLocale); // Revert to the initial app locale
+                  initialLocale,
+                ); // Revert to the initial app locale
               }
             });
           });
@@ -94,15 +97,20 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         _checkRecipesNeedingModeration();
 
         // Also trigger the post-login moderation check from UserRecipeProvider
-        final userRecipeProvider =
-            Provider.of<UserRecipeProvider>(context, listen: false);
+        final userRecipeProvider = Provider.of<UserRecipeProvider>(
+          context,
+          listen: false,
+        );
         userRecipeProvider.checkModerationAfterLogin().catchError((e) {
-          AppLogger.error("Failed to perform post-login moderation check",
-              errorObject: e);
+          AppLogger.error(
+            "Failed to perform post-login moderation check",
+            errorObject: e,
+          );
         });
       } else {
         AppLogger.debug(
-            "Skipping moderation check - user not authenticated or anonymous");
+          "Skipping moderation check - user not authenticated or anonymous",
+        );
       }
     });
 
@@ -131,8 +139,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     }
 
     final dbProvider = Provider.of<DatabaseProvider>(context, listen: false);
-    final userRecipeProvider =
-        Provider.of<UserRecipeProvider>(context, listen: false);
+    final userRecipeProvider = Provider.of<UserRecipeProvider>(
+      context,
+      listen: false,
+    );
 
     try {
       AppLogger.debug("Starting moderation check for user: ${user.id}");
@@ -143,7 +153,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           .timeout(const Duration(seconds: 5));
 
       AppLogger.debug(
-          "Found ${flaggedRecipes.length} recipes needing moderation");
+        "Found ${flaggedRecipes.length} recipes needing moderation",
+      );
 
       if (flaggedRecipes.isEmpty || !mounted) {
         AppLogger.debug("No recipes need moderation or widget not mounted");
@@ -168,11 +179,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           });
 
           AppLogger.debug(
-              "Added recipe to moderation list: ${recipe.id} (${name ?? 'unnamed'})");
+            "Added recipe to moderation list: ${recipe.id} (${name ?? 'unnamed'})",
+          );
         } catch (e) {
           AppLogger.warning(
-              "Could not fetch name for flagged recipe ${recipe.id}",
-              errorObject: e);
+            "Could not fetch name for flagged recipe ${recipe.id}",
+            errorObject: e,
+          );
           // Still add with fallback name
           flaggedRecipeDetails.add({
             'id': recipe.id,
@@ -188,8 +201,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       }
 
       final firstFlaggedRecipe = flaggedRecipeDetails.first;
-      final recipeNames =
-          flaggedRecipeDetails.map((r) => "'${r['name']}'").join(', ');
+      final recipeNames = flaggedRecipeDetails
+          .map((r) => "'${r['name']}'")
+          .join(', ');
 
       AppLogger.debug("Showing moderation popup for recipes: $recipeNames");
 
@@ -217,17 +231,22 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 label: l10n.reviewRecipeButton,
                 onPressed: () {
                   AppLogger.debug(
-                      "User chose to review recipe: ${firstFlaggedRecipe['id']}");
+                    "User chose to review recipe: ${firstFlaggedRecipe['id']}",
+                  );
                   Navigator.of(context).pop();
                   // Navigate to recipe detail with error handling
                   try {
-                    context.router.push(RecipeDetailRoute(
-                      recipeId: firstFlaggedRecipe['id']!,
-                      brewingMethodId: firstFlaggedRecipe['brewingMethodId']!,
-                    ));
+                    context.router.push(
+                      RecipeDetailRoute(
+                        recipeId: firstFlaggedRecipe['id']!,
+                        brewingMethodId: firstFlaggedRecipe['brewingMethodId']!,
+                      ),
+                    );
                   } catch (e) {
-                    AppLogger.error("Failed to navigate to recipe detail",
-                        errorObject: e);
+                    AppLogger.error(
+                      "Failed to navigate to recipe detail",
+                      errorObject: e,
+                    );
                     // Could show a snackbar here if needed
                   }
                 },
@@ -242,14 +261,17 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
       AppLogger.debug("Moderation popup displayed successfully");
     } on TimeoutException catch (e) {
-      AppLogger.error("Timeout while checking for recipes needing moderation",
-          errorObject: e);
+      AppLogger.error(
+        "Timeout while checking for recipes needing moderation",
+        errorObject: e,
+      );
       // Don't show error to user, just log it
     } catch (e, stackTrace) {
       AppLogger.error(
-          "Unexpected error checking for recipes needing moderation",
-          errorObject: e,
-          stackTrace: stackTrace);
+        "Unexpected error checking for recipes needing moderation",
+        errorObject: e,
+        stackTrace: stackTrace,
+      );
       // Don't show error dialog to user as this is a background check
     }
   }
@@ -272,12 +294,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         final data = json.decode(response.body);
         final detected = data['country']?.toString() ?? '';
         AppLogger.info('Detected country: $detected');
-        if (mounted) {
-          // Check mounted before setState
-          setState(() {
-            _detectedCountry = detected;
-          });
-        }
 
         // Read the target banner country from your Env file.
         final bannerCountry = Env.bannerCountry;
@@ -300,17 +316,21 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   Future<int> _loadYearlyBrews2025() async {
-    final userStatProvider =
-        Provider.of<UserStatProvider>(context, listen: false);
+    final userStatProvider = Provider.of<UserStatProvider>(
+      context,
+      listen: false,
+    );
     final start = DateTime(2025, 1, 1);
     final end = DateTime(2026, 1, 1);
     try {
       final statsAll = await userStatProvider.fetchAllUserStats();
       final brews2025 = statsAll
-          .where((s) =>
-              !s.isDeleted &&
-              !s.createdAt.isBefore(start) &&
-              s.createdAt.isBefore(end))
+          .where(
+            (s) =>
+                !s.isDeleted &&
+                !s.createdAt.isBefore(start) &&
+                s.createdAt.isBefore(end),
+          )
           .length;
       AppLogger.debug('Home banner: 2025 brews=$brews2025');
       return brews2025;
@@ -384,18 +404,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     if (l10n == null) {
       return Scaffold(
         appBar: buildPlatformSpecificAppBar(),
-        body: const Center(
-          child: CircularProgressIndicator(),
-        ),
+        body: const Center(child: CircularProgressIndicator()),
       );
     }
 
     return AutoTabsRouter.tabBar(
-      routes: [
-        BrewingMethodsRoute(),
-        CoffeeBeansRoute(),
-        HubHomeRoute(),
-      ],
+      routes: [BrewingMethodsRoute(), CoffeeBeansRoute(), HubHomeRoute()],
       builder: (context, child, tabController) {
         final tabsRouter = AutoTabsRouter.of(context);
 
@@ -423,7 +437,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       onClose: () async {
                         final prefs = await SharedPreferences.getInstance();
                         await prefs.setBool(
-                            _yearlyStats25BannerDismissedKey, true);
+                          _yearlyStats25BannerDismissedKey,
+                          true,
+                        );
                         setState(() {
                           _yearlyStats25BannerDismissed = true;
                         });
@@ -465,7 +481,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         ),
                       ),
                       const SizedBox(
-                          width: 10), // Spacing between image and text.
+                        width: 10,
+                      ), // Spacing between image and text.
                       // Display the image from the URL.
                       Image.network(
                         'https://i.ibb.co/4g4J6ZML/palectine-coffee.png',
@@ -484,8 +501,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             backgroundColor: Theme.of(context).colorScheme.onSurface,
             itemBuilder: _CustomTabBuilder([
               TabItem(
-                  icon: Coffeico.coffee_maker,
-                  title: l10n.homescreenbrewcoffee),
+                icon: Coffeico.coffee_maker,
+                title: l10n.homescreenbrewcoffee,
+              ),
               TabItem(icon: Coffeico.bag_with_bean, title: l10n.myBeans),
               TabItem(icon: Icons.dashboard, title: l10n.homescreenmore),
             ], context),
@@ -500,10 +518,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     if (Theme.of(context).platform == TargetPlatform.iOS) {
       return CupertinoNavigationBar(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        middle: Text('Timer.Coffee', // Skipped localization as requested
-            style: TextStyle(
-                fontFamily: 'Inter',
-                color: Theme.of(context).appBarTheme.foregroundColor)),
+        middle: Text(
+          'Timer.Coffee', // Skipped localization as requested
+          style: TextStyle(
+            fontFamily: 'Inter',
+            color: Theme.of(context).appBarTheme.foregroundColor,
+          ),
+        ),
       );
     } else {
       return AppBar(
@@ -538,14 +559,11 @@ class _CustomTabBuilder extends DelegateBuilder {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Icon(
-            item.icon,
-            color: active ? activeColor : inactiveColor,
+          Icon(item.icon, color: active ? activeColor : inactiveColor),
+          Text(
+            item.title ?? "",
+            style: TextStyle(color: active ? activeColor : inactiveColor),
           ),
-          Text(item.title ?? "",
-              style: TextStyle(
-                color: active ? activeColor : inactiveColor,
-              )),
         ],
       ),
     );
@@ -628,7 +646,8 @@ class _YearlyStats25BannerState extends State<_YearlyStats25Banner>
                           child: AnimatedBuilder(
                             animation: _shimmerController,
                             builder: (context, _) {
-                              final dx = -shimmerWidth +
+                              final dx =
+                                  -shimmerWidth +
                                   travel * _shimmerController.value;
                               return Align(
                                 alignment: Alignment.centerLeft,
@@ -646,8 +665,9 @@ class _YearlyStats25BannerState extends State<_YearlyStats25Banner>
                                             end: Alignment.centerRight,
                                             colors: [
                                               Colors.transparent,
-                                              Colors.white
-                                                  .withOpacity(shimmerOpacity),
+                                              Colors.white.withValues(
+                                                alpha: shimmerOpacity,
+                                              ),
                                               Colors.transparent,
                                             ],
                                           ),
@@ -663,7 +683,9 @@ class _YearlyStats25BannerState extends State<_YearlyStats25Banner>
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 14),
+                          horizontal: 8,
+                          vertical: 14,
+                        ),
                         child: Row(
                           children: [
                             const Text(
@@ -750,8 +772,11 @@ class _GiftBoxBanner extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 14),
               child: Row(
                 children: [
-                  Icon(Icons.card_giftcard,
-                      color: theme.colorScheme.primary, size: 26),
+                  Icon(
+                    Icons.card_giftcard,
+                    color: theme.colorScheme.primary,
+                    size: 26,
+                  ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: AutoSizeText(
@@ -761,8 +786,9 @@ class _GiftBoxBanner extends StatelessWidget {
                       stepGranularity: 0.5,
                       wrapWords: false,
                       overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.titleMedium
-                          ?.copyWith(fontWeight: FontWeight.w700),
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 8),

@@ -30,7 +30,7 @@ class CoffeeBeansAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback onSortPressed;
 
   const CoffeeBeansAppBar({
-    Key? key,
+    super.key,
     required this.viewState,
     required this.searchController,
     this.searchFocusNode,
@@ -38,7 +38,7 @@ class CoffeeBeansAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.onSearchCleared,
     required this.onViewModeToggled,
     required this.onSortPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

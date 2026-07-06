@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
-import 'package:coffee_timer/services/coffee_beans_filter_service.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 
@@ -17,10 +16,10 @@ class OriginSelectionDialog extends StatefulWidget {
   final List<String> availableOrigins;
 
   const OriginSelectionDialog({
-    Key? key,
+    super.key,
     required this.selectedOrigins,
     required this.availableOrigins,
-  }) : super(key: key);
+  });
 
   @override
   State<OriginSelectionDialog> createState() => _OriginSelectionDialogState();
@@ -42,10 +41,7 @@ class _OriginSelectionDialogState extends State<OriginSelectionDialog> {
     return AlertDialog(
       title: Text(
         loc.selectOrigin,
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-        ),
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
       ),
       content: Container(
         width: double.maxFinite,
@@ -53,10 +49,7 @@ class _OriginSelectionDialogState extends State<OriginSelectionDialog> {
           shrinkWrap: true,
           children: widget.availableOrigins.map((origin) {
             return CheckboxListTile(
-              title: Text(
-                origin,
-                style: AppTextStyles.caption,
-              ),
+              title: Text(origin, style: AppTextStyles.caption),
               value: _tempSelectedOrigins.contains(origin),
               onChanged: (bool? value) {
                 setState(() {

@@ -9,17 +9,18 @@ class AutocompleteInputField extends StatefulWidget {
   final String? initialValue;
 
   const AutocompleteInputField({
-    Key? key,
+    super.key,
     required this.label,
     required this.hintText,
     required this.initialOptions,
     required this.onSelected,
     this.onChanged,
     this.initialValue,
-  }) : super(key: key);
+  });
 
   @override
-  _AutocompleteInputFieldState createState() => _AutocompleteInputFieldState();
+  State<AutocompleteInputField> createState() =>
+      _AutocompleteInputFieldState();
 }
 
 class _AutocompleteInputFieldState extends State<AutocompleteInputField> {

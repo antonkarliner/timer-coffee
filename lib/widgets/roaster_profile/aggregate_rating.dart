@@ -25,7 +25,7 @@ class AggregateRating extends StatelessWidget {
       return Text(
         l10n.noReviewsYet,
         style: AppTextStyles.body.copyWith(
-          color: colorScheme.onSurface.withOpacity(0.5),
+          color: colorScheme.onSurface.withValues(alpha: 0.5),
         ),
       );
     }
@@ -45,7 +45,7 @@ class AggregateRating extends StatelessWidget {
         Text(
           l10n.reviewsCount(reviewCount),
           style: AppTextStyles.caption.copyWith(
-            color: colorScheme.onSurface.withOpacity(0.6),
+            color: colorScheme.onSurface.withValues(alpha: 0.6),
           ),
         ),
       ],

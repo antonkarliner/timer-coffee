@@ -45,7 +45,7 @@ class BeansChipTokens {
       //: Color(
       //0xFF5A6268), // Custom medium-grey for better contrast in dark mode
       plateBorder: cs.outlineVariant,
-      overlay: cs.onSurface.withOpacity(0.06),
+      overlay: cs.onSurface.withValues(alpha: 0.06),
     );
   }
 }
@@ -96,12 +96,12 @@ class BeansChip extends StatelessWidget {
     final selected = labelText != null;
     final containerColor = ghost ? Colors.transparent : t.container;
     final textStyle = theme.textTheme.bodyMedium?.copyWith(
-      color: t.text.withOpacity(enabled ? 1 : 0.5),
+      color: t.text.withValues(alpha: enabled ? 1 : 0.5),
       height: 1.2,
     );
 
     final borderSide = BorderSide(
-      color: t.border.withOpacity(ghost ? 0.6 : 1),
+      color: t.border.withValues(alpha: ghost ? 0.6 : 1),
       width: _hairline(context),
     );
 
@@ -119,7 +119,7 @@ class BeansChip extends StatelessWidget {
           borderRadius: BorderRadius.circular(10), // Increased from 8 to 10
           border: hasLogo
               ? Border.all(
-                  color: t.plateBorder.withOpacity(0.8),
+                  color: t.plateBorder.withValues(alpha: 0.8),
                   width: _hairline(context))
               : null,
         ),
@@ -141,7 +141,7 @@ class BeansChip extends StatelessWidget {
                   key: const ValueKey('placeholder'),
                   Coffeico.bag_with_bean,
                   size: 22, // Increased from 18 to 22
-                  color: t.text.withOpacity(0.55),
+                  color: t.text.withValues(alpha: 0.55),
                 ),
         ),
       );
@@ -155,7 +155,7 @@ class BeansChip extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         style: textStyle?.copyWith(
           fontWeight: selected ? FontWeight.w500 : FontWeight.w400,
-          color: selected ? t.text : t.text.withOpacity(0.75),
+          color: selected ? t.text : t.text.withValues(alpha: 0.75),
         ),
       ),
     );
@@ -171,7 +171,7 @@ class BeansChip extends StatelessWidget {
               child: Icon(
                 Icons.close_rounded,
                 size: 18,
-                color: t.text.withOpacity(0.6),
+                color: t.text.withValues(alpha: 0.6),
               ),
             ),
           );
@@ -223,14 +223,14 @@ class BeanSelectionRow extends StatefulWidget {
   final VoidCallback onClearSelection;
 
   const BeanSelectionRow({
-    Key? key,
+    super.key,
     required this.selectedBeanUuid,
     required this.selectedBeanName,
     required this.originalRoasterLogoUrl,
     required this.mirrorRoasterLogoUrl,
     required this.onSelectBeans,
     required this.onClearSelection,
-  }) : super(key: key);
+  });
 
   @override
   State<BeanSelectionRow> createState() => _BeanSelectionRowState();
@@ -430,7 +430,7 @@ class _BeanSelectionRowState extends State<BeanSelectionRow> {
                   Coffeico.bag_with_bean,
                   size: 28, // Middle ground for 44x44 plate
                   color:
-                      Theme.of(context).colorScheme.onSurface.withOpacity(0.55),
+                      Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.55),
                 ),
         ),
       );
@@ -461,7 +461,7 @@ class _BeanSelectionRowState extends State<BeanSelectionRow> {
       overflow: TextOverflow.ellipsis,
       style: textStyle?.copyWith(
         fontWeight: selected ? FontWeight.w500 : FontWeight.w400,
-        color: selected ? t.text : t.text.withOpacity(0.75),
+        color: selected ? t.text : t.text.withValues(alpha: 0.75),
       ),
     );
 
@@ -475,7 +475,7 @@ class _BeanSelectionRowState extends State<BeanSelectionRow> {
               child: Icon(
                 Icons.close_rounded,
                 size: 18,
-                color: t.text.withOpacity(0.6),
+                color: t.text.withValues(alpha: 0.6),
               ),
             ),
           )

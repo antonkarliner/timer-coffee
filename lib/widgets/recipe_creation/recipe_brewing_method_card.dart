@@ -27,11 +27,12 @@ class RecipeBrewingMethodCard extends StatelessWidget {
           controller: TextEditingController(
             text: selectedBrewingMethodId != null
                 ? brewingMethods
-                    .firstWhere(
+                      .firstWhere(
                         (method) =>
                             method.brewingMethodId == selectedBrewingMethodId,
-                        orElse: () => brewingMethods.first)
-                    .brewingMethod
+                        orElse: () => brewingMethods.first,
+                      )
+                      .brewingMethod
                 : '',
           ),
           readOnly: true,
@@ -84,11 +85,6 @@ class RecipeBrewingMethodCard extends StatelessWidget {
 
   void _showBrewingMethodModal(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final selectedMethod = selectedBrewingMethodId != null
-        ? brewingMethods.firstWhere(
-            (method) => method.brewingMethodId == selectedBrewingMethodId,
-            orElse: () => brewingMethods.first)
-        : null;
 
     // Create a custom overlay that appears below the input field
     late OverlayEntry overlay;
@@ -191,7 +187,7 @@ class _BrewingMethodOverlayState extends State<_BrewingMethodOverlay>
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withValues(alpha: 0.1),
                       blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),

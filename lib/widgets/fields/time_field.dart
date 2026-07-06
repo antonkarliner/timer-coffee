@@ -33,7 +33,7 @@ class TimeField extends StatefulWidget {
   final bool enabled;
 
   const TimeField({
-    Key? key,
+    super.key,
     required this.label,
     this.hintText,
     this.helperText,
@@ -41,7 +41,7 @@ class TimeField extends StatefulWidget {
     this.initialValue,
     this.onChanged,
     this.enabled = true,
-  }) : super(key: key);
+  });
 
   @override
   State<TimeField> createState() => _TimeFieldState();

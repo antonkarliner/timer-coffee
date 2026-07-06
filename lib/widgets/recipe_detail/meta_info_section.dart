@@ -7,10 +7,10 @@ class MetaInfoSection extends StatelessWidget {
   final Duration? brewTime;
 
   const MetaInfoSection({
-    Key? key,
+    super.key,
     required this.waterTempCelsius,
     required this.brewTime,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

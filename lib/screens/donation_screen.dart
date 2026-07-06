@@ -15,7 +15,7 @@ import '../services/analytics_service.dart';
 @RoutePage()
 class DonationScreen extends StatefulWidget {
   @override
-  _DonationScreenState createState() => _DonationScreenState();
+  State<DonationScreen> createState() => _DonationScreenState();
 }
 
 class _DonationScreenState extends State<DonationScreen> {
@@ -34,7 +34,7 @@ class _DonationScreenState extends State<DonationScreen> {
   @override
   void initState() {
     super.initState();
-    AnalyticsService.instance.track(
+    AnalyticsService.maybeInstance?.track(
       'donation_screen_viewed',
       properties: {
         'platform': kIsWeb ? 'web' : (Platform.isIOS ? 'ios' : 'android'),
@@ -56,6 +56,7 @@ class _DonationScreenState extends State<DonationScreen> {
     }
     final ProductDetailsResponse response = await InAppPurchase.instance
         .queryProductDetails(_kIds);
+    if (!mounted) return;
     setState(() {
       _products = response.productDetails;
       _products.sort(
@@ -71,7 +72,7 @@ class _DonationScreenState extends State<DonationScreen> {
     if (!_purchaseManager.isSupported) {
       return;
     }
-    AnalyticsService.instance.track(
+    AnalyticsService.maybeInstance?.track(
       'donation_button_tapped',
       properties: {
         'product_id': productDetails.id,
@@ -85,40 +86,40 @@ class _DonationScreenState extends State<DonationScreen> {
   }
 
   void _deliverProduct(PurchaseDetails purchaseDetails) {
-    AnalyticsService.instance.track(
+    AnalyticsService.maybeInstance?.track(
       'donation_completed',
       properties: {'product_id': purchaseDetails.productID},
     );
-    if (mounted) {
-      Future.microtask(
-        () => showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text(AppLocalizations.of(context)!.donationok),
-              content: Text(AppLocalizations.of(context)!.donationtnx),
-              actions: [
-                AppTextButton(
-                  label: 'OK',
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  isFullWidth: false,
-                  height: AppButton.heightSmall,
-                  padding: AppButton.paddingSmall,
-                ),
-              ],
-            );
-          },
-        ),
+    Future.microtask(() {
+      if (!mounted) return;
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(AppLocalizations.of(context)!.donationok),
+            content: Text(AppLocalizations.of(context)!.donationtnx),
+            actions: [
+              AppTextButton(
+                label: 'OK',
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                isFullWidth: false,
+                height: AppButton.heightSmall,
+                padding: AppButton.paddingSmall,
+              ),
+            ],
+          );
+        },
       );
-    } else {}
+    });
   }
 
   void _handleError(IAPError error) {
-    AnalyticsService.instance.track('donation_failed');
-    Future.microtask(
-      () => showDialog(
+    AnalyticsService.maybeInstance?.track('donation_failed');
+    Future.microtask(() {
+      if (!mounted) return;
+      showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
@@ -137,8 +138,8 @@ class _DonationScreenState extends State<DonationScreen> {
             ],
           );
         },
-      ),
-    );
+      );
+    });
   }
 
   Map<String, String> getProductTitles(BuildContext context) {
@@ -165,7 +166,8 @@ class _DonationScreenState extends State<DonationScreen> {
   }
 
   Future<void> _openExternalDonationLink() async {
-    AnalyticsService.instance.track(
+    final analytics = AnalyticsService.maybeInstance;
+    analytics?.track(
       'donation_button_tapped',
       properties: {
         'product_id': 'buymeacoffee_external',
@@ -173,9 +175,7 @@ class _DonationScreenState extends State<DonationScreen> {
       },
     );
     try {
-      await AnalyticsService.instance.flushNow().timeout(
-        _analyticsFlushTimeout,
-      );
+      await analytics?.flushNow().timeout(_analyticsFlushTimeout);
     } catch (_) {}
     await _launchURL(_buyMeACoffeeUrl);
   }

@@ -3,6 +3,8 @@
 // Bottom sheet form for writing or editing a bean review.
 // Displays beans from the user's collection where the roaster matches.
 
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +20,7 @@ import '../../providers/coffee_beans_provider.dart';
 import '../../utils/roaster_matching.dart';
 import '../../services/analytics_service.dart';
 import '../../services/authentication_service.dart';
+import '../../services/local_notification_scheduler_service.dart';
 import '../../theme/design_tokens.dart';
 import '../../widgets/base_buttons.dart';
 import '../../widgets/unsaved_changes_dialog.dart';
@@ -157,8 +160,9 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
     // New fields
     _selectedBrewingMethodId = existing?.brewingMethodId;
     _wouldBuyAgain = existing?.wouldBuyAgain;
-    _flavorTags =
-        (existing?.flavorTags ?? []).map(resolveFlavorTagKey).toList();
+    _flavorTags = (existing?.flavorTags ?? [])
+        .map(resolveFlavorTagKey)
+        .toList();
 
     // Snapshot baseline for unsaved-change detection.
     _initialRating = _rating;
@@ -199,7 +203,8 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
   bool _lastDirty = false;
 
   bool _hasUnsavedChanges() {
-    final tagsChanged = _initialFlavorTags.length != _flavorTags.length ||
+    final tagsChanged =
+        _initialFlavorTags.length != _flavorTags.length ||
         !_initialFlavorTags.toSet().containsAll(_flavorTags);
     return _rating != _initialRating ||
         _reviewController.text != _initialReviewText ||
@@ -214,10 +219,14 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
   }
 
   Future<void> _loadBeans() async {
-    final beansProvider =
-        Provider.of<CoffeeBeansProvider>(context, listen: false);
-    final reviewProvider =
-        Provider.of<BeanReviewProvider>(context, listen: false);
+    final beansProvider = Provider.of<CoffeeBeansProvider>(
+      context,
+      listen: false,
+    );
+    final reviewProvider = Provider.of<BeanReviewProvider>(
+      context,
+      listen: false,
+    );
 
     final all = await beansProvider.fetchAllCoffeeBeans();
     // Alias-aware match: a bean belongs to this roaster if its (free-text)
@@ -228,9 +237,11 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
       ...widget.roasterAliases.map(normalizeRoasterName),
     }..removeWhere((s) => s.isEmpty);
     final roasterBeans = all
-        .where((b) =>
-            acceptableRoasters.contains(normalizeRoasterName(b.roaster)) &&
-            !b.isDeleted)
+        .where(
+          (b) =>
+              acceptableRoasters.contains(normalizeRoasterName(b.roaster)) &&
+              !b.isDeleted,
+        )
         .toList();
 
     // Fetch which beans the user has already reviewed so we can exclude them
@@ -276,11 +287,13 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
     // Pre-select the most recently used method for these beans (if any)
     String? preselect = _selectedBrewingMethodId;
     if (preselect == null) {
-      final beansUuid = widget.preselectedBean?.beansUuid ??
+      final beansUuid =
+          widget.preselectedBean?.beansUuid ??
           widget.existingReview?.coffeeBeansUuid;
       if (beansUuid != null) {
-        final recent =
-            await db.userStatsDao.fetchDistinctBrewingMethodsForBean(beansUuid);
+        final recent = await db.userStatsDao.fetchDistinctBrewingMethodsForBean(
+          beansUuid,
+        );
         if (recent.isNotEmpty) preselect = recent.first;
       }
     }
@@ -347,11 +360,8 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
     final text = _reviewController.text.trim();
     if (text.isNotEmpty) {
       try {
-        final moderationResponse =
-            await Supabase.instance.client.functions.invoke(
-          'content-moderation',
-          body: {'text': text},
-        );
+        final moderationResponse = await Supabase.instance.client.functions
+            .invoke('content-moderation', body: {'text': text});
         if (!mounted) return;
         if (moderationResponse.status == 200 &&
             moderationResponse.data != null) {
@@ -375,8 +385,9 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
                     label: l10n.moderationRulesLearnMore,
                     onPressed: () {
                       Navigator.of(dialogContext).pop();
-                      outerContext.router
-                          .push(InfoRoute(section: 'moderation'));
+                      outerContext.router.push(
+                        InfoRoute(section: 'moderation'),
+                      );
                     },
                     isFullWidth: false,
                     height: AppButton.heightMedium,
@@ -413,15 +424,18 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
         reviewText: _reviewController.text.trim().isEmpty
             ? null
             : _reviewController.text.trim(),
-        sweetness:
-            _interactedSliderKeys.contains('sweetness') ? _sweetness : null,
+        sweetness: _interactedSliderKeys.contains('sweetness')
+            ? _sweetness
+            : null,
         acidity: _interactedSliderKeys.contains('acidity') ? _acidity : null,
         fruitiness: null,
         body: _interactedSliderKeys.contains('body') ? _body : null,
-        bitterness:
-            _interactedSliderKeys.contains('bitterness') ? _bitterness : null,
-        aftertaste:
-            _interactedSliderKeys.contains('aftertaste') ? _aftertaste : null,
+        bitterness: _interactedSliderKeys.contains('bitterness')
+            ? _bitterness
+            : null,
+        aftertaste: _interactedSliderKeys.contains('aftertaste')
+            ? _aftertaste
+            : null,
         coffeeBeansUuid: widget.existingReview!.coffeeBeansUuid,
         brewingMethodId: _selectedBrewingMethodId,
         wouldBuyAgain: _wouldBuyAgain,
@@ -437,15 +451,18 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
         reviewText: _reviewController.text.trim().isEmpty
             ? null
             : _reviewController.text.trim(),
-        sweetness:
-            _interactedSliderKeys.contains('sweetness') ? _sweetness : null,
+        sweetness: _interactedSliderKeys.contains('sweetness')
+            ? _sweetness
+            : null,
         acidity: _interactedSliderKeys.contains('acidity') ? _acidity : null,
         fruitiness: null,
         body: _interactedSliderKeys.contains('body') ? _body : null,
-        bitterness:
-            _interactedSliderKeys.contains('bitterness') ? _bitterness : null,
-        aftertaste:
-            _interactedSliderKeys.contains('aftertaste') ? _aftertaste : null,
+        bitterness: _interactedSliderKeys.contains('bitterness')
+            ? _bitterness
+            : null,
+        aftertaste: _interactedSliderKeys.contains('aftertaste')
+            ? _aftertaste
+            : null,
         brewingMethodId: _selectedBrewingMethodId,
         wouldBuyAgain: _wouldBuyAgain,
         flavorTags: _flavorTags.isEmpty ? null : _flavorTags,
@@ -454,6 +471,19 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
 
     if (!mounted) return;
     setState(() => _submitting = false);
+
+    // A fresh review supersedes any pending review nudge for this bean — cancel
+    // it so we don't nudge for a review the user just wrote.
+    if (ok && !_isEditing && _selectedBean != null) {
+      final database = Provider.of<AppDatabase>(context, listen: false);
+      unawaited(
+        LocalNotificationSchedulerService.instance.cancelPendingNudgeOnReview(
+          database: database,
+          beansUuid: _selectedBean!.beansUuid,
+        ),
+      );
+    }
+
     if (ok) Navigator.of(context).pop(true);
   }
 
@@ -462,8 +492,13 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
     final l10n = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
     final user = Supabase.instance.client.auth.currentUser;
+    // Field labels match the detail-screen card row labels (DetailItemRow).
+    final lineTitleStyle = Theme.of(
+      context,
+    ).textTheme.bodyLarge?.copyWith(fontSize: 18, fontWeight: FontWeight.bold);
 
-    final bool tasteProfileInitiallyExpanded = widget.existingReview != null &&
+    final bool tasteProfileInitiallyExpanded =
+        widget.existingReview != null &&
         (widget.existingReview!.hasTasteProfile ||
             widget.existingReview!.flavorTags?.isNotEmpty == true);
 
@@ -475,7 +510,7 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
           context: context,
           builder: (_) => const UnsavedChangesDialog(),
         );
-        if (shouldDiscard == true && mounted) {
+        if (shouldDiscard == true && context.mounted) {
           Navigator.of(context).pop(false);
         }
       },
@@ -516,7 +551,7 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
                         width: 40,
                         height: 4,
                         decoration: BoxDecoration(
-                          color: colorScheme.onSurface.withOpacity(0.2),
+                          color: colorScheme.onSurface.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(2),
                         ),
                       ),
@@ -535,266 +570,277 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
                 ),
               ),
 
-            Text(
-              _isEditing ? l10n.editReview : l10n.writeReview,
-              style: AppTextStyles.title,
-            ),
-            const SizedBox(height: AppSpacing.base),
-
-            // Sign-in gate — show prompt and nothing else
-            if (user == null) ...[
-              Text(l10n.signInToReview, style: AppTextStyles.body),
-              const SizedBox(height: AppSpacing.base),
-              AppElevatedButton(
-                label: l10n.signInToReview,
-                onPressed: () async {
-                  final signedIn =
-                      await AuthenticationService.promptSignIn(context);
-                  if (signedIn && mounted) {
-                    setState(() {});
-                  }
-                },
+              Text(
+                _isEditing ? l10n.editReview : l10n.writeReview,
+                // Match the detail-screen card headers (DetailSectionHeader).
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
-            ] else ...[
-              // Bean selector (only for new reviews)
-              if (!_isEditing) ...[
-                Text(l10n.reviewBeanLabel, style: AppTextStyles.fieldLabel),
-                const SizedBox(height: AppSpacing.xs),
-                if (_loadingBeans)
-                  const Center(child: CircularProgressIndicator())
-                else if (_beanLocked)
-                  // Bean is fixed (came from the bean detail screen)
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.base,
-                      vertical: AppSpacing.sm,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: colorScheme.outline.withOpacity(0.5),
+              const SizedBox(height: AppSpacing.base),
+
+              // Sign-in gate — show prompt and nothing else
+              if (user == null) ...[
+                Text(l10n.signInToReview, style: AppTextStyles.body),
+                const SizedBox(height: AppSpacing.base),
+                AppElevatedButton(
+                  label: l10n.signInToReview,
+                  onPressed: () async {
+                    final signedIn = await AuthenticationService.promptSignIn(
+                      context,
+                    );
+                    if (signedIn && mounted) {
+                      setState(() {});
+                    }
+                  },
+                ),
+              ] else ...[
+                // Bean selector (only for new reviews)
+                if (!_isEditing) ...[
+                  Text(l10n.reviewBeanLabel, style: lineTitleStyle),
+                  const SizedBox(height: AppSpacing.xs),
+                  if (_loadingBeans)
+                    const Center(child: CircularProgressIndicator())
+                  else if (_beanLocked)
+                    // Bean is fixed (came from the bean detail screen)
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.base,
+                        vertical: AppSpacing.sm,
                       ),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: colorScheme.outline.withValues(alpha: 0.5),
+                        ),
+                        borderRadius: BorderRadius.circular(AppRadius.field),
+                        color: colorScheme.surfaceContainerHighest.withValues(
+                          alpha: 0.4,
+                        ),
+                      ),
+                      child: Text(
+                        _selectedBean?.name ?? widget.preselectedBean!.name,
+                        style: AppTextStyles.body,
+                      ),
+                    )
+                  else if (_matchingBeans.isEmpty)
+                    Text(
+                      l10n.reviewRequiresOwnedBeans,
+                      style: AppTextStyles.caption.copyWith(
+                        color: colorScheme.onSurface.withValues(alpha: 0.5),
+                      ),
+                    )
+                  else
+                    DropdownButtonFormField<CoffeeBeansModel>(
+                      value: _selectedBean,
+                      hint: Text(l10n.selectBeanForReview),
+                      isExpanded: true,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(AppRadius.field),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.base,
+                          vertical: AppSpacing.sm,
+                        ),
+                      ),
+                      items: _matchingBeans
+                          .map(
+                            (b) => DropdownMenuItem(
+                              value: b,
+                              child: Text(
+                                b.name,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (v) => setState(() => _selectedBean = v),
+                    ),
+                  const SizedBox(height: AppSpacing.base),
+                ],
+
+                // Star rating
+                Text(l10n.reviewRatingLabel, style: lineTitleStyle),
+                const SizedBox(height: AppSpacing.xs),
+                StarRating(
+                  value: _rating,
+                  starSize: AppIconSize.large,
+                  interactive: true,
+                  onChanged: (v) => setState(() => _rating = v),
+                ),
+                const SizedBox(height: AppSpacing.base),
+
+                // Review text
+                Text(l10n.reviewTextLabel, style: lineTitleStyle),
+                const SizedBox(height: AppSpacing.xs),
+                TextField(
+                  controller: _reviewController,
+                  maxLines: 4,
+                  decoration: InputDecoration(
+                    hintText: l10n.reviewTextLabel,
+                    border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(AppRadius.field),
-                      color: colorScheme.surfaceContainerHighest
-                          .withOpacity(0.4),
                     ),
-                    child: Text(
-                      _selectedBean?.name ?? widget.preselectedBean!.name,
-                      style: AppTextStyles.body,
-                    ),
-                  )
-                else if (_matchingBeans.isEmpty)
-                  Text(
-                    l10n.reviewRequiresOwnedBeans,
-                    style: AppTextStyles.caption.copyWith(
-                      color: colorScheme.onSurface.withOpacity(0.5),
+                    contentPadding: const EdgeInsets.all(AppSpacing.base),
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.base),
+
+                // Brew method
+                if (_loadingBrewMethods)
+                  const SizedBox(
+                    height: 56,
+                    child: Center(
+                      child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
                     ),
                   )
                 else
-                  DropdownButtonFormField<CoffeeBeansModel>(
-                    value: _selectedBean,
-                    hint: Text(l10n.selectBeanForReview),
-                    isExpanded: true,
+                  TextFormField(
+                    controller: _brewMethodController,
+                    readOnly: true,
+                    onTap: () => _showBrewMethodModal(context),
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(AppRadius.field),
-                      ),
+                      labelText: l10n.reviewBrewMethodLabel,
+                      hintText: l10n.reviewBrewMethodHint,
+                      suffixIcon: const Icon(Icons.keyboard_arrow_down),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: AppSpacing.base,
                         vertical: AppSpacing.sm,
                       ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(AppRadius.field),
+                        borderSide: BorderSide(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.grey.shade500
+                              : Colors.grey.shade300,
+                          width: AppStroke.border,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(AppRadius.field),
+                        borderSide: BorderSide(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.grey.shade500
+                              : Colors.grey.shade300,
+                          width: AppStroke.border,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(AppRadius.field),
+                        borderSide: BorderSide(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.grey.shade300
+                              : Colors.grey.shade700,
+                          width: AppStroke.focus,
+                        ),
+                      ),
                     ),
-                    items: _matchingBeans
-                        .map(
-                          (b) => DropdownMenuItem(
-                            value: b,
-                            child:
-                                Text(b.name, overflow: TextOverflow.ellipsis),
-                          ),
-                        )
-                        .toList(),
-                    onChanged: (v) => setState(() => _selectedBean = v),
                   ),
                 const SizedBox(height: AppSpacing.base),
-              ],
 
-              // Star rating
-              Text(l10n.reviewRatingLabel, style: AppTextStyles.fieldLabel),
-              const SizedBox(height: AppSpacing.xs),
-              StarRating(
-                value: _rating,
-                starSize: AppIconSize.large,
-                interactive: true,
-                onChanged: (v) => setState(() => _rating = v),
-              ),
-              const SizedBox(height: AppSpacing.base),
-
-              // Review text
-              Text(l10n.reviewTextLabel, style: AppTextStyles.fieldLabel),
-              const SizedBox(height: AppSpacing.xs),
-              TextField(
-                controller: _reviewController,
-                maxLines: 4,
-                decoration: InputDecoration(
-                  hintText: l10n.reviewTextLabel,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(AppRadius.field),
-                  ),
-                  contentPadding: const EdgeInsets.all(AppSpacing.base),
-                ),
-              ),
-              const SizedBox(height: AppSpacing.base),
-
-              // Brew method
-              if (_loadingBrewMethods)
-                const SizedBox(
-                  height: 56,
-                  child: Center(
-                    child: SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    ),
-                  ),
-                )
-              else
-                TextFormField(
-                  controller: _brewMethodController,
-                  readOnly: true,
-                  onTap: () => _showBrewMethodModal(context),
-                  decoration: InputDecoration(
-                    labelText: l10n.reviewBrewMethodLabel,
-                    hintText: l10n.reviewBrewMethodHint,
-                    suffixIcon: const Icon(Icons.keyboard_arrow_down),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.base,
-                      vertical: AppSpacing.sm,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(AppRadius.field),
-                      borderSide: BorderSide(
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.grey.shade500
-                            : Colors.grey.shade300,
-                        width: AppStroke.border,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(AppRadius.field),
-                      borderSide: BorderSide(
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.grey.shade500
-                            : Colors.grey.shade300,
-                        width: AppStroke.border,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(AppRadius.field),
-                      borderSide: BorderSide(
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.grey.shade300
-                            : Colors.grey.shade700,
-                        width: AppStroke.focus,
-                      ),
-                    ),
-                  ),
-                ),
-              const SizedBox(height: AppSpacing.base),
-
-              // Would buy again — label + colored toggle buttons in one row
-              Row(
-                children: [
-                  Text(l10n.reviewWouldBuyAgainLabel,
-                      style: AppTextStyles.fieldLabel),
-                  const SizedBox(width: AppSpacing.sm),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: _BuyAgainButton(
-                            label: 'Yes',
-                            selected: _wouldBuyAgain == true,
-                            activeColor: const Color(0xFF43A047),
-                            onTap: () => setState(() => _wouldBuyAgain =
-                                _wouldBuyAgain == true ? null : true),
-                          ),
-                        ),
-                        const SizedBox(width: AppSpacing.xs),
-                        Expanded(
-                          child: _BuyAgainButton(
-                            label: 'No',
-                            selected: _wouldBuyAgain == false,
-                            activeColor: colorScheme.error,
-                            onTap: () => setState(() => _wouldBuyAgain =
-                                _wouldBuyAgain == false ? null : false),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: AppSpacing.base),
-
-              // Taste profile (collapsed by default) — flavor notes + sliders
-              SectionCard(
-                title: l10n.tasteProfileAdvancedTitle,
-                icon: Icons.tune_outlined,
-                isCollapsible: true,
-                initiallyExpanded: tasteProfileInitiallyExpanded,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
+                // Would buy again — label + colored toggle buttons in one row
+                Row(
                   children: [
-                    Text(l10n.reviewFlavorNotesLabel,
-                        style: AppTextStyles.fieldLabel),
-                    const SizedBox(height: AppSpacing.xs),
-                    FlavorNotesPicker(
-                      selectedTags: _flavorTags,
-                      onChanged: (tags) =>
-                          setState(() => _flavorTags = tags),
-                    ),
-                    const SizedBox(height: AppSpacing.base),
-                    const Divider(),
-                    const SizedBox(height: AppSpacing.xs),
-                    TasteProfileSliders(
-                      sweetness: _sweetness,
-                      acidity: _acidity,
-                      body: _body,
-                      bitterness: _bitterness,
-                      aftertaste: _aftertaste,
-                      readOnly: false,
-                      interactedKeys: _interactedSliderKeys,
-                      onChanged: (values) => setState(() {
-                        _sweetness = values['sweetness'];
-                        _acidity = values['acidity'];
-                        _body = values['body'];
-                        _bitterness = values['bitterness'];
-                        _aftertaste = values['aftertaste'];
-                      }),
-                      onSliderInteracted: (key) =>
-                          setState(() => _interactedSliderKeys.add(key)),
+                    Text(l10n.reviewWouldBuyAgainLabel, style: lineTitleStyle),
+                    const SizedBox(width: AppSpacing.sm),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: _BuyAgainButton(
+                              label: 'Yes',
+                              selected: _wouldBuyAgain == true,
+                              activeColor: const Color(0xFF43A047),
+                              onTap: () => setState(
+                                () => _wouldBuyAgain = _wouldBuyAgain == true
+                                    ? null
+                                    : true,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: AppSpacing.xs),
+                          Expanded(
+                            child: _BuyAgainButton(
+                              label: 'No',
+                              selected: _wouldBuyAgain == false,
+                              activeColor: colorScheme.error,
+                              onTap: () => setState(
+                                () => _wouldBuyAgain = _wouldBuyAgain == false
+                                    ? null
+                                    : false,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(height: AppSpacing.lg),
+                const SizedBox(height: AppSpacing.base),
 
-              AppElevatedButton(
-                label: l10n.submitReviewButton,
-                onPressed: (_rating > 0 &&
-                        (_isEditing || _selectedBean != null) &&
-                        !_submitting)
-                    ? _submit
-                    : null,
-                isLoading: _submitting,
-              ),
+                // Taste profile (collapsed by default) — flavor notes + sliders
+                SectionCard(
+                  title: l10n.tasteProfileAdvancedTitle,
+                  icon: Icons.tune_outlined,
+                  isCollapsible: true,
+                  initiallyExpanded: tasteProfileInitiallyExpanded,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(l10n.reviewFlavorNotesLabel, style: lineTitleStyle),
+                      const SizedBox(height: AppSpacing.xs),
+                      FlavorNotesPicker(
+                        selectedTags: _flavorTags,
+                        onChanged: (tags) => setState(() => _flavorTags = tags),
+                      ),
+                      const SizedBox(height: AppSpacing.base),
+                      const Divider(),
+                      const SizedBox(height: AppSpacing.xs),
+                      TasteProfileSliders(
+                        sweetness: _sweetness,
+                        acidity: _acidity,
+                        body: _body,
+                        bitterness: _bitterness,
+                        aftertaste: _aftertaste,
+                        readOnly: false,
+                        interactedKeys: _interactedSliderKeys,
+                        onChanged: (values) => setState(() {
+                          _sweetness = values['sweetness'];
+                          _acidity = values['acidity'];
+                          _body = values['body'];
+                          _bitterness = values['bitterness'];
+                          _aftertaste = values['aftertaste'];
+                        }),
+                        onSliderInteracted: (key) =>
+                            setState(() => _interactedSliderKeys.add(key)),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.lg),
+
+                AppElevatedButton(
+                  label: l10n.submitReviewButton,
+                  onPressed:
+                      (_rating > 0 &&
+                          (_isEditing || _selectedBean != null) &&
+                          !_submitting)
+                      ? _submit
+                      : null,
+                  isLoading: _submitting,
+                ),
+              ],
+              const SizedBox(height: AppSpacing.sm),
             ],
-            const SizedBox(height: AppSpacing.sm),
-          ],
+          ),
         ),
       ),
-    ),
     );
   }
 }
@@ -814,8 +860,7 @@ class _BuyAgainButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textColor =
-        selected ? _contrastColor(activeColor) : activeColor;
+    final textColor = selected ? _contrastColor(activeColor) : activeColor;
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(

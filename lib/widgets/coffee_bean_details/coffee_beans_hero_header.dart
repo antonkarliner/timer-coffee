@@ -105,19 +105,23 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
     final isLight = theme.brightness == Brightness.light;
 
     // Theme-adaptive gradient colors - subtle gradient in light mode for better white logo visibility
-    final bgStart = gradientStartColor ??
+    final bgStart =
+        gradientStartColor ??
         (isLight ? Colors.grey.shade400 : Colors.grey.shade800);
-    final bgEnd = gradientEndColor ??
+    final bgEnd =
+        gradientEndColor ??
         (isLight ? Colors.grey.shade300 : Colors.grey.shade700);
 
     // Theme-adaptive text colors
     final primaryColor = primaryTextColor ?? theme.colorScheme.onSurface;
-    final secondaryColor = secondaryTextColor ??
-        theme.colorScheme.onSurfaceVariant.withOpacity(0.85);
-    final tertiaryColor = tertiaryTextColor ??
-        theme.colorScheme.onSurfaceVariant.withOpacity(0.6);
+    final secondaryColor =
+        secondaryTextColor ??
+        theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.85);
+    final tertiaryColor =
+        tertiaryTextColor ??
+        theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.6);
     final iconColor =
-        fallbackIconColor ?? theme.colorScheme.onSurface.withOpacity(0.6);
+        fallbackIconColor ?? theme.colorScheme.onSurface.withValues(alpha: 0.6);
 
     return Semantics(
       identifier: 'coffeeBeansHeroHeader_${bean.beansUuid}',
@@ -146,7 +150,11 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
                     const SizedBox(width: 20),
                     // Name / roaster / origin
                     _buildInfoSection(
-                        context, primaryColor, secondaryColor, tertiaryColor),
+                      context,
+                      primaryColor,
+                      secondaryColor,
+                      tertiaryColor,
+                    ),
                     const SizedBox(width: 12),
                     // Favorite button
                     _buildFavoriteButton(context),
@@ -175,20 +183,22 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
       child: SizedBox(
         height: logoHeight,
         width: effectiveLogoWidth,
-        child: (originalUrl != null || mirrorUrl != null)
-            ? RoasterLogo(
-                originalUrl: originalUrl,
-                mirrorUrl: mirrorUrl,
-                height: logoHeight,
-                width: effectiveLogoWidth,
-                borderRadius: 12.0,
-                forceFit: BoxFit.contain,
-              )
-            : Icon(
-                Coffeico.bag_with_bean,
-                size: 60,
-                color: iconColor,
-              ),
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 250),
+          child: KeyedSubtree(
+            key: ValueKey<String?>(originalUrl ?? mirrorUrl),
+            child: (originalUrl != null || mirrorUrl != null)
+                ? RoasterLogo(
+                    originalUrl: originalUrl,
+                    mirrorUrl: mirrorUrl,
+                    height: logoHeight,
+                    width: effectiveLogoWidth,
+                    borderRadius: 12.0,
+                    forceFit: BoxFit.contain,
+                  )
+                : Icon(Coffeico.bag_with_bean, size: 60, color: iconColor),
+          ),
+        ),
       ),
     );
   }
@@ -213,9 +223,9 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
               minFontSize: 12,
               overflow: TextOverflow.visible,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: primaryColor,
-                  ),
+                fontWeight: FontWeight.bold,
+                color: primaryColor,
+              ),
             ),
           ),
           const SizedBox(height: 8),
@@ -231,11 +241,10 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
                       maxLines: 2,
                       minFontSize: 11,
                       overflow: TextOverflow.ellipsis,
-                      style:
-                          Theme.of(context).textTheme.titleMedium?.copyWith(
-                                color: secondaryColor,
-                                decoration: TextDecoration.underline,
-                              ),
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: secondaryColor,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   )
                 : AutoSizeText(
@@ -243,9 +252,9 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
                     maxLines: 2,
                     minFontSize: 11,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: secondaryColor,
-                        ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleMedium?.copyWith(color: secondaryColor),
                   ),
           ),
           const SizedBox(height: 4),
@@ -256,9 +265,9 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
               bean.origin,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: tertiaryColor,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge?.copyWith(color: tertiaryColor),
             ),
           ),
         ],
@@ -285,7 +294,9 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
         ),
         onPressed: () async {
           await coffeeBeansProvider.toggleFavoriteStatus(
-              bean.beansUuid!, !bean.isFavorite);
+            bean.beansUuid,
+            !bean.isFavorite,
+          );
           onFavoriteToggle?.call();
         },
       ),
@@ -293,8 +304,11 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
   }
 
   /// Builds the quick stats section with roast date and cupping score
-  Widget _buildQuickStats(BuildContext context, AppLocalizations loc,
-      String datePattern) {
+  Widget _buildQuickStats(
+    BuildContext context,
+    AppLocalizations loc,
+    String datePattern,
+  ) {
     return Semantics(
       identifier: 'quickStats_${bean.beansUuid}',
       label: 'Quick statistics',
@@ -320,8 +334,9 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
                   label: loc.amountLeft,
                   value:
                       '${bean.validatedPackageWeightGrams!.toStringAsFixed(1)}g',
-                  subtitle:
-                      brewsLeft != null ? loc.approxBrewsLeft(brewsLeft!) : null,
+                  subtitle: brewsLeft != null
+                      ? loc.approxBrewsLeft(brewsLeft!)
+                      : null,
                   expandHeight: true,
                 ),
               if (bean.cuppingScore != null)

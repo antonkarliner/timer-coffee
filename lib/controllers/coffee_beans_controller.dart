@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:auto_route/auto_route.dart';
@@ -13,7 +12,6 @@ import '../services/coffee_beans_sort_service.dart';
 import '../widgets/coffee_beans/dialogs/coffee_beans_filter_dialog.dart';
 import '../widgets/coffee_beans/dialogs/coffee_beans_sort_dialog.dart';
 import '../app_router.gr.dart';
-import '../l10n/app_localizations.dart';
 import '../providers/coffee_beans_provider.dart';
 
 /// Controller for Coffee Beans Screen responsible for:
@@ -52,19 +50,19 @@ class CoffeeBeansController extends ChangeNotifier {
 
   // --- Available Filter Options ---
   List<String> _availableRoasters = [];
-// --- Provider listener / refresh guard ---
+  // --- Provider listener / refresh guard ---
   CoffeeBeansProvider? _coffeeBeansProvider;
   VoidCallback? _providerListener;
   bool _isRefreshing = false;
-  BuildContext? _savedContext;
+  bool _isDisposed = false;
   List<String> _availableOrigins = [];
 
   // --- Constructor ---
   CoffeeBeansController({
     CoffeeBeansFilterService? filterService,
     CoffeeBeansSortService? sortService,
-  })  : _filterService = filterService ?? const CoffeeBeansFilterService(),
-        _sortService = sortService ?? const CoffeeBeansSortService() {
+  }) : _filterService = filterService ?? const CoffeeBeansFilterService(),
+       _sortService = sortService ?? const CoffeeBeansSortService() {
     scrollController = ScrollController();
     scrollController.addListener(_handleScroll);
     searchController.addListener(_handleSearchChanged);
@@ -111,6 +109,8 @@ class CoffeeBeansController extends ChangeNotifier {
   // --- Lifecycle ---
   @override
   void dispose() {
+    _isDisposed = true;
+
     // Remove scroll and search listeners
     scrollController.removeListener(_handleScroll);
     scrollController.dispose();
@@ -130,7 +130,6 @@ class CoffeeBeansController extends ChangeNotifier {
     } finally {
       _coffeeBeansProvider = null;
       _providerListener = null;
-      _savedContext = null;
     }
 
     super.dispose();
@@ -139,34 +138,36 @@ class CoffeeBeansController extends ChangeNotifier {
   // --- Initialization ---
 
   Future<void> initialize(BuildContext context) async {
-    // Save context for provider-driven refreshes
-    _savedContext = context;
+    if (_isDisposed || !context.mounted) return;
+    final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+      context,
+      listen: false,
+    );
+    _coffeeBeansProvider = coffeeBeansProvider;
     _setLoading(true);
     try {
       // Load saved preferences
       final savedViewMode = await _sortService.loadViewMode();
       final savedSortOptions = await _sortService.loadSortOptions();
-// Setup provider listener to auto-refresh when CoffeeBeansProvider notifies.
-// Use a small debounce/guard to avoid duplicate refreshes.
+      if (_isDisposed) return;
+      // Setup provider listener to auto-refresh when CoffeeBeansProvider notifies.
+      // Use a small debounce/guard to avoid duplicate refreshes.
       try {
-        _coffeeBeansProvider =
-            Provider.of<CoffeeBeansProvider>(context, listen: false);
         _providerListener = () async {
           if (_isRefreshing) return;
           _isRefreshing = true;
           // Short debounce to coalesce rapid notifications
           await Future.delayed(const Duration(milliseconds: 50));
           try {
-            if (_savedContext != null) {
-              await refreshData(_savedContext!);
-            }
+            if (_isDisposed) return;
+            await _refreshData(coffeeBeansProvider);
           } catch (_) {
             // ignore errors coming from background refresh attempts
           } finally {
             _isRefreshing = false;
           }
         };
-        _coffeeBeansProvider!.addListener(_providerListener!);
+        coffeeBeansProvider.addListener(_providerListener!);
       } catch (e) {
         // If provider isn't available or listener registration fails, continue silently
       }
@@ -175,10 +176,11 @@ class CoffeeBeansController extends ChangeNotifier {
       _sortOptions = savedSortOptions;
 
       // Load filter options
-      await _loadFilterOptions(context);
+      await _loadFilterOptions(coffeeBeansProvider);
+      if (_isDisposed) return;
 
       // Load initial data
-      await refreshData(context);
+      await _refreshData(coffeeBeansProvider);
     } catch (e) {
       _setError(e.toString());
     } finally {
@@ -186,40 +188,66 @@ class CoffeeBeansController extends ChangeNotifier {
     }
   }
 
-  Future<void> _loadFilterOptions(BuildContext context) async {
+  Future<void> _loadFilterOptions(
+    CoffeeBeansProvider coffeeBeansProvider,
+  ) async {
     try {
-      _availableRoasters = await _filterService.fetchAvailableRoasters(context);
-      _availableOrigins = await _filterService.fetchAvailableOrigins(context);
+      final availableRoasters = await coffeeBeansProvider
+          .fetchAllDistinctRoasters();
+      if (_isDisposed) return;
+      _availableRoasters = availableRoasters;
+
+      final availableOrigins = await coffeeBeansProvider
+          .fetchAllDistinctOrigins();
+      if (_isDisposed) return;
+      _availableOrigins = availableOrigins;
     } catch (e) {
       // Handle error silently, keep empty lists
     }
   }
 
   // --- Data Management ---
-  Future<void> refreshData(BuildContext context) async {
+  Future<void> refreshData(BuildContext context) {
+    if (_isDisposed || !context.mounted) return Future.value();
+    final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+      context,
+      listen: false,
+    );
+    return _refreshData(coffeeBeansProvider);
+  }
+
+  Future<void> _refreshData(CoffeeBeansProvider coffeeBeansProvider) async {
+    if (_isDisposed) return;
     _setLoading(true);
     try {
       // Fetch filtered data from database
-      _allBeans = await _filterService.applyFilters(context, _filterOptions);
+      final filteredBeans = await coffeeBeansProvider.fetchFilteredCoffeeBeans(
+        roasters: _filterOptions.selectedRoasters.isNotEmpty
+            ? _filterOptions.selectedRoasters
+            : null,
+        origins: _filterOptions.selectedOrigins.isNotEmpty
+            ? _filterOptions.selectedOrigins
+            : null,
+        isFavorite: _filterOptions.isFavoriteOnly ? true : null,
+      );
+      if (_isDisposed) return;
+      _allBeans = filteredBeans;
 
       // Apply search filter
-      var searchFiltered =
-          _filterService.applySearch(_allBeans, _viewState.searchQuery);
+      var searchFiltered = _filterService.applySearch(
+        _allBeans,
+        _viewState.searchQuery,
+      );
 
       // Apply sorting
       _filteredBeans = _sortService.applySorting(searchFiltered, _sortOptions);
 
       // Compute the grand total of tracked grams across ALL non-deleted beans,
       // independent of the active filters/search, so the summary can show
-      // "<filtered> of <grand total>". Falls back to the in-scope sum if the
-      // provider is unavailable.
-      final provider = _coffeeBeansProvider;
-      if (provider != null) {
-        final allBeans = await provider.fetchAllCoffeeBeans();
-        _grandTotalGramsLeft = _sumGramsLeft(allBeans);
-      } else {
-        _grandTotalGramsLeft = _sumGramsLeft(_allBeans);
-      }
+      // "<filtered> of <grand total>".
+      final allBeans = await coffeeBeansProvider.fetchAllCoffeeBeans();
+      if (_isDisposed) return;
+      _grandTotalGramsLeft = _sumGramsLeft(allBeans);
 
       _setError(null);
     } catch (e) {
@@ -230,6 +258,7 @@ class CoffeeBeansController extends ChangeNotifier {
   }
 
   void _setLoading(bool loading) {
+    if (_isDisposed) return;
     if (_isLoading != loading) {
       _isLoading = loading;
       notifyListeners();
@@ -237,6 +266,7 @@ class CoffeeBeansController extends ChangeNotifier {
   }
 
   void _setError(String? error) {
+    if (_isDisposed) return;
     if (_error != error) {
       _error = error;
       notifyListeners();
@@ -265,9 +295,11 @@ class CoffeeBeansController extends ChangeNotifier {
     // Dismiss keyboard when scrolling
     searchFocusNode.unfocus();
 
-    final isScrollingDown = scrollController.position.userScrollDirection ==
+    final isScrollingDown =
+        scrollController.position.userScrollDirection ==
         ScrollDirection.reverse;
-    final isScrollingUp = scrollController.position.userScrollDirection ==
+    final isScrollingUp =
+        scrollController.position.userScrollDirection ==
         ScrollDirection.forward;
 
     if (isScrollingDown && _viewState.isBottomBarVisible) {
@@ -281,8 +313,9 @@ class CoffeeBeansController extends ChangeNotifier {
 
   // --- View Mode Management ---
   Future<void> toggleViewMode() async {
-    final newViewMode =
-        _viewState.viewMode == ViewMode.list ? ViewMode.grid : ViewMode.list;
+    final newViewMode = _viewState.viewMode == ViewMode.list
+        ? ViewMode.grid
+        : ViewMode.list;
     _viewState = _viewState.copyWith(viewMode: newViewMode);
     await _sortService.saveViewMode(newViewMode);
     notifyListeners();
@@ -296,6 +329,11 @@ class CoffeeBeansController extends ChangeNotifier {
 
   // --- Filter Management ---
   Future<void> showFilterDialog(BuildContext context) async {
+    if (_isDisposed || !context.mounted) return;
+    final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+      context,
+      listen: false,
+    );
     final result = await showModalBottomSheet<CoffeeBeansFilterOptions>(
       context: context,
       isScrollControlled: true,
@@ -308,30 +346,33 @@ class CoffeeBeansController extends ChangeNotifier {
       },
     );
 
-    if (result != null) {
+    if (result != null && !_isDisposed) {
       _filterOptions = result;
-      await _updateOriginsForSelectedRoasters(context);
-      await refreshData(context);
+      await _updateOriginsForSelectedRoasters(coffeeBeansProvider);
+      await _refreshData(coffeeBeansProvider);
     }
   }
 
-  Future<void> _updateOriginsForSelectedRoasters(BuildContext context) async {
+  Future<void> _updateOriginsForSelectedRoasters(
+    CoffeeBeansProvider coffeeBeansProvider,
+  ) async {
     try {
-      _availableOrigins = await _filterService.fetchOriginsForRoasters(
-        context,
-        _filterOptions.selectedRoasters,
-      );
+      final availableOrigins = _filterOptions.selectedRoasters.isEmpty
+          ? await coffeeBeansProvider.fetchAllDistinctOrigins()
+          : await coffeeBeansProvider.fetchOriginsForRoasters(
+              _filterOptions.selectedRoasters,
+            );
+      if (_isDisposed) return;
+      _availableOrigins = availableOrigins;
 
       // Update selected origins to only include those still available
-      final updatedSelectedOrigins =
-          await _filterService.updateOriginsForSelectedRoasters(
-        context,
-        _filterOptions.selectedRoasters,
-        _filterOptions.selectedOrigins,
-      );
+      final updatedSelectedOrigins = _filterOptions.selectedOrigins
+          .where((origin) => _availableOrigins.contains(origin))
+          .toList();
 
-      _filterOptions =
-          _filterOptions.copyWith(selectedOrigins: updatedSelectedOrigins);
+      _filterOptions = _filterOptions.copyWith(
+        selectedOrigins: updatedSelectedOrigins,
+      );
     } catch (e) {
       // Handle error silently
     }
@@ -372,8 +413,10 @@ class CoffeeBeansController extends ChangeNotifier {
 
   void _applyLocalFilters() {
     // Apply search filter to all beans
-    var searchFiltered =
-        _filterService.applySearch(_allBeans, _viewState.searchQuery);
+    var searchFiltered = _filterService.applySearch(
+      _allBeans,
+      _viewState.searchQuery,
+    );
 
     // Apply sorting
     _filteredBeans = _sortService.applySorting(searchFiltered, _sortOptions);
@@ -384,9 +427,8 @@ class CoffeeBeansController extends ChangeNotifier {
     final result = await showModalBottomSheet<CoffeeBeansSortOptions>(
       context: context,
       useRootNavigator: true,
-      builder: (context) => CoffeeBeansSortDialog(
-        currentSortOptions: _sortOptions,
-      ),
+      builder: (context) =>
+          CoffeeBeansSortDialog(currentSortOptions: _sortOptions),
     );
 
     if (result != null) {
@@ -403,8 +445,10 @@ class CoffeeBeansController extends ChangeNotifier {
     searchFocusNode.unfocus();
 
     final result = await context.router.push(NewBeansRoute());
+    if (_isDisposed || !context.mounted) return;
     if (result != null && result is String) {
       await refreshData(context);
+      if (_isDisposed) return;
       // Ensure search field is unfocused after returning from navigation
       searchFocusNode.unfocus();
     }
@@ -416,9 +460,10 @@ class CoffeeBeansController extends ChangeNotifier {
 
     // Push detail route and refresh when returning. Use then to avoid changing
     // callback signatures where this method is used.
-    context.router
-        .push(CoffeeBeansDetailRoute(uuid: uuid))
-        .then((result) async {
+    context.router.push(CoffeeBeansDetailRoute(uuid: uuid)).then((
+      result,
+    ) async {
+      if (_isDisposed || !context.mounted) return;
       // If a refresh is already in progress from provider notifications, skip duplicated work.
       if (_isRefreshing) {
         return;
@@ -430,6 +475,7 @@ class CoffeeBeansController extends ChangeNotifier {
         if (result != null) {
           await refreshData(context);
         }
+        if (_isDisposed) return;
         // Ensure search field is unfocused after returning from navigation
         searchFocusNode.unfocus();
       } catch (_) {
@@ -447,7 +493,10 @@ class CoffeeBeansController extends ChangeNotifier {
   }
 
   Future<void> toggleFavoriteStatus(
-      BuildContext context, String uuid, bool isFavorite) async {
+    BuildContext context,
+    String uuid,
+    bool isFavorite,
+  ) async {
     // This would typically be handled by the provider, but we need to refresh after
     await refreshData(context);
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'dart:async';
 import 'dart:math' as math;
 import '../../theme/design_tokens.dart';
@@ -91,7 +90,7 @@ class DropdownSearchField extends StatefulWidget {
   final String? loadingMessage;
 
   const DropdownSearchField({
-    Key? key,
+    super.key,
     required this.label,
     required this.onSearch,
     this.hintText,
@@ -116,7 +115,7 @@ class DropdownSearchField extends StatefulWidget {
     this.maxRecentSelections = 10,
     this.noResultsMessage,
     this.loadingMessage,
-  }) : super(key: key);
+  });
 
   @override
   State<DropdownSearchField> createState() => _DropdownSearchFieldState();

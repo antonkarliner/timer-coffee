@@ -41,14 +41,14 @@ class CoffeeBeanGridCard extends StatelessWidget {
   final SortOption sortOption;
 
   const CoffeeBeanGridCard({
-    Key? key,
+    super.key,
     required this.bean,
     required this.isEditMode,
     required this.onDelete,
     this.onFavoriteToggle,
     this.onTap,
     this.sortOption = SortOption.dateAdded,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -57,25 +57,33 @@ class CoffeeBeanGridCard extends StatelessWidget {
     final bgStart = isLight ? Colors.grey.shade400 : Colors.grey.shade800;
     final bgEnd = isLight ? Colors.grey.shade300 : Colors.grey.shade700;
     // icon tint
-    final iconColor =
-        Theme.of(context).colorScheme.onSurface.withAlpha((255 * 0.6).round());
+    final iconColor = Theme.of(
+      context,
+    ).colorScheme.onSurface.withAlpha((255 * 0.6).round());
 
-    final coffeeBeansProvider =
-        Provider.of<CoffeeBeansProvider>(context, listen: false);
-    final databaseProvider =
-        Provider.of<DatabaseProvider>(context, listen: false);
+    final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+      context,
+      listen: false,
+    );
+    final databaseProvider = Provider.of<DatabaseProvider>(
+      context,
+      listen: false,
+    );
     final loc = AppLocalizations.of(context)!;
 
     return Semantics(
       identifier: 'coffeeBeanGridCard_${bean.beansUuid}',
       label: '${bean.name}, ${bean.roaster}, ${bean.origin}',
       child: GestureDetector(
-        onTap: onTap ??
-            () => context.router
-                .push(CoffeeBeansDetailRoute(uuid: bean.beansUuid!)),
+        onTap:
+            onTap ??
+            () => context.router.push(
+              CoffeeBeansDetailRoute(uuid: bean.beansUuid),
+            ),
         child: Card(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           elevation: 4,
           clipBehavior: Clip.antiAlias,
           child: Stack(
@@ -111,18 +119,19 @@ class CoffeeBeanGridCard extends StatelessWidget {
                                   : Icons.favorite_border,
                               color: bean.isFavorite
                                   ? (Theme.of(context).brightness ==
-                                          Brightness.light
-                                      ? const Color(0xff8e2e2d)
-                                      : const Color(0xffc66564))
+                                            Brightness.light
+                                        ? const Color(0xff8e2e2d)
+                                        : const Color(0xffc66564))
                                   : null,
                             ),
-                            onPressed: onFavoriteToggle ??
+                            onPressed:
+                                onFavoriteToggle ??
                                 () async {
                                   await coffeeBeansProvider
                                       .toggleFavoriteStatus(
-                                    bean.beansUuid!,
-                                    !bean.isFavorite,
-                                  );
+                                        bean.beansUuid,
+                                        !bean.isFavorite,
+                                      );
                                 },
                           ),
                         ],
@@ -141,11 +150,12 @@ class CoffeeBeanGridCard extends StatelessWidget {
                                 child: CachedNetworkImage(
                                   imageUrl:
                                       SupabaseEndpointResolver.localizeStorageUrl(
-                                          bean.photoUrl!),
+                                        bean.photoUrl!,
+                                      ),
                                   height: 50,
                                   width: double.infinity,
                                   fit: BoxFit.cover,
-                                  errorWidget: (_, __, ___) => Icon(
+                                  errorWidget: (_, _, _) => Icon(
                                     Coffeico.bag_with_bean,
                                     size: 50,
                                     color: iconColor,
@@ -199,8 +209,9 @@ class CoffeeBeanGridCard extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color:
-                                      Theme.of(context).colorScheme.onSurface,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface,
                                 ),
                                 maxLines: 2, // Reduced from 3
                                 minFontSize: 10, // Reduced from 12
@@ -224,8 +235,8 @@ class CoffeeBeanGridCard extends StatelessWidget {
                             Text(
                               sortOption == SortOption.roastDate
                                   ? (bean.roastDate != null
-                                      ? '${loc.roastDate}: ${app_date_utils.DateUtils.formatMediumDate(bean.roastDate!)}'
-                                      : bean.origin)
+                                        ? '${loc.roastDate}: ${app_date_utils.DateUtils.formatMediumDate(bean.roastDate!)}'
+                                        : bean.origin)
                                   : bean.origin,
                               style: TextStyle(
                                 fontSize: 12,
@@ -286,13 +297,14 @@ class CoffeeBeanGridCard extends StatelessWidget {
                   top: 8,
                   left: 8,
                   child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 3,
+                    ),
                     decoration: BoxDecoration(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .primary
-                          .withOpacity(0.7),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.primary.withValues(alpha: 0.7),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(

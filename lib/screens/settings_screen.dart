@@ -25,15 +25,12 @@ import '../widgets/settings/index.dart';
 
 @RoutePage()
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({
-    Key? key,
-    @QueryParam('section') this.section,
-  }) : super(key: key);
+  const SettingsScreen({super.key, @QueryParam('section') this.section});
 
   final String? section;
 
   @override
-  _SettingsScreenState createState() => _SettingsScreenState();
+  State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
@@ -73,8 +70,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final snowEffectProvider = Provider.of<SnowEffectProvider>(context);
 
     // Prepare brewing methods data
-    final allBrewingMethods =
-        Provider.of<List<BrewingMethodModel>>(context, listen: false);
+    final allBrewingMethods = Provider.of<List<BrewingMethodModel>>(
+      context,
+      listen: false,
+    );
     final methodsWithRecipes = <String>{};
     for (var recipe in recipeProvider.recipes) {
       methodsWithRecipes.add(recipe.brewingMethodId);
@@ -105,8 +104,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
             children: [
               ThemeLocaleTiles(
                 localizedThemeMode: _getLocalizedThemeModeText(),
-                languageNameFuture:
-                    _getLanguageName(recipeProvider.currentLocale),
+                languageNameFuture: _getLanguageName(
+                  recipeProvider.currentLocale,
+                ),
                 onThemeTap: _changeTheme,
                 onLocaleTap: _changeLocale,
               ),
@@ -125,9 +125,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     onOpenNotificationSettings: _openNotificationSettings,
                     notificationToggles:
                         _controller.masterNotificationsEnabled &&
-                                !_controller.isLoading
-                            ? _buildNotificationToggles(context)
-                            : [],
+                            !_controller.isLoading
+                        ? _buildNotificationToggles(context)
+                        : [],
                   ),
                 ),
               if (!kIsWeb &&
@@ -148,7 +148,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   hiddenIds: recipeProvider.hiddenBrewingMethodIds.value,
                   onPreferenceChanged: (methodId, value) {
                     recipeProvider.setUserBrewingMethodPreference(
-                        methodId, value);
+                      methodId,
+                      value,
+                    );
                   },
                 ),
               ),
@@ -197,12 +199,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
   // ---------------------------------------------------------------------------
 
   Widget _buildAboutSection(
-      BuildContext context, SnowEffectProvider snowEffectProvider) {
+    BuildContext context,
+    SnowEffectProvider snowEffectProvider,
+  ) {
     return Semantics(
       identifier: 'aboutSection',
-      child: Column(
-        children: [],
-      ),
+      child: Column(children: []),
     );
   }
 
@@ -211,6 +213,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   // ---------------------------------------------------------------------------
 
   void _changeTheme() async {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
     final result = await showModalBottomSheet<ThemeMode>(
       context: context,
       builder: (BuildContext context) {
@@ -222,8 +225,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 identifier: 'themeLightListTile',
                 child: ListTile(
                   leading: const Icon(Icons.light_mode),
-                  title:
-                      Text(AppLocalizations.of(context)!.settingsthemelight),
+                  title: Text(AppLocalizations.of(context)!.settingsthemelight),
                   onTap: () => Navigator.pop(context, ThemeMode.light),
                 ),
               ),
@@ -231,8 +233,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 identifier: 'themeDarkListTile',
                 child: ListTile(
                   leading: const Icon(Icons.dark_mode),
-                  title:
-                      Text(AppLocalizations.of(context)!.settingsthemedark),
+                  title: Text(AppLocalizations.of(context)!.settingsthemedark),
                   onTap: () => Navigator.pop(context, ThemeMode.dark),
                 ),
               ),
@@ -240,8 +241,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 identifier: 'themeSystemListTile',
                 child: ListTile(
                   leading: const Icon(Icons.brightness_medium),
-                  title:
-                      Text(AppLocalizations.of(context)!.settingsthemesystem),
+                  title: Text(
+                    AppLocalizations.of(context)!.settingsthemesystem,
+                  ),
                   onTap: () => Navigator.pop(context, ThemeMode.system),
                 ),
               ),
@@ -252,14 +254,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
 
     if (result != null) {
-      Provider.of<ThemeProvider>(context, listen: false).setThemeMode(result);
+      themeProvider.setThemeMode(result);
     }
   }
 
   void _changeLocale() async {
-    final supportedLocales =
-        await Provider.of<RecipeProvider>(context, listen: false)
-            .fetchAllSupportedLocales();
+    final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
+    final supportedLocales = await recipeProvider.fetchAllSupportedLocales();
+    if (!mounted) return;
 
     final result = await showModalBottomSheet<Locale>(
       context: context,
@@ -291,8 +293,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   String _getLocalizedThemeModeText() {
-    var themeMode =
-        Provider.of<ThemeProvider>(context, listen: false).themeMode;
+    var themeMode = Provider.of<ThemeProvider>(
+      context,
+      listen: false,
+    ).themeMode;
     switch (themeMode) {
       case ThemeMode.light:
         return AppLocalizations.of(context)!.settingsthemelight;
@@ -300,23 +304,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
         return AppLocalizations.of(context)!.settingsthemedark;
       case ThemeMode.system:
         return AppLocalizations.of(context)!.settingsthemesystem;
-      default:
-        return AppLocalizations.of(context)!.settingsthemesystem;
     }
   }
 
   Future<String> _getLanguageName(Locale locale) async {
-    return Provider.of<RecipeProvider>(context, listen: false)
-        .getLocaleName(locale.languageCode);
+    return Provider.of<RecipeProvider>(
+      context,
+      listen: false,
+    ).getLocaleName(locale.languageCode);
   }
 
   void _setLocale(Locale newLocale) async {
+    final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('locale', newLocale.languageCode);
 
-    Provider.of<RecipeProvider>(context, listen: false).setLocale(newLocale);
+    recipeProvider.setLocale(newLocale);
 
-    context.router.replace(SettingsRoute());
+    if (mounted) context.router.replace(SettingsRoute());
   }
 
   // ---------------------------------------------------------------------------
@@ -326,9 +331,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future<void> _handleIconSelected(String iconName) async {
     final success = await _controller.setIcon(iconName);
     if (!success && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Icon change failed: $iconName')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Icon change failed: $iconName')));
     }
   }
 
@@ -421,8 +426,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onPressed: () => Navigator.of(context).pop(),
               isFullWidth: false,
               height: AppButton.heightMedium,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             ),
             AppElevatedButton(
               label: l10n.openSettings,
@@ -432,8 +436,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               },
               isFullWidth: false,
               height: AppButton.heightMedium,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               backgroundColor: Theme.of(context).colorScheme.primary,
               foregroundColor: Theme.of(context).colorScheme.onPrimary,
             ),
@@ -451,8 +454,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
       try {
         await AppSettings.openAppSettings();
       } catch (fallbackError) {
-        AppLogger.error('Error opening general app settings',
-            errorObject: fallbackError);
+        AppLogger.error(
+          'Error opening general app settings',
+          errorObject: fallbackError,
+        );
       }
     }
   }

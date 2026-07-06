@@ -2,35 +2,29 @@ import 'dart:io';
 import 'dart:math' as math;
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:provider/provider.dart';
 import 'package:coffee_timer/database/database.dart';
 import 'package:coffee_timer/services/notification_service.dart';
-import 'package:coffee_timer/services/fcm_service.dart';
 import 'package:coffee_timer/services/permission_service.dart';
-import 'package:coffee_timer/services/notification_settings_service.dart';
 import 'package:coffee_timer/services/local_notification_scheduler_service.dart';
-import 'package:coffee_timer/providers/fcm_provider.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:rxdart/rxdart.dart';
 
 @RoutePage()
 class NotificationDebugScreen extends StatefulWidget {
   final NotificationService _notificationService = NotificationService.instance;
 
-  NotificationDebugScreen({Key? key}) : super(key: key);
+  NotificationDebugScreen({super.key});
 
   @override
-  _NotificationDebugScreenState createState() =>
+  State<NotificationDebugScreen> createState() =>
       _NotificationDebugScreenState();
 }
 
 class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
   String? _fcmToken;
   bool _isLoadingToken = false;
-  bool _isLoadingPermissions = false;
   bool _hasPermissions = false;
   bool _masterEnabled = false;
   String? _userId;
@@ -50,7 +44,6 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
   Future<void> _loadCompleteDebugInfo() async {
     setState(() {
       _isLoadingToken = true;
-      _isLoadingPermissions = true;
     });
 
     try {
@@ -70,8 +63,8 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
       _lastPermissionCheck = DateTime.now();
 
       // Load master setting
-      final masterEnabled =
-          await widget._notificationService.settings.isMasterEnabled();
+      final masterEnabled = await widget._notificationService.settings
+          .isMasterEnabled();
 
       // Load database tokens for user
       List<Map<String, dynamic>> dbTokens = [];
@@ -86,7 +79,7 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
               .eq('user_id', _userId!)
               .eq('device_type', platform)
               .order('updated_at', ascending: false);
-          dbTokens = List<Map<String, dynamic>>.from(tokens ?? []);
+          dbTokens = List<Map<String, dynamic>>.from(tokens);
         } catch (e) {
           AppLogger.error('Error loading database tokens', errorObject: e);
         }
@@ -98,7 +91,6 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
           _isLoadingToken = false;
           _hasPermissions = permissionState.granted;
           _masterEnabled = masterEnabled;
-          _isLoadingPermissions = false;
           _databaseTokens = dbTokens;
           _lastPermissionError =
               permissionState.platformSpecificError; // Show detailed error
@@ -109,7 +101,6 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
         setState(() {
           _fcmToken = 'Error: $e';
           _isLoadingToken = false;
-          _isLoadingPermissions = false;
           _lastPermissionError = e.toString(); // Record error for debugging
         });
       }
@@ -155,16 +146,18 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-              content:
-                  Text('Test FCM notification simulated - check device logs')),
+            content: Text(
+              'Test FCM notification simulated - check device logs',
+            ),
+          ),
         );
       }
     } catch (e) {
       AppLogger.error('Error testing FCM notification', errorObject: e);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     }
   }
@@ -174,21 +167,19 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
       final database = Provider.of<AppDatabase>(context, listen: false);
       final locale = Localizations.localeOf(context).languageCode;
       final beans = await database.coffeeBeansDao.fetchAllCoffeeBeans();
-      final candidates =
-          beans.where((b) => !b.isDeleted).toList();
+      final candidates = beans.where((b) => !b.isDeleted).toList();
       if (candidates.isEmpty) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-                content:
-                    Text('No beans available — add a bean first to test.')),
+              content: Text('No beans available — add a bean first to test.'),
+            ),
           );
         }
         return;
       }
       final picked = candidates[math.Random().nextInt(candidates.length)];
-      await LocalNotificationSchedulerService.instance
-          .debugFireBeanReviewNudge(
+      await LocalNotificationSchedulerService.instance.debugFireBeanReviewNudge(
         database: database,
         beansUuid: picked.beansUuid,
         locale: locale,
@@ -202,27 +193,23 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
     } catch (e) {
       AppLogger.error('Error firing bean review nudge', errorObject: e);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     }
   }
 
   Future<void> _refreshPermissions() async {
-    setState(() {
-      _isLoadingPermissions = true;
-    });
-
     try {
       await widget._notificationService.refreshPermissionStatus();
       await _loadCompleteDebugInfo();
     } catch (e) {
       AppLogger.error('Error refreshing permissions', errorObject: e);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     }
   }
@@ -233,10 +220,7 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
       appBar: AppBar(
         title: const Text('Notification Debug'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _loadFcmToken,
-          ),
+          IconButton(icon: const Icon(Icons.refresh), onPressed: _loadFcmToken),
         ],
       ),
       body: ListView(
@@ -261,8 +245,9 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
               trailing: _fcmToken != null && _fcmToken!.startsWith('Error')
                   ? const Icon(Icons.error, color: Colors.red)
                   : const Icon(Icons.check_circle, color: Colors.green),
-              onTap:
-                  _fcmToken != null ? () => _copyToClipboard(_fcmToken!) : null,
+              onTap: _fcmToken != null
+                  ? () => _copyToClipboard(_fcmToken!)
+                  : null,
             ),
           ),
           ListTile(
@@ -290,8 +275,9 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
           ),
           ListTile(
             title: const Text('Test Scheduled Local Notification'),
-            subtitle:
-                const Text('Schedules a notification for 1 minute from now'),
+            subtitle: const Text(
+              'Schedules a notification for 1 minute from now',
+            ),
             onTap: () => widget._notificationService.scheduleLocalNotification(
               id: 2,
               title: 'Scheduled Notification',
@@ -303,7 +289,8 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
           ListTile(
             title: const Text('Request Permissions'),
             subtitle: const Text(
-                'Requests notification permissions with Firebase-first approach'),
+              'Requests notification permissions with Firebase-first approach',
+            ),
             onTap: () => widget._notificationService.requestPermissions(),
           ),
           const Divider(),
@@ -318,7 +305,8 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
             leading: const Icon(Icons.rate_review_outlined),
             title: const Text('Test Bean Review Nudge'),
             subtitle: const Text(
-                'Picks a random bean from your library and fires the review nudge immediately (bypasses 5-brew + once-only gates).'),
+              'Picks a random bean from your library and fires the review nudge immediately (bypasses 5-brew + once-only gates).',
+            ),
             onTap: _testBeanReviewNudge,
           ),
           ListTile(
@@ -351,7 +339,8 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
                   Text('Web Platform: $kIsWeb'),
                   Text('User ID: ${_userId ?? 'Not authenticated'}'),
                   Text(
-                      'Notification Service Initialized: ${widget._notificationService.isInitialized}'),
+                    'Notification Service Initialized: ${widget._notificationService.isInitialized}',
+                  ),
                   const SizedBox(height: 16),
 
                   // Enhanced Permission State Section
@@ -361,10 +350,16 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
                   ),
                   const SizedBox(height: 8),
                   if (_permissionState != null) ...[
-                    _buildStatusRow('Permissions Granted',
-                        _permissionState!.granted, Colors.green),
-                    _buildStatusRow('Can Show Notifications',
-                        _permissionState!.canShowNotifications, Colors.blue),
+                    _buildStatusRow(
+                      'Permissions Granted',
+                      _permissionState!.granted,
+                      Colors.green,
+                    ),
+                    _buildStatusRow(
+                      'Can Show Notifications',
+                      _permissionState!.canShowNotifications,
+                      Colors.blue,
+                    ),
                     if (_permissionState!.isWeb)
                       _buildStatusRow('Web Platform', true, Colors.orange)
                     else
@@ -374,8 +369,10 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
                         padding: const EdgeInsets.only(top: 4, left: 24),
                         child: Text(
                           'Firebase Status: ${_permissionState!.firebaseStatus}',
-                          style:
-                              const TextStyle(fontSize: 12, color: Colors.grey),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey,
+                          ),
                         ),
                       ),
                     if (_permissionState!.platformSpecificError != null)
@@ -383,8 +380,10 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
                         padding: const EdgeInsets.only(top: 4, left: 24),
                         child: Text(
                           'Platform Error: ${_permissionState!.platformSpecificError}',
-                          style:
-                              const TextStyle(fontSize: 12, color: Colors.red),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.red,
+                          ),
                         ),
                       ),
                     if (_lastPermissionCheck != null)
@@ -392,17 +391,21 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
                         padding: const EdgeInsets.only(top: 4, left: 24),
                         child: Text(
                           'Last Check: ${_lastPermissionCheck.toString().substring(0, 19)}',
-                          style:
-                              const TextStyle(fontSize: 12, color: Colors.grey),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey,
+                          ),
                         ),
                       ),
                     if (_lastPermissionError != null)
                       Padding(
                         padding: const EdgeInsets.only(top: 4, left: 24),
                         child: Text(
-                          'Last Error: ${_lastPermissionError}',
-                          style:
-                              const TextStyle(fontSize: 12, color: Colors.red),
+                          'Last Error: $_lastPermissionError',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.red,
+                          ),
                         ),
                       ),
                   ],
@@ -415,18 +418,25 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
                   ),
                   const SizedBox(height: 8),
                   _buildStatusRow(
-                      'Master Toggle', _masterEnabled, Colors.green),
+                    'Master Toggle',
+                    _masterEnabled,
+                    Colors.green,
+                  ),
                   _buildStatusRow(
-                      'Permissions Granted', _hasPermissions, Colors.blue),
+                    'Permissions Granted',
+                    _hasPermissions,
+                    Colors.blue,
+                  ),
                   if (_permissionState != null)
                     _buildStatusRow(
-                        'Full Permission State',
-                        _permissionState!.granted &&
-                            _permissionState!.canShowNotifications,
-                        _permissionState!.granted &&
-                                _permissionState!.canShowNotifications
-                            ? Colors.green
-                            : Colors.red),
+                      'Full Permission State',
+                      _permissionState!.granted &&
+                          _permissionState!.canShowNotifications,
+                      _permissionState!.granted &&
+                              _permissionState!.canShowNotifications
+                          ? Colors.green
+                          : Colors.red,
+                    ),
                   const SizedBox(height: 16),
 
                   // FCM Token Section
@@ -439,7 +449,9 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
                     SelectableText(
                       _fcmToken!,
                       style: const TextStyle(
-                          fontSize: 12, fontFamily: 'monospace'),
+                        fontSize: 12,
+                        fontFamily: 'monospace',
+                      ),
                     )
                   else
                     Text(
@@ -452,55 +464,66 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
                   if (_databaseTokens.isNotEmpty) ...[
                     Text(
                       'Database Tokens (${_databaseTokens.length})',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 8),
-                    ..._databaseTokens.map((token) => Padding(
-                          padding: const EdgeInsets.only(bottom: 4),
-                          child: Row(
-                            children: [
-                              Icon(
-                                token['is_active'] == true
-                                    ? Icons.check_circle
-                                    : Icons.cancel,
-                                color: token['is_active'] == true
-                                    ? Colors.green
-                                    : Colors.red,
-                                size: 16,
+                    ..._databaseTokens.map(
+                      (token) => Padding(
+                        padding: const EdgeInsets.only(bottom: 4),
+                        child: Row(
+                          children: [
+                            Icon(
+                              token['is_active'] == true
+                                  ? Icons.check_circle
+                                  : Icons.cancel,
+                              color: token['is_active'] == true
+                                  ? Colors.green
+                                  : Colors.red,
+                              size: 16,
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Token: ${(token['token'] as String).substring(0, math.min(20, token['token'].toString().length))}...',
+                                    style: const TextStyle(
+                                      fontSize: 11,
+                                      fontFamily: 'monospace',
+                                    ),
+                                  ),
+                                  Text(
+                                    'Platform: ${token['device_type']}',
+                                    style: const TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Active: ${token['is_active'] == true ? 'Yes' : 'No'}',
+                                    style: const TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Updated: ${token['updated_at']?.toString().substring(0, 19) ?? 'Unknown'}',
+                                    style: const TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Token: ${(token['token'] as String).substring(0, math.min(20, token['token'].toString().length))}...',
-                                      style: const TextStyle(
-                                          fontSize: 11,
-                                          fontFamily: 'monospace'),
-                                    ),
-                                    Text(
-                                      'Platform: ${token['device_type']}',
-                                      style: const TextStyle(
-                                          fontSize: 11, color: Colors.grey),
-                                    ),
-                                    Text(
-                                      'Active: ${token['is_active'] == true ? 'Yes' : 'No'}',
-                                      style: const TextStyle(
-                                          fontSize: 11, color: Colors.grey),
-                                    ),
-                                    Text(
-                                      'Updated: ${token['updated_at']?.toString().substring(0, 19) ?? 'Unknown'}',
-                                      style: const TextStyle(
-                                          fontSize: 11, color: Colors.grey),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        )),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                   const SizedBox(height: 16),
 
@@ -523,16 +546,19 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const Text(
-                      'Use test buttons below to simulate notifications'),
+                    'Use test buttons below to simulate notifications',
+                  ),
                   const SizedBox(height: 8),
                   const Text(
                     'Enhanced Debugging:',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const Text(
-                      '• Permission state now shows Firebase-first approach details'),
+                    '• Permission state now shows Firebase-first approach details',
+                  ),
                   const Text(
-                      '• Cache invalidation forces fresh permission checks'),
+                    '• Cache invalidation forces fresh permission checks',
+                  ),
                   const Text('• Platform-specific errors are displayed'),
                   const Text('• Real-time permission monitoring is active'),
                 ],
@@ -567,8 +593,8 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
   void _copyToClipboard(String text) {
     // Note: In a real implementation, you'd use the clipboard package
     // For now, just show a message
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Token copied to clipboard')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Token copied to clipboard')));
   }
 }

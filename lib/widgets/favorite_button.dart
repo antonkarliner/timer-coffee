@@ -6,10 +6,10 @@ import '../services/onboarding_service.dart';
 class FavoriteButton extends StatefulWidget {
   final String recipeId;
 
-  const FavoriteButton({Key? key, required this.recipeId}) : super(key: key);
+  const FavoriteButton({super.key, required this.recipeId});
 
   @override
-  _FavoriteButtonState createState() => _FavoriteButtonState();
+  State<FavoriteButton> createState() => _FavoriteButtonState();
 }
 
 class _FavoriteButtonState extends State<FavoriteButton>
@@ -55,21 +55,23 @@ class _FavoriteButtonState extends State<FavoriteButton>
   }
 
   Future<void> _toggleFavorite() async {
-    await Provider.of<RecipeProvider>(context, listen: false)
-        .toggleFavorite(widget.recipeId);
-    final recipe = await Provider.of<RecipeProvider>(context, listen: false)
-        .getRecipeById(widget.recipeId);
-    if (mounted) {
-      bool newStatus = recipe?.isFavorite ?? false;
-      setState(() {
-        _isFavorite = newStatus;
-      });
-      // If changed to favorite, trigger the pop-up scale animation.
-      if (newStatus) {
-        _controller.forward(from: 0.0);
-        Provider.of<OnboardingService>(context, listen: false)
-            .completeMilestoneFavorite();
-      }
+    final recipeProvider =
+        Provider.of<RecipeProvider>(context, listen: false);
+    await recipeProvider.toggleFavorite(widget.recipeId);
+    if (!mounted) return;
+
+    final recipe = await recipeProvider.getRecipeById(widget.recipeId);
+    if (!mounted) return;
+
+    bool newStatus = recipe?.isFavorite ?? false;
+    setState(() {
+      _isFavorite = newStatus;
+    });
+    // If changed to favorite, trigger the pop-up scale animation.
+    if (newStatus) {
+      _controller.forward(from: 0.0);
+      Provider.of<OnboardingService>(context, listen: false)
+          .completeMilestoneFavorite();
     }
   }
 

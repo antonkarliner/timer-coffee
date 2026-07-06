@@ -8,10 +8,10 @@ class CoffeeChroniclerSizeSlider extends StatelessWidget {
   // Optional: when amounts should be updated externally, the parent can
   // listen to position changes and map it to amounts.
   const CoffeeChroniclerSizeSlider({
-    Key? key,
+    super.key,
     required this.position,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

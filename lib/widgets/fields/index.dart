@@ -3,6 +3,8 @@
 /// This directory contains reusable field components that follow the app's
 /// design system and provide consistent behavior across all forms.
 
+library;
+
 export 'labeled_field.dart';
 export 'date_field.dart';
 export 'chip_input.dart';

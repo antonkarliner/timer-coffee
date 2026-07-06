@@ -8,16 +8,16 @@ class AutocompleteTagInputField extends StatefulWidget {
   final List<String>? initialValues;
 
   const AutocompleteTagInputField({
-    Key? key,
+    super.key,
     required this.label,
     required this.hintText,
     required this.initialOptions,
     required this.onSelected,
     this.initialValues,
-  }) : super(key: key);
+  });
 
   @override
-  _AutocompleteTagInputFieldState createState() =>
+  State<AutocompleteTagInputField> createState() =>
       _AutocompleteTagInputFieldState();
 }
 
@@ -68,6 +68,7 @@ class _AutocompleteTagInputFieldState extends State<AutocompleteTagInputField> {
       widget.onSelected(_tags);
       // Keep the focus on the input field
       Future.delayed(Duration(milliseconds: 100), () {
+        if (!mounted) return;
         FocusScope.of(context).requestFocus(_focusNode);
       });
     } else if (_tags.contains(normalizedTag)) {

@@ -130,7 +130,7 @@ class _QuickNotesCardState extends State<QuickNotesCard> {
                       child: Icon(
                         Icons.close,
                         size: 18,
-                        color: colorScheme.onSurface.withOpacity(0.6),
+                        color: colorScheme.onSurface.withValues(alpha: 0.6),
                       ),
                     ),
                     const SizedBox(width: AppSpacing.sm),
@@ -224,7 +224,7 @@ class _QuickNotesCardState extends State<QuickNotesCard> {
                           style: theme.textTheme.bodyLarge?.copyWith(
                             color: hasNotes
                                 ? null
-                                : colorScheme.onSurface.withOpacity(0.3),
+                                : colorScheme.onSurface.withValues(alpha: 0.3),
                           ),
                         ),
                       ),

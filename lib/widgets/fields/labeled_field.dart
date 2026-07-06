@@ -84,6 +84,11 @@ class LabeledField extends StatefulWidget {
   /// Text style for the input field
   final TextStyle? style;
 
+  /// Optional override for the label text style. Defaults to
+  /// [AppTextStyles.fieldLabel]. The enabled/disabled color handling is
+  /// preserved regardless of the style passed.
+  final TextStyle? labelStyle;
+
   /// Whether the field is read-only
   final bool readOnly;
 
@@ -91,7 +96,7 @@ class LabeledField extends StatefulWidget {
   final VoidCallback? onTap;
 
   const LabeledField({
-    Key? key,
+    super.key,
     required this.label,
     this.hintText,
     this.helperText,
@@ -118,9 +123,10 @@ class LabeledField extends StatefulWidget {
     this.suffixIcon,
     this.prefixIcon,
     this.style,
+    this.labelStyle,
     this.readOnly = false,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   State<LabeledField> createState() => _LabeledFieldState();
@@ -188,7 +194,6 @@ class _LabeledFieldState extends State<LabeledField> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
 
     // Determine field border color based on state and theme
     Color borderColor;
@@ -213,9 +218,10 @@ class _LabeledFieldState extends State<LabeledField> {
           children: [
             Text(
               widget.label,
-              style: AppTextStyles.fieldLabel.copyWith(
+              style: (widget.labelStyle ?? AppTextStyles.fieldLabel).copyWith(
                 color: widget.enabled
-                    ? theme.textTheme.titleMedium?.color
+                    ? (widget.labelStyle?.color ??
+                          theme.textTheme.titleMedium?.color)
                     : Colors.grey,
               ),
             ),
@@ -223,7 +229,7 @@ class _LabeledFieldState extends State<LabeledField> {
               const SizedBox(width: AppSpacing.xs),
               Text(
                 '*',
-                style: AppTextStyles.fieldLabel.copyWith(
+                style: (widget.labelStyle ?? AppTextStyles.fieldLabel).copyWith(
                   color: Colors.red,
                 ),
               ),
@@ -243,8 +249,8 @@ class _LabeledFieldState extends State<LabeledField> {
           textInputAction: widget.textInputAction,
           inputFormatters: widget.inputFormatters,
           maxLength: widget.maxLength,
-          maxLines: widget.isMultiline ? (widget.maxLines ?? null) : 1,
-          minLines: widget.isMultiline ? (widget.minLines ?? null) : null,
+          maxLines: widget.isMultiline ? widget.maxLines : 1,
+          minLines: widget.isMultiline ? widget.minLines : null,
           validator: widget.validator,
           onChanged: widget.onChanged,
           onFieldSubmitted: widget.onSubmitted,
@@ -301,17 +307,13 @@ class _LabeledFieldState extends State<LabeledField> {
                 width: AppStroke.focus,
               ),
             ),
-            hintStyle: AppTextStyles.body.copyWith(
-              color: Colors.grey.shade600,
-            ),
+            hintStyle: AppTextStyles.body.copyWith(color: Colors.grey.shade600),
             // Use the provided style for the input text
             // This ensures the style is applied correctly
             helperStyle: AppTextStyles.body.copyWith(
               color: Colors.grey.shade600,
             ),
-            errorStyle: AppTextStyles.body.copyWith(
-              color: Colors.red,
-            ),
+            errorStyle: AppTextStyles.body.copyWith(color: Colors.red),
           ),
         ),
 
@@ -321,9 +323,7 @@ class _LabeledFieldState extends State<LabeledField> {
             padding: const EdgeInsets.only(top: AppSpacing.xs),
             child: Text(
               widget.errorText!,
-              style: AppTextStyles.body.copyWith(
-                color: Colors.red,
-              ),
+              style: AppTextStyles.body.copyWith(color: Colors.red),
             ),
           ),
       ],
@@ -337,10 +337,7 @@ class _LabeledFieldState extends State<LabeledField> {
 
     if (widget.showClearButton && _controller.text.isNotEmpty) {
       return IconButton(
-        icon: const Icon(
-          Icons.clear,
-          size: AppIconSize.small,
-        ),
+        icon: const Icon(Icons.clear, size: AppIconSize.small),
         onPressed: _onClear,
         tooltip: AppLocalizations.of(context)!.fieldClearButtonTooltip,
       );

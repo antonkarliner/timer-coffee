@@ -29,6 +29,11 @@ class DetailSectionHeader extends StatelessWidget {
   /// Optional custom text style (defaults to theme titleLarge with bold weight)
   final TextStyle? textStyle;
 
+  /// How the icon aligns against the title. Defaults to center; pass
+  /// [CrossAxisAlignment.start] to pin the icon to the first line when the
+  /// title can wrap to multiple lines.
+  final CrossAxisAlignment crossAxisAlignment;
+
   const DetailSectionHeader({
     super.key,
     required this.icon,
@@ -36,6 +41,7 @@ class DetailSectionHeader extends StatelessWidget {
     this.iconSize,
     this.iconColor,
     this.textStyle,
+    this.crossAxisAlignment = CrossAxisAlignment.center,
   });
 
   @override
@@ -47,6 +53,7 @@ class DetailSectionHeader extends StatelessWidget {
       label: title,
       header: true,
       child: Row(
+        crossAxisAlignment: crossAxisAlignment,
         children: [
           Icon(
             icon,

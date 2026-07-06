@@ -28,7 +28,6 @@ class _StatsRoasterLogoPlate extends StatelessWidget {
   final double borderRadius;
 
   const _StatsRoasterLogoPlate({
-    super.key,
     required this.originalUrl,
     required this.mirrorUrl,
     this.height = 48.0,
@@ -169,7 +168,7 @@ class _StatsScreenState extends State<StatsScreen> {
       listen: false,
     ).getLocalizedRecipeName(recipeId);
 
-    if (!mounted) return;
+    if (!ctx.mounted) return;
     ScaffoldMessenger.of(ctx).hideCurrentSnackBar();
     ScaffoldMessenger.of(ctx).showSnackBar(
       SnackBar(
@@ -322,56 +321,53 @@ class _YourStatsSection extends StatelessWidget {
                         children: [
                           Text(
                             l10n.coffeeBrewed,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 6),
-                            FutureBuilder<double>(
-                              future: userStatProvider
-                                  .fetchBrewedCoffeeAmountForPeriod(
-                                    startDate,
-                                    endDate,
-                                  ),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.done) {
-                                  if (snapshot.hasError) {
-                                    return Text(
-                                      l10n.noData,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.copyWith(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurface
-                                                .withValues(alpha: 0.5),
-                                          ),
-                                    );
-                                  } else if (snapshot.hasData) {
-                                    final liters =
-                                        (snapshot.data ?? 0) / 1000.0;
-                                    return Text(
-                                      '${liters.toStringAsFixed(2)} ${l10n.litersUnit}',
-                                    );
-                                  }
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 6),
+                          FutureBuilder<double>(
+                            future: userStatProvider
+                                .fetchBrewedCoffeeAmountForPeriod(
+                                  startDate,
+                                  endDate,
+                                ),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                if (snapshot.hasError) {
+                                  return Text(
+                                    l10n.noData,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface
+                                              .withValues(alpha: 0.5),
+                                        ),
+                                  );
+                                } else if (snapshot.hasData) {
+                                  final liters = (snapshot.data ?? 0) / 1000.0;
+                                  return Text(
+                                    '${liters.toStringAsFixed(2)} ${l10n.litersUnit}',
+                                  );
                                 }
-                                return const SizedBox(
-                                  height: 24,
-                                  width: 24,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                              }
+                              return const SizedBox(
+                                height: 24,
+                                width: 24,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
+              ),
               const SizedBox(height: 8),
               // Most Used Recipes (personal) - card
               Card(
@@ -397,9 +393,7 @@ class _YourStatsSection extends StatelessWidget {
                             if (snapshot.hasError) {
                               return Text(
                                 l10n.noData,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
+                                style: Theme.of(context).textTheme.bodyMedium
                                     ?.copyWith(
                                       color: Theme.of(context)
                                           .colorScheme
@@ -881,11 +875,10 @@ class _GlobalStatsSection extends StatelessWidget {
                       return Text(
                         l10n.noData,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurface
-                                  .withValues(alpha: 0.5),
-                            ),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withValues(alpha: 0.5),
+                        ),
                       );
                     }
                     final ids = snapshot.data ?? const <String>[];
@@ -966,4 +959,3 @@ class _GlobalStatsSection extends StatelessWidget {
     );
   }
 }
-

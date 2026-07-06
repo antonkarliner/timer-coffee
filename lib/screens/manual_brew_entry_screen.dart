@@ -22,7 +22,7 @@ import '../widgets/fields/time_field.dart';
 
 @RoutePage()
 class ManualBrewEntryScreen extends StatefulWidget {
-  const ManualBrewEntryScreen({Key? key}) : super(key: key);
+  const ManualBrewEntryScreen({super.key});
 
   @override
   State<ManualBrewEntryScreen> createState() => _ManualBrewEntryScreenState();
@@ -86,6 +86,7 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
   Future<void> _loadBrewingMethods() async {
     final db = Provider.of<AppDatabase>(context, listen: false);
     final methods = await db.brewingMethodsDao.getAllBrewingMethods();
+    if (!mounted) return;
     setState(() {
       _brewingMethods = methods;
       _isLoading = false;
@@ -94,8 +95,10 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
 
   Future<void> _loadRecipesForMethod(String brewingMethodId) async {
     final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
-    final recipes =
-        await recipeProvider.fetchRecipesForBrewingMethod(brewingMethodId);
+    final recipes = await recipeProvider.fetchRecipesForBrewingMethod(
+      brewingMethodId,
+    );
+    if (!mounted) return;
     setState(() {
       _recipesForMethod = recipes;
       _selectedRecipe = null;
@@ -107,8 +110,8 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
       _selectedRecipe = recipe;
       _coffeeController.text =
           (recipe.customCoffeeAmount ?? recipe.coffeeAmount).toString();
-      _waterController.text =
-          (recipe.customWaterAmount ?? recipe.waterAmount).toString();
+      _waterController.text = (recipe.customWaterAmount ?? recipe.waterAmount)
+          .toString();
       _grindSizeController.text = recipe.customGrindSize ?? recipe.grindSize;
     });
   }
@@ -131,10 +134,14 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
       builder: (dialogContext) {
         return AddCoffeeBeansWidget(
           onSelect: (String selectedBeanUuid) async {
-            final coffeeBeansProvider =
-                Provider.of<CoffeeBeansProvider>(context, listen: false);
-            final bean =
-                await coffeeBeansProvider.fetchCoffeeBeansByUuid(selectedBeanUuid);
+            final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+              context,
+              listen: false,
+            );
+            final bean = await coffeeBeansProvider.fetchCoffeeBeansByUuid(
+              selectedBeanUuid,
+            );
+            if (!mounted || !dialogContext.mounted) return;
             setState(() {
               _selectedBeanUuid = selectedBeanUuid;
               _selectedBeanName = bean?.name;
@@ -186,13 +193,16 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
                   title: Text(
                     method.brewingMethod,
                     style: TextStyle(
-                      fontWeight:
-                          isSelected ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                     ),
                   ),
                   trailing: isSelected
-                      ? Icon(Icons.check,
-                          color: Theme.of(context).colorScheme.primary)
+                      ? Icon(
+                          Icons.check,
+                          color: Theme.of(context).colorScheme.primary,
+                        )
                       : null,
                   onTap: () {
                     Navigator.pop(dialogContext);
@@ -227,8 +237,10 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
               shrinkWrap: true,
               children: [
                 ListTile(
-                  leading: Icon(Icons.add,
-                      color: Theme.of(context).colorScheme.primary),
+                  leading: Icon(
+                    Icons.add,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                   title: Text(
                     loc.createRecipe,
                     style: TextStyle(
@@ -244,24 +256,23 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
                       ),
                     );
                     // If a recipe was created and returned, select it
-                    if (result is RecipeModel && mounted) {
+                    if (result is RecipeModel && context.mounted) {
                       // Refresh the recipe provider cache so the new
                       // recipe appears in fetchRecipesForBrewingMethod
                       final recipeProvider = Provider.of<RecipeProvider>(
-                          context,
-                          listen: false);
+                        context,
+                        listen: false,
+                      );
                       await recipeProvider.fetchAllRecipes();
+                      if (!mounted) return;
 
                       // Ensure brewing method matches
-                      if (_selectedBrewingMethodId !=
-                          result.brewingMethodId) {
+                      if (_selectedBrewingMethodId != result.brewingMethodId) {
                         setState(() {
-                          _selectedBrewingMethodId =
-                              result.brewingMethodId;
+                          _selectedBrewingMethodId = result.brewingMethodId;
                         });
                       }
-                      await _loadRecipesForMethod(
-                          result.brewingMethodId);
+                      await _loadRecipesForMethod(result.brewingMethodId);
 
                       // Find the recipe in the loaded list and select it
                       final match = _recipesForMethod
@@ -277,8 +288,7 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
                       }
                     } else if (_selectedBrewingMethodId != null) {
                       // User cancelled recipe creation; just reload
-                      await _loadRecipesForMethod(
-                          _selectedBrewingMethodId!);
+                      await _loadRecipesForMethod(_selectedBrewingMethodId!);
                     }
                   },
                 ),
@@ -289,13 +299,16 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
                     title: Text(
                       recipe.name,
                       style: TextStyle(
-                        fontWeight:
-                            isSelected ? FontWeight.bold : FontWeight.normal,
+                        fontWeight: isSelected
+                            ? FontWeight.bold
+                            : FontWeight.normal,
                       ),
                     ),
                     trailing: isSelected
-                        ? Icon(Icons.check,
-                            color: Theme.of(context).colorScheme.primary)
+                        ? Icon(
+                            Icons.check,
+                            color: Theme.of(context).colorScheme.primary,
+                          )
                         : null,
                     onTap: () {
                       Navigator.pop(dialogContext);
@@ -347,8 +360,16 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
       ).toUtc();
 
       final statUuid = _uuid.v7();
+      final userStatProvider = Provider.of<UserStatProvider>(
+        context,
+        listen: false,
+      );
+      final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+        context,
+        listen: false,
+      );
 
-      await Provider.of<UserStatProvider>(context, listen: false).insertUserStat(
+      await userStatProvider.insertUserStat(
         recipeId: _selectedRecipe!.id,
         coffeeAmount: coffeeAmount,
         waterAmount: waterAmount,
@@ -366,8 +387,6 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
 
       // Update bean weight if beans selected
       if (_selectedBeanUuid != null && coffeeAmount > 0) {
-        final coffeeBeansProvider =
-            Provider.of<CoffeeBeansProvider>(context, listen: false);
         await coffeeBeansProvider.updateBeanWeightAfterBrew(
           _selectedBeanUuid!,
           coffeeAmount,
@@ -375,16 +394,16 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
       }
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(loc.brewEntrySaved)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(loc.brewEntrySaved)));
         Navigator.of(context).pop(true);
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error saving entry: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error saving entry: $e')));
       }
     } finally {
       if (mounted) setState(() => _isSaving = false);
@@ -406,7 +425,7 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
             builder: (_) => const UnsavedChangesDialog(),
           );
 
-          if (shouldDiscard == true && mounted) {
+          if (shouldDiscard == true && context.mounted) {
             context.router.pop();
           }
         }
@@ -423,221 +442,42 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
           ),
         ),
         body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      // Brewing Method selector
-                      InkWell(
-                        onTap: () => _showBrewingMethodDialog(context),
-                        child: InputDecorator(
-                          decoration: InputDecoration(
-                            labelText: loc.selectBrewingMethod,
-                            border: const OutlineInputBorder(),
-                            suffixIcon:
-                                const Icon(Icons.keyboard_arrow_down),
-                            errorText: _brewingMethodError,
-                          ),
-                          child: _selectedBrewingMethodId != null
-                              ? Row(
-                                  children: [
-                                    getIconByBrewingMethod(
-                                        _selectedBrewingMethodId!),
-                                    const SizedBox(width: 8),
-                                    Flexible(
-                                      child: Text(
-                                        _brewingMethods
-                                            .firstWhere((m) =>
-                                                m.brewingMethodId ==
-                                                _selectedBrewingMethodId)
-                                            .brewingMethod,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              : const SizedBox.shrink(),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-
-                      // Recipe selector
-                      if (_selectedBrewingMethodId != null) ...[
+            ? const Center(child: CircularProgressIndicator())
+            : GestureDetector(
+                onTap: () => FocusScope.of(context).unfocus(),
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        // Brewing Method selector
                         InkWell(
-                          onTap: () => _showRecipeDialog(context),
+                          onTap: () => _showBrewingMethodDialog(context),
                           child: InputDecorator(
                             decoration: InputDecoration(
-                              labelText: loc.selectRecipe,
+                              labelText: loc.selectBrewingMethod,
                               border: const OutlineInputBorder(),
-                              suffixIcon:
-                                  const Icon(Icons.keyboard_arrow_down),
-                              errorText: _recipeError,
+                              suffixIcon: const Icon(Icons.keyboard_arrow_down),
+                              errorText: _brewingMethodError,
                             ),
-                            child: _selectedRecipe != null
-                                ? Text(
-                                    _selectedRecipe!.name,
-                                    overflow: TextOverflow.ellipsis,
-                                  )
-                                : const SizedBox.shrink(),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                      ],
-
-                      // Coffee and Water amounts
-                      if (_selectedRecipe != null) ...[
-                        Row(
-                          children: [
-                            Expanded(
-                              child: TextFormField(
-                                controller: _coffeeController,
-                                decoration: InputDecoration(
-                                  labelText: loc.coffeeamount,
-                                  border: const OutlineInputBorder(),
-                                ),
-                                keyboardType:
-                                    const TextInputType.numberWithOptions(
-                                        decimal: true),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return loc.coffeeamount;
-                                  }
-                                  if (double.tryParse(
-                                          value.replaceAll(',', '.')) ==
-                                      null) {
-                                    return loc.coffeeamount;
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: TextFormField(
-                                controller: _waterController,
-                                decoration: InputDecoration(
-                                  labelText: loc.wateramount,
-                                  border: const OutlineInputBorder(),
-                                ),
-                                keyboardType:
-                                    const TextInputType.numberWithOptions(
-                                        decimal: true),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return loc.wateramount;
-                                  }
-                                  if (double.tryParse(
-                                          value.replaceAll(',', '.')) ==
-                                      null) {
-                                    return loc.wateramount;
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-
-                        // Grind Size
-                        TextFormField(
-                          controller: _grindSizeController,
-                          decoration: InputDecoration(
-                            labelText: loc.grindsize,
-                            border: const OutlineInputBorder(),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-
-                        // Date and Time
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: DateField(
-                                label: loc.brewDate,
-                                initialValue:
-                                    _selectedDate.toIso8601String(),
-                                firstDate: DateTime(2020),
-                                lastDate: DateTime.now(),
-                                showClearButton: false,
-                                onChanged: _onDateChanged,
-                              ),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: TimeField(
-                                label: loc.brewTime,
-                                initialValue: _selectedTime,
-                                onChanged: _onTimeChanged,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-
-                        // Beans selection
-                        Container(
-                          decoration: _selectedBeanName != null
-                              ? BoxDecoration(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .surfaceContainerHighest,
-                                  borderRadius: BorderRadius.circular(4),
-                                )
-                              : null,
-                          child: InkWell(
-                            onTap: _openAddBeansPopup,
-                            child: InputDecorator(
-                              decoration: InputDecoration(
-                                labelText: loc.selectBeans,
-                                border: const OutlineInputBorder(),
-                              suffixIcon: _selectedBeanName != null
-                                  ? IconButton(
-                                      icon: const Icon(Icons.close),
-                                      onPressed: () {
-                                        setState(() {
-                                          _selectedBeanUuid = null;
-                                          _selectedBeanName = null;
-                                          _selectedBeanRoasterLogoUrl = null;
-                                          _selectedBeanMirrorLogoUrl = null;
-                                        });
-                                      },
-                                    )
-                                  : const Icon(Icons.keyboard_arrow_down),
-                            ),
-                            child: _selectedBeanName != null
+                            child: _selectedBrewingMethodId != null
                                 ? Row(
                                     children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 14),
-                                        child: ConstrainedBox(
-                                          constraints: const BoxConstraints(
-                                            maxWidth: 48,
-                                            maxHeight: 24,
-                                          ),
-                                          child: RoasterLogo(
-                                            key: ValueKey(
-                                                _selectedBeanUuid ?? ''),
-                                            originalUrl:
-                                                _selectedBeanRoasterLogoUrl,
-                                            mirrorUrl:
-                                                _selectedBeanMirrorLogoUrl,
-                                            height: 24,
-                                            borderRadius: 4,
-                                          ),
-                                        ),
+                                      getIconByBrewingMethod(
+                                        _selectedBrewingMethodId!,
                                       ),
-                                      Expanded(
+                                      const SizedBox(width: 8),
+                                      Flexible(
                                         child: Text(
-                                          _selectedBeanName!,
+                                          _brewingMethods
+                                              .firstWhere(
+                                                (m) =>
+                                                    m.brewingMethodId ==
+                                                    _selectedBrewingMethodId,
+                                              )
+                                              .brewingMethod,
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
@@ -646,35 +486,223 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
                                 : const SizedBox.shrink(),
                           ),
                         ),
-                        ),
                         const SizedBox(height: 16),
 
-                        // Notes
-                        TextFormField(
-                          controller: _notesController,
-                          decoration: InputDecoration(
-                            labelText: loc.notes,
-                            border: const OutlineInputBorder(),
+                        // Recipe selector
+                        if (_selectedBrewingMethodId != null) ...[
+                          InkWell(
+                            onTap: () => _showRecipeDialog(context),
+                            child: InputDecorator(
+                              decoration: InputDecoration(
+                                labelText: loc.selectRecipe,
+                                border: const OutlineInputBorder(),
+                                suffixIcon: const Icon(
+                                  Icons.keyboard_arrow_down,
+                                ),
+                                errorText: _recipeError,
+                              ),
+                              child: _selectedRecipe != null
+                                  ? Text(
+                                      _selectedRecipe!.name,
+                                      overflow: TextOverflow.ellipsis,
+                                    )
+                                  : const SizedBox.shrink(),
+                            ),
                           ),
-                          maxLines: 3,
-                          keyboardType: TextInputType.multiline,
-                        ),
-                        const SizedBox(height: 24),
+                          const SizedBox(height: 16),
+                        ],
 
-                        // Save Button
-                        AppElevatedButton(
-                          label: loc.save,
-                          onPressed: _isSaving ? null : _saveEntry,
-                          isFullWidth: true,
-                          height: AppButton.heightLarge,
-                        ),
-                        const SizedBox(height: 16),
+                        // Coffee and Water amounts
+                        if (_selectedRecipe != null) ...[
+                          Row(
+                            children: [
+                              Expanded(
+                                child: TextFormField(
+                                  controller: _coffeeController,
+                                  decoration: InputDecoration(
+                                    labelText: loc.coffeeamount,
+                                    border: const OutlineInputBorder(),
+                                  ),
+                                  keyboardType:
+                                      const TextInputType.numberWithOptions(
+                                        decimal: true,
+                                      ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return loc.coffeeamount;
+                                    }
+                                    if (double.tryParse(
+                                          value.replaceAll(',', '.'),
+                                        ) ==
+                                        null) {
+                                      return loc.coffeeamount;
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: TextFormField(
+                                  controller: _waterController,
+                                  decoration: InputDecoration(
+                                    labelText: loc.wateramount,
+                                    border: const OutlineInputBorder(),
+                                  ),
+                                  keyboardType:
+                                      const TextInputType.numberWithOptions(
+                                        decimal: true,
+                                      ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return loc.wateramount;
+                                    }
+                                    if (double.tryParse(
+                                          value.replaceAll(',', '.'),
+                                        ) ==
+                                        null) {
+                                      return loc.wateramount;
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+
+                          // Grind Size
+                          TextFormField(
+                            controller: _grindSizeController,
+                            decoration: InputDecoration(
+                              labelText: loc.grindsize,
+                              border: const OutlineInputBorder(),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+
+                          // Date and Time
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: DateField(
+                                  label: loc.brewDate,
+                                  initialValue: _selectedDate.toIso8601String(),
+                                  firstDate: DateTime(2020),
+                                  lastDate: DateTime.now(),
+                                  showClearButton: false,
+                                  onChanged: _onDateChanged,
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: TimeField(
+                                  label: loc.brewTime,
+                                  initialValue: _selectedTime,
+                                  onChanged: _onTimeChanged,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+
+                          // Beans selection
+                          Container(
+                            decoration: _selectedBeanName != null
+                                ? BoxDecoration(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.surfaceContainerHighest,
+                                    borderRadius: BorderRadius.circular(4),
+                                  )
+                                : null,
+                            child: InkWell(
+                              onTap: _openAddBeansPopup,
+                              child: InputDecorator(
+                                decoration: InputDecoration(
+                                  labelText: loc.selectBeans,
+                                  border: const OutlineInputBorder(),
+                                  suffixIcon: _selectedBeanName != null
+                                      ? IconButton(
+                                          icon: const Icon(Icons.close),
+                                          onPressed: () {
+                                            setState(() {
+                                              _selectedBeanUuid = null;
+                                              _selectedBeanName = null;
+                                              _selectedBeanRoasterLogoUrl =
+                                                  null;
+                                              _selectedBeanMirrorLogoUrl = null;
+                                            });
+                                          },
+                                        )
+                                      : const Icon(Icons.keyboard_arrow_down),
+                                ),
+                                child: _selectedBeanName != null
+                                    ? Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              right: 14,
+                                            ),
+                                            child: ConstrainedBox(
+                                              constraints: const BoxConstraints(
+                                                maxWidth: 48,
+                                                maxHeight: 24,
+                                              ),
+                                              child: RoasterLogo(
+                                                key: ValueKey(
+                                                  _selectedBeanUuid ?? '',
+                                                ),
+                                                originalUrl:
+                                                    _selectedBeanRoasterLogoUrl,
+                                                mirrorUrl:
+                                                    _selectedBeanMirrorLogoUrl,
+                                                height: 24,
+                                                borderRadius: 4,
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              _selectedBeanName!,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    : const SizedBox.shrink(),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+
+                          // Notes
+                          TextFormField(
+                            controller: _notesController,
+                            decoration: InputDecoration(
+                              labelText: loc.notes,
+                              border: const OutlineInputBorder(),
+                            ),
+                            maxLines: 3,
+                            keyboardType: TextInputType.multiline,
+                          ),
+                          const SizedBox(height: 24),
+
+                          // Save Button
+                          AppElevatedButton(
+                            label: loc.save,
+                            onPressed: _isSaving ? null : _saveEntry,
+                            isFullWidth: true,
+                            height: AppButton.heightLarge,
+                          ),
+                          const SizedBox(height: 16),
+                        ],
                       ],
-                    ],
+                    ),
                   ),
                 ),
               ),
-            ),
       ),
     );
   }

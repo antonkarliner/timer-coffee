@@ -350,7 +350,7 @@ class CoffeeBeansInfoCard extends StatelessWidget {
         );
       },
     ).then((confirmed) {
-      if (confirmed == true) {
+      if (confirmed == true && context.mounted) {
         _handleSetToZero(context);
       }
     });
@@ -363,9 +363,10 @@ class CoffeeBeansInfoCard extends StatelessWidget {
       context,
       listen: false,
     );
+    final loc = AppLocalizations.of(context)!;
 
     final success = await controller.setPackageWeightToZero(context);
-    final loc = AppLocalizations.of(context)!;
+    if (!context.mounted) return;
 
     if (success) {
       ScaffoldMessenger.of(context).showSnackBar(

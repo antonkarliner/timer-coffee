@@ -8,8 +8,8 @@ class RoasterLogoCacheManager extends CacheManager {
       : super(
           Config(
             key,
-            stalePeriod: const Duration(days: 7),
-            maxNrOfCacheObjects: 100,
+            stalePeriod: const Duration(days: 30),
+            maxNrOfCacheObjects: 300,
           ),
         );
 }

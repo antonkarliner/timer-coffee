@@ -1,5 +1,33 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+class StatsRealtimeEvent {
+  final String recipeId;
+  final DateTime createdAt;
+  final double liters;
+
+  const StatsRealtimeEvent({
+    required this.recipeId,
+    required this.createdAt,
+    required this.liters,
+  });
+
+  static StatsRealtimeEvent? tryParse(Map<String, dynamic> record) {
+    final recipeId = record['recipe_id'];
+    final createdAtRaw = record['created_at'];
+    final water = record['water_amount'];
+    if (recipeId == null || createdAtRaw == null || water is! num) return null;
+
+    final createdAt = DateTime.tryParse(createdAtRaw.toString());
+    if (createdAt == null) return null;
+
+    return StatsRealtimeEvent(
+      recipeId: recipeId.toString(),
+      createdAt: createdAt,
+      liters: water.toDouble() / 1000.0,
+    );
+  }
+}
+
 /// Lightweight realtime service for Stats feature.
 /// Emits recipeId, createdAt, and liters brewed on each insert to public.global_stats.
 class StatsRealtimeService {
@@ -10,7 +38,8 @@ class StatsRealtimeService {
       required String recipeId,
       required DateTime createdAt,
       required double liters,
-    }) onEvent,
+    })
+    onEvent,
   }) {
     // Ensure only one active channel
     stop();
@@ -22,22 +51,14 @@ class StatsRealtimeService {
         schema: 'public',
         table: 'global_stats',
         callback: (payload) {
-          final record = payload.newRecord;
-          if (record == null) return;
+          final event = StatsRealtimeEvent.tryParse(payload.newRecord);
+          if (event == null) return;
 
-          final recipeId = record['recipe_id']?.toString();
-          final createdAtRaw = record['created_at'];
-          final water = record['water_amount'];
-
-          if (recipeId == null || createdAtRaw == null || water == null) return;
-
-          final createdAt = DateTime.tryParse(createdAtRaw.toString());
-          if (createdAt == null) return;
-
-          // Convert to liters to match UI expectations
-          final liters = (water as num).toDouble() / 1000.0;
-
-          onEvent(recipeId: recipeId, createdAt: createdAt, liters: liters);
+          onEvent(
+            recipeId: event.recipeId,
+            createdAt: event.createdAt,
+            liters: event.liters,
+          );
         },
       ).subscribe();
   }

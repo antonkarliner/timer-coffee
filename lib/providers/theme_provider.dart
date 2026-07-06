@@ -96,7 +96,7 @@ class ThemeProvider with ChangeNotifier {
       // Chip theme data
       chipTheme: ChipThemeData(
         backgroundColor: Colors.grey.shade100,
-        selectedColor: lightColorScheme.secondary.withOpacity(0.2),
+        selectedColor: lightColorScheme.secondary.withValues(alpha: 0.2),
         disabledColor: Colors.grey.shade300,
         labelStyle: AppTextStyles.body.copyWith(
           color: lightColorScheme.onSurface,
@@ -234,7 +234,7 @@ class ThemeProvider with ChangeNotifier {
       // Chip theme data
       chipTheme: ChipThemeData(
         backgroundColor: Colors.grey.shade700,
-        selectedColor: darkColorScheme.secondary.withOpacity(0.3),
+        selectedColor: darkColorScheme.secondary.withValues(alpha: 0.3),
         disabledColor: Colors.grey.shade800,
         labelStyle: AppTextStyles.body.copyWith(
           color: darkColorScheme.onSurface,

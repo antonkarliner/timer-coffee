@@ -1,4 +1,3 @@
-import 'dart:io'; // For Platform checks if needed later
 import 'package:auto_route/auto_route.dart';
 import 'package:coffee_timer/config/supabase_endpoint_resolver.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -10,7 +9,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart'; // For localization
 import 'dart:convert'; // For base64 encoding
-import 'dart:typed_data'; // For Uint8List
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image/image.dart' as img; // Use prefix to avoid conflicts
@@ -30,7 +28,8 @@ Future<Uint8List> _processImageIsolate(Uint8List imageBytes) async {
   img.Image resizedImage = img.copyResize(image, width: 200, height: 200);
   // Encode to JPG instead of WebP
   return Uint8List.fromList(
-      img.encodeJpg(resizedImage, quality: 85)); // Use encodeJpg
+    img.encodeJpg(resizedImage, quality: 85),
+  ); // Use encodeJpg
 }
 // --- End top-level function ---
 
@@ -40,7 +39,7 @@ class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key, @PathParam('userId') required this.userId});
 
   @override
-  _AccountScreenState createState() => _AccountScreenState();
+  State<AccountScreen> createState() => _AccountScreenState();
 }
 
 class _AccountScreenState extends State<AccountScreen> {
@@ -70,7 +69,7 @@ class _AccountScreenState extends State<AccountScreen> {
     final supabase = Supabase.instance.client;
     final userId = widget.userId;
 
-    if (userId == null || userId.isEmpty) {
+    if (userId.isEmpty) {
       // Should not happen if screen is protected, but handle defensively
       if (mounted) {
         setState(() {
@@ -108,7 +107,9 @@ class _AccountScreenState extends State<AccountScreen> {
         }
         if (_profilePictureUrl != null) {
           await prefs.setString(
-              'user_profile_picture_url', _profilePictureUrl!);
+            'user_profile_picture_url',
+            _profilePictureUrl!,
+          );
           // Persist which user this URL belongs to so we don't show it after sign-out
           await prefs.setString('user_profile_picture_user_id', userId);
         } else {
@@ -144,8 +145,9 @@ class _AccountScreenState extends State<AccountScreen> {
   // --- Edit Display Name ---
   Future<void> _showEditDisplayNameDialog() async {
     final l10n = AppLocalizations.of(context)!;
-    final TextEditingController nameController =
-        TextEditingController(text: _displayName);
+    final TextEditingController nameController = TextEditingController(
+      text: _displayName,
+    );
     final formKey = GlobalKey<FormState>(); // For validation
 
     final String? newName = await showDialog<String>(
@@ -210,8 +212,9 @@ class _AccountScreenState extends State<AccountScreen> {
     final userId = widget.userId;
 
     if (userId.isEmpty) {
-      scaffoldMessenger.showSnackBar(SnackBar(
-          content: Text(l10n.errorUserNotLoggedIn))); // Use localization
+      scaffoldMessenger.showSnackBar(
+        SnackBar(content: Text(l10n.errorUserNotLoggedIn)),
+      ); // Use localization
       return;
     }
 
@@ -226,7 +229,8 @@ class _AccountScreenState extends State<AccountScreen> {
       );
 
       AppLogger.debug(
-          "Moderation response status: ${moderationResponse.status}");
+        "Moderation response status: ${moderationResponse.status}",
+      );
       AppLogger.debug("Moderation response data: ${moderationResponse.data}");
 
       if (moderationResponse.status != 200 || moderationResponse.data == null) {
@@ -235,7 +239,8 @@ class _AccountScreenState extends State<AccountScreen> {
 
       final moderationResult = moderationResponse.data as Map<String, dynamic>;
       if (moderationResult['safe'] != true) {
-        final reason = moderationResult['reason'] as String? ??
+        final reason =
+            moderationResult['reason'] as String? ??
             l10n.moderationReasonDefault;
         setState(() => _isLoading = false);
         if (mounted) {
@@ -276,7 +281,8 @@ class _AccountScreenState extends State<AccountScreen> {
       // 2. Update Supabase
       await supabase
           .from('user_public_profiles')
-          .update({'display_name': newName}).eq('user_id', userId);
+          .update({'display_name': newName})
+          .eq('user_id', userId);
 
       // 3. Update SharedPreferences
       final prefs = await SharedPreferences.getInstance();
@@ -288,15 +294,16 @@ class _AccountScreenState extends State<AccountScreen> {
           _displayName = newName;
           _errorMessage = null; // Clear previous errors
         });
-        scaffoldMessenger.showSnackBar(SnackBar(
-            content: Text(l10n.displayNameUpdateSuccess))); // Use localization
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.displayNameUpdateSuccess)),
+        ); // Use localization
       }
     } catch (e) {
       AppLogger.error("Error updating display name", errorObject: e);
       if (mounted) {
-        scaffoldMessenger.showSnackBar(SnackBar(
-            content: Text(l10n
-                .displayNameUpdateError(e.toString())))); // Use localization
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.displayNameUpdateError(e.toString()))),
+        ); // Use localization
       }
     } finally {
       if (mounted) {
@@ -314,10 +321,12 @@ class _AccountScreenState extends State<AccountScreen> {
     try {
       final ImagePicker picker = ImagePicker();
       // Pick an image
-      final XFile? pickedFile =
-          await picker.pickImage(source: ImageSource.gallery);
+      final XFile? pickedFile = await picker.pickImage(
+        source: ImageSource.gallery,
+      );
 
       if (pickedFile == null) return; // User cancelled
+      if (!mounted) return;
 
       // Crop the image
       final CroppedFile? croppedFile = await ImageCropper().cropImage(
@@ -325,11 +334,12 @@ class _AccountScreenState extends State<AccountScreen> {
         aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1), // Square
         uiSettings: [
           AndroidUiSettings(
-              toolbarTitle: l10n.edit, // Use localization
-              toolbarColor: Theme.of(context).primaryColor,
-              toolbarWidgetColor: Colors.white,
-              initAspectRatio: CropAspectRatioPreset.square,
-              lockAspectRatio: true),
+            toolbarTitle: l10n.edit, // Use localization
+            toolbarColor: Theme.of(context).primaryColor,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.square,
+            lockAspectRatio: true,
+          ),
           IOSUiSettings(
             title: l10n.edit, // Use localization
             aspectRatioLockEnabled: true,
@@ -350,9 +360,9 @@ class _AccountScreenState extends State<AccountScreen> {
     } catch (e) {
       AppLogger.error("Error picking/cropping image", errorObject: e);
       if (mounted) {
-        scaffoldMessenger.showSnackBar(SnackBar(
-            content: Text(
-                l10n.updatePictureError(e.toString())))); // Use localization
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.updatePictureError(e.toString()))),
+        ); // Use localization
       }
     }
   }
@@ -365,8 +375,9 @@ class _AccountScreenState extends State<AccountScreen> {
     final userId = widget.userId;
 
     if (userId.isEmpty) {
-      scaffoldMessenger.showSnackBar(SnackBar(
-          content: Text(l10n.errorUserNotLoggedIn))); // Use localization
+      scaffoldMessenger.showSnackBar(
+        SnackBar(content: Text(l10n.errorUserNotLoggedIn)),
+      ); // Use localization
       return;
     }
 
@@ -378,8 +389,10 @@ class _AccountScreenState extends State<AccountScreen> {
 
       // Decode, Resize, Encode to JPG (using compute for heavy task)
       // Use the top-level function _processImageIsolate with compute
-      final Uint8List jpgBytes =
-          await compute(_processImageIsolate, imageBytes);
+      final Uint8List jpgBytes = await compute(
+        _processImageIsolate,
+        imageBytes,
+      );
 
       // Encode to Base64 for moderation
       final String base64Image = base64Encode(jpgBytes);
@@ -392,7 +405,8 @@ class _AccountScreenState extends State<AccountScreen> {
       );
 
       AppLogger.debug(
-          "Moderation response status: ${moderationResponse.status}");
+        "Moderation response status: ${moderationResponse.status}",
+      );
       AppLogger.debug("Moderation response data: ${moderationResponse.data}");
 
       if (moderationResponse.status != 200 || moderationResponse.data == null) {
@@ -401,15 +415,18 @@ class _AccountScreenState extends State<AccountScreen> {
 
       final moderationResult = moderationResponse.data as Map<String, dynamic>;
       if (moderationResult['safe'] != true) {
-        final reason = moderationResult['reason'] ??
+        final reason =
+            moderationResult['reason'] ??
             l10n.moderationReasonDefault; // Use localization
         throw Exception(l10n.moderationFailedBody(reason)); // Use localization
       }
       AppLogger.debug("Moderation passed for profile picture.");
 
       // Upload JPG bytes to Supabase Storage
-      final imagePath = '$userId'; // Use user ID as file name
-      await supabase.storage.from('user-profile-pictures').uploadBinary(
+      final imagePath = userId; // Use user ID as file name
+      await supabase.storage
+          .from('user-profile-pictures')
+          .uploadBinary(
             imagePath,
             jpgBytes, // Upload JPG bytes
             fileOptions: const FileOptions(
@@ -425,13 +442,15 @@ class _AccountScreenState extends State<AccountScreen> {
           .getPublicUrl(imagePath);
       // Canonicalize to the direct Supabase host before persisting, so a
       // proxy-region user never writes an api.timer.coffee URL into shared data.
-      final newImageUrl =
-          SupabaseEndpointResolver.canonicalizeStorageUrl(imageUrlResponse);
+      final newImageUrl = SupabaseEndpointResolver.canonicalizeStorageUrl(
+        imageUrlResponse,
+      );
 
       // Update Supabase DB
       await supabase
           .from('user_public_profiles')
-          .update({'profile_picture_url': newImageUrl}).eq('user_id', userId);
+          .update({'profile_picture_url': newImageUrl})
+          .eq('user_id', userId);
 
       // Update SharedPreferences
       final prefs = await SharedPreferences.getInstance();
@@ -445,15 +464,16 @@ class _AccountScreenState extends State<AccountScreen> {
           _profilePictureUrl = newImageUrl;
           _errorMessage = null;
         });
-        scaffoldMessenger.showSnackBar(SnackBar(
-            content: Text(l10n.updatePictureSuccess))); // Use localization
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.updatePictureSuccess)),
+        ); // Use localization
       }
     } catch (e) {
       AppLogger.error("Error processing/uploading image", errorObject: e);
       if (mounted) {
-        scaffoldMessenger.showSnackBar(SnackBar(
-            content: Text(
-                l10n.updatePictureError(e.toString())))); // Use localization
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.updatePictureError(e.toString()))),
+        ); // Use localization
       }
     } finally {
       if (mounted) {
@@ -547,8 +567,9 @@ class _AccountScreenState extends State<AccountScreen> {
     final userId = widget.userId;
 
     if (userId.isEmpty) {
-      scaffoldMessenger.showSnackBar(SnackBar(
-          content: Text(l10n.errorUserNotLoggedIn))); // Use localization
+      scaffoldMessenger.showSnackBar(
+        SnackBar(content: Text(l10n.errorUserNotLoggedIn)),
+      ); // Use localization
       return;
     }
 
@@ -558,7 +579,8 @@ class _AccountScreenState extends State<AccountScreen> {
       // Update Supabase DB - set URL to null
       await supabase
           .from('user_public_profiles')
-          .update({'profile_picture_url': null}).eq('user_id', userId);
+          .update({'profile_picture_url': null})
+          .eq('user_id', userId);
 
       // Update SharedPreferences
       final prefs = await SharedPreferences.getInstance();
@@ -571,15 +593,16 @@ class _AccountScreenState extends State<AccountScreen> {
           _profilePictureUrl = _defaultAvatarUrl; // Revert to default
           _errorMessage = null;
         });
-        scaffoldMessenger.showSnackBar(SnackBar(
-            content: Text(l10n.deletePictureSuccess))); // Use localization
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.deletePictureSuccess)),
+        ); // Use localization
       }
     } catch (e) {
       AppLogger.error("Error deleting picture", errorObject: e);
       if (mounted) {
-        scaffoldMessenger.showSnackBar(SnackBar(
-            content: Text(
-                l10n.deletePictureError(e.toString())))); // Use localization
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.deletePictureError(e.toString()))),
+        ); // Use localization
       }
     } finally {
       if (mounted) {
@@ -609,8 +632,10 @@ class _AccountScreenState extends State<AccountScreen> {
         await prefs.remove('user_profile_picture_user_id');
       } catch (e) {
         // Ignore SharedPreferences errors, sign-out should still proceed
-        AppLogger.error('Error clearing profile cache on sign out',
-            errorObject: e);
+        AppLogger.error(
+          'Error clearing profile cache on sign out',
+          errorObject: e,
+        );
       }
 
       // Sign back in anonymously
@@ -623,8 +648,8 @@ class _AccountScreenState extends State<AccountScreen> {
       if (mounted) {
         scaffoldMessenger.showSnackBar(
           SnackBar(
-              content:
-                  Text(l10n.errorSigningOut(e.toString()))), // Use localization
+            content: Text(l10n.errorSigningOut(e.toString())),
+          ), // Use localization
         );
       }
     } finally {
@@ -682,20 +707,18 @@ class _AccountScreenState extends State<AccountScreen> {
       // Note: We don't update state here since this screen will be popped
 
       // Show success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.accountDeleted)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.accountDeleted)));
 
       // Navigate back to root after successful deletion
       context.router.popUntilRoot();
     } catch (e) {
       // Show error
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(l10n.accountDeletionError),
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.accountDeletionError)));
     }
   }
   // --- End Delete Account ---
@@ -773,13 +796,16 @@ class _AccountScreenState extends State<AccountScreen> {
                             child: CachedNetworkImage(
                               imageUrl:
                                   SupabaseEndpointResolver.localizeStorageUrl(
-                                      _profilePictureUrl ?? _defaultAvatarUrl),
+                                    _profilePictureUrl ?? _defaultAvatarUrl,
+                                  ),
                               placeholder: (context, url) => const Center(
-                                  child: CircularProgressIndicator()),
+                                child: CircularProgressIndicator(),
+                              ),
                               errorWidget: (context, url, error) => const Icon(
-                                  Icons.person,
-                                  size: 60,
-                                  color: Colors.grey),
+                                Icons.person,
+                                size: 60,
+                                color: Colors.grey,
+                              ),
                               fit: BoxFit.cover,
                               width: 120,
                               height: 120,
@@ -790,19 +816,21 @@ class _AccountScreenState extends State<AccountScreen> {
                         if (_isEditMode)
                           Container(
                             margin: const EdgeInsets.all(
-                                4), // Add some margin if needed
+                              4,
+                            ), // Add some margin if needed
                             decoration: BoxDecoration(
-                              color: Theme.of(context).cardColor.withOpacity(
-                                  0.7), // Semi-transparent background
+                              color: Theme.of(context).cardColor.withValues(
+                                alpha: 0.7,
+                              ), // Semi-transparent background
                               shape: BoxShape.circle,
                             ),
                             child: IconButton(
                               icon: Icon(
                                 Icons.edit,
                                 size: 20, // Smaller icon
-                                color: Theme.of(context)
-                                    .iconTheme
-                                    .color, // Use theme color
+                                color: Theme.of(
+                                  context,
+                                ).iconTheme.color, // Use theme color
                               ),
                               padding:
                                   EdgeInsets.zero, // Remove default padding
@@ -823,9 +851,12 @@ class _AccountScreenState extends State<AccountScreen> {
                             child: IconButton(
                               icon: CircleAvatar(
                                 radius: 20,
-                                backgroundColor: Colors.red.withOpacity(0.8),
-                                child: const Icon(Icons.delete,
-                                    size: 20, color: Colors.white),
+                                backgroundColor: Colors.red.withValues(alpha: 0.8),
+                                child: const Icon(
+                                  Icons.delete,
+                                  size: 20,
+                                  color: Colors.white,
+                                ),
                               ),
                               onPressed:
                                   _confirmAndDeletePicture, // Call delete confirmation
@@ -845,7 +876,9 @@ class _AccountScreenState extends State<AccountScreen> {
                           child: Text(
                             _displayName ?? 'Loading...', // Show actual name
                             style: const TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold),
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -872,7 +905,7 @@ class _AccountScreenState extends State<AccountScreen> {
               color: Theme.of(context).scaffoldBackgroundColor,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: 10,
                   offset: const Offset(0, -2),
                 ),
@@ -898,7 +931,6 @@ class _AccountScreenState extends State<AccountScreen> {
                     ),
                   ),
                   const SizedBox(height: 16), // Spacing between buttons
-
                   // Delete Account Button - Destructive styling with safety
                   SizedBox(
                     height: 56,

@@ -21,12 +21,12 @@ class CoffeeBeansBottomBar extends StatelessWidget {
   final double lift;
 
   const CoffeeBeansBottomBar({
-    Key? key,
+    super.key,
     required this.viewState,
     required this.onFilterPressed,
     required this.onEditModeToggled,
     required this.lift,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

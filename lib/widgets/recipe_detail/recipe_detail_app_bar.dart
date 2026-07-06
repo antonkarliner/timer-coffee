@@ -19,7 +19,7 @@ class RecipeDetailAppBar extends StatelessWidget
   final VoidCallback? onUnpublish;
 
   const RecipeDetailAppBar({
-    Key? key,
+    super.key,
     required this.recipe,
     required this.brewingMethodName,
     required this.idForActions,
@@ -28,7 +28,7 @@ class RecipeDetailAppBar extends StatelessWidget
     required this.onCopy,
     required this.onShare,
     this.onUnpublish,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

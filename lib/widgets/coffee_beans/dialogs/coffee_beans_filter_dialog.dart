@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/ui_state/coffee_beans_filter_options.dart';
 import 'package:coffee_timer/services/coffee_beans_filter_service.dart';
-import 'package:coffee_timer/providers/coffee_beans_provider.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'roaster_selection_dialog.dart';
@@ -27,10 +25,10 @@ class CoffeeBeansFilterDialog extends StatefulWidget {
   final CoffeeBeansFilterService filterService;
 
   const CoffeeBeansFilterDialog({
-    Key? key,
+    super.key,
     required this.initialFilterOptions,
     required this.filterService,
-  }) : super(key: key);
+  });
 
   @override
   State<CoffeeBeansFilterDialog> createState() =>
@@ -53,8 +51,9 @@ class _CoffeeBeansFilterDialogState extends State<CoffeeBeansFilterDialog> {
   Future<void> _loadFilterData() async {
     try {
       // Load available roasters and origins
-      _availableRoasters =
-          await widget.filterService.fetchAvailableRoasters(context);
+      _availableRoasters = await widget.filterService.fetchAvailableRoasters(
+        context,
+      );
 
       // Load origins based on current roaster selection
       await _updateOrigins();
@@ -145,9 +144,7 @@ class _CoffeeBeansFilterDialogState extends State<CoffeeBeansFilterDialog> {
       return SafeArea(
         child: Container(
           height: 200,
-          child: const Center(
-            child: CircularProgressIndicator(),
-          ),
+          child: const Center(child: CircularProgressIndicator()),
         ),
       );
     }
@@ -163,10 +160,7 @@ class _CoffeeBeansFilterDialogState extends State<CoffeeBeansFilterDialog> {
             ListTile(
               title: Row(
                 children: [
-                  Text(
-                    '${loc.roaster}: ',
-                    style: AppTextStyles.caption,
-                  ),
+                  Text('${loc.roaster}: ', style: AppTextStyles.caption),
                   Expanded(
                     child: Text(
                       _tempFilterOptions.selectedRoasters.isEmpty
@@ -191,10 +185,7 @@ class _CoffeeBeansFilterDialogState extends State<CoffeeBeansFilterDialog> {
             ListTile(
               title: Row(
                 children: [
-                  Text(
-                    '${loc.origin}: ',
-                    style: AppTextStyles.caption,
-                  ),
+                  Text('${loc.origin}: ', style: AppTextStyles.caption),
                   Expanded(
                     child: Text(
                       _tempFilterOptions.selectedOrigins.isEmpty
@@ -222,10 +213,7 @@ class _CoffeeBeansFilterDialogState extends State<CoffeeBeansFilterDialog> {
               contentPadding: const EdgeInsets.symmetric(horizontal: 16),
               title: Row(
                 children: [
-                  Text(
-                    loc.showFavoritesOnly,
-                    style: AppTextStyles.caption,
-                  ),
+                  Text(loc.showFavoritesOnly, style: AppTextStyles.caption),
                   Expanded(
                     child: Align(
                       alignment: Alignment.centerRight,
@@ -238,8 +226,8 @@ class _CoffeeBeansFilterDialogState extends State<CoffeeBeansFilterDialog> {
                         }),
                         activeColor:
                             Theme.of(context).brightness == Brightness.light
-                                ? const Color(0xff8e2e2d)
-                                : const Color(0xffc66564),
+                            ? const Color(0xff8e2e2d)
+                            : const Color(0xffc66564),
                         checkColor: Colors.white,
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         visualDensity: VisualDensity.compact,

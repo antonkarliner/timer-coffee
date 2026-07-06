@@ -72,7 +72,7 @@ class CollectedDataDialog extends StatelessWidget {
           height: 1.25,
         );
 
-    String _labelFor(String key) {
+    String labelFor(String key) {
       // Keep internal keys intact; only adjust presentation
       if (key == 'processingMethod') return loc.processingMethod;
       return humanizeKey(key);
@@ -105,7 +105,7 @@ class CollectedDataDialog extends StatelessWidget {
                       maxWidth: labelMaxWidth,
                     ),
                     child: Text(
-                      '${_labelFor(key)}:',
+                      '${labelFor(key)}:',
                       style: labelStyle,
                       softWrap: false,
                       overflow: TextOverflow.fade,

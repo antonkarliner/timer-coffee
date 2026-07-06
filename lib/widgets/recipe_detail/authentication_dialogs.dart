@@ -11,7 +11,7 @@ enum SignInMethod { apple, google, email, cancel }
 
 /// Widget that shows the initial sign-in prompt modal
 class SignInPromptModal extends StatelessWidget {
-  const SignInPromptModal({Key? key}) : super(key: key);
+  const SignInPromptModal({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +71,7 @@ class SignInPromptModal extends StatelessWidget {
 
 /// Widget that shows the sign-in method selection modal
 class SignInMethodSelectionModal extends StatelessWidget {
-  const SignInMethodSelectionModal({Key? key}) : super(key: key);
+  const SignInMethodSelectionModal({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -132,9 +132,9 @@ class EmailSignInDialog extends StatelessWidget {
   final Function(String) onEmailSubmitted;
 
   const EmailSignInDialog({
-    Key? key,
+    super.key,
     required this.onEmailSubmitted,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -179,10 +179,10 @@ class OTPVerificationDialog extends StatelessWidget {
   final Function(String, String) onOTPSubmitted;
 
   const OTPVerificationDialog({
-    Key? key,
+    super.key,
     required this.email,
     required this.onOTPSubmitted,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -81,7 +81,7 @@ class SupabaseLogInterceptor {
           try {
             final sanitized = AppLogger.sanitize(message);
             // Use direct print to avoid recursive call to AppLogger.debug
-            print('[SUPABASE] ${sanitized}');
+            print('[SUPABASE] $sanitized');
           } finally {
             _isLogging = false;
           }
@@ -113,7 +113,7 @@ Future<void> _launchExternalUrlTopLevel(Uri uri) async {
   try {
     // Enhanced logging for URL launch process
     AppLogger.debug('Starting external URL launch process (top-level): $uri');
-    AppLogger.debug('Current platform: ${defaultTargetPlatform}');
+    AppLogger.debug('Current platform: $defaultTargetPlatform');
     AppLogger.debug('App state: ${WidgetsBinding.instance.lifecycleState}');
 
     // Ensure the app is fully initialized before launching URL
@@ -530,8 +530,8 @@ void main() async {
   });
 
   if (!hasPerformedUuidBackfill) {
-    // Perform backfill operations
-    await coffeeBeansProvider.backfillMissingUuids();
+    // Perform legacy user-stat backfill operations. Coffee bean UUIDs are
+    // guaranteed by the migrated database schema and non-null model contract.
     await userStatProvider.backfillMissingStatUuids();
     await userStatProvider.backfillMissingCoffeeBeansUuids();
 
@@ -589,11 +589,13 @@ void main() async {
   }
 
   // Reschedule engagement notifications on every app open (self-healing)
-  unawaited(LocalNotificationSchedulerService.instance.rescheduleAll(
-    database: database,
-    onboarding: onboardingService,
-    locale: initialLocale.languageCode,
-  ));
+  unawaited(
+    LocalNotificationSchedulerService.instance.rescheduleAll(
+      database: database,
+      onboarding: onboardingService,
+      locale: initialLocale.languageCode,
+    ),
+  );
 
   // Track app open
   analyticsService.track(
@@ -647,7 +649,7 @@ class CoffeeTimerApp extends StatefulWidget {
   final MomentsService momentsService;
 
   const CoffeeTimerApp({
-    Key? key,
+    super.key,
     required this.database,
     required this.databaseProvider,
     required this.supportedLocales,
@@ -662,10 +664,10 @@ class CoffeeTimerApp extends StatefulWidget {
     required this.onboardingService,
     required this.analyticsService,
     required this.momentsService,
-  }) : super(key: key);
+  });
 
   @override
-  _CoffeeTimerAppState createState() => _CoffeeTimerAppState();
+  State<CoffeeTimerApp> createState() => _CoffeeTimerAppState();
 }
 
 class _CoffeeTimerAppState extends State<CoffeeTimerApp>
@@ -734,8 +736,8 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
         AppLogger.info(
           '🌐 EXTERNAL URL: Detected external URL, launching browser: $deepLink',
         );
-        AppLogger.info('🌐 EXTERNAL URL: Platform: ${defaultTargetPlatform}');
-        await _launchExternalUrl(uri!);
+        AppLogger.info('🌐 EXTERNAL URL: Platform: $defaultTargetPlatform');
+        await _launchExternalUrl(uri);
         return;
       }
 
@@ -748,9 +750,9 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
         if (deepLink.startsWith('/beans/')) {
           final beansUri = Uri.tryParse(deepLink);
           final pathSegments = beansUri?.pathSegments ?? const <String>[];
-          final uuid =
-              pathSegments.length >= 2 ? pathSegments[1] : '';
+          final uuid = pathSegments.length >= 2 ? pathSegments[1] : '';
           final focus = beansUri?.queryParameters['focus'];
+          final trigger = beansUri?.queryParameters['t'];
 
           // Track tap with bean attribution for engagement analytics
           AnalyticsService.instance.track(
@@ -758,28 +760,37 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
             properties: {
               'notification_type': notificationType,
               if (uuid.isNotEmpty) 'bean_uuid': uuid,
+              'trigger': ?trigger,
             },
           );
 
-          // Stamp a SharedPreferences key so a review submitted within the next
-          // 60 minutes can be attributed back to this nudge tap.
+          // Stamp SharedPreferences keys so a review submitted within the next
+          // 60 minutes can be attributed back to this nudge tap (with trigger).
           if (uuid.isNotEmpty && notificationType == 'bean_review_nudge') {
             final prefs = await SharedPreferences.getInstance();
             await prefs.setInt(
               'notif_bean_review_tap_ms_$uuid',
               DateTime.now().millisecondsSinceEpoch,
             );
+            if (trigger != null) {
+              await prefs.setString(
+                'notif_bean_review_tap_trigger_$uuid',
+                trigger,
+              );
+            }
           }
 
           if (uuid.isNotEmpty) {
             AppLogger.info(
-                '📱 BEAN DETAIL: Navigating to bean uuid=$uuid focus=$focus');
+              '📱 BEAN DETAIL: Navigating to bean uuid=$uuid focus=$focus',
+            );
             await _completeOnboardingForInternalRoute(
               Uri(path: '/beans/$uuid'),
               isValidInternalRoute: true,
             );
             await widget.appRouter.push(
-                CoffeeBeansDetailRoute(uuid: uuid, focusSection: focus));
+              CoffeeBeansDetailRoute(uuid: uuid, focusSection: focus),
+            );
             return;
           }
         }
@@ -856,8 +867,11 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
     }
     if (deepLink == '/stats') return 'brew_milestone';
     if (deepLink.startsWith('/beans/')) {
-      final focus = Uri.tryParse(deepLink)?.queryParameters['focus'];
-      if (focus == 'review') return 'bean_review_nudge';
+      final params = Uri.tryParse(deepLink)?.queryParameters;
+      if (params?['focus'] == 'review') return 'bean_review_nudge';
+      if (params?['t'] == 'roaster_contribution') {
+        return 'roaster_contribution_nudge';
+      }
       return 'bean_freshness';
     }
     if (deepLink.startsWith('/recipes/')) return 'recipe_exploration';
@@ -869,7 +883,7 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
       // Enhanced logging for URL launch process
       AppLogger.info('🚀 URL LAUNCH: Starting external URL launch process');
       AppLogger.info('🚀 URL LAUNCH: URI: $uri');
-      AppLogger.info('🚀 URL LAUNCH: Platform: ${defaultTargetPlatform}');
+      AppLogger.info('🚀 URL LAUNCH: Platform: $defaultTargetPlatform');
       AppLogger.info(
         '🚀 URL LAUNCH: App state: ${WidgetsBinding.instance.lifecycleState}',
       );

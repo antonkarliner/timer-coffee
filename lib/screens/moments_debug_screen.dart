@@ -553,15 +553,6 @@ class _HowToTestSection extends StatelessWidget {
               ],
             ),
             _HowToRow(
-              title: 'Steam puff (double-tap roaster logo)',
-              steps: [
-                '1. Open any screen with a roaster logo: Roasters list, Roaster Profile, Coffee Beans card, Stats top roasters.',
-                '2. Double-tap the logo.',
-                '3. A 💨 emoji rises and fades over ~600ms; haptic fires.',
-                'Discovery flips on first double-tap. The animation runs even without a MomentsService in scope (try/catch around the lookup), so widget tests still work.',
-              ],
-            ),
-            _HowToRow(
               title: 'In-sync (recommended path)',
               steps: [
                 '1. In-sync section here → pick a "Count-only" force (no country subtitle) or a "With countries" preset.',

@@ -86,11 +86,11 @@ class NewBeansImageController {
   /// - show error dialogs via `onError`.
   ///
   /// Required callbacks:
-  /// - onLoading(bool isLoading)
-  /// - onData(Map<String, dynamic> parsed)
-  /// - onError(String message)
-  /// - onShowPreview(List<XFile> images, void Function(List<XFile>) onConfirm, void Function() onBackToSelection)
-  /// - onChooseSource(Future<ImageSource?> Function() chooser) - see defaultChooser example below.
+  /// - `onLoading(bool isLoading)`
+  /// - `onData(Map<String, dynamic> parsed)`
+  /// - `onError(String message)`
+  /// - `onShowPreview(List<XFile> images, void Function(List<XFile>) onConfirm, void Function() onBackToSelection)`
+  /// - `onChooseSource(Future<ImageSource?> Function() chooser)` - see defaultChooser example below.
   Future<void> start({
     required BuildContext context,
     required String locale,

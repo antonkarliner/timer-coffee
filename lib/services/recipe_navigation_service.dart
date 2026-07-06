@@ -70,19 +70,31 @@ class RecipeNavigationService {
     }
 
     final l10n = AppLocalizations.of(context)!;
+    final userRecipeProvider = Provider.of<UserRecipeProvider>(
+      context,
+      listen: false,
+    );
+    final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
 
     try {
       // Check if recipe is imported and show confirmation dialog
       if (recipe.isImported == true) {
-        final bool? confirm =
-            await _showEditImportedRecipeDialog(context, l10n);
+        final bool? confirm = await _showEditImportedRecipeDialog(
+          context,
+          l10n,
+        );
 
         if (confirm != true) {
           return NavigationResult.success(); // User cancelled
         }
 
         // User confirmed - copy the recipe and edit the copy
-        final copyResult = await _copyRecipeForEditing(context, recipe, l10n);
+        final copyResult = await _copyRecipeForEditing(
+          recipe,
+          l10n,
+          userRecipeProvider,
+          recipeProvider,
+        );
         if (!copyResult.success) {
           return NavigationResult.failure(copyResult.errorMessage!);
         }
@@ -116,7 +128,8 @@ class RecipeNavigationService {
       return NavigationResult.failure('Navigation failed');
     } catch (e) {
       return NavigationResult.failure(
-          'Error during navigation: ${e.toString()}');
+        'Error during navigation: ${e.toString()}',
+      );
     }
   }
 
@@ -199,25 +212,13 @@ class RecipeNavigationService {
 
   /// Copies a recipe for editing (used when editing imported recipes)
   static Future<CopyResult> _copyRecipeForEditing(
-    BuildContext context,
     RecipeModel recipe,
     AppLocalizations l10n,
+    UserRecipeProvider userRecipeProvider,
+    RecipeProvider recipeProvider,
   ) async {
-    if (!context.mounted) {
-      return CopyResult.failure('Context not mounted');
-    }
-
     try {
-      final userRecipeProvider =
-          Provider.of<UserRecipeProvider>(context, listen: false);
-      final recipeProvider =
-          Provider.of<RecipeProvider>(context, listen: false);
-
       final newRecipeId = await userRecipeProvider.copyUserRecipe(recipe);
-
-      if (!context.mounted) {
-        return CopyResult.failure('Context not mounted after copy');
-      }
 
       if (newRecipeId != null) {
         final updatedRecipe = await recipeProvider.getRecipeById(newRecipeId);
@@ -229,11 +230,13 @@ class RecipeNavigationService {
         }
       } else {
         return CopyResult.failure(
-            l10n.recipeCopyError(l10n.recipeCopyErrorOperationFailed));
+          l10n.recipeCopyError(l10n.recipeCopyErrorOperationFailed),
+        );
       }
     } catch (e) {
       return CopyResult.failure(
-          'Error copying recipe for editing: ${e.toString()}');
+        'Error copying recipe for editing: ${e.toString()}',
+      );
     }
   }
 
@@ -248,13 +251,18 @@ class RecipeNavigationService {
     }
 
     try {
-      final userRecipeProvider =
-          Provider.of<UserRecipeProvider>(context, listen: false);
-      final recipeProvider =
-          Provider.of<RecipeProvider>(context, listen: false);
+      final userRecipeProvider = Provider.of<UserRecipeProvider>(
+        context,
+        listen: false,
+      );
+      final recipeProvider = Provider.of<RecipeProvider>(
+        context,
+        listen: false,
+      );
 
-      final String? newRecipeId =
-          await userRecipeProvider.copyUserRecipe(recipeToCopy);
+      final String? newRecipeId = await userRecipeProvider.copyUserRecipe(
+        recipeToCopy,
+      );
 
       if (!context.mounted) {
         return CopyResult.failure('Context not mounted after copy');
@@ -267,8 +275,9 @@ class RecipeNavigationService {
           return CopyResult.failure('Context not mounted after refresh');
         }
 
-        final RecipeModel? newRecipe =
-            await recipeProvider.getRecipeById(newRecipeId);
+        final RecipeModel? newRecipe = await recipeProvider.getRecipeById(
+          newRecipeId,
+        );
 
         if (!context.mounted) {
           return CopyResult.failure('Context not mounted after loading');
@@ -278,11 +287,13 @@ class RecipeNavigationService {
           return CopyResult.success(newRecipeId, newRecipe);
         } else {
           return CopyResult.failure(
-              l10n.recipeCopyError(l10n.recipeCopyErrorLoadingEdit));
+            l10n.recipeCopyError(l10n.recipeCopyErrorLoadingEdit),
+          );
         }
       } else {
         return CopyResult.failure(
-            l10n.recipeCopyError(l10n.recipeCopyErrorOperationFailed));
+          l10n.recipeCopyError(l10n.recipeCopyErrorOperationFailed),
+        );
       }
     } catch (e) {
       return CopyResult.failure(l10n.recipeCopyError(e.toString()));

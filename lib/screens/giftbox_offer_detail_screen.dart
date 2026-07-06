@@ -97,8 +97,8 @@ class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
       'src': 'app',
       'p': platform,
       'l': locale,
-      if (appVersion != null) 'v': appVersion,
-      if (iid != null) 'iid': iid,
+      'v': ?appVersion,
+      'iid': ?iid,
     });
   }
 
@@ -183,7 +183,7 @@ class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
               Icons.ac_unit,
               color: isSnowing
                   ? theme.colorScheme.primary
-                  : theme.colorScheme.primary.withOpacity(0.75),
+                  : theme.colorScheme.primary.withValues(alpha: 0.75),
             ),
           ),
         ],
@@ -260,8 +260,7 @@ class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
           children: [
             ...offer.regions
                 .map((r) => _chip(localizeRegion(r, l10n), theme,
-                    leadingIcon: Icons.location_on))
-                .toList(),
+                    leadingIcon: Icons.location_on)),
             if (validityLabel != null)
               _chip(validityLabel, theme, leadingIcon: Icons.event),
           ],
@@ -329,7 +328,7 @@ class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
         child: Image.network(
           SupabaseEndpointResolver.localizeStorageUrl(offer.imageUrl!),
           fit: BoxFit.contain,
-          errorBuilder: (_, __, ___) => _placeholderHero(),
+          errorBuilder: (_, _, _) => _placeholderHero(),
           loadingBuilder: (context, child, progress) {
             if (progress == null) return child;
             return _placeholderHero();
@@ -448,27 +447,6 @@ class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
       );
     }
     return l10n.holidayGiftBoxValidWhileAvailable;
-  }
-
-  Widget _meta(ThemeData theme, AppLocalizations l10n, GiftOffer offer) {
-    final validTo = offer.validTo != null
-        ? l10n.holidayGiftBoxValidUntil(_formatDate(context, offer.validTo!))
-        : l10n.holidayGiftBoxValidWhileAvailable;
-    final updated = offer.updatedAt != null
-        ? l10n.holidayGiftBoxUpdated(_formatDate(context, offer.updatedAt!))
-        : null;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(validTo, style: theme.textTheme.bodySmall),
-        if (updated != null)
-          Text(updated,
-              style:
-                  theme.textTheme.bodySmall?.copyWith(color: theme.hintColor)),
-        Text(l10n.holidayGiftBoxLanguage(offer.localeUsed.toLanguageTag()),
-            style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor)),
-      ],
-    );
   }
 
   String _formatDate(BuildContext context, DateTime date) {

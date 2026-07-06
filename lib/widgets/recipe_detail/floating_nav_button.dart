@@ -5,10 +5,10 @@ class FloatingNavButton extends StatelessWidget {
   final Widget? icon;
 
   const FloatingNavButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     this.icon,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

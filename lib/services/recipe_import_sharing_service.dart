@@ -334,7 +334,8 @@ class RecipeImportSharingService {
   /// Determines if a recipe needs moderation check based on public status,
   /// timestamp comparison, and local moderation flags
   static Future<bool> _needsModerationCheck({
-    required BuildContext context,
+    required RecipeProvider recipeProvider,
+    required AppDatabase appDb,
     required String recipeId,
     required bool isAlreadyPublic,
     required Map<String, dynamic> remoteData,
@@ -348,13 +349,6 @@ class RecipeImportSharingService {
     }
 
     try {
-      final recipeProvider = Provider.of<RecipeProvider>(
-        context,
-        listen: false,
-      );
-      final dbProvider = Provider.of<DatabaseProvider>(context, listen: false);
-      final appDb = Provider.of<AppDatabase>(context, listen: false);
-
       // Get local recipe model to verify it exists
       final localRecipeModel = await recipeProvider.getRecipeById(recipeId);
       if (localRecipeModel == null) {
@@ -434,6 +428,9 @@ class RecipeImportSharingService {
     required RecipeModel recipe,
     required String shareRecipeId,
   }) async {
+    if (!context.mounted) {
+      return RecipeSharingResult.error('Context not mounted');
+    }
     final l10n = AppLocalizations.of(context)!;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     // Track a potentially remapped id to propagate back to caller
@@ -500,17 +497,31 @@ class RecipeImportSharingService {
             AppLogger.debug(
               'Sign-in not completed within waiting window. Aborting share.',
             );
-            final l10n = AppLocalizations.of(context)!;
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  l10n.shareErrorGeneric('Authentication required'),
+            if (context.mounted) {
+              scaffoldMessenger.showSnackBar(
+                SnackBar(
+                  content: Text(
+                    l10n.shareErrorGeneric('Authentication required'),
+                  ),
                 ),
-              ),
-            );
+              );
+            }
             return RecipeSharingResult.error('Authentication required');
           }
         }
+
+        if (!context.mounted) {
+          return RecipeSharingResult.error('Context not mounted');
+        }
+        final dbProvider = Provider.of<DatabaseProvider>(
+          context,
+          listen: false,
+        );
+        final recipeProvider = Provider.of<RecipeProvider>(
+          context,
+          listen: false,
+        );
+        final appDb = Provider.of<AppDatabase>(context, listen: false);
 
         // Ensure we have the latest user ID after potential sign-in/sync
         final userId = Supabase.instance.client.auth.currentUser!.id;
@@ -537,10 +548,6 @@ class RecipeImportSharingService {
             );
             // Prefer server-driven sync path first
             try {
-              final dbProvider = Provider.of<DatabaseProvider>(
-                context,
-                listen: false,
-              );
               AppLogger.debug(
                 'Attempting pre-remediation syncUserRecipes(${AppLogger.sanitize(userId)})',
               );
@@ -570,11 +577,6 @@ class RecipeImportSharingService {
               );
 
               // Try to fetch local recipe for either original or derived id.
-              final recipeProvider = Provider.of<RecipeProvider>(
-                context,
-                listen: false,
-              );
-
               RecipeModel? localRecipe = await recipeProvider.getRecipeById(
                 derivedNewId,
               );
@@ -593,9 +595,11 @@ class RecipeImportSharingService {
 
               if (localRecipe != null) {
                 // Build payloads from local model. Use at least one localization for current locale.
-                final currentLocale = View.of(
-                  context,
-                ).platformDispatcher.locale.languageCode;
+                final currentLocale = WidgetsBinding
+                    .instance
+                    .platformDispatcher
+                    .locale
+                    .languageCode;
 
                 // Minimal user_recipes row payload
                 final userRecipePayload = {
@@ -718,9 +722,11 @@ class RecipeImportSharingService {
           AppLogger.error(
             "Recipe ${AppLogger.sanitize(shareRecipeId)} not found in Supabase or not owned by user ${AppLogger.sanitize(userId)}.",
           );
-          scaffoldMessenger.showSnackBar(
-            SnackBar(content: Text(l10n.recipeNotFoundCloud)),
-          );
+          if (context.mounted) {
+            scaffoldMessenger.showSnackBar(
+              SnackBar(content: Text(l10n.recipeNotFoundCloud)),
+            );
+          }
           return RecipeSharingResult.error(l10n.recipeNotFoundCloud);
         }
 
@@ -729,7 +735,8 @@ class RecipeImportSharingService {
 
         // Check if moderation is needed (combines public status, timestamp comparison, and local flag)
         final bool needsModeration = await _needsModerationCheck(
-          context: context,
+          recipeProvider: recipeProvider,
+          appDb: appDb,
           recipeId: shareRecipeId,
           isAlreadyPublic: isAlreadyPublic,
           remoteData: recipeData,
@@ -745,9 +752,8 @@ class RecipeImportSharingService {
           final steps = recipeData['user_steps'] as List<dynamic>? ?? [];
 
           // 3. Prepare Moderation Text
-          final currentLocale = View.of(
-            context,
-          ).platformDispatcher.locale.languageCode;
+          final currentLocale =
+              WidgetsBinding.instance.platformDispatcher.locale.languageCode;
           String combinedText = "";
 
           final currentLocalization = localizations.firstWhere(
@@ -799,9 +805,11 @@ class RecipeImportSharingService {
 
             if (moderationResponse.status != 200 ||
                 moderationResponse.data == null) {
-              scaffoldMessenger.showSnackBar(
-                SnackBar(content: Text(l10n.moderationErrorFunction)),
-              );
+              if (context.mounted) {
+                scaffoldMessenger.showSnackBar(
+                  SnackBar(content: Text(l10n.moderationErrorFunction)),
+                );
+              }
               return RecipeSharingResult.error(l10n.moderationErrorFunction);
             }
 
@@ -811,6 +819,11 @@ class RecipeImportSharingService {
               final reason =
                   moderationResult['reason'] ?? l10n.moderationReasonDefault;
               // Show specific error dialog
+              if (!context.mounted) {
+                return RecipeSharingResult.error(
+                  'Content moderation failed: $reason',
+                );
+              }
               final outerContext = context;
               await showDialog(
                 context: context,
@@ -825,9 +838,11 @@ class RecipeImportSharingService {
                       label: l10n.moderationRulesLearnMore,
                       onPressed: () {
                         Navigator.pop(dialogContext);
-                        outerContext.router.push(
-                          InfoRoute(section: 'moderation'),
-                        );
+                        if (outerContext.mounted) {
+                          outerContext.router.push(
+                            InfoRoute(section: 'moderation'),
+                          );
+                        }
                       },
                       isFullWidth: false,
                       height: AppButton.heightSmall,
@@ -853,10 +868,6 @@ class RecipeImportSharingService {
           }
 
           // Clear the moderation flag since moderation passed
-          final dbProvider = Provider.of<DatabaseProvider>(
-            context,
-            listen: false,
-          );
           await dbProvider.clearNeedsModerationReview(shareRecipeId);
           AppLogger.debug(
             "Cleared moderation flag for recipe ${AppLogger.sanitize(shareRecipeId)}.",
@@ -885,6 +896,9 @@ class RecipeImportSharingService {
       } // --- End of User Recipe Sharing Logic ---
 
       // --- Actual Sharing ---
+      if (!context.mounted) {
+        return RecipeSharingResult.error('Context not mounted');
+      }
       // Improved sharePositionOrigin calculation for iPad support
       final RenderBox? box = context.findRenderObject() as RenderBox?;
       Rect shareOrigin;
@@ -922,9 +936,11 @@ class RecipeImportSharingService {
         errorObject: e,
         stackTrace: stacktrace,
       );
-      scaffoldMessenger.showSnackBar(
-        SnackBar(content: Text(l10n.shareErrorGeneric(e.toString()))),
-      );
+      if (context.mounted) {
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.shareErrorGeneric(e.toString()))),
+        );
+      }
       return RecipeSharingResult.error(e.toString());
     }
   }

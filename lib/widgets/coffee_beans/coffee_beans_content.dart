@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:coffeico/coffeico.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
@@ -7,12 +6,10 @@ import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 
 import '../../app_router.gr.dart';
-import '../../providers/coffee_beans_provider.dart';
 import '../../models/coffee_beans_model.dart';
 import '../../models/ui_state/coffee_beans_view_state.dart';
 import '../../models/ui_state/coffee_beans_filter_options.dart';
 import '../../services/coffee_beans_filter_service.dart';
-import '../../services/coffee_beans_sort_service.dart';
 import 'coffee_beans_list_view.dart';
 import 'coffee_beans_grid_view.dart';
 
@@ -47,7 +44,7 @@ class CoffeeBeansContent extends StatelessWidget {
   final VoidCallback onClearFilters;
 
   const CoffeeBeansContent({
-    Key? key,
+    super.key,
     required this.viewState,
     required this.filterOptions,
     required this.sortOptions,
@@ -56,13 +53,11 @@ class CoffeeBeansContent extends StatelessWidget {
     required this.onFavoriteToggle,
     required this.onTap,
     required this.onClearFilters,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(context);
     final filterService = const CoffeeBeansFilterService();
-    final sortService = const CoffeeBeansSortService();
     final loc = AppLocalizations.of(context)!;
 
     return FutureBuilder<List<CoffeeBeansModel>>(
@@ -113,11 +108,7 @@ class CoffeeBeansContent extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.search_off,
-            size: 64,
-            color: Colors.grey[400],
-          ),
+          Icon(Icons.search_off, size: 64, color: Colors.grey[400]),
           const SizedBox(height: 16),
           Text(
             loc.noBeansMatchSearch,
@@ -142,11 +133,7 @@ class CoffeeBeansContent extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Coffeico.bag_with_bean,
-            size: 64,
-            color: Colors.grey[400],
-          ),
+          Icon(Coffeico.bag_with_bean, size: 64, color: Colors.grey[400]),
           const SizedBox(height: 16),
           Text(
             loc.nocoffeebeans,
@@ -156,7 +143,7 @@ class CoffeeBeansContent extends StatelessWidget {
           AppElevatedButton(
             label: loc.addBeans,
             onPressed: () async {
-              final result = await context.router.push(NewBeansRoute());
+              await context.router.push(NewBeansRoute());
               // Note: State refresh should be handled by parent
             },
             icon: Icons.add,
@@ -174,7 +161,8 @@ class CoffeeBeansContent extends StatelessWidget {
     // This maintains the original sorting logic from the screen
     // In a future phase, this could be replaced with the sort service
     beans.sort(
-        (a, b) => b.beansUuid.compareTo(a.beansUuid)); // Default: newest first
+      (a, b) => b.beansUuid.compareTo(a.beansUuid),
+    ); // Default: newest first
     return beans;
   }
 }

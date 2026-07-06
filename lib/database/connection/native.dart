@@ -12,5 +12,5 @@ Future<DatabaseConnection> connect() async {
   if (Platform.isAndroid) {
     await applyWorkaroundToOpenSqlite3OnOldAndroidVersions();
   }
-  return DatabaseConnection(NativeDatabase(file));
+  return DatabaseConnection(NativeDatabase.createInBackground(file));
 }

@@ -20,11 +20,11 @@ class PreparationScreen extends StatefulWidget {
   final int? coffeeChroniclerSliderPosition;
 
   const PreparationScreen({
-    Key? key,
+    super.key,
     required this.recipe,
     required this.brewingMethodName,
     this.coffeeChroniclerSliderPosition,
-  }) : super(key: key);
+  });
 
   @override
   State<PreparationScreen> createState() => _PreparationScreenState();

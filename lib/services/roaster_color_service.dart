@@ -111,8 +111,10 @@ class RoasterColorService {
     SharedPreferences prefs,
   ) async {
     try {
-      final file = await RoasterLogoCacheManager.instance
-          .getSingleFile(url, key: cacheKey);
+      final file = await RoasterLogoCacheManager.instance.getSingleFile(
+        url,
+        key: cacheKey,
+      );
       final bytes = await file.readAsBytes();
       final result = await compute(_extractDominantColor, bytes);
       await _storeResult(cacheKey, result, prefs);
@@ -123,8 +125,10 @@ class RoasterColorService {
         final mirrorKey = _normalizeUrl(mirrorUrl);
         if (!mirrorUrl.toLowerCase().endsWith('.svg')) {
           try {
-            final file = await RoasterLogoCacheManager.instance
-                .getSingleFile(mirrorUrl, key: mirrorKey);
+            final file = await RoasterLogoCacheManager.instance.getSingleFile(
+              mirrorUrl,
+              key: mirrorKey,
+            );
             final bytes = await file.readAsBytes();
             final result = await compute(_extractDominantColor, bytes);
             await _storeResult(cacheKey, result, prefs);
@@ -141,7 +145,10 @@ class RoasterColorService {
   }
 
   Future<void> _storeResult(
-      String cacheKey, RoasterColorResult result, SharedPreferences prefs) async {
+    String cacheKey,
+    RoasterColorResult result,
+    SharedPreferences prefs,
+  ) async {
     _memoryCache[cacheKey] = result;
     final value = switch (result) {
       RoasterColorNone() => _sentinelNone,
@@ -170,8 +177,7 @@ class RoasterColorService {
   /// - `null` / empty → [RoasterColorNone] (not yet computed)
   /// - `'monochrome'` → [RoasterColorMonochrome]
   /// - `'#RRGGBB'` or `'RRGGBB'` → [RoasterColorVibrant] if the color is
-  ///   sufficiently bright and saturated; [RoasterColorMonochrome] otherwise
-  ///   (mirrors the same guards used in on-device extraction).
+  ///   sufficiently bright; [RoasterColorMonochrome] otherwise.
   static RoasterColorResult fromBackendHex(String? hex) {
     if (hex == null || hex.trim().isEmpty) return const RoasterColorNone();
     final trimmed = hex.trim().toLowerCase();
@@ -185,8 +191,6 @@ class RoasterColorService {
     final g = (value >> 8) & 0xFF;
     final b = value & 0xFF;
     final maxC = r > g ? (r > b ? r : b) : (g > b ? g : b);
-    final minC = r < g ? (r < b ? r : b) : (g < b ? g : b);
-    final saturation = maxC == 0 ? 0.0 : (maxC - minC) / maxC;
 
     // Near-black (maxC < 60, i.e. up to 0x33 per channel): the logo is a
     // dark/black graphic → Monochrome so the screen gets the inverted-neutral

@@ -195,7 +195,7 @@ class StepCard extends StatelessWidget {
   final VoidCallback? onDelete;
 
   const StepCard({
-    Key? key,
+    super.key,
     required this.step,
     required this.isPreparationStep,
     required this.l10n,
@@ -203,7 +203,7 @@ class StepCard extends StatelessWidget {
     required this.onDescriptionChanged,
     this.onTimeChanged,
     this.onDelete,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

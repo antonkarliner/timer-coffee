@@ -38,7 +38,6 @@ class ForcedInSync {
 const List<String> kAllMomentIds = <String>[
   'anniversary',
   'coffee_day',
-  'steam_puff',
   'in_sync',
 ];
 

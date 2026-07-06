@@ -53,12 +53,18 @@ class BeanSelectionService {
   /// Loads the current selection from SharedPreferences and enriches with
   /// bean name and cached roaster logo URLs (if available).
   Future<BeanSelection> loadSelectedBean(BuildContext context) async {
+    final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+      context,
+      listen: false,
+    );
+    final databaseProvider = Provider.of<DatabaseProvider>(
+      context,
+      listen: false,
+    );
     final prefs = await SharedPreferences.getInstance();
     final uuid = prefs.getString('selectedBeanUuid');
     if (uuid == null) return BeanSelection.empty;
 
-    final coffeeBeansProvider =
-        Provider.of<CoffeeBeansProvider>(context, listen: false);
     final bean = await coffeeBeansProvider.fetchCoffeeBeansByUuid(uuid);
 
     if (bean == null) {
@@ -70,14 +76,11 @@ class BeanSelectionService {
     String? originalUrl;
     String? mirrorUrl;
 
-    if (bean.roaster != null) {
-      final databaseProvider =
-          Provider.of<DatabaseProvider>(context, listen: false);
-      final logoUrls =
-          await databaseProvider.fetchCachedRoasterLogoUrls(bean.roaster);
-      originalUrl = logoUrls['original'];
-      mirrorUrl = logoUrls['mirror'];
-    }
+    final logoUrls = await databaseProvider.fetchCachedRoasterLogoUrls(
+      bean.roaster,
+    );
+    originalUrl = logoUrls['original'];
+    mirrorUrl = logoUrls['mirror'];
 
     return BeanSelection(
       uuid: uuid,
@@ -91,22 +94,29 @@ class BeanSelectionService {
   /// Updates the selection to the given uuid, persists it,
   /// and returns enriched selection details.
   Future<BeanSelection> updateSelectedBean(
-      BuildContext context, String uuid) async {
+    BuildContext context,
+    String uuid,
+  ) async {
+    final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+      context,
+      listen: false,
+    );
+    final databaseProvider = Provider.of<DatabaseProvider>(
+      context,
+      listen: false,
+    );
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('selectedBeanUuid', uuid);
 
-    final coffeeBeansProvider =
-        Provider.of<CoffeeBeansProvider>(context, listen: false);
     final bean = await coffeeBeansProvider.fetchCoffeeBeansByUuid(uuid);
 
     String? originalUrl;
     String? mirrorUrl;
 
-    if (bean != null && bean.roaster != null) {
-      final databaseProvider =
-          Provider.of<DatabaseProvider>(context, listen: false);
-      final logoUrls =
-          await databaseProvider.fetchCachedRoasterLogoUrls(bean.roaster);
+    if (bean != null) {
+      final logoUrls = await databaseProvider.fetchCachedRoasterLogoUrls(
+        bean.roaster,
+      );
       originalUrl = logoUrls['original'];
       mirrorUrl = logoUrls['mirror'];
     }

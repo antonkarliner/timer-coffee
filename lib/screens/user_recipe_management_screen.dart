@@ -8,8 +8,6 @@ import '../providers/recipe_provider.dart';
 import '../providers/user_recipe_provider.dart';
 import '../models/recipe_model.dart';
 import '../widgets/confirm_delete_dialog.dart';
-import '../widgets/favorite_button.dart';
-import '../utils/icon_utils.dart';
 import '../app_router.gr.dart';
 import '../widgets/recipe_detail/unpublish_recipe_dialog.dart';
 import '../widgets/user_recipe_management/management_app_bar.dart';
@@ -38,12 +36,14 @@ class _UserRecipeManagementScreenState
     // Ensure recipes are loaded similarly to RecipeListScreen
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!mounted) return;
+      final recipeProvider = Provider.of<RecipeProvider>(
+        context,
+        listen: false,
+      );
       try {
-        await Provider.of<RecipeProvider>(context, listen: false)
-            .ensureDataReady();
+        await recipeProvider.ensureDataReady();
         // Optionally refresh to latest
-        await Provider.of<RecipeProvider>(context, listen: false)
-            .fetchAllRecipes();
+        await recipeProvider.fetchAllRecipes();
       } catch (_) {
         // Swallow, UI shows empty states if needed
       }
@@ -57,50 +57,64 @@ class _UserRecipeManagementScreenState
   }
 
   Future<void> _deleteRecipe(BuildContext context, RecipeModel recipe) async {
+    final userRecipeProvider = Provider.of<UserRecipeProvider>(
+      context,
+      listen: false,
+    );
+    final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
+
     try {
-      await Provider.of<UserRecipeProvider>(context, listen: false)
-          .deleteUserRecipe(recipe.id);
-      await Provider.of<RecipeProvider>(context, listen: false)
-          .fetchAllRecipes();
+      await userRecipeProvider.deleteUserRecipe(recipe.id);
+      await recipeProvider.fetchAllRecipes();
+      if (!context.mounted) return;
+
       final l10n = AppLocalizations.of(context)!;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.userRecipesSnackbarDeleted)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.userRecipesSnackbarDeleted)));
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to delete recipe: $e')),
-      );
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Failed to delete recipe: $e')));
     }
   }
 
   Future<void> _unpublishRecipe(
-      BuildContext context, RecipeModel recipe) async {
+    BuildContext context,
+    RecipeModel recipe,
+  ) async {
     final confirmed = await UnpublishRecipeDialog.show(context);
-    if (confirmed != true) return;
+    if (confirmed != true || !context.mounted) return;
 
     final l10n = AppLocalizations.of(context)!;
+    final userRecipeProvider = Provider.of<UserRecipeProvider>(
+      context,
+      listen: false,
+    );
+    final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
 
     try {
-      await Provider.of<UserRecipeProvider>(context, listen: false)
-          .unpublishRecipe(recipe.id);
-      await Provider.of<RecipeProvider>(context, listen: false)
-          .fetchAllRecipes();
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.recipeUnpublishSuccess)),
-        );
-      }
+      await userRecipeProvider.unpublishRecipe(recipe.id);
+      await recipeProvider.fetchAllRecipes();
+      if (!context.mounted) return;
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.recipeUnpublishSuccess)));
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.recipeUnpublishError(e.toString()))),
-        );
-      }
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.recipeUnpublishError(e.toString()))),
+      );
     }
   }
 
   Future<void> _navigateToDetail(
-      BuildContext context, RecipeModel recipe) async {
+    BuildContext context,
+    RecipeModel recipe,
+  ) async {
+    final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -112,19 +126,21 @@ class _UserRecipeManagementScreenState
       ),
     );
     try {
-      await Provider.of<RecipeProvider>(context, listen: false)
-          .ensureDataReady();
-      await Provider.of<RecipeProvider>(context, listen: false)
-          .getRecipeById(recipe.id);
-      if (mounted) Navigator.pop(context);
-      if (!mounted) return;
-      context.router.push(RecipeDetailRoute(
-        brewingMethodId: recipe.brewingMethodId,
-        recipeId: recipe.id,
-      ));
+      await recipeProvider.ensureDataReady();
+      await recipeProvider.getRecipeById(recipe.id);
+      if (!context.mounted) return;
+
+      Navigator.pop(context);
+      context.router.push(
+        RecipeDetailRoute(
+          brewingMethodId: recipe.brewingMethodId,
+          recipeId: recipe.id,
+        ),
+      );
     } catch (e) {
-      if (mounted) Navigator.pop(context);
-      if (!mounted) return;
+      if (!context.mounted) return;
+
+      Navigator.pop(context);
       final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(l10n.recipeLoadError(e.toString()))),
@@ -142,8 +158,10 @@ class _UserRecipeManagementScreenState
         onToggleEdit: () async {
           _controller.toggleEdit();
           // Refresh recipes to reflect potential UI changes or states
-          await Provider.of<RecipeProvider>(context, listen: false)
-              .fetchAllRecipes();
+          await Provider.of<RecipeProvider>(
+            context,
+            listen: false,
+          ).fetchAllRecipes();
         },
         onCreate: () => context.router.push(RecipeCreationRoute()),
       ),
@@ -157,8 +175,9 @@ class _UserRecipeManagementScreenState
           final createdByYou = recipes
               .where((r) => r.id.startsWith('usr-') && (r.isImported != true))
               .toList();
-          final importedByYou =
-              recipes.where((r) => r.isImported == true).toList();
+          final importedByYou = recipes
+              .where((r) => r.isImported == true)
+              .toList();
 
           return CustomScrollView(
             controller: _controller.scrollController,
@@ -185,7 +204,7 @@ class _UserRecipeManagementScreenState
                         cancelLabel: l10n.userRecipesDeleteCancel,
                       ),
                     );
-                    if (confirmed == true) {
+                    if (confirmed == true && context.mounted) {
                       await _deleteRecipe(context, recipe);
                     }
                   },
@@ -213,7 +232,7 @@ class _UserRecipeManagementScreenState
                         cancelLabel: l10n.userRecipesDeleteCancel,
                       ),
                     );
-                    if (confirmed == true) {
+                    if (confirmed == true && context.mounted) {
                       await _deleteRecipe(context, recipe);
                     }
                   },

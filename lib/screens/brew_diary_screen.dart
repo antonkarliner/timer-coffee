@@ -24,13 +24,12 @@ import '../services/date_time_format_service.dart';
 
 @RoutePage()
 class BrewDiaryScreen extends StatefulWidget {
-  const BrewDiaryScreen({Key? key, this.initialExpandedStatUuid})
-    : super(key: key);
+  const BrewDiaryScreen({super.key, this.initialExpandedStatUuid});
 
   final String? initialExpandedStatUuid;
 
   @override
-  _BrewDiaryScreenState createState() => _BrewDiaryScreenState();
+  State<BrewDiaryScreen> createState() => _BrewDiaryScreenState();
 }
 
 class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
@@ -381,9 +380,6 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
     final loc = AppLocalizations.of(context)!;
     final recipeProvider = Provider.of<RecipeProvider>(context);
     final userStatProvider = Provider.of<UserStatProvider>(context);
-    final databaseProvider = Provider.of<DatabaseProvider>(
-      context,
-    ); // Ensure this provider is available
     final fmtSvc = Provider.of<DateTimeFormatService>(context);
     final is24h = fmtSvc.use24Hour(
       MediaQuery.of(context).alwaysUse24HourFormat,
@@ -809,7 +805,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                             onPressed: () {
                                               context.router.push(
                                                 CoffeeBeansDetailRoute(
-                                                  uuid: bean.beansUuid!,
+                                                  uuid: bean.beansUuid,
                                                 ),
                                               );
                                             },
@@ -824,6 +820,8 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                           child: AppTextButton(
                                             label: loc.removeFromEntry,
                                             onPressed: () async {
+                                              final scaffoldMessenger =
+                                                  ScaffoldMessenger.of(context);
                                               AppLogger.debug(
                                                 'Remove beans button pressed for stat: ${stat.statUuid}',
                                               );
@@ -834,11 +832,6 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                               // Add weight back to beans before removing the reference
                                               if (stat.coffeeBeansUuid !=
                                                   null) {
-                                                final coffeeBeansProvider =
-                                                    Provider.of<
-                                                      CoffeeBeansProvider
-                                                    >(context, listen: false);
-
                                                 // Fetch bean data to get the bean name
                                                 final bean =
                                                     await coffeeBeansProvider
@@ -856,10 +849,9 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                                           stat.coffeeAmount,
                                                         );
 
-                                                if (newWeight != null) {
-                                                  ScaffoldMessenger.of(
-                                                    context,
-                                                  ).showSnackBar(
+                                                if (newWeight != null &&
+                                                    context.mounted) {
+                                                  scaffoldMessenger.showSnackBar(
                                                     SnackBar(
                                                       content: Text(
                                                         loc.beansWeightAddedBack(
@@ -881,9 +873,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                                 }
                                               }
 
-                                              await Provider.of<
-                                                    UserStatProvider
-                                                  >(context, listen: false)
+                                              await userStatProvider
                                                   .updateUserStat(
                                                     statUuid: stat.statUuid,
                                                     clearBeans: true,
@@ -934,10 +924,10 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                 onChanged: (value) {
                   // Debounce the updates to avoid too many calls
                   Future.delayed(const Duration(milliseconds: 2000), () {
-                    Provider.of<UserStatProvider>(
-                      context,
-                      listen: false,
-                    ).updateUserStat(statUuid: stat.statUuid, notes: value);
+                    userStatProvider.updateUserStat(
+                      statUuid: stat.statUuid,
+                      notes: value,
+                    );
                   });
                 },
               ),
@@ -949,28 +939,32 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
   }
 
   void _openAddBeansPopup(BuildContext context, String statUuid) {
+    final loc = AppLocalizations.of(context)!;
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+    final userStatProvider = Provider.of<UserStatProvider>(
+      context,
+      listen: false,
+    );
+    final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+      context,
+      listen: false,
+    );
+    final expansionNotifier = Provider.of<CardExpansionNotifier>(
+      context,
+      listen: false,
+    );
     showDialog(
       context: context,
-      builder: (context) {
+      builder: (dialogContext) {
         return AddCoffeeBeansWidget(
           onSelect: (String selectedBeanUuid) async {
-            final loc = AppLocalizations.of(context)!;
             // Get the current stat to know the coffee amount
-            final userStatProvider = Provider.of<UserStatProvider>(
-              context,
-              listen: false,
-            );
             final currentStat = await userStatProvider.fetchUserStatByUuid(
               statUuid,
             );
 
             if (currentStat != null) {
               // Subtract weight from the selected beans
-              final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
-                context,
-                listen: false,
-              );
-
               final newWeight = await coffeeBeansProvider
                   .updateBeanWeightWhenBeansAdded(
                     selectedBeanUuid,
@@ -984,34 +978,32 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                 );
                 final beanName = bean?.name ?? 'Unknown beans';
 
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      loc.beansWeightSubtracted(
-                        currentStat.coffeeAmount.toString(),
-                        beanName,
-                        newWeight.toStringAsFixed(1),
-                        loc.unitGramsShort,
+                if (context.mounted) {
+                  scaffoldMessenger.showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        loc.beansWeightSubtracted(
+                          currentStat.coffeeAmount.toString(),
+                          beanName,
+                          newWeight.toStringAsFixed(1),
+                          loc.unitGramsShort,
+                        ),
                       ),
+                      duration: Duration(seconds: 2),
                     ),
-                    duration: Duration(seconds: 2),
-                  ),
-                );
+                  );
+                }
               }
             }
 
-            await Provider.of<UserStatProvider>(
-              context,
-              listen: false,
-            ).updateUserStat(
+            await userStatProvider.updateUserStat(
               statUuid: statUuid,
               coffeeBeansUuid: selectedBeanUuid,
             );
-            Navigator.of(context).pop(); // Close the dialog
-            Provider.of<CardExpansionNotifier>(
-              context,
-              listen: false,
-            ).addBean(statUuid); // Update the notifier
+            expansionNotifier.addBean(statUuid);
+            if (dialogContext.mounted) {
+              Navigator.of(dialogContext).pop();
+            }
           },
         );
       },
@@ -1027,7 +1019,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
   ) {
     return StatefulBuilder(
       builder: (context, setState) {
-        bool _isLogoHorizontal = false;
+        bool isLogoHorizontal = false;
 
         return FutureBuilder<Map<String, String?>>(
           future: databaseProvider.fetchCachedRoasterLogoUrls(roaster),
@@ -1037,7 +1029,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
             final hasLogo = originalUrl != null || mirrorUrl != null;
 
             // Make plate responsive: square for square logos, wider for horizontal logos
-            final plateWidth = _isLogoHorizontal
+            final plateWidth = isLogoHorizontal
                 ? logoHeight * maxWidthFactor
                 : logoHeight;
             final plateHeight = logoHeight;
@@ -1077,9 +1069,9 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                           borderRadius: 4,
                           forceFit: BoxFit.contain,
                           onAspectRatioDetermined: (isHorizontal) {
-                            if (_isLogoHorizontal != isHorizontal) {
+                            if (isLogoHorizontal != isHorizontal) {
                               setState(() {
-                                _isLogoHorizontal = isHorizontal;
+                                isLogoHorizontal = isHorizontal;
                               });
                             }
                           },
@@ -1093,7 +1085,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                           size: logoHeight - 8, // Account for padding
                           color: Theme.of(
                             context,
-                          ).colorScheme.onSurface.withOpacity(0.55),
+                          ).colorScheme.onSurface.withValues(alpha: 0.55),
                         ),
                       ),
               ),

@@ -19,7 +19,7 @@ class RecipeDetailAppBarActions extends StatelessWidget {
   final Widget favoriteButton;
 
   const RecipeDetailAppBarActions({
-    Key? key,
+    super.key,
     required this.isUserRecipe,
     required this.isSharing,
     required this.idForActions,
@@ -29,7 +29,7 @@ class RecipeDetailAppBarActions extends StatelessWidget {
     this.onShare,
     this.onUnpublish,
     required this.favoriteButton,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

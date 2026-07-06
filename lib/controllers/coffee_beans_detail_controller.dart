@@ -1,13 +1,17 @@
-import 'package:flutter/foundation.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:provider/provider.dart';
 
+import '../database/database.dart';
 import '../models/coffee_beans_model.dart';
 import '../providers/coffee_beans_provider.dart';
 import '../providers/user_stat_provider.dart';
 import '../services/feature_flags/feature_flags_repository.dart';
+import '../services/local_notification_scheduler_service.dart';
 import '../services/roaster_color_service.dart';
+import '../services/roaster_directory_service.dart';
 import '../services/roaster_logo_service.dart';
 import '../app_router.gr.dart';
 import '../utils/app_logger.dart';
@@ -73,11 +77,13 @@ class CoffeeBeansDetailController extends ChangeNotifier {
   String? _errorMessage;
   String? _currentUuid;
   int? _brewsLeft;
+  bool _isDisposed = false;
+  bool _ancillaryRequested = false;
+  bool _ancillaryStarted = false;
 
   // --- Constructor ---
-  CoffeeBeansDetailController({
-    RoasterLogoService? logoService,
-  }) : _logoService = logoService ?? const RoasterLogoService();
+  CoffeeBeansDetailController({RoasterLogoService? logoService})
+    : _logoService = logoService ?? const RoasterLogoService();
 
   // --- Getters ---
 
@@ -148,7 +154,7 @@ class CoffeeBeansDetailController extends ChangeNotifier {
   /// ```
   Future<void> initialize(BuildContext context, String uuid) async {
     _currentUuid = uuid;
-    await loadBean(context, uuid);
+    await loadBean(context, uuid, deferAncillary: true);
   }
 
   // --- Data Loading ---
@@ -183,17 +189,27 @@ class CoffeeBeansDetailController extends ChangeNotifier {
   ///   // Use controller.bean and controller.logoResult
   /// }
   /// ```
-  Future<void> loadBean(BuildContext context, String uuid) async {
+  Future<void> loadBean(
+    BuildContext context,
+    String uuid, {
+    bool deferAncillary = false,
+  }) async {
+    if (_isDisposed || !context.mounted) return;
     _setLoading(true);
     _clearError();
     _brewsLeft = null;
+    _ancillaryStarted = false;
 
     try {
-      final coffeeBeansProvider =
-          Provider.of<CoffeeBeansProvider>(context, listen: false);
+      final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+        context,
+        listen: false,
+      );
 
       // Load bean data
       final bean = await coffeeBeansProvider.fetchCoffeeBeansByUuid(uuid);
+
+      if (_isDisposed || !context.mounted) return;
 
       if (bean == null) {
         _setError('Coffee bean not found');
@@ -202,16 +218,65 @@ class CoffeeBeansDetailController extends ChangeNotifier {
 
       _bean = bean;
       _currentUuid = uuid;
+      _applyCachedBundle(context);
 
-      // Load roaster logos concurrently (don't block on logo loading)
-      _loadRoasterLogos(context, bean.roaster);
-      // Compute brews-left estimate concurrently (don't block on it)
-      _loadBrewsLeft(context, bean);
+      if (!deferAncillary || _ancillaryRequested) {
+        _startAncillaryLoads(context);
+      }
     } catch (error) {
       _setError('Failed to load coffee bean: $error');
     } finally {
       _setLoading(false);
     }
+  }
+
+  /// Fast path: when the roaster bundle is already in memory (the beans list
+  /// fetched it for its cards), apply logo and backend color synchronously so
+  /// the first content frame renders complete — no deferred pop-in, no flash.
+  void _applyCachedBundle(BuildContext context) {
+    final roaster = _bean?.roaster;
+    if (roaster == null || roaster.isEmpty) return;
+    final directory = RoasterDirectoryService.instance;
+    if (!directory.isCached(roaster)) return;
+    final bundle = directory.peekBundle(roaster);
+    final logoResult = RoasterLogoResult.success(
+      originalUrl: bundle?['roaster_logo_url'],
+      mirrorUrl: bundle?['roaster_logo_mirror_url'],
+      dominantColorHex: bundle?['dominant_color_hex'],
+    );
+    _logoResult = logoResult;
+    final flags = Provider.of<FeatureFlagsRepository>(context, listen: false);
+    if (logoResult.hasAnyLogo &&
+        flags.roasterBackendColor &&
+        logoResult.dominantColorHex != null) {
+      _roasterColorResult =
+          RoasterColorService.fromBackendHex(logoResult.dominantColorHex);
+    }
+  }
+
+  /// Called by the screen once the route transition has completed. Kicks off
+  /// the deferred logo/color/brews-left loads so their work and rebuilds do
+  /// not compete with the push animation.
+  void loadAncillaryData(BuildContext context) {
+    _ancillaryRequested = true;
+    if (_isDisposed || !context.mounted) return;
+    if (_bean != null && !_ancillaryStarted) {
+      _startAncillaryLoads(context);
+    }
+  }
+
+  void _startAncillaryLoads(BuildContext context) {
+    _ancillaryStarted = true;
+    // Load roaster logos concurrently (don't block on logo loading), unless
+    // the fast path in _applyCachedBundle already supplied them — then only
+    // fill in color analysis if the backend had no hex yet.
+    if (_logoResult == null) {
+      _loadRoasterLogos(context, _bean!.roaster);
+    } else {
+      _analyzeLogoColorIfNeeded(context);
+    }
+    // Compute brews-left estimate concurrently (don't block on it)
+    _loadBrewsLeft(context, _bean!);
   }
 
   /// Refreshes the current bean data.
@@ -231,7 +296,7 @@ class CoffeeBeansDetailController extends ChangeNotifier {
   /// await controller.refreshData(context);
   /// ```
   Future<void> refreshData(BuildContext context) async {
-    if (_currentUuid != null) {
+    if (!_isDisposed && context.mounted && _currentUuid != null) {
       await loadBean(context, _currentUuid!);
     }
   }
@@ -249,62 +314,88 @@ class CoffeeBeansDetailController extends ChangeNotifier {
   /// Logo loading failures are handled silently to not interfere with
   /// the main bean data display.
   Future<void> _loadRoasterLogos(
-      BuildContext context, String roasterName) async {
+    BuildContext context,
+    String roasterName,
+  ) async {
     try {
-      final logoResult =
-          await _logoService.fetchRoasterLogos(context, roasterName);
+      final flags = Provider.of<FeatureFlagsRepository>(context, listen: false);
+      final logoResult = await _logoService.fetchRoasterLogos(
+        context,
+        roasterName,
+      );
+      if (_isDisposed) return;
       _logoResult = logoResult;
-      notifyListeners();
 
-      // Analyse logo color for screen background tinting (gated by feature flag)
-      final flags =
-          Provider.of<FeatureFlagsRepository>(context, listen: false);
+      // Analyse logo color for screen background tinting (gated by feature
+      // flag). When the hex is already known this is synchronous, so it's
+      // folded into the same notify as the logo result (one rebuild).
       if (logoResult.isSuccess &&
           logoResult.hasAnyLogo &&
-          flags.roasterBackendColor) {
-        final RoasterColorResult colorResult;
-        if (logoResult.dominantColorHex != null) {
-          colorResult =
-              RoasterColorService.fromBackendHex(logoResult.dominantColorHex);
-        } else {
-          colorResult = await RoasterColorService.instance.analyseLogoColor(
-            logoResult.originalUrl,
-            logoResult.mirrorUrl,
-          );
-        }
-        _roasterColorResult = colorResult;
-        notifyListeners();
+          flags.roasterBackendColor &&
+          logoResult.dominantColorHex != null) {
+        _roasterColorResult = RoasterColorService.fromBackendHex(
+          logoResult.dominantColorHex,
+        );
       }
+      _notifyListeners();
+
+      await _analyzeLogoColorIfNeeded(context);
     } catch (error) {
       // Logo loading failures are handled silently
       // The UI will show fallback icons instead
       AppLogger.debug(
-          '[CoffeeBeansDetailController] Failed to load roaster logos for $roasterName: $error');
+        '[CoffeeBeansDetailController] Failed to load roaster logos for $roasterName: $error',
+      );
     }
+  }
+
+  /// Runs client-side logo color analysis when the backend hasn't supplied a
+  /// dominant-color hex yet. No-op when there's no logo, the flag is off, or
+  /// a color result is already in hand (e.g. from the warm-cache fast path or
+  /// a backend hex applied above).
+  Future<void> _analyzeLogoColorIfNeeded(BuildContext context) async {
+    final logoResult = _logoResult;
+    if (logoResult == null ||
+        !logoResult.isSuccess ||
+        !logoResult.hasAnyLogo ||
+        _roasterColorResult != null ||
+        logoResult.dominantColorHex != null) {
+      return;
+    }
+    final flags = Provider.of<FeatureFlagsRepository>(context, listen: false);
+    if (!flags.roasterBackendColor) return;
+    final colorResult = await RoasterColorService.instance.analyseLogoColor(
+      logoResult.originalUrl,
+      logoResult.mirrorUrl,
+    );
+    if (_isDisposed) return;
+    _roasterColorResult = colorResult;
+    _notifyListeners();
   }
 
   /// Computes the estimated remaining brews for the loaded bean using the
   /// user's brewing history. Failures are swallowed: this is a best-effort
   /// hint, never a blocker for the screen.
   Future<void> _loadBrewsLeft(
-      BuildContext context, CoffeeBeansModel bean) async {
+    BuildContext context,
+    CoffeeBeansModel bean,
+  ) async {
     final uuid = bean.beansUuid;
-    if (uuid == null) {
-      _brewsLeft = null;
-      notifyListeners();
-      return;
-    }
     try {
-      final userStatProvider =
-          Provider.of<UserStatProvider>(context, listen: false);
+      final userStatProvider = Provider.of<UserStatProvider>(
+        context,
+        listen: false,
+      );
       _brewsLeft = await userStatProvider.estimateBrewsLeft(
         beansUuid: uuid,
         packageWeightGrams: bean.validatedPackageWeightGrams,
       );
-      notifyListeners();
+      if (_isDisposed) return;
+      _notifyListeners();
     } catch (error) {
       AppLogger.debug(
-          '[CoffeeBeansDetailController] Failed to compute brews left: $error');
+        '[CoffeeBeansDetailController] Failed to compute brews left: $error',
+      );
       _brewsLeft = null;
     }
   }
@@ -322,7 +413,7 @@ class CoffeeBeansDetailController extends ChangeNotifier {
   /// - [context]: BuildContext for accessing providers
   ///
   /// **Returns:**
-  /// A Future<bool> indicating whether the operation was successful
+  /// A `Future<bool>` indicating whether the operation was successful
   ///
   /// **Error Handling:**
   /// - Database errors are caught and reported through error state
@@ -345,17 +436,20 @@ class CoffeeBeansDetailController extends ChangeNotifier {
     }
 
     try {
-      final coffeeBeansProvider =
-          Provider.of<CoffeeBeansProvider>(context, listen: false);
+      final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+        context,
+        listen: false,
+      );
 
       final newFavoriteStatus = !_bean!.isFavorite;
 
       await coffeeBeansProvider.toggleFavoriteStatus(
-        _bean!.beansUuid!,
+        _bean!.beansUuid,
         newFavoriteStatus,
       );
 
       // Refresh data to get updated state
+      if (_isDisposed || !context.mounted) return true;
       await refreshData(context);
 
       return true;
@@ -398,28 +492,36 @@ class CoffeeBeansDetailController extends ChangeNotifier {
     try {
       final sanitizedUuid = AppLogger.sanitize(_bean!.beansUuid);
       AppLogger.debug(
-          '[CoffeeBeansDetailController] Navigating to edit screen for UUID: $sanitizedUuid');
-      final result = await context.router.push(
-        NewBeansRoute(uuid: _bean!.beansUuid!),
+        '[CoffeeBeansDetailController] Navigating to edit screen for UUID: $sanitizedUuid',
       );
+      final result = await context.router.push(
+        NewBeansRoute(uuid: _bean!.beansUuid),
+      );
+
+      if (_isDisposed || !context.mounted) return;
 
       final sanitizedResult = AppLogger.sanitize(result);
       AppLogger.debug(
-          '[CoffeeBeansDetailController] Returned from edit screen with result: $sanitizedResult (type: ${result.runtimeType})');
+        '[CoffeeBeansDetailController] Returned from edit screen with result: $sanitizedResult (type: ${result.runtimeType})',
+      );
 
       // Refresh data if the edit was successful
       if (result is String) {
         AppLogger.debug(
-            '[CoffeeBeansDetailController] Result is String, refreshing data...');
+          '[CoffeeBeansDetailController] Result is String, refreshing data...',
+        );
         await refreshData(context);
         AppLogger.debug('[CoffeeBeansDetailController] Data refresh completed');
       } else {
         AppLogger.debug(
-            '[CoffeeBeansDetailController] Result is not String, skipping refresh. Result: $sanitizedResult');
+          '[CoffeeBeansDetailController] Result is not String, skipping refresh. Result: $sanitizedResult',
+        );
       }
     } catch (error) {
-      AppLogger.error('[CoffeeBeansDetailController] Error in navigateToEdit',
-          errorObject: error);
+      AppLogger.error(
+        '[CoffeeBeansDetailController] Error in navigateToEdit',
+        errorObject: error,
+      );
       _setError('Failed to navigate to edit screen: $error');
     }
   }
@@ -430,21 +532,21 @@ class CoffeeBeansDetailController extends ChangeNotifier {
   void _setLoading(bool loading) {
     if (_isLoading != loading) {
       _isLoading = loading;
-      notifyListeners();
+      _notifyListeners();
     }
   }
 
   /// Sets an error message and notifies listeners.
   void _setError(String message) {
     _errorMessage = message;
-    notifyListeners();
+    _notifyListeners();
   }
 
   /// Clears the current error state.
   void _clearError() {
     if (_errorMessage != null) {
       _errorMessage = null;
-      notifyListeners();
+      _notifyListeners();
     }
   }
 
@@ -466,8 +568,12 @@ class CoffeeBeansDetailController extends ChangeNotifier {
 
   @override
   void dispose() {
-    // Clean up any resources if needed
+    _isDisposed = true;
     super.dispose();
+  }
+
+  void _notifyListeners() {
+    if (!_isDisposed) notifyListeners();
   }
 
   /// Sets the package weight to 0 grams for the current bean
@@ -478,13 +584,32 @@ class CoffeeBeansDetailController extends ChangeNotifier {
     }
 
     try {
-      final coffeeBeansProvider =
-          Provider.of<CoffeeBeansProvider>(context, listen: false);
+      final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+        context,
+        listen: false,
+      );
 
+      final beansUuid = _bean!.beansUuid;
       final updatedBeans = _bean!.copyWith(packageWeightGrams: 0.0);
       await coffeeBeansProvider.updateCoffeeBeans(updatedBeans);
 
+      // Manually emptied the bag — fire the depletion review nudge (best-effort;
+      // all eligibility gating lives inside the scheduler).
+      if (context.mounted) {
+        final database = Provider.of<AppDatabase>(context, listen: false);
+        final locale = Localizations.localeOf(context).languageCode;
+        unawaited(
+          LocalNotificationSchedulerService.instance
+              .maybeScheduleBeanReviewNudgeOnDepletion(
+                database: database,
+                beansUuid: beansUuid,
+                locale: locale,
+              ),
+        );
+      }
+
       // Refresh data to get updated state
+      if (_isDisposed || !context.mounted) return true;
       await refreshData(context);
 
       return true;
@@ -507,8 +632,10 @@ class CoffeeBeansDetailController extends ChangeNotifier {
     if (_bean == null) return false;
 
     try {
-      final coffeeBeansProvider =
-          Provider.of<CoffeeBeansProvider>(context, listen: false);
+      final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+        context,
+        listen: false,
+      );
       var updatedBeans = _bean!;
       if (notes != null) {
         updatedBeans = updatedBeans.copyWith(notes: notes.trim());
@@ -517,6 +644,7 @@ class CoffeeBeansDetailController extends ChangeNotifier {
         updatedBeans = updatedBeans.copyWith(grindSize: grindSize.trim());
       }
       await coffeeBeansProvider.updateCoffeeBeans(updatedBeans);
+      if (_isDisposed || !context.mounted) return true;
       await refreshData(context);
       return true;
     } catch (error) {
@@ -535,9 +663,11 @@ class CoffeeBeansDetailController extends ChangeNotifier {
     }
 
     try {
-      final coffeeBeansProvider =
-          Provider.of<CoffeeBeansProvider>(context, listen: false);
-      await coffeeBeansProvider.deleteCoffeeBeans(_bean!.beansUuid!);
+      final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+        context,
+        listen: false,
+      );
+      await coffeeBeansProvider.deleteCoffeeBeans(_bean!.beansUuid);
       return true;
     } catch (error) {
       _setError('Failed to delete coffee bean: $error');

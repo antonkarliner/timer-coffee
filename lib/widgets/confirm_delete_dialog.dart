@@ -9,12 +9,12 @@ class ConfirmDeleteDialog extends StatelessWidget {
   final String cancelLabel;
 
   const ConfirmDeleteDialog({
-    Key? key,
+    super.key,
     required this.title,
     required this.content,
     required this.confirmLabel,
     required this.cancelLabel,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

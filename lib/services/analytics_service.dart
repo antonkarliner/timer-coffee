@@ -25,9 +25,9 @@ import '../utils/app_logger.dart';
 /// - **general**: app_opened, screen_viewed, recipe_created, recipe_shared,
 ///   collection interactions and sharing, donation_screen_viewed,
 ///   donation_button_tapped, donation_completed, donation_failed,
-///   roaster_profile_viewed, roaster_link_tapped, and the "moments"
-///   (surprise-and-delight) events moment_shown, moment_interacted,
-///   moment_discovered
+///   roaster_profile_viewed, roaster_link_tapped, roaster_contribution_shown/
+///   _submitted/_dismissed, and the "moments" (surprise-and-delight) events
+///   moment_shown, moment_interacted, moment_discovered
 class AnalyticsService extends ChangeNotifier {
   AnalyticsService._();
 
@@ -96,6 +96,10 @@ class AnalyticsService extends ChangeNotifier {
     // Roaster profiles
     'roaster_profile_viewed': 'general',
     'roaster_link_tapped': 'general',
+    // Roaster website crowdsourcing (plan 011)
+    'roaster_contribution_prompt_shown': 'general',
+    'roaster_contribution_submitted': 'general',
+    'roaster_contribution_dismissed': 'general',
     // Onboarding & journey
     'onboarding_completed': 'general',
     'journey_started': 'general',
@@ -108,6 +112,8 @@ class AnalyticsService extends ChangeNotifier {
     // Notification engagement
     'notification_tapped': 'general',
     'notification_scheduled': 'general',
+    'notification_presumed_delivered': 'general',
+    'notification_cancelled': 'general',
     // Advanced / beta feature toggles
     'beta_feature_toggled': 'general',
     // Moments (surprise-and-delight / easter eggs)

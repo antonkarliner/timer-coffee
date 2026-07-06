@@ -30,12 +30,12 @@ class RecipeCreationScreen extends StatefulWidget {
   final bool popWithResultOnSave;
 
   const RecipeCreationScreen({
-    Key? key,
+    super.key,
     this.recipe,
     this.brewingMethodId,
     this.redirectToNewDetailOnSave = false,
     this.popWithResultOnSave = false,
-  }) : super(key: key);
+  });
 
   @override
   State<RecipeCreationScreen> createState() => _RecipeCreationScreenState();
@@ -370,6 +370,7 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
 
   Future<void> _handleAiReviewChanged(bool value) async {
     final prefs = await SharedPreferences.getInstance();
+    if (!mounted) return;
 
     if (!value) {
       setState(() => _useAiReview = false);

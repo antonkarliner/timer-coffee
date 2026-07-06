@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../theme/design_tokens.dart';
 import 'labeled_field.dart';
 import '../../l10n/app_localizations.dart';
 
@@ -56,7 +55,7 @@ class NumericTextField extends StatefulWidget {
   final FocusNode? focusNode;
 
   const NumericTextField({
-    Key? key,
+    super.key,
     required this.label,
     this.hintText,
     this.helperText,
@@ -73,7 +72,7 @@ class NumericTextField extends StatefulWidget {
     this.max,
     this.semanticIdentifier,
     this.focusNode,
-  }) : super(key: key);
+  });
 
   @override
   State<NumericTextField> createState() => _NumericTextFieldState();
@@ -188,13 +187,15 @@ class _NumericTextFieldState extends State<NumericTextField> {
     }
 
     if (widget.min != null && numericValue < widget.min!) {
-      return AppLocalizations.of(context)!
-          .numericFieldMinValueError(widget.min!);
+      return AppLocalizations.of(
+        context,
+      )!.numericFieldMinValueError(widget.min!);
     }
 
     if (widget.max != null && numericValue > widget.max!) {
-      return AppLocalizations.of(context)!
-          .numericFieldMaxValueError(widget.max!);
+      return AppLocalizations.of(
+        context,
+      )!.numericFieldMaxValueError(widget.max!);
     }
 
     // Call custom validator if provided
@@ -222,7 +223,8 @@ class _NumericTextFieldState extends State<NumericTextField> {
       controller: _controller,
       inputFormatters: [
         FilteringTextInputFormatter.allow(
-            RegExp(widget.allowDecimal ? r'^\d+\.?\d*' : r'^\d+')),
+          RegExp(widget.allowDecimal ? r'^\d+\.?\d*' : r'^\d+'),
+        ),
       ],
       validator: _validateInput,
       onChanged: (value) {

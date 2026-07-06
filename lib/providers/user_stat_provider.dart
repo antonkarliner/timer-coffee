@@ -9,7 +9,6 @@ import '../database/database.dart';
 import 'coffee_beans_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:collection/collection.dart';
 import '../utils/app_logger.dart';
 
 class UserStatProvider extends ChangeNotifier {
@@ -82,8 +81,10 @@ class UserStatProvider extends ChangeNotifier {
         } on TimeoutException catch (e) {
           AppLogger.error('Supabase request timed out', errorObject: e);
         } catch (e) {
-          AppLogger.error('Error syncing new user stat to Supabase',
-              errorObject: e);
+          AppLogger.error(
+            'Error syncing new user stat to Supabase',
+            errorObject: e,
+          );
         }
       }());
     }
@@ -110,12 +111,15 @@ class UserStatProvider extends ChangeNotifier {
     bool clearBeans = false,
   }) async {
     AppLogger.debug(
-        'updateUserStat called with statUuid: ${AppLogger.sanitize(statUuid)}, coffeeBeansUuid: ${AppLogger.sanitize(coffeeBeansUuid)}');
+      'updateUserStat called with statUuid: ${AppLogger.sanitize(statUuid)}, coffeeBeansUuid: ${AppLogger.sanitize(coffeeBeansUuid)}',
+    );
 
     final currentStat = await db.userStatsDao.fetchStatByUuid(statUuid);
     if (currentStat == null) {
-      AppLogger.error('Stat not found for UUID',
-          errorObject: AppLogger.sanitize(statUuid));
+      AppLogger.error(
+        'Stat not found for UUID',
+        errorObject: AppLogger.sanitize(statUuid),
+      );
       throw Exception('Stat not found');
     }
 
@@ -144,7 +148,8 @@ class UserStatProvider extends ChangeNotifier {
 
     if (clearBeans) {
       AppLogger.debug(
-          'Clearing beans for stat ${AppLogger.sanitize(statUuid)}');
+        'Clearing beans for stat ${AppLogger.sanitize(statUuid)}',
+      );
       updatedStat = UserStatsModel(
         statUuid: currentStat.statUuid,
         id: currentStat.id,
@@ -176,7 +181,8 @@ class UserStatProvider extends ChangeNotifier {
     // Force a refresh of the stat
     final refreshedStat = await db.userStatsDao.fetchStatByUuid(statUuid);
     AppLogger.debug(
-        'Refreshed stat after update: ${AppLogger.sanitize(refreshedStat)}');
+      'Refreshed stat after update: ${AppLogger.sanitize(refreshedStat)}',
+    );
 
     // Remote sync is best-effort and fire-and-forget — never block the caller on
     // the network. Local DB is the source of truth; syncNewUserStats() reconciles.
@@ -194,8 +200,10 @@ class UserStatProvider extends ChangeNotifier {
         } on TimeoutException catch (e) {
           AppLogger.error('Supabase request timed out', errorObject: e);
         } catch (e) {
-          AppLogger.error('Error syncing updated user stat to Supabase',
-              errorObject: e);
+          AppLogger.error(
+            'Error syncing updated user stat to Supabase',
+            errorObject: e,
+          );
         }
       }());
     }
@@ -207,8 +215,10 @@ class UserStatProvider extends ChangeNotifier {
   Future<void> deleteUserStat(String statUuid) async {
     final currentStat = await db.userStatsDao.fetchStatByUuid(statUuid);
     if (currentStat == null) {
-      AppLogger.error('Stat not found for UUID',
-          errorObject: AppLogger.sanitize(statUuid));
+      AppLogger.error(
+        'Stat not found for UUID',
+        errorObject: AppLogger.sanitize(statUuid),
+      );
       throw Exception('Stat not found');
     }
 
@@ -239,8 +249,10 @@ class UserStatProvider extends ChangeNotifier {
         } on TimeoutException catch (e) {
           AppLogger.error('Supabase operation timed out', errorObject: e);
         } catch (e) {
-          AppLogger.error('Error marking user stat as deleted in Supabase',
-              errorObject: e);
+          AppLogger.error(
+            'Error marking user stat as deleted in Supabase',
+            errorObject: e,
+          );
         }
       }());
     }
@@ -251,8 +263,6 @@ class UserStatProvider extends ChangeNotifier {
   Future<List<UserStatsModel>> fetchAllUserStats() async {
     return await db.userStatsDao.fetchAllStats();
   }
-
-
 
   Future<UserStatsModel?> fetchUserStatByUuid(String statUuid) async {
     return await db.userStatsDao.fetchStatByUuid(statUuid);
@@ -273,9 +283,12 @@ class UserStatProvider extends ChangeNotifier {
     required double? packageWeightGrams,
   }) async {
     if (packageWeightGrams == null || packageWeightGrams <= 0) return null;
-    final perBean = await db.userStatsDao
-        .medianCoffeeAmountForBean(beansUuid, minBrews: 3);
-    final dose = perBean ??
+    final perBean = await db.userStatsDao.medianCoffeeAmountForBean(
+      beansUuid,
+      minBrews: 3,
+    );
+    final dose =
+        perBean ??
         await db.userStatsDao.medianCoffeeAmountSince(
           DateTime.now().toUtc().subtract(const Duration(days: 90)),
           minBrews: 3,
@@ -324,8 +337,10 @@ class UserStatProvider extends ChangeNotifier {
         AppLogger.error('Supabase batch upload timed out', errorObject: e);
         // Continue gracefully - some stats may sync later
       } catch (e) {
-        AppLogger.error('Error uploading batch ${i ~/ batchSize + 1}',
-            errorObject: e);
+        AppLogger.error(
+          'Error uploading batch ${i ~/ batchSize + 1}',
+          errorObject: e,
+        );
       }
     }
 
@@ -368,7 +383,8 @@ class UserStatProvider extends ChangeNotifier {
         await db.userStatsDao.insertOrUpdateMultipleStats(remoteStats);
       }
       AppLogger.debug(
-          'Downloaded and updated ${remoteStats.length} stats via pagination');
+        'Downloaded and updated ${remoteStats.length} stats via pagination',
+      );
     } on TimeoutException catch (e) {
       AppLogger.error('Supabase stats download timed out', errorObject: e);
       // Continue with local data if remote fetch fails
@@ -390,12 +406,16 @@ class UserStatProvider extends ChangeNotifier {
   }
 
   Future<double> fetchBrewedCoffeeAmountForPeriod(
-      DateTime start, DateTime end) async {
+    DateTime start,
+    DateTime end,
+  ) async {
     return await db.userStatsDao.fetchBrewedCoffeeAmount(start, end);
   }
 
   Future<List<String>> fetchTopRecipeIdsForPeriod(
-      DateTime start, DateTime end) async {
+    DateTime start,
+    DateTime end,
+  ) async {
     return await db.userStatsDao.fetchTopRecipes(start, end);
   }
 
@@ -435,16 +455,20 @@ class UserStatProvider extends ChangeNotifier {
 
     for (final stat in statsToUpdate) {
       if (stat.coffeeBeansId != null) {
-        final coffeeBeans =
-            await coffeeBeansProvider.fetchCoffeeBeansById(stat.coffeeBeansId!);
-        if (coffeeBeans != null && coffeeBeans.beansUuid != null) {
-          updates.add(UserStatsCompanion(
-            id: Value(stat.id),
-            coffeeBeansUuid: Value(coffeeBeans.beansUuid),
-          ));
+        final coffeeBeans = await coffeeBeansProvider.fetchCoffeeBeansById(
+          stat.coffeeBeansId!,
+        );
+        if (coffeeBeans != null) {
+          updates.add(
+            UserStatsCompanion(
+              id: Value(stat.id),
+              coffeeBeansUuid: Value(coffeeBeans.beansUuid),
+            ),
+          );
         } else {
           AppLogger.warning(
-              'Coffee beans not found or missing UUID for ID: ${AppLogger.sanitize(stat.coffeeBeansId)}');
+            'Coffee beans not found or missing UUID for ID: ${AppLogger.sanitize(stat.coffeeBeansId)}',
+          );
         }
       }
     }
@@ -452,15 +476,16 @@ class UserStatProvider extends ChangeNotifier {
     if (updates.isNotEmpty) {
       await db.userStatsDao.batchUpdateCoffeeBeansUuids(updates);
       AppLogger.debug(
-          'Updated ${updates.length} UserStats records with coffee beans UUIDs.');
+        'Updated ${updates.length} UserStats records with coffee beans UUIDs.',
+      );
     }
 
     notifyListeners();
   }
 
   Future<void> backfillMissingStatUuids() async {
-    final statsToUpdate =
-        await db.userStatsDao.fetchStatsNeedingStatUuidUpdate();
+    final statsToUpdate = await db.userStatsDao
+        .fetchStatsNeedingStatUuidUpdate();
 
     if (statsToUpdate.isEmpty) {
       AppLogger.debug('No UserStats records need updating.');
@@ -477,16 +502,16 @@ class UserStatProvider extends ChangeNotifier {
       } while (generatedUuids.contains(newUuid));
       generatedUuids.add(newUuid);
 
-      updates.add(UserStatsCompanion(
-        id: Value(stat.id),
-        statUuid: Value(newUuid),
-      ));
+      updates.add(
+        UserStatsCompanion(id: Value(stat.id), statUuid: Value(newUuid)),
+      );
     }
 
     if (updates.isNotEmpty) {
       await db.userStatsDao.batchUpdateStatUuids(updates);
       AppLogger.debug(
-          'Updated ${updates.length} UserStats records with new UUIDv7s.');
+        'Updated ${updates.length} UserStats records with new UUIDv7s.',
+      );
     }
 
     notifyListeners();
@@ -501,8 +526,8 @@ class UserStatProvider extends ChangeNotifier {
 
     try {
       // Fetch all local stats, including deleted ones
-      final localStats =
-          await db.userStatsDao.fetchAllStatsWithVersionVectors();
+      final localStats = await db.userStatsDao
+          .fetchAllStatsWithVersionVectors();
 
       AppLogger.debug('Local stats present: ${localStats.length}');
 
@@ -510,7 +535,8 @@ class UserStatProvider extends ChangeNotifier {
       final localStatsMap = {for (var stat in localStats) stat.statUuid: stat};
 
       // Fetch all remote stats, including deleted ones, with pagination
-      final remoteStatsInfo = <({String statUuid, String versionVector, bool isDeleted})>[];
+      final remoteStatsInfo =
+          <({String statUuid, String versionVector, bool isDeleted})>[];
       var from = 0;
 
       while (true) {
@@ -522,11 +548,13 @@ class UserStatProvider extends ChangeNotifier {
             .timeout(NetworkTimeouts.smallSync);
 
         final batch = (response as List<dynamic>)
-            .map((json) => (
-                  statUuid: json['stat_uuid'] as String,
-                  versionVector: json['version_vector'] as String,
-                  isDeleted: json['is_deleted'] as bool,
-                ))
+            .map(
+              (json) => (
+                statUuid: json['stat_uuid'] as String,
+                versionVector: json['version_vector'] as String,
+                isDeleted: json['is_deleted'] as bool,
+              ),
+            )
             .toList();
 
         remoteStatsInfo.addAll(batch);
@@ -539,17 +567,20 @@ class UserStatProvider extends ChangeNotifier {
       }
 
       AppLogger.debug(
-          'Remote stats metadata fetched: ${remoteStatsInfo.length} records');
+        'Remote stats metadata fetched: ${remoteStatsInfo.length} records',
+      );
 
       // Prepare lists for updates
       final List<String> localUpdates = [];
       final List<UserStatsModel> remoteUpdates = [];
 
-      final nonDeletedRemote =
-          remoteStatsInfo.where((r) => r.isDeleted == false).length;
+      final nonDeletedRemote = remoteStatsInfo
+          .where((r) => r.isDeleted == false)
+          .length;
       final deletedRemote = remoteStatsInfo.length - nonDeletedRemote;
       AppLogger.debug(
-          'Remote stats split -> non-deleted: $nonDeletedRemote, deleted: $deletedRemote');
+        'Remote stats split -> non-deleted: $nonDeletedRemote, deleted: $deletedRemote',
+      );
 
       // Fast path: fresh install / empty local DB -> download all non-deleted remote stats
       if (localStats.isEmpty && nonDeletedRemote > 0) {
@@ -560,7 +591,8 @@ class UserStatProvider extends ChangeNotifier {
 
         final fullRemote = await _fetchFullRemoteStats(idsToFetch);
         AppLogger.debug(
-            'Fresh restore: fetching all remote stats (${fullRemote.length})');
+          'Fresh restore: fetching all remote stats (${fullRemote.length})',
+        );
         await _insertStatsWithFallback(fullRemote);
         notifyListeners();
         return;
@@ -569,8 +601,9 @@ class UserStatProvider extends ChangeNotifier {
       // Compare version vectors and handle deletions
       for (final remoteStat in remoteStatsInfo) {
         final localStat = localStatsMap[remoteStat.statUuid];
-        final remoteVersionVector =
-            VersionVector.fromString(remoteStat.versionVector);
+        final remoteVersionVector = VersionVector.fromString(
+          remoteStat.versionVector,
+        );
 
         if (localStat == null) {
           if (!remoteStat.isDeleted) {
@@ -579,8 +612,9 @@ class UserStatProvider extends ChangeNotifier {
           }
           // If the remote stat is deleted and doesn't exist locally, no action needed
         } else {
-          final localVersionVector =
-              VersionVector.fromString(localStat.versionVector);
+          final localVersionVector = VersionVector.fromString(
+            localStat.versionVector,
+          );
 
           if (_isRemoteNewer(localVersionVector, remoteVersionVector)) {
             // Remote is newer, update local
@@ -604,15 +638,18 @@ class UserStatProvider extends ChangeNotifier {
       }
 
       // Check for new local stats not present in remote
-      final newLocalStats = localStats.where((stat) =>
-          !remoteStatsInfo.any((remote) => remote.statUuid == stat.statUuid));
+      final newLocalStats = localStats.where(
+        (stat) =>
+            !remoteStatsInfo.any((remote) => remote.statUuid == stat.statUuid),
+      );
       remoteUpdates.addAll(newLocalStats);
 
       // Perform local updates with enhanced error handling
       if (localUpdates.isNotEmpty) {
         final updatedRemoteStats = await _fetchFullRemoteStats(localUpdates);
         AppLogger.debug(
-            'Fetched ${updatedRemoteStats.length} full remote stats for local update');
+          'Fetched ${updatedRemoteStats.length} full remote stats for local update',
+        );
         await _insertStatsWithFallback(updatedRemoteStats);
       }
 
@@ -622,7 +659,8 @@ class UserStatProvider extends ChangeNotifier {
       }
 
       AppLogger.debug(
-          'Sync completed. Remote metadata: ${remoteStatsInfo.length}, Local updates (downloaded): ${localUpdates.length}, Remote updates (uploaded): ${remoteUpdates.length}');
+        'Sync completed. Remote metadata: ${remoteStatsInfo.length}, Local updates (downloaded): ${localUpdates.length}, Remote updates (uploaded): ${remoteUpdates.length}',
+      );
     } catch (e) {
       AppLogger.error('Error syncing user stats', errorObject: e);
     }
@@ -635,27 +673,33 @@ class UserStatProvider extends ChangeNotifier {
     if (stats.isEmpty) return;
 
     AppLogger.debug(
-        'Attempting to insert ${stats.length} stats with enhanced error handling');
+      'Attempting to insert ${stats.length} stats with enhanced error handling',
+    );
 
     // Phase 1: Try fast batch insert
-    final batchResult =
-        await db.userStatsDao.insertOrUpdateMultipleStatsWithFeedback(stats);
+    final batchResult = await db.userStatsDao
+        .insertOrUpdateMultipleStatsWithFeedback(stats);
 
     if (batchResult.success) {
       AppLogger.debug(
-          'Successfully inserted all ${stats.length} stats in batch');
+        'Successfully inserted all ${stats.length} stats in batch',
+      );
       return;
     }
 
     AppLogger.debug(
-        'Batch insert failed, falling back to individual processing');
+      'Batch insert failed, falling back to individual processing',
+    );
     AppLogger.debug('Failed stats count: ${batchResult.failedStats.length}');
 
     // Phase 2: Validate recipe references for failed stats
-    final failedRecipeIds =
-        batchResult.failedStats.map((s) => s.recipeId).toSet().toList();
-    final recipeValidation =
-        await db.userStatsDao.validateRecipeReferences(failedRecipeIds);
+    final failedRecipeIds = batchResult.failedStats
+        .map((s) => s.recipeId)
+        .toSet()
+        .toList();
+    final recipeValidation = await db.userStatsDao.validateRecipeReferences(
+      failedRecipeIds,
+    );
 
     final validStats = <UserStatsModel>[];
     final individualProcessingStats = <UserStatsModel>[];
@@ -670,7 +714,8 @@ class UserStatProvider extends ChangeNotifier {
       } else {
         // Recipe doesn't exist, handle individually with fallback
         AppLogger.warning(
-            'Stat ${AppLogger.sanitize(stat.statUuid)} references missing recipe ${AppLogger.sanitize(stat.recipeId)}');
+          'Stat ${AppLogger.sanitize(stat.statUuid)} references missing recipe ${AppLogger.sanitize(stat.recipeId)}',
+        );
         individualProcessingStats.add(stat);
       }
     }
@@ -678,14 +723,17 @@ class UserStatProvider extends ChangeNotifier {
     // Phase 3: Retry batch insert with valid stats
     if (validStats.isNotEmpty) {
       AppLogger.debug(
-          'Retrying batch insert with ${validStats.length} valid stats');
+        'Retrying batch insert with ${validStats.length} valid stats',
+      );
       try {
         await db.userStatsDao.insertOrUpdateMultipleStats(validStats);
         AppLogger.debug(
-            'Successfully inserted ${validStats.length} valid stats in batch retry');
+          'Successfully inserted ${validStats.length} valid stats in batch retry',
+        );
       } catch (e) {
         AppLogger.debug(
-            'Batch retry also failed, falling back to individual processing for valid stats');
+          'Batch retry also failed, falling back to individual processing for valid stats',
+        );
         individualProcessingStats.addAll(validStats);
       }
     }
@@ -693,19 +741,23 @@ class UserStatProvider extends ChangeNotifier {
     // Phase 4: Individual processing for truly problematic stats
     if (individualProcessingStats.isNotEmpty) {
       AppLogger.debug(
-          'Processing ${individualProcessingStats.length} stats individually');
+        'Processing ${individualProcessingStats.length} stats individually',
+      );
 
       for (final stat in individualProcessingStats) {
         try {
           await db.userStatsDao.insertUserStatWithFallback(stat);
           AppLogger.debug(
-              'Successfully processed stat ${AppLogger.sanitize(stat.statUuid)} individually');
+            'Successfully processed stat ${AppLogger.sanitize(stat.statUuid)} individually',
+          );
         } catch (e) {
           AppLogger.error(
-              'Failed to process stat ${AppLogger.sanitize(stat.statUuid)} individually',
-              errorObject: e);
+            'Failed to process stat ${AppLogger.sanitize(stat.statUuid)} individually',
+            errorObject: e,
+          );
           AppLogger.debug(
-              'Original recipe ID: ${AppLogger.sanitize(stat.recipeId)}');
+            'Original recipe ID: ${AppLogger.sanitize(stat.recipeId)}',
+          );
           skippedCount++;
         }
       }
@@ -714,9 +766,11 @@ class UserStatProvider extends ChangeNotifier {
     AppLogger.debug('Stats insertion summary:');
     AppLogger.debug('- Total attempted: ${stats.length}');
     AppLogger.debug(
-        '- Batch successful: ${stats.length - batchResult.failedStats.length}');
+      '- Batch successful: ${stats.length - batchResult.failedStats.length}',
+    );
     AppLogger.debug(
-        '- Individual processing: ${individualProcessingStats.length}');
+      '- Individual processing: ${individualProcessingStats.length}',
+    );
     AppLogger.debug('- Skipped: $skippedCount');
   }
 
@@ -729,7 +783,8 @@ class UserStatProvider extends ChangeNotifier {
   }
 
   Future<List<UserStatsModel>> _fetchFullRemoteStats(
-      List<String> statUuids) async {
+    List<String> statUuids,
+  ) async {
     try {
       final results = <UserStatsModel>[];
       const chunkSize = 200;
@@ -744,15 +799,21 @@ class UserStatProvider extends ChangeNotifier {
               .inFilter('stat_uuid', chunk)
               .timeout(NetworkTimeouts.smallSync);
 
-          results.addAll((response as List<dynamic>)
-              .map((json) => _jsonToUserStatsModel(json))
-              .toList());
+          results.addAll(
+            (response as List<dynamic>)
+                .map((json) => _jsonToUserStatsModel(json))
+                .toList(),
+          );
         } on TimeoutException catch (e) {
-          AppLogger.error('Supabase remote stats fetch timed out for chunk',
-              errorObject: e);
+          AppLogger.error(
+            'Supabase remote stats fetch timed out for chunk',
+            errorObject: e,
+          );
         } catch (e) {
-          AppLogger.error('Error fetching full remote stats chunk',
-              errorObject: e);
+          AppLogger.error(
+            'Error fetching full remote stats chunk',
+            errorObject: e,
+          );
         }
       }
 
@@ -782,14 +843,17 @@ class UserStatProvider extends ChangeNotifier {
             .timeout(NetworkTimeouts.smallSync);
 
         AppLogger.debug(
-            'Uploaded ${chunk.length} stats to Supabase (chunk ${(i ~/ chunkSize) + 1})');
+          'Uploaded ${chunk.length} stats to Supabase (chunk ${(i ~/ chunkSize) + 1})',
+        );
       } catch (e) {
         if (e is TimeoutException) {
           AppLogger.error('Supabase operation timed out', errorObject: e);
           // Handle the timeout if needed
         } else {
-          AppLogger.error('Error updating user stats in Supabase',
-              errorObject: e);
+          AppLogger.error(
+            'Error updating user stats in Supabase',
+            errorObject: e,
+          );
           // Handle other exceptions
         }
       }

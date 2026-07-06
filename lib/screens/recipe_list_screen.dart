@@ -17,9 +17,9 @@ class RecipeListScreen extends StatefulWidget {
   final String? brewingMethodId;
 
   const RecipeListScreen({
-    Key? key,
+    super.key,
     @PathParam('brewingMethodId') this.brewingMethodId,
-  }) : super(key: key);
+  });
 
   @override
   State<RecipeListScreen> createState() => _RecipeListScreenState();
@@ -65,17 +65,22 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
   }
 
   Future<void> _deleteRecipe(RecipeModel recipe) async {
+    final userRecipeProvider =
+        Provider.of<UserRecipeProvider>(context, listen: false);
+    final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
+
     try {
-      await Provider.of<UserRecipeProvider>(context, listen: false)
-          .deleteUserRecipe(recipe.id);
-      await Provider.of<RecipeProvider>(context, listen: false)
-          .fetchAllRecipes();
+      await userRecipeProvider.deleteUserRecipe(recipe.id);
+      await recipeProvider.fetchAllRecipes();
+      if (!mounted) return;
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text(
                 AppLocalizations.of(context)!.recipeDeletedSuccess)), // Changed
       );
     } catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text(AppLocalizations.of(context)!
@@ -215,8 +220,8 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
                                           AppLocalizations.of(context)!.cancel,
                                     ),
                                   );
-                                  if (confirmed == true) {
-                                    _deleteRecipe(recipe);
+                                  if (confirmed == true && mounted) {
+                                    await _deleteRecipe(recipe);
                                   }
                                 },
                               ),
@@ -308,6 +313,7 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
   }
 
   void navigateToRecipeDetail(RecipeModel recipe) async {
+    final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -323,17 +329,19 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
       },
     );
     try {
-      await Provider.of<RecipeProvider>(context, listen: false)
-          .ensureDataReady();
+      await recipeProvider.ensureDataReady();
       // Try to fetch the recipe by id to confirm it exists.
-      await Provider.of<RecipeProvider>(context, listen: false)
-          .getRecipeById(recipe.id);
+      await recipeProvider.getRecipeById(recipe.id);
+      if (!mounted) return;
+
       Navigator.pop(context);
       context.router.push(RecipeDetailRoute(
         brewingMethodId: recipe.brewingMethodId,
         recipeId: recipe.id,
       ));
     } catch (e) {
+      if (!mounted) return;
+
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

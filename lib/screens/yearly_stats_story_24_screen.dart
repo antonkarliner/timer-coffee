@@ -56,7 +56,8 @@ class _StoryConfig {
     BuildContext context,
     ColorScheme colorScheme,
     _StoryData data,
-  ) builder;
+  )
+  builder;
 
   _StoryConfig({
     required this.duration,
@@ -69,7 +70,7 @@ class _StoryConfig {
 
 @RoutePage()
 class YearlyStatsStoryScreen extends StatefulWidget {
-  const YearlyStatsStoryScreen({Key? key}) : super(key: key);
+  const YearlyStatsStoryScreen({super.key});
 
   @override
   State<YearlyStatsStoryScreen> createState() => _YearlyStatsStoryScreenState();
@@ -156,41 +157,43 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
     _futureStoryData = _fetchStoryData();
 
     // 2) Progress controller
-    _progressController = AnimationController(
-      vsync: this,
-      duration: Duration.zero, // will set dynamically per story
-    )
-      ..addListener(() => setState(() {}))
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          _goToNextStory();
-        }
-      });
+    _progressController =
+        AnimationController(
+            vsync: this,
+            duration: Duration.zero, // will set dynamically per story
+          )
+          ..addListener(() => setState(() {}))
+          ..addStatusListener((status) {
+            if (status == AnimationStatus.completed) {
+              _goToNextStory();
+            }
+          });
 
     // 3) Disco
     _discoController = AnimationController(
       duration: const Duration(seconds: 1),
       vsync: this,
     )..repeat(reverse: true);
-    _discoColor = ColorTween(begin: Colors.pink, end: Colors.purple)
-        .animate(_discoController);
+    _discoColor = ColorTween(
+      begin: Colors.pink,
+      end: Colors.purple,
+    ).animate(_discoController);
 
     // 4) Ellipsis #1
-    _ellipsisController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 1),
-    )
-      ..addListener(() => setState(() {}))
-      ..repeat();
+    _ellipsisController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 1))
+          ..addListener(() => setState(() {}))
+          ..repeat();
 
     // 5) Count-up
     _countUpController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 4),
     );
-    _countUpAnimation = Tween<double>(begin: 0, end: 0)
-        .animate(_countUpController)
-      ..addListener(() => setState(() {}));
+    _countUpAnimation = Tween<double>(
+      begin: 0,
+      end: 0,
+    ).animate(_countUpController)..addListener(() => setState(() {}));
     _countUpController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         setState(() => _isCountUpDone = true);
@@ -198,32 +201,24 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
     });
 
     // 6) Ellipsis #2
-    _ellipsisController2 = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 1),
-    )
-      ..addListener(() => setState(() {}))
-      ..repeat();
+    _ellipsisController2 =
+        AnimationController(vsync: this, duration: const Duration(seconds: 1))
+          ..addListener(() => setState(() {}))
+          ..repeat();
 
     // 7) For story #7: slide and fade animation
     _slideController7 = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 800),
     );
-    _slideAnimation7 = Tween<Offset>(
-      begin: const Offset(0, 0.2),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _slideController7,
-      curve: Curves.easeOut,
-    ));
+    _slideAnimation7 =
+        Tween<Offset>(begin: const Offset(0, 0.2), end: Offset.zero).animate(
+          CurvedAnimation(parent: _slideController7, curve: Curves.easeOut),
+        );
     _fadeAnimation7 = Tween<double>(
       begin: 0.0,
       end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _slideController7,
-      curve: Curves.easeIn,
-    ));
+    ).animate(CurvedAnimation(parent: _slideController7, curve: Curves.easeIn));
 
     _methodsController = AnimationController(
       vsync: this,
@@ -231,12 +226,10 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
     )..addListener(() => setState(() {}));
 
     // 10) Top-3 recipes
-    _ellipsisController3 = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 1),
-    )
-      ..addListener(() => setState(() {}))
-      ..repeat();
+    _ellipsisController3 =
+        AnimationController(vsync: this, duration: const Duration(seconds: 1))
+          ..addListener(() => setState(() {}))
+          ..repeat();
 
     _fadeController = AnimationController(
       vsync: this,
@@ -254,7 +247,7 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
         builder: (context, colorScheme, data) {
           return AnimatedBuilder(
             animation: _discoController,
-            builder: (_, __) => Container(
+            builder: (_, _) => Container(
               color: _discoColor.value ?? Colors.black,
               alignment: Alignment.center,
               padding: const EdgeInsets.all(20),
@@ -284,8 +277,8 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
           final ellipsis = (t < 0.33)
               ? '.'
               : (t < 0.66)
-                  ? '..'
-                  : '...';
+              ? '..'
+              : '...';
 
           return Container(
             color: colorScheme.surface,
@@ -314,15 +307,17 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
           _countUpController.forward();
         },
         builder: (context, colorScheme, data) {
-          final currentValue =
-              _isCountUpDone ? data.totalLiters : _countUpAnimation.value;
+          final currentValue = _isCountUpDone
+              ? data.totalLiters
+              : _countUpAnimation.value;
           return Container(
             color: colorScheme.surface,
             alignment: Alignment.center,
             padding: const EdgeInsets.all(20),
             child: Text(
-              AppLocalizations.of(context)!
-                  .yearlyStatsStory3Text(currentValue.toStringAsFixed(2)),
+              AppLocalizations.of(
+                context,
+              )!.yearlyStatsStory3Text(currentValue.toStringAsFixed(2)),
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontFamily: 'RobotoMono',
@@ -348,8 +343,9 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
           // black bg, white text
           final bgColor = Colors.black;
           final textColor = Colors.white;
-          final top3 =
-              data.top3Roasters.isEmpty ? '' : data.top3Roasters.join(', ');
+          final top3 = data.top3Roasters.isEmpty
+              ? ''
+              : data.top3Roasters.join(', ');
 
           return Container(
             color: bgColor,
@@ -359,8 +355,9 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  AppLocalizations.of(context)!
-                      .yearlyStatsStory4Text(data.distinctRoasterCount),
+                  AppLocalizations.of(
+                    context,
+                  )!.yearlyStatsStory4Text(data.distinctRoasterCount),
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontFamily: 'RobotoMono',
@@ -374,8 +371,9 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
                   duration: const Duration(seconds: 1),
                   opacity: _showSecondPart4 ? 1.0 : 0.0,
                   child: Text(
-                    AppLocalizations.of(context)!
-                        .yearlyStatsStory4Top3Roasters(top3),
+                    AppLocalizations.of(
+                      context,
+                    )!.yearlyStatsStory4Top3Roasters(top3),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'RobotoMono',
@@ -401,8 +399,8 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
           final ellipsis = (t < 0.33)
               ? '.'
               : (t < 0.66)
-                  ? '..'
-                  : '...';
+              ? '..'
+              : '...';
 
           return Container(
             color: colorScheme.surface,
@@ -439,8 +437,9 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: Text(
-                      AppLocalizations.of(context)!
-                          .yearlyStatsStory6Text(data.distinctOriginCount),
+                      AppLocalizations.of(
+                        context,
+                      )!.yearlyStatsStory6Text(data.distinctOriginCount),
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontFamily: 'RobotoMono',
@@ -530,8 +529,9 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
                         child: FadeTransition(
                           opacity: _fadeAnimation7,
                           child: Text(
-                            AppLocalizations.of(context)!
-                                .yearlyStatsStory7Part2,
+                            AppLocalizations.of(
+                              context,
+                            )!.yearlyStatsStory7Part2,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontFamily: 'RobotoMono',
@@ -576,10 +576,11 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
                 // Reserve 2.5 seconds at the end for viewing all methods
                 final remainingTime =
                     _progressController.duration!.inMilliseconds *
-                            (1 - _progressController.value) -
-                        2500;
-                final delay =
-                    (remainingTime / remainingMethods).clamp(800, 2000).toInt();
+                        (1 - _progressController.value) -
+                    2500;
+                final delay = (remainingTime / remainingMethods)
+                    .clamp(800, 2000)
+                    .toInt();
 
                 _methodsTimer = Timer(
                   Duration(milliseconds: delay),
@@ -607,14 +608,17 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
           final count = data.distinctMethods.length;
           String title;
           if (count <= 2) {
-            title =
-                AppLocalizations.of(context)!.yearlyStatsStory8TitleLow(count);
+            title = AppLocalizations.of(
+              context,
+            )!.yearlyStatsStory8TitleLow(count);
           } else if (count <= 5) {
-            title = AppLocalizations.of(context)!
-                .yearlyStatsStory8TitleMedium(count);
+            title = AppLocalizations.of(
+              context,
+            )!.yearlyStatsStory8TitleMedium(count);
           } else {
-            title =
-                AppLocalizations.of(context)!.yearlyStatsStory8TitleHigh(count);
+            title = AppLocalizations.of(
+              context,
+            )!.yearlyStatsStory8TitleHigh(count);
           }
 
           // Fetch icons only once
@@ -649,7 +653,8 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
                     final index = entry.key;
                     final methodId = entry.value;
                     final icon = icons[index];
-                    final methodName = data.methodIdToName[methodId] ??
+                    final methodName =
+                        data.methodIdToName[methodId] ??
                         AppLocalizations.of(context)!.yearlyStatsUnknown;
 
                     // Only show if this method should be visible
@@ -734,8 +739,8 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
           final ellipsis = (t < 0.33)
               ? '.'
               : (t < 0.66)
-                  ? '..'
-                  : '...';
+              ? '..'
+              : '...';
 
           return Stack(
             fit: StackFit.expand, // Ensure the stack fills the screen
@@ -748,8 +753,9 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      AppLocalizations.of(context)!
-                          .yearlyStatsStory10Text(ellipsis),
+                      AppLocalizations.of(
+                        context,
+                      )!.yearlyStatsStory10Text(ellipsis),
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontFamily: 'RobotoMono',
@@ -796,7 +802,8 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
       // ------------------ Story #11: Final screen (no auto-advance) ------------------
       _StoryConfig(
         duration: const Duration(
-            days: 1), // Very long duration since we don't want auto-advance
+          days: 1,
+        ), // Very long duration since we don't want auto-advance
         onStart: () {
           // Stop the progress controller to prevent auto-advance
           _progressController.stop();
@@ -815,7 +822,8 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
                       const double mainAxisSpacing = 20;
                       const double crossAxisSpacing = 20;
 
-                      final double itemWidth = (constraints.maxWidth -
+                      final double itemWidth =
+                          (constraints.maxWidth -
                               (crossAxisCount - 1) * crossAxisSpacing) /
                           crossAxisCount;
                       final double itemHeight = itemWidth;
@@ -839,10 +847,7 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
                           return Transform.rotate(
                             angle: (index * pi / 6) % (2 * pi),
                             child: const Center(
-                              child: Text(
-                                '☕',
-                                style: TextStyle(fontSize: 24),
-                              ),
+                              child: Text('☕', style: TextStyle(fontSize: 24)),
                             ),
                           );
                         },
@@ -894,12 +899,13 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
                                   vertical: 8,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.05),
+                                  color: Colors.white.withValues(alpha: 0.05),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Text(
-                                  AppLocalizations.of(context)!
-                                      .yearlyStatsFinalText,
+                                  AppLocalizations.of(
+                                    context,
+                                  )!.yearlyStatsFinalText,
                                   style: const TextStyle(
                                     fontFamily: 'RobotoMono',
                                     fontSize: 32,
@@ -920,8 +926,9 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
                                 children: [
                                   // Show some love button with likes count
                                   _buildActionButton(
-                                    AppLocalizations.of(context)!
-                                        .yearlyStatsActionLove(_likesCount),
+                                    AppLocalizations.of(
+                                      context,
+                                    )!.yearlyStatsActionLove(_likesCount),
                                     Icons.favorite,
                                     onPressed: () {
                                       _incrementLikes();
@@ -933,12 +940,14 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
 
                                   // Donate button
                                   _buildActionButton(
-                                    AppLocalizations.of(context)!
-                                        .yearlyStatsActionDonate,
+                                    AppLocalizations.of(
+                                      context,
+                                    )!.yearlyStatsActionDonate,
                                     Icons.volunteer_activism,
                                     onPressed: () {
-                                      context.router
-                                          .push(const DonationRoute());
+                                      context.router.push(
+                                        const DonationRoute(),
+                                      );
                                     },
                                   ),
 
@@ -947,8 +956,9 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
                                   // Share your progress button (hide on web)
                                   if (!kIsWeb)
                                     _buildActionButton(
-                                      AppLocalizations.of(context)!
-                                          .yearlyStatsActionShare,
+                                      AppLocalizations.of(
+                                        context,
+                                      )!.yearlyStatsActionShare,
                                       Icons.share,
                                       key: _shareButtonKey,
                                       onPressed: () => _handleShare(data),
@@ -980,10 +990,14 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
   // For story #8, fetch distinct brewing methods
   // ------------------------------------------------------
   Future<_StoryData> _fetchStoryData() async {
-    final userStatProvider =
-        Provider.of<UserStatProvider>(context, listen: false);
-    final coffeeBeansProvider =
-        Provider.of<CoffeeBeansProvider>(context, listen: false);
+    final userStatProvider = Provider.of<UserStatProvider>(
+      context,
+      listen: false,
+    );
+    final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+      context,
+      listen: false,
+    );
     final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
 
     // 1) total liters
@@ -998,17 +1012,18 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
     // 2) Distinct roasters used in 2024 (and top 3)
     final userStatsAll = await userStatProvider.fetchAllUserStats();
     final statsFor2024 = userStatsAll
-        .where((s) =>
-            !s.isDeleted &&
-            s.createdAt.isAfter(startOf2024) &&
-            s.createdAt.isBefore(startOf2025))
+        .where(
+          (s) =>
+              !s.isDeleted &&
+              s.createdAt.isAfter(startOf2024) &&
+              s.createdAt.isBefore(startOf2025),
+        )
         .toList();
 
     // Build a map from coffeeBeansUuid -> roaster
     final allBeans = await coffeeBeansProvider.fetchAllCoffeeBeans();
     final beansMap = {
-      for (var b in allBeans)
-        if (b.beansUuid != null && b.roaster != null) b.beansUuid!: b.roaster!
+      for (var b in allBeans) b.beansUuid: b.roaster,
     };
     // Count roasters
     final Map<String, int> roasterCount = {};
@@ -1042,8 +1057,9 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
           final methodId = recipe.brewingMethodId;
           methodIds.add(methodId);
           if (!methodIdToName.containsKey(methodId)) {
-            final methodName =
-                await recipeProvider.getBrewingMethodName(methodId);
+            final methodName = await recipeProvider.getBrewingMethodName(
+              methodId,
+            );
             methodIdToName[methodId] = methodName;
           }
         }
@@ -1088,11 +1104,9 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
           .eq('id', 'likes')
           .single();
 
-      if (response != null) {
-        setState(() {
-          _likesCount = response['count'] ?? 0;
-        });
-      }
+      setState(() {
+        _likesCount = response['count'] ?? 0;
+      });
     } catch (e) {
       AppLogger.error('Error fetching likes count', errorObject: e);
       setState(() {
@@ -1140,6 +1154,7 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
       await supabase.rpc('increment_likes');
       // Success! No need to check response since it's void
     } catch (e) {
+      if (!mounted) return;
       // Rollback optimistic update only on actual error
       setState(() {
         _likesCount -= 1;
@@ -1306,8 +1321,10 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
             final story = _stories[_currentStoryIndex];
 
             // Update the count-up tween's end value each build
-            _countUpAnimation = Tween<double>(begin: 0, end: data.totalLiters)
-                .animate(_countUpController);
+            _countUpAnimation = Tween<double>(
+              begin: 0,
+              end: data.totalLiters,
+            ).animate(_countUpController);
 
             // Ensure the story starts once
             WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -1336,9 +1353,10 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
                     child: LinearProgressIndicator(
                       value: value,
                       minHeight: 4,
-                      backgroundColor: colorScheme.onSurface.withOpacity(0.3),
-                      valueColor:
-                          AlwaysStoppedAnimation<Color>(colorScheme.onSurface),
+                      backgroundColor: colorScheme.onSurface.withValues(alpha: 0.3),
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        colorScheme.onSurface,
+                      ),
                     ),
                   ),
                 ),
@@ -1355,9 +1373,7 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
                   ),
                   child: Row(children: progressBars),
                 ),
-                Expanded(
-                  child: story.builder(context, colorScheme, data),
-                ),
+                Expanded(child: story.builder(context, colorScheme, data)),
               ],
             );
 
@@ -1537,7 +1553,7 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.3),
+                color: Colors.black.withValues(alpha: 0.3),
                 spreadRadius: 1,
                 blurRadius: 5,
                 offset: const Offset(0, 3),
@@ -1624,8 +1640,9 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
 
       // Capture the image
       ui.Image image = await boundary.toImage(pixelRatio: 3.0);
-      ByteData? byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
+      ByteData? byteData = await image.toByteData(
+        format: ui.ImageByteFormat.png,
+      );
       if (byteData == null) {
         throw Exception(localizations.unexpectedErrorOccurred);
       }
@@ -1633,8 +1650,9 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
 
       // Save to a temporary file with .png extension
       final tempDir = await getTemporaryDirectory();
-      final file =
-          await File('${tempDir.path}/timer_coffee_stats.png').create();
+      final file = await File(
+        '${tempDir.path}/timer_coffee_stats.png',
+      ).create();
       await file.writeAsBytes(pngBytes);
 
       // Create XFile with explicit MIME type
@@ -1646,10 +1664,7 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
 
       // Share the image
       final shareOrigin = _getShareOriginRect();
-      await Share.shareXFiles(
-        [xFile],
-        sharePositionOrigin: shareOrigin,
-      );
+      await Share.shareXFiles([xFile], sharePositionOrigin: shareOrigin);
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -1682,7 +1697,7 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
     }
 
     final overlay = Overlay.of(context);
-    final overlayObject = overlay?.context.findRenderObject();
+    final overlayObject = overlay.context.findRenderObject();
     if (overlayObject is RenderBox && overlayObject.hasSize) {
       final offset = overlayObject.localToGlobal(Offset.zero);
       final size = overlayObject.size;
@@ -1708,11 +1723,11 @@ class ShareProgressWidget extends StatefulWidget {
   final VoidCallback onReadyToCapture; // Added callback
 
   const ShareProgressWidget({
-    Key? key,
+    super.key,
     required this.data,
     required this.repaintBoundaryKey,
     required this.onReadyToCapture, // Initialize the callback
-  }) : super(key: key);
+  });
 
   @override
   State<ShareProgressWidget> createState() => _ShareProgressWidgetState();
@@ -1742,8 +1757,10 @@ class _ShareProgressWidgetState extends State<ShareProgressWidget> {
       return {}; // Return empty map for no roasters
     }
 
-    final databaseProvider =
-        Provider.of<DatabaseProvider>(context, listen: false);
+    final databaseProvider = Provider.of<DatabaseProvider>(
+      context,
+      listen: false,
+    );
     final Map<String, Map<String, String?>> roasterLogos = {};
 
     for (String roaster in widget.data.top3Roasters) {
@@ -1780,203 +1797,210 @@ class _ShareProgressWidgetState extends State<ShareProgressWidget> {
     final localizations = AppLocalizations.of(context)!;
 
     return RepaintBoundary(
-        key: widget.repaintBoundaryKey,
-        child: Container(
-          color: Colors.white, // Solid white background
-          child: Stack(
-            children: [
-              // Background Pattern Layer
-              Positioned.fill(
-                child: CustomPaint(
-                  painter: BackgroundPatternPainter(
-                    icons: _getBackgroundIcons(),
-                    spacing:
-                        screenWidth * 0.15, // Increased spacing between icons
-                  ),
+      key: widget.repaintBoundaryKey,
+      child: Container(
+        color: Colors.white, // Solid white background
+        child: Stack(
+          children: [
+            // Background Pattern Layer
+            Positioned.fill(
+              child: CustomPaint(
+                painter: BackgroundPatternPainter(
+                  icons: _getBackgroundIcons(),
+                  spacing:
+                      screenWidth * 0.15, // Increased spacing between icons
                 ),
               ),
+            ),
 
-              // Content Layer with slightly transparent background
-              Container(
-                color: Colors.white.withOpacity(0.85), // Adjusted opacity
-                padding: EdgeInsets.symmetric(
-                  horizontal: horizontalPadding,
-                  vertical: verticalPadding,
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Row for splash image and headline
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: FittedBox(
-                              fit: BoxFit.scaleDown,
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                localizations.yearlyStatsShareProgressMyYear,
-                                style: TextStyle(
-                                  fontFamily: 'RobotoMono',
-                                  fontSize: screenWidth * 0.08,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
+            // Content Layer with slightly transparent background
+            Container(
+              color: Colors.white.withValues(alpha: 0.85), // Adjusted opacity
+              padding: EdgeInsets.symmetric(
+                horizontal: horizontalPadding,
+                vertical: verticalPadding,
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Row for splash image and headline
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              localizations.yearlyStatsShareProgressMyYear,
+                              style: TextStyle(
+                                fontFamily: 'RobotoMono',
+                                fontSize: screenWidth * 0.08,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
                               ),
                             ),
                           ),
-                          SizedBox(width: screenWidth * 0.05),
-                          Image.asset(
-                            'assets/splash.png',
-                            width: screenWidth * 0.1,
-                            height: screenWidth * 0.1,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: screenHeight * 0.02),
+                        ),
+                        SizedBox(width: screenWidth * 0.05),
+                        Image.asset(
+                          'assets/splash.png',
+                          width: screenWidth * 0.1,
+                          height: screenWidth * 0.1,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: screenHeight * 0.02),
 
-                      // Statistics with Icons
-                      _buildStatItem(
+                    // Statistics with Icons
+                    _buildStatItem(
+                      context,
+                      AppLocalizations.of(
                         context,
-                        AppLocalizations.of(context)!
-                            .labelCoffeeBrewed, // Just the label without colon
-                        '${widget.data.totalLiters.toStringAsFixed(1)}${AppLocalizations.of(context)!.litersUnit}',
-                        Icons.local_cafe,
-                        screenWidth,
-                      ),
-                      _buildStatItem(
+                      )!.labelCoffeeBrewed, // Just the label without colon
+                      '${widget.data.totalLiters.toStringAsFixed(1)}${AppLocalizations.of(context)!.litersUnit}',
+                      Icons.local_cafe,
+                      screenWidth,
+                    ),
+                    _buildStatItem(
+                      context,
+                      AppLocalizations.of(
                         context,
-                        AppLocalizations.of(context)!
-                            .labelTastedBeansBy, // This returns a simple String
-                        AppLocalizations.of(context)!.formattedRoasterCount(
-                          widget.data.distinctRoasterCount.toInt(),
-                        ),
-                        Coffeico.bean,
-                        screenWidth,
+                      )!.labelTastedBeansBy, // This returns a simple String
+                      AppLocalizations.of(context)!.formattedRoasterCount(
+                        widget.data.distinctRoasterCount.toInt(),
                       ),
-                      _buildStatItem(
+                      Coffeico.bean,
+                      screenWidth,
+                    ),
+                    _buildStatItem(
+                      context,
+                      AppLocalizations.of(
                         context,
-                        AppLocalizations.of(context)!
-                            .labelDiscoveredCoffeeFrom, // This returns a simple String
-                        AppLocalizations.of(context)!.formattedCountryCount(
-                          widget.data.distinctOriginCount.toInt(),
-                        ),
-                        Icons.public,
-                        screenWidth,
+                      )!.labelDiscoveredCoffeeFrom, // This returns a simple String
+                      AppLocalizations.of(context)!.formattedCountryCount(
+                        widget.data.distinctOriginCount.toInt(),
                       ),
-                      _buildStatItem(
+                      Icons.public,
+                      screenWidth,
+                    ),
+                    _buildStatItem(
+                      context,
+                      AppLocalizations.of(
                         context,
-                        AppLocalizations.of(context)!
-                            .labelUsedBrewingMethods, // This returns a simple String
-                        AppLocalizations.of(context)!
-                            .formattedBrewingMethodCount(
-                          widget.data.distinctMethods.length,
-                        ),
-                        Icons.science,
-                        screenWidth,
+                      )!.labelUsedBrewingMethods, // This returns a simple String
+                      AppLocalizations.of(context)!.formattedBrewingMethodCount(
+                        widget.data.distinctMethods.length,
                       ),
-                      // Brewing Methods Icons
-                      SizedBox(height: screenHeight * 0.02),
-                      Wrap(
-                        spacing: 12,
-                        runSpacing: 12,
-                        children: widget.data.distinctMethods.map((methodId) {
-                          return Builder(
-                            builder: (context) => Container(
-                              height: 24,
-                              width: 24,
-                              child: IconTheme(
-                                data: const IconThemeData(
-                                  size: 24,
-                                  color: Colors.black,
-                                ),
-                                child: getIconByBrewingMethod(methodId),
+                      Icons.science,
+                      screenWidth,
+                    ),
+                    // Brewing Methods Icons
+                    SizedBox(height: screenHeight * 0.02),
+                    Wrap(
+                      spacing: 12,
+                      runSpacing: 12,
+                      children: widget.data.distinctMethods.map((methodId) {
+                        return Builder(
+                          builder: (context) => Container(
+                            height: 24,
+                            width: 24,
+                            child: IconTheme(
+                              data: const IconThemeData(
+                                size: 24,
+                                color: Colors.black,
                               ),
+                              child: getIconByBrewingMethod(methodId),
                             ),
-                          );
-                        }).toList(),
-                      ),
-
-                      SizedBox(height: screenHeight * 0.03),
-
-                      // Divider before Top-3 Recipes
-                      Divider(thickness: 1, color: Colors.grey.shade300),
-
-                      SizedBox(height: screenHeight * 0.02),
-
-                      // Top-3 Recipes
-                      Text(
-                        localizations.yearlyStatsShareProgressTop3Recipes,
-                        style: TextStyle(
-                          fontFamily: 'RobotoMono',
-                          fontSize: screenWidth * 0.05,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      SizedBox(height: screenHeight * 0.02),
-                      ...widget.data.top3Recipes.asMap().entries.map((entry) {
-                        final index = entry.key;
-                        final recipe = entry.value;
-
-                        // Define trophy colors
-                        Color trophyColor;
-                        switch (index) {
-                          case 0:
-                            trophyColor = const Color(0xFFFFD700); // Gold
-                            break;
-                          case 1:
-                            trophyColor = const Color(0xFFC0C0C0); // Silver
-                            break;
-                          case 2:
-                            trophyColor = const Color(0xFFCD7F32); // Bronze
-                            break;
-                          default:
-                            trophyColor = Colors.grey;
-                        }
-
-                        return Padding(
-                          padding: EdgeInsets.only(
-                            left: screenWidth * 0.03,
-                            bottom: screenHeight * 0.01,
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(Icons.emoji_events,
-                                  color: trophyColor, size: 24),
-                              SizedBox(width: screenWidth * 0.02),
-                              Expanded(
-                                child: Text(
-                                  recipe.name,
-                                  style: TextStyle(
-                                    fontFamily: 'RobotoMono',
-                                    fontSize: screenWidth * 0.045,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                            ],
                           ),
                         );
                       }).toList(),
+                    ),
 
-                      SizedBox(height: screenHeight * 0.03),
+                    SizedBox(height: screenHeight * 0.03),
 
-                      // Divider before Top-3 Roasters
-                      Divider(thickness: 1, color: Colors.grey.shade300),
+                    // Divider before Top-3 Recipes
+                    Divider(thickness: 1, color: Colors.grey.shade300),
 
-                      SizedBox(height: screenHeight * 0.02),
+                    SizedBox(height: screenHeight * 0.02),
 
-                      // Top-3 Roasters with Logos
-                      _buildRoasterSection(screenWidth, screenHeight),
-                    ],
-                  ),
+                    // Top-3 Recipes
+                    Text(
+                      localizations.yearlyStatsShareProgressTop3Recipes,
+                      style: TextStyle(
+                        fontFamily: 'RobotoMono',
+                        fontSize: screenWidth * 0.05,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    SizedBox(height: screenHeight * 0.02),
+                    ...widget.data.top3Recipes.asMap().entries.map((entry) {
+                      final index = entry.key;
+                      final recipe = entry.value;
+
+                      // Define trophy colors
+                      Color trophyColor;
+                      switch (index) {
+                        case 0:
+                          trophyColor = const Color(0xFFFFD700); // Gold
+                          break;
+                        case 1:
+                          trophyColor = const Color(0xFFC0C0C0); // Silver
+                          break;
+                        case 2:
+                          trophyColor = const Color(0xFFCD7F32); // Bronze
+                          break;
+                        default:
+                          trophyColor = Colors.grey;
+                      }
+
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          left: screenWidth * 0.03,
+                          bottom: screenHeight * 0.01,
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.emoji_events,
+                              color: trophyColor,
+                              size: 24,
+                            ),
+                            SizedBox(width: screenWidth * 0.02),
+                            Expanded(
+                              child: Text(
+                                recipe.name,
+                                style: TextStyle(
+                                  fontFamily: 'RobotoMono',
+                                  fontSize: screenWidth * 0.045,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }),
+
+                    SizedBox(height: screenHeight * 0.03),
+
+                    // Divider before Top-3 Roasters
+                    Divider(thickness: 1, color: Colors.grey.shade300),
+
+                    SizedBox(height: screenHeight * 0.02),
+
+                    // Top-3 Roasters with Logos
+                    _buildRoasterSection(screenWidth, screenHeight),
+                  ],
                 ),
-              )
-            ],
-          ),
-        ));
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   // --------------------------------------
@@ -1996,16 +2020,17 @@ class _ShareProgressWidgetState extends State<ShareProgressWidget> {
     ];
   }
 
-  Widget _buildStatItem(BuildContext context, String label, String value,
-      dynamic icon, double screenWidth) {
+  Widget _buildStatItem(
+    BuildContext context,
+    String label,
+    String value,
+    dynamic icon,
+    double screenWidth,
+  ) {
     Widget leadingIcon;
 
     if (icon is IconData) {
-      leadingIcon = Icon(
-        icon,
-        size: 24,
-        color: Colors.black54,
-      );
+      leadingIcon = Icon(icon, size: 24, color: Colors.black54);
     } else if (icon is Widget) {
       leadingIcon = icon;
     } else {
@@ -2100,17 +2125,18 @@ class _ShareProgressWidgetState extends State<ShareProgressWidget> {
                                   return CachedNetworkImage(
                                     imageUrl: mirrorLogoUrl,
                                     placeholder: (context, url) => const Icon(
-                                        Coffeico.bag_with_bean,
-                                        size: 30),
+                                      Coffeico.bag_with_bean,
+                                      size: 30,
+                                    ),
                                     errorWidget: (context, url, error) {
                                       // Increment the counter as both URLs failed
                                       WidgetsBinding.instance
                                           .addPostFrameCallback((_) {
-                                        setState(() {
-                                          _loadedLogos++;
-                                        });
-                                        _checkAllLogosHandled();
-                                      });
+                                            setState(() {
+                                              _loadedLogos++;
+                                            });
+                                            _checkAllLogosHandled();
+                                          });
                                       return const Icon(
                                         Coffeico.bag_with_bean,
                                         size: 30,
@@ -2121,11 +2147,11 @@ class _ShareProgressWidgetState extends State<ShareProgressWidget> {
                                       // Increment the counter when mirror logo loads
                                       WidgetsBinding.instance
                                           .addPostFrameCallback((_) {
-                                        setState(() {
-                                          _loadedLogos++;
-                                        });
-                                        _checkAllLogosHandled();
-                                      });
+                                            setState(() {
+                                              _loadedLogos++;
+                                            });
+                                            _checkAllLogosHandled();
+                                          });
                                       return Image(
                                         image: imageProvider,
                                         width: 30,
@@ -2139,8 +2165,9 @@ class _ShareProgressWidgetState extends State<ShareProgressWidget> {
                                   );
                                 }
                                 // Increment the counter if original URL fails and no mirror
-                                WidgetsBinding.instance
-                                    .addPostFrameCallback((_) {
+                                WidgetsBinding.instance.addPostFrameCallback((
+                                  _,
+                                ) {
                                   setState(() {
                                     _loadedLogos++;
                                   });
@@ -2154,8 +2181,9 @@ class _ShareProgressWidgetState extends State<ShareProgressWidget> {
                               },
                               imageBuilder: (context, imageProvider) {
                                 // Increment the counter when original logo loads
-                                WidgetsBinding.instance
-                                    .addPostFrameCallback((_) {
+                                WidgetsBinding.instance.addPostFrameCallback((
+                                  _,
+                                ) {
                                   setState(() {
                                     _loadedLogos++;
                                   });
@@ -2204,10 +2232,7 @@ class BackgroundPatternPainter extends CustomPainter {
   final List<IconData> icons;
   final double spacing;
 
-  BackgroundPatternPainter({
-    required this.icons,
-    required this.spacing,
-  });
+  BackgroundPatternPainter({required this.icons, required this.spacing});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -2227,7 +2252,7 @@ class BackgroundPatternPainter extends CustomPainter {
             fontSize: 40,
             fontFamily: icon.fontFamily, // Using the icon's actual font family
             package: icon.fontPackage, // Adding the font package parameter
-            color: Colors.black.withOpacity(0.2),
+            color: Colors.black.withValues(alpha: 0.2),
           ),
         );
         iconPainter.layout();
@@ -2235,10 +2260,7 @@ class BackgroundPatternPainter extends CustomPainter {
         final xPos = x - (iconPainter.width / 2);
         final yPos = y - (iconPainter.height / 2);
 
-        iconPainter.paint(
-          canvas,
-          Offset(xPos, yPos),
-        );
+        iconPainter.paint(canvas, Offset(xPos, yPos));
         x += spacing;
       }
       y += spacing;
@@ -2256,11 +2278,11 @@ class FloatingHeart extends StatefulWidget {
   final VoidCallback onCompleted; // Added callback parameter
 
   const FloatingHeart({
-    Key? key,
+    super.key,
     required this.startX,
     required this.startY,
     required this.onCompleted, // Initialize the callback
-  }) : super(key: key);
+  });
 
   @override
   State<FloatingHeart> createState() => _FloatingHeartState();
@@ -2282,14 +2304,16 @@ class _FloatingHeartState extends State<FloatingHeart>
     );
 
     // Scale animation
-    _scaleAnimation = Tween<double>(begin: 0.5, end: 1.5).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-    );
+    _scaleAnimation = Tween<double>(
+      begin: 0.5,
+      end: 1.5,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
     // Opacity animation
-    _opacityAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-    );
+    _opacityAnimation = Tween<double>(
+      begin: 1.0,
+      end: 0.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
     // Position animation with random horizontal movement
     final random = Random();
@@ -2327,11 +2351,7 @@ class _FloatingHeartState extends State<FloatingHeart>
               scale: _scaleAnimation.value,
               child: Opacity(
                 opacity: _opacityAnimation.value,
-                child: const Icon(
-                  Icons.favorite,
-                  color: Colors.red,
-                  size: 30,
-                ),
+                child: const Icon(Icons.favorite, color: Colors.red, size: 30),
               ),
             ),
           );
@@ -2349,12 +2369,11 @@ class _ShakingLoveButton extends StatefulWidget {
   final double? fontSize;
 
   const _ShakingLoveButton({
-    Key? key,
     required this.text,
     required this.icon,
     required this.onPressed,
     this.fontSize,
-  }) : super(key: key);
+  });
 
   @override
   State<_ShakingLoveButton> createState() => _ShakingLoveButtonState();
@@ -2374,10 +2393,7 @@ class _ShakingLoveButtonState extends State<_ShakingLoveButton>
     );
 
     _shakeAnimation = Tween<double>(begin: 0.0, end: 0.1).animate(
-      CurvedAnimation(
-        parent: _shakeController,
-        curve: Curves.elasticIn,
-      ),
+      CurvedAnimation(parent: _shakeController, curve: Curves.elasticIn),
     );
   }
 
@@ -2421,7 +2437,7 @@ class _ShakingLoveButtonState extends State<_ShakingLoveButton>
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.3),
+                color: Colors.black.withValues(alpha: 0.3),
                 spreadRadius: 1,
                 blurRadius: 5,
                 offset: const Offset(0, 3),
@@ -2432,7 +2448,8 @@ class _ShakingLoveButtonState extends State<_ShakingLoveButton>
             animation: _shakeAnimation,
             builder: (context, child) {
               return Transform.rotate(
-                angle: sin(_shakeController.value * pi * 8) *
+                angle:
+                    sin(_shakeController.value * pi * 8) *
                     _shakeAnimation.value,
                 child: child,
               );
@@ -2446,9 +2463,9 @@ class _ShakingLoveButtonState extends State<_ShakingLoveButton>
                 );
 
                 // Trigger animations
-                _shakeController
-                    .forward()
-                    .then((_) => _shakeController.reset());
+                _shakeController.forward().then(
+                  (_) => _shakeController.reset(),
+                );
                 _showHearts(context, position);
 
                 // Call the original onPressed
@@ -2457,8 +2474,10 @@ class _ShakingLoveButtonState extends State<_ShakingLoveButton>
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 foregroundColor: Colors.black,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 16,
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),

@@ -377,6 +377,29 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
     }).toList();
   }
 
+  /// Returns beans that currently have a pending review nudge: not deleted, with
+  /// `review_nudge_scheduled_at` set on or after [since]. The column stores the
+  /// *decision* timestamp; the caller derives the fire time from it and drops
+  /// any already-past nudges. Ordered most-recent-decision first and limited to
+  /// [limit], so the soonest-firing nudges win the limited notification slots.
+  Future<List<CoffeeBeansModel>> fetchPendingBeanReviewNudges({
+    required DateTime since,
+    required int limit,
+  }) async {
+    final query = select(coffeeBeans)
+      ..where((t) =>
+          t.isDeleted.equals(false) &
+          t.reviewNudgeScheduledAt.isNotNull() &
+          t.reviewNudgeScheduledAt.isBiggerOrEqualValue(since))
+      ..orderBy([
+        (t) => OrderingTerm(
+            expression: t.reviewNudgeScheduledAt, mode: OrderingMode.desc),
+      ])
+      ..limit(limit);
+    final List<CoffeeBean> beansList = await query.get();
+    return beansList.map(_coffeeBeansFromRow).toList();
+  }
+
   Future<void> updateFavoriteStatus(String uuid, bool isFavorite) async {
     await (update(coffeeBeans)..where((tbl) => tbl.beansUuid.equals(uuid)))
         .write(CoffeeBeansCompanion(isFavorite: Value(isFavorite)));

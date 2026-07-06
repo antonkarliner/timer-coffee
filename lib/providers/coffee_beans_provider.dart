@@ -2,8 +2,6 @@ import 'dart:async';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:coffee_timer/utils/version_vector.dart';
-import 'package:collection/collection.dart';
-import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
@@ -15,8 +13,9 @@ import 'database_provider.dart';
 // Cache configuration
 class CacheConfig {
   static const Duration defaultExpiration = Duration(hours: 24);
-  static const Duration maxAge =
-      Duration(days: 5); // Updated to 5 days as requested
+  static const Duration maxAge = Duration(
+    days: 5,
+  ); // Updated to 5 days as requested
   static const int maxCacheEntries = 50; // Prevent memory bloat
 }
 
@@ -28,7 +27,7 @@ class CacheEntry<T> {
   final String? appVersion;
 
   CacheEntry(this.data, this.expiration, {this.appVersion})
-      : timestamp = DateTime.now();
+    : timestamp = DateTime.now();
 
   bool get isExpired => DateTime.now().difference(timestamp) > expiration;
   bool get isTooOld =>
@@ -38,7 +37,6 @@ class CacheEntry<T> {
 class CoffeeBeansProvider with ChangeNotifier {
   final AppDatabase db;
   final DatabaseProvider databaseProvider;
-  final Uuid _uuid = Uuid();
   final String deviceId;
   static String? _currentAppVersion;
 
@@ -60,7 +58,8 @@ class CoffeeBeansProvider with ChangeNotifier {
 
       if (_currentAppVersion != null && _currentAppVersion != newVersion) {
         AppLogger.debug(
-            'App version changed from $_currentAppVersion to $newVersion - clearing cache');
+          'App version changed from $_currentAppVersion to $newVersion - clearing cache',
+        );
         clearCache();
       }
 
@@ -72,12 +71,15 @@ class CoffeeBeansProvider with ChangeNotifier {
   }
 
   // Helper method to generate cache keys
-  String _getCacheKey(String dataType, String locale,
-      {bool isLocaleAgnostic = false}) {
+  String _getCacheKey(
+    String dataType,
+    String locale, {
+    bool isLocaleAgnostic = false,
+  }) {
     if (isLocaleAgnostic) {
       return dataType; // No locale suffix for locale-agnostic data
     }
-    return "${dataType}_${locale}";
+    return "${dataType}_$locale";
   }
 
   // Helper method to get cached data or fetch if needed
@@ -96,7 +98,8 @@ class CoffeeBeansProvider with ChangeNotifier {
     // Return cached data if it's still valid
     if (cacheEntry != null && !cacheEntry.isExpired) {
       AppLogger.debug(
-          'CACHE HIT for $cacheKey (age: ${DateTime.now().difference(cacheEntry.timestamp).inMinutes}min, items: ${cacheEntry.data.length})');
+        'CACHE HIT for $cacheKey (age: ${DateTime.now().difference(cacheEntry.timestamp).inMinutes}min, items: ${cacheEntry.data.length})',
+      );
       return cacheEntry.data;
     }
 
@@ -104,20 +107,23 @@ class CoffeeBeansProvider with ChangeNotifier {
     final mustFetch = cacheEntry?.isTooOld ?? false;
     if (cacheEntry != null) {
       AppLogger.debug(
-          'CACHE EXPIRED for $cacheKey (age: ${DateTime.now().difference(cacheEntry.timestamp).inMinutes}min, expired: ${cacheEntry.isExpired}, too old: ${cacheEntry.isTooOld})');
+        'CACHE EXPIRED for $cacheKey (age: ${DateTime.now().difference(cacheEntry.timestamp).inMinutes}min, expired: ${cacheEntry.isExpired}, too old: ${cacheEntry.isTooOld})',
+      );
     } else {
       AppLogger.debug('CACHE MISS for $cacheKey - no cached data found');
     }
 
     try {
       AppLogger.debug(
-          'FETCHING from API for $cacheKey (must fetch: $mustFetch)');
+        'FETCHING from API for $cacheKey (must fetch: $mustFetch)',
+      );
       final stopwatch = Stopwatch()..start();
       final data = await fetchFunction();
       stopwatch.stop();
 
       AppLogger.debug(
-          'API FETCH COMPLETED for $cacheKey in ${stopwatch.elapsedMilliseconds}ms (items: ${data.length})');
+        'API FETCH COMPLETED for $cacheKey in ${stopwatch.elapsedMilliseconds}ms (items: ${data.length})',
+      );
 
       // Store in cache with app version
       _cache[cacheKey] = CacheEntry(
@@ -126,7 +132,8 @@ class CoffeeBeansProvider with ChangeNotifier {
         appVersion: _currentAppVersion ?? 'unknown',
       );
       AppLogger.debug(
-          'STORED in cache for $cacheKey (expires in ${CacheConfig.defaultExpiration.inHours}h, app version: $_currentAppVersion)');
+        'STORED in cache for $cacheKey (expires in ${CacheConfig.defaultExpiration.inHours}h, app version: $_currentAppVersion)',
+      );
 
       // Clean up old cache entries if we have too many
       _cleanupCache();
@@ -138,20 +145,23 @@ class CoffeeBeansProvider with ChangeNotifier {
       // If we have cached data (even if expired), return it as fallback
       if (cacheEntry != null && !cacheEntry.isTooOld) {
         AppLogger.warning(
-            'USING STALE CACHE for $cacheKey due to API error (age: ${DateTime.now().difference(cacheEntry.timestamp).inMinutes}min)');
+          'USING STALE CACHE for $cacheKey due to API error (age: ${DateTime.now().difference(cacheEntry.timestamp).inMinutes}min)',
+        );
         return cacheEntry.data;
       }
 
       // If we must fetch (data too old) or have no cache, rethrow the error
       if (mustFetch) {
         AppLogger.error(
-            'MUST FETCH - rethrowing error for $cacheKey (data too old: ${cacheEntry?.isTooOld ?? false})');
+          'MUST FETCH - rethrowing error for $cacheKey (data too old: ${cacheEntry?.isTooOld ?? false})',
+        );
         rethrow;
       }
 
       // Return empty list as last resort
       AppLogger.warning(
-          'RETURNING EMPTY LIST for $cacheKey - no fallback available');
+        'RETURNING EMPTY LIST for $cacheKey - no fallback available',
+      );
       return [];
     }
   }
@@ -170,7 +180,8 @@ class CoffeeBeansProvider with ChangeNotifier {
     }
 
     AppLogger.debug(
-        'CLEANED UP $entriesToRemove old cache entries (total: ${_cache.length})');
+      'CLEANED UP $entriesToRemove old cache entries (total: ${_cache.length})',
+    );
   }
 
   // Method to clear cache manually if needed
@@ -181,14 +192,21 @@ class CoffeeBeansProvider with ChangeNotifier {
   }
 
   // Method to invalidate specific cache entry
-  void invalidateCacheEntry(String dataType, String locale,
-      {bool isLocaleAgnostic = false}) {
-    final cacheKey =
-        _getCacheKey(dataType, locale, isLocaleAgnostic: isLocaleAgnostic);
+  void invalidateCacheEntry(
+    String dataType,
+    String locale, {
+    bool isLocaleAgnostic = false,
+  }) {
+    final cacheKey = _getCacheKey(
+      dataType,
+      locale,
+      isLocaleAgnostic: isLocaleAgnostic,
+    );
     final removed = _cache.remove(cacheKey);
     if (removed != null) {
       AppLogger.debug(
-          'INVALIDATED cache entry for $cacheKey (was cached for ${DateTime.now().difference(removed.timestamp).inMinutes}min)');
+        'INVALIDATED cache entry for $cacheKey (was cached for ${DateTime.now().difference(removed.timestamp).inMinutes}min)',
+      );
     } else {
       AppLogger.warning('NO CACHE ENTRY to invalidate for $cacheKey');
     }
@@ -206,14 +224,16 @@ class CoffeeBeansProvider with ChangeNotifier {
     } else {
       // For locale-specific data, look for keys with dataType_ prefix
       keysToRemove.addAll(
-          _cache.keys.where((key) => key.startsWith('${dataType}_')).toList());
+        _cache.keys.where((key) => key.startsWith('${dataType}_')).toList(),
+      );
     }
 
     for (final key in keysToRemove) {
       _cache.remove(key);
     }
     AppLogger.debug(
-        'Invalidated ${keysToRemove.length} cache entries for data type: $dataType (locale-agnostic: $isLocaleAgnostic)');
+      'Invalidated ${keysToRemove.length} cache entries for data type: $dataType (locale-agnostic: $isLocaleAgnostic)',
+    );
   }
 
   // Method to invalidate all expired cache entries
@@ -231,8 +251,12 @@ class CoffeeBeansProvider with ChangeNotifier {
   }
 
   // Method to refresh specific data type (invalidate and optionally prefetch)
-  Future<void> refreshDataType(String dataType, String locale,
-      {bool prefetch = false, bool isLocaleAgnostic = false}) async {
+  Future<void> refreshDataType(
+    String dataType,
+    String locale, {
+    bool prefetch = false,
+    bool isLocaleAgnostic = false,
+  }) async {
     invalidateCacheEntry(dataType, locale, isLocaleAgnostic: isLocaleAgnostic);
 
     if (prefetch) {
@@ -258,7 +282,7 @@ class CoffeeBeansProvider with ChangeNotifier {
   }
 
   Future<String> addCoffeeBeans(CoffeeBeansModel beans) async {
-    final beansUuid = beans.beansUuid ?? _uuid.v7();
+    final beansUuid = beans.beansUuid;
     final versionVector = VersionVector.initial(deviceId).toString();
 
     final newBeans = beans.copyWith(
@@ -281,8 +305,10 @@ class CoffeeBeansProvider with ChangeNotifier {
         AppLogger.warning('Supabase request timed out', errorObject: e);
         // Optionally, handle the timeout, e.g., by retrying or queuing the request
       } catch (e) {
-        AppLogger.error('Error syncing new coffee beans to Supabase',
-            errorObject: e);
+        AppLogger.error(
+          'Error syncing new coffee beans to Supabase',
+          errorObject: e,
+        );
       }
     }
 
@@ -292,29 +318,32 @@ class CoffeeBeansProvider with ChangeNotifier {
 
   Future<void> updateCoffeeBeans(CoffeeBeansModel beans) async {
     AppLogger.debug(
-        'updateCoffeeBeans called with UUID: ${AppLogger.sanitize(beans.beansUuid)}');
+      'updateCoffeeBeans called with UUID: ${AppLogger.sanitize(beans.beansUuid)}',
+    );
 
-    final currentBeans =
-        await db.coffeeBeansDao.fetchCoffeeBeansByUuid(beans.beansUuid);
+    final currentBeans = await db.coffeeBeansDao.fetchCoffeeBeansByUuid(
+      beans.beansUuid,
+    );
     if (currentBeans == null) {
       AppLogger.error(
-          'ERROR - Coffee beans not found for UUID: ${AppLogger.sanitize(beans.beansUuid)}');
+        'ERROR - Coffee beans not found for UUID: ${AppLogger.sanitize(beans.beansUuid)}',
+      );
       throw Exception('Coffee beans not found');
     }
 
     AppLogger.debug(
-        'Found existing bean: ${currentBeans.name} by ${currentBeans.roaster}');
+      'Found existing bean: ${currentBeans.name} by ${currentBeans.roaster}',
+    );
     AppLogger.debug('Current version vector: ${currentBeans.versionVector}');
 
     final currentVector = VersionVector.fromString(currentBeans.versionVector);
     final newVector = currentVector.increment();
 
-    final updatedBeans = beans.copyWith(
-      versionVector: newVector.toString(),
-    );
+    final updatedBeans = beans.copyWith(versionVector: newVector.toString());
 
     AppLogger.debug(
-        'Updated bean data - Name: ${updatedBeans.name}, Roaster: ${updatedBeans.roaster}');
+      'Updated bean data - Name: ${updatedBeans.name}, Roaster: ${updatedBeans.roaster}',
+    );
     AppLogger.debug('New version vector: ${updatedBeans.versionVector}');
 
     try {
@@ -339,8 +368,10 @@ class CoffeeBeansProvider with ChangeNotifier {
         AppLogger.warning('Supabase request timed out', errorObject: e);
         // Optionally, handle the timeout here
       } catch (e) {
-        AppLogger.error('Error syncing updated coffee beans to Supabase',
-            errorObject: e);
+        AppLogger.error(
+          'Error syncing updated coffee beans to Supabase',
+          errorObject: e,
+        );
       }
     }
 
@@ -350,11 +381,13 @@ class CoffeeBeansProvider with ChangeNotifier {
   }
 
   Future<void> deleteCoffeeBeans(String beansUuid) async {
-    final currentBeans =
-        await db.coffeeBeansDao.fetchCoffeeBeansByUuid(beansUuid);
+    final currentBeans = await db.coffeeBeansDao.fetchCoffeeBeansByUuid(
+      beansUuid,
+    );
     if (currentBeans == null) {
       AppLogger.error(
-          'Coffee beans not found for UUID: ${AppLogger.sanitize(beansUuid)}');
+        'Coffee beans not found for UUID: ${AppLogger.sanitize(beansUuid)}',
+      );
       throw Exception('Coffee beans not found');
     }
 
@@ -364,8 +397,9 @@ class CoffeeBeansProvider with ChangeNotifier {
       await db.userStatsDao.detachCoffeeBeanFromStats(beansUuid);
 
       // Then, mark the bean as deleted
-      final currentVector =
-          VersionVector.fromString(currentBeans.versionVector);
+      final currentVector = VersionVector.fromString(
+        currentBeans.versionVector,
+      );
       final newVector = currentVector.increment();
 
       // Create an updated beans record with isDeleted set to true and the new version vector
@@ -396,8 +430,10 @@ class CoffeeBeansProvider with ChangeNotifier {
           AppLogger.warning('Supabase operation timed out', errorObject: e);
           // You might want to handle the timeout specifically here
         } else {
-          AppLogger.error('Error marking coffee beans as deleted in Supabase',
-              errorObject: e);
+          AppLogger.error(
+            'Error marking coffee beans as deleted in Supabase',
+            errorObject: e,
+          );
           // Handle other exceptions
         }
         // Decide if you want to handle this error differently
@@ -419,7 +455,8 @@ class CoffeeBeansProvider with ChangeNotifier {
   Future<CoffeeBeansModel?> fetchCoffeeBeansByUuid(String uuid) async {
     final beans = await db.coffeeBeansDao.fetchCoffeeBeansByUuid(uuid);
     AppLogger.debug(
-        'Fetched bean by UUID: ${AppLogger.sanitize(beans?.beansUuid)}');
+      'Fetched bean by UUID: ${AppLogger.sanitize(beans?.beansUuid)}',
+    );
     return beans;
   }
 
@@ -470,97 +507,81 @@ class CoffeeBeansProvider with ChangeNotifier {
   Future<List<String>> fetchCombinedTastingNotes(String locale) async {
     final cacheKey = _getCacheKey('tasting_notes', locale);
 
-    return _getCachedOrFetch(
-      cacheKey,
-      locale,
-      () async {
-        final localTastingNotes = await fetchAllDistinctTastingNotes();
-        List<String> supabaseTastingNotes = [];
+    return _getCachedOrFetch(cacheKey, locale, () async {
+      final localTastingNotes = await fetchAllDistinctTastingNotes();
+      List<String> supabaseTastingNotes = [];
 
-        try {
-          supabaseTastingNotes =
-              await databaseProvider.fetchTastingNotesForLocale(locale);
-        } catch (error) {
-          //AppLogger.error('Error fetching tasting notes from Supabase', errorObject: error);
-        }
+      try {
+        supabaseTastingNotes = await databaseProvider
+            .fetchTastingNotesForLocale(locale);
+      } catch (error) {
+        //AppLogger.error('Error fetching tasting notes from Supabase', errorObject: error);
+      }
 
-        final combinedSet = {...localTastingNotes, ...supabaseTastingNotes};
-        return combinedSet.toList();
-      },
-    );
+      final combinedSet = {...localTastingNotes, ...supabaseTastingNotes};
+      return combinedSet.toList();
+    });
   }
 
   Future<List<String>> fetchCombinedOrigins(String locale) async {
     final cacheKey = _getCacheKey('origins', locale);
 
-    return _getCachedOrFetch(
-      cacheKey,
-      locale,
-      () async {
-        final localOrigins = await fetchAllDistinctOrigins();
-        List<String> supabaseOrigins = [];
+    return _getCachedOrFetch(cacheKey, locale, () async {
+      final localOrigins = await fetchAllDistinctOrigins();
+      List<String> supabaseOrigins = [];
 
-        try {
-          supabaseOrigins =
-              await databaseProvider.fetchCountriesForLocale(locale);
-        } catch (error) {
-          //AppLogger.error('Error fetching origins from Supabase', errorObject: error);
-        }
+      try {
+        supabaseOrigins = await databaseProvider.fetchCountriesForLocale(
+          locale,
+        );
+      } catch (error) {
+        //AppLogger.error('Error fetching origins from Supabase', errorObject: error);
+      }
 
-        final combinedSet = {...localOrigins, ...supabaseOrigins};
-        return combinedSet.toList();
-      },
-    );
+      final combinedSet = {...localOrigins, ...supabaseOrigins};
+      return combinedSet.toList();
+    });
   }
 
   Future<List<String>> fetchCombinedProcessingMethods(String locale) async {
     final cacheKey = _getCacheKey('processing_methods', locale);
 
-    return _getCachedOrFetch(
-      cacheKey,
-      locale,
-      () async {
-        final localProcessingMethods =
-            await fetchAllDistinctProcessingMethods();
-        List<String> supabaseProcessingMethods = [];
+    return _getCachedOrFetch(cacheKey, locale, () async {
+      final localProcessingMethods = await fetchAllDistinctProcessingMethods();
+      List<String> supabaseProcessingMethods = [];
 
-        try {
-          supabaseProcessingMethods =
-              await databaseProvider.fetchProcessingMethodsForLocale(locale);
-        } catch (error) {
-          // AppLogger.error('Error fetching processing methods from Supabase', errorObject: error);
-        }
+      try {
+        supabaseProcessingMethods = await databaseProvider
+            .fetchProcessingMethodsForLocale(locale);
+      } catch (error) {
+        // AppLogger.error('Error fetching processing methods from Supabase', errorObject: error);
+      }
 
-        final combinedSet = {
-          ...localProcessingMethods,
-          ...supabaseProcessingMethods
-        };
-        return combinedSet.toList();
-      },
-    );
+      final combinedSet = {
+        ...localProcessingMethods,
+        ...supabaseProcessingMethods,
+      };
+      return combinedSet.toList();
+    });
   }
 
   Future<List<String>> fetchCombinedRoasters(String locale) async {
     // Roasters are locale-agnostic, so we don't include locale in the cache key
     final cacheKey = _getCacheKey('roasters', locale, isLocaleAgnostic: true);
 
-    return _getCachedOrFetch(
-      cacheKey,
-      locale,
-      () async {
-        final localRoasters = await fetchAllDistinctRoasters();
-        List<String> supabaseRoasters = [];
+    return _getCachedOrFetch(cacheKey, locale, () async {
+      final localRoasters = await fetchAllDistinctRoasters();
+      List<String> supabaseRoasters = [];
 
-        try {
-          supabaseRoasters = await databaseProvider.fetchRoasters();
-        } catch (error) {
-          //AppLogger.error('Error fetching roasters from Supabase', errorObject: error);
-        }
+      try {
+        supabaseRoasters = await databaseProvider.fetchRoasters();
+      } catch (error) {
+        //AppLogger.error('Error fetching roasters from Supabase', errorObject: error);
+      }
 
-        final combinedSet = {...localRoasters, ...supabaseRoasters};
-        return combinedSet.toList();
-      },
-    );
+      final combinedSet = {...localRoasters, ...supabaseRoasters};
+      return combinedSet.toList();
+    });
   }
 
   Future<void> toggleFavoriteStatus(String uuid, bool isFavorite) async {
@@ -568,34 +589,11 @@ class CoffeeBeansProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> backfillMissingUuids() async {
-    final beansToUpdate = await db.coffeeBeansDao.fetchBeansNeedingUpdate();
-
-    if (beansToUpdate.isEmpty) {
-      AppLogger.debug('No coffee beans need updating.');
-      return;
-    }
-    Set<String> generatedUuids = {};
-    List<CoffeeBeansCompanion> updates = [];
-
-    for (final bean in beansToUpdate) {
-      String newUuid;
-      do {
-        newUuid = _uuid.v7();
-      } while (generatedUuids.contains(newUuid));
-      generatedUuids.add(newUuid);
-
-      updates.add(CoffeeBeansCompanion(
-        id: Value(bean.id),
-        beansUuid: Value(bean.beansUuid ?? newUuid),
-      ));
-    }
-
-    await db.coffeeBeansDao.batchUpdateMissingUuidsAndTimestamps(updates);
-
-    AppLogger.debug('Updated ${beansToUpdate.length} coffee bean entries.');
-    notifyListeners();
-  }
+  /// Retained for generated mocks and older callers.
+  ///
+  /// Coffee bean UUIDs are now populated by migrations and enforced as
+  /// non-null by both Drift and SQLite, so there is no runtime work to perform.
+  Future<void> backfillMissingUuids() async {}
 
   Future<void> batchUploadCoffeeBeans() async {
     final user = Supabase.instance.client.auth.currentUser;
@@ -619,8 +617,10 @@ class CoffeeBeansProvider with ChangeNotifier {
         await Supabase.instance.client.from('user_coffee_beans').upsert(batch);
         AppLogger.debug('Uploaded batch ${i ~/ batchSize + 1}');
       } catch (e) {
-        AppLogger.error('Error uploading batch ${i ~/ batchSize + 1}',
-            errorObject: e);
+        AppLogger.error(
+          'Error uploading batch ${i ~/ batchSize + 1}',
+          errorObject: e,
+        );
       }
     }
 
@@ -646,7 +646,8 @@ class CoffeeBeansProvider with ChangeNotifier {
 
       await db.coffeeBeansDao.insertOrUpdateMultipleCoffeeBeans(remoteBeans);
       AppLogger.info(
-          'Downloaded and updated ${remoteBeans.length} coffee beans');
+        'Downloaded and updated ${remoteBeans.length} coffee beans',
+      );
     } catch (e) {
       AppLogger.error('Error downloading coffee beans', errorObject: e);
     }
@@ -667,8 +668,8 @@ class CoffeeBeansProvider with ChangeNotifier {
 
     try {
       // Fetch all local beans, including deleted ones
-      final localBeans =
-          await db.coffeeBeansDao.fetchAllBeansWithVersionVectors();
+      final localBeans = await db.coffeeBeansDao
+          .fetchAllBeansWithVersionVectors();
 
       // Create a map for quick lookup
       final localBeansMap = {for (var bean in localBeans) bean.beansUuid: bean};
@@ -680,11 +681,13 @@ class CoffeeBeansProvider with ChangeNotifier {
           .eq('user_id', user.id);
 
       final remoteBeansInfo = (response as List<dynamic>)
-          .map((json) => (
-                beansUuid: json['beans_uuid'] as String,
-                versionVector: json['version_vector'] as String,
-                isDeleted: json['is_deleted'] as bool,
-              ))
+          .map(
+            (json) => (
+              beansUuid: json['beans_uuid'] as String,
+              versionVector: json['version_vector'] as String,
+              isDeleted: json['is_deleted'] as bool,
+            ),
+          )
           .toList();
 
       // Prepare lists for updates
@@ -694,8 +697,9 @@ class CoffeeBeansProvider with ChangeNotifier {
       // Compare version vectors and handle deletions
       for (final remoteBean in remoteBeansInfo) {
         final localBean = localBeansMap[remoteBean.beansUuid];
-        final remoteVersionVector =
-            VersionVector.fromString(remoteBean.versionVector);
+        final remoteVersionVector = VersionVector.fromString(
+          remoteBean.versionVector,
+        );
 
         if (localBean == null) {
           if (!remoteBean.isDeleted) {
@@ -711,15 +715,17 @@ class CoffeeBeansProvider with ChangeNotifier {
             localUpdates.add(remoteBean.beansUuid);
           } else if (_isLocalNewer(localVersionVector, remoteVersionVector)) {
             // Local is newer, update remote
-            remoteUpdates
-                .add(_coffeeBeansModelToJson(localBean)..['user_id'] = user.id);
+            remoteUpdates.add(
+              _coffeeBeansModelToJson(localBean)..['user_id'] = user.id,
+            );
           } else if (localBean.isDeleted != remoteBean.isDeleted) {
             // Version vectors are equal but deletion status differs
             // Prefer deletions over restorations
             if (localBean.isDeleted) {
               // Local bean is deleted; update remote
               remoteUpdates.add(
-                  _coffeeBeansModelToJson(localBean)..['user_id'] = user.id);
+                _coffeeBeansModelToJson(localBean)..['user_id'] = user.id,
+              );
             } else {
               // Remote bean is deleted; update local
               localUpdates.add(remoteBean.beansUuid);
@@ -730,18 +736,23 @@ class CoffeeBeansProvider with ChangeNotifier {
       }
 
       // Check for new local beans not present in remote
-      final newLocalBeans = localBeans.where((bean) =>
-          !remoteBeansInfo.any((remote) => remote.beansUuid == bean.beansUuid));
+      final newLocalBeans = localBeans.where(
+        (bean) => !remoteBeansInfo.any(
+          (remote) => remote.beansUuid == bean.beansUuid,
+        ),
+      );
       remoteUpdates.addAll(
         newLocalBeans.map(
-            (bean) => _coffeeBeansModelToJson(bean)..['user_id'] = user.id),
+          (bean) => _coffeeBeansModelToJson(bean)..['user_id'] = user.id,
+        ),
       );
 
       // Perform local updates
       if (localUpdates.isNotEmpty) {
         final updatedRemoteBeans = await _fetchFullRemoteBeans(localUpdates);
-        await db.coffeeBeansDao
-            .insertOrUpdateMultipleCoffeeBeans(updatedRemoteBeans);
+        await db.coffeeBeansDao.insertOrUpdateMultipleCoffeeBeans(
+          updatedRemoteBeans,
+        );
       }
 
       // Perform remote updates with a timeout
@@ -755,14 +766,17 @@ class CoffeeBeansProvider with ChangeNotifier {
           if (e is TimeoutException) {
             AppLogger.warning('Supabase operation timed out', errorObject: e);
           } else {
-            AppLogger.error('Error updating coffee beans in Supabase',
-                errorObject: e);
+            AppLogger.error(
+              'Error updating coffee beans in Supabase',
+              errorObject: e,
+            );
           }
         }
       }
 
       AppLogger.info(
-          'Sync completed. Local updates: ${localUpdates.length}, Remote updates: ${remoteUpdates.length}');
+        'Sync completed. Local updates: ${localUpdates.length}, Remote updates: ${remoteUpdates.length}',
+      );
     } catch (e) {
       AppLogger.error('Error syncing coffee beans', errorObject: e);
     }
@@ -779,7 +793,8 @@ class CoffeeBeansProvider with ChangeNotifier {
   }
 
   Future<List<CoffeeBeansModel>> _fetchFullRemoteBeans(
-      List<String> beansUuids) async {
+    List<String> beansUuids,
+  ) async {
     final response = await Supabase.instance.client
         .from('user_coffee_beans')
         .select()
@@ -866,36 +881,43 @@ class CoffeeBeansProvider with ChangeNotifier {
   }
 
   Future<List<String>> fetchOriginsForRoasters(
-      List<String> selectedRoasters) async {
+    List<String> selectedRoasters,
+  ) async {
     return await db.coffeeBeansDao.fetchOriginsForRoasters(selectedRoasters);
   }
 
   /// Updates the package weight for a specific coffee bean by subtracting the used amount.
   /// Returns the new weight after deduction, or null if no update was performed.
   Future<double?> updateBeanWeightAfterBrew(
-      String beansUuid, double usedAmount) async {
+    String beansUuid,
+    double usedAmount,
+  ) async {
     try {
       final currentBeans = await fetchCoffeeBeansByUuid(beansUuid);
       if (currentBeans == null) {
         AppLogger.debug(
-            'Bean not found for UUID: ${AppLogger.sanitize(beansUuid)}');
+          'Bean not found for UUID: ${AppLogger.sanitize(beansUuid)}',
+        );
         return null;
       }
 
       final currentWeight = currentBeans.packageWeightGrams;
       if (currentWeight == null || currentWeight <= 0) {
         AppLogger.debug(
-            'Bean ${AppLogger.sanitize(beansUuid)} has no valid package weight (current: $currentWeight)');
+          'Bean ${AppLogger.sanitize(beansUuid)} has no valid package weight (current: $currentWeight)',
+        );
         return null;
       }
 
       final newWeight = (currentWeight - usedAmount).clamp(0.0, currentWeight);
       AppLogger.debug(
-          'Updating bean ${AppLogger.sanitize(beansUuid)} weight from $currentWeight to $newWeight (used: $usedAmount)');
+        'Updating bean ${AppLogger.sanitize(beansUuid)} weight from $currentWeight to $newWeight (used: $usedAmount)',
+      );
 
       if (newWeight == currentWeight) {
         AppLogger.debug(
-            'No weight change needed for bean ${AppLogger.sanitize(beansUuid)}');
+          'No weight change needed for bean ${AppLogger.sanitize(beansUuid)}',
+        );
         return currentWeight;
       }
 
@@ -903,12 +925,14 @@ class CoffeeBeansProvider with ChangeNotifier {
       await updateCoffeeBeans(updatedBeans);
 
       AppLogger.debug(
-          'Successfully updated bean ${AppLogger.sanitize(beansUuid)} weight to $newWeight');
+        'Successfully updated bean ${AppLogger.sanitize(beansUuid)} weight to $newWeight',
+      );
       return newWeight;
     } catch (e) {
       AppLogger.error(
-          'Error updating bean weight for ${AppLogger.sanitize(beansUuid)}',
-          errorObject: e);
+        'Error updating bean weight for ${AppLogger.sanitize(beansUuid)}',
+        errorObject: e,
+      );
       return null;
     }
   }
@@ -916,36 +940,43 @@ class CoffeeBeansProvider with ChangeNotifier {
   /// Adds weight back to a coffee bean when beans are removed from a brew diary record.
   /// Returns the new weight after addition, or null if no update was performed.
   Future<double?> updateBeanWeightAfterBrewModification(
-      String beansUuid, double coffeeAmount) async {
+    String beansUuid,
+    double coffeeAmount,
+  ) async {
     try {
       final currentBeans = await fetchCoffeeBeansByUuid(beansUuid);
       if (currentBeans == null) {
         AppLogger.debug(
-            'Bean not found for UUID: ${AppLogger.sanitize(beansUuid)}');
+          'Bean not found for UUID: ${AppLogger.sanitize(beansUuid)}',
+        );
         return null;
       }
 
       final currentWeight = currentBeans.packageWeightGrams;
       if (currentWeight == null) {
         AppLogger.debug(
-            'Bean ${AppLogger.sanitize(beansUuid)} has no package weight specified, cannot adjust');
+          'Bean ${AppLogger.sanitize(beansUuid)} has no package weight specified, cannot adjust',
+        );
         return null;
       }
 
       final newWeight = currentWeight + coffeeAmount;
       AppLogger.debug(
-          'Adding back $coffeeAmount to bean ${AppLogger.sanitize(beansUuid)} weight from $currentWeight to $newWeight');
+        'Adding back $coffeeAmount to bean ${AppLogger.sanitize(beansUuid)} weight from $currentWeight to $newWeight',
+      );
 
       final updatedBeans = currentBeans.copyWith(packageWeightGrams: newWeight);
       await updateCoffeeBeans(updatedBeans);
 
       AppLogger.debug(
-          'Successfully added back weight to bean ${AppLogger.sanitize(beansUuid)}, new weight: $newWeight');
+        'Successfully added back weight to bean ${AppLogger.sanitize(beansUuid)}, new weight: $newWeight',
+      );
       return newWeight;
     } catch (e) {
       AppLogger.error(
-          'Error adding back bean weight for ${AppLogger.sanitize(beansUuid)}',
-          errorObject: e);
+        'Error adding back bean weight for ${AppLogger.sanitize(beansUuid)}',
+        errorObject: e,
+      );
       return null;
     }
   }
@@ -953,30 +984,38 @@ class CoffeeBeansProvider with ChangeNotifier {
   /// Subtracts weight from a coffee bean when beans are added to a brew diary record.
   /// Returns the new weight after subtraction, or null if no update was performed.
   Future<double?> updateBeanWeightWhenBeansAdded(
-      String beansUuid, double coffeeAmount) async {
+    String beansUuid,
+    double coffeeAmount,
+  ) async {
     try {
       final currentBeans = await fetchCoffeeBeansByUuid(beansUuid);
       if (currentBeans == null) {
         AppLogger.debug(
-            'Bean not found for UUID: ${AppLogger.sanitize(beansUuid)}');
+          'Bean not found for UUID: ${AppLogger.sanitize(beansUuid)}',
+        );
         return null;
       }
 
       final currentWeight = currentBeans.packageWeightGrams;
       if (currentWeight == null) {
         AppLogger.debug(
-            'Bean ${AppLogger.sanitize(beansUuid)} has no package weight specified, cannot adjust');
+          'Bean ${AppLogger.sanitize(beansUuid)} has no package weight specified, cannot adjust',
+        );
         return null;
       }
 
-      final newWeight =
-          (currentWeight - coffeeAmount).clamp(0.0, double.infinity);
+      final newWeight = (currentWeight - coffeeAmount).clamp(
+        0.0,
+        double.infinity,
+      );
       AppLogger.debug(
-          'Subtracting $coffeeAmount from bean ${AppLogger.sanitize(beansUuid)} weight from $currentWeight to $newWeight');
+        'Subtracting $coffeeAmount from bean ${AppLogger.sanitize(beansUuid)} weight from $currentWeight to $newWeight',
+      );
 
       if (newWeight == currentWeight) {
         AppLogger.debug(
-            'No weight change needed for bean ${AppLogger.sanitize(beansUuid)}');
+          'No weight change needed for bean ${AppLogger.sanitize(beansUuid)}',
+        );
         return currentWeight;
       }
 
@@ -984,12 +1023,14 @@ class CoffeeBeansProvider with ChangeNotifier {
       await updateCoffeeBeans(updatedBeans);
 
       AppLogger.debug(
-          'Successfully subtracted weight from bean ${AppLogger.sanitize(beansUuid)}, new weight: $newWeight');
+        'Successfully subtracted weight from bean ${AppLogger.sanitize(beansUuid)}, new weight: $newWeight',
+      );
       return newWeight;
     } catch (e) {
       AppLogger.error(
-          'Error subtracting bean weight for ${AppLogger.sanitize(beansUuid)}',
-          errorObject: e);
+        'Error subtracting bean weight for ${AppLogger.sanitize(beansUuid)}',
+        errorObject: e,
+      );
       return null;
     }
   }
@@ -1000,7 +1041,8 @@ class CoffeeBeansProvider with ChangeNotifier {
     AppLogger.debug('   Total entries: ${_cache.length}');
     AppLogger.debug('   Max entries: ${CacheConfig.maxCacheEntries}');
     AppLogger.debug(
-        '   Default expiration: ${CacheConfig.defaultExpiration.inHours}h');
+      '   Default expiration: ${CacheConfig.defaultExpiration.inHours}h',
+    );
     AppLogger.debug('   Max age: ${CacheConfig.maxAge.inDays}d');
     AppLogger.debug('   App version: $_currentAppVersion');
 
@@ -1011,15 +1053,17 @@ class CoffeeBeansProvider with ChangeNotifier {
         final status = entry.value.isExpired
             ? 'EXPIRED'
             : entry.value.isTooOld
-                ? 'TOO_OLD'
-                : 'VALID';
+            ? 'TOO_OLD'
+            : 'VALID';
         final versionInfo = entry.value.appVersion != null
             ? ', version: ${entry.value.appVersion}'
             : ', no version';
-        final localeInfo =
-            entry.key.contains('_') ? ', locale-specific' : ', locale-agnostic';
+        final localeInfo = entry.key.contains('_')
+            ? ', locale-specific'
+            : ', locale-agnostic';
         AppLogger.debug(
-            '     ${entry.key}: ${entry.value.data.length} items, age: ${age.inMinutes}min, status: $status$versionInfo$localeInfo');
+          '     ${entry.key}: ${entry.value.data.length} items, age: ${age.inMinutes}min, status: $status$versionInfo$localeInfo',
+        );
       }
     } else {
       AppLogger.debug('   Cache is empty');

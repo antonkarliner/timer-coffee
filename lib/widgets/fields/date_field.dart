@@ -55,7 +55,7 @@ class DateField extends StatefulWidget {
   final bool showClearButton;
 
   const DateField({
-    Key? key,
+    super.key,
     required this.label,
     this.hintText,
     this.helperText,
@@ -70,7 +70,7 @@ class DateField extends StatefulWidget {
     this.lastDate,
     this.currentDate,
     this.showClearButton = true,
-  }) : super(key: key);
+  });
 
   @override
   State<DateField> createState() => _DateFieldState();

@@ -3,6 +3,8 @@
 /// This file provides convenient access to all coffee beans widgets
 /// for easy importing throughout the application.
 
+library;
+
 // Main UI Components
 export 'coffee_beans_app_bar.dart';
 export 'beans_total_summary.dart';

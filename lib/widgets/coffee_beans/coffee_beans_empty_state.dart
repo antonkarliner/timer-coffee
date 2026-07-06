@@ -23,11 +23,11 @@ class CoffeeBeansEmptyState extends StatelessWidget {
   final VoidCallback? onClearFilters;
 
   const CoffeeBeansEmptyState({
-    Key? key,
+    super.key,
     required this.type,
     this.onAddBeans,
     this.onClearFilters,
-  }) : super(key: key);
+  });
 
   /// Factory constructor for no beans state
   const CoffeeBeansEmptyState.noBeans({

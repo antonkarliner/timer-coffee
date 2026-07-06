@@ -24,11 +24,11 @@ class BeansTotalSummary extends StatelessWidget {
   final bool hasActiveFilters;
 
   const BeansTotalSummary({
-    Key? key,
+    super.key,
     required this.scopedGrams,
     required this.grandTotalGrams,
     required this.hasActiveFilters,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -4,7 +4,7 @@ import 'package:coffee_timer/widgets/smart_back_button.dart';
 
 /// Widget that displays a loading state with a basic app bar and circular progress indicator
 class RecipeLoadingState extends StatelessWidget {
-  const RecipeLoadingState({Key? key}) : super(key: key);
+  const RecipeLoadingState({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +20,9 @@ class RecipeErrorState extends StatelessWidget {
   final String? errorMessage;
 
   const RecipeErrorState({
-    Key? key,
+    super.key,
     this.errorMessage,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class RecipeErrorState extends StatelessWidget {
 
 /// Widget that displays when recipe is null after successful loading check
 class RecipeNotFoundState extends StatelessWidget {
-  const RecipeNotFoundState({Key? key}) : super(key: key);
+  const RecipeNotFoundState({super.key});
 
   @override
   Widget build(BuildContext context) {

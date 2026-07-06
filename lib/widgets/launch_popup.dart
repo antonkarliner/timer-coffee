@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart'
     show kIsWeb, defaultTargetPlatform, TargetPlatform;
@@ -14,7 +13,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 
 class LaunchPopupWidget extends StatefulWidget {
   @override
-  _LaunchPopupWidgetState createState() => _LaunchPopupWidgetState();
+  State<LaunchPopupWidget> createState() => _LaunchPopupWidgetState();
 }
 
 class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
@@ -64,11 +63,12 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
       await prefs.setBool('launch_popup_first_session_done', true);
       return;
     }
+    if (!mounted) return;
     final locale = Localizations.localeOf(context).languageCode;
 
     // Fetch latest popup (remote-first via provider)
-    final popup = await Provider.of<RecipeProvider>(context, listen: false)
-        .fetchLatestLaunchPopup(locale);
+    final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
+    final popup = await recipeProvider.fetchLatestLaunchPopup(locale);
 
     if (popup == null) return; // nothing to show
     // Platform gating: skip popups that don't target this platform
@@ -112,7 +112,7 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
               padding: AppButton.paddingSmall,
               onPressed: () async {
                 await prefs.setInt(idKey, popup.id);
-                Navigator.of(context).pop();
+                if (context.mounted) Navigator.of(context).pop();
               },
             ),
           ],
@@ -140,7 +140,7 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
         if (href == null) return;
         if (href.startsWith('app://')) {
           final routePath = href.substring(6);
-          if (mounted) {
+          if (context.mounted) {
             context.router.pushPath(routePath);
           }
           return;
@@ -150,10 +150,10 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
         if (await canLaunchUrl(uri)) {
           await launchUrl(uri);
         } else {
-          if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Could not launch $href')),
-            );
+          if (context.mounted) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text('Could not launch $href')));
           }
         }
       },

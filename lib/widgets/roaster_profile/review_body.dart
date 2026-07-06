@@ -214,7 +214,7 @@ class _ReviewBodyState extends State<ReviewBody> {
               Container(
                 padding: const EdgeInsets.all(AppSpacing.sm),
                 decoration: BoxDecoration(
-                  color: colorScheme.surfaceContainerHighest.withOpacity(0.5),
+                  color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
                   borderRadius: BorderRadius.circular(AppRadius.card),
                 ),
                 child: Text(translation.translatedText!,

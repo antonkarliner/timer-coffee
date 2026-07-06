@@ -11,11 +11,11 @@ class RichTextLinks extends StatefulWidget {
   final void Function(Uri url)? onTapUrl;
 
   const RichTextLinks({
-    Key? key,
+    super.key,
     required this.text,
     this.style,
     this.onTapUrl,
-  }) : super(key: key);
+  });
 
   @override
   State<RichTextLinks> createState() => _RichTextLinksState();

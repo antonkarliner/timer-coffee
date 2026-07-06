@@ -4,6 +4,8 @@
 /// These components were extracted from the coffee beans detail screen to promote
 /// code reusability and maintainability.
 
+library;
+
 export 'detail_section_header.dart';
 export 'detail_item_row.dart';
 export 'quick_stat_chip.dart';

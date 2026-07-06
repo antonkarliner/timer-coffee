@@ -22,9 +22,9 @@ import '../widgets/base_buttons.dart';
 @RoutePage()
 class InfoScreen extends StatefulWidget {
   const InfoScreen({
-    Key? key,
+    super.key,
     @QueryParam('section') this.section,
-  }) : super(key: key);
+  });
 
   final String? section;
 
@@ -37,15 +37,11 @@ class _InfoScreenState extends State<InfoScreen> {
       'https://www.buymeacoffee.com/timercoffee';
   static const Duration _analyticsFlushTimeout = Duration(seconds: 1);
 
-  bool _isAnonymous = true;
-  String? _userId;
-
   final _moderationKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
-    _loadUserData();
     if (widget.section == 'moderation') {
       // Two nested callbacks: first lets the expanded tile lay out,
       // second scrolls once the new height is committed.
@@ -62,14 +58,6 @@ class _InfoScreenState extends State<InfoScreen> {
         });
       });
     }
-  }
-
-  Future<void> _loadUserData() async {
-    final user = Supabase.instance.client.auth.currentUser;
-    setState(() {
-      _isAnonymous = user?.isAnonymous ?? true;
-      _userId = user?.id;
-    });
   }
 
   @override
@@ -499,63 +487,5 @@ class _InfoScreenState extends State<InfoScreen> {
       );
     } catch (_) {}
     await _launchURL(_buyMeACoffeeUrl);
-  }
-
-  void _showDeleteAccountConfirmation() {
-    final l10n = AppLocalizations.of(context)!;
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(l10n.deleteAccountTitle),
-        content: Text(l10n.deleteAccountWarning),
-        actions: [
-          AppTextButton(
-            label: l10n.cancel,
-            onPressed: () => Navigator.of(context).pop(),
-            isFullWidth: false,
-            height: AppButton.heightSmall,
-            padding: AppButton.paddingSmall,
-          ),
-          AppTextButton(
-            label: l10n.deleteAccount,
-            onPressed: () {
-              Navigator.of(context).pop();
-              _deleteAccount();
-            },
-            isFullWidth: false,
-            height: AppButton.heightSmall,
-            padding: AppButton.paddingSmall,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Future<void> _deleteAccount() async {
-    final l10n = AppLocalizations.of(context)!;
-    try {
-      await Supabase.instance.client.auth.signOut();
-      final response = await Supabase.instance.client.functions.invoke(
-        'clean-before-deletion',
-        body: {'user_id': _userId},
-      );
-      if (response.status != 200) {
-        throw Exception('Failed to clean user data: ${response.data}');
-      }
-      await Supabase.instance.client.auth.signInAnonymously();
-      setState(() {
-        _isAnonymous = true;
-        _userId = Supabase.instance.client.auth.currentUser?.id;
-      });
-      if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(l10n.accountDeleted)));
-    } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(l10n.accountDeletionError)));
-    }
   }
 }

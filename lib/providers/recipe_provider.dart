@@ -19,14 +19,12 @@ class RecipeProvider extends ChangeNotifier {
   final ValueNotifier<Set<String>> _hiddenBrewingMethodIds =
       ValueNotifier<Set<String>>({});
   Locale _locale;
-  List<Locale> _supportedLocales;
   final AppDatabase db;
   final DatabaseProvider databaseProvider;
 
   bool _isDataLoaded = false;
 
-  RecipeProvider(
-      this._locale, this._supportedLocales, this.db, this.databaseProvider) {
+  RecipeProvider(this._locale, List<Locale> _, this.db, this.databaseProvider) {
     _initialize();
   }
 

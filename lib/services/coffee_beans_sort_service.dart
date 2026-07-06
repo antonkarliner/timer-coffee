@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/coffee_beans_model.dart';
@@ -23,28 +22,32 @@ class CoffeeBeansSortService {
     switch (sortOptions.sortOption) {
       case SortOption.dateAdded:
         // Sort by UUID (newest first for descending, oldest first for ascending)
-        sortedBeans.sort((a, b) =>
-            sortOptions.sortDirection == SortDirection.descending
-                ? b.beansUuid.compareTo(a.beansUuid)
-                : a.beansUuid.compareTo(b.beansUuid));
+        sortedBeans.sort(
+          (a, b) => sortOptions.sortDirection == SortDirection.descending
+              ? b.beansUuid.compareTo(a.beansUuid)
+              : a.beansUuid.compareTo(b.beansUuid),
+        );
         break;
       case SortOption.name:
-        sortedBeans.sort((a, b) =>
-            sortOptions.sortDirection == SortDirection.descending
-                ? b.name.compareTo(a.name)
-                : a.name.compareTo(b.name));
+        sortedBeans.sort(
+          (a, b) => sortOptions.sortDirection == SortDirection.descending
+              ? b.name.compareTo(a.name)
+              : a.name.compareTo(b.name),
+        );
         break;
       case SortOption.roaster:
-        sortedBeans.sort((a, b) =>
-            sortOptions.sortDirection == SortDirection.descending
-                ? b.roaster.compareTo(a.roaster)
-                : a.roaster.compareTo(b.roaster));
+        sortedBeans.sort(
+          (a, b) => sortOptions.sortDirection == SortDirection.descending
+              ? b.roaster.compareTo(a.roaster)
+              : a.roaster.compareTo(b.roaster),
+        );
         break;
       case SortOption.origin:
-        sortedBeans.sort((a, b) =>
-            sortOptions.sortDirection == SortDirection.descending
-                ? b.origin.compareTo(a.origin)
-                : a.origin.compareTo(b.origin));
+        sortedBeans.sort(
+          (a, b) => sortOptions.sortDirection == SortDirection.descending
+              ? b.origin.compareTo(a.origin)
+              : a.origin.compareTo(b.origin),
+        );
         break;
       case SortOption.remainingAmount:
         sortedBeans.sort((a, b) {
@@ -90,7 +93,9 @@ class CoffeeBeansSortService {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('coffeeBeansSortOption', sortOptions.sortOption.name);
     await prefs.setString(
-        'coffeeBeansSortDirection', sortOptions.sortDirection.name);
+      'coffeeBeansSortDirection',
+      sortOptions.sortDirection.name,
+    );
   }
 
   /// Loads sort options from SharedPreferences
