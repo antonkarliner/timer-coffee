@@ -1,2 +1,7 @@
+Neu:
+• Du kannst jetzt Informationen über Röstereien teilen, damit sie schneller zur Datenbank der App hinzugefügt werden können.
+
 Verbessert:
-• Dieses Update bringt viele Verbesserungen, die darauf abzielen, von Nutzern erstellte Rezepte stabiler zu machen. Danke an alle, die Fehler melden und Ideen teilen!
+• Benachrichtigungen sind nützlicher geworden.
+• Die Rezeptzusammenfassung zeigt jetzt auch den Vorbereitungsschritt an.
+• Viel veralteten Code bereinigt, um die App zukunftssicherer zu machen.

@@ -1,0 +1,7 @@
+Nowości:
+• Możesz teraz udostępniać informacje o palarniach, aby szybciej dodać je do bazy aplikacji.
+
+Ulepszenia:
+• Powiadomienia są bardziej przydatne.
+• Podsumowanie przepisu pokazuje teraz także krok przygotowania.
+• Usunięto dużo przestarzałego kodu, by aplikacja była bardziej odporna na przyszłe zmiany.

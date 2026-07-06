@@ -1,2 +1,7 @@
+Nou:
+• Acum poți partaja informații despre prăjitori pentru a ajuta la adăugarea lor mai rapidă în baza de date a aplicației.
+
 Îmbunătățit:
-• Această actualizare aduce multe îmbunătățiri menite să facă rețetele create de utilizatori mai stabile. Mulțumim tuturor celor care raportează erori și împărtășesc idei!
+• Notificările au devenit mai utile.
+• Rezumatul Rețetei afișează acum și pasul de pregătire.
+• Am curățat mult cod perimat pentru a face aplicația mai pregătită pentru viitor.

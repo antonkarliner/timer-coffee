@@ -1,0 +1,7 @@
+Novo:
+• Sada možete podijeliti informacije o pržionicama kako biste pomogli da ih brže dodamo u bazu aplikacije.
+
+Poboljšano:
+• Obavijesti su korisnije.
+• Sažetak recepta sada prikazuje i korak pripreme.
+• Uklonjeno je mnogo zastarjelog koda kako bi aplikacija bila spremnija za budućnost.

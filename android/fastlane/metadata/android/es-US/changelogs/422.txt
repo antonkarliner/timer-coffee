@@ -1,0 +1,7 @@
+Nuevo:
+• Ahora puedes compartir información sobre tostadurías para ayudar a añadirlas más rápido a la base de datos de la app.
+
+Mejoras:
+• Las notificaciones son más útiles.
+• El resumen de la receta ahora también muestra el paso de preparación.
+• Se limpió mucho código obsoleto para que la app esté más preparada para el futuro.

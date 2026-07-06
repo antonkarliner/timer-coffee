@@ -1,2 +1,7 @@
+Baru:
+• Anda kini dapat membagikan informasi tentang roaster untuk membantu menambahkannya ke basis data aplikasi lebih cepat.
+
 Ditingkatkan:
-• Pembaruan ini menghadirkan banyak peningkatan yang bertujuan membuat resep yang dibuat pengguna menjadi lebih stabil. Terima kasih kepada semua yang melaporkan bug dan membagikan ide!
+• Notifikasi menjadi lebih berguna.
+• Ringkasan resep kini juga menampilkan langkah persiapan.
+• Membersihkan banyak kode yang tidak digunakan lagi agar aplikasi lebih siap untuk masa depan.

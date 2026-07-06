@@ -1,0 +1,7 @@
+Baru:
+• Kini Anda dapat membagikan info tentang roaster agar mereka lebih cepat ditambahkan ke basis data aplikasi.
+
+Ditingkatkan:
+• Notifikasi menjadi lebih berguna.
+• Ringkasan resep kini juga menampilkan langkah persiapan.
+• Banyak kode usang dibersihkan agar aplikasi lebih siap untuk masa depan.

@@ -1,0 +1,7 @@
+Uutta:
+• Voit nyt jakaa tietoja paahtimoista, jotta ne lisätään sovelluksen tietokantaan nopeammin.
+
+Parannettu:
+• Ilmoitukset ovat hyödyllisempiä.
+• Reseptin yhteenveto näyttää nyt myös valmisteluvaiheen.
+• Poistettu paljon vanhentunutta koodia, jotta sovellus kestää paremmin tulevaa.

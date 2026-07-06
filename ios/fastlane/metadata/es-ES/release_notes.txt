@@ -1,2 +1,7 @@
-Mejoras:
-• Esta actualización trae muchas mejoras destinadas a hacer que las recetas creadas por los usuarios sean más estables. ¡Gracias a todos los que informáis de errores y compartís ideas!
+Nuevo:
+• Ahora puedes compartir información sobre tostadores para ayudar a añadirlos más rápido a la base de datos de la app.
+
+Mejorado:
+• Las Notificaciones ahora son más útiles.
+• El Resumen de la receta ahora también muestra el paso de preparación.
+• Se ha limpiado mucho código obsoleto para hacer que la app esté más preparada para el futuro.

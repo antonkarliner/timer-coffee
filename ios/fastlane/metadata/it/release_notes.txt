@@ -1,2 +1,7 @@
+Novità:
+• Ora puoi condividere informazioni sulle torrefazioni per aiutare ad aggiungerle più rapidamente al database dell'app.
+
 Miglioramenti:
-• Questo aggiornamento introduce molti miglioramenti pensati per rendere più stabili le ricette create dagli utenti. Grazie a tutti coloro che segnalano bug e condividono idee!
+• Le notifiche sono diventate più utili.
+• Il riepilogo della ricetta ora mostra anche il passaggio di preparazione.
+• Ripulito molto codice deprecato per rendere l'app più a prova di futuro.

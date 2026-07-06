@@ -1,0 +1,7 @@
+Neu:
+• Du kannst jetzt Infos über Röstereien teilen, damit sie schneller zur App-Datenbank hinzugefügt werden.
+
+Verbessert:
+• Benachrichtigungen sind jetzt nützlicher.
+• Die Rezeptzusammenfassung zeigt nun auch den Vorbereitungsschritt.
+• Viel veralteter Code entfernt, um die App zukunftssicherer zu machen.

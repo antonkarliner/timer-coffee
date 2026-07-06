@@ -1,2 +1,7 @@
+New:
+• You can now share information about roasters to help to add them to app's database quicker.
+
 Improved:
-• This update brings a lot of improvements aimed at making user-created recipes more stable. Thanks to everyone who reports bugs and shares ideas!
+• Notifications became more useful.
+• Recipe summary now also displays preparation step.
+• Cleaned a lot of deprecated code to make app more future-proof.

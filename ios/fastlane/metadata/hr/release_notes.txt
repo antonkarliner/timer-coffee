@@ -1,2 +1,7 @@
+Novo:
+• Sada možete podijeliti informacije o pržionicama kako biste pomogli da ih brže dodamo u bazu podataka aplikacije.
+
 Poboljšano:
-• Ovo ažuriranje donosi mnoga poboljšanja usmjerena na to da recepti koje su kreirali korisnici budu stabilniji. Hvala svima koji prijavljuju greške i dijele ideje!
+• Obavijesti su postale korisnije.
+• Sažetak recepta sada prikazuje i korak pripreme.
+• Očišćeno je mnogo zastarjelog koda kako bi aplikacija bila spremnija za budućnost.

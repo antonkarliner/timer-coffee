@@ -1,2 +1,7 @@
-Melhorias:
-• Esta atualização traz muitas melhorias destinadas a tornar as receitas criadas pelos utilizadores mais estáveis. Obrigado a todos os que comunicam erros e partilham ideias!
+Novo:
+• Agora pode partilhar informações sobre torrefações para ajudar a adicioná-las mais rapidamente à base de dados da aplicação.
+
+Melhorado:
+• As Notificações tornaram-se mais úteis.
+• O Resumo da Receita agora também apresenta o Passo de Preparação.
+• Foi limpo muito código obsoleto para tornar a aplicação mais preparada para o futuro.

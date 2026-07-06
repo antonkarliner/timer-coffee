@@ -1,0 +1,7 @@
+Nouveau :
+• Vous pouvez maintenant partager des infos sur les torréfacteurs pour aider à les ajouter plus vite à la base de données de l’app.
+
+Amélioré :
+• Les notifications sont plus utiles.
+• Le résumé de la recette affiche maintenant aussi l’étape de préparation.
+• Beaucoup de code obsolète a été nettoyé pour rendre l’app plus durable.

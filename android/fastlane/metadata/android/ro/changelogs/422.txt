@@ -1,0 +1,7 @@
+Nou:
+• Acum poți partaja informații despre prăjitorii ca să le adăugăm mai rapid în baza de date a aplicației.
+
+Îmbunătățiri:
+• Notificările sunt mai utile.
+• Rezumatul Rețetei afișează acum și pasul de pregătire.
+• Am eliminat mult cod învechit pentru ca aplicația să fie mai pregătită pentru viitor.

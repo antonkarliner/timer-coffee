@@ -1,2 +1,7 @@
+Yeni:
+• Artık uygulamanın veritabanına daha hızlı eklenmelerine yardımcı olmak için kavurucular hakkında bilgi paylaşabilirsiniz.
+
 İyileştirildi:
-• Bu güncelleme, kullanıcıların oluşturduğu tarifleri daha stabil hale getirmeyi amaçlayan birçok iyileştirme getiriyor. Hata bildiren ve fikirlerini paylaşan herkese teşekkürler!
+• Bildirimler daha kullanışlı hale geldi.
+• Tarif Özeti artık Hazırlık Adımı’nı da gösteriyor.
+• Uygulamayı geleceğe daha dayanıklı hale getirmek için çok sayıda kullanımdan kaldırılmış kod temizlendi.

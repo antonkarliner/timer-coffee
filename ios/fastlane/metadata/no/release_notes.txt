@@ -1,2 +1,7 @@
+Nytt:
+• Du kan nå dele informasjon om brennerier for å bidra til å legge dem til i appens database raskere.
+
 Forbedret:
-• Denne oppdateringen gir mange forbedringer som skal gjøre brukeropprettede oppskrifter mer stabile. Takk til alle som rapporterer feil og deler ideer!
+• Varsler har blitt mer nyttige.
+• Oppskriftssammendrag viser nå også forberedelsestrin.
+• Ryddet opp i mye utdatert kode for å gjøre appen mer fremtidssikker.

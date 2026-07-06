@@ -1,0 +1,7 @@
+Nytt:
+• Du kan nå dele informasjon om brennerier så vi kan legge dem raskere til i appens database.
+
+Forbedret:
+• Varsler er blitt mer nyttige.
+• Oppskriftssammendrag viser nå også forberedelsestrinn.
+• Ryddet opp i mye utdatert kode for å gjøre appen mer fremtidssikker.

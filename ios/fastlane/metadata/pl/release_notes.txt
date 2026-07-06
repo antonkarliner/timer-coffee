@@ -1,2 +1,7 @@
+Nowości:
+• Możesz teraz udostępniać informacje o palarniach, aby pomóc szybciej dodać je do bazy danych aplikacji.
+
 Ulepszono:
-• Ta aktualizacja wprowadza wiele usprawnień mających na celu zwiększenie stabilności przepisów tworzonych przez użytkowników. Dziękujemy wszystkim, którzy zgłaszają błędy i dzielą się pomysłami!
+• Powiadomienia stały się bardziej użyteczne.
+• Podsumowanie przepisu wyświetla teraz także krok przygotowania.
+• Usunięto dużo przestarzałego kodu, aby aplikacja była lepiej przygotowana na przyszłość.

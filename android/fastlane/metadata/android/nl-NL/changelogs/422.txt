@@ -3,5 +3,5 @@ Nieuw:
 
 Verbeterd:
 • Notificaties zijn nuttiger geworden.
-• Het receptoverzicht toont nu ook de voorbereidingsstap.
+• Receptoverzicht toont nu ook de voorbereidingsstap.
 • Veel verouderde code opgeschoond om de app toekomstbestendiger te maken.

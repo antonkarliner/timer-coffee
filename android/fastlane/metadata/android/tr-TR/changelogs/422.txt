@@ -1,0 +1,7 @@
+Yeni:
+• Kavurucuları uygulamanın veritabanına daha hızlı eklemeye yardımcı olmak için artık onlar hakkında bilgi paylaşabilirsiniz.
+
+İyileştirmeler:
+• Bildirimler daha kullanışlı hale geldi.
+• Tarif Özeti artık hazırlık adımını da gösteriyor.
+• Uygulamayı geleceğe daha dayanıklı kılmak için çok sayıda kullanımdan kalkmış kod temizlendi.
