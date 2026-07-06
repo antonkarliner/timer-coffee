@@ -19,6 +19,7 @@ import '../widgets/coffee_bean_details/index.dart';
 import '../widgets/confirm_delete_dialog.dart';
 import '../widgets/roaster_profile/review_body.dart';
 import '../widgets/roaster_profile/review_form.dart';
+import '../widgets/roaster_contribution/contribution_prompt_card.dart';
 import '../app_router.gr.dart';
 import '../utils/roaster_background_color.dart';
 
@@ -28,10 +29,10 @@ class CoffeeBeansDetailScreen extends StatefulWidget {
   final String? focusSection;
 
   const CoffeeBeansDetailScreen({
-    Key? key,
+    super.key,
     @PathParam('beanId') required this.uuid,
     @QueryParam('focus') this.focusSection,
-  }) : super(key: key);
+  });
 
   @override
   State<CoffeeBeansDetailScreen> createState() =>
@@ -45,13 +46,17 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen>
   BeanReviewModel? _userReview;
   String? _roasterProfileId;
   String? _resolvedBrewMethodName;
+  bool _roasterProfileLookupCompleted = false;
   bool _reviewLoading = false;
   bool _reviewDataLoaded = false;
+  bool _deferredLoadsUnlocked = false;
 
   final ScrollController _scrollController = ScrollController();
   final GlobalKey _reviewSectionKey = GlobalKey();
   late final AnimationController _highlightController;
   bool _focusHandled = false;
+  Animation<double>? _routeAnimation;
+  AnimationStatusListener? _routeAnimationListener;
 
   // Held so we can add/remove the listener safely across rebuilds.
   BeanReviewProvider? _reviewProvider;
@@ -66,6 +71,35 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen>
       vsync: this,
       duration: const Duration(milliseconds: 600),
     );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final animation = ModalRoute.of(context)?.animation;
+      if (animation == null ||
+          animation.status == AnimationStatus.completed) {
+        _deferredLoadsUnlocked = true;
+        _controller.loadAncillaryData(context);
+        _maybeStartReviewLoad();
+        return;
+      }
+      _routeAnimation = animation;
+      _routeAnimationListener = (status) {
+        if (status != AnimationStatus.completed) return;
+        _detachRouteAnimationListener();
+        if (!mounted) return;
+        _deferredLoadsUnlocked = true;
+        _controller.loadAncillaryData(context);
+        _maybeStartReviewLoad();
+      };
+      animation.addStatusListener(_routeAnimationListener!);
+    });
+  }
+
+  void _detachRouteAnimationListener() {
+    if (_routeAnimation != null && _routeAnimationListener != null) {
+      _routeAnimation!.removeStatusListener(_routeAnimationListener!);
+    }
+    _routeAnimation = null;
+    _routeAnimationListener = null;
   }
 
   @override
@@ -91,7 +125,11 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen>
   }
 
   void _onControllerChanged() {
-    if (_controller.hasData && !_reviewDataLoaded) {
+    _maybeStartReviewLoad();
+  }
+
+  void _maybeStartReviewLoad() {
+    if (_deferredLoadsUnlocked && _controller.hasData && !_reviewDataLoaded) {
       _reviewDataLoaded = true;
       _loadReviewData();
     }
@@ -131,6 +169,7 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen>
     setState(() {
       _userReview = review;
       _roasterProfileId = results[1] as String?;
+      _roasterProfileLookupCompleted = true;
       _resolvedBrewMethodName = resolvedBrewMethodName;
       _reviewLoading = false;
     });
@@ -162,6 +201,7 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen>
 
   @override
   void dispose() {
+    _detachRouteAnimationListener();
     _reviewProvider?.removeListener(_onReviewProviderChanged);
     _controller.removeListener(_onControllerChanged);
     _controller.dispose();
@@ -180,12 +220,6 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen>
         builder: (context, ctrl, _) {
           final colorResult = ctrl.roasterColorResult;
           return Scaffold(
-            backgroundColor: colorResult != null
-                ? roasterBackgroundColor(
-                    result: colorResult,
-                    brightness: Theme.of(context).brightness,
-                  )
-                : null,
             appBar: AppBar(
               title: Consumer<CoffeeBeansDetailController>(
                 builder: (context, controller, child) {
@@ -257,34 +291,49 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen>
                 ),
               ],
             ),
-            body: Consumer<CoffeeBeansDetailController>(
-              builder: (context, controller, child) {
-                if (controller.hasError) {
-                  return Center(
-                    child: Semantics(
-                      identifier: 'coffeeBeansDetailsError',
-                      label: loc.error(controller.errorMessage!),
-                      child: Text(loc.error(controller.errorMessage!)),
-                    ),
-                  );
-                }
+            body: AnimatedContainer(
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeOut,
+              width: double.infinity,
+              height: double.infinity,
+              // With the warm-cache fast path the color is applied in the
+              // first frame, so this animation only plays on true cache
+              // misses (deferred load resolving after content is visible).
+              color: colorResult != null
+                  ? roasterBackgroundColor(
+                      result: colorResult,
+                      brightness: Theme.of(context).brightness,
+                    )
+                  : Colors.transparent,
+              child: Consumer<CoffeeBeansDetailController>(
+                builder: (context, controller, child) {
+                  if (controller.hasError) {
+                    return Center(
+                      child: Semantics(
+                        identifier: 'coffeeBeansDetailsError',
+                        label: loc.error(controller.errorMessage!),
+                        child: Text(loc.error(controller.errorMessage!)),
+                      ),
+                    );
+                  }
 
-                if (controller.isLoading) {
-                  return const Center(child: CircularProgressIndicator());
-                }
+                  if (controller.isLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
 
-                if (!controller.hasData) {
-                  return Center(
-                    child: Semantics(
-                      identifier: 'coffeeBeansNotFound',
-                      label: loc.coffeeBeansNotFound,
-                      child: Text(loc.coffeeBeansNotFound),
-                    ),
-                  );
-                }
+                  if (!controller.hasData) {
+                    return Center(
+                      child: Semantics(
+                        identifier: 'coffeeBeansNotFound',
+                        label: loc.coffeeBeansNotFound,
+                        child: Text(loc.coffeeBeansNotFound),
+                      ),
+                    );
+                  }
 
-                return _buildDetailsContent(context, controller);
-              },
+                  return _buildDetailsContent(context, controller);
+                },
+              ),
             ),
           );
         },
@@ -322,7 +371,7 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen>
                 child: CachedNetworkImage(
                   imageUrl: SupabaseEndpointResolver.localizeStorageUrl(url),
                   fit: BoxFit.contain,
-                  errorWidget: (_, __, ___) => const Icon(
+                  errorWidget: (_, _, _) => const Icon(
                     Icons.broken_image,
                     color: Colors.white,
                     size: AppIconSize.large,
@@ -519,6 +568,15 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen>
             brewsLeft: controller.brewsLeft,
           ),
 
+          // Roaster website crowdsourcing prompt (plan 011): shown only for a
+          // pending candidate roaster the user hasn't been asked about yet.
+          if (bean.roaster.isNotEmpty)
+            RoasterContributionPromptCard(
+              roaster: bean.roaster,
+              profileLookupCompleted: _roasterProfileLookupCompleted,
+              isKnownRoaster: _roasterProfileId != null,
+            ),
+
           // Cover photo (shown if user attached one) — polaroid card style
           if (bean.photoUrl != null) ...[
             const SizedBox(height: AppSpacing.base),
@@ -534,15 +592,16 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen>
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(AppRadius.small),
                     child: CachedNetworkImage(
-                      imageUrl:
-                          SupabaseEndpointResolver.localizeStorageUrl(bean.photoUrl!),
+                      imageUrl: SupabaseEndpointResolver.localizeStorageUrl(
+                        bean.photoUrl!,
+                      ),
                       width: double.infinity,
                       fit: BoxFit.contain,
-                      placeholder: (_, __) => const AspectRatio(
+                      placeholder: (_, _) => const AspectRatio(
                         aspectRatio: 4 / 3,
                         child: Center(child: CircularProgressIndicator()),
                       ),
-                      errorWidget: (_, __, ___) => const SizedBox.shrink(),
+                      errorWidget: (_, _, _) => const SizedBox.shrink(),
                     ),
                   ),
                 ),
