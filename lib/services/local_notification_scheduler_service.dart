@@ -11,6 +11,8 @@ import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/services/notification_image_helper.dart';
 import 'package:coffee_timer/services/notification_service.dart';
 import 'package:coffee_timer/services/notification_settings_service.dart';
+import 'package:coffee_timer/services/roaster_contribution_service.dart';
+import 'package:coffee_timer/services/roaster_directory_service.dart';
 import 'package:coffee_timer/services/onboarding_service.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
 
@@ -28,10 +30,23 @@ class LocalNotificationSchedulerService {
   static const _idWeeklySummary = 1301;
   static const _idBeanFreshness = 1401;
   static const _idBrewMilestone = 1501;
-  static const _idBeanReviewNudge = 1601;
+  // Bean review nudges use a reserved band of IDs (1601..1610) so several beans
+  // can each hold a pending nudge instead of clobbering a single shared ID.
+  static const _idBeanReviewNudgeBase = 1601;
+  static const _beanReviewNudgeSlots = 10;
   static const _idRecipeExplore = 1701;
+  // Roaster-contribution nudges use a reserved band (1801..1810) so several
+  // roasters can each hold a pending nudge (plan 011, Channel B).
+  static const _idRoasterContribNudgeBase = 1801;
+  static const _roasterContribNudgeSlots = 10;
 
-  static const _allIds = [
+  static Iterable<int> get _beanReviewNudgeIds =>
+      List.generate(_beanReviewNudgeSlots, (i) => _idBeanReviewNudgeBase + i);
+
+  static Iterable<int> get _roasterContribNudgeIds => List.generate(
+      _roasterContribNudgeSlots, (i) => _idRoasterContribNudgeBase + i);
+
+  static final _allIds = <int>[
     _idBrewReminder,
     _idBrewEscalation,
     _idDiscoverBeans,
@@ -40,8 +55,9 @@ class LocalNotificationSchedulerService {
     _idWeeklySummary,
     _idBeanFreshness,
     _idBrewMilestone,
-    _idBeanReviewNudge,
+    ..._beanReviewNudgeIds,
     _idRecipeExplore,
+    ..._roasterContribNudgeIds,
   ];
 
   // --- SharedPreferences cooldown keys ---
@@ -58,6 +74,16 @@ class LocalNotificationSchedulerService {
   static const _keyBeanReviewBacklogQueue = 'notif_bean_review_backlog_uuids';
   static const _keyBeanReviewLastScheduledMs =
       'notif_bean_review_last_scheduled_ms';
+  // In-flight nudge watchlist for delivery measurement: JSON map of
+  // beanUuid -> {"t": trigger, "f": fireAtMs}. Entries are removed once their
+  // fire time elapses (presumed delivered) or the nudge is cancelled.
+  static const _keyBeanReviewInflight = 'notif_bean_review_inflight_v1';
+  // Roaster-contribution nudge (plan 011, Channel B): JSON map of
+  // clusterId -> {"roaster","beanUuid","f": fireAtMs}. Source of truth for
+  // materialize; entries drop when the cluster is resolved, cancelled, or
+  // past-due (presumed delivered).
+  static const _keyRoasterContribScheduled =
+      'notif_roaster_contrib_scheduled_v1';
 
   // --- Milestone thresholds ---
   static const _milestoneThresholds = [10, 25, 50, 100, 250, 500];
@@ -115,8 +141,9 @@ class LocalNotificationSchedulerService {
         _scheduleMorningReminder(settings, l10n),
         _scheduleWeeklyReminder(settings, userStatsDao, l10n),
         _scheduleBeanFreshnessAlert(settings, coffeeBeansDao, l10n, prefs),
-        _scheduleBeanReviewBacklog(
+        _scheduleBeanReviewNudges(
             settings, coffeeBeansDao, userStatsDao, l10n, prefs),
+        _materializeRoasterContribNudges(l10n: l10n),
       ]);
 
       AppLogger.debug('Engagement notifications rescheduled');
@@ -532,9 +559,14 @@ class LocalNotificationSchedulerService {
 
   static const int _beanReviewMinBrews = 5;
 
-  /// Reactive entry point — called after a brew is persisted. Schedules a
+  /// Lower brew floor for the depletion trigger: finishing a bag is itself a
+  /// strong review-intent signal, so we don't require the full 5-brew history.
+  static const int _beanReviewDepletionMinBrews = 2;
+
+  /// Reactive entry point — called after a brew is persisted. Records a
   /// one-time review nudge if this bean just crossed the 5-brew threshold,
-  /// has no review yet, and has never been nudged.
+  /// has no review yet, and has never been nudged, then (re-)materializes all
+  /// pending nudges into the OS.
   Future<void> maybeScheduleBeanReviewNudge({
     required AppDatabase database,
     required String beansUuid,
@@ -558,23 +590,123 @@ class LocalNotificationSchedulerService {
 
       final l10n = lookupAppLocalizations(Locale(locale));
       final prefs = await SharedPreferences.getInstance();
-      await _scheduleNudgeFor(
-          bean: bean, dao: coffeeBeansDao, prefs: prefs, l10n: l10n);
+      await _stampAndTrackNudge(
+          bean: bean, dao: coffeeBeansDao, prefs: prefs, trigger: 'brew_count');
+      await _materializeBeanReviewNudges(dao: coffeeBeansDao, l10n: l10n);
     } catch (e) {
       AppLogger.error('Failed to schedule bean review nudge', errorObject: e);
     }
   }
 
-  /// One-shot backlog scan + 7-day drip for existing eligible beans.
-  Future<void> _scheduleBeanReviewBacklog(
+  /// Reactive entry point for bean depletion — the bag was emptied, either
+  /// automatically by a brew or via the manual "set to zero" control. Uses a
+  /// lower brew floor ([_beanReviewDepletionMinBrews]) than the brew-count
+  /// trigger. Shares the one-time guard, so a bean that both crosses the brew
+  /// threshold and empties on the same brew is nudged only once.
+  Future<void> maybeScheduleBeanReviewNudgeOnDepletion({
+    required AppDatabase database,
+    required String beansUuid,
+    required String locale,
+  }) async {
+    try {
+      final settings = NotificationSettingsService.instance;
+      if (!await settings.isBeanReviewNudgeEnabled()) return;
+      if (!testMode && !await _canSchedule()) return;
+
+      final coffeeBeansDao = CoffeeBeansDao(database);
+      final userStatsDao = UserStatsDao(database);
+      final bean = await coffeeBeansDao.fetchCoffeeBeansByUuid(beansUuid);
+      if (bean == null || bean.isDeleted) return;
+      if (bean.reviewNudgeScheduledAt != null) return;
+
+      final stats = await userStatsDao.fetchStatsByBeanUuid(beansUuid);
+      if (stats.length < _beanReviewDepletionMinBrews) return;
+
+      if (await _hasExistingBeanReview(beansUuid)) return;
+
+      final l10n = lookupAppLocalizations(Locale(locale));
+      final prefs = await SharedPreferences.getInstance();
+      await _stampAndTrackNudge(
+          bean: bean, dao: coffeeBeansDao, prefs: prefs, trigger: 'depletion');
+      await _materializeBeanReviewNudges(dao: coffeeBeansDao, l10n: l10n);
+    } catch (e) {
+      AppLogger.error('Failed to schedule depletion review nudge',
+          errorObject: e);
+    }
+  }
+
+  /// Cancels a still-pending review nudge for [beansUuid] because the user just
+  /// reviewed the bean — so we don't ask for a review they already wrote. Emits
+  /// `notification_cancelled{reason:'reviewed'}` and drops it from the in-flight
+  /// watchlist. Pushes the decision timestamp into the past so the next
+  /// reschedule's materialize removes the pending OS notification without
+  /// re-nudging (the one-time guard stays set). No-op if no un-fired nudge is
+  /// pending (a review after the nudge fired is a conversion, not a cancel).
+  Future<void> cancelPendingNudgeOnReview({
+    required AppDatabase database,
+    required String beansUuid,
+  }) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final map = _readInflightNudges(prefs);
+      final raw = map[beansUuid];
+      if (raw == null) return;
+      final entry = (raw as Map).cast<String, dynamic>();
+      final fireMs = entry['f'] as int? ?? 0;
+      if (fireMs <= DateTime.now().millisecondsSinceEpoch) return;
+
+      final trigger = entry['t'] ?? 'unknown';
+      map.remove(beansUuid);
+      await prefs.setString(_keyBeanReviewInflight, jsonEncode(map));
+
+      final dao = CoffeeBeansDao(database);
+      await dao.updateReviewNudgeScheduledAt(
+          beansUuid, DateTime.now().subtract(const Duration(days: 2)));
+
+      if (!testMode) {
+        AnalyticsService.instance.track(
+          'notification_cancelled',
+          properties: {
+            'notification_type': 'bean_review_nudge',
+            'trigger': trigger,
+            'reason': 'reviewed',
+            'bean_uuid': beansUuid,
+          },
+        );
+      }
+    } catch (e) {
+      AppLogger.error('Failed to cancel nudge on review', errorObject: e);
+    }
+  }
+
+  /// Entry point used by [rescheduleAll]. Runs the one-shot backlog scan / drip
+  /// (which only *stamps* eligible beans) and then re-materializes every pending
+  /// nudge. Because [rescheduleAll] runs on every app open and cancels the whole
+  /// ID band up front, a nudge that hasn't fired yet is recreated here on each
+  /// pass — the same self-healing pattern the other engagement notifications use,
+  /// instead of being scheduled once and lost on the next launch.
+  Future<void> _scheduleBeanReviewNudges(
     NotificationSettingsService settings,
     CoffeeBeansDao coffeeBeansDao,
     UserStatsDao userStatsDao,
     AppLocalizations l10n,
     SharedPreferences prefs,
   ) async {
+    // When disabled, the band was already cancelled by [_cancelAll]; leave it.
     if (!await settings.isBeanReviewNudgeEnabled()) return;
+    await _flushPresumedDeliveries(prefs);
+    await _runBeanReviewBacklogScan(coffeeBeansDao, userStatsDao, prefs);
+    await _materializeBeanReviewNudges(dao: coffeeBeansDao, l10n: l10n);
+  }
 
+  /// One-shot backlog scan + 7-day drip for existing eligible beans. Only stamps
+  /// beans with a decision timestamp; OS scheduling is done by
+  /// [_materializeBeanReviewNudges]. Assumes the toggle is already enabled.
+  Future<void> _runBeanReviewBacklogScan(
+    CoffeeBeansDao coffeeBeansDao,
+    UserStatsDao userStatsDao,
+    SharedPreferences prefs,
+  ) async {
     final alreadyScanned =
         prefs.getBool(_keyBeanReviewBacklogScanned) ?? false;
 
@@ -599,14 +731,14 @@ class LocalNotificationSchedulerService {
       }
 
       final first = filtered.first;
-      await _scheduleNudgeFor(
-          bean: first, dao: coffeeBeansDao, prefs: prefs, l10n: l10n);
+      await _stampAndTrackNudge(
+          bean: first, dao: coffeeBeansDao, prefs: prefs, trigger: 'backlog');
       final remaining = filtered.skip(1).map((b) => b.beansUuid).toList();
       await prefs.setString(_keyBeanReviewBacklogQueue, jsonEncode(remaining));
       return;
     }
 
-    // Drip path: schedule one more from the queue every 7 days.
+    // Drip path: stamp one more from the queue every 7 days.
     final queueJson = prefs.getString(_keyBeanReviewBacklogQueue);
     if (queueJson == null) return;
     final queue = (jsonDecode(queueJson) as List).cast<String>();
@@ -631,58 +763,169 @@ class LocalNotificationSchedulerService {
       if (stats.length < _beanReviewMinBrews) continue;
       if (await _hasExistingBeanReview(uuid)) continue;
 
-      await _scheduleNudgeFor(
-          bean: bean, dao: coffeeBeansDao, prefs: prefs, l10n: l10n);
+      await _stampAndTrackNudge(
+          bean: bean, dao: coffeeBeansDao, prefs: prefs, trigger: 'backlog');
       await prefs.setString(_keyBeanReviewBacklogQueue, jsonEncode(queue));
       return;
     }
     await prefs.setString(_keyBeanReviewBacklogQueue, jsonEncode(queue));
   }
 
-  Future<void> _scheduleNudgeFor({
+  /// Records the "decided to nudge" timestamp on the bean — used both as the
+  /// one-time guard and to derive the fire time — plus the drip cooldown and the
+  /// analytics event. [trigger] tags which path scheduled it ('brew_count',
+  /// 'depletion', 'backlog') for funnel analysis. Does not touch the OS; see
+  /// [_materializeBeanReviewNudges].
+  Future<void> _stampAndTrackNudge({
     required CoffeeBeansModel bean,
     required CoffeeBeansDao dao,
     required SharedPreferences prefs,
-    required AppLocalizations l10n,
+    required String trigger,
   }) async {
-    String? imagePath;
-    if (!testMode && bean.roaster.isNotEmpty) {
-      try {
-        final url = await _resolveRoasterLogoUrl(bean.roaster);
-        if (url != null) {
-          imagePath = await NotificationImageHelper.downloadLogoToCache(url);
-        }
-      } catch (e) {
-        AppLogger.debug('Roaster logo resolve failed: $e');
-      }
-    }
-
-    final title = _beanReviewNudgeTitle(l10n, bean);
-    final body = l10n.notifBeanReviewNudgeBody;
-
-    final scheduledAt = DateTime.now();
-    await dao.updateReviewNudgeScheduledAt(bean.beansUuid, scheduledAt);
+    final now = DateTime.now();
+    await dao.updateReviewNudgeScheduledAt(bean.beansUuid, now);
     await prefs.setInt(
-        _keyBeanReviewLastScheduledMs, scheduledAt.millisecondsSinceEpoch);
-
-    await _schedule(
-      id: _idBeanReviewNudge,
-      title: title,
-      body: body,
-      at: _atTime(DateTime.now().add(const Duration(days: 1)), 10, 0),
-      payload: '/beans/${bean.beansUuid}?focus=review',
-      imagePath: imagePath,
-    );
+        _keyBeanReviewLastScheduledMs, now.millisecondsSinceEpoch);
+    await _addInflightNudge(prefs, bean.beansUuid, trigger, now);
 
     if (!testMode) {
       AnalyticsService.instance.track(
         'notification_scheduled',
         properties: {
           'notification_type': 'bean_review_nudge',
+          'trigger': trigger,
           'bean_uuid': bean.beansUuid,
-          'has_image': imagePath != null,
         },
       );
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Delivery measurement (in-flight watchlist)
+  // ---------------------------------------------------------------------------
+
+  Map<String, dynamic> _readInflightNudges(SharedPreferences prefs) {
+    final raw = prefs.getString(_keyBeanReviewInflight);
+    if (raw == null || raw.isEmpty) return <String, dynamic>{};
+    try {
+      return (jsonDecode(raw) as Map).cast<String, dynamic>();
+    } catch (_) {
+      return <String, dynamic>{};
+    }
+  }
+
+  /// Adds a nudge to the in-flight watchlist (bean uuid → trigger + derived fire
+  /// time) so [_flushPresumedDeliveries] can emit a delivery event once its fire
+  /// time elapses. Pure analytics bookkeeping — does not affect scheduling.
+  Future<void> _addInflightNudge(SharedPreferences prefs, String beansUuid,
+      String trigger, DateTime decidedAt) async {
+    final map = _readInflightNudges(prefs);
+    final fireAt = _atTime(decidedAt.add(const Duration(days: 1)), 10, 0);
+    map[beansUuid] = {'t': trigger, 'f': fireAt.millisecondsSinceEpoch};
+    await prefs.setString(_keyBeanReviewInflight, jsonEncode(map));
+  }
+
+  /// Emits `notification_presumed_delivered` for every in-flight nudge whose
+  /// fire time has elapsed, then drops it from the watchlist (so it fires once).
+  /// iOS gives no delivery callback for a background-fired local notification, so
+  /// this is an inference — "the fire window elapsed while scheduled" — hence
+  /// *presumed*. Confounders (Focus/DND, revoked permission, cleared banner) are
+  /// accepted as noise. Runs on each app open via [_scheduleBeanReviewNudges].
+  Future<void> _flushPresumedDeliveries(SharedPreferences prefs) async {
+    final map = _readInflightNudges(prefs);
+    if (map.isEmpty) return;
+    final nowMs = DateTime.now().millisecondsSinceEpoch;
+    final delivered = <String>[];
+    map.forEach((uuid, value) {
+      final entry = (value as Map).cast<String, dynamic>();
+      final fireMs = entry['f'] as int? ?? 0;
+      if (fireMs <= nowMs) delivered.add(uuid);
+    });
+    if (delivered.isEmpty) return;
+    for (final uuid in delivered) {
+      final entry = (map.remove(uuid) as Map).cast<String, dynamic>();
+      if (!testMode) {
+        AnalyticsService.instance.track(
+          'notification_presumed_delivered',
+          properties: {
+            'notification_type': 'bean_review_nudge',
+            'trigger': entry['t'] ?? 'unknown',
+            'bean_uuid': uuid,
+          },
+        );
+      }
+    }
+    await prefs.setString(_keyBeanReviewInflight, jsonEncode(map));
+  }
+
+  /// (Re-)creates OS notifications for every bean with a pending nudge. Safe to
+  /// call repeatedly: it cancels the reserved ID band first, then schedules each
+  /// pending bean at its derived fire time (decision day + 1 at 10:00). A nudge
+  /// whose fire time has already passed is treated as delivered and skipped, so
+  /// each bean fires at most once.
+  Future<void> _materializeBeanReviewNudges({
+    required CoffeeBeansDao dao,
+    required AppLocalizations l10n,
+  }) async {
+    await _cancelBeanReviewNudges();
+
+    final now = DateTime.now();
+    final prefs = await SharedPreferences.getInstance();
+    final inflight = _readInflightNudges(prefs);
+    final candidates = await dao.fetchPendingBeanReviewNudges(
+      since: now.subtract(const Duration(days: 2)),
+      limit: _beanReviewNudgeSlots,
+    );
+
+    // Derive fire times, drop past-due ones, soonest first so the earliest
+    // nudge takes the base ID.
+    final pending = <({CoffeeBeansModel bean, DateTime fireAt})>[];
+    for (final bean in candidates) {
+      final decidedAt = bean.reviewNudgeScheduledAt;
+      if (decidedAt == null) continue;
+      final fireAt = _atTime(decidedAt.add(const Duration(days: 1)), 10, 0);
+      if (!fireAt.isAfter(now)) continue;
+      pending.add((bean: bean, fireAt: fireAt));
+    }
+    pending.sort((a, b) => a.fireAt.compareTo(b.fireAt));
+
+    for (var i = 0; i < pending.length && i < _beanReviewNudgeSlots; i++) {
+      final bean = pending[i].bean;
+      String? imagePath;
+      if (!testMode && bean.roaster.isNotEmpty) {
+        try {
+          final url = await _resolveRoasterLogoUrl(bean.roaster);
+          if (url != null) {
+            imagePath = await NotificationImageHelper.downloadLogoToCache(url);
+          }
+        } catch (e) {
+          AppLogger.debug('Roaster logo resolve failed: $e');
+        }
+      }
+
+      // Carry the trigger in the payload so a tap can be attributed to it.
+      final entry = inflight[bean.beansUuid];
+      final trigger = entry is Map ? entry['t'] as String? : null;
+      final payload = trigger != null
+          ? '/beans/${bean.beansUuid}?focus=review&t=$trigger'
+          : '/beans/${bean.beansUuid}?focus=review';
+
+      await _schedule(
+        id: _idBeanReviewNudgeBase + i,
+        title: _beanReviewTitleFor(l10n, bean),
+        body: l10n.notifBeanReviewNudgeBody,
+        at: pending[i].fireAt,
+        payload: payload,
+        imagePath: imagePath,
+      );
+    }
+  }
+
+  /// Cancels every notification in the bean-review ID band.
+  Future<void> _cancelBeanReviewNudges() async {
+    if (testMode) return;
+    for (final id in _beanReviewNudgeIds) {
+      await NotificationService.instance.cancelNotification(id);
     }
   }
 
@@ -724,7 +967,7 @@ class LocalNotificationSchedulerService {
 
     if (delay == Duration.zero) {
       await NotificationService.instance.showLocalNotification(
-        id: _idBeanReviewNudge,
+        id: _idBeanReviewNudgeBase,
         title: title,
         body: body,
         payload: payload,
@@ -732,7 +975,7 @@ class LocalNotificationSchedulerService {
       );
     } else {
       await NotificationService.instance.scheduleLocalNotification(
-        id: _idBeanReviewNudge,
+        id: _idBeanReviewNudgeBase,
         title: title,
         body: body,
         scheduledDate: DateTime.now().add(delay),
@@ -763,12 +1006,11 @@ class LocalNotificationSchedulerService {
 
   Future<String?> _resolveRoasterLogoUrl(String roasterName) async {
     try {
-      final response = await Supabase.instance.client
-          .rpc('search_roaster_unaccent', params: {'search_name': roasterName})
-          .maybeSingle();
-      if (response == null) return null;
-      final original = (response['roaster_logo_url'] as String?)?.trim();
-      final mirror = (response['roaster_logo_mirror_url'] as String?)?.trim();
+      final bundle =
+          await RoasterDirectoryService.instance.fetchBundle(roasterName);
+      if (bundle == null) return null;
+      final original = bundle['roaster_logo_url']?.trim();
+      final mirror = bundle['roaster_logo_mirror_url']?.trim();
       final hasOriginal = original != null && original.isNotEmpty;
       final hasMirror = mirror != null && mirror.isNotEmpty;
       if (hasOriginal && hasMirror && _looksLikeGifUrl(original)) {
@@ -799,6 +1041,228 @@ class LocalNotificationSchedulerService {
     }
     final displayName = bean.name.isNotEmpty ? bean.name : bean.roaster;
     return l10n.notifBeanReviewNudgeTitleNoRoaster(displayName);
+  }
+
+  /// Chooses the title framing from the bean's live state: a "you finished it"
+  /// framing once the bag is depleted (weight at/near zero), otherwise the
+  /// standard "how was it?" framing. Reading live weight means a re-materialized
+  /// nudge reflects the bean's current state without persisting the trigger.
+  String _beanReviewTitleFor(AppLocalizations l10n, CoffeeBeansModel bean) {
+    final pw = bean.packageWeightGrams;
+    final depleted = pw != null && pw < 0.1;
+    return depleted
+        ? _beanReviewDepletionTitle(l10n, bean)
+        : _beanReviewNudgeTitle(l10n, bean);
+  }
+
+  /// Depletion variant of [_beanReviewNudgeTitle] ("You finished X by Y").
+  String _beanReviewDepletionTitle(
+      AppLocalizations l10n, CoffeeBeansModel bean) {
+    if (bean.name.isNotEmpty && bean.roaster.isNotEmpty) {
+      return l10n.notifBeanReviewDepletionTitle(bean.name, bean.roaster);
+    }
+    final displayName = bean.name.isNotEmpty ? bean.name : bean.roaster;
+    return l10n.notifBeanReviewDepletionTitleNoRoaster(displayName);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Channel B — Roaster website contribution nudge (plan 011)
+  // ---------------------------------------------------------------------------
+
+  /// Reactive entry point — called after a brew is persisted with an attached
+  /// bean. If the bean's roaster is a *pending* candidate the user hasn't
+  /// resolved (contributed or dismissed) and no nudge is already scheduled for
+  /// it, records a one-shot "help add this roaster" nudge for next morning and
+  /// (re-)materializes it into the OS. Gated on the master notification toggle
+  /// only. Never throws.
+  Future<void> maybeScheduleRoasterContribNudgeOnBrew({
+    required AppDatabase database,
+    required String beansUuid,
+    required String locale,
+  }) async {
+    try {
+      if (!testMode && !await _canSchedule()) return;
+
+      final coffeeBeansDao = CoffeeBeansDao(database);
+      final bean = await coffeeBeansDao.fetchCoffeeBeansByUuid(beansUuid);
+      if (bean == null || bean.isDeleted || bean.roaster.isEmpty) return;
+
+      // Is the roaster a pending candidate the user hasn't resolved yet?
+      final eligibility = await RoasterContributionService.instance
+          .checkEligibility(bean.roaster);
+      final clusterId = eligibility.clusterId;
+      if (!eligibility.eligible || clusterId == null) return;
+
+      final prefs = await SharedPreferences.getInstance();
+      final map = _readRoasterContribScheduled(prefs);
+      if (map.containsKey(clusterId)) return; // one-shot per roaster cluster
+
+      final fireAt =
+          _atTime(DateTime.now().add(const Duration(days: 1)), 10, 0);
+      map[clusterId] = {
+        'roaster': bean.roaster,
+        'beanUuid': beansUuid,
+        'f': fireAt.millisecondsSinceEpoch,
+      };
+      await prefs.setString(_keyRoasterContribScheduled, jsonEncode(map));
+
+      if (!testMode) {
+        AnalyticsService.instance.track(
+          'notification_scheduled',
+          properties: {
+            'notification_type': 'roaster_contribution_nudge',
+            'trigger': 'brew',
+            'cluster_id': clusterId,
+          },
+        );
+      }
+
+      final l10n = lookupAppLocalizations(Locale(locale));
+      await _materializeRoasterContribNudges(l10n: l10n);
+    } catch (e) {
+      AppLogger.error('Failed to schedule roaster contribution nudge',
+          errorObject: e);
+    }
+  }
+
+  /// Cancels a still-pending roaster-contribution nudge for [clusterId] because
+  /// the user resolved it (submitted or dismissed via the in-app card). Drops it
+  /// from the scheduled map and, if it hadn't fired yet, emits
+  /// `notification_cancelled`. The stale OS notification is removed on the next
+  /// [rescheduleAll] (materialize also skips resolved clusters). No-op if none
+  /// pending.
+  Future<void> cancelRoasterContribNudge(
+    String clusterId, {
+    String reason = 'resolved',
+  }) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final map = _readRoasterContribScheduled(prefs);
+      final raw = map.remove(clusterId);
+      if (raw == null) return;
+      await prefs.setString(_keyRoasterContribScheduled, jsonEncode(map));
+
+      final entry = (raw as Map).cast<String, dynamic>();
+      final fireMs = entry['f'] as int? ?? 0;
+      if (fireMs > DateTime.now().millisecondsSinceEpoch && !testMode) {
+        AnalyticsService.instance.track(
+          'notification_cancelled',
+          properties: {
+            'notification_type': 'roaster_contribution_nudge',
+            'reason': reason,
+            'cluster_id': clusterId,
+          },
+        );
+      }
+    } catch (e) {
+      AppLogger.error('Failed to cancel roaster contribution nudge',
+          errorObject: e);
+    }
+  }
+
+  /// Entry point used by [rescheduleAll]. (Re-)creates the OS notifications for
+  /// every scheduled roaster-contribution nudge from the prefs map — self-healing
+  /// across restarts, the same pattern the bean-review nudge uses. Flushes
+  /// past-due entries (presumed delivered) and drops resolved clusters.
+  Future<void> _materializeRoasterContribNudges({
+    required AppLocalizations l10n,
+  }) async {
+    await _cancelRoasterContribNudges();
+
+    final now = DateTime.now();
+    final prefs = await SharedPreferences.getInstance();
+    final map = _readRoasterContribScheduled(prefs);
+    if (map.isEmpty) return;
+
+    final pending = <({
+      String clusterId,
+      String roaster,
+      String beanUuid,
+      DateTime fireAt
+    })>[];
+    var mutated = false;
+
+    for (final clusterId in map.keys.toList()) {
+      final entry = (map[clusterId] as Map).cast<String, dynamic>();
+      final fireMs = entry['f'] as int? ?? 0;
+      final fireAt = DateTime.fromMillisecondsSinceEpoch(fireMs);
+
+      if (await RoasterContributionService.instance.isResolved(clusterId)) {
+        map.remove(clusterId);
+        mutated = true;
+        continue;
+      }
+      if (!fireAt.isAfter(now)) {
+        // Past-due → presumed delivered; count once, then drop.
+        map.remove(clusterId);
+        mutated = true;
+        if (!testMode) {
+          AnalyticsService.instance.track(
+            'notification_presumed_delivered',
+            properties: {
+              'notification_type': 'roaster_contribution_nudge',
+              'cluster_id': clusterId,
+            },
+          );
+        }
+        continue;
+      }
+      pending.add((
+        clusterId: clusterId,
+        roaster: entry['roaster'] as String? ?? '',
+        beanUuid: entry['beanUuid'] as String? ?? '',
+        fireAt: fireAt,
+      ));
+    }
+
+    if (mutated) {
+      await prefs.setString(_keyRoasterContribScheduled, jsonEncode(map));
+    }
+
+    // Soonest first so the earliest nudge takes the base ID.
+    pending.sort((a, b) => a.fireAt.compareTo(b.fireAt));
+    for (var i = 0;
+        i < pending.length && i < _roasterContribNudgeSlots;
+        i++) {
+      final p = pending[i];
+      String? imagePath;
+      if (!testMode && p.roaster.isNotEmpty) {
+        try {
+          final url = await _resolveRoasterLogoUrl(p.roaster);
+          if (url != null) {
+            imagePath = await NotificationImageHelper.downloadLogoToCache(url);
+          }
+        } catch (e) {
+          AppLogger.debug('Roaster logo resolve failed: $e');
+        }
+      }
+      await _schedule(
+        id: _idRoasterContribNudgeBase + i,
+        title: l10n.roasterContributionNotifTitle(
+            p.roaster.isNotEmpty ? p.roaster : l10n.roaster),
+        body: l10n.roasterContributionNotifBody,
+        at: p.fireAt,
+        payload: '/beans/${p.beanUuid}?t=roaster_contribution',
+        imagePath: imagePath,
+      );
+    }
+  }
+
+  Future<void> _cancelRoasterContribNudges() async {
+    if (testMode) return;
+    for (final id in _roasterContribNudgeIds) {
+      await NotificationService.instance.cancelNotification(id);
+    }
+  }
+
+  Map<String, dynamic> _readRoasterContribScheduled(SharedPreferences prefs) {
+    final raw = prefs.getString(_keyRoasterContribScheduled);
+    if (raw == null || raw.isEmpty) return <String, dynamic>{};
+    try {
+      return (jsonDecode(raw) as Map).cast<String, dynamic>();
+    } catch (_) {
+      return <String, dynamic>{};
+    }
   }
 
   // ---------------------------------------------------------------------------
