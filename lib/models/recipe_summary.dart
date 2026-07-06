@@ -18,9 +18,29 @@ class RecipeSummary {
 
     final double coffee = currentCoffeeAmount ?? recipe.coffeeAmount;
     final double water = currentWaterAmount ?? recipe.waterAmount;
+    final hasTimedSteps = recipe.steps
+        .skip(1)
+        .any((step) => step.time.inSeconds > 0);
 
-    for (final step in recipe.steps) {
-      // Skip step if time is a placeholder or zero
+    for (int i = 0; i < recipe.steps.length; i++) {
+      final step = recipe.steps[i];
+
+      // The first step is the preparation step — it carries no time. Render it
+      // as a plain leading line (no timestamp, no label), and only when it has
+      // real text so a blank prep step doesn't add an empty line.
+      if (i == 0 && step.time.inSeconds == 0) {
+        final prep = RecipeExpressionService.renderDescription(
+          step.description,
+          coffeeAmount: coffee,
+          waterAmount: water,
+        ).trim();
+        if (prep.isNotEmpty) {
+          summary += hasTimedSteps ? '$prep\n\n' : '$prep\n';
+        }
+        continue;
+      }
+
+      // Skip any remaining placeholder/zero-time steps.
       if (step.time.inSeconds == 0) {
         continue;
       }
