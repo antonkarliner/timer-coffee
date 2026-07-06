@@ -1,6 +1,6 @@
 # Privacy Policy for Timer.Coffee (Web Version)
 
-Last Updated: 25.06.2026
+Last Updated: 01.07.2026
 
 1. INTRODUCTION
 
@@ -39,6 +39,7 @@ This is the core data of the product. We store it so the web app can remember yo
 - Recipe preferences, such as favorites, last-used timestamps, slider positions, custom amounts, and custom grind size, so the product can remember how you like to brew.
 - Recipe import events, recording your anonymized user identifier, the source recipe identifier, and a timestamp when you import a recipe shared by another user, so creators can see how many people have imported their public recipes.
 - Recipe provenance, recording the original creator's user identifier on recipes you import or copy from another user, so the original author can be credited if the recipe is later shared publicly. This reference is removed automatically if the original author deletes their account.
+- Roaster suggestions, if you choose to help add a roaster that is not yet in our database. When you submit a roaster's website (and optionally its Instagram handle or city) from a bean you logged, we store that suggestion linked to your account, which may be anonymous, and use it to verify the roaster and add it to our shared roaster catalog. The website you submit may be fetched and analyzed by our systems and third-party AI providers as part of that review. Please do not submit information you do not want used for this purpose.
 
 d. Website Analytics and Technical Data
 
@@ -74,7 +75,7 @@ g. Anonymous Usage Analytics
 
 We collect anonymous usage analytics so we can understand which features people actually use, where the brewing flow drops off, and how donation behavior relates to usage patterns. This data helps us improve the product without knowing who you are.
 
-- The web app collects anonymous event data such as brew starts and completions, bean additions, bean review interactions (creating, editing, deleting, and translating reviews), recipe creation and sharing, collection interactions and sharing, screen views, roaster profile views and taps on a roaster's external links (such as their website or social media), donation-related interactions, onboarding and first-steps journey progress, and impressions of and interactions with in-app "moments" (small surprise-and-delight touches such as celebratory cards and seasonal banners). No personal information such as your name, email, or account ID is included in analytics events.
+- The web app collects anonymous event data such as brew starts and completions, bean additions, bean review interactions (creating, editing, deleting, and translating reviews), recipe creation and sharing, collection interactions and sharing, screen views, roaster profile views and taps on a roaster's external links (such as their website or social media), donation-related interactions, onboarding and first-steps journey progress, notification engagement (which in-app reminders were scheduled, delivered, opened, or cancelled — never their content), and impressions of and interactions with in-app "moments" (small surprise-and-delight touches such as celebratory cards and seasonal banners). No personal information such as your name, email, or account ID is included in analytics events.
 - Each installation is identified by a randomly generated ID that is not linked to your Supabase account or any other identifying information. A random session ID is generated each time you open the web app.
 - Events are buffered in-browser and sent in batches to a Supabase Edge Function. Your IP address is stripped server-side before storage.
 - Analytics events are organized into three categories — brewing analytics, bean analytics, and general usage analytics — each of which you can enable or disable independently in the app's Settings screen. All three categories are enabled by default.
