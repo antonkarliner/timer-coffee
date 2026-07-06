@@ -130,4 +130,65 @@ void main() {
       expect(InputValidator.validateAndSanitizeEmail(''), isNull);
     });
   });
+
+  group('normalizeWebsiteUrl', () {
+    test('prepends https when the scheme is missing', () {
+      expect(
+        InputValidator.normalizeWebsiteUrl('onyxcoffeelab.com'),
+        'https://onyxcoffeelab.com',
+      );
+    });
+
+    test('keeps an explicit http scheme', () {
+      expect(
+        InputValidator.normalizeWebsiteUrl('http://foo.com/path'),
+        'http://foo.com/path',
+      );
+    });
+
+    test('lowercases scheme and host, keeps path/query', () {
+      expect(
+        InputValidator.normalizeWebsiteUrl('HTTPS://Foo.com/a?b=c'),
+        'https://foo.com/a?b=c',
+      );
+    });
+
+    test('drops the fragment', () {
+      expect(
+        InputValidator.normalizeWebsiteUrl('https://foo.com/x#frag'),
+        'https://foo.com/x',
+      );
+    });
+
+    test('blank input is invalid', () {
+      expect(InputValidator.normalizeWebsiteUrl('   '), isNull);
+    });
+
+    test('host without a dot is invalid', () {
+      expect(InputValidator.normalizeWebsiteUrl('https://foo'), isNull);
+      expect(InputValidator.normalizeWebsiteUrl('localhost'), isNull);
+    });
+
+    test('bare IPv4 host is rejected (SSRF hygiene)', () {
+      expect(InputValidator.normalizeWebsiteUrl('http://192.168.1.1'), isNull);
+      expect(InputValidator.normalizeWebsiteUrl('127.0.0.1'), isNull);
+    });
+
+    test('.local host is rejected', () {
+      expect(
+        InputValidator.normalizeWebsiteUrl('https://printer.local'),
+        isNull,
+      );
+    });
+
+    test('overly long input is rejected', () {
+      final long = 'https://foo.com/${'a' * 2100}';
+      expect(InputValidator.normalizeWebsiteUrl(long), isNull);
+    });
+
+    test('isValidWebsiteUrl mirrors normalizeWebsiteUrl', () {
+      expect(InputValidator.isValidWebsiteUrl('roaster.coffee'), isTrue);
+      expect(InputValidator.isValidWebsiteUrl('nope'), isFalse);
+    });
+  });
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:coffee_timer/database/database.dart';
 import 'package:coffee_timer/models/coffee_beans_model.dart';
 import 'package:coffee_timer/models/user_stat_model.dart';
@@ -690,7 +692,8 @@ void main() {
       );
 
       expect(scheduled(1601), isTrue);
-      expect(payloadOf(1601), equals('/beans/bean-x?focus=review'));
+      expect(payloadOf(1601),
+          equals('/beans/bean-x?focus=review&t=brew_count'));
     });
 
     test('marks reviewNudgeScheduledAt on the bean after scheduling', () async {
@@ -779,7 +782,7 @@ void main() {
       await runScheduler();
 
       expect(scheduled(1601), isTrue);
-      expect(payloadOf(1601), equals('/beans/bean-a?focus=review'));
+      expect(payloadOf(1601), equals('/beans/bean-a?focus=review&t=backlog'));
 
       final p = await SharedPreferences.getInstance();
       expect(
@@ -833,10 +836,366 @@ void main() {
       await runScheduler();
 
       expect(scheduled(1601), isTrue);
-      expect(payloadOf(1601), equals('/beans/bean-b?focus=review'));
+      expect(payloadOf(1601), equals('/beans/bean-b?focus=review&t=backlog'));
 
       final p = await SharedPreferences.getInstance();
       expect(p.getString('notif_bean_review_backlog_uuids'), equals('[]'));
+    });
+  });
+
+  group('bean review nudge — self-healing & unique IDs', () {
+    Future<void> seedBrews(String beansUuid, int count) async {
+      for (var i = 0; i < count; i++) {
+        await db.userStatsDao.insertUserStat(
+          _makeStat(
+            uuid: 'stat-$beansUuid-$i',
+            createdAt: DateTime.now().subtract(Duration(days: 6 - i)),
+          ).copyWith(coffeeBeansUuid: beansUuid),
+        );
+      }
+    }
+
+    // P0: a reactive nudge must survive the next rescheduleAll instead of being
+    // cancelled and forgotten.
+    test('a pending nudge is recreated by a later rescheduleAll', () async {
+      await db.coffeeBeansDao
+          .insertCoffeeBeans(_makeBean(uuid: 'bean-x', name: 'Yirgacheffe'));
+      await seedBrews('bean-x', 5);
+
+      await LocalNotificationSchedulerService.instance
+          .maybeScheduleBeanReviewNudge(
+              database: db, beansUuid: 'bean-x', locale: 'en');
+      expect(scheduled(1601), isTrue);
+
+      // Simulate the next app open: OS notification is gone, DB state persists.
+      LocalNotificationSchedulerService.resetTestState();
+      await runScheduler();
+
+      expect(scheduled(1601), isTrue,
+          reason: 'pending nudge should survive a reschedule cycle');
+      expect(payloadOf(1601),
+          equals('/beans/bean-x?focus=review&t=brew_count'));
+    });
+
+    // P1: two beans over threshold must occupy distinct IDs, not clobber 1601.
+    test('two beans over threshold get distinct notification IDs', () async {
+      await db.coffeeBeansDao
+          .insertCoffeeBeans(_makeBean(uuid: 'bean-x', name: 'X'));
+      await db.coffeeBeansDao
+          .insertCoffeeBeans(_makeBean(uuid: 'bean-y', name: 'Y'));
+      await seedBrews('bean-x', 5);
+      await seedBrews('bean-y', 5);
+
+      await LocalNotificationSchedulerService.instance
+          .maybeScheduleBeanReviewNudge(
+              database: db, beansUuid: 'bean-x', locale: 'en');
+      await LocalNotificationSchedulerService.instance
+          .maybeScheduleBeanReviewNudge(
+              database: db, beansUuid: 'bean-y', locale: 'en');
+
+      // Re-materialize from state so both pending nudges are laid out together.
+      LocalNotificationSchedulerService.resetTestState();
+      await runScheduler();
+
+      final bandCalls = LocalNotificationSchedulerService.testScheduled
+          .where((c) => c.id >= 1601 && c.id <= 1610);
+      expect(bandCalls.map((c) => c.id).toSet().length, 2,
+          reason: 'each bean should occupy its own slot');
+      expect(
+        bandCalls.map((c) => c.payload).toSet(),
+        {
+          '/beans/bean-x?focus=review&t=brew_count',
+          '/beans/bean-y?focus=review&t=brew_count'
+        },
+      );
+    });
+  });
+
+  group('bean review nudge — depletion', () {
+    Future<void> seedBrews(String beansUuid, int count) async {
+      for (var i = 0; i < count; i++) {
+        await db.userStatsDao.insertUserStat(
+          _makeStat(
+            uuid: 'stat-$beansUuid-$i',
+            createdAt: DateTime.now().subtract(Duration(days: 6 - i)),
+          ).copyWith(coffeeBeansUuid: beansUuid),
+        );
+      }
+    }
+
+    test('schedules on depletion at the 2-brew floor', () async {
+      await db.coffeeBeansDao
+          .insertCoffeeBeans(_makeBean(uuid: 'bean-x', name: 'X'));
+      await seedBrews('bean-x', 2);
+
+      await LocalNotificationSchedulerService.instance
+          .maybeScheduleBeanReviewNudgeOnDepletion(
+              database: db, beansUuid: 'bean-x', locale: 'en');
+
+      expect(scheduled(1601), isTrue);
+      expect(payloadOf(1601),
+          equals('/beans/bean-x?focus=review&t=depletion'));
+    });
+
+    test('does nothing on depletion with fewer than 2 brews', () async {
+      await db.coffeeBeansDao
+          .insertCoffeeBeans(_makeBean(uuid: 'bean-x', name: 'X'));
+      await seedBrews('bean-x', 1);
+
+      await LocalNotificationSchedulerService.instance
+          .maybeScheduleBeanReviewNudgeOnDepletion(
+              database: db, beansUuid: 'bean-x', locale: 'en');
+
+      expect(scheduled(1601), isFalse);
+    });
+
+    // Shared one-time guard: a bean already nudged (e.g. by the brew-count
+    // trigger on the same emptying brew) must not be nudged again on depletion.
+    test('does not double-nudge a bean already marked', () async {
+      await db.coffeeBeansDao.insertCoffeeBeans(
+        _makeBean(uuid: 'bean-x', name: 'X')
+            .copyWith(reviewNudgeScheduledAt: DateTime.now()),
+      );
+      await seedBrews('bean-x', 5);
+
+      await LocalNotificationSchedulerService.instance
+          .maybeScheduleBeanReviewNudgeOnDepletion(
+              database: db, beansUuid: 'bean-x', locale: 'en');
+
+      expect(scheduled(1601), isFalse);
+    });
+
+    test('does nothing when toggle is disabled', () async {
+      await NotificationSettingsService.instance
+          .setBeanReviewNudgeEnabled(false);
+      await db.coffeeBeansDao
+          .insertCoffeeBeans(_makeBean(uuid: 'bean-x', name: 'X'));
+      await seedBrews('bean-x', 3);
+
+      await LocalNotificationSchedulerService.instance
+          .maybeScheduleBeanReviewNudgeOnDepletion(
+              database: db, beansUuid: 'bean-x', locale: 'en');
+
+      expect(scheduled(1601), isFalse);
+    });
+  });
+
+  group('bean review nudge — delivery measurement', () {
+    Future<void> seedBrews(String beansUuid, int count) async {
+      for (var i = 0; i < count; i++) {
+        await db.userStatsDao.insertUserStat(
+          _makeStat(
+            uuid: 'stat-$beansUuid-$i',
+            createdAt: DateTime.now().subtract(Duration(days: 6 - i)),
+          ).copyWith(coffeeBeansUuid: beansUuid),
+        );
+      }
+    }
+
+    test('stamping records an in-flight entry with trigger and future fire time',
+        () async {
+      await db.coffeeBeansDao
+          .insertCoffeeBeans(_makeBean(uuid: 'bean-x', name: 'X'));
+      await seedBrews('bean-x', 2);
+
+      await LocalNotificationSchedulerService.instance
+          .maybeScheduleBeanReviewNudgeOnDepletion(
+              database: db, beansUuid: 'bean-x', locale: 'en');
+
+      final p = await SharedPreferences.getInstance();
+      final map = jsonDecode(p.getString('notif_bean_review_inflight_v1')!)
+          as Map<String, dynamic>;
+      expect(map.containsKey('bean-x'), isTrue);
+      final entry = map['bean-x'] as Map<String, dynamic>;
+      expect(entry['t'], equals('depletion'));
+      expect(entry['f'] as int,
+          greaterThan(DateTime.now().millisecondsSinceEpoch));
+    });
+
+    test('rescheduleAll flushes past-due in-flight nudges, keeps future ones',
+        () async {
+      final past = DateTime.now()
+          .subtract(const Duration(hours: 1))
+          .millisecondsSinceEpoch;
+      final future =
+          DateTime.now().add(const Duration(days: 1)).millisecondsSinceEpoch;
+      SharedPreferences.setMockInitialValues({
+        'notif_bean_review_inflight_v1': jsonEncode({
+          'bean-past': {'t': 'depletion', 'f': past},
+          'bean-future': {'t': 'brew_count', 'f': future},
+        }),
+      });
+      prefs = await SharedPreferences.getInstance();
+      await NotificationSettingsService.instance.init();
+
+      await runScheduler();
+
+      final p = await SharedPreferences.getInstance();
+      final map = jsonDecode(p.getString('notif_bean_review_inflight_v1')!)
+          as Map<String, dynamic>;
+      expect(map.containsKey('bean-past'), isFalse,
+          reason: 'fired nudge should be flushed (presumed delivered)');
+      expect(map.containsKey('bean-future'), isTrue,
+          reason: 'not-yet-fired nudge should remain in flight');
+    });
+  });
+
+  group('bean review nudge — cancel on review', () {
+    Future<void> seedBrews(String beansUuid, int count) async {
+      for (var i = 0; i < count; i++) {
+        await db.userStatsDao.insertUserStat(
+          _makeStat(
+            uuid: 'stat-$beansUuid-$i',
+            createdAt: DateTime.now().subtract(Duration(days: 6 - i)),
+          ).copyWith(coffeeBeansUuid: beansUuid),
+        );
+      }
+    }
+
+    test('drops a pending nudge and prevents re-materialize', () async {
+      await db.coffeeBeansDao
+          .insertCoffeeBeans(_makeBean(uuid: 'bean-x', name: 'X'));
+      await seedBrews('bean-x', 2);
+      await LocalNotificationSchedulerService.instance
+          .maybeScheduleBeanReviewNudgeOnDepletion(
+              database: db, beansUuid: 'bean-x', locale: 'en');
+      expect(scheduled(1601), isTrue);
+
+      await LocalNotificationSchedulerService.instance
+          .cancelPendingNudgeOnReview(database: db, beansUuid: 'bean-x');
+
+      final p = await SharedPreferences.getInstance();
+      final raw = p.getString('notif_bean_review_inflight_v1');
+      final map = raw == null ? {} : jsonDecode(raw) as Map;
+      expect(map.containsKey('bean-x'), isFalse,
+          reason: 'reviewed bean removed from in-flight watchlist');
+
+      // A later reschedule must not recreate the superseded nudge.
+      LocalNotificationSchedulerService.resetTestState();
+      await runScheduler();
+      expect(scheduled(1601), isFalse);
+    });
+
+    test('is a no-op when no nudge is pending', () async {
+      await db.coffeeBeansDao
+          .insertCoffeeBeans(_makeBean(uuid: 'bean-y', name: 'Y'));
+
+      await LocalNotificationSchedulerService.instance
+          .cancelPendingNudgeOnReview(database: db, beansUuid: 'bean-y');
+
+      final updated =
+          await db.coffeeBeansDao.fetchCoffeeBeansByUuid('bean-y');
+      expect(updated?.reviewNudgeScheduledAt, isNull,
+          reason: 'bean with no pending nudge is not marked terminal');
+    });
+  });
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Roaster contribution nudge (IDs 1801..1810) — plan 011, Channel B
+  // ─────────────────────────────────────────────────────────────────────────
+
+  group('roaster contribution nudge', () {
+    const scheduledKey = 'notif_roaster_contrib_scheduled_v1';
+    const resolvedKey = 'roaster_contrib_resolved_v1';
+
+    int msIn(Duration d) => DateTime.now().add(d).millisecondsSinceEpoch;
+
+    test('materializes a scheduled nudge into the reserved band', () async {
+      SharedPreferences.setMockInitialValues({
+        scheduledKey: jsonEncode({
+          'cluster-1': {
+            'roaster': 'Onyx',
+            'beanUuid': 'bean-1',
+            'f': msIn(const Duration(days: 1)),
+          },
+        }),
+      });
+
+      await runScheduler();
+
+      expect(scheduled(1801), isTrue);
+      expect(payloadOf(1801), equals('/beans/bean-1?t=roaster_contribution'));
+    });
+
+    test('schedules multiple pending nudges, soonest first', () async {
+      SharedPreferences.setMockInitialValues({
+        scheduledKey: jsonEncode({
+          'cluster-1': {
+            'roaster': 'Onyx',
+            'beanUuid': 'bean-1',
+            'f': msIn(const Duration(days: 1)),
+          },
+          'cluster-2': {
+            'roaster': 'Tim Wendelboe',
+            'beanUuid': 'bean-2',
+            'f': msIn(const Duration(days: 2)),
+          },
+        }),
+      });
+
+      await runScheduler();
+
+      expect(scheduled(1801), isTrue);
+      expect(scheduled(1802), isTrue);
+      // Soonest takes the base ID.
+      expect(payloadOf(1801), equals('/beans/bean-1?t=roaster_contribution'));
+    });
+
+    test('skips a cluster the user has already resolved', () async {
+      SharedPreferences.setMockInitialValues({
+        scheduledKey: jsonEncode({
+          'cluster-1': {
+            'roaster': 'Onyx',
+            'beanUuid': 'bean-1',
+            'f': msIn(const Duration(days: 1)),
+          },
+        }),
+        resolvedKey: ['cluster-1'],
+      });
+
+      await runScheduler();
+
+      expect(scheduled(1801), isFalse);
+    });
+
+    test('does not schedule a past-due (presumed-delivered) nudge', () async {
+      SharedPreferences.setMockInitialValues({
+        scheduledKey: jsonEncode({
+          'cluster-1': {
+            'roaster': 'Onyx',
+            'beanUuid': 'bean-1',
+            'f': msIn(const Duration(hours: -1)),
+          },
+        }),
+      });
+
+      await runScheduler();
+
+      expect(scheduled(1801), isFalse);
+    });
+
+    test('cancelRoasterContribNudge removes a pending nudge', () async {
+      SharedPreferences.setMockInitialValues({
+        scheduledKey: jsonEncode({
+          'cluster-1': {
+            'roaster': 'Onyx',
+            'beanUuid': 'bean-1',
+            'f': msIn(const Duration(days: 1)),
+          },
+        }),
+      });
+
+      await LocalNotificationSchedulerService.instance
+          .cancelRoasterContribNudge('cluster-1');
+
+      // Dropped from the scheduled map…
+      final p = await SharedPreferences.getInstance();
+      final raw = p.getString(scheduledKey);
+      expect(raw == null || !raw.contains('cluster-1'), isTrue);
+
+      // …and a later reschedule does not recreate it.
+      await runScheduler();
+      expect(scheduled(1801), isFalse);
     });
   });
 }

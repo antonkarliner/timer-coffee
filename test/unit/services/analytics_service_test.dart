@@ -251,7 +251,7 @@ void main() {
         'moment_interacted',
         properties: {'moment_id': 'anniversary', 'action': 'open_diary'},
       );
-      service.track('moment_discovered', properties: {'moment_id': 'steam_puff'});
+      service.track('moment_discovered', properties: {'moment_id': 'coffee_day'});
 
       final events = service.bufferedEventsForTesting;
       expect(events.map((event) => event['event_name']).toList(), [

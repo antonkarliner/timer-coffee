@@ -1,5 +1,5 @@
 import 'package:coffee_timer/database/database.dart';
-import 'package:drift/drift.dart' show Value, RecipesCompanion;
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter_test/flutter_test.dart';
 
 import '../helpers/test_database.dart';
