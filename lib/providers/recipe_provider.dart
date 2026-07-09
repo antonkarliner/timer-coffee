@@ -22,17 +22,16 @@ class RecipeProvider extends ChangeNotifier {
   final AppDatabase db;
   final DatabaseProvider databaseProvider;
 
-  bool _isDataLoaded = false;
+  Future<void>? _initFuture;
 
   RecipeProvider(this._locale, List<Locale> _, this.db, this.databaseProvider) {
-    _initialize();
+    ensureDataReady();
   }
 
   Future<void> _initialize() async {
     await _loadFavoriteRecipeIds();
     await _loadBrewingMethodPreferences(); // Load brewing method preferences
     await fetchAllRecipes();
-    _isDataLoaded = true;
     notifyListeners();
   }
 
@@ -42,11 +41,10 @@ class RecipeProvider extends ChangeNotifier {
   ValueNotifier<Set<String>> get hiddenBrewingMethodIds =>
       _hiddenBrewingMethodIds;
 
-  Future<void> ensureDataReady() async {
-    if (!_isDataLoaded) {
-      await _initialize();
-    }
-  }
+  // Concurrent callers all await the same initialization run; without this,
+  // each early caller kicked off its own _initialize() and the overlapping
+  // fetchAllRecipes() calls stacked duplicate entries into the recipe list.
+  Future<void> ensureDataReady() => _initFuture ??= _initialize();
 
   Locale get currentLocale => _locale;
 
@@ -89,12 +87,13 @@ class RecipeProvider extends ChangeNotifier {
   }
 
   Future<void> fetchAllRecipes() async {
-    _recipes.clear();
     // Use languageCode to match DB locale keys like 'en', 'ru', etc.
     final String localeKey = _locale.languageCode;
     List<RecipeModel> recipesList =
         await db.recipesDao.getAllRecipes(localeKey);
-    _recipes.addAll(recipesList);
+    // Replace the list instead of clear+addAll: overlapping calls must not
+    // append onto each other's results (last writer wins).
+    _recipes = recipesList;
     notifyListeners();
   }
 

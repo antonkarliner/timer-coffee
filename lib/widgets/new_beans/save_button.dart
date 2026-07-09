@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
+import '../../theme/design_tokens.dart';
 
 class SaveButton extends StatelessWidget {
   final String label;
@@ -18,18 +20,13 @@ class SaveButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        minimumSize: const Size(double.infinity, 56),
-        backgroundColor: backgroundColor ?? theme.colorScheme.primary,
-        foregroundColor: foregroundColor ?? theme.colorScheme.onPrimary,
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),
+    return AppElevatedButton(
+      label: label,
       onPressed: onPressed,
-      child: Text(label),
+      backgroundColor: backgroundColor ?? theme.colorScheme.primary,
+      foregroundColor: foregroundColor ?? theme.colorScheme.onPrimary,
+      height: AppButton.heightLarge,
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
     );
   }
 }

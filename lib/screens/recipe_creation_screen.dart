@@ -805,7 +805,7 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
           ),
           leading: _currentPage == 1
               ? IconButton(
-                  icon: const Icon(Icons.arrow_back),
+                  icon: const BackButtonIcon(),
                   onPressed: () {
                     _pageController.previousPage(
                       duration: const Duration(milliseconds: 300),

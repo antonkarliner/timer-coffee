@@ -10,7 +10,10 @@ class SmartBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: const Icon(Icons.arrow_back),
+      // BackButtonIcon matches the default AppBar back button exactly,
+      // including its platform-specific icon (arrow on Android, chevron on iOS).
+      icon: const BackButtonIcon(),
+      tooltip: MaterialLocalizations.of(context).backButtonTooltip,
       onPressed: () {
         if (context.router.canPop()) {
           context.router.maybePop();

@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:coffee_timer/app_router.gr.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/recipe_model.dart';
+import '../widgets/smart_back_button.dart';
 import 'package:coffee_timer/providers/recipe_provider.dart';
 import 'package:coffee_timer/utils/app_material_symbols.dart';
 import 'package:coffee_timer/utils/icon_utils.dart';
@@ -1365,7 +1366,7 @@ class _PulseScreenState extends State<PulseScreen>
 
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(),
+        leading: const SmartBackButton(),
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

@@ -61,13 +61,13 @@ class BeansTotalSummary extends StatelessWidget {
           Icon(
             Coffeico.bag_with_bean,
             size: AppIconSize.small,
-            color: colorScheme.onSurfaceVariant,
+            color: colorScheme.onSurface,
           ),
           const SizedBox(width: AppSpacing.sm),
           Text(
             label,
-            style: AppTextStyles.caption.copyWith(
-              color: colorScheme.onSurfaceVariant,
+            style: AppTextStyles.body.copyWith(
+              color: colorScheme.onSurface,
             ),
           ),
           const SizedBox(width: AppSpacing.xs),

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/rendering.dart';
 import '../models/recipe_model.dart';
 import '../providers/recipe_provider.dart';
+import '../widgets/smart_back_button.dart';
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
 import '../widgets/favorite_button.dart';
@@ -102,7 +103,7 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
       appBar: AppBar(
         leading: Semantics(
           identifier: 'recipeListBackButton',
-          child: const BackButton(),
+          child: const SmartBackButton(),
         ),
         title: Row(
           children: [

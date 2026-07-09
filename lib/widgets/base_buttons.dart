@@ -69,7 +69,11 @@ class AppElevatedButton extends StatelessWidget {
                   AlwaysStoppedAnimation<Color>(resolvedForegroundColor),
             ),
           )
-        : Text(label);
+        : Text(
+            label,
+            textAlign: TextAlign.center,
+            softWrap: true,
+          );
 
     if (iconWidget != null) {
       return ElevatedButton(
@@ -81,17 +85,32 @@ class AppElevatedButton extends StatelessWidget {
           children: [
             iconWidget!,
             const SizedBox(width: 8),
-            labelChild,
+            isLoading ? labelChild : Flexible(child: labelChild),
           ],
         ),
       );
     }
 
-    return ElevatedButton.icon(
+    if (icon != null) {
+      return ElevatedButton(
+        style: buttonStyle,
+        onPressed: isLoading ? null : onPressed,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(icon),
+            const SizedBox(width: 8),
+            isLoading ? labelChild : Flexible(child: labelChild),
+          ],
+        ),
+      );
+    }
+
+    return ElevatedButton(
       style: buttonStyle,
       onPressed: isLoading ? null : onPressed,
-      icon: icon != null ? Icon(icon) : const SizedBox.shrink(),
-      label: labelChild,
+      child: labelChild,
     );
   }
 }
@@ -128,33 +147,56 @@ class AppTextButton extends StatelessWidget {
     final resolvedForegroundColor =
         foregroundColor ?? theme.colorScheme.primary;
 
-    return TextButton.icon(
-      style: TextButton.styleFrom(
-        foregroundColor: resolvedForegroundColor,
-        minimumSize: width != null
-            ? Size(width!, height ?? AppButton.heightMedium)
-            : (isFullWidth
-                ? Size(double.infinity, height ?? AppButton.heightMedium)
-                : Size(0, height ?? AppButton.heightMedium)),
-        padding: padding ?? AppButton.paddingMedium,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppButton.radius),
-        ),
-        textStyle: textStyle ?? AppButton.label,
+    final buttonStyle = TextButton.styleFrom(
+      foregroundColor: resolvedForegroundColor,
+      minimumSize: width != null
+          ? Size(width!, height ?? AppButton.heightMedium)
+          : (isFullWidth
+              ? Size(double.infinity, height ?? AppButton.heightMedium)
+              : Size(0, height ?? AppButton.heightMedium)),
+      padding: padding ?? AppButton.paddingMedium,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppButton.radius),
       ),
+      textStyle: textStyle ?? AppButton.label,
+    );
+
+    final labelChild = isLoading
+        ? SizedBox(
+            width: 20,
+            height: 20,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              valueColor:
+                  AlwaysStoppedAnimation<Color>(resolvedForegroundColor),
+            ),
+          )
+        : Text(
+            label,
+            textAlign: TextAlign.center,
+            softWrap: true,
+          );
+
+    if (icon != null) {
+      return TextButton(
+        style: buttonStyle,
+        onPressed: isLoading ? null : onPressed,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(icon),
+            const SizedBox(width: 8),
+            isLoading ? labelChild : Flexible(child: labelChild),
+          ],
+        ),
+      );
+    }
+
+    return TextButton(
+      style: buttonStyle,
       onPressed: isLoading ? null : onPressed,
-      icon: icon != null ? Icon(icon) : const SizedBox.shrink(),
-      label: isLoading
-          ? SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                valueColor:
-                    AlwaysStoppedAnimation<Color>(resolvedForegroundColor),
-              ),
-            )
-          : Text(label),
+      child: labelChild,
     );
   }
 }

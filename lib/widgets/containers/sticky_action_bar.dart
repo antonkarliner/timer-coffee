@@ -137,6 +137,7 @@ class StickyActionBar extends StatelessWidget {
               style: OutlinedButton.styleFrom(
                 foregroundColor: colorScheme.primary,
                 disabledForegroundColor: colorScheme.primary.withValues(alpha: 0.5),
+                minimumSize: const Size(double.infinity, AppButton.heightLarge),
                 side: BorderSide(
                   color: colorScheme.primary,
                   width: AppStroke.border,

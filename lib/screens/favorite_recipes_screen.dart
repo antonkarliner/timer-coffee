@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../models/recipe_model.dart';
 import '../providers/recipe_provider.dart';
 import '../widgets/favorite_button.dart';
+import '../widgets/smart_back_button.dart';
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
@@ -18,7 +19,7 @@ class FavoriteRecipesScreen extends StatelessWidget {
       appBar: AppBar(
         leading: Semantics(
           identifier: 'favoriteRecipesBackButton',
-          child: const BackButton(),
+          child: const SmartBackButton(),
         ),
         title: Semantics(
           identifier: 'favoriteRecipesTitle',

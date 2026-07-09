@@ -3,8 +3,10 @@ import 'package:coffee_timer/controllers/stats_controller.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/recipe_model.dart';
 import 'package:coffee_timer/providers/beans_stats_provider.dart';
+import '../widgets/smart_back_button.dart';
 import 'package:coffee_timer/providers/database_provider.dart';
 import 'package:coffee_timer/providers/recipe_provider.dart';
+import 'package:coffee_timer/providers/roaster_profile_provider.dart';
 import 'package:coffee_timer/providers/user_stat_provider.dart';
 import 'package:coffee_timer/services/stats_realtime_service.dart';
 import 'package:coffee_timer/utils/icon_utils.dart';
@@ -197,7 +199,7 @@ class _StatsScreenState extends State<StatsScreen> {
       value: _controller,
       child: Scaffold(
         appBar: AppBar(
-          leading: const BackButton(),
+          leading: const SmartBackButton(),
           title: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -266,6 +268,22 @@ class _YourStatsSection extends StatelessWidget {
   const _YourStatsSection({required this.onOpenRecipe});
 
   final void Function(RecipeModel recipe) onOpenRecipe;
+
+  /// Navigates to the roaster profile page if an active profile exists.
+  Future<void> _navigateToRoasterProfile(
+    BuildContext context,
+    String roasterName,
+  ) async {
+    final provider = Provider.of<RoasterProfileProvider>(
+      context,
+      listen: false,
+    );
+    final slug = await provider.fetchRoasterSlugByName(roasterName);
+    if (!context.mounted) return;
+    if (slug != null) {
+      context.router.push(RoasterProfileRoute(slug: slug));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -741,58 +759,62 @@ class _YourStatsSection extends StatelessWidget {
                           endDate,
                           limit: 999,
                         ),
-                    itemBuilder: (ctx, roaster, {isPreview = false}) => Row(
-                      children: [
-                        FutureBuilder<Map<String, String?>>(
-                          future: Provider.of<DatabaseProvider>(
-                            ctx,
-                            listen: false,
-                          ).fetchCachedRoasterLogoUrls(roaster),
-                          builder: (ctx2, snap) {
-                            if (snap.connectionState ==
-                                ConnectionState.waiting) {
-                              return SizedBox(
-                                height: isPreview ? 28 : 40,
-                                width: isPreview ? 28 : 40,
-                                child: const Center(
-                                  child: SizedBox(
-                                    height: 16,
-                                    width: 16,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
+                    itemBuilder: (ctx, roaster, {isPreview = false}) => InkWell(
+                      onTap: () => _navigateToRoasterProfile(context, roaster),
+                      child: Row(
+                        children: [
+                          FutureBuilder<Map<String, String?>>(
+                            future: Provider.of<DatabaseProvider>(
+                              ctx,
+                              listen: false,
+                            ).fetchCachedRoasterLogoUrls(roaster),
+                            builder: (ctx2, snap) {
+                              if (snap.connectionState ==
+                                  ConnectionState.waiting) {
+                                return SizedBox(
+                                  height: isPreview ? 28 : 40,
+                                  width: isPreview ? 28 : 40,
+                                  child: const Center(
+                                    child: SizedBox(
+                                      height: 16,
+                                      width: 16,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            }
-                            if (snap.hasData) {
-                              final originalUrl = snap.data!['original'];
-                              final mirrorUrl = snap.data!['mirror'];
-                              if (originalUrl != null || mirrorUrl != null) {
-                                return _StatsRoasterLogoPlate(
-                                  originalUrl: originalUrl,
-                                  mirrorUrl: mirrorUrl,
-                                  height: isPreview ? 28 : 40,
-                                  borderRadius: 8.0,
                                 );
                               }
-                            }
-                            final iconColor = Theme.of(ctx2)
-                                .colorScheme
-                                .onSurface
-                                .withAlpha((255 * 0.6).round());
-                            return Icon(
-                              Coffeico.bag_with_bean,
-                              size: isPreview ? 28 : 40,
-                              color: iconColor,
-                            );
-                          },
-                        ),
-                        const SizedBox(width: 8),
-                        Flexible(
-                          child: Text(roaster, overflow: TextOverflow.ellipsis),
-                        ),
-                      ],
+                              if (snap.hasData) {
+                                final originalUrl = snap.data!['original'];
+                                final mirrorUrl = snap.data!['mirror'];
+                                if (originalUrl != null || mirrorUrl != null) {
+                                  return _StatsRoasterLogoPlate(
+                                    originalUrl: originalUrl,
+                                    mirrorUrl: mirrorUrl,
+                                    height: isPreview ? 28 : 40,
+                                    borderRadius: 8.0,
+                                  );
+                                }
+                              }
+                              final iconColor = Theme.of(ctx2)
+                                  .colorScheme
+                                  .onSurface
+                                  .withAlpha((255 * 0.6).round());
+                              return Icon(
+                                Coffeico.bag_with_bean,
+                                size: isPreview ? 28 : 40,
+                                color: iconColor,
+                              );
+                            },
+                          ),
+                          const SizedBox(width: 8),
+                          Flexible(
+                            child:
+                                Text(roaster, overflow: TextOverflow.ellipsis),
+                          ),
+                        ],
+                      ),
                     ),
                     emptyText: l10n.noData,
                   ),

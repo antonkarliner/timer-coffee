@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import '../base_buttons.dart';
+import '../../theme/design_tokens.dart';
 
 /// Generic card that shows a capped preview list and a "Show more" modal for full lists.
 class BeansStatListCard<T> extends StatelessWidget {
@@ -135,10 +137,13 @@ class BeansStatListCard<T> extends StatelessWidget {
                         if (full.length > preview.length) {
                           return Align(
                             alignment: Alignment.centerRight,
-                            child: TextButton(
+                            child: AppTextButton(
+                              label: AppLocalizations.of(context)!.showMore,
                               onPressed: () => _openFullModal(context),
-                              child:
-                                  Text(AppLocalizations.of(context)!.showMore),
+                              isFullWidth: false,
+                              height: AppButton.heightSmall,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: AppSpacing.sm),
                             ),
                           );
                         }

@@ -10,8 +10,8 @@ class ThemeProvider with ChangeNotifier {
   ThemeProvider(this._themeMode);
 
   ThemeMode get themeMode => _themeMode;
-  ThemeData get lightTheme => _lightTheme();
-  ThemeData get darkTheme => _darkTheme();
+  ThemeData get lightTheme => _buildTheme(lightColorScheme);
+  ThemeData get darkTheme => _buildTheme(darkColorScheme);
 
   void setThemeMode(ThemeMode themeMode) {
     _themeMode = themeMode;
@@ -34,48 +34,56 @@ class ThemeProvider with ChangeNotifier {
     await prefs.setString('themeMode', themeMode.toString().split('.').last);
   }
 
-  ThemeData _lightTheme() {
+  ThemeData _buildTheme(ColorScheme scheme) {
+    final isDark = scheme.brightness == Brightness.dark;
     return ThemeData(
       useMaterial3: true,
-      colorScheme: lightColorScheme,
+      colorScheme: scheme,
       visualDensity: VisualDensity.adaptivePlatformDensity,
       fontFamily: kIsWeb ? 'Inter' : null,
-      appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.white, foregroundColor: Colors.black),
+      appBarTheme: AppBarTheme(
+        backgroundColor:
+            isDark ? const Color(0xFF303030) : scheme.surface,
+        foregroundColor: scheme.onSurface,
+      ),
       // Input decoration theme for outlined fields
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.field),
           borderSide: BorderSide(
-            color: Colors.grey.shade600,
+            color: scheme.outline,
             width: AppStroke.border,
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.field),
           borderSide: BorderSide(
-            color: Colors.grey.shade300,
+            color: isDark ? scheme.outline : scheme.outlineVariant,
             width: AppStroke.border,
           ),
         ),
+        // Uses explicit greys (not scheme.onSurfaceVariant) because
+        // onSurfaceVariant is full-contrast black/white in this app's
+        // color scheme (it drives icon color), which would be too
+        // strong for a focused-border accent.
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.field),
           borderSide: BorderSide(
-            color: Colors.grey.shade700,
+            color: isDark ? Colors.grey.shade300 : Colors.grey.shade700,
             width: AppStroke.focus,
           ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.field),
-          borderSide: const BorderSide(
-            color: Colors.red,
+          borderSide: BorderSide(
+            color: scheme.error,
             width: AppStroke.border,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.field),
-          borderSide: const BorderSide(
-            color: Colors.red,
+          borderSide: BorderSide(
+            color: scheme.error,
             width: AppStroke.focus,
           ),
         ),
@@ -83,164 +91,33 @@ class ThemeProvider with ChangeNotifier {
           horizontal: AppSpacing.cardPadding,
           vertical: AppSpacing.sm,
         ),
+        // Uses explicit greys (not scheme.onSurfaceVariant) because
+        // onSurfaceVariant is full-contrast black/white in this app's
+        // color scheme (it drives icon color), which would be too
+        // strong for a muted hint text color.
         hintStyle: AppTextStyles.body.copyWith(
-          color: Colors.grey.shade600,
+          color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
         ),
         labelStyle: AppTextStyles.body.copyWith(
-          color: lightColorScheme.onSurface,
+          color: scheme.onSurface,
         ),
         floatingLabelStyle: AppTextStyles.fieldLabel.copyWith(
-          color: lightColorScheme.onSurface,
+          color: scheme.onSurface,
         ),
       ),
       // Chip theme data
       chipTheme: ChipThemeData(
-        backgroundColor: Colors.grey.shade100,
-        selectedColor: lightColorScheme.secondary.withValues(alpha: 0.2),
-        disabledColor: Colors.grey.shade300,
+        backgroundColor:
+            isDark ? scheme.surfaceContainerHighest : scheme.surfaceContainer,
+        selectedColor: scheme.secondary.withValues(alpha: isDark ? 0.3 : 0.2),
+        disabledColor: isDark
+            ? scheme.surfaceContainerLowest
+            : scheme.surfaceContainerHighest,
         labelStyle: AppTextStyles.body.copyWith(
-          color: lightColorScheme.onSurface,
+          color: scheme.onSurface,
         ),
         secondaryLabelStyle: AppTextStyles.body.copyWith(
-          color: lightColorScheme.secondary,
-        ),
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.sm,
-          vertical: AppSpacing.xs,
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppRadius.chip),
-          side: const BorderSide(
-            color: Colors.grey,
-            width: AppStroke.border,
-          ),
-        ),
-      ),
-      // Card theme
-      cardTheme: CardThemeData(
-        elevation: 2.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppRadius.card),
-        ),
-        margin: const EdgeInsets.all(AppSpacing.xs),
-      ),
-      // Elevated button theme
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: lightColorScheme.primary,
-          foregroundColor: lightColorScheme.onPrimary,
-          minimumSize: const Size(double.infinity, AppButton.heightMedium),
-          padding: AppButton.paddingMedium,
-          elevation: AppButton.elevation,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppButton.radius),
-          ),
-          textStyle: AppButton.label,
-        ),
-      ),
-      // Text button theme
-      textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(
-          foregroundColor: lightColorScheme.primary,
-          minimumSize: const Size(double.infinity, AppButton.heightMedium),
-          padding: AppButton.paddingMedium,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppButton.radius),
-          ),
-          textStyle: AppButton.label,
-        ),
-      ),
-      // Text theme extensions
-      textTheme: const TextTheme(
-        displayLarge: AppTextStyles.title,
-        displayMedium: AppTextStyles.title,
-        displaySmall: AppTextStyles.title,
-        headlineLarge: AppTextStyles.title,
-        headlineMedium: AppTextStyles.sectionHeader,
-        headlineSmall: AppTextStyles.sectionHeader,
-        titleLarge: AppTextStyles.sectionHeader,
-        titleMedium: AppTextStyles.fieldLabel,
-        titleSmall: AppTextStyles.fieldLabel,
-        bodyLarge: AppTextStyles.body,
-        bodyMedium: AppTextStyles.body,
-        bodySmall: AppTextStyles.body,
-        labelLarge: AppTextStyles.fieldLabel,
-        labelMedium: AppTextStyles.body,
-        labelSmall: AppTextStyles.caption,
-      ),
-    );
-  }
-
-  ThemeData _darkTheme() {
-    return ThemeData(
-      useMaterial3: true,
-      colorScheme: darkColorScheme,
-      visualDensity: VisualDensity.adaptivePlatformDensity,
-      fontFamily: kIsWeb ? 'Inter' : null,
-      appBarTheme: const AppBarTheme(
-          backgroundColor: Color.fromRGBO(48, 48, 48, 1),
-          foregroundColor: Colors.white),
-      // Input decoration theme for outlined fields
-      inputDecorationTheme: InputDecorationTheme(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppRadius.field),
-          borderSide: BorderSide(
-            color: Colors.grey.shade400,
-            width: AppStroke.border,
-          ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppRadius.field),
-          borderSide: BorderSide(
-            color: Colors.grey.shade500,
-            width: AppStroke.border,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppRadius.field),
-          borderSide: BorderSide(
-            color: Colors.grey.shade300,
-            width: AppStroke.focus,
-          ),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppRadius.field),
-          borderSide: const BorderSide(
-            color: Colors.red,
-            width: AppStroke.border,
-          ),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppRadius.field),
-          borderSide: const BorderSide(
-            color: Colors.red,
-            width: AppStroke.focus,
-          ),
-        ),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.cardPadding,
-          vertical: AppSpacing.sm,
-        ),
-        hintStyle: AppTextStyles.body.copyWith(
-          color: Colors.grey.shade400,
-        ),
-        labelStyle: AppTextStyles.body.copyWith(
-          color: darkColorScheme.onSurface,
-        ),
-        floatingLabelStyle: AppTextStyles.fieldLabel.copyWith(
-          color: darkColorScheme.onSurface,
-        ),
-      ),
-      // Chip theme data
-      chipTheme: ChipThemeData(
-        backgroundColor: Colors.grey.shade700,
-        selectedColor: darkColorScheme.secondary.withValues(alpha: 0.3),
-        disabledColor: Colors.grey.shade800,
-        labelStyle: AppTextStyles.body.copyWith(
-          color: darkColorScheme.onSurface,
-        ),
-        secondaryLabelStyle: AppTextStyles.body.copyWith(
-          color: darkColorScheme.secondary,
+          color: scheme.secondary,
         ),
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.sm,
@@ -249,7 +126,7 @@ class ThemeProvider with ChangeNotifier {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadius.chip),
           side: BorderSide(
-            color: Colors.grey.shade600,
+            color: scheme.outline,
             width: AppStroke.border,
           ),
         ),
@@ -257,7 +134,7 @@ class ThemeProvider with ChangeNotifier {
       // Card theme
       cardTheme: CardThemeData(
         elevation: 2.0,
-        color: const Color.fromRGBO(48, 48, 48, 1),
+        color: isDark ? const Color(0xFF303030) : null,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadius.card),
         ),
@@ -266,8 +143,8 @@ class ThemeProvider with ChangeNotifier {
       // Elevated button theme
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: darkColorScheme.primary,
-          foregroundColor: darkColorScheme.onPrimary,
+          backgroundColor: scheme.primary,
+          foregroundColor: scheme.onPrimary,
           minimumSize: const Size(double.infinity, AppButton.heightMedium),
           padding: AppButton.paddingMedium,
           elevation: AppButton.elevation,
@@ -280,8 +157,8 @@ class ThemeProvider with ChangeNotifier {
       // Text button theme
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: darkColorScheme.primary,
-          minimumSize: const Size(double.infinity, AppButton.heightMedium),
+          foregroundColor: scheme.primary,
+          minimumSize: const Size(64, AppButton.heightMedium),
           padding: AppButton.paddingMedium,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppButton.radius),
@@ -291,18 +168,18 @@ class ThemeProvider with ChangeNotifier {
       ),
       // Text theme extensions
       textTheme: const TextTheme(
-        displayLarge: AppTextStyles.title,
-        displayMedium: AppTextStyles.title,
-        displaySmall: AppTextStyles.title,
-        headlineLarge: AppTextStyles.title,
-        headlineMedium: AppTextStyles.sectionHeader,
-        headlineSmall: AppTextStyles.sectionHeader,
-        titleLarge: AppTextStyles.sectionHeader,
+        displayLarge: AppTextStyles.display,
+        displayMedium: AppTextStyles.display,
+        displaySmall: AppTextStyles.display,
+        headlineLarge: AppTextStyles.headline,
+        headlineMedium: AppTextStyles.headline,
+        headlineSmall: AppTextStyles.headline,
+        titleLarge: AppTextStyles.title,
         titleMedium: AppTextStyles.fieldLabel,
         titleSmall: AppTextStyles.fieldLabel,
         bodyLarge: AppTextStyles.body,
         bodyMedium: AppTextStyles.body,
-        bodySmall: AppTextStyles.body,
+        bodySmall: AppTextStyles.caption,
         labelLarge: AppTextStyles.fieldLabel,
         labelMedium: AppTextStyles.body,
         labelSmall: AppTextStyles.caption,

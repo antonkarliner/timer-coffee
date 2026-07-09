@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/launch_popup_model.dart';
 import 'package:coffee_timer/providers/snow_provider.dart';
+import '../widgets/smart_back_button.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -67,7 +68,7 @@ class _InfoScreenState extends State<InfoScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(),
+        leading: const SmartBackButton(),
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

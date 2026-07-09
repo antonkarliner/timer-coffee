@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../models/recipe_model.dart';
 import '../models/brew_step_model.dart';
 import '../models/notification_mode.dart';
+import '../widgets/smart_back_button.dart';
 import 'brewing_process_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:just_audio/just_audio.dart';
@@ -163,7 +164,7 @@ class _PreparationScreenState extends State<PreparationScreen> {
       appBar: AppBar(
         leading: Semantics(
           identifier: 'preparationBackButton',
-          child: const BackButton(),
+          child: const SmartBackButton(),
         ),
         title: Semantics(
           identifier: 'preparationScreenTitle',

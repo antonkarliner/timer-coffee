@@ -66,7 +66,7 @@ class TasteProfileSliders extends StatelessWidget {
               child: Text(
                 l10n.tasteProfileScaLabel,
                 style: AppTextStyles.caption.copyWith(
-                  color: colorScheme.onSurface.withValues(alpha: 0.7),
+                  color: colorScheme.onSurface,
                 ),
               ),
             ),
@@ -79,7 +79,7 @@ class TasteProfileSliders extends StatelessWidget {
                 minWidth: AppIconSize.medium,
                 minHeight: AppIconSize.medium,
               ),
-              color: colorScheme.onSurface.withValues(alpha: 0.7),
+              color: colorScheme.onSurface,
               tooltip: l10n.tasteProfileInfoTooltip,
               onPressed: () => _showTasteProfileInfoDialog(context, l10n),
             ),
@@ -192,7 +192,7 @@ class _TasteDimensionRow extends StatelessWidget {
               child: Text(
                 label,
                 style: AppTextStyles.caption.copyWith(
-                  color: colorScheme.onSurface.withValues(alpha: 0.7),
+                  color: colorScheme.onSurface,
                 ),
               ),
             ),

@@ -169,6 +169,18 @@ class AppButton {
 class AppTextStyles {
   AppTextStyles._(); // Private constructor to prevent instantiation
 
+  /// Display style (32px, 600 weight) — hero numbers, stats, story screens
+  static const TextStyle display = TextStyle(
+    fontSize: 32.0,
+    fontWeight: FontWeight.w600,
+  );
+
+  /// Headline style (24px, 600 weight) — screen headers, prominent titles
+  static const TextStyle headline = TextStyle(
+    fontSize: 24.0,
+    fontWeight: FontWeight.w600,
+  );
+
   /// Title style (20px, 600 weight)
   static const TextStyle title = TextStyle(
     fontSize: 20.0,
@@ -181,10 +193,10 @@ class AppTextStyles {
     fontWeight: FontWeight.w600,
   );
 
-  /// Field label style (20px, 400 weight) - Using titleLarge size to match original app
+  /// Field label style (16px, 500 weight) — form labels, list row labels
   static const TextStyle fieldLabel = TextStyle(
-    fontSize: 20.0,
-    fontWeight: FontWeight.w400,
+    fontSize: 16.0,
+    fontWeight: FontWeight.w500,
   );
 
   /// Body/helper text style (16px, 400 weight) - Increased for better readability
@@ -193,9 +205,15 @@ class AppTextStyles {
     fontWeight: FontWeight.w400,
   );
 
-  /// Caption style (14px, 400 weight) - Increased for better readability
+  /// Caption style (14px, 400 weight) — secondary/supporting text
   static const TextStyle caption = TextStyle(
     fontSize: 14.0,
     fontWeight: FontWeight.w400,
+  );
+
+  /// Badge style (12px, 500 weight) — chips, pills, and badges ONLY
+  static const TextStyle badge = TextStyle(
+    fontSize: 12.0,
+    fontWeight: FontWeight.w500,
   );
 }

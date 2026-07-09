@@ -8,6 +8,7 @@ import '../utils/icon_utils.dart';
 import '../services/analytics_service.dart';
 import '../services/onboarding_service.dart';
 import '../theme/design_tokens.dart';
+import '../widgets/base_buttons.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 
 @RoutePage()
@@ -86,14 +87,14 @@ class OnboardingScreen extends StatelessWidget {
               // "Show All" button
               Padding(
                 padding: const EdgeInsets.only(bottom: AppSpacing.lg),
-                child: TextButton(
+                child: AppTextButton(
+                  label: l10n.onboardingShowAll,
                   onPressed: () => _showAll(context),
-                  child: Text(
-                    l10n.onboardingShowAll,
-                    style: theme.textTheme.bodyLarge?.copyWith(
-                      color: theme.colorScheme.primary,
-                      fontWeight: FontWeight.w600,
-                    ),
+                  isFullWidth: false,
+                  foregroundColor: theme.colorScheme.primary,
+                  textStyle: theme.textTheme.bodyLarge?.copyWith(
+                    color: theme.colorScheme.primary,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),

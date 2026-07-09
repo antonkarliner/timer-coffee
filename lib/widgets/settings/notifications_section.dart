@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 
 import '../app_switch_list_tile.dart';
+import '../base_buttons.dart';
+import '../../theme/design_tokens.dart';
 
 /// Notifications settings expansion tile with master toggle and permission
 /// warning. Child toggles are passed in via [notificationToggles].
@@ -55,9 +57,13 @@ class NotificationsSection extends StatelessWidget {
                 color: Colors.orange,
               ),
               title: Text(l10n.notificationsDisabledInSystemSettings),
-              trailing: TextButton(
+              trailing: AppTextButton(
+                label: l10n.openSettings,
                 onPressed: onOpenNotificationSettings,
-                child: Text(l10n.openSettings),
+                isFullWidth: false,
+                height: AppButton.heightSmall,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
               ),
             ),
           if (masterNotificationsEnabled && !isLoading)

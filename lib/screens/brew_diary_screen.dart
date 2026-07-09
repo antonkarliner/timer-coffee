@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:coffee_timer/app_router.gr.dart';
 import 'package:coffee_timer/providers/database_provider.dart';
 import 'package:coffeico/coffeico.dart';
+import '../widgets/smart_back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/recipe_provider.dart';
@@ -305,7 +306,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
         appBar: AppBar(
           leading: Semantics(
             identifier: 'brewDiaryBackButton',
-            child: const BackButton(),
+            child: const SmartBackButton(),
           ),
           title: Semantics(
             identifier: 'brewDiaryAppBar',

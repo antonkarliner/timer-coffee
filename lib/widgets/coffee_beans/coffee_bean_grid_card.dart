@@ -5,6 +5,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:coffeico/coffeico.dart';
 import 'package:coffee_timer/config/supabase_endpoint_resolver.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:auto_size_text_plus/auto_size_text_plus.dart';
 
 import '../../app_router.gr.dart';
@@ -208,7 +209,7 @@ class CoffeeBeanGridCard extends StatelessWidget {
                                 bean.name,
                                 style: TextStyle(
                                   fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w600,
                                   color: Theme.of(
                                     context,
                                   ).colorScheme.onSurface,
@@ -223,10 +224,7 @@ class CoffeeBeanGridCard extends StatelessWidget {
                               bean.roaster,
                               style: TextStyle(
                                 fontSize: 14,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant
-                                    .withAlpha((255 * 0.85).round()),
+                                color: Theme.of(context).colorScheme.onSurface,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -239,11 +237,8 @@ class CoffeeBeanGridCard extends StatelessWidget {
                                         : bean.origin)
                                   : bean.origin,
                               style: TextStyle(
-                                fontSize: 12,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant
-                                    .withAlpha((255 * 0.6).round()),
+                                fontSize: 14,
+                                color: Theme.of(context).colorScheme.outline,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -309,10 +304,8 @@ class CoffeeBeanGridCard extends StatelessWidget {
                     ),
                     child: Text(
                       '${bean.validatedPackageWeightGrams!.toInt()}${loc.unitGramsShort}',
-                      style: TextStyle(
+                      style: AppTextStyles.badge.copyWith(
                         color: Theme.of(context).colorScheme.onPrimary,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),

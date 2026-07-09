@@ -5,6 +5,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:coffeico/coffeico.dart';
 import 'package:coffee_timer/config/supabase_endpoint_resolver.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
 
 import '../../app_router.gr.dart';
 import '../../providers/coffee_beans_provider.dart';
@@ -166,7 +167,7 @@ class CoffeeBeanCard extends StatelessWidget {
                               bean.name,
                               style: TextStyle(
                                 fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w600,
                                 color: Theme.of(context).colorScheme.onSurface,
                               ),
                             ),
@@ -175,10 +176,7 @@ class CoffeeBeanCard extends StatelessWidget {
                               bean.roaster,
                               style: TextStyle(
                                 fontSize: 14,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant
-                                    .withAlpha((255 * 0.85).round()),
+                                color: Theme.of(context).colorScheme.onSurface,
                               ),
                             ),
                             const SizedBox(height: 4),
@@ -190,10 +188,7 @@ class CoffeeBeanCard extends StatelessWidget {
                                   : bean.origin,
                               style: TextStyle(
                                 fontSize: 14,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant
-                                    .withAlpha((255 * 0.6).round()),
+                                color: Theme.of(context).colorScheme.outline,
                               ),
                             ),
                           ],
@@ -258,10 +253,8 @@ class CoffeeBeanCard extends StatelessWidget {
                     ),
                     child: Text(
                       '${bean.validatedPackageWeightGrams!.toInt()}${loc.unitGramsShort}',
-                      style: TextStyle(
+                      style: AppTextStyles.badge.copyWith(
                         color: Theme.of(context).colorScheme.onPrimary,
-                        fontSize: 10,
-                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),

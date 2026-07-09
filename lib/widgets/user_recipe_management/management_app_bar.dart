@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../../controllers/user_recipe_management_controller.dart';
+import '../smart_back_button.dart';
 
 class ManagementAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -23,7 +24,7 @@ class ManagementAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return AppBar(
-      leading: const BackButton(),
+      leading: const SmartBackButton(),
       title: Text(title),
       actions: [
         if (onCreate != null)

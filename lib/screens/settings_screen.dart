@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:coffee_timer/widgets/base_buttons.dart';
+import '../widgets/smart_back_button.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -86,7 +87,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           appBar: AppBar(
             leading: Semantics(
               identifier: 'settingsBackButton',
-              child: const BackButton(),
+              child: const SmartBackButton(),
             ),
             title: Semantics(
               identifier: 'settingsTitle',

@@ -4,6 +4,8 @@ import 'package:coffee_timer/config/network_timeouts.dart';
 import 'package:coffee_timer/config/supabase_endpoint_resolver.dart';
 import 'package:coffee_timer/database/database.dart';
 import 'package:coffee_timer/env/env.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:coffee_timer/models/supported_locale_model.dart';
 import 'package:coffee_timer/providers/database_provider.dart';
 import 'package:coffee_timer/purchase_manager.dart';
@@ -1197,11 +1199,15 @@ class PurchaseHandler {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadius.card),
+          ),
           title: Text(AppLocalizations.of(context)!.donationok),
           content: Text(AppLocalizations.of(context)!.donationtnx),
           actions: [
-            TextButton(
-              child: const Text("OK"),
+            AppTextButton(
+              label: AppLocalizations.of(context)!.ok,
+              isFullWidth: false,
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -1217,11 +1223,15 @@ class PurchaseHandler {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadius.card),
+          ),
           title: Text(AppLocalizations.of(context)!.donationerr),
           content: Text(AppLocalizations.of(context)!.donationerrmsg),
           actions: [
-            TextButton(
-              child: const Text("OK"),
+            AppTextButton(
+              label: AppLocalizations.of(context)!.ok,
+              isFullWidth: false,
               onPressed: () {
                 Navigator.of(context).pop();
               },
