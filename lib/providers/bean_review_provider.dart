@@ -209,6 +209,7 @@ class BeanReviewProvider extends ChangeNotifier {
     List<String>? flavorTags,
     double? bitterness,
     double? aftertaste,
+    String sourceScreen = 'unknown',
   }) async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null) return false;
@@ -264,6 +265,7 @@ class BeanReviewProvider extends ChangeNotifier {
           'would_buy_again': wouldBuyAgain == null
               ? 'unset'
               : (wouldBuyAgain ? 'yes' : 'no'),
+          'source_screen': sourceScreen,
         },
       );
 

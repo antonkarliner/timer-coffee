@@ -557,10 +557,13 @@ class LocalNotificationSchedulerService {
   // Tier 3 — Bean review nudge
   // ---------------------------------------------------------------------------
 
+  // Mirrored in BeanReviewPromptService.minBrews (used by the finish-screen
+  // review nudge card) — keep both in sync.
   static const int _beanReviewMinBrews = 5;
 
   /// Lower brew floor for the depletion trigger: finishing a bag is itself a
   /// strong review-intent signal, so we don't require the full 5-brew history.
+  /// Mirrored in BeanReviewPromptService.depletionMinBrews — keep in sync.
   static const int _beanReviewDepletionMinBrews = 2;
 
   /// Reactive entry point — called after a brew is persisted. Records a

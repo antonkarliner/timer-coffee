@@ -15,7 +15,9 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../models/coffee_beans_model.dart';
 import '../models/recipe_model.dart';
+import '../providers/bean_review_provider.dart';
 import '../providers/user_stat_provider.dart';
 import '../providers/coffee_beans_provider.dart';
 import 'package:uuid/uuid.dart';
@@ -24,6 +26,7 @@ import '../utils/app_logger.dart';
 import '../utils/country_names.dart';
 import '../widgets/notification_permission_dialog.dart';
 import '../widgets/base_buttons.dart';
+import '../services/bean_review_prompt_service.dart';
 import '../services/onboarding_service.dart';
 import '../services/analytics_service.dart';
 import '../services/region_service.dart';
@@ -32,6 +35,7 @@ import '../database/database.dart';
 import '../services/moments_service.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import '../widgets/anniversary_celebration.dart';
+import '../widgets/bean_review_nudge_card.dart';
 import '../widgets/falling_beans_overlay.dart';
 import '../widgets/first_brew_celebration.dart';
 
@@ -86,6 +90,27 @@ class _FinishScreenState extends State<FinishScreen> {
   // Falling beans cameo. Toggled true when anniversary or in-sync fires.
   bool _showFallingBeans = false;
 
+  // Futures for the two fire-and-forget DB writes this screen kicks off in
+  // initState. Stored (rather than bare-called) so the bean-review-nudge
+  // slot decision can await them without re-triggering the writes.
+  late Future<void> _insertBrewingDataFuture;
+  late Future<bool> _updateBeanWeightFuture;
+
+  // Signals moment resolution to the finish-slot decision (plan 021,
+  // "Decide once, no card-swapping"). Completed on EVERY exit path of
+  // `_resolveAnniversary` / `_queryInSync` so the review-nudge card never
+  // gets yanked out from under a moment that resolves after it commits.
+  final Completer<void> _anniversaryCompleter = Completer<void>();
+  final Completer<void> _inSyncCompleter = Completer<void>();
+
+  // Single-card finish slot: promo > anniversary > in-sync > review nudge >
+  // coffee fact. Created once here (not in build) so it isn't re-resolved on
+  // every rebuild.
+  late Future<_FinishSlotContent> _slotContentFuture;
+
+  bool get _inSyncWon =>
+      _inSyncResolved && _inSyncCount != null && _inSyncCount! >= _inSyncThreshold;
+
   @override
   void initState() {
     super.initState();
@@ -113,11 +138,17 @@ class _FinishScreenState extends State<FinishScreen> {
     _inSyncThreshold =
         kInSyncThresholdByHour[_brewCompletedAt.toUtc().hour] ?? 3;
     requestReview();
-    insertBrewingDataToAppDatabase();
-    _updateBeanWeightAfterBrew();
+    _insertBrewingDataFuture = insertBrewingDataToAppDatabase();
+    _updateBeanWeightFuture = _updateBeanWeightAfterBrew();
     _checkAndRequestNotificationPermission();
     _resolveAnniversary();
     _queryInSync();
+    // Kicks off once here (not in build) — races the review-nudge
+    // eligibility decision against the moment resolutions + a soft 3s
+    // deadline, falling back to the coffee fact. Safe during initState:
+    // its body doesn't touch Localizations/inherited widgets before its
+    // first await (see the comment below on the same rule).
+    _slotContentFuture = _resolveSlotContent();
     // Both `_recordBrewForOnboarding` and `insertBrewingDataToSupabase`
     // touch `Localizations.localeOf(context)`, which registers an
     // InheritedWidget dependency and is therefore illegal during initState.
@@ -139,117 +170,138 @@ class _FinishScreenState extends State<FinishScreen> {
   /// anniversary card today. Idempotent: per-year shown flag prevents the card
   /// from re-showing on subsequent brews the same day.
   Future<void> _resolveAnniversary() async {
-    final moments = Provider.of<MomentsService>(context, listen: false);
-    await moments.earliestBrewAt();
-    if (!mounted) return;
-    final shouldShow =
-        moments.isFirstBrewAnniversary && !moments.isAnniversaryShownThisYear();
-    if (!shouldShow) return;
-    setState(() => _showAnniversary = true);
-    await moments.markDiscovered('anniversary');
-    await moments.markAnniversaryShownThisYear();
-    AnalyticsService.instance.track(
-      'moment_shown',
-      properties: {'moment_id': 'anniversary'},
-    );
-    _maybeFireFallingBeans();
+    // Wrapped so the anniversary-resolution completer fires on EVERY exit
+    // path (including the early returns below) — the review-nudge slot
+    // decision awaits it to avoid rendering the review card underneath a
+    // moment that resolves later (plan 021, "Decide once").
+    try {
+      final moments = Provider.of<MomentsService>(context, listen: false);
+      await moments.earliestBrewAt();
+      if (!mounted) return;
+      final shouldShow = moments.isFirstBrewAnniversary &&
+          !moments.isAnniversaryShownThisYear();
+      if (!shouldShow) return;
+      setState(() => _showAnniversary = true);
+      await moments.markDiscovered('anniversary');
+      await moments.markAnniversaryShownThisYear();
+      AnalyticsService.instance.track(
+        'moment_shown',
+        properties: {'moment_id': 'anniversary'},
+      );
+      _maybeFireFallingBeans();
+    } finally {
+      if (!_anniversaryCompleter.isCompleted) {
+        _anniversaryCompleter.complete();
+      }
+    }
   }
 
   /// Counts other users' brews in a ±60s window around this brew's completion
   /// time. If the count clears the per-UTC-hour threshold, fires the in-sync
   /// celebration in place of the coffee facts card.
   Future<void> _queryInSync() async {
-    final moments = Provider.of<MomentsService>(context, listen: false);
-
-    // Debug short-circuit: if the user pressed "force in-sync next brew" on
-    // the Moments debug screen, honour it without touching Supabase.
-    final forced = moments.consumeForcedInSync();
-    if (forced != null) {
-      if (!mounted) return;
-      setState(() {
-        _inSyncCount = forced.count;
-        _inSyncCountries = forced.countries;
-        _inSyncResolved = true;
-      });
-      if (forced.count >= _inSyncThreshold) {
-        await moments.markDiscovered('in_sync');
-        AnalyticsService.instance.track(
-          'moment_shown',
-          properties: {
-            'moment_id': 'in_sync',
-            'in_sync_count': forced.count,
-            'country_count': forced.countries.length,
-          },
-        );
-      }
-      return;
-    }
-
-    final user = Supabase.instance.client.auth.currentUser;
-    if (user == null) {
-      if (mounted) setState(() => _inSyncResolved = true);
-      return;
-    }
-
-    final start = _brewCompletedAt
-        .subtract(const Duration(seconds: 60))
-        .toUtc()
-        .toIso8601String();
-    final end = _brewCompletedAt.toUtc().toIso8601String();
-
+    // Wrapped so the in-sync-resolution completer fires on EVERY exit path
+    // (forced short-circuit, signed-out, success, timeout, and error) — see
+    // the matching comment on `_resolveAnniversary`.
     try {
-      final res = await Supabase.instance.client
-          .from('global_stats')
-          .select('user_id, country_code')
-          .gte('created_at', start)
-          .lte('created_at', end)
-          .neq('user_id', user.id)
-          .timeout(const Duration(seconds: 3));
+      final moments = Provider.of<MomentsService>(context, listen: false);
 
-      // Dedupe by user_id so a peer with two brews in the window counts once.
-      // Also build a frequency tally of country codes for the "from …" line.
-      final rows = (res as List).cast<Map<String, dynamic>>();
-      final firstCountryByUser = <String, String?>{};
-      for (final row in rows) {
-        final uid = row['user_id']?.toString();
-        if (uid == null || uid.isEmpty) continue;
-        final raw = row['country_code']?.toString().trim();
-        final code = (raw == null || raw.isEmpty) ? null : raw.toUpperCase();
-        firstCountryByUser.putIfAbsent(uid, () => code);
+      // Debug short-circuit: if the user pressed "force in-sync next brew" on
+      // the Moments debug screen, honour it without touching Supabase.
+      final forced = moments.consumeForcedInSync();
+      if (forced != null) {
+        if (!mounted) return;
+        setState(() {
+          _inSyncCount = forced.count;
+          _inSyncCountries = forced.countries;
+          _inSyncResolved = true;
+        });
+        if (forced.count >= _inSyncThreshold) {
+          await moments.markDiscovered('in_sync');
+          AnalyticsService.instance.track(
+            'moment_shown',
+            properties: {
+              'moment_id': 'in_sync',
+              'in_sync_count': forced.count,
+              'country_count': forced.countries.length,
+            },
+          );
+        }
+        return;
       }
-      final count = firstCountryByUser.length;
-      final countryTally = <String, int>{};
-      for (final code in firstCountryByUser.values) {
-        if (code == null) continue;
-        countryTally[code] = (countryTally[code] ?? 0) + 1;
-      }
-      final countries = countryTally.entries.toList()
-        ..sort((a, b) => b.value.compareTo(a.value));
 
-      if (!mounted) return;
-      setState(() {
-        _inSyncCount = count;
-        _inSyncCountries = countries.map((e) => e.key).toList(growable: false);
-        _inSyncResolved = true;
-      });
-
-      if (count >= _inSyncThreshold) {
-        await moments.markDiscovered('in_sync');
-        AnalyticsService.instance.track(
-          'moment_shown',
-          properties: {
-            'moment_id': 'in_sync',
-            'in_sync_count': count,
-            'country_count': countries.length,
-          },
-        );
+      final user = Supabase.instance.client.auth.currentUser;
+      if (user == null) {
+        if (mounted) setState(() => _inSyncResolved = true);
+        return;
       }
-    } on TimeoutException catch (e) {
-      AppLogger.error('In-sync query timed out', errorObject: e);
-      if (mounted) setState(() => _inSyncResolved = true);
-    } catch (e) {
-      AppLogger.error('Error querying in-sync brews', errorObject: e);
-      if (mounted) setState(() => _inSyncResolved = true);
+
+      final start = _brewCompletedAt
+          .subtract(const Duration(seconds: 60))
+          .toUtc()
+          .toIso8601String();
+      final end = _brewCompletedAt.toUtc().toIso8601String();
+
+      try {
+        final res = await Supabase.instance.client
+            .from('global_stats')
+            .select('user_id, country_code')
+            .gte('created_at', start)
+            .lte('created_at', end)
+            .neq('user_id', user.id)
+            .timeout(const Duration(seconds: 3));
+
+        // Dedupe by user_id so a peer with two brews in the window counts
+        // once. Also build a frequency tally of country codes for the
+        // "from …" line.
+        final rows = (res as List).cast<Map<String, dynamic>>();
+        final firstCountryByUser = <String, String?>{};
+        for (final row in rows) {
+          final uid = row['user_id']?.toString();
+          if (uid == null || uid.isEmpty) continue;
+          final raw = row['country_code']?.toString().trim();
+          final code = (raw == null || raw.isEmpty) ? null : raw.toUpperCase();
+          firstCountryByUser.putIfAbsent(uid, () => code);
+        }
+        final count = firstCountryByUser.length;
+        final countryTally = <String, int>{};
+        for (final code in firstCountryByUser.values) {
+          if (code == null) continue;
+          countryTally[code] = (countryTally[code] ?? 0) + 1;
+        }
+        final countries = countryTally.entries.toList()
+          ..sort((a, b) => b.value.compareTo(a.value));
+
+        if (!mounted) return;
+        setState(() {
+          _inSyncCount = count;
+          _inSyncCountries =
+              countries.map((e) => e.key).toList(growable: false);
+          _inSyncResolved = true;
+        });
+
+        if (count >= _inSyncThreshold) {
+          await moments.markDiscovered('in_sync');
+          AnalyticsService.instance.track(
+            'moment_shown',
+            properties: {
+              'moment_id': 'in_sync',
+              'in_sync_count': count,
+              'country_count': countries.length,
+            },
+          );
+        }
+      } on TimeoutException catch (e) {
+        AppLogger.error('In-sync query timed out', errorObject: e);
+        if (mounted) setState(() => _inSyncResolved = true);
+      } catch (e) {
+        AppLogger.error('Error querying in-sync brews', errorObject: e);
+        if (mounted) setState(() => _inSyncResolved = true);
+      }
+    } finally {
+      if (!_inSyncCompleter.isCompleted) {
+        _inSyncCompleter.complete();
+      }
     }
   }
 
@@ -412,7 +464,7 @@ class _FinishScreenState extends State<FinishScreen> {
     }
   }
 
-  void insertBrewingDataToAppDatabase() async {
+  Future<void> insertBrewingDataToAppDatabase() async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user != null) {
       try {
@@ -480,12 +532,16 @@ class _FinishScreenState extends State<FinishScreen> {
     }
   }
 
-  void _updateBeanWeightAfterBrew() async {
+  /// Returns true only when this brew crossed the bag into "empty"
+  /// (`newWeight < 0.1`) — the depletion signal the review-nudge slot
+  /// decision uses. Internal behavior (including the depletion-notification
+  /// call) is unchanged from before this method became awaitable.
+  Future<bool> _updateBeanWeightAfterBrew() async {
     try {
       // Only proceed if we have a valid coffee amount
       if (widget.coffeeAmount <= 0) {
         AppLogger.debug('No coffee amount to subtract from bean weight');
-        return;
+        return false;
       }
       final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
         context,
@@ -500,7 +556,7 @@ class _FinishScreenState extends State<FinishScreen> {
 
       if (coffeeBeansUuid == null || coffeeBeansUuid.isEmpty) {
         AppLogger.debug('No selected bean UUID found in SharedPreferences');
-        return;
+        return false;
       }
 
       // Update the bean weight
@@ -523,12 +579,97 @@ class _FinishScreenState extends State<FinishScreen> {
                   locale: locale,
                 ),
           );
+          return true;
         }
+        return false;
       } else {
         AppLogger.debug('Bean weight update failed or was not applicable');
+        return false;
       }
     } catch (e) {
       AppLogger.debug('Error updating bean weight', errorObject: e);
+      return false;
+    }
+  }
+
+  // ---------------------------------------------------------------------
+  // Bean-review nudge card — finish-slot resolution (plan 021)
+  // ---------------------------------------------------------------------
+
+  /// Resolves the single finish-screen card slot. Races the review-nudge
+  /// eligibility decision against a soft deadline; on timeout or any error,
+  /// falls back to the coffee fact (plan 021 "on deadline/error ... resolve
+  /// to fact"). The deadline must exceed the in-sync query's own 3s timeout
+  /// (awaited via [_inSyncCompleter]) — otherwise a slow network would
+  /// always trip this deadline first and the review card could never show.
+  /// Created exactly once, from initState.
+  Future<_FinishSlotContent> _resolveSlotContent() async {
+    try {
+      return await _resolveSlotDecision().timeout(const Duration(seconds: 4));
+    } catch (e) {
+      AppLogger.error(
+        'Bean review slot resolution failed or timed out',
+        errorObject: e,
+      );
+      return _resolveFactContent();
+    }
+  }
+
+  /// Awaits the two brew-completion writes and both moment-resolution
+  /// signals, then either yields to a higher-priority moment/promo (already
+  /// occupying the slot) or runs [BeanReviewPromptService.evaluate] to
+  /// decide whether to show the review-nudge card. Never shows the card if
+  /// a moment/promo has won — see plan "Decide once, no card-swapping".
+  Future<_FinishSlotContent> _resolveSlotDecision() async {
+    final depletedThisBrew = await _updateBeanWeightFuture;
+    await _insertBrewingDataFuture;
+    await _anniversaryCompleter.future;
+    await _inSyncCompleter.future;
+    if (!mounted) return _resolveFactContent();
+
+    // A higher-priority card already claimed the slot for this brew — the
+    // review card is simply not shown (no deferral, no consumed impression;
+    // see plan "Losing the slot").
+    if (_showAnniversary || _inSyncWon || (kIsWeb && _showPromoCard)) {
+      return _resolveFactContent();
+    }
+
+    final prefs = await SharedPreferences.getInstance();
+    if (!mounted) return _resolveFactContent();
+
+    final beansUuid = prefs.getString('selectedBeanUuid');
+    final promptService = BeanReviewPromptService(prefs: prefs);
+    final database = Provider.of<AppDatabase>(context, listen: false);
+    final reviewProvider = Provider.of<BeanReviewProvider>(
+      context,
+      listen: false,
+    );
+
+    final decision = await promptService.evaluate(
+      database: database,
+      reviewProvider: reviewProvider,
+      beansUuid: beansUuid,
+      depletedThisBrew: depletedThisBrew,
+    );
+
+    if (decision.show && decision.bean != null && decision.trigger != null) {
+      return _FinishSlotContent.reviewNudge(
+        bean: decision.bean!,
+        trigger: decision.trigger!,
+        promptService: promptService,
+      );
+    }
+    return _resolveFactContent();
+  }
+
+  /// Awaits the existing [coffeeFact] future, preserving its current
+  /// data/error/pending semantics for the fact-card branch of the slot.
+  Future<_FinishSlotContent> _resolveFactContent() async {
+    try {
+      final fact = await coffeeFact;
+      return _FinishSlotContent.fact(fact);
+    } catch (e) {
+      return _FinishSlotContent.factError(e);
     }
   }
 
@@ -737,10 +878,7 @@ class _FinishScreenState extends State<FinishScreen> {
         .clamp(200.0, 240.0)
         .toDouble();
 
-    final showInSync =
-        _inSyncResolved &&
-        _inSyncCount != null &&
-        _inSyncCount! >= _inSyncThreshold;
+    final showInSync = _inSyncWon;
 
     return Scaffold(
       appBar: AppBar(
@@ -781,9 +919,10 @@ class _FinishScreenState extends State<FinishScreen> {
                       brewingMethodId: widget.recipe.brewingMethodId,
                     ),
                     // Same UI slot for promo / anniversary / in-sync /
-                    // coffee fact. Priority: promo > anniversary > in-sync >
-                    // coffee fact. Each "moment" REPLACES the default fact
-                    // card so the screen stays single-card.
+                    // review nudge / coffee fact. Priority: promo >
+                    // anniversary > in-sync > review nudge > coffee fact.
+                    // Each higher tier REPLACES the default fact card so the
+                    // screen stays single-card (plan 021).
                     if (kIsWeb && _showPromoCard)
                       _buildNativeAppPromoCard(context)
                     else if (_showAnniversary)
@@ -791,53 +930,64 @@ class _FinishScreenState extends State<FinishScreen> {
                     else if (showInSync)
                       _buildInSyncCard(context, _inSyncCount!, _inSyncCountries)
                     else
-                      Semantics(
-                        identifier: 'coffeeFactCard',
-                        child: FutureBuilder<String>(
-                          future: coffeeFact,
-                          builder:
-                              (
-                                BuildContext context,
-                                AsyncSnapshot<String> snapshot,
-                              ) {
-                                if (snapshot.hasData) {
-                                  return Card(
-                                    margin: const EdgeInsets.all(10),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: RichText(
-                                        textAlign: TextAlign.center,
-                                        text: TextSpan(
-                                          style: DefaultTextStyle.of(
-                                            context,
-                                          ).style,
-                                          children: <TextSpan>[
-                                            TextSpan(
-                                              text:
-                                                  '${AppLocalizations.of(context)!.coffeefact}: ',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
+                      FutureBuilder<_FinishSlotContent>(
+                        future: _slotContentFuture,
+                        builder: (context, snapshot) {
+                          final content = snapshot.data;
+                          if (content == null) {
+                            // Still resolving eligibility / the coffee fact —
+                            // same pending behavior as the previous
+                            // plain-fact FutureBuilder.
+                            return const CircularProgressIndicator();
+                          }
+                          switch (content.kind) {
+                            case _FinishSlotKind.reviewNudge:
+                              return BeanReviewNudgeCard(
+                                bean: content.bean!,
+                                trigger: content.trigger!,
+                                promptService: content.promptService!,
+                              );
+                            case _FinishSlotKind.factError:
+                              return Semantics(
+                                identifier: 'coffeeFactCard',
+                                child: Text('Error: ${content.error}'),
+                              );
+                            case _FinishSlotKind.fact:
+                              return Semantics(
+                                identifier: 'coffeeFactCard',
+                                child: Card(
+                                  margin: const EdgeInsets.all(10),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: RichText(
+                                      textAlign: TextAlign.center,
+                                      text: TextSpan(
+                                        style: DefaultTextStyle.of(
+                                          context,
+                                        ).style,
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                            text:
+                                                '${AppLocalizations.of(context)!.coffeefact}: ',
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
                                             ),
-                                            TextSpan(
-                                              text: '${snapshot.data}',
-                                              style: const TextStyle(
-                                                fontSize: 20,
-                                              ),
+                                          ),
+                                          TextSpan(
+                                            text: content.factText,
+                                            style: const TextStyle(
+                                              fontSize: 20,
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  );
-                                } else if (snapshot.hasError) {
-                                  return Text('Error: ${snapshot.error}');
-                                } else {
-                                  return const CircularProgressIndicator();
-                                }
-                              },
-                        ),
+                                  ),
+                                ),
+                              );
+                          }
+                        },
                       ),
                     const SizedBox(height: 20),
                     Semantics(
@@ -904,4 +1054,46 @@ class _FinishScreenState extends State<FinishScreen> {
       ),
     );
   }
+}
+
+/// What the single finish-screen card slot ultimately renders once
+/// [_FinishScreenState._resolveSlotContent] settles: either the bean-review
+/// nudge card, the coffee fact, or the coffee fact's error state (mirrors
+/// the previous plain `FutureBuilder<String>` semantics — see plan 021,
+/// "Finish-screen wiring").
+enum _FinishSlotKind { reviewNudge, fact, factError }
+
+class _FinishSlotContent {
+  final _FinishSlotKind kind;
+  final CoffeeBeansModel? bean;
+  final String? trigger;
+  final BeanReviewPromptService? promptService;
+  final String? factText;
+  final Object? error;
+
+  const _FinishSlotContent._({
+    required this.kind,
+    this.bean,
+    this.trigger,
+    this.promptService,
+    this.factText,
+    this.error,
+  });
+
+  factory _FinishSlotContent.reviewNudge({
+    required CoffeeBeansModel bean,
+    required String trigger,
+    required BeanReviewPromptService promptService,
+  }) => _FinishSlotContent._(
+    kind: _FinishSlotKind.reviewNudge,
+    bean: bean,
+    trigger: trigger,
+    promptService: promptService,
+  );
+
+  factory _FinishSlotContent.fact(String text) =>
+      _FinishSlotContent._(kind: _FinishSlotKind.fact, factText: text);
+
+  factory _FinishSlotContent.factError(Object error) =>
+      _FinishSlotContent._(kind: _FinishSlotKind.factError, error: error);
 }

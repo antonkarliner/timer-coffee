@@ -21,7 +21,7 @@ import '../utils/app_logger.dart';
 /// - **beans**: beans_added, beans_scan_used, beans_attached,
 ///   review_form_opened, review_added, review_added_after_notification,
 ///   review_edited, review_deleted, review_translated,
-///   reviews_translated_batch
+///   reviews_translated_batch, review_nudge_card_shown
 /// - **general**: app_opened, screen_viewed, recipe_created, recipe_shared,
 ///   collection interactions and sharing, donation_screen_viewed,
 ///   donation_button_tapped, donation_completed, donation_failed,
@@ -78,6 +78,7 @@ class AnalyticsService extends ChangeNotifier {
     'review_deleted': 'beans',
     'review_translated': 'beans',
     'reviews_translated_batch': 'beans',
+    'review_nudge_card_shown': 'beans',
     // General
     'app_opened': 'general',
     'screen_viewed': 'general',

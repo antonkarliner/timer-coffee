@@ -39,6 +39,7 @@ Future<bool> showReviewForm(
   List<String> roasterAliases = const [],
   BeanReviewModel? existingReview,
   CoffeeBeansModel? preselectedBean,
+  double? initialRating,
   String sourceScreen = 'unknown',
 }) async {
   AnalyticsService.instance.track(
@@ -70,6 +71,8 @@ Future<bool> showReviewForm(
       roasterAliases: roasterAliases,
       existingReview: existingReview,
       preselectedBean: preselectedBean,
+      initialRating: initialRating,
+      sourceScreen: sourceScreen,
     ),
   );
   return result ?? false;
@@ -81,6 +84,8 @@ class _ReviewFormSheet extends StatefulWidget {
   final List<String> roasterAliases;
   final BeanReviewModel? existingReview;
   final CoffeeBeansModel? preselectedBean;
+  final double? initialRating;
+  final String sourceScreen;
 
   const _ReviewFormSheet({
     required this.roasterProfileId,
@@ -88,6 +93,8 @@ class _ReviewFormSheet extends StatefulWidget {
     this.roasterAliases = const [],
     this.existingReview,
     this.preselectedBean,
+    this.initialRating,
+    this.sourceScreen = 'unknown',
   });
 
   @override
@@ -139,7 +146,7 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
   void initState() {
     super.initState();
     final existing = widget.existingReview;
-    _rating = existing?.rating ?? 0;
+    _rating = existing?.rating ?? widget.initialRating ?? 0;
     _reviewController = TextEditingController(text: existing?.reviewText ?? '');
     _brewMethodController = TextEditingController();
 
@@ -466,6 +473,7 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
         brewingMethodId: _selectedBrewingMethodId,
         wouldBuyAgain: _wouldBuyAgain,
         flavorTags: _flavorTags.isEmpty ? null : _flavorTags,
+        sourceScreen: widget.sourceScreen,
       );
     }
 

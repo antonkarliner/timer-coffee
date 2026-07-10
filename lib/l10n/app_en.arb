@@ -1620,6 +1620,38 @@
   "selectBeanForReview": "Select beans",
   "reviewBeanLabel": "Bean",
   "submitReviewButton": "Submit",
+  "finishReviewNudgeTitle": "How was {beanName}?",
+  "@finishReviewNudgeTitle": {
+    "description": "Title of the finish-screen card nudging the user to review the bean they just brewed",
+    "placeholders": {
+      "beanName": {
+        "type": "String",
+        "example": "Ethiopia Yirgacheffe"
+      }
+    }
+  },
+  "finishReviewNudgeSubtitle": "by {roasterName}",
+  "@finishReviewNudgeSubtitle": {
+    "description": "Subtitle of the finish-screen review nudge card, showing the roaster name",
+    "placeholders": {
+      "roasterName": {
+        "type": "String",
+        "example": "Blue Bottle Coffee"
+      }
+    }
+  },
+  "finishReviewNudgeDepletedSubtitle": "You just finished this bag — how did it treat you?",
+  "@finishReviewNudgeDepletedSubtitle": {
+    "description": "Subtitle of the finish-screen review nudge card when shown because the bean bag was just emptied"
+  },
+  "finishReviewNudgeWriteButton": "Write a review",
+  "@finishReviewNudgeWriteButton": {
+    "description": "Button on the finish-screen review nudge card that opens the review form without a preselected rating"
+  },
+  "finishReviewNudgeThanks": "Thanks! Your review helps other coffee lovers.",
+  "@finishReviewNudgeThanks": {
+    "description": "Thank-you message shown on the finish-screen review nudge card after a review is submitted"
+  },
   "confirmDeleteReviewTitle": "Delete this review?",
   "confirmDeleteReviewMessage": "This action cannot be undone.",
   "reviewsCount": "{count, plural, one{1 review} other{{count} reviews}}",
