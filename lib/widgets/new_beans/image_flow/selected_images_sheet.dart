@@ -143,7 +143,7 @@ class _SelectedImagesSheetState extends State<SelectedImagesSheet> {
                 AppElevatedButton(
                   label: loc.next,
                   onPressed: () async {
-                    // Show immediate feedback before heavy OCR starts
+                    // Show immediate feedback before the scan/parse request starts
                     showDialog(
                       context: context,
                       barrierDismissible: false,
@@ -170,10 +170,10 @@ class _SelectedImagesSheetState extends State<SelectedImagesSheet> {
                     await Future.delayed(const Duration(milliseconds: 10));
                     if (!context.mounted) return;
 
-                    // Close the selection sheet first so OCR can proceed
+                    // Close the selection sheet first so the scan can proceed
                     Navigator.pop(context);
 
-                    // Run the confirmation which triggers the OCR flow in controller
+                    // Run the confirmation which triggers the scan/parse flow in controller
                     await widget.onConfirm(_images);
                     if (!context.mounted) return;
 
