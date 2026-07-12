@@ -11,24 +11,15 @@ class BeansLabelParserClient {
   /// - imagesBase64: required
   /// - locale: target translation locale (still sent)
   /// - userId: optional
-  /// - ocrText/mode/minTextChars: optional hints to allow server auto-select text vs image path
-  /// Note: Locale is not used for OCR; server can detect source language from OCR text.
   Future<Map<String, dynamic>> parseLabel({
     required List<String> base64Images,
     required String locale,
     String? userId,
-    String? ocrText,
-    String mode = 'auto',
-    int minTextChars = 120,
   }) async {
     final Map<String, dynamic> body = {
       'imagesBase64': base64Images,
       'locale': locale, // keep target locale for translation
       'userId': userId,
-      // Extended fields: server may ignore until fully supported.
-      'ocrText': ocrText,
-      'mode': mode,
-      'minTextChars': minTextChars,
     };
 
     final response = await supabase.functions.invoke(
