@@ -1,9 +1,6 @@
 /// Result class for parallel image processing operations
-/// Contains all data needed for OCR and image processing pipeline
+/// Contains all data needed for the image processing pipeline
 class ImageProcessingResult {
-  /// OCR text extracted from the image (null if OCR failed or disabled)
-  final String? ocrText;
-
   /// Base64 encoded image data for sending to Edge function
   final String base64Image;
 
@@ -27,7 +24,6 @@ class ImageProcessingResult {
     required this.fileName,
     required this.success,
     required this.imageIndex,
-    this.ocrText,
     this.error,
     this.performanceMetrics = const {},
   });
@@ -37,7 +33,6 @@ class ImageProcessingResult {
     required String base64Image,
     required String fileName,
     required int imageIndex,
-    String? ocrText,
     Map<String, dynamic> performanceMetrics = const {},
   }) {
     return ImageProcessingResult(
@@ -45,7 +40,6 @@ class ImageProcessingResult {
       fileName: fileName,
       success: true,
       imageIndex: imageIndex,
-      ocrText: ocrText,
       performanceMetrics: performanceMetrics,
     );
   }
@@ -67,14 +61,8 @@ class ImageProcessingResult {
     );
   }
 
-  /// Check if this result has valid OCR text
-  bool get hasOcrText => ocrText != null && ocrText!.isNotEmpty;
-
-  /// Get the length of OCR text
-  int get ocrTextLength => ocrText?.length ?? 0;
-
   @override
   String toString() {
-    return 'ImageProcessingResult(fileName: $fileName, success: $success, hasOcr: $hasOcrText, error: $error)';
+    return 'ImageProcessingResult(fileName: $fileName, success: $success, error: $error)';
   }
 }

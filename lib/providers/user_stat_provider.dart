@@ -108,6 +108,8 @@ class UserStatProvider extends ChangeNotifier {
     bool? isMarked,
     String? coffeeBeansUuid,
     String? grindSize,
+    double? tdsPercent,
+    double? extractionYieldPercent,
     bool clearBeans = false,
   }) async {
     AppLogger.debug(
@@ -143,6 +145,8 @@ class UserStatProvider extends ChangeNotifier {
       isMarked: isMarked,
       coffeeBeansUuid: coffeeBeansUuid,
       grindSize: grindSize,
+      tdsPercent: tdsPercent,
+      extractionYieldPercent: extractionYieldPercent,
       versionVector: newVector.toString(),
     );
 
@@ -168,6 +172,8 @@ class UserStatProvider extends ChangeNotifier {
         isMarked: updatedStat.isMarked,
         coffeeBeansUuid: null,
         grindSize: updatedStat.grindSize,
+        tdsPercent: updatedStat.tdsPercent,
+        extractionYieldPercent: updatedStat.extractionYieldPercent,
         versionVector: updatedStat.versionVector,
         isDeleted: currentStat.isDeleted,
       );
@@ -270,6 +276,11 @@ class UserStatProvider extends ChangeNotifier {
 
   Future<List<UserStatsModel>> fetchStatsByBeanUuid(String beansUuid) =>
       db.userStatsDao.fetchStatsByBeanUuid(beansUuid);
+
+  /// Recent non-deleted brews, newest first, for "prefill from history"
+  /// pickers (e.g. the extraction calculator).
+  Future<List<UserStatsModel>> fetchRecentStats({int limit = 20}) =>
+      db.userStatsDao.fetchRecentStats(limit: limit);
 
   /// Estimates how many brews remain in a bag based on the user's median dose.
   ///
@@ -875,6 +886,8 @@ class UserStatProvider extends ChangeNotifier {
       'is_marked': model.isMarked,
       'coffee_beans_uuid': model.coffeeBeansUuid,
       'grind_size': model.grindSize,
+      'tds_percent': model.tdsPercent,
+      'extraction_yield_percent': model.extractionYieldPercent,
       'version_vector': model.versionVector,
       'is_deleted': model.isDeleted,
     };
@@ -893,6 +906,9 @@ class UserStatProvider extends ChangeNotifier {
       createdAt: DateTime.parse(json['created_at']),
       notes: json['notes'],
       grindSize: json['grind_size'],
+      tdsPercent: (json['tds_percent'] as num?)?.toDouble(),
+      extractionYieldPercent:
+          (json['extraction_yield_percent'] as num?)?.toDouble(),
       isMarked: json['is_marked'],
       coffeeBeansUuid: json['coffee_beans_uuid'],
       versionVector: json['version_vector'],

@@ -609,6 +609,59 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                 ),
               ),
             const SizedBox(height: 8),
+            // Extraction calculator result (if the user saved one for this brew)
+            if (stat.extractionYieldPercent != null)
+              Semantics(
+                identifier: 'extractionCalcDiaryLine_${stat.statUuid}',
+                label: stat.tdsPercent != null
+                    ? loc.extractionCalcDiaryLine(
+                        stat.extractionYieldPercent!.toStringAsFixed(1),
+                        stat.tdsPercent!.toStringAsFixed(2),
+                      )
+                    : '${loc.extractionCalcResultLabel}: '
+                          '${stat.extractionYieldPercent!.toStringAsFixed(1)}%',
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Text(
+                    stat.tdsPercent != null
+                        ? loc.extractionCalcDiaryLine(
+                            stat.extractionYieldPercent!.toStringAsFixed(1),
+                            stat.tdsPercent!.toStringAsFixed(2),
+                          )
+                        : '${loc.extractionCalcResultLabel}: '
+                              '${stat.extractionYieldPercent!.toStringAsFixed(1)}%',
+                    style: AppTextStyles.caption.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ),
+              ),
+            // Calculate extraction action — always available, independent of
+            // whether a result has been saved yet.
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Semantics(
+                identifier: 'calculateExtractionButton_${stat.statUuid}',
+                label: 'Calculate Extraction Button',
+                child: SizedBox(
+                  height: 56,
+                  child: AppElevatedButton(
+                    label: loc.extractionCalcDiaryAction,
+                    icon: Icons.calculate_outlined,
+                    onPressed: () => context.router.push(
+                      ExtractionCalculatorRoute(statUuid: stat.statUuid),
+                    ),
+                    isFullWidth: false,
+                    height: 56,
+                    padding: AppButton.paddingSmall,
+                    backgroundColor: Theme.of(context).colorScheme.surface,
+                    foregroundColor: Theme.of(context).colorScheme.primary,
+                    elevation: 2,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
             // Divider
             const Divider(thickness: 0.5, indent: 10, endIndent: 10),
             const SizedBox(height: 8),

@@ -54,6 +54,8 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
       isMarked: row.isMarked,
       coffeeBeansUuid: row.coffeeBeansUuid,
       grindSize: row.grindSize,
+      tdsPercent: row.tdsPercent,
+      extractionYieldPercent: row.extractionYieldPercent,
       versionVector: row.versionVector,
       isDeleted: row.isDeleted,
     );
@@ -77,6 +79,8 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
       isMarked: Value(model.isMarked),
       coffeeBeansUuid: Value(model.coffeeBeansUuid),
       grindSize: Value(model.grindSize),
+      tdsPercent: Value(model.tdsPercent),
+      extractionYieldPercent: Value(model.extractionYieldPercent),
       versionVector: Value(model.versionVector),
       isDeleted: Value(model.isDeleted),
     );
@@ -101,6 +105,21 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
         (t) => OrderingTerm(expression: t.createdAt, mode: OrderingMode.desc),
       ])
       ..where((t) => t.isDeleted.equals(false)); // Fetch only non-deleted stats
+    final List<UserStat> userStatsList = await query.get();
+
+    return userStatsList.map(_userStatFromRow).toList();
+  }
+
+  /// Returns the most recent non-deleted brews, newest first, capped at
+  /// [limit]. Used by "prefill from history" pickers where showing the
+  /// full unbounded history (see [fetchAllStats]) would be wasteful.
+  Future<List<UserStatsModel>> fetchRecentStats({int limit = 20}) async {
+    final query = select(userStats)
+      ..orderBy([
+        (t) => OrderingTerm(expression: t.createdAt, mode: OrderingMode.desc),
+      ])
+      ..where((t) => t.isDeleted.equals(false))
+      ..limit(limit);
     final List<UserStat> userStatsList = await query.get();
 
     return userStatsList.map(_userStatFromRow).toList();

@@ -91,6 +91,17 @@ class RecipeCollectionsDao extends DatabaseAccessor<AppDatabase>
     return db.recipesDao._getRecipeModelsFromQuery(ordered, locale);
   }
 
+  Future<Map<String, Set<String>>> getMemberPairsByCollection() async {
+    final rows = await select(recipeCollectionMembers).get();
+    final membersByCollection = <String, Set<String>>{};
+    for (final row in rows) {
+      membersByCollection
+          .putIfAbsent(row.collectionId, () => <String>{})
+          .add(row.recipeId);
+    }
+    return membersByCollection;
+  }
+
   // --- Sync write helpers (used by database_provider.dart) ---
 
   Future<void> upsertCollection(RecipeCollectionsCompanion entry) async {

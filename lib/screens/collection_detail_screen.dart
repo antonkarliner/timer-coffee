@@ -12,6 +12,7 @@ import '../models/recipe_model.dart';
 import '../providers/recipe_collection_provider.dart';
 import '../providers/recipe_provider.dart';
 import '../services/analytics_service.dart';
+import '../services/collection_new_badge_service.dart';
 import '../theme/design_tokens.dart';
 import '../utils/icon_utils.dart';
 import '../widgets/favorite_button.dart';
@@ -36,6 +37,8 @@ class _CollectionDetailScreenState extends State<CollectionDetailScreen> {
   String? _loadedForLocale;
 
   Future<_CollectionView> _load(String locale) async {
+    final badgeService = context.read<CollectionNewBadgeService>();
+    final hadNewBadge = badgeService.hasNew(widget.collectionId);
     final provider = context.read<RecipeCollectionProvider>();
     final collection = await provider.getCollectionById(
       widget.collectionId,
@@ -49,9 +52,11 @@ class _CollectionDetailScreenState extends State<CollectionDetailScreen> {
           'collection_id': widget.collectionId,
           'locale': locale,
           'recipe_count': recipes.length,
+          'had_new_badge': hadNewBadge,
         },
       );
     }
+    await badgeService.markViewed(widget.collectionId);
     return _CollectionView(collection: collection, recipes: recipes);
   }
 

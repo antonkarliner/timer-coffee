@@ -74,6 +74,10 @@ class AppRouter extends RootStackRouter {
           path: '/stats',
         ),
         AutoRoute(
+          page: ExtractionCalculatorRoute.page,
+          path: '/calculator',
+        ),
+        AutoRoute(
           page: CoffeeBeansDetailRoute.page,
           path: '/beans/:beanId',
         ),

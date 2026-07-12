@@ -18,6 +18,8 @@ class UserStatsModel {
   final bool isMarked;
   final String? coffeeBeansUuid;
   final String? grindSize;
+  final double? tdsPercent;
+  final double? extractionYieldPercent;
   final String versionVector;
   final bool isDeleted;
 
@@ -39,6 +41,8 @@ class UserStatsModel {
     required this.isMarked,
     this.coffeeBeansUuid,
     this.grindSize,
+    this.tdsPercent,
+    this.extractionYieldPercent,
     required this.versionVector,
     required this.isDeleted,
   });
@@ -64,6 +68,8 @@ class UserStatsModel {
     bool? isMarked,
     String? coffeeBeansUuid,
     String? grindSize,
+    double? tdsPercent,
+    double? extractionYieldPercent,
     String? versionVector,
     bool? isDeleted,
   }) {
@@ -87,6 +93,9 @@ class UserStatsModel {
       isMarked: isMarked ?? this.isMarked,
       coffeeBeansUuid: coffeeBeansUuid ?? this.coffeeBeansUuid,
       grindSize: grindSize ?? this.grindSize,
+      tdsPercent: tdsPercent ?? this.tdsPercent,
+      extractionYieldPercent:
+          extractionYieldPercent ?? this.extractionYieldPercent,
       versionVector: versionVector ?? this.versionVector,
       isDeleted: isDeleted ?? this.isDeleted,
     );
@@ -115,6 +124,8 @@ class UserStatsModel {
           isMarked == other.isMarked &&
           coffeeBeansUuid == other.coffeeBeansUuid &&
           grindSize == other.grindSize &&
+          tdsPercent == other.tdsPercent &&
+          extractionYieldPercent == other.extractionYieldPercent &&
           versionVector == other.versionVector &&
           isDeleted == other.isDeleted;
 
@@ -138,6 +149,8 @@ class UserStatsModel {
       isMarked.hashCode ^
       coffeeBeansUuid.hashCode ^
       grindSize.hashCode ^
+      tdsPercent.hashCode ^
+      extractionYieldPercent.hashCode ^
       versionVector.hashCode ^
       isDeleted.hashCode;
 }

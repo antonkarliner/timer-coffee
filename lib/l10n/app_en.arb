@@ -897,6 +897,10 @@
   },
   "noRecipesFound": "No recipes found",
   "collectionEmpty": "No recipes in this collection yet.",
+  "collectionNewBadgeLabel": "New recipes",
+  "@collectionNewBadgeLabel": {
+    "description": "Accessibility label appended to a collection card when it contains recently added recipes"
+  },
   "collectionsTitle": "Collections",
   "collectionsCollapseTooltip": "Collapse collections",
   "@collectionsCollapseTooltip": {
@@ -2058,5 +2062,199 @@
   "roasterContributionNotifBody": "Share their website to help us add them faster.",
   "@roasterContributionNotifBody": {
     "description": "Body of the local notification nudging the user to contribute a roaster's website."
+  },
+  "extractionCalcTitle": "Extraction calculator",
+  "@extractionCalcTitle": {
+    "description": "Title of the extraction/brew calculator screen, and the hub tile title that opens it."
+  },
+  "hubBrewCalculatorSubtitle": "Check your extraction yield and strength",
+  "@hubBrewCalculatorSubtitle": {
+    "description": "Subtitle for the brew calculator tile on the hub screen."
+  },
+  "extractionCalcModeFilter": "Filter",
+  "@extractionCalcModeFilter": {
+    "description": "Label for filter mode in the brew calculator's mode switch."
+  },
+  "extractionCalcModeEspresso": "Espresso",
+  "@extractionCalcModeEspresso": {
+    "description": "Label for espresso mode in the brew calculator's mode switch."
+  },
+  "extractionCalcHistoryButton": "From your history",
+  "@extractionCalcHistoryButton": {
+    "description": "Button above the brew calculator inputs that opens a picker of recent logged brews to prefill the form."
+  },
+  "extractionCalcHistoryDialogTitle": "Recent brews",
+  "@extractionCalcHistoryDialogTitle": {
+    "description": "Title of the dialog listing recent logged brews to pick from in the brew calculator."
+  },
+  "extractionCalcHistoryEmptyHint": "Log a brew first — then pick it here to prefill this calculator.",
+  "@extractionCalcHistoryEmptyHint": {
+    "description": "Empty-state hint shown in the recent-brews picker when the user has no logged brews yet."
+  },
+  "extractionCalcHistoryPrefilledBadge": "Prefilled from {recipeName}",
+  "@extractionCalcHistoryPrefilledBadge": {
+    "description": "Badge shown once a recent brew has been picked, naming the recipe it was prefilled from.",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Hario V60"
+      }
+    }
+  },
+  "extractionCalcHistoryChangeButton": "Change",
+  "@extractionCalcHistoryChangeButton": {
+    "description": "Small button next to the prefilled-from-history badge that reopens the recent-brews picker."
+  },
+  "extractionCalcDetachTooltip": "Remove attached brew",
+  "@extractionCalcDetachTooltip": {
+    "description": "Tooltip/accessibility label for the small close button that detaches the prefilled-from-history brew, clearing the badge without clearing entered numeric values."
+  },
+  "extractionCalcDoseLabel": "Dose (g)",
+  "@extractionCalcDoseLabel": {
+    "description": "Label for the dry coffee dose input field in the brew calculator."
+  },
+  "extractionCalcBeverageLabel": "Beverage weight (g)",
+  "@extractionCalcBeverageLabel": {
+    "description": "Label for the brewed beverage weight input field in filter mode."
+  },
+  "extractionCalcShotLabel": "Shot weight (g)",
+  "@extractionCalcShotLabel": {
+    "description": "Label for the espresso shot weight input field in espresso mode."
+  },
+  "extractionCalcTdsLabel": "TDS (%)",
+  "@extractionCalcTdsLabel": {
+    "description": "Label for the total dissolved solids input field in the brew calculator."
+  },
+  "extractionCalcTdsCaption": "Needs a refractometer reading",
+  "@extractionCalcTdsCaption": {
+    "description": "Tappable caption under the TDS field; tapping it expands the TDS explainer section."
+  },
+  "extractionCalcWaterLabel": "Water used (g)",
+  "@extractionCalcWaterLabel": {
+    "description": "Label for the water weight input used to estimate beverage weight."
+  },
+  "extractionCalcEstimateButton": "Estimate beverage weight",
+  "@extractionCalcEstimateButton": {
+    "description": "Button that prefills the beverage weight field from water weight and dose."
+  },
+  "extractionCalcEstimateHelperText": "Prefills the beverage weight below — you can still edit it",
+  "@extractionCalcEstimateHelperText": {
+    "description": "Helper text clarifying that the estimate button only prefills the beverage field."
+  },
+  "extractionCalcResultLabel": "Extraction yield",
+  "@extractionCalcResultLabel": {
+    "description": "Label above the large extraction yield percentage result."
+  },
+  "extractionCalcResultPlaceholder": "Enter your brew details to see extraction yield",
+  "@extractionCalcResultPlaceholder": {
+    "description": "Neutral empty-state message shown when the brew calculator inputs are incomplete."
+  },
+  "extractionCalcBandUnder": "Under-extracted",
+  "@extractionCalcBandUnder": {
+    "description": "Band label shown when extraction yield is below the target range."
+  },
+  "extractionCalcBandTarget": "Target",
+  "@extractionCalcBandTarget": {
+    "description": "Band label shown when extraction yield is within the target range."
+  },
+  "extractionCalcBandOver": "Over-extracted",
+  "@extractionCalcBandOver": {
+    "description": "Band label shown when extraction yield is above the target range."
+  },
+  "extractionCalcBandUnderRange": "< 18%",
+  "@extractionCalcBandUnderRange": {
+    "description": "Numeric range shown under the under-extracted band label."
+  },
+  "extractionCalcBandTargetRange": "18–22%",
+  "@extractionCalcBandTargetRange": {
+    "description": "Numeric range shown under the target band label."
+  },
+  "extractionCalcBandOverRange": "> 22%",
+  "@extractionCalcBandOverRange": {
+    "description": "Numeric range shown under the over-extracted band label."
+  },
+  "extractionCalcStrengthLabel": "Strength",
+  "@extractionCalcStrengthLabel": {
+    "description": "Label for the strength line shown in filter mode, derived from TDS."
+  },
+  "extractionCalcStrengthWeak": "Weak",
+  "@extractionCalcStrengthWeak": {
+    "description": "Strength band label for TDS below the ideal range."
+  },
+  "extractionCalcStrengthIdeal": "Ideal",
+  "@extractionCalcStrengthIdeal": {
+    "description": "Strength band label for TDS within the ideal range."
+  },
+  "extractionCalcStrengthStrong": "Strong",
+  "@extractionCalcStrengthStrong": {
+    "description": "Strength band label for TDS above the ideal range."
+  },
+  "extractionCalcStrengthLine": "Strength: {strength}",
+  "@extractionCalcStrengthLine": {
+    "description": "Line combining the strength label and its band value, e.g. Strength: Ideal.",
+    "placeholders": {
+      "strength": {
+        "type": "String",
+        "example": "Ideal"
+      }
+    }
+  },
+  "extractionCalcLearnWhatIsEyTitle": "What is extraction yield?",
+  "@extractionCalcLearnWhatIsEyTitle": {
+    "description": "Title of the first Learn section on the brew calculator screen."
+  },
+  "extractionCalcLearnWhatIsEyBody": "Of the ground coffee in your brewer, only part dissolves into the cup. Extraction yield is that part as a percentage. Around 18–22% usually tastes balanced: much lower reads sour and weak-sweet (under-extracted), much higher reads bitter and drying (over-extracted). It's a guide, not a law — trust your taste first.",
+  "@extractionCalcLearnWhatIsEyBody": {
+    "description": "Body text of the first Learn section explaining extraction yield."
+  },
+  "extractionCalcLearnTdsTitle": "What is TDS and how do I measure it?",
+  "@extractionCalcLearnTdsTitle": {
+    "description": "Title of the second Learn section on the brew calculator screen."
+  },
+  "extractionCalcLearnTdsBody": "Total dissolved solids: how much coffee is actually in the liquid — the strength of the cup. You measure it with a coffee refractometer: let a small sample cool for a minute, zero the device with distilled water, then read a few drops of filtered brew. Filter coffee usually lands at 1.15–1.45%, espresso at 8–12%. No refractometer? This calculator can't estimate TDS — but the rest of the app never needs one.",
+  "@extractionCalcLearnTdsBody": {
+    "description": "Body text of the second Learn section explaining TDS and how to measure it."
+  },
+  "extractionCalcLearnStrengthVsExtractionTitle": "Strength vs extraction — not the same thing",
+  "@extractionCalcLearnStrengthVsExtractionTitle": {
+    "description": "Title of the third Learn section on the brew calculator screen."
+  },
+  "extractionCalcLearnStrengthVsExtractionBody": "Strength is how concentrated the drink is (TDS); extraction is how much you took from the grounds (EY). You can brew a strong but under-extracted cup and a weak but over-extracted one. Grind and time mostly move extraction; dose and water mostly move strength.",
+  "@extractionCalcLearnStrengthVsExtractionBody": {
+    "description": "Body text of the third Learn section explaining strength vs extraction."
+  },
+  "extractionCalcLearnBeverageEstimateTitle": "Why we estimate beverage weight",
+  "@extractionCalcLearnBeverageEstimateTitle": {
+    "description": "Title of the fourth Learn section, shown only in filter mode."
+  },
+  "extractionCalcLearnBeverageEstimateBody": "Grounds hold on to roughly twice their weight in water, so the cup weighs less than what you poured. The estimate subtracts 2 g per gram of coffee. Weighing the actual cup (server on a scale, tare first) is always more accurate.",
+  "@extractionCalcLearnBeverageEstimateBody": {
+    "description": "Body text of the fourth Learn section explaining the beverage weight estimate, shown only in filter mode."
+  },
+  "extractionCalcSaveButton": "Save to this brew",
+  "@extractionCalcSaveButton": {
+    "description": "Primary button in the sticky action bar that saves the current TDS/extraction yield result onto the logged brew it was prefilled from."
+  },
+  "extractionCalcSaveSuccess": "Saved to your brew diary",
+  "@extractionCalcSaveSuccess": {
+    "description": "Snackbar confirmation shown after the extraction result is saved to a brew diary entry."
+  },
+  "extractionCalcDiaryLine": "EY {ey}% · TDS {tds}%",
+  "@extractionCalcDiaryLine": {
+    "description": "Compact caption line on a brew diary entry showing a saved extraction yield and TDS reading.",
+    "placeholders": {
+      "ey": {
+        "type": "String",
+        "example": "20.4"
+      },
+      "tds": {
+        "type": "String",
+        "example": "1.38"
+      }
+    }
+  },
+  "extractionCalcDiaryAction": "Calculate extraction",
+  "@extractionCalcDiaryAction": {
+    "description": "Per-entry action button in the brew diary that opens the extraction calculator prefilled from that brew."
   }
 }

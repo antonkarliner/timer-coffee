@@ -245,6 +245,16 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
                 },
               ),
               _HubListTile(
+                identifier: 'calculator',
+                label: l10n.extractionCalcTitle,
+                icon: Icons.calculate_outlined,
+                title: l10n.extractionCalcTitle,
+                subtitle: l10n.hubBrewCalculatorSubtitle,
+                onTap: () {
+                  context.router.push(ExtractionCalculatorRoute());
+                },
+              ),
+              _HubListTile(
                 identifier: 'userRecipes',
                 label: l10n.hubUserRecipesTitle,
                 icon: Icons.bookmarks_outlined,

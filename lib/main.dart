@@ -51,6 +51,7 @@ import 'services/analytics_service.dart';
 import 'services/local_notification_scheduler_service.dart';
 import 'services/date_time_format_service.dart';
 import 'services/advanced_features_service.dart';
+import 'services/collection_new_badge_service.dart';
 import 'services/collections_preferences_service.dart';
 import 'services/moments_service.dart';
 import 'controllers/stats_controller.dart';
@@ -1126,6 +1127,9 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
         ChangeNotifierProvider<CollectionsPreferencesService>(
           create: (_) => CollectionsPreferencesService()..init(),
         ),
+        ChangeNotifierProvider<CollectionNewBadgeService>(
+          create: (_) => CollectionNewBadgeService()..init(),
+        ),
         ChangeNotifierProvider<RoasterProfileProvider>(
           create: (_) => RoasterProfileProvider(),
         ),
@@ -1136,7 +1140,10 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
           create: (_) => RoastersProvider(),
         ),
         ChangeNotifierProvider<RecipeCollectionProvider>(
-          create: (_) => RecipeCollectionProvider(widget.database),
+          create: (ctx) => RecipeCollectionProvider(
+            widget.database,
+            ctx.read<CollectionNewBadgeService>(),
+          ),
         ),
         StreamProvider<Map<String, bool>>(
           create: (_) => widget.featureFlagsRepository.stream,

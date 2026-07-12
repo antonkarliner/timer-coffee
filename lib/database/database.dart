@@ -186,6 +186,9 @@ class UserStats extends Table {
   TextColumn get coffeeBeansUuid =>
       text().named('coffee_beans_uuid').nullable()();
   TextColumn get grindSize => text().named('grind_size').nullable()();
+  RealColumn get tdsPercent => real().named('tds_percent').nullable()();
+  RealColumn get extractionYieldPercent =>
+      real().named('extraction_yield_percent').nullable()();
   TextColumn get versionVector => text().named('version_vector')();
   BoolColumn get isDeleted =>
       boolean().named('is_deleted').withDefault(const Constant(false))();
@@ -370,7 +373,7 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   int get schemaVersion =>
-      37; // Added originalAuthorId to Recipes
+      38; // Added tdsPercent and extractionYieldPercent to UserStats
 
   String _generateUuidV7() {
     return _uuid.v7();
@@ -853,6 +856,11 @@ class AppDatabase extends _$AppDatabase {
             from36To37: (m, schema) async {
               await m.addColumn(
                   schema.recipes, schema.recipes.originalAuthorId);
+            },
+            from37To38: (m, schema) async {
+              await m.addColumn(schema.userStats, schema.userStats.tdsPercent);
+              await m.addColumn(
+                  schema.userStats, schema.userStats.extractionYieldPercent);
             },
           )(m, oldVersion, newVersion);
         },
