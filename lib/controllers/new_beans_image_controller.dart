@@ -5,17 +5,11 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:coffee_timer/services/ocr/ocr_service.dart';
-import 'package:coffee_timer/services/ocr/native_ocr_service.dart';
-import 'package:coffee_timer/services/ocr/ocr_fallback_handler.dart';
-import 'package:coffee_timer/services/ocr/background_ocr_manager.dart';
+import 'package:coffee_timer/utils/images/chunked_base64.dart';
 import 'package:coffee_timer/utils/images/image_resizer.dart';
 import 'package:coffee_timer/services/clients/beans_label_parser_client.dart';
 import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/utils/device_profiler.dart';
-import 'package:coffee_timer/utils/images/image_preprocessor.dart';
-import 'package:coffee_timer/utils/ocr_performance_monitor.dart';
-import 'package:coffee_timer/utils/ocr_performance_history.dart';
 import 'package:coffee_timer/models/image_processing_result.dart';
 
 // Simple timing helper for console instrumentation
@@ -40,44 +34,20 @@ class _StopwatchX {
 class NewBeansImageController {
   final ImagePicker _picker = ImagePicker();
   final BeansLabelParserClient _client;
-  final OcrService _ocrService = NativeOcrService();
-  late final OcrFallbackHandler _fallbackHandler;
-  late final BackgroundOcrManager _backgroundOcrManager;
-  final OcrPerformanceMonitor _monitor = OcrPerformanceMonitor();
-  final OcrPerformanceHistory _history = OcrPerformanceHistory.instance;
-
-  // OCR gating state (per start() session)
-  bool _ocrDisabledForSession = false;
 
   // Thresholds (ms)
   static const int _maxFileSizeBytes = 5 * 1024 * 1024; // 5MB threshold
 
   // Centralized console logging for this controller
   // Prefix helps filter in aggregated logs
-  // Example: [NewBeansOCR] message
+  // Example: [NewBeansScan] message
   void _log(String msg) {
-    AppLogger.debug('[NewBeansOCR] $msg');
+    AppLogger.debug('[NewBeansScan] $msg');
   }
 
   NewBeansImageController({
     required SupabaseClient supabaseClient,
-  }) : _client = BeansLabelParserClient(supabaseClient) {
-    // Initialize fallback handler with native OCR service and cloud client
-    _fallbackHandler = OcrFallbackHandler(
-      nativeOcrService: _ocrService,
-      cloudClient: _client,
-      maxRetryAttempts: 3,
-      retryDelaysMs: const [1000, 2000, 4000], // 1s, 2s, 4s
-    );
-
-    // Initialize background OCR manager
-    _backgroundOcrManager = BackgroundOcrManager(ocrService: _ocrService);
-
-    // Initialize performance monitoring
-    _monitor.initialize();
-    // Initialize performance history
-    _history.initialize();
-  }
+  }) : _client = BeansLabelParserClient(supabaseClient);
 
   /// Starts the flow for selecting images (camera or gallery) and parsing them.
   /// The controller does not present UI itself. Instead, it relies on the caller to:
@@ -164,11 +134,6 @@ class NewBeansImageController {
             await _picker.pickImage(source: ImageSource.camera);
         if (image != null) {
           shots.add(image);
-
-          // Start background OCR immediately after first image is captured
-          if (shots.length == 1) {
-            await startBackgroundOcr([image]);
-          }
         }
         if (shots.length < 2) {
           // If the user cancelled the first capture, there's nothing to preview — exit.
@@ -179,14 +144,12 @@ class NewBeansImageController {
               await _onAskTakeAnotherPhoto?.call(shots.last) ?? false;
           if (!takeAnother) break;
 
-          // If user wants to take another photo, capture it and start OCR
+          // If user wants to take another photo, capture it
           if (takeAnother) {
             final XFile? secondImage =
                 await _picker.pickImage(source: ImageSource.camera);
             if (secondImage != null) {
               shots.add(secondImage);
-              // Start background OCR on the second image as well
-              await startBackgroundOcr([secondImage]);
             }
           }
         }
@@ -196,17 +159,9 @@ class NewBeansImageController {
       if (kIsWeb) {
         final XFile? image =
             await _picker.pickImage(source: ImageSource.gallery);
-        if (image != null) {
-          // Start background OCR for gallery images too
-          await startBackgroundOcr([image]);
-        }
         return image != null ? [image] : [];
       } else {
         final images = await _picker.pickMultiImage(imageQuality: 50);
-        if (images.isNotEmpty) {
-          // Start background OCR for gallery images
-          await startBackgroundOcr(images);
-        }
         return images;
       }
     }
@@ -220,80 +175,6 @@ class NewBeansImageController {
   /// Set the callback used to ask the user to take another photo when using the camera.
   void setAskTakeAnotherPhotoCallback(Future<bool> Function(XFile lastPhoto) cb) {
     _onAskTakeAnotherPhoto = cb;
-  }
-
-  /// Starts background OCR processing on captured images.
-  ///
-  /// This method initiates OCR processing immediately when images are captured,
-  /// allowing processing to happen in parallel with user interaction.
-  Future<void> startBackgroundOcr(List<XFile> images) async {
-    if (images.isEmpty) return;
-
-    try {
-      await _backgroundOcrManager.startBackgroundOcr(images);
-      _log('Started background OCR on ${images.length} images');
-    } catch (e) {
-      _log('Failed to start background OCR: $e');
-    }
-  }
-
-  /// Gets pending background OCR results.
-  List<ImageProcessingResult> getPendingOcrResults() {
-    return _backgroundOcrManager.getPendingResults();
-  }
-
-  /// Gets successful background OCR results.
-  List<ImageProcessingResult> getSuccessfulOcrResults() {
-    return _backgroundOcrManager.getSuccessfulResults();
-  }
-
-  /// Clears pending background OCR results.
-  void clearPendingOcrResults() {
-    _backgroundOcrManager.clearResults();
-  }
-
-  /// Checks if background OCR is currently processing.
-  bool get isBackgroundOcrProcessing => _backgroundOcrManager.isProcessing;
-
-  /// Gets the number of pending background OCR results.
-  int get pendingBackgroundOcrResultsCount =>
-      _backgroundOcrManager.pendingResultsCount;
-
-  // Enhanced static capability gate using DeviceProfiler:
-  // - Skip OCR on Web
-  // - Use DeviceProfiler to check device capabilities
-  // - Check adaptive mode selection based on performance history
-  // - Runtime timing guard will still disable if too slow
-  Future<bool> _passesStaticOcrGate() async {
-    if (kIsWeb) return false;
-
-    try {
-      // Use DeviceProfiler to determine if device is capable
-      final isLowEnd = await DeviceProfiler.isLowEndDevice;
-      final passesDeviceGate = !isLowEnd;
-
-      // Check adaptive mode selection based on performance history
-      final shouldAttemptNative = _history.shouldAttemptNativeOcr();
-      final passesAdaptiveGate = shouldAttemptNative;
-
-      final passesGate = passesDeviceGate && passesAdaptiveGate;
-
-      _log(
-          'OCR gate check: isLowEnd=$isLowEnd, passesDeviceGate=$passesDeviceGate, '
-          'shouldAttemptNative=$shouldAttemptNative, passesAdaptiveGate=$passesAdaptiveGate, '
-          'finalGate=$passesGate');
-
-      // Log if adaptive mode is forcing cloud mode
-      if (passesDeviceGate && !passesAdaptiveGate) {
-        _log(
-            'Adaptive mode selection is forcing cloud mode due to performance history');
-      }
-
-      return passesGate;
-    } catch (e) {
-      _log('Error in OCR gate check: $e, defaulting to false');
-      return false;
-    }
   }
 
   /// Determines the appropriate max image size based on device capabilities
@@ -314,7 +195,6 @@ class NewBeansImageController {
   Future<ImageProcessingResult> _processSingleImageParallel(
     XFile image,
     int maxImageSize,
-    bool ocrDisabled,
     int imageIndex,
   ) async {
     final swTotal = _StopwatchX();
@@ -325,7 +205,6 @@ class NewBeansImageController {
       _logMemoryUsage(
           'Starting parallel image processing for image ${imageIndex + 1}');
 
-      String? ocrText;
       String base64Image;
 
       if (!kIsWeb) {
@@ -344,53 +223,11 @@ class NewBeansImageController {
           );
         }
 
-        // Perform OCR if not disabled
-        if (!ocrDisabled) {
-          // Apply image preprocessing before OCR (grayscale only, contrast disabled)
-          final preprocessSw = _StopwatchX();
-          final preprocessedFile = await ImagePreprocessor.preprocessForOcr(
-            file,
-            enableContrastEnhancement: false,
-          );
-          final preprocessMs = preprocessSw.stopMs();
-          performanceMetrics['preprocessMs'] = preprocessMs;
-
-          _log(
-              'Image preprocessing completed in ${preprocessMs}ms for $fileName');
-
-          // Perform native OCR directly
-          final ocrSw = _StopwatchX();
-          ocrText = await _ocrService.recognizeText(preprocessedFile);
-          final ocrMs = ocrSw.stopMs();
-          performanceMetrics['ocrMs'] = ocrMs;
-
-          _log('Native OCR completed in ${ocrMs}ms: chars=${ocrText.length}');
-
-          // Clean up preprocessed file
-          try {
-            if (preprocessedFile.path != file.path) {
-              await preprocessedFile.delete();
-              _log('Cleaned up preprocessed file: ${preprocessedFile.path}');
-            }
-          } catch (e) {
-            _log('Error cleaning up preprocessed file: $e');
-          }
-
-          // Force garbage collection after OCR to free memory
-          _forceGarbageCollection();
-        }
-
         // Downscale before sending to reduce bandwidth while keeping label legibility
         final swResize = _StopwatchX();
         final resized = await ImageResizer.resizeToMaxSize(file, maxImageSize);
         final resizeMs = swResize.stopMs();
         performanceMetrics['resizeMs'] = resizeMs;
-
-        // Start performance monitoring for image resize
-        final endResizeMonitoring = await _monitor.startOperation(
-          OcrOperationType.imageResize,
-          imageSizeBytes: await file.length(),
-        );
 
         // Optimized base64 encoding with memory management
         final swEncode = _StopwatchX();
@@ -398,40 +235,13 @@ class NewBeansImageController {
         final encodeMs = swEncode.stopMs();
         performanceMetrics['encodeMs'] = encodeMs;
 
-        // Start performance monitoring for base64 encoding
-        final endEncodeMonitoring = await _monitor.startOperation(
-          OcrOperationType.base64Encoding,
-          imageSizeBytes: resized.lengthSync(),
-        );
-
         _log(
             'Resize+encode done in ${resizeMs}ms+${encodeMs}ms for $fileName (max_size=${maxImageSize}px)');
-
-        // Record performance metrics
-        endResizeMonitoring(
-          success: true,
-          additionalData: {
-            'fileName': fileName,
-            'maxImageSize': maxImageSize,
-            'originalSize': await file.length(),
-            'resizedSize': await resized.length(),
-            'parallel': true,
-          },
-        );
-
-        endEncodeMonitoring(
-          success: true,
-          additionalData: {
-            'fileName': fileName,
-            'encodedSize': base64Image.length,
-            'parallel': true,
-          },
-        );
 
         // Force garbage collection after image processing
         _forceGarbageCollection();
       } else {
-        // Web fallback: no OCR (native plugin is not supported on web)
+        // Web fallback
         final swRead = _StopwatchX();
 
         // Check file size before processing
@@ -464,7 +274,6 @@ class NewBeansImageController {
         base64Image: base64Image,
         fileName: fileName,
         imageIndex: imageIndex,
-        ocrText: ocrText,
         performanceMetrics: performanceMetrics,
       );
     } catch (e, st) {
@@ -494,95 +303,6 @@ class NewBeansImageController {
     }
   }
 
-  /// Generates base64 image for edge function when using background OCR results.
-  /// This method creates the image data needed for the edge function without
-  /// reprocessing the entire OCR pipeline.
-  Future<ImageProcessingResult> _generateBase64ForEdgeFunction(
-    XFile image,
-    int maxImageSize,
-    int imageIndex,
-  ) async {
-    final fileName = image.path.split('/').last;
-    final performanceMetrics = <String, dynamic>{};
-    final swTotal = _StopwatchX();
-
-    try {
-      _log('Generating base64 image for edge function: $fileName');
-
-      String base64Image;
-      String? ocrText;
-
-      if (!kIsWeb) {
-        final file = File(image.path);
-
-        // Check file size before processing
-        final fileSize = await file.length();
-        if (fileSize > _maxFileSizeBytes) {
-          _log(
-              'Skipping large image for edge function: ${(fileSize / 1024 / 1024).toStringAsFixed(2)}MB exceeds threshold');
-          return ImageProcessingResult.failure(
-            fileName: fileName,
-            imageIndex: imageIndex,
-            error: 'Image size exceeds threshold',
-            performanceMetrics: {'fileSize': fileSize, 'skipped': true},
-          );
-        }
-
-        // Downscale before sending to reduce bandwidth while keeping label legibility
-        final swResize = _StopwatchX();
-        final resized = await ImageResizer.resizeToMaxSize(file, maxImageSize);
-        final resizeMs = swResize.stopMs();
-        performanceMetrics['resizeMs'] = resizeMs;
-
-        // Optimized base64 encoding with memory management
-        final swEncode = _StopwatchX();
-        base64Image = await _encodeToBase64Optimized(resized);
-        final encodeMs = swEncode.stopMs();
-        performanceMetrics['encodeMs'] = encodeMs;
-
-        _log(
-            'Base64 generation done in ${resizeMs}ms+${encodeMs}ms for $fileName');
-
-        // Force garbage collection after image processing
-        _forceGarbageCollection();
-      } else {
-        // Web fallback
-        final swRead = _StopwatchX();
-        base64Image = await _encodeXFileToBase64Optimized(image);
-        final readMs = swRead.stopMs();
-        performanceMetrics['readMs'] = readMs;
-
-        _log('Web base64 generation done in ${readMs}ms for $fileName');
-
-        // Force garbage collection after web image processing
-        _forceGarbageCollection();
-      }
-
-      performanceMetrics['totalMs'] = swTotal.stopMs();
-      performanceMetrics['background'] = true;
-
-      return ImageProcessingResult.success(
-        base64Image: base64Image,
-        fileName: fileName,
-        imageIndex: imageIndex,
-        ocrText: ocrText, // Will be null, but that's okay
-        performanceMetrics: performanceMetrics,
-      );
-    } catch (e) {
-      _log('Error generating base64 for edge function for $fileName: $e');
-      return ImageProcessingResult.failure(
-        fileName: fileName,
-        imageIndex: imageIndex,
-        error: e.toString(),
-        performanceMetrics: {
-          'totalMs': swTotal.stopMs(),
-          'background': true,
-          'error': true,
-        },
-      );
-    }
-  }
-
   Future<void> _processAndParse({
     required BuildContext context,
     required List<XFile> images,
@@ -597,21 +317,7 @@ class NewBeansImageController {
     onLoading(true);
     try {
       _log(
-          'Starting OCR + prepare. Images: ${images.length}, locale: $locale, userId: ${userId ?? 'anon'}, isFirstTime: $isFirstTime');
-
-      // Check if we have background OCR results available
-      final backgroundResults = getPendingOcrResults();
-      final hasBackgroundResults = backgroundResults.isNotEmpty;
-
-      if (hasBackgroundResults) {
-        _log(
-            'Found ${backgroundResults.length} background OCR results - will use them');
-      }
-
-      // Initialize gating state per session
-      // For first-time usage, always disable OCR to ensure better UX
-      _ocrDisabledForSession =
-          isFirstTime ? true : !(await _passesStaticOcrGate());
+          'Starting prepare. Images: ${images.length}, locale: $locale, userId: ${userId ?? 'anon'}, isFirstTime: $isFirstTime');
 
       // Determine device-aware image size
       final int maxImageSize = await _getDeviceAwareMaxImageSize();
@@ -621,60 +327,18 @@ class NewBeansImageController {
       final int maxConcurrent = await _getMaxConcurrentOperations();
       _log('Using max concurrent operations: $maxConcurrent');
 
-      if (_ocrDisabledForSession && !hasBackgroundResults) {
-        if (isFirstTime) {
-          _log(
-              'OCR disabled for first-time usage; sending images only for better UX.');
-        } else {
-          _log(
-              'OCR disabled by device capability gate; will skip on-device OCR.');
-        }
-      }
-
       final prepSw = _StopwatchX();
 
       // Process images in parallel batches
       final List<ImageProcessingResult> results = [];
 
-      if (hasBackgroundResults) {
-        _log('Using background OCR results instead of reprocessing');
-        _log('Generating base64 images for edge function from original images');
-
-        // Generate base64 images WITH background OCR text
-        for (int idx = 0; idx < images.length; idx++) {
-          final backgroundResult = backgroundResults[idx];
-          final imageResult = await _generateBase64ForEdgeFunction(
-            images[idx],
-            maxImageSize,
-            idx,
-          );
-
-          // Combine background OCR text with newly generated base64
-          final combinedResult = ImageProcessingResult.success(
-            base64Image: imageResult.base64Image,
-            fileName: imageResult.fileName,
-            imageIndex: imageResult.imageIndex,
-            ocrText: backgroundResult.ocrText, // Use background OCR text
-            performanceMetrics: {
-              ...imageResult.performanceMetrics,
-              ...backgroundResult.performanceMetrics,
-              'combined': true,
-            },
-          );
-
-          results.add(combinedResult);
-        }
-
-        // Clear background results after use
-        clearPendingOcrResults();
-      } else if (images.length == 1 || maxConcurrent == 1) {
+      if (images.length == 1 || maxConcurrent == 1) {
         // Sequential processing for single image or low-end devices
         _log('Using sequential processing');
         for (int idx = 0; idx < images.length; idx++) {
           final result = await _processSingleImageParallel(
             images[idx],
             maxImageSize,
-            _ocrDisabledForSession,
             idx,
           );
           results.add(result);
@@ -689,7 +353,6 @@ class NewBeansImageController {
           return _processSingleImageParallel(
             image,
             maxImageSize,
-            _ocrDisabledForSession,
             index,
           );
         }).toList();
@@ -698,16 +361,11 @@ class NewBeansImageController {
         results.addAll(await Future.wait(futures));
       }
 
-      _log(
-          'Prep complete in ${prepSw.stopMs()}ms. Processed ${results.length} images (ocr_enabled=${!_ocrDisabledForSession})');
+      _log('Prep complete in ${prepSw.stopMs()}ms. Processed ${results.length} images');
 
       // Filter successful results and extract data
       final successfulResults = results.where((r) => r.success).toList();
       final base64Images = successfulResults.map((r) => r.base64Image).toList();
-      final ocrSnippets = successfulResults
-          .where((r) => r.hasOcrText)
-          .map((r) => r.ocrText!)
-          .toList();
 
       if (base64Images.isEmpty) {
         onLoading(false);
@@ -715,50 +373,20 @@ class NewBeansImageController {
         return;
       }
 
-      final String ocrTextCombined =
-          ocrSnippets.join('\n').replaceAll('\r\n', '\n').trim();
-
-      // Decide mode client-side; send OCR text so server can choose text vs image.
-      final mode = 'auto';
-      final minTextChars = 120;
-
-      // If OCR disabled for this session or OCR text empty, do not send text
-      final String? ocrPayload =
-          (_ocrDisabledForSession || ocrTextCombined.isEmpty)
-              ? null
-              : ocrTextCombined;
-
       // Explicitly log what we are sending to the Edge Function
-      _log('Sending to Edge: mode=$mode, ocr_enabled=${ocrPayload != null}, '
-          'ocr_chars=${ocrPayload?.length ?? 0}, images=${base64Images.length}, locale=$locale');
-      // Add detailed logging to show OCR text content
-      if (ocrPayload != null && ocrPayload.isNotEmpty) {
-        _log('OCR text being sent to Edge: "$ocrPayload"');
-      } else {
-        _log('No OCR text being sent to Edge (OCR disabled or empty)');
-      }
-
-      // Start performance monitoring for fallback operation
-      final endFallbackMonitoring = await _monitor.startOperation(
-        OcrOperationType.fallback,
-        imageSizeBytes:
-            base64Images.fold<int>(0, (sum, img) => sum + img.length),
-      );
+      _log('Sending to Edge: images=${base64Images.length}, locale=$locale');
 
       final swEdge = _StopwatchX();
       final parsed = await _client.parseLabel(
         base64Images: base64Images,
         locale: locale, // keep locale as target translation language
         userId: userId,
-        ocrText: ocrPayload,
-        mode: mode,
-        minTextChars: minTextChars,
       );
       final edgeMs = swEdge.stopMs();
 
       AnalyticsService.instance.track('beans_scan_used', properties: {
         'success': true,
-        'mode': mode,
+        'mode': 'auto',
       });
 
       // Log meta if server returned it
@@ -771,7 +399,7 @@ class NewBeansImageController {
               'limit=${serverMeta['token_limit']}, used_this_month=${serverMeta['tokens_used_this_month']}, '
               'model=${serverMeta['model_used']}, edge_total_ms=${serverMeta['execution_time_ms_total']}, '
               'edge_gemini_ms=${serverMeta['execution_time_ms_gemini']}, '
-              'ocr_text_chars_sent=${serverMeta['ocr_text_chars']}, images_count_sent=${serverMeta['images_count']}');
+              'images_count_sent=${serverMeta['images_count']}');
         } else {
           _log(
               'No meta in response. Edge call time (client observed) = ${edgeMs}ms');
@@ -780,23 +408,6 @@ class NewBeansImageController {
         _log(
             'Meta parse failed; Edge call time (client observed) = ${edgeMs}ms');
       }
-
-      // Record fallback performance metrics
-      endFallbackMonitoring(
-        success: true,
-        additionalData: {
-          'imagesCount': base64Images.length,
-          'ocrEnabled': ocrPayload != null,
-          'ocrChars': ocrPayload?.length ?? 0,
-          'locale': locale,
-          'edgeExecutionTime': edgeMs,
-          'serverMeta': serverMeta ?? {},
-          'parallel': maxConcurrent > 1,
-          'totalImages': images.length,
-          'successfulImages': successfulResults.length,
-          'failedImages': results.length - successfulResults.length,
-        },
-      );
 
       onLoading(false);
       _log('Total client flow time: ${swTotal.stopMs()}ms');
@@ -807,7 +418,7 @@ class NewBeansImageController {
         'mode': 'auto',
       });
       onLoading(false);
-      _log('Error during OCR/parse: $e\n$st');
+      _log('Error during prepare/parse: $e\n$st');
       onError(e.toString());
     }
   }
@@ -861,60 +472,16 @@ class NewBeansImageController {
   }
 
   /// Encode file to base64 in chunks to reduce memory pressure
-  Future<String> _encodeToBase64InChunks(File file) async {
-    const int chunkSize = 256 * 1024; // 256KB chunks
-    final fileSize = await file.length();
-    final chunks = <String>[];
-
-    final randomAccessFile = await file.open();
-    try {
-      int position = 0;
-      while (position < fileSize) {
-        final remainingBytes = fileSize - position;
-        final currentChunkSize =
-            remainingBytes < chunkSize ? remainingBytes : chunkSize;
-
-        final chunkBytes = await randomAccessFile.read(currentChunkSize);
-        final chunkBase64 = base64Encode(chunkBytes);
-        chunks.add(chunkBase64);
-
-        // Clear chunk bytes from memory
-        chunkBytes.fillRange(0, chunkBytes.length, 0);
-
-        position += currentChunkSize;
-      }
-
-      return chunks.join('');
-    } finally {
-      await randomAccessFile.close();
-    }
+  Future<String> _encodeToBase64InChunks(File file) {
+    return encodeFileToBase64InChunks(file);
   }
 
-  /// Encode XFile to base64 in chunks to reduce memory pressure (for web)
+  /// Encode XFile to base64 (for web). XFile has no random-access API, so
+  /// the bytes are already fully in memory — encode them in one pass.
   Future<String> _encodeXFileToBase64InChunks(XFile xFile) async {
-    const int chunkSize = 256 * 1024; // 256KB chunks
-    final fileSize = await xFile.length();
-    final chunks = <String>[];
-
-    // For XFile, we need to read all bytes first since we can't use RandomAccessFile
-    // But we'll process in chunks to reduce memory pressure
     final allBytes = await xFile.readAsBytes();
     try {
-      int position = 0;
-      while (position < fileSize) {
-        final remainingBytes = fileSize - position;
-        final currentChunkSize =
-            remainingBytes < chunkSize ? remainingBytes : chunkSize;
-
-        final chunkBytes =
-            allBytes.sublist(position, position + currentChunkSize);
-        final chunkBase64 = base64Encode(chunkBytes);
-        chunks.add(chunkBase64);
-
-        position += currentChunkSize;
-      }
-
-      return chunks.join('');
+      return base64Encode(allBytes);
     } finally {
       // Clear all bytes from memory
       allBytes.fillRange(0, allBytes.length, 0);
@@ -935,69 +502,6 @@ class NewBeansImageController {
         // Ignore errors in GC forcing
       }
     }
-  }
-
-  /// Get OCR fallback metrics for debugging and analytics
-  OcrFallbackMetrics getOcrFallbackMetrics() {
-    return _fallbackHandler.getMetrics();
-  }
-
-  /// Reset OCR fallback metrics (useful for testing or new sessions)
-  void resetOcrFallbackMetrics() {
-    _fallbackHandler.resetMetrics();
-  }
-
-  /// Get performance monitoring statistics
-  OcrPerformanceStats getPerformanceStats() {
-    return _monitor.getStats();
-  }
-
-  /// Reset performance monitoring statistics
-  void resetPerformanceStats() {
-    _monitor.resetMetrics();
-  }
-
-  /// Get performance history instance
-  OcrPerformanceHistory getPerformanceHistory() {
-    return _history;
-  }
-
-  /// Get performance history summary
-  OcrPerformanceSummary getPerformanceHistorySummary() {
-    return _history.getPerformanceSummary();
-  }
-
-  /// Get adaptive configuration
-  OcrAdaptiveConfig getAdaptiveConfig() {
-    return _history.config;
-  }
-
-  /// Update adaptive configuration
-  Future<void> updateAdaptiveConfig(OcrAdaptiveConfig config) async {
-    await _history.updateConfig(config);
-    _log('Adaptive OCR configuration updated');
-  }
-
-  /// Reset performance history
-  Future<void> resetPerformanceHistory() async {
-    await _history.resetHistory();
-    _log('Performance history reset');
-  }
-
-  /// Check if cloud mode is currently forced
-  bool isCloudModeForced() {
-    return _history.shouldForceCloudMode;
-  }
-
-  /// Manually force or unforce cloud mode
-  Future<void> setForceCloudMode(bool force) async {
-    await _history.setForceCloudMode(force);
-    _log('Cloud mode force set to: $force');
-  }
-
-  /// Get slow operation count
-  int getSlowOperationCount() {
-    return _history.getSlowOperationCount();
   }
 
   /// Log memory usage with minimal overhead
