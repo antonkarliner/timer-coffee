@@ -788,6 +788,8 @@ class MockUserStatProvider extends _i1.Mock implements _i15.UserStatProvider {
     bool? isMarked,
     String? coffeeBeansUuid,
     String? grindSize,
+    double? tdsPercent,
+    double? extractionYieldPercent,
     bool? clearBeans = false,
   }) =>
       (super.noSuchMethod(
@@ -807,6 +809,8 @@ class MockUserStatProvider extends _i1.Mock implements _i15.UserStatProvider {
               #isMarked: isMarked,
               #coffeeBeansUuid: coffeeBeansUuid,
               #grindSize: grindSize,
+              #tdsPercent: tdsPercent,
+              #extractionYieldPercent: extractionYieldPercent,
               #clearBeans: clearBeans,
             }),
             returnValue: _i12.Future<void>.value(),
@@ -853,6 +857,20 @@ class MockUserStatProvider extends _i1.Mock implements _i15.UserStatProvider {
   ) =>
       (super.noSuchMethod(
             Invocation.method(#fetchStatsByBeanUuid, [beansUuid]),
+            returnValue: _i12.Future<List<_i16.UserStatsModel>>.value(
+              <_i16.UserStatsModel>[],
+            ),
+            returnValueForMissingStub:
+                _i12.Future<List<_i16.UserStatsModel>>.value(
+                  <_i16.UserStatsModel>[],
+                ),
+          )
+          as _i12.Future<List<_i16.UserStatsModel>>);
+
+  @override
+  _i12.Future<List<_i16.UserStatsModel>> fetchRecentStats({int? limit = 20}) =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchRecentStats, [], {#limit: limit}),
             returnValue: _i12.Future<List<_i16.UserStatsModel>>.value(
               <_i16.UserStatsModel>[],
             ),

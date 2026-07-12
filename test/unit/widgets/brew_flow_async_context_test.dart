@@ -212,6 +212,12 @@ void main() {
     await tester.tap(find.text('Test recipe').first);
     await tester.pumpAndSettle();
 
+    await tester.dragUntilVisible(
+      find.text('Remove from entry'),
+      find.byType(ListView),
+      const Offset(0, -100),
+    );
+    await tester.pump();
     await tester.tap(find.text('Remove from entry'));
     await tester.pump();
     await tester.pumpWidget(const SizedBox.shrink());
