@@ -35,6 +35,62 @@ void main() {
     });
   });
 
+  group('water temperature provenance', () {
+    test('initial effective temperature is recipe-derived', () {
+      controller.setInitialWaterTemperature(93);
+
+      expect(controller.waterTemperature, 93);
+      expect(controller.waterTemperatureFromRecipe, isTrue);
+    });
+
+    test('editing temperature marks it as a manual override', () {
+      controller.setInitialWaterTemperature(93);
+      controller.markWaterTemperatureManuallyEdited(91.5);
+
+      expect(controller.waterTemperature, 91.5);
+      expect(controller.waterTemperatureFromRecipe, isFalse);
+    });
+
+    test('emptying temperature restores the loaded effective value', () {
+      controller.setInitialWaterTemperature(93);
+      controller.markWaterTemperatureManuallyEdited(91);
+      controller.markWaterTemperatureManuallyEdited(null);
+
+      expect(controller.waterTemperature, 93);
+      expect(controller.waterTemperatureFromRecipe, isTrue);
+    });
+
+    test('emptying genuinely null temperature does not invent a default', () {
+      controller.setInitialWaterTemperature(null);
+      controller.markWaterTemperatureManuallyEdited(91);
+      controller.markWaterTemperatureManuallyEdited(null);
+
+      expect(controller.waterTemperature, isNull);
+      expect(controller.waterTemperatureFromRecipe, isTrue);
+    });
+  });
+
+  group('applyBrewAgainPrefill', () {
+    test('applies brew values as manual overrides', () {
+      controller.grindSizeFromBean = true;
+      controller.setInitialWaterTemperature(93);
+
+      controller.applyBrewAgainPrefill(
+        coffeeAmount: 18.5,
+        waterAmount: 300,
+        grindSize: '24 clicks',
+        waterTemp: 91.5,
+      );
+
+      expect(controller.coffeeController.text, '18.5');
+      expect(controller.waterController.text, '300.0');
+      expect(controller.grindSizeController.text, '24 clicks');
+      expect(controller.grindSizeFromBean, isFalse);
+      expect(controller.waterTemperature, 91.5);
+      expect(controller.waterTemperatureFromRecipe, isFalse);
+    });
+  });
+
   group('setInitialAmounts', () {
     test('sets controller text for coffee and water', () {
       controller.setInitialAmounts(coffeeAmount: 25.0, waterAmount: 400.0);
@@ -212,7 +268,12 @@ void main() {
     test('setBeanSelection triggers notifyListeners', () {
       bool notified = false;
       controller.addListener(() => notified = true);
-      controller.setBeanSelection(uuid: 'u', name: 'n', originalUrl: null, mirrorUrl: null);
+      controller.setBeanSelection(
+        uuid: 'u',
+        name: 'n',
+        originalUrl: null,
+        mirrorUrl: null,
+      );
       expect(notified, isTrue);
     });
 
@@ -288,6 +349,69 @@ void main() {
     test('falls back to 0 when text is invalid and no original set', () {
       controller.coffeeController.text = 'not-a-number';
       expect(controller.currentCoffeeAmount, 0.0);
+    });
+  });
+
+  group('grind suggestion', () {
+    test(
+      'shows only when suggestion differs from field (case-insensitive)',
+      () {
+        controller.grindSizeController.text = 'Fine ';
+        controller.setGrindSuggestion('fine', null);
+        expect(controller.shouldShowGrindSuggestion, isFalse);
+
+        controller.setGrindSuggestion('Medium fine', null);
+        expect(controller.shouldShowGrindSuggestion, isTrue);
+      },
+    );
+
+    test('apply uses stored value as-is when taste is neutral', () {
+      controller.setGrindSuggestion('24', 0);
+      controller.applyGrindSuggestion();
+      expect(controller.grindSizeController.text, '24');
+    });
+
+    test('apply adjusts integer grind finer on sour', () {
+      controller.setGrindSuggestion('24', -1);
+      controller.applyGrindSuggestion();
+      expect(controller.grindSizeController.text, '23');
+    });
+
+    test('apply adjusts integer grind coarser on bitter', () {
+      controller.setGrindSuggestion('24', 1);
+      controller.applyGrindSuggestion();
+      expect(controller.grindSizeController.text, '25');
+    });
+
+    test('apply keeps non-numeric grind as-is even when directional', () {
+      controller.setGrindSuggestion('medium-fine', 1);
+      controller.applyGrindSuggestion();
+      expect(controller.grindSizeController.text, 'medium-fine');
+    });
+
+    test('apply keeps decimal grind as-is (integer gate)', () {
+      controller.setGrindSuggestion('2.4', -1);
+      controller.applyGrindSuggestion();
+      expect(controller.grindSizeController.text, '2.4');
+    });
+
+    test('apply keeps integers below 2 as-is', () {
+      controller.setGrindSuggestion('1', 1);
+      controller.applyGrindSuggestion();
+      expect(controller.grindSizeController.text, '1');
+    });
+
+    test('apply clears the suggestion (chip dismissed)', () {
+      controller.setGrindSuggestion('24', -1);
+      controller.applyGrindSuggestion();
+      expect(controller.shouldShowGrindSuggestion, isFalse);
+      expect(controller.suggestedGrindSize, isNull);
+    });
+
+    test('manual grind edit clears the suggestion', () {
+      controller.setGrindSuggestion('24', null);
+      controller.markGrindSizeManuallyEdited();
+      expect(controller.suggestedGrindSize, isNull);
     });
   });
 }

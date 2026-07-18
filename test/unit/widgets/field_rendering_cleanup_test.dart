@@ -40,6 +40,112 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('quick pick tap adds the chip and removes it from the row', (
+    tester,
+  ) async {
+    List<String>? changed;
+    await tester.pumpWidget(
+      host(
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: ChipInput(
+            label: 'Tasting notes',
+            quickPicks: const ['Chocolate', 'Citrus'],
+            onChanged: (values) => changed = values,
+          ),
+        ),
+      ),
+    );
+
+    expect(find.widgetWithText(ActionChip, 'Chocolate'), findsOneWidget);
+    expect(find.widgetWithText(ActionChip, 'Citrus'), findsOneWidget);
+
+    await tester.tap(find.widgetWithText(ActionChip, 'Chocolate'));
+    await tester.pumpAndSettle();
+
+    expect(changed, ['Chocolate']);
+    expect(find.widgetWithText(ActionChip, 'Chocolate'), findsNothing);
+    expect(find.widgetWithText(ActionChip, 'Citrus'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets(
+    'quick picks row is hidden once every pick is already added',
+    (tester) async {
+      await tester.pumpWidget(
+        host(
+          const Padding(
+            padding: EdgeInsets.all(16),
+            child: ChipInput(
+              label: 'Tasting notes',
+              initialValues: ['Chocolate'],
+              quickPicks: ['Chocolate'],
+            ),
+          ),
+        ),
+      );
+
+      expect(find.byType(ActionChip), findsNothing);
+    },
+  );
+
+  testWidgets('+ button is disabled when empty and commits typed text', (
+    tester,
+  ) async {
+    List<String>? changed;
+    await tester.pumpWidget(
+      host(
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: ChipInput(
+            label: 'Tasting notes',
+            onChanged: (values) => changed = values,
+          ),
+        ),
+      ),
+    );
+
+    final addButtonFinder = find.widgetWithIcon(IconButton, Icons.add);
+    expect(addButtonFinder, findsOneWidget);
+    expect(tester.widget<IconButton>(addButtonFinder).onPressed, isNull);
+
+    await tester.enterText(find.byType(TextFormField), 'Nutty');
+    await tester.pump();
+
+    expect(tester.widget<IconButton>(addButtonFinder).onPressed, isNotNull);
+    await tester.tap(addButtonFinder);
+    await tester.pumpAndSettle();
+
+    expect(changed, ['Nutty']);
+  });
+
+  testWidgets('entering "a, b" commits "a" and leaves "b" pending', (
+    tester,
+  ) async {
+    List<String>? changed;
+    final controller = TextEditingController();
+    addTearDown(controller.dispose);
+    await tester.pumpWidget(
+      host(
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: ChipInput(
+            label: 'Tasting notes',
+            controller: controller,
+            onChanged: (values) => changed = values,
+          ),
+        ),
+      ),
+    );
+
+    await tester.enterText(find.byType(TextFormField), 'a, b');
+    await tester.pumpAndSettle();
+
+    expect(changed, ['a']);
+    expect(controller.text.trim(), 'b');
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('labeled and numeric fields retain their input behavior', (
     tester,
   ) async {
@@ -64,6 +170,29 @@ void main() {
     await tester.enterText(find.byType(TextFormField).last, '18');
     await tester.pump();
     expect(numericValue, 18);
+  });
+
+  testWidgets('numeric field can use an outlined floating label', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      host(
+        const NumericTextField(
+          label: 'Water Temperature (°C)',
+          initialValue: 95,
+          labelInsideField: true,
+          autofocus: true,
+        ),
+      ),
+    );
+
+    final decorator = tester.widget<InputDecorator>(
+      find.byType(InputDecorator),
+    );
+    final editableText = tester.widget<EditableText>(find.byType(EditableText));
+    expect(decorator.decoration.labelText, 'Water Temperature (°C)');
+    expect(editableText.focusNode.hasFocus, isTrue);
+    expect(find.text('Water Temperature (°C)'), findsOneWidget);
   });
 
   testWidgets('brewing method overlay returns the selected method', (

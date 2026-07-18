@@ -8,18 +8,18 @@ import 'dart:ui' as _i5;
 
 import 'package:coffee_timer/database/database.dart' as _i2;
 import 'package:coffee_timer/models/coffee_beans_model.dart' as _i15;
-import 'package:coffee_timer/models/launch_popup_model.dart' as _i12;
-import 'package:coffee_timer/models/recipe_model.dart' as _i10;
-import 'package:coffee_timer/models/supported_locale_model.dart' as _i13;
-import 'package:coffee_timer/providers/coffee_beans_provider.dart' as _i14;
+import 'package:coffee_timer/models/launch_popup_model.dart' as _i13;
+import 'package:coffee_timer/models/recipe_model.dart' as _i11;
+import 'package:coffee_timer/models/supported_locale_model.dart' as _i14;
+import 'package:coffee_timer/providers/coffee_beans_provider.dart' as _i9;
 import 'package:coffee_timer/providers/database_provider.dart' as _i3;
-import 'package:coffee_timer/providers/recipe_provider.dart' as _i9;
+import 'package:coffee_timer/providers/recipe_provider.dart' as _i10;
 import 'package:coffee_timer/services/analytics_service.dart' as _i16;
 import 'package:drift/drift.dart' as _i6;
 import 'package:drift/src/runtime/executor/stream_queries.dart' as _i7;
 import 'package:flutter/material.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i11;
+import 'package:mockito/src/dummies.dart' as _i12;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -330,10 +330,16 @@ class _FakeGenerationContext_49 extends _i1.SmartFake
     : super(parent, parentInvocation);
 }
 
+class _FakeBeanWeightAdjustmentResult_50 extends _i1.SmartFake
+    implements _i9.BeanWeightAdjustmentResult {
+  _FakeBeanWeightAdjustmentResult_50(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
 /// A class which mocks [RecipeProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockRecipeProvider extends _i1.Mock implements _i9.RecipeProvider {
+class MockRecipeProvider extends _i1.Mock implements _i10.RecipeProvider {
   @override
   _i2.AppDatabase get db =>
       (super.noSuchMethod(
@@ -362,13 +368,13 @@ class MockRecipeProvider extends _i1.Mock implements _i9.RecipeProvider {
           as _i3.DatabaseProvider);
 
   @override
-  List<_i10.RecipeModel> get recipes =>
+  List<_i11.RecipeModel> get recipes =>
       (super.noSuchMethod(
             Invocation.getter(#recipes),
-            returnValue: <_i10.RecipeModel>[],
-            returnValueForMissingStub: <_i10.RecipeModel>[],
+            returnValue: <_i11.RecipeModel>[],
+            returnValueForMissingStub: <_i11.RecipeModel>[],
           )
-          as List<_i10.RecipeModel>);
+          as List<_i11.RecipeModel>);
 
   @override
   _i4.ValueNotifier<Set<String>> get shownBrewingMethodIds =>
@@ -470,32 +476,32 @@ class MockRecipeProvider extends _i1.Mock implements _i9.RecipeProvider {
           as _i8.Future<void>);
 
   @override
-  _i8.Future<List<_i10.RecipeModel>> fetchRecipesForBrewingMethod(
+  _i8.Future<List<_i11.RecipeModel>> fetchRecipesForBrewingMethod(
     String? brewingMethodId,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#fetchRecipesForBrewingMethod, [brewingMethodId]),
-            returnValue: _i8.Future<List<_i10.RecipeModel>>.value(
-              <_i10.RecipeModel>[],
+            returnValue: _i8.Future<List<_i11.RecipeModel>>.value(
+              <_i11.RecipeModel>[],
             ),
-            returnValueForMissingStub: _i8.Future<List<_i10.RecipeModel>>.value(
-              <_i10.RecipeModel>[],
+            returnValueForMissingStub: _i8.Future<List<_i11.RecipeModel>>.value(
+              <_i11.RecipeModel>[],
             ),
           )
-          as _i8.Future<List<_i10.RecipeModel>>);
+          as _i8.Future<List<_i11.RecipeModel>>);
 
   @override
   _i8.Future<String> getBrewingMethodName(String? brewingMethodId) =>
       (super.noSuchMethod(
             Invocation.method(#getBrewingMethodName, [brewingMethodId]),
             returnValue: _i8.Future<String>.value(
-              _i11.dummyValue<String>(
+              _i12.dummyValue<String>(
                 this,
                 Invocation.method(#getBrewingMethodName, [brewingMethodId]),
               ),
             ),
             returnValueForMissingStub: _i8.Future<String>.value(
-              _i11.dummyValue<String>(
+              _i12.dummyValue<String>(
                 this,
                 Invocation.method(#getBrewingMethodName, [brewingMethodId]),
               ),
@@ -504,13 +510,13 @@ class MockRecipeProvider extends _i1.Mock implements _i9.RecipeProvider {
           as _i8.Future<String>);
 
   @override
-  _i8.Future<_i10.RecipeModel?> getRecipeById(String? recipeId) =>
+  _i8.Future<_i11.RecipeModel?> getRecipeById(String? recipeId) =>
       (super.noSuchMethod(
             Invocation.method(#getRecipeById, [recipeId]),
-            returnValue: _i8.Future<_i10.RecipeModel?>.value(),
-            returnValueForMissingStub: _i8.Future<_i10.RecipeModel?>.value(),
+            returnValue: _i8.Future<_i11.RecipeModel?>.value(),
+            returnValueForMissingStub: _i8.Future<_i11.RecipeModel?>.value(),
           )
-          as _i8.Future<_i10.RecipeModel?>);
+          as _i8.Future<_i11.RecipeModel?>);
 
   @override
   _i8.Future<void> toggleFavorite(String? recipeId) =>
@@ -527,12 +533,16 @@ class MockRecipeProvider extends _i1.Mock implements _i9.RecipeProvider {
     double? coffeeAmount,
     double? waterAmount, {
     String? customGrindSize,
+    double? customWaterTemp,
   }) =>
       (super.noSuchMethod(
             Invocation.method(
               #saveCustomAmounts,
               [recipeId, coffeeAmount, waterAmount],
-              {#customGrindSize: customGrindSize},
+              {
+                #customGrindSize: customGrindSize,
+                #customWaterTemp: customWaterTemp,
+              },
             ),
             returnValue: _i8.Future<void>.value(),
             returnValueForMissingStub: _i8.Future<void>.value(),
@@ -562,26 +572,26 @@ class MockRecipeProvider extends _i1.Mock implements _i9.RecipeProvider {
           as _i8.Future<void>);
 
   @override
-  _i8.Future<_i10.RecipeModel?> getLastUsedRecipe() =>
+  _i8.Future<_i11.RecipeModel?> getLastUsedRecipe() =>
       (super.noSuchMethod(
             Invocation.method(#getLastUsedRecipe, []),
-            returnValue: _i8.Future<_i10.RecipeModel?>.value(),
-            returnValueForMissingStub: _i8.Future<_i10.RecipeModel?>.value(),
+            returnValue: _i8.Future<_i11.RecipeModel?>.value(),
+            returnValueForMissingStub: _i8.Future<_i11.RecipeModel?>.value(),
           )
-          as _i8.Future<_i10.RecipeModel?>);
+          as _i8.Future<_i11.RecipeModel?>);
 
   @override
   _i8.Future<String> fetchBrewingMethodName(String? brewingMethodId) =>
       (super.noSuchMethod(
             Invocation.method(#fetchBrewingMethodName, [brewingMethodId]),
             returnValue: _i8.Future<String>.value(
-              _i11.dummyValue<String>(
+              _i12.dummyValue<String>(
                 this,
                 Invocation.method(#fetchBrewingMethodName, [brewingMethodId]),
               ),
             ),
             returnValueForMissingStub: _i8.Future<String>.value(
-              _i11.dummyValue<String>(
+              _i12.dummyValue<String>(
                 this,
                 Invocation.method(#fetchBrewingMethodName, [brewingMethodId]),
               ),
@@ -590,76 +600,76 @@ class MockRecipeProvider extends _i1.Mock implements _i9.RecipeProvider {
           as _i8.Future<String>);
 
   @override
-  List<_i10.RecipeModel> getFavoriteRecipes() =>
+  List<_i11.RecipeModel> getFavoriteRecipes() =>
       (super.noSuchMethod(
             Invocation.method(#getFavoriteRecipes, []),
-            returnValue: <_i10.RecipeModel>[],
-            returnValueForMissingStub: <_i10.RecipeModel>[],
+            returnValue: <_i11.RecipeModel>[],
+            returnValueForMissingStub: <_i11.RecipeModel>[],
           )
-          as List<_i10.RecipeModel>);
+          as List<_i11.RecipeModel>);
 
   @override
-  _i8.Future<List<_i10.RecipeModel>> fetchFavoriteRecipes(String? locale) =>
+  _i8.Future<List<_i11.RecipeModel>> fetchFavoriteRecipes(String? locale) =>
       (super.noSuchMethod(
             Invocation.method(#fetchFavoriteRecipes, [locale]),
-            returnValue: _i8.Future<List<_i10.RecipeModel>>.value(
-              <_i10.RecipeModel>[],
+            returnValue: _i8.Future<List<_i11.RecipeModel>>.value(
+              <_i11.RecipeModel>[],
             ),
-            returnValueForMissingStub: _i8.Future<List<_i10.RecipeModel>>.value(
-              <_i10.RecipeModel>[],
+            returnValueForMissingStub: _i8.Future<List<_i11.RecipeModel>>.value(
+              <_i11.RecipeModel>[],
             ),
           )
-          as _i8.Future<List<_i10.RecipeModel>>);
+          as _i8.Future<List<_i11.RecipeModel>>);
 
   @override
-  _i8.Future<List<_i10.RecipeModel>> fetchRecipesForVendor(String? vendorId) =>
+  _i8.Future<List<_i11.RecipeModel>> fetchRecipesForVendor(String? vendorId) =>
       (super.noSuchMethod(
             Invocation.method(#fetchRecipesForVendor, [vendorId]),
-            returnValue: _i8.Future<List<_i10.RecipeModel>>.value(
-              <_i10.RecipeModel>[],
+            returnValue: _i8.Future<List<_i11.RecipeModel>>.value(
+              <_i11.RecipeModel>[],
             ),
-            returnValueForMissingStub: _i8.Future<List<_i10.RecipeModel>>.value(
-              <_i10.RecipeModel>[],
+            returnValueForMissingStub: _i8.Future<List<_i11.RecipeModel>>.value(
+              <_i11.RecipeModel>[],
             ),
           )
-          as _i8.Future<List<_i10.RecipeModel>>);
+          as _i8.Future<List<_i11.RecipeModel>>);
 
   @override
-  _i8.Future<_i12.LaunchPopupModel?> fetchLatestLaunchPopup(String? locale) =>
+  _i8.Future<_i13.LaunchPopupModel?> fetchLatestLaunchPopup(String? locale) =>
       (super.noSuchMethod(
             Invocation.method(#fetchLatestLaunchPopup, [locale]),
-            returnValue: _i8.Future<_i12.LaunchPopupModel?>.value(),
+            returnValue: _i8.Future<_i13.LaunchPopupModel?>.value(),
             returnValueForMissingStub:
-                _i8.Future<_i12.LaunchPopupModel?>.value(),
+                _i8.Future<_i13.LaunchPopupModel?>.value(),
           )
-          as _i8.Future<_i12.LaunchPopupModel?>);
+          as _i8.Future<_i13.LaunchPopupModel?>);
 
   @override
-  _i8.Future<List<_i13.SupportedLocaleModel>> fetchAllSupportedLocales() =>
+  _i8.Future<List<_i14.SupportedLocaleModel>> fetchAllSupportedLocales() =>
       (super.noSuchMethod(
             Invocation.method(#fetchAllSupportedLocales, []),
-            returnValue: _i8.Future<List<_i13.SupportedLocaleModel>>.value(
-              <_i13.SupportedLocaleModel>[],
+            returnValue: _i8.Future<List<_i14.SupportedLocaleModel>>.value(
+              <_i14.SupportedLocaleModel>[],
             ),
             returnValueForMissingStub:
-                _i8.Future<List<_i13.SupportedLocaleModel>>.value(
-                  <_i13.SupportedLocaleModel>[],
+                _i8.Future<List<_i14.SupportedLocaleModel>>.value(
+                  <_i14.SupportedLocaleModel>[],
                 ),
           )
-          as _i8.Future<List<_i13.SupportedLocaleModel>>);
+          as _i8.Future<List<_i14.SupportedLocaleModel>>);
 
   @override
   _i8.Future<String> getLocaleName(String? localeCode) =>
       (super.noSuchMethod(
             Invocation.method(#getLocaleName, [localeCode]),
             returnValue: _i8.Future<String>.value(
-              _i11.dummyValue<String>(
+              _i12.dummyValue<String>(
                 this,
                 Invocation.method(#getLocaleName, [localeCode]),
               ),
             ),
             returnValueForMissingStub: _i8.Future<String>.value(
-              _i11.dummyValue<String>(
+              _i12.dummyValue<String>(
                 this,
                 Invocation.method(#getLocaleName, [localeCode]),
               ),
@@ -681,13 +691,13 @@ class MockRecipeProvider extends _i1.Mock implements _i9.RecipeProvider {
       (super.noSuchMethod(
             Invocation.method(#getRandomCoffeeFactFromDB, []),
             returnValue: _i8.Future<String>.value(
-              _i11.dummyValue<String>(
+              _i12.dummyValue<String>(
                 this,
                 Invocation.method(#getRandomCoffeeFactFromDB, []),
               ),
             ),
             returnValueForMissingStub: _i8.Future<String>.value(
-              _i11.dummyValue<String>(
+              _i12.dummyValue<String>(
                 this,
                 Invocation.method(#getRandomCoffeeFactFromDB, []),
               ),
@@ -700,13 +710,13 @@ class MockRecipeProvider extends _i1.Mock implements _i9.RecipeProvider {
       (super.noSuchMethod(
             Invocation.method(#getLocalizedRecipeName, [recipeId]),
             returnValue: _i8.Future<String>.value(
-              _i11.dummyValue<String>(
+              _i12.dummyValue<String>(
                 this,
                 Invocation.method(#getLocalizedRecipeName, [recipeId]),
               ),
             ),
             returnValueForMissingStub: _i8.Future<String>.value(
-              _i11.dummyValue<String>(
+              _i12.dummyValue<String>(
                 this,
                 Invocation.method(#getLocalizedRecipeName, [recipeId]),
               ),
@@ -1344,11 +1354,11 @@ class MockAppDatabase extends _i1.Mock implements _i2.AppDatabase {
   _i6.SqlTypes get typeMapping =>
       (super.noSuchMethod(
             Invocation.getter(#typeMapping),
-            returnValue: _i11.dummyValue<_i6.SqlTypes>(
+            returnValue: _i12.dummyValue<_i6.SqlTypes>(
               this,
               Invocation.getter(#typeMapping),
             ),
-            returnValueForMissingStub: _i11.dummyValue<_i6.SqlTypes>(
+            returnValueForMissingStub: _i12.dummyValue<_i6.SqlTypes>(
               this,
               Invocation.getter(#typeMapping),
             ),
@@ -1447,8 +1457,8 @@ class MockAppDatabase extends _i1.Mock implements _i2.AppDatabase {
               #connect: connect,
             }),
             returnValue:
-                _i11.ifNotNull(
-                  _i11.dummyValueOrNull<Ret>(
+                _i12.ifNotNull(
+                  _i12.dummyValueOrNull<Ret>(
                     this,
                     Invocation.method(#computeWithDatabase, [], {
                       #computation: computation,
@@ -1465,8 +1475,8 @@ class MockAppDatabase extends _i1.Mock implements _i2.AppDatabase {
                   }),
                 ),
             returnValueForMissingStub:
-                _i11.ifNotNull(
-                  _i11.dummyValueOrNull<Ret>(
+                _i12.ifNotNull(
+                  _i12.dummyValueOrNull<Ret>(
                     this,
                     Invocation.method(#computeWithDatabase, [], {
                       #computation: computation,
@@ -1500,11 +1510,11 @@ class MockAppDatabase extends _i1.Mock implements _i2.AppDatabase {
   T alias<T, D>(_i6.ResultSetImplementation<T, D>? table, String? alias) =>
       (super.noSuchMethod(
             Invocation.method(#alias, [table, alias]),
-            returnValue: _i11.dummyValue<T>(
+            returnValue: _i12.dummyValue<T>(
               this,
               Invocation.method(#alias, [table, alias]),
             ),
-            returnValueForMissingStub: _i11.dummyValue<T>(
+            returnValueForMissingStub: _i12.dummyValue<T>(
               this,
               Invocation.method(#alias, [table, alias]),
             ),
@@ -1542,8 +1552,8 @@ class MockAppDatabase extends _i1.Mock implements _i2.AppDatabase {
       (super.noSuchMethod(
             Invocation.method(#doWhenOpened, [fn]),
             returnValue:
-                _i11.ifNotNull(
-                  _i11.dummyValueOrNull<T>(
+                _i12.ifNotNull(
+                  _i12.dummyValueOrNull<T>(
                     this,
                     Invocation.method(#doWhenOpened, [fn]),
                   ),
@@ -1551,8 +1561,8 @@ class MockAppDatabase extends _i1.Mock implements _i2.AppDatabase {
                 ) ??
                 _FakeFuture_41<T>(this, Invocation.method(#doWhenOpened, [fn])),
             returnValueForMissingStub:
-                _i11.ifNotNull(
-                  _i11.dummyValueOrNull<T>(
+                _i12.ifNotNull(
+                  _i12.dummyValueOrNull<T>(
                     this,
                     Invocation.method(#doWhenOpened, [fn]),
                   ),
@@ -1813,8 +1823,8 @@ class MockAppDatabase extends _i1.Mock implements _i2.AppDatabase {
               {#requireNew: requireNew},
             ),
             returnValue:
-                _i11.ifNotNull(
-                  _i11.dummyValueOrNull<T>(
+                _i12.ifNotNull(
+                  _i12.dummyValueOrNull<T>(
                     this,
                     Invocation.method(
                       #transaction,
@@ -1833,8 +1843,8 @@ class MockAppDatabase extends _i1.Mock implements _i2.AppDatabase {
                   ),
                 ),
             returnValueForMissingStub:
-                _i11.ifNotNull(
-                  _i11.dummyValueOrNull<T>(
+                _i12.ifNotNull(
+                  _i12.dummyValueOrNull<T>(
                     this,
                     Invocation.method(
                       #transaction,
@@ -1860,8 +1870,8 @@ class MockAppDatabase extends _i1.Mock implements _i2.AppDatabase {
       (super.noSuchMethod(
             Invocation.method(#exclusively, [action]),
             returnValue:
-                _i11.ifNotNull(
-                  _i11.dummyValueOrNull<T>(
+                _i12.ifNotNull(
+                  _i12.dummyValueOrNull<T>(
                     this,
                     Invocation.method(#exclusively, [action]),
                   ),
@@ -1872,8 +1882,8 @@ class MockAppDatabase extends _i1.Mock implements _i2.AppDatabase {
                   Invocation.method(#exclusively, [action]),
                 ),
             returnValueForMissingStub:
-                _i11.ifNotNull(
-                  _i11.dummyValueOrNull<T>(
+                _i12.ifNotNull(
+                  _i12.dummyValueOrNull<T>(
                     this,
                     Invocation.method(#exclusively, [action]),
                   ),
@@ -1907,8 +1917,8 @@ class MockAppDatabase extends _i1.Mock implements _i2.AppDatabase {
               {#interceptor: interceptor},
             ),
             returnValue:
-                _i11.ifNotNull(
-                  _i11.dummyValueOrNull<T>(
+                _i12.ifNotNull(
+                  _i12.dummyValueOrNull<T>(
                     this,
                     Invocation.method(
                       #runWithInterceptor,
@@ -1927,8 +1937,8 @@ class MockAppDatabase extends _i1.Mock implements _i2.AppDatabase {
                   ),
                 ),
             returnValueForMissingStub:
-                _i11.ifNotNull(
-                  _i11.dummyValueOrNull<T>(
+                _i12.ifNotNull(
+                  _i12.dummyValueOrNull<T>(
                     this,
                     Invocation.method(
                       #runWithInterceptor,
@@ -2021,11 +2031,11 @@ class MockAppDatabase extends _i1.Mock implements _i2.AppDatabase {
   String $expandVar(int? start, int? amount) =>
       (super.noSuchMethod(
             Invocation.method(#$expandVar, [start, amount]),
-            returnValue: _i11.dummyValue<String>(
+            returnValue: _i12.dummyValue<String>(
               this,
               Invocation.method(#$expandVar, [start, amount]),
             ),
-            returnValueForMissingStub: _i11.dummyValue<String>(
+            returnValueForMissingStub: _i12.dummyValue<String>(
               this,
               Invocation.method(#$expandVar, [start, amount]),
             ),
@@ -2037,7 +2047,7 @@ class MockAppDatabase extends _i1.Mock implements _i2.AppDatabase {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockCoffeeBeansProvider extends _i1.Mock
-    implements _i14.CoffeeBeansProvider {
+    implements _i9.CoffeeBeansProvider {
   @override
   _i2.AppDatabase get db =>
       (super.noSuchMethod(
@@ -2069,11 +2079,11 @@ class MockCoffeeBeansProvider extends _i1.Mock
   String get deviceId =>
       (super.noSuchMethod(
             Invocation.getter(#deviceId),
-            returnValue: _i11.dummyValue<String>(
+            returnValue: _i12.dummyValue<String>(
               this,
               Invocation.getter(#deviceId),
             ),
-            returnValueForMissingStub: _i11.dummyValue<String>(
+            returnValueForMissingStub: _i12.dummyValue<String>(
               this,
               Invocation.getter(#deviceId),
             ),
@@ -2163,13 +2173,13 @@ class MockCoffeeBeansProvider extends _i1.Mock
       (super.noSuchMethod(
             Invocation.method(#addCoffeeBeans, [beans]),
             returnValue: _i8.Future<String>.value(
-              _i11.dummyValue<String>(
+              _i12.dummyValue<String>(
                 this,
                 Invocation.method(#addCoffeeBeans, [beans]),
               ),
             ),
             returnValueForMissingStub: _i8.Future<String>.value(
-              _i11.dummyValue<String>(
+              _i12.dummyValue<String>(
                 this,
                 Invocation.method(#addCoffeeBeans, [beans]),
               ),
@@ -2470,6 +2480,38 @@ class MockCoffeeBeansProvider extends _i1.Mock
           as _i8.Future<List<String>>);
 
   @override
+  _i8.Future<_i9.BeanWeightAdjustmentResult> adjustBeanWeightForDoseDelta(
+    String? beansUuid,
+    double? doseDelta,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#adjustBeanWeightForDoseDelta, [
+              beansUuid,
+              doseDelta,
+            ]),
+            returnValue: _i8.Future<_i9.BeanWeightAdjustmentResult>.value(
+              _FakeBeanWeightAdjustmentResult_50(
+                this,
+                Invocation.method(#adjustBeanWeightForDoseDelta, [
+                  beansUuid,
+                  doseDelta,
+                ]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i8.Future<_i9.BeanWeightAdjustmentResult>.value(
+                  _FakeBeanWeightAdjustmentResult_50(
+                    this,
+                    Invocation.method(#adjustBeanWeightForDoseDelta, [
+                      beansUuid,
+                      doseDelta,
+                    ]),
+                  ),
+                ),
+          )
+          as _i8.Future<_i9.BeanWeightAdjustmentResult>);
+
+  @override
   _i8.Future<double?> updateBeanWeightAfterBrew(
     String? beansUuid,
     double? usedAmount,
@@ -2580,11 +2622,11 @@ class MockAnalyticsService extends _i1.Mock implements _i16.AnalyticsService {
   String get installId =>
       (super.noSuchMethod(
             Invocation.getter(#installId),
-            returnValue: _i11.dummyValue<String>(
+            returnValue: _i12.dummyValue<String>(
               this,
               Invocation.getter(#installId),
             ),
-            returnValueForMissingStub: _i11.dummyValue<String>(
+            returnValueForMissingStub: _i12.dummyValue<String>(
               this,
               Invocation.getter(#installId),
             ),

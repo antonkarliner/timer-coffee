@@ -8,16 +8,17 @@ import 'dart:ui' as _i9;
 
 import 'package:coffee_timer/database/database.dart' as _i3;
 import 'package:coffee_timer/models/brewing_method_model.dart' as _i11;
-import 'package:coffee_timer/models/coffee_beans_model.dart' as _i18;
-import 'package:coffee_timer/models/gift_offer_model.dart' as _i19;
-import 'package:coffee_timer/models/help_models.dart' as _i20;
-import 'package:coffee_timer/models/launch_popup_model.dart' as _i16;
-import 'package:coffee_timer/models/recipe_model.dart' as _i15;
-import 'package:coffee_timer/models/supported_locale_model.dart' as _i17;
+import 'package:coffee_timer/models/coffee_beans_model.dart' as _i19;
+import 'package:coffee_timer/models/diary_entry.dart' as _i14;
+import 'package:coffee_timer/models/gift_offer_model.dart' as _i20;
+import 'package:coffee_timer/models/help_models.dart' as _i21;
+import 'package:coffee_timer/models/launch_popup_model.dart' as _i17;
+import 'package:coffee_timer/models/recipe_model.dart' as _i16;
+import 'package:coffee_timer/models/supported_locale_model.dart' as _i18;
 import 'package:coffee_timer/models/user_stat_model.dart' as _i13;
 import 'package:coffee_timer/providers/coffee_beans_provider.dart' as _i6;
 import 'package:coffee_timer/providers/database_provider.dart' as _i7;
-import 'package:coffee_timer/providers/recipe_provider.dart' as _i14;
+import 'package:coffee_timer/providers/recipe_provider.dart' as _i15;
 import 'package:coffee_timer/providers/user_stat_provider.dart' as _i12;
 import 'package:drift/drift.dart' as _i2;
 import 'package:drift/src/runtime/executor/stream_queries.dart' as _i4;
@@ -346,6 +347,12 @@ class _FakeValueNotifier_51<T> extends _i1.SmartFake
 
 class _FakeLocale_52 extends _i1.SmartFake implements _i9.Locale {
   _FakeLocale_52(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeBeanWeightAdjustmentResult_53 extends _i1.SmartFake
+    implements _i6.BeanWeightAdjustmentResult {
+  _FakeBeanWeightAdjustmentResult_53(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
@@ -2401,6 +2408,10 @@ class MockUserStatProvider extends _i1.Mock implements _i12.UserStatProvider {
     bool? isMarked = false,
     String? coffeeBeansUuid,
     String? grindSize,
+    double? waterTemp,
+    int? tasteBalance,
+    int? entrySource,
+    String? tags,
     String? statUuid,
     DateTime? createdAt,
   }) =>
@@ -2420,6 +2431,10 @@ class MockUserStatProvider extends _i1.Mock implements _i12.UserStatProvider {
               #isMarked: isMarked,
               #coffeeBeansUuid: coffeeBeansUuid,
               #grindSize: grindSize,
+              #waterTemp: waterTemp,
+              #tasteBalance: tasteBalance,
+              #entrySource: entrySource,
+              #tags: tags,
               #statUuid: statUuid,
               #createdAt: createdAt,
             }),
@@ -2447,6 +2462,10 @@ class MockUserStatProvider extends _i1.Mock implements _i12.UserStatProvider {
     String? grindSize,
     double? tdsPercent,
     double? extractionYieldPercent,
+    double? waterTemp,
+    int? tasteBalance,
+    int? entrySource,
+    String? tags,
     bool? clearBeans = false,
   }) =>
       (super.noSuchMethod(
@@ -2468,7 +2487,133 @@ class MockUserStatProvider extends _i1.Mock implements _i12.UserStatProvider {
               #grindSize: grindSize,
               #tdsPercent: tdsPercent,
               #extractionYieldPercent: extractionYieldPercent,
+              #waterTemp: waterTemp,
+              #tasteBalance: tasteBalance,
+              #entrySource: entrySource,
+              #tags: tags,
               #clearBeans: clearBeans,
+            }),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> updateDiaryAmounts({
+    required String? statUuid,
+    required double? coffeeAmount,
+    required double? waterAmount,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateDiaryAmounts, [], {
+              #statUuid: statUuid,
+              #coffeeAmount: coffeeAmount,
+              #waterAmount: waterAmount,
+            }),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> updateDiaryGrindSize({
+    required String? statUuid,
+    required String? grindSize,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateDiaryGrindSize, [], {
+              #statUuid: statUuid,
+              #grindSize: grindSize,
+            }),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> updateDiaryWaterTemperature({
+    required String? statUuid,
+    required double? waterTemp,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateDiaryWaterTemperature, [], {
+              #statUuid: statUuid,
+              #waterTemp: waterTemp,
+            }),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> updateDiaryTasteBalance({
+    required String? statUuid,
+    required int? tasteBalance,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateDiaryTasteBalance, [], {
+              #statUuid: statUuid,
+              #tasteBalance: tasteBalance,
+            }),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> updateDiaryNotes({
+    required String? statUuid,
+    required String? notes,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateDiaryNotes, [], {
+              #statUuid: statUuid,
+              #notes: notes,
+            }),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> updateDiaryTags({
+    required String? statUuid,
+    required String? tags,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateDiaryTags, [], {
+              #statUuid: statUuid,
+              #tags: tags,
+            }),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> updateDiaryRating({
+    required String? statUuid,
+    required double? rating,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateDiaryRating, [], {
+              #statUuid: statUuid,
+              #rating: rating,
+            }),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> updateDiaryBean({
+    required String? statUuid,
+    required String? nextBeanUuid,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateDiaryBean, [], {
+              #statUuid: statUuid,
+              #nextBeanUuid: nextBeanUuid,
             }),
             returnValue: _i5.Future<void>.value(),
             returnValueForMissingStub: _i5.Future<void>.value(),
@@ -2499,6 +2644,41 @@ class MockUserStatProvider extends _i1.Mock implements _i12.UserStatProvider {
           as _i5.Future<List<_i13.UserStatsModel>>);
 
   @override
+  _i5.Future<List<_i14.DiaryEntry>> fetchDiaryEntries(String? locale) =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchDiaryEntries, [locale]),
+            returnValue: _i5.Future<List<_i14.DiaryEntry>>.value(
+              <_i14.DiaryEntry>[],
+            ),
+            returnValueForMissingStub: _i5.Future<List<_i14.DiaryEntry>>.value(
+              <_i14.DiaryEntry>[],
+            ),
+          )
+          as _i5.Future<List<_i14.DiaryEntry>>);
+
+  @override
+  _i5.Future<List<({String brewingMethodId, int count, String methodName})>>
+  topMethodsLast90Days(String? locale) =>
+      (super.noSuchMethod(
+            Invocation.method(#topMethodsLast90Days, [locale]),
+            returnValue:
+                _i5.Future<
+                  List<({String brewingMethodId, int count, String methodName})>
+                >.value(
+                  <({String brewingMethodId, int count, String methodName})>[],
+                ),
+            returnValueForMissingStub:
+                _i5.Future<
+                  List<({String brewingMethodId, int count, String methodName})>
+                >.value(
+                  <({String brewingMethodId, int count, String methodName})>[],
+                ),
+          )
+          as _i5.Future<
+            List<({String brewingMethodId, int count, String methodName})>
+          >);
+
+  @override
   _i5.Future<_i13.UserStatsModel?> fetchUserStatByUuid(String? statUuid) =>
       (super.noSuchMethod(
             Invocation.method(#fetchUserStatByUuid, [statUuid]),
@@ -2506,6 +2686,22 @@ class MockUserStatProvider extends _i1.Mock implements _i12.UserStatProvider {
             returnValueForMissingStub: _i5.Future<_i13.UserStatsModel?>.value(),
           )
           as _i5.Future<_i13.UserStatsModel?>);
+
+  @override
+  _i5.Future<_i3.GrindSuggestionResult?> latestGrindSuggestionForBeanAndMethod(
+    String? beansUuid,
+    String? brewingMethodId,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#latestGrindSuggestionForBeanAndMethod, [
+              beansUuid,
+              brewingMethodId,
+            ]),
+            returnValue: _i5.Future<_i3.GrindSuggestionResult?>.value(),
+            returnValueForMissingStub:
+                _i5.Future<_i3.GrindSuggestionResult?>.value(),
+          )
+          as _i5.Future<_i3.GrindSuggestionResult?>);
 
   @override
   _i5.Future<List<_i13.UserStatsModel>> fetchStatsByBeanUuid(
@@ -2522,6 +2718,17 @@ class MockUserStatProvider extends _i1.Mock implements _i12.UserStatProvider {
                 ),
           )
           as _i5.Future<List<_i13.UserStatsModel>>);
+
+  @override
+  _i5.Future<List<String>> fetchAllDistinctTags() =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchAllDistinctTags, []),
+            returnValue: _i5.Future<List<String>>.value(<String>[]),
+            returnValueForMissingStub: _i5.Future<List<String>>.value(
+              <String>[],
+            ),
+          )
+          as _i5.Future<List<String>>);
 
   @override
   _i5.Future<List<_i13.UserStatsModel>> fetchRecentStats({int? limit = 20}) =>
@@ -2711,6 +2918,17 @@ class MockUserStatProvider extends _i1.Mock implements _i12.UserStatProvider {
           as _i5.Future<void>);
 
   @override
+  Map<String, dynamic> serializeUserStatForTesting(
+    _i13.UserStatsModel? model,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#serializeUserStatForTesting, [model]),
+            returnValue: <String, dynamic>{},
+            returnValueForMissingStub: <String, dynamic>{},
+          )
+          as Map<String, dynamic>);
+
+  @override
   void addListener(_i9.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#addListener, [listener]),
     returnValueForMissingStub: null,
@@ -2738,7 +2956,7 @@ class MockUserStatProvider extends _i1.Mock implements _i12.UserStatProvider {
 /// A class which mocks [RecipeProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockRecipeProvider extends _i1.Mock implements _i14.RecipeProvider {
+class MockRecipeProvider extends _i1.Mock implements _i15.RecipeProvider {
   @override
   _i3.AppDatabase get db =>
       (super.noSuchMethod(
@@ -2767,13 +2985,13 @@ class MockRecipeProvider extends _i1.Mock implements _i14.RecipeProvider {
           as _i7.DatabaseProvider);
 
   @override
-  List<_i15.RecipeModel> get recipes =>
+  List<_i16.RecipeModel> get recipes =>
       (super.noSuchMethod(
             Invocation.getter(#recipes),
-            returnValue: <_i15.RecipeModel>[],
-            returnValueForMissingStub: <_i15.RecipeModel>[],
+            returnValue: <_i16.RecipeModel>[],
+            returnValueForMissingStub: <_i16.RecipeModel>[],
           )
-          as List<_i15.RecipeModel>);
+          as List<_i16.RecipeModel>);
 
   @override
   _i8.ValueNotifier<Set<String>> get shownBrewingMethodIds =>
@@ -2878,19 +3096,19 @@ class MockRecipeProvider extends _i1.Mock implements _i14.RecipeProvider {
           as _i5.Future<void>);
 
   @override
-  _i5.Future<List<_i15.RecipeModel>> fetchRecipesForBrewingMethod(
+  _i5.Future<List<_i16.RecipeModel>> fetchRecipesForBrewingMethod(
     String? brewingMethodId,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#fetchRecipesForBrewingMethod, [brewingMethodId]),
-            returnValue: _i5.Future<List<_i15.RecipeModel>>.value(
-              <_i15.RecipeModel>[],
+            returnValue: _i5.Future<List<_i16.RecipeModel>>.value(
+              <_i16.RecipeModel>[],
             ),
-            returnValueForMissingStub: _i5.Future<List<_i15.RecipeModel>>.value(
-              <_i15.RecipeModel>[],
+            returnValueForMissingStub: _i5.Future<List<_i16.RecipeModel>>.value(
+              <_i16.RecipeModel>[],
             ),
           )
-          as _i5.Future<List<_i15.RecipeModel>>);
+          as _i5.Future<List<_i16.RecipeModel>>);
 
   @override
   _i5.Future<String> getBrewingMethodName(String? brewingMethodId) =>
@@ -2912,13 +3130,13 @@ class MockRecipeProvider extends _i1.Mock implements _i14.RecipeProvider {
           as _i5.Future<String>);
 
   @override
-  _i5.Future<_i15.RecipeModel?> getRecipeById(String? recipeId) =>
+  _i5.Future<_i16.RecipeModel?> getRecipeById(String? recipeId) =>
       (super.noSuchMethod(
             Invocation.method(#getRecipeById, [recipeId]),
-            returnValue: _i5.Future<_i15.RecipeModel?>.value(),
-            returnValueForMissingStub: _i5.Future<_i15.RecipeModel?>.value(),
+            returnValue: _i5.Future<_i16.RecipeModel?>.value(),
+            returnValueForMissingStub: _i5.Future<_i16.RecipeModel?>.value(),
           )
-          as _i5.Future<_i15.RecipeModel?>);
+          as _i5.Future<_i16.RecipeModel?>);
 
   @override
   _i5.Future<void> toggleFavorite(String? recipeId) =>
@@ -2935,12 +3153,16 @@ class MockRecipeProvider extends _i1.Mock implements _i14.RecipeProvider {
     double? coffeeAmount,
     double? waterAmount, {
     String? customGrindSize,
+    double? customWaterTemp,
   }) =>
       (super.noSuchMethod(
             Invocation.method(
               #saveCustomAmounts,
               [recipeId, coffeeAmount, waterAmount],
-              {#customGrindSize: customGrindSize},
+              {
+                #customGrindSize: customGrindSize,
+                #customWaterTemp: customWaterTemp,
+              },
             ),
             returnValue: _i5.Future<void>.value(),
             returnValueForMissingStub: _i5.Future<void>.value(),
@@ -2970,13 +3192,13 @@ class MockRecipeProvider extends _i1.Mock implements _i14.RecipeProvider {
           as _i5.Future<void>);
 
   @override
-  _i5.Future<_i15.RecipeModel?> getLastUsedRecipe() =>
+  _i5.Future<_i16.RecipeModel?> getLastUsedRecipe() =>
       (super.noSuchMethod(
             Invocation.method(#getLastUsedRecipe, []),
-            returnValue: _i5.Future<_i15.RecipeModel?>.value(),
-            returnValueForMissingStub: _i5.Future<_i15.RecipeModel?>.value(),
+            returnValue: _i5.Future<_i16.RecipeModel?>.value(),
+            returnValueForMissingStub: _i5.Future<_i16.RecipeModel?>.value(),
           )
-          as _i5.Future<_i15.RecipeModel?>);
+          as _i5.Future<_i16.RecipeModel?>);
 
   @override
   _i5.Future<String> fetchBrewingMethodName(String? brewingMethodId) =>
@@ -2998,63 +3220,63 @@ class MockRecipeProvider extends _i1.Mock implements _i14.RecipeProvider {
           as _i5.Future<String>);
 
   @override
-  List<_i15.RecipeModel> getFavoriteRecipes() =>
+  List<_i16.RecipeModel> getFavoriteRecipes() =>
       (super.noSuchMethod(
             Invocation.method(#getFavoriteRecipes, []),
-            returnValue: <_i15.RecipeModel>[],
-            returnValueForMissingStub: <_i15.RecipeModel>[],
+            returnValue: <_i16.RecipeModel>[],
+            returnValueForMissingStub: <_i16.RecipeModel>[],
           )
-          as List<_i15.RecipeModel>);
+          as List<_i16.RecipeModel>);
 
   @override
-  _i5.Future<List<_i15.RecipeModel>> fetchFavoriteRecipes(String? locale) =>
+  _i5.Future<List<_i16.RecipeModel>> fetchFavoriteRecipes(String? locale) =>
       (super.noSuchMethod(
             Invocation.method(#fetchFavoriteRecipes, [locale]),
-            returnValue: _i5.Future<List<_i15.RecipeModel>>.value(
-              <_i15.RecipeModel>[],
+            returnValue: _i5.Future<List<_i16.RecipeModel>>.value(
+              <_i16.RecipeModel>[],
             ),
-            returnValueForMissingStub: _i5.Future<List<_i15.RecipeModel>>.value(
-              <_i15.RecipeModel>[],
+            returnValueForMissingStub: _i5.Future<List<_i16.RecipeModel>>.value(
+              <_i16.RecipeModel>[],
             ),
           )
-          as _i5.Future<List<_i15.RecipeModel>>);
+          as _i5.Future<List<_i16.RecipeModel>>);
 
   @override
-  _i5.Future<List<_i15.RecipeModel>> fetchRecipesForVendor(String? vendorId) =>
+  _i5.Future<List<_i16.RecipeModel>> fetchRecipesForVendor(String? vendorId) =>
       (super.noSuchMethod(
             Invocation.method(#fetchRecipesForVendor, [vendorId]),
-            returnValue: _i5.Future<List<_i15.RecipeModel>>.value(
-              <_i15.RecipeModel>[],
+            returnValue: _i5.Future<List<_i16.RecipeModel>>.value(
+              <_i16.RecipeModel>[],
             ),
-            returnValueForMissingStub: _i5.Future<List<_i15.RecipeModel>>.value(
-              <_i15.RecipeModel>[],
+            returnValueForMissingStub: _i5.Future<List<_i16.RecipeModel>>.value(
+              <_i16.RecipeModel>[],
             ),
           )
-          as _i5.Future<List<_i15.RecipeModel>>);
+          as _i5.Future<List<_i16.RecipeModel>>);
 
   @override
-  _i5.Future<_i16.LaunchPopupModel?> fetchLatestLaunchPopup(String? locale) =>
+  _i5.Future<_i17.LaunchPopupModel?> fetchLatestLaunchPopup(String? locale) =>
       (super.noSuchMethod(
             Invocation.method(#fetchLatestLaunchPopup, [locale]),
-            returnValue: _i5.Future<_i16.LaunchPopupModel?>.value(),
+            returnValue: _i5.Future<_i17.LaunchPopupModel?>.value(),
             returnValueForMissingStub:
-                _i5.Future<_i16.LaunchPopupModel?>.value(),
+                _i5.Future<_i17.LaunchPopupModel?>.value(),
           )
-          as _i5.Future<_i16.LaunchPopupModel?>);
+          as _i5.Future<_i17.LaunchPopupModel?>);
 
   @override
-  _i5.Future<List<_i17.SupportedLocaleModel>> fetchAllSupportedLocales() =>
+  _i5.Future<List<_i18.SupportedLocaleModel>> fetchAllSupportedLocales() =>
       (super.noSuchMethod(
             Invocation.method(#fetchAllSupportedLocales, []),
-            returnValue: _i5.Future<List<_i17.SupportedLocaleModel>>.value(
-              <_i17.SupportedLocaleModel>[],
+            returnValue: _i5.Future<List<_i18.SupportedLocaleModel>>.value(
+              <_i18.SupportedLocaleModel>[],
             ),
             returnValueForMissingStub:
-                _i5.Future<List<_i17.SupportedLocaleModel>>.value(
-                  <_i17.SupportedLocaleModel>[],
+                _i5.Future<List<_i18.SupportedLocaleModel>>.value(
+                  <_i18.SupportedLocaleModel>[],
                 ),
           )
-          as _i5.Future<List<_i17.SupportedLocaleModel>>);
+          as _i5.Future<List<_i18.SupportedLocaleModel>>);
 
   @override
   _i5.Future<String> getLocaleName(String? localeCode) =>
@@ -3303,21 +3525,21 @@ class MockCoffeeBeansProvider extends _i1.Mock
           as _i5.Future<void>);
 
   @override
-  _i5.Future<List<_i18.CoffeeBeansModel>> fetchAllCoffeeBeans() =>
+  _i5.Future<List<_i19.CoffeeBeansModel>> fetchAllCoffeeBeans() =>
       (super.noSuchMethod(
             Invocation.method(#fetchAllCoffeeBeans, []),
-            returnValue: _i5.Future<List<_i18.CoffeeBeansModel>>.value(
-              <_i18.CoffeeBeansModel>[],
+            returnValue: _i5.Future<List<_i19.CoffeeBeansModel>>.value(
+              <_i19.CoffeeBeansModel>[],
             ),
             returnValueForMissingStub:
-                _i5.Future<List<_i18.CoffeeBeansModel>>.value(
-                  <_i18.CoffeeBeansModel>[],
+                _i5.Future<List<_i19.CoffeeBeansModel>>.value(
+                  <_i19.CoffeeBeansModel>[],
                 ),
           )
-          as _i5.Future<List<_i18.CoffeeBeansModel>>);
+          as _i5.Future<List<_i19.CoffeeBeansModel>>);
 
   @override
-  _i5.Future<String> addCoffeeBeans(_i18.CoffeeBeansModel? beans) =>
+  _i5.Future<String> addCoffeeBeans(_i19.CoffeeBeansModel? beans) =>
       (super.noSuchMethod(
             Invocation.method(#addCoffeeBeans, [beans]),
             returnValue: _i5.Future<String>.value(
@@ -3336,7 +3558,7 @@ class MockCoffeeBeansProvider extends _i1.Mock
           as _i5.Future<String>);
 
   @override
-  _i5.Future<void> updateCoffeeBeans(_i18.CoffeeBeansModel? beans) =>
+  _i5.Future<void> updateCoffeeBeans(_i19.CoffeeBeansModel? beans) =>
       (super.noSuchMethod(
             Invocation.method(#updateCoffeeBeans, [beans]),
             returnValue: _i5.Future<void>.value(),
@@ -3354,24 +3576,24 @@ class MockCoffeeBeansProvider extends _i1.Mock
           as _i5.Future<void>);
 
   @override
-  _i5.Future<_i18.CoffeeBeansModel?> fetchCoffeeBeansById(int? id) =>
+  _i5.Future<_i19.CoffeeBeansModel?> fetchCoffeeBeansById(int? id) =>
       (super.noSuchMethod(
             Invocation.method(#fetchCoffeeBeansById, [id]),
-            returnValue: _i5.Future<_i18.CoffeeBeansModel?>.value(),
+            returnValue: _i5.Future<_i19.CoffeeBeansModel?>.value(),
             returnValueForMissingStub:
-                _i5.Future<_i18.CoffeeBeansModel?>.value(),
+                _i5.Future<_i19.CoffeeBeansModel?>.value(),
           )
-          as _i5.Future<_i18.CoffeeBeansModel?>);
+          as _i5.Future<_i19.CoffeeBeansModel?>);
 
   @override
-  _i5.Future<_i18.CoffeeBeansModel?> fetchCoffeeBeansByUuid(String? uuid) =>
+  _i5.Future<_i19.CoffeeBeansModel?> fetchCoffeeBeansByUuid(String? uuid) =>
       (super.noSuchMethod(
             Invocation.method(#fetchCoffeeBeansByUuid, [uuid]),
-            returnValue: _i5.Future<_i18.CoffeeBeansModel?>.value(),
+            returnValue: _i5.Future<_i19.CoffeeBeansModel?>.value(),
             returnValueForMissingStub:
-                _i5.Future<_i18.CoffeeBeansModel?>.value(),
+                _i5.Future<_i19.CoffeeBeansModel?>.value(),
           )
-          as _i5.Future<_i18.CoffeeBeansModel?>);
+          as _i5.Future<_i19.CoffeeBeansModel?>);
 
   @override
   _i5.Future<List<String>> fetchAllDistinctRoasters() =>
@@ -3593,7 +3815,7 @@ class MockCoffeeBeansProvider extends _i1.Mock
           as _i5.Future<void>);
 
   @override
-  _i5.Future<List<_i18.CoffeeBeansModel>> fetchFilteredCoffeeBeans({
+  _i5.Future<List<_i19.CoffeeBeansModel>> fetchFilteredCoffeeBeans({
     List<String>? roasters,
     List<String>? origins,
     bool? isFavorite,
@@ -3604,15 +3826,15 @@ class MockCoffeeBeansProvider extends _i1.Mock
               #origins: origins,
               #isFavorite: isFavorite,
             }),
-            returnValue: _i5.Future<List<_i18.CoffeeBeansModel>>.value(
-              <_i18.CoffeeBeansModel>[],
+            returnValue: _i5.Future<List<_i19.CoffeeBeansModel>>.value(
+              <_i19.CoffeeBeansModel>[],
             ),
             returnValueForMissingStub:
-                _i5.Future<List<_i18.CoffeeBeansModel>>.value(
-                  <_i18.CoffeeBeansModel>[],
+                _i5.Future<List<_i19.CoffeeBeansModel>>.value(
+                  <_i19.CoffeeBeansModel>[],
                 ),
           )
-          as _i5.Future<List<_i18.CoffeeBeansModel>>);
+          as _i5.Future<List<_i19.CoffeeBeansModel>>);
 
   @override
   _i5.Future<List<String>> fetchOriginsForRoasters(
@@ -3626,6 +3848,38 @@ class MockCoffeeBeansProvider extends _i1.Mock
             ),
           )
           as _i5.Future<List<String>>);
+
+  @override
+  _i5.Future<_i6.BeanWeightAdjustmentResult> adjustBeanWeightForDoseDelta(
+    String? beansUuid,
+    double? doseDelta,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#adjustBeanWeightForDoseDelta, [
+              beansUuid,
+              doseDelta,
+            ]),
+            returnValue: _i5.Future<_i6.BeanWeightAdjustmentResult>.value(
+              _FakeBeanWeightAdjustmentResult_53(
+                this,
+                Invocation.method(#adjustBeanWeightForDoseDelta, [
+                  beansUuid,
+                  doseDelta,
+                ]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i5.Future<_i6.BeanWeightAdjustmentResult>.value(
+                  _FakeBeanWeightAdjustmentResult_53(
+                    this,
+                    Invocation.method(#adjustBeanWeightForDoseDelta, [
+                      beansUuid,
+                      doseDelta,
+                    ]),
+                  ),
+                ),
+          )
+          as _i5.Future<_i6.BeanWeightAdjustmentResult>);
 
   @override
   _i5.Future<double?> updateBeanWeightAfterBrew(
@@ -3723,7 +3977,7 @@ class MockDatabaseProvider extends _i1.Mock implements _i7.DatabaseProvider {
           as _i5.Future<void>);
 
   @override
-  _i5.Future<List<_i19.GiftOffer>> fetchGiftBoxOffers({
+  _i5.Future<List<_i20.GiftOffer>> fetchGiftBoxOffers({
     required _i9.Locale? locale,
     String? regionCode,
   }) =>
@@ -3732,17 +3986,17 @@ class MockDatabaseProvider extends _i1.Mock implements _i7.DatabaseProvider {
               #locale: locale,
               #regionCode: regionCode,
             }),
-            returnValue: _i5.Future<List<_i19.GiftOffer>>.value(
-              <_i19.GiftOffer>[],
+            returnValue: _i5.Future<List<_i20.GiftOffer>>.value(
+              <_i20.GiftOffer>[],
             ),
-            returnValueForMissingStub: _i5.Future<List<_i19.GiftOffer>>.value(
-              <_i19.GiftOffer>[],
+            returnValueForMissingStub: _i5.Future<List<_i20.GiftOffer>>.value(
+              <_i20.GiftOffer>[],
             ),
           )
-          as _i5.Future<List<_i19.GiftOffer>>);
+          as _i5.Future<List<_i20.GiftOffer>>);
 
   @override
-  _i5.Future<_i19.GiftOffer?> fetchGiftOfferById(
+  _i5.Future<_i20.GiftOffer?> fetchGiftOfferById(
     String? id, {
     required _i9.Locale? locale,
     String? regionCode,
@@ -3753,13 +4007,13 @@ class MockDatabaseProvider extends _i1.Mock implements _i7.DatabaseProvider {
               [id],
               {#locale: locale, #regionCode: regionCode},
             ),
-            returnValue: _i5.Future<_i19.GiftOffer?>.value(),
-            returnValueForMissingStub: _i5.Future<_i19.GiftOffer?>.value(),
+            returnValue: _i5.Future<_i20.GiftOffer?>.value(),
+            returnValueForMissingStub: _i5.Future<_i20.GiftOffer?>.value(),
           )
-          as _i5.Future<_i19.GiftOffer?>);
+          as _i5.Future<_i20.GiftOffer?>);
 
   @override
-  _i5.Future<_i19.GiftOffer?> fetchGiftOfferBySlug(
+  _i5.Future<_i20.GiftOffer?> fetchGiftOfferBySlug(
     String? slug, {
     required _i9.Locale? locale,
     String? regionCode,
@@ -3770,10 +4024,10 @@ class MockDatabaseProvider extends _i1.Mock implements _i7.DatabaseProvider {
               [slug],
               {#locale: locale, #regionCode: regionCode},
             ),
-            returnValue: _i5.Future<_i19.GiftOffer?>.value(),
-            returnValueForMissingStub: _i5.Future<_i19.GiftOffer?>.value(),
+            returnValue: _i5.Future<_i20.GiftOffer?>.value(),
+            returnValueForMissingStub: _i5.Future<_i20.GiftOffer?>.value(),
           )
-          as _i5.Future<_i19.GiftOffer?>);
+          as _i5.Future<_i20.GiftOffer?>);
 
   @override
   _i5.Future<void> syncUserRecipes(String? userId) =>
@@ -3794,48 +4048,48 @@ class MockDatabaseProvider extends _i1.Mock implements _i7.DatabaseProvider {
           as _i5.Future<void>);
 
   @override
-  _i5.Future<List<_i20.HelpCategoryModel>> getHelpCategories(String? locale) =>
+  _i5.Future<List<_i21.HelpCategoryModel>> getHelpCategories(String? locale) =>
       (super.noSuchMethod(
             Invocation.method(#getHelpCategories, [locale]),
-            returnValue: _i5.Future<List<_i20.HelpCategoryModel>>.value(
-              <_i20.HelpCategoryModel>[],
+            returnValue: _i5.Future<List<_i21.HelpCategoryModel>>.value(
+              <_i21.HelpCategoryModel>[],
             ),
             returnValueForMissingStub:
-                _i5.Future<List<_i20.HelpCategoryModel>>.value(
-                  <_i20.HelpCategoryModel>[],
+                _i5.Future<List<_i21.HelpCategoryModel>>.value(
+                  <_i21.HelpCategoryModel>[],
                 ),
           )
-          as _i5.Future<List<_i20.HelpCategoryModel>>);
+          as _i5.Future<List<_i21.HelpCategoryModel>>);
 
   @override
-  _i5.Future<List<_i20.HelpArticleModel>> getHelpArticles(
+  _i5.Future<List<_i21.HelpArticleModel>> getHelpArticles(
     String? categorySlug,
     String? locale,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#getHelpArticles, [categorySlug, locale]),
-            returnValue: _i5.Future<List<_i20.HelpArticleModel>>.value(
-              <_i20.HelpArticleModel>[],
+            returnValue: _i5.Future<List<_i21.HelpArticleModel>>.value(
+              <_i21.HelpArticleModel>[],
             ),
             returnValueForMissingStub:
-                _i5.Future<List<_i20.HelpArticleModel>>.value(
-                  <_i20.HelpArticleModel>[],
+                _i5.Future<List<_i21.HelpArticleModel>>.value(
+                  <_i21.HelpArticleModel>[],
                 ),
           )
-          as _i5.Future<List<_i20.HelpArticleModel>>);
+          as _i5.Future<List<_i21.HelpArticleModel>>);
 
   @override
-  _i5.Future<_i20.HelpArticleModel?> getHelpArticle(
+  _i5.Future<_i21.HelpArticleModel?> getHelpArticle(
     String? slug,
     String? locale,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#getHelpArticle, [slug, locale]),
-            returnValue: _i5.Future<_i20.HelpArticleModel?>.value(),
+            returnValue: _i5.Future<_i21.HelpArticleModel?>.value(),
             returnValueForMissingStub:
-                _i5.Future<_i20.HelpArticleModel?>.value(),
+                _i5.Future<_i21.HelpArticleModel?>.value(),
           )
-          as _i5.Future<_i20.HelpArticleModel?>);
+          as _i5.Future<_i21.HelpArticleModel?>);
 
   @override
   _i5.Future<void> refreshHelpContent() =>
@@ -4022,6 +4276,7 @@ class MockDatabaseProvider extends _i1.Mock implements _i7.DatabaseProvider {
     double? customCoffeeAmount,
     double? customWaterAmount,
     String? customGrindSize,
+    double? customWaterTemp,
   }) =>
       (super.noSuchMethod(
             Invocation.method(
@@ -4035,6 +4290,7 @@ class MockDatabaseProvider extends _i1.Mock implements _i7.DatabaseProvider {
                 #customCoffeeAmount: customCoffeeAmount,
                 #customWaterAmount: customWaterAmount,
                 #customGrindSize: customGrindSize,
+                #customWaterTemp: customWaterTemp,
               },
             ),
             returnValue: _i5.Future<void>.value(),

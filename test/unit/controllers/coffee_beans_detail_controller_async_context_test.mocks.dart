@@ -12,6 +12,7 @@ import 'package:auto_route/src/router/controller/navigation_history/navigation_h
     as _i10;
 import 'package:coffee_timer/database/database.dart' as _i2;
 import 'package:coffee_timer/models/coffee_beans_model.dart' as _i13;
+import 'package:coffee_timer/models/diary_entry.dart' as _i17;
 import 'package:coffee_timer/models/user_stat_model.dart' as _i16;
 import 'package:coffee_timer/providers/coffee_beans_provider.dart' as _i4;
 import 'package:coffee_timer/providers/database_provider.dart' as _i3;
@@ -49,115 +50,121 @@ class _FakeDatabaseProvider_1 extends _i1.SmartFake
     : super(parent, parentInvocation);
 }
 
-class _FakeCoffeeBeansProvider_2 extends _i1.SmartFake
+class _FakeBeanWeightAdjustmentResult_2 extends _i1.SmartFake
+    implements _i4.BeanWeightAdjustmentResult {
+  _FakeBeanWeightAdjustmentResult_2(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeCoffeeBeansProvider_3 extends _i1.SmartFake
     implements _i4.CoffeeBeansProvider {
-  _FakeCoffeeBeansProvider_2(Object parent, Invocation parentInvocation)
+  _FakeCoffeeBeansProvider_3(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeDateTime_3 extends _i1.SmartFake implements DateTime {
-  _FakeDateTime_3(Object parent, Invocation parentInvocation)
+class _FakeDateTime_4 extends _i1.SmartFake implements DateTime {
+  _FakeDateTime_4(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeSupabaseFeatureFlagsDataSource_4 extends _i1.SmartFake
+class _FakeSupabaseFeatureFlagsDataSource_5 extends _i1.SmartFake
     implements _i5.SupabaseFeatureFlagsDataSource {
-  _FakeSupabaseFeatureFlagsDataSource_4(
+  _FakeSupabaseFeatureFlagsDataSource_5(
     Object parent,
     Invocation parentInvocation,
   ) : super(parent, parentInvocation);
 }
 
-class _FakeLocalFeatureFlagsStore_5 extends _i1.SmartFake
+class _FakeLocalFeatureFlagsStore_6 extends _i1.SmartFake
     implements _i5.LocalFeatureFlagsStore {
-  _FakeLocalFeatureFlagsStore_5(Object parent, Invocation parentInvocation)
+  _FakeLocalFeatureFlagsStore_6(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeRoasterLogoResult_6 extends _i1.SmartFake
+class _FakeRoasterLogoResult_7 extends _i1.SmartFake
     implements _i6.RoasterLogoResult {
-  _FakeRoasterLogoResult_6(Object parent, Invocation parentInvocation)
+  _FakeRoasterLogoResult_7(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeKey_7 extends _i1.SmartFake implements _i7.Key {
-  _FakeKey_7(Object parent, Invocation parentInvocation)
+class _FakeKey_8 extends _i1.SmartFake implements _i7.Key {
+  _FakeKey_8(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakePendingRoutesHandler_8 extends _i1.SmartFake
+class _FakePendingRoutesHandler_9 extends _i1.SmartFake
     implements _i8.PendingRoutesHandler {
-  _FakePendingRoutesHandler_8(Object parent, Invocation parentInvocation)
+  _FakePendingRoutesHandler_9(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakePagelessRoutesObserver_9 extends _i1.SmartFake
+class _FakePagelessRoutesObserver_10 extends _i1.SmartFake
     implements _i8.PagelessRoutesObserver {
-  _FakePagelessRoutesObserver_9(Object parent, Invocation parentInvocation)
+  _FakePagelessRoutesObserver_10(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeActiveGuardObserver_10 extends _i1.SmartFake
+class _FakeActiveGuardObserver_11 extends _i1.SmartFake
     implements _i8.ActiveGuardObserver {
-  _FakeActiveGuardObserver_10(Object parent, Invocation parentInvocation)
+  _FakeActiveGuardObserver_11(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeGlobalKey_11<T extends _i7.State<_i7.StatefulWidget>>
+class _FakeGlobalKey_12<T extends _i7.State<_i7.StatefulWidget>>
     extends _i1.SmartFake
     implements _i7.GlobalKey<T> {
-  _FakeGlobalKey_11(Object parent, Invocation parentInvocation)
+  _FakeGlobalKey_12(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeRouteCollection_12 extends _i1.SmartFake
+class _FakeRouteCollection_13 extends _i1.SmartFake
     implements _i8.RouteCollection {
-  _FakeRouteCollection_12(Object parent, Invocation parentInvocation)
+  _FakeRouteCollection_13(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeRouteMatcher_13 extends _i1.SmartFake implements _i9.RouteMatcher {
-  _FakeRouteMatcher_13(Object parent, Invocation parentInvocation)
+class _FakeRouteMatcher_14 extends _i1.SmartFake implements _i9.RouteMatcher {
+  _FakeRouteMatcher_14(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeRouteData_14<R> extends _i1.SmartFake implements _i8.RouteData<R> {
-  _FakeRouteData_14(Object parent, Invocation parentInvocation)
+class _FakeRouteData_15<R> extends _i1.SmartFake implements _i8.RouteData<R> {
+  _FakeRouteData_15(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeGlobalObjectKey_15<T extends _i7.State<_i7.StatefulWidget>>
+class _FakeGlobalObjectKey_16<T extends _i7.State<_i7.StatefulWidget>>
     extends _i1.SmartFake
     implements _i7.GlobalObjectKey<T> {
-  _FakeGlobalObjectKey_15(Object parent, Invocation parentInvocation)
+  _FakeGlobalObjectKey_16(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeNavigationHistory_16 extends _i1.SmartFake
+class _FakeNavigationHistory_17 extends _i1.SmartFake
     implements _i10.NavigationHistory {
-  _FakeNavigationHistory_16(Object parent, Invocation parentInvocation)
+  _FakeNavigationHistory_17(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeUrlState_17 extends _i1.SmartFake implements _i8.UrlState {
-  _FakeUrlState_17(Object parent, Invocation parentInvocation)
+class _FakeUrlState_18 extends _i1.SmartFake implements _i8.UrlState {
+  _FakeUrlState_18(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeRootStackRouter_18 extends _i1.SmartFake
+class _FakeRootStackRouter_19 extends _i1.SmartFake
     implements _i8.RootStackRouter {
-  _FakeRootStackRouter_18(Object parent, Invocation parentInvocation)
+  _FakeRootStackRouter_19(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeRouteMatch_19<T> extends _i1.SmartFake implements _i8.RouteMatch<T> {
-  _FakeRouteMatch_19(Object parent, Invocation parentInvocation)
+class _FakeRouteMatch_20<T> extends _i1.SmartFake implements _i8.RouteMatch<T> {
+  _FakeRouteMatch_20(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeRoutingController_20 extends _i1.SmartFake
+class _FakeRoutingController_21 extends _i1.SmartFake
     implements _i8.RoutingController {
-  _FakeRoutingController_20(Object parent, Invocation parentInvocation)
+  _FakeRoutingController_21(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
@@ -598,6 +605,38 @@ class MockCoffeeBeansProvider extends _i1.Mock
           as _i12.Future<List<String>>);
 
   @override
+  _i12.Future<_i4.BeanWeightAdjustmentResult> adjustBeanWeightForDoseDelta(
+    String? beansUuid,
+    double? doseDelta,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#adjustBeanWeightForDoseDelta, [
+              beansUuid,
+              doseDelta,
+            ]),
+            returnValue: _i12.Future<_i4.BeanWeightAdjustmentResult>.value(
+              _FakeBeanWeightAdjustmentResult_2(
+                this,
+                Invocation.method(#adjustBeanWeightForDoseDelta, [
+                  beansUuid,
+                  doseDelta,
+                ]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i12.Future<_i4.BeanWeightAdjustmentResult>.value(
+                  _FakeBeanWeightAdjustmentResult_2(
+                    this,
+                    Invocation.method(#adjustBeanWeightForDoseDelta, [
+                      beansUuid,
+                      doseDelta,
+                    ]),
+                  ),
+                ),
+          )
+          as _i12.Future<_i4.BeanWeightAdjustmentResult>);
+
+  @override
   _i12.Future<double?> updateBeanWeightAfterBrew(
     String? beansUuid,
     double? usedAmount,
@@ -693,11 +732,11 @@ class MockUserStatProvider extends _i1.Mock implements _i15.UserStatProvider {
   _i4.CoffeeBeansProvider get coffeeBeansProvider =>
       (super.noSuchMethod(
             Invocation.getter(#coffeeBeansProvider),
-            returnValue: _FakeCoffeeBeansProvider_2(
+            returnValue: _FakeCoffeeBeansProvider_3(
               this,
               Invocation.getter(#coffeeBeansProvider),
             ),
-            returnValueForMissingStub: _FakeCoffeeBeansProvider_2(
+            returnValueForMissingStub: _FakeCoffeeBeansProvider_3(
               this,
               Invocation.getter(#coffeeBeansProvider),
             ),
@@ -744,6 +783,10 @@ class MockUserStatProvider extends _i1.Mock implements _i15.UserStatProvider {
     bool? isMarked = false,
     String? coffeeBeansUuid,
     String? grindSize,
+    double? waterTemp,
+    int? tasteBalance,
+    int? entrySource,
+    String? tags,
     String? statUuid,
     DateTime? createdAt,
   }) =>
@@ -763,6 +806,10 @@ class MockUserStatProvider extends _i1.Mock implements _i15.UserStatProvider {
               #isMarked: isMarked,
               #coffeeBeansUuid: coffeeBeansUuid,
               #grindSize: grindSize,
+              #waterTemp: waterTemp,
+              #tasteBalance: tasteBalance,
+              #entrySource: entrySource,
+              #tags: tags,
               #statUuid: statUuid,
               #createdAt: createdAt,
             }),
@@ -790,6 +837,10 @@ class MockUserStatProvider extends _i1.Mock implements _i15.UserStatProvider {
     String? grindSize,
     double? tdsPercent,
     double? extractionYieldPercent,
+    double? waterTemp,
+    int? tasteBalance,
+    int? entrySource,
+    String? tags,
     bool? clearBeans = false,
   }) =>
       (super.noSuchMethod(
@@ -811,7 +862,133 @@ class MockUserStatProvider extends _i1.Mock implements _i15.UserStatProvider {
               #grindSize: grindSize,
               #tdsPercent: tdsPercent,
               #extractionYieldPercent: extractionYieldPercent,
+              #waterTemp: waterTemp,
+              #tasteBalance: tasteBalance,
+              #entrySource: entrySource,
+              #tags: tags,
               #clearBeans: clearBeans,
+            }),
+            returnValue: _i12.Future<void>.value(),
+            returnValueForMissingStub: _i12.Future<void>.value(),
+          )
+          as _i12.Future<void>);
+
+  @override
+  _i12.Future<void> updateDiaryAmounts({
+    required String? statUuid,
+    required double? coffeeAmount,
+    required double? waterAmount,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateDiaryAmounts, [], {
+              #statUuid: statUuid,
+              #coffeeAmount: coffeeAmount,
+              #waterAmount: waterAmount,
+            }),
+            returnValue: _i12.Future<void>.value(),
+            returnValueForMissingStub: _i12.Future<void>.value(),
+          )
+          as _i12.Future<void>);
+
+  @override
+  _i12.Future<void> updateDiaryGrindSize({
+    required String? statUuid,
+    required String? grindSize,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateDiaryGrindSize, [], {
+              #statUuid: statUuid,
+              #grindSize: grindSize,
+            }),
+            returnValue: _i12.Future<void>.value(),
+            returnValueForMissingStub: _i12.Future<void>.value(),
+          )
+          as _i12.Future<void>);
+
+  @override
+  _i12.Future<void> updateDiaryWaterTemperature({
+    required String? statUuid,
+    required double? waterTemp,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateDiaryWaterTemperature, [], {
+              #statUuid: statUuid,
+              #waterTemp: waterTemp,
+            }),
+            returnValue: _i12.Future<void>.value(),
+            returnValueForMissingStub: _i12.Future<void>.value(),
+          )
+          as _i12.Future<void>);
+
+  @override
+  _i12.Future<void> updateDiaryTasteBalance({
+    required String? statUuid,
+    required int? tasteBalance,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateDiaryTasteBalance, [], {
+              #statUuid: statUuid,
+              #tasteBalance: tasteBalance,
+            }),
+            returnValue: _i12.Future<void>.value(),
+            returnValueForMissingStub: _i12.Future<void>.value(),
+          )
+          as _i12.Future<void>);
+
+  @override
+  _i12.Future<void> updateDiaryNotes({
+    required String? statUuid,
+    required String? notes,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateDiaryNotes, [], {
+              #statUuid: statUuid,
+              #notes: notes,
+            }),
+            returnValue: _i12.Future<void>.value(),
+            returnValueForMissingStub: _i12.Future<void>.value(),
+          )
+          as _i12.Future<void>);
+
+  @override
+  _i12.Future<void> updateDiaryTags({
+    required String? statUuid,
+    required String? tags,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateDiaryTags, [], {
+              #statUuid: statUuid,
+              #tags: tags,
+            }),
+            returnValue: _i12.Future<void>.value(),
+            returnValueForMissingStub: _i12.Future<void>.value(),
+          )
+          as _i12.Future<void>);
+
+  @override
+  _i12.Future<void> updateDiaryRating({
+    required String? statUuid,
+    required double? rating,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateDiaryRating, [], {
+              #statUuid: statUuid,
+              #rating: rating,
+            }),
+            returnValue: _i12.Future<void>.value(),
+            returnValueForMissingStub: _i12.Future<void>.value(),
+          )
+          as _i12.Future<void>);
+
+  @override
+  _i12.Future<void> updateDiaryBean({
+    required String? statUuid,
+    required String? nextBeanUuid,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateDiaryBean, [], {
+              #statUuid: statUuid,
+              #nextBeanUuid: nextBeanUuid,
             }),
             returnValue: _i12.Future<void>.value(),
             returnValueForMissingStub: _i12.Future<void>.value(),
@@ -842,6 +1019,41 @@ class MockUserStatProvider extends _i1.Mock implements _i15.UserStatProvider {
           as _i12.Future<List<_i16.UserStatsModel>>);
 
   @override
+  _i12.Future<List<_i17.DiaryEntry>> fetchDiaryEntries(String? locale) =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchDiaryEntries, [locale]),
+            returnValue: _i12.Future<List<_i17.DiaryEntry>>.value(
+              <_i17.DiaryEntry>[],
+            ),
+            returnValueForMissingStub: _i12.Future<List<_i17.DiaryEntry>>.value(
+              <_i17.DiaryEntry>[],
+            ),
+          )
+          as _i12.Future<List<_i17.DiaryEntry>>);
+
+  @override
+  _i12.Future<List<({String brewingMethodId, int count, String methodName})>>
+  topMethodsLast90Days(String? locale) =>
+      (super.noSuchMethod(
+            Invocation.method(#topMethodsLast90Days, [locale]),
+            returnValue:
+                _i12.Future<
+                  List<({String brewingMethodId, int count, String methodName})>
+                >.value(
+                  <({String brewingMethodId, int count, String methodName})>[],
+                ),
+            returnValueForMissingStub:
+                _i12.Future<
+                  List<({String brewingMethodId, int count, String methodName})>
+                >.value(
+                  <({String brewingMethodId, int count, String methodName})>[],
+                ),
+          )
+          as _i12.Future<
+            List<({String brewingMethodId, int count, String methodName})>
+          >);
+
+  @override
   _i12.Future<_i16.UserStatsModel?> fetchUserStatByUuid(String? statUuid) =>
       (super.noSuchMethod(
             Invocation.method(#fetchUserStatByUuid, [statUuid]),
@@ -850,6 +1062,22 @@ class MockUserStatProvider extends _i1.Mock implements _i15.UserStatProvider {
                 _i12.Future<_i16.UserStatsModel?>.value(),
           )
           as _i12.Future<_i16.UserStatsModel?>);
+
+  @override
+  _i12.Future<_i2.GrindSuggestionResult?> latestGrindSuggestionForBeanAndMethod(
+    String? beansUuid,
+    String? brewingMethodId,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#latestGrindSuggestionForBeanAndMethod, [
+              beansUuid,
+              brewingMethodId,
+            ]),
+            returnValue: _i12.Future<_i2.GrindSuggestionResult?>.value(),
+            returnValueForMissingStub:
+                _i12.Future<_i2.GrindSuggestionResult?>.value(),
+          )
+          as _i12.Future<_i2.GrindSuggestionResult?>);
 
   @override
   _i12.Future<List<_i16.UserStatsModel>> fetchStatsByBeanUuid(
@@ -866,6 +1094,17 @@ class MockUserStatProvider extends _i1.Mock implements _i15.UserStatProvider {
                 ),
           )
           as _i12.Future<List<_i16.UserStatsModel>>);
+
+  @override
+  _i12.Future<List<String>> fetchAllDistinctTags() =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchAllDistinctTags, []),
+            returnValue: _i12.Future<List<String>>.value(<String>[]),
+            returnValueForMissingStub: _i12.Future<List<String>>.value(
+              <String>[],
+            ),
+          )
+          as _i12.Future<List<String>>);
 
   @override
   _i12.Future<List<_i16.UserStatsModel>> fetchRecentStats({int? limit = 20}) =>
@@ -972,11 +1211,11 @@ class MockUserStatProvider extends _i1.Mock implements _i15.UserStatProvider {
   DateTime getStartOfToday() =>
       (super.noSuchMethod(
             Invocation.method(#getStartOfToday, []),
-            returnValue: _FakeDateTime_3(
+            returnValue: _FakeDateTime_4(
               this,
               Invocation.method(#getStartOfToday, []),
             ),
-            returnValueForMissingStub: _FakeDateTime_3(
+            returnValueForMissingStub: _FakeDateTime_4(
               this,
               Invocation.method(#getStartOfToday, []),
             ),
@@ -987,11 +1226,11 @@ class MockUserStatProvider extends _i1.Mock implements _i15.UserStatProvider {
   DateTime getEndOfToday() =>
       (super.noSuchMethod(
             Invocation.method(#getEndOfToday, []),
-            returnValue: _FakeDateTime_3(
+            returnValue: _FakeDateTime_4(
               this,
               Invocation.method(#getEndOfToday, []),
             ),
-            returnValueForMissingStub: _FakeDateTime_3(
+            returnValueForMissingStub: _FakeDateTime_4(
               this,
               Invocation.method(#getEndOfToday, []),
             ),
@@ -1002,11 +1241,11 @@ class MockUserStatProvider extends _i1.Mock implements _i15.UserStatProvider {
   DateTime getStartOfWeek() =>
       (super.noSuchMethod(
             Invocation.method(#getStartOfWeek, []),
-            returnValue: _FakeDateTime_3(
+            returnValue: _FakeDateTime_4(
               this,
               Invocation.method(#getStartOfWeek, []),
             ),
-            returnValueForMissingStub: _FakeDateTime_3(
+            returnValueForMissingStub: _FakeDateTime_4(
               this,
               Invocation.method(#getStartOfWeek, []),
             ),
@@ -1017,11 +1256,11 @@ class MockUserStatProvider extends _i1.Mock implements _i15.UserStatProvider {
   DateTime getStartOfMonth() =>
       (super.noSuchMethod(
             Invocation.method(#getStartOfMonth, []),
-            returnValue: _FakeDateTime_3(
+            returnValue: _FakeDateTime_4(
               this,
               Invocation.method(#getStartOfMonth, []),
             ),
-            returnValueForMissingStub: _FakeDateTime_3(
+            returnValueForMissingStub: _FakeDateTime_4(
               this,
               Invocation.method(#getStartOfMonth, []),
             ),
@@ -1054,6 +1293,17 @@ class MockUserStatProvider extends _i1.Mock implements _i15.UserStatProvider {
             returnValueForMissingStub: _i12.Future<void>.value(),
           )
           as _i12.Future<void>);
+
+  @override
+  Map<String, dynamic> serializeUserStatForTesting(
+    _i16.UserStatsModel? model,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#serializeUserStatForTesting, [model]),
+            returnValue: <String, dynamic>{},
+            returnValueForMissingStub: <String, dynamic>{},
+          )
+          as Map<String, dynamic>);
 
   @override
   void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
@@ -1089,11 +1339,11 @@ class MockFeatureFlagsRepository extends _i1.Mock
   _i5.SupabaseFeatureFlagsDataSource get remote =>
       (super.noSuchMethod(
             Invocation.getter(#remote),
-            returnValue: _FakeSupabaseFeatureFlagsDataSource_4(
+            returnValue: _FakeSupabaseFeatureFlagsDataSource_5(
               this,
               Invocation.getter(#remote),
             ),
-            returnValueForMissingStub: _FakeSupabaseFeatureFlagsDataSource_4(
+            returnValueForMissingStub: _FakeSupabaseFeatureFlagsDataSource_5(
               this,
               Invocation.getter(#remote),
             ),
@@ -1104,11 +1354,11 @@ class MockFeatureFlagsRepository extends _i1.Mock
   _i5.LocalFeatureFlagsStore get local =>
       (super.noSuchMethod(
             Invocation.getter(#local),
-            returnValue: _FakeLocalFeatureFlagsStore_5(
+            returnValue: _FakeLocalFeatureFlagsStore_6(
               this,
               Invocation.getter(#local),
             ),
-            returnValueForMissingStub: _FakeLocalFeatureFlagsStore_5(
+            returnValueForMissingStub: _FakeLocalFeatureFlagsStore_6(
               this,
               Invocation.getter(#local),
             ),
@@ -1195,13 +1445,13 @@ class MockRoasterLogoService extends _i1.Mock
       (super.noSuchMethod(
             Invocation.method(#fetchRoasterLogos, [context, roasterName]),
             returnValue: _i12.Future<_i6.RoasterLogoResult>.value(
-              _FakeRoasterLogoResult_6(
+              _FakeRoasterLogoResult_7(
                 this,
                 Invocation.method(#fetchRoasterLogos, [context, roasterName]),
               ),
             ),
             returnValueForMissingStub: _i12.Future<_i6.RoasterLogoResult>.value(
-              _FakeRoasterLogoResult_6(
+              _FakeRoasterLogoResult_7(
                 this,
                 Invocation.method(#fetchRoasterLogos, [context, roasterName]),
               ),
@@ -1250,8 +1500,8 @@ class MockStackRouter extends _i1.Mock implements _i8.StackRouter {
   _i7.Key get key =>
       (super.noSuchMethod(
             Invocation.getter(#key),
-            returnValue: _FakeKey_7(this, Invocation.getter(#key)),
-            returnValueForMissingStub: _FakeKey_7(
+            returnValue: _FakeKey_8(this, Invocation.getter(#key)),
+            returnValueForMissingStub: _FakeKey_8(
               this,
               Invocation.getter(#key),
             ),
@@ -1262,8 +1512,8 @@ class MockStackRouter extends _i1.Mock implements _i8.StackRouter {
   _i7.Key get matchId =>
       (super.noSuchMethod(
             Invocation.getter(#matchId),
-            returnValue: _FakeKey_7(this, Invocation.getter(#matchId)),
-            returnValueForMissingStub: _FakeKey_7(
+            returnValue: _FakeKey_8(this, Invocation.getter(#matchId)),
+            returnValueForMissingStub: _FakeKey_8(
               this,
               Invocation.getter(#matchId),
             ),
@@ -1274,11 +1524,11 @@ class MockStackRouter extends _i1.Mock implements _i8.StackRouter {
   _i8.PendingRoutesHandler get pendingRoutesHandler =>
       (super.noSuchMethod(
             Invocation.getter(#pendingRoutesHandler),
-            returnValue: _FakePendingRoutesHandler_8(
+            returnValue: _FakePendingRoutesHandler_9(
               this,
               Invocation.getter(#pendingRoutesHandler),
             ),
-            returnValueForMissingStub: _FakePendingRoutesHandler_8(
+            returnValueForMissingStub: _FakePendingRoutesHandler_9(
               this,
               Invocation.getter(#pendingRoutesHandler),
             ),
@@ -1298,11 +1548,11 @@ class MockStackRouter extends _i1.Mock implements _i8.StackRouter {
   _i8.PagelessRoutesObserver get pagelessRoutesObserver =>
       (super.noSuchMethod(
             Invocation.getter(#pagelessRoutesObserver),
-            returnValue: _FakePagelessRoutesObserver_9(
+            returnValue: _FakePagelessRoutesObserver_10(
               this,
               Invocation.getter(#pagelessRoutesObserver),
             ),
-            returnValueForMissingStub: _FakePagelessRoutesObserver_9(
+            returnValueForMissingStub: _FakePagelessRoutesObserver_10(
               this,
               Invocation.getter(#pagelessRoutesObserver),
             ),
@@ -1313,11 +1563,11 @@ class MockStackRouter extends _i1.Mock implements _i8.StackRouter {
   _i8.ActiveGuardObserver get activeGuardObserver =>
       (super.noSuchMethod(
             Invocation.getter(#activeGuardObserver),
-            returnValue: _FakeActiveGuardObserver_10(
+            returnValue: _FakeActiveGuardObserver_11(
               this,
               Invocation.getter(#activeGuardObserver),
             ),
-            returnValueForMissingStub: _FakeActiveGuardObserver_10(
+            returnValueForMissingStub: _FakeActiveGuardObserver_11(
               this,
               Invocation.getter(#activeGuardObserver),
             ),
@@ -1328,11 +1578,11 @@ class MockStackRouter extends _i1.Mock implements _i8.StackRouter {
   _i7.GlobalKey<_i7.NavigatorState> get navigatorKey =>
       (super.noSuchMethod(
             Invocation.getter(#navigatorKey),
-            returnValue: _FakeGlobalKey_11<_i7.NavigatorState>(
+            returnValue: _FakeGlobalKey_12<_i7.NavigatorState>(
               this,
               Invocation.getter(#navigatorKey),
             ),
-            returnValueForMissingStub: _FakeGlobalKey_11<_i7.NavigatorState>(
+            returnValueForMissingStub: _FakeGlobalKey_12<_i7.NavigatorState>(
               this,
               Invocation.getter(#navigatorKey),
             ),
@@ -1343,11 +1593,11 @@ class MockStackRouter extends _i1.Mock implements _i8.StackRouter {
   _i8.RouteCollection get routeCollection =>
       (super.noSuchMethod(
             Invocation.getter(#routeCollection),
-            returnValue: _FakeRouteCollection_12(
+            returnValue: _FakeRouteCollection_13(
               this,
               Invocation.getter(#routeCollection),
             ),
-            returnValueForMissingStub: _FakeRouteCollection_12(
+            returnValueForMissingStub: _FakeRouteCollection_13(
               this,
               Invocation.getter(#routeCollection),
             ),
@@ -1358,11 +1608,11 @@ class MockStackRouter extends _i1.Mock implements _i8.StackRouter {
   _i9.RouteMatcher get matcher =>
       (super.noSuchMethod(
             Invocation.getter(#matcher),
-            returnValue: _FakeRouteMatcher_13(
+            returnValue: _FakeRouteMatcher_14(
               this,
               Invocation.getter(#matcher),
             ),
-            returnValueForMissingStub: _FakeRouteMatcher_13(
+            returnValueForMissingStub: _FakeRouteMatcher_14(
               this,
               Invocation.getter(#matcher),
             ),
@@ -1373,11 +1623,11 @@ class MockStackRouter extends _i1.Mock implements _i8.StackRouter {
   _i8.RouteData<dynamic> get current =>
       (super.noSuchMethod(
             Invocation.getter(#current),
-            returnValue: _FakeRouteData_14<dynamic>(
+            returnValue: _FakeRouteData_15<dynamic>(
               this,
               Invocation.getter(#current),
             ),
-            returnValueForMissingStub: _FakeRouteData_14<dynamic>(
+            returnValueForMissingStub: _FakeRouteData_15<dynamic>(
               this,
               Invocation.getter(#current),
             ),
@@ -1388,11 +1638,11 @@ class MockStackRouter extends _i1.Mock implements _i8.StackRouter {
   _i8.RouteData<dynamic> get topRoute =>
       (super.noSuchMethod(
             Invocation.getter(#topRoute),
-            returnValue: _FakeRouteData_14<dynamic>(
+            returnValue: _FakeRouteData_15<dynamic>(
               this,
               Invocation.getter(#topRoute),
             ),
-            returnValueForMissingStub: _FakeRouteData_14<dynamic>(
+            returnValueForMissingStub: _FakeRouteData_15<dynamic>(
               this,
               Invocation.getter(#topRoute),
             ),
@@ -1430,12 +1680,12 @@ class MockStackRouter extends _i1.Mock implements _i8.StackRouter {
   _i7.GlobalObjectKey<_i7.State<_i7.StatefulWidget>> get globalRouterKey =>
       (super.noSuchMethod(
             Invocation.getter(#globalRouterKey),
-            returnValue: _FakeGlobalObjectKey_15<_i7.State<_i7.StatefulWidget>>(
+            returnValue: _FakeGlobalObjectKey_16<_i7.State<_i7.StatefulWidget>>(
               this,
               Invocation.getter(#globalRouterKey),
             ),
             returnValueForMissingStub:
-                _FakeGlobalObjectKey_15<_i7.State<_i7.StatefulWidget>>(
+                _FakeGlobalObjectKey_16<_i7.State<_i7.StatefulWidget>>(
                   this,
                   Invocation.getter(#globalRouterKey),
                 ),
@@ -1455,11 +1705,11 @@ class MockStackRouter extends _i1.Mock implements _i8.StackRouter {
   _i10.NavigationHistory get navigationHistory =>
       (super.noSuchMethod(
             Invocation.getter(#navigationHistory),
-            returnValue: _FakeNavigationHistory_16(
+            returnValue: _FakeNavigationHistory_17(
               this,
               Invocation.getter(#navigationHistory),
             ),
-            returnValueForMissingStub: _FakeNavigationHistory_16(
+            returnValueForMissingStub: _FakeNavigationHistory_17(
               this,
               Invocation.getter(#navigationHistory),
             ),
@@ -1470,8 +1720,8 @@ class MockStackRouter extends _i1.Mock implements _i8.StackRouter {
   _i8.UrlState get urlState =>
       (super.noSuchMethod(
             Invocation.getter(#urlState),
-            returnValue: _FakeUrlState_17(this, Invocation.getter(#urlState)),
-            returnValueForMissingStub: _FakeUrlState_17(
+            returnValue: _FakeUrlState_18(this, Invocation.getter(#urlState)),
+            returnValueForMissingStub: _FakeUrlState_18(
               this,
               Invocation.getter(#urlState),
             ),
@@ -1548,11 +1798,11 @@ class MockStackRouter extends _i1.Mock implements _i8.StackRouter {
   _i8.RootStackRouter get root =>
       (super.noSuchMethod(
             Invocation.getter(#root),
-            returnValue: _FakeRootStackRouter_18(
+            returnValue: _FakeRootStackRouter_19(
               this,
               Invocation.getter(#root),
             ),
-            returnValueForMissingStub: _FakeRootStackRouter_18(
+            returnValueForMissingStub: _FakeRootStackRouter_19(
               this,
               Invocation.getter(#root),
             ),
@@ -1572,11 +1822,11 @@ class MockStackRouter extends _i1.Mock implements _i8.StackRouter {
   _i8.RouteMatch<dynamic> get topMatch =>
       (super.noSuchMethod(
             Invocation.getter(#topMatch),
-            returnValue: _FakeRouteMatch_19<dynamic>(
+            returnValue: _FakeRouteMatch_20<dynamic>(
               this,
               Invocation.getter(#topMatch),
             ),
-            returnValueForMissingStub: _FakeRouteMatch_19<dynamic>(
+            returnValueForMissingStub: _FakeRouteMatch_20<dynamic>(
               this,
               Invocation.getter(#topMatch),
             ),
@@ -1587,11 +1837,11 @@ class MockStackRouter extends _i1.Mock implements _i8.StackRouter {
   _i8.RouteData<dynamic> get routeData =>
       (super.noSuchMethod(
             Invocation.getter(#routeData),
-            returnValue: _FakeRouteData_14<dynamic>(
+            returnValue: _FakeRouteData_15<dynamic>(
               this,
               Invocation.getter(#routeData),
             ),
-            returnValueForMissingStub: _FakeRouteData_14<dynamic>(
+            returnValueForMissingStub: _FakeRouteData_15<dynamic>(
               this,
               Invocation.getter(#routeData),
             ),
@@ -2168,13 +2418,13 @@ class MockStackRouter extends _i1.Mock implements _i8.StackRouter {
             Invocation.method(#topMostRouter, [], {
               #ignorePagelessRoutes: ignorePagelessRoutes,
             }),
-            returnValue: _FakeRoutingController_20(
+            returnValue: _FakeRoutingController_21(
               this,
               Invocation.method(#topMostRouter, [], {
                 #ignorePagelessRoutes: ignorePagelessRoutes,
               }),
             ),
-            returnValueForMissingStub: _FakeRoutingController_20(
+            returnValueForMissingStub: _FakeRoutingController_21(
               this,
               Invocation.method(#topMostRouter, [], {
                 #ignorePagelessRoutes: ignorePagelessRoutes,

@@ -93,6 +93,92 @@ void main() {
       expect(service.bufferLength, 0);
     });
 
+    test('registers brew diary events (brews category)', () {
+      service.track(
+        'manual_brew_logged',
+        properties: {
+          'brewing_method_id': 'v60',
+          'has_bean': true,
+          'has_grind': false,
+          'has_temp': true,
+          'has_rating': false,
+          'has_notes': false,
+          'has_tags': true,
+        },
+      );
+      service.track(
+        'diary_entry_opened',
+        properties: {'source': 'card', 'entry_source': 'timer'},
+      );
+      service.track(
+        'diary_entry_edited',
+        properties: {'field': 'rating', 'entry_source': 'manual'},
+      );
+      service.track('diary_entry_deleted', properties: {
+        'entry_source': 'manual',
+      });
+      service.track(
+        'diary_bookmark_toggled',
+        properties: {'bookmarked': true, 'source': 'card'},
+      );
+      service.track(
+        'diary_brew_again_tapped',
+        properties: {'source': 'sheet', 'recipe_id': 'recipe-1'},
+      );
+      service.track(
+        'diary_search_used',
+        properties: {'query_length': 5, 'result_count': 2},
+      );
+      service.track(
+        'diary_filters_changed',
+        properties: {'source': 'chip', 'result_count': 4},
+      );
+      service.track('diary_axis_changed', properties: {'axis': 'by_bean'});
+      service.track('diary_compare_opened', properties: {'series_length': 3});
+      service.track(
+        'diary_month_strip_used',
+        properties: {'action': 'expand'},
+      );
+      service.track(
+        'diary_extraction_opened',
+        properties: {'mode': 'calculate'},
+      );
+
+      final events = service.bufferedEventsForTesting;
+      expect(events.map((event) => event['event_name']).toList(), [
+        'manual_brew_logged',
+        'diary_entry_opened',
+        'diary_entry_edited',
+        'diary_entry_deleted',
+        'diary_bookmark_toggled',
+        'diary_brew_again_tapped',
+        'diary_search_used',
+        'diary_filters_changed',
+        'diary_axis_changed',
+        'diary_compare_opened',
+        'diary_month_strip_used',
+        'diary_extraction_opened',
+      ]);
+      expect(events.every((event) => event['category'] == 'brews'), isTrue);
+    });
+
+    test('is no-op when category disabled (brews) for diary events', () async {
+      await service.setBrewsEnabled(false);
+      service.track('manual_brew_logged');
+      service.track('diary_entry_opened');
+      service.track('diary_entry_edited');
+      service.track('diary_entry_deleted');
+      service.track('diary_bookmark_toggled');
+      service.track('diary_brew_again_tapped');
+      service.track('diary_search_used');
+      service.track('diary_filters_changed');
+      service.track('diary_axis_changed');
+      service.track('diary_compare_opened');
+      service.track('diary_month_strip_used');
+      service.track('diary_extraction_opened');
+      expect(service.bufferLength, 0);
+    });
+
     test('is no-op when category disabled (beans)', () async {
       await service.setBeansEnabled(false);
       service.track('beans_added');

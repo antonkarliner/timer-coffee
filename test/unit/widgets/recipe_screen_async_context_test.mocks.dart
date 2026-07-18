@@ -257,12 +257,16 @@ class MockRecipeProvider extends _i1.Mock implements _i7.RecipeProvider {
     double? coffeeAmount,
     double? waterAmount, {
     String? customGrindSize,
+    double? customWaterTemp,
   }) =>
       (super.noSuchMethod(
             Invocation.method(
               #saveCustomAmounts,
               [recipeId, coffeeAmount, waterAmount],
-              {#customGrindSize: customGrindSize},
+              {
+                #customGrindSize: customGrindSize,
+                #customWaterTemp: customWaterTemp,
+              },
             ),
             returnValue: _i9.Future<void>.value(),
             returnValueForMissingStub: _i9.Future<void>.value(),

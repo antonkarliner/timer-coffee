@@ -648,6 +648,7 @@ class MockDatabaseProvider extends _i1.Mock implements _i3.DatabaseProvider {
     double? customCoffeeAmount,
     double? customWaterAmount,
     String? customGrindSize,
+    double? customWaterTemp,
   }) =>
       (super.noSuchMethod(
             Invocation.method(
@@ -661,6 +662,7 @@ class MockDatabaseProvider extends _i1.Mock implements _i3.DatabaseProvider {
                 #customCoffeeAmount: customCoffeeAmount,
                 #customWaterAmount: customWaterAmount,
                 #customGrindSize: customGrindSize,
+                #customWaterTemp: customWaterTemp,
               },
             ),
             returnValue: _i8.Future<void>.value(),
@@ -928,12 +930,16 @@ class MockRecipeProvider extends _i1.Mock implements _i11.RecipeProvider {
     double? coffeeAmount,
     double? waterAmount, {
     String? customGrindSize,
+    double? customWaterTemp,
   }) =>
       (super.noSuchMethod(
             Invocation.method(
               #saveCustomAmounts,
               [recipeId, coffeeAmount, waterAmount],
-              {#customGrindSize: customGrindSize},
+              {
+                #customGrindSize: customGrindSize,
+                #customWaterTemp: customWaterTemp,
+              },
             ),
             returnValue: _i8.Future<void>.value(),
             returnValueForMissingStub: _i8.Future<void>.value(),

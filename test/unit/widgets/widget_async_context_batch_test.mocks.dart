@@ -524,6 +524,7 @@ class MockDatabaseProvider extends _i1.Mock implements _i6.DatabaseProvider {
     double? customCoffeeAmount,
     double? customWaterAmount,
     String? customGrindSize,
+    double? customWaterTemp,
   }) =>
       (super.noSuchMethod(
             Invocation.method(
@@ -537,6 +538,7 @@ class MockDatabaseProvider extends _i1.Mock implements _i6.DatabaseProvider {
                 #customCoffeeAmount: customCoffeeAmount,
                 #customWaterAmount: customWaterAmount,
                 #customGrindSize: customGrindSize,
+                #customWaterTemp: customWaterTemp,
               },
             ),
             returnValue: _i3.Future<void>.value(),
