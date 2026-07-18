@@ -109,16 +109,24 @@ class ThemeProvider with ChangeNotifier {
       chipTheme: ChipThemeData(
         backgroundColor:
             isDark ? scheme.surfaceContainerHighest : scheme.surfaceContainer,
-        selectedColor: scheme.secondary.withValues(alpha: isDark ? 0.3 : 0.2),
+        // Monochrome: solid primary (black light / white dark), matching
+        // the app's other selected-chip surfaces (beans-screen filter
+        // chips, diary fact chips).
+        selectedColor: scheme.primary,
         disabledColor: isDark
             ? scheme.surfaceContainerLowest
             : scheme.surfaceContainerHighest,
         labelStyle: AppTextStyles.body.copyWith(
-          color: scheme.onSurface,
+          color: WidgetStateColor.resolveWith(
+            (states) => states.contains(WidgetState.selected)
+                ? scheme.onPrimary
+                : scheme.onSurface,
+          ),
         ),
         secondaryLabelStyle: AppTextStyles.body.copyWith(
           color: scheme.secondary,
         ),
+        checkmarkColor: scheme.onPrimary,
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.sm,
           vertical: AppSpacing.xs,

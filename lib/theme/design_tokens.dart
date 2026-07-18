@@ -1,5 +1,72 @@
 import 'package:flutter/material.dart';
 
+typedef AppSemanticColorPair = ({Color background, Color foreground});
+
+/// Semantic color pairs for compact informational and taste chips.
+class AppSemanticColors {
+  AppSemanticColors._();
+
+  static const AppSemanticColorPair _tasteSourLight = (
+    background: Color(0xFFC47C3B),
+    foreground: Color(0xFF000000),
+  );
+  static const AppSemanticColorPair _tasteSourDark = (
+    background: Color(0xFFB07035),
+    foreground: Color(0xFF000000),
+  );
+  static const AppSemanticColorPair _tasteBalancedLight = (
+    background: Color(0xFF6F8F62),
+    foreground: Color(0xFF000000),
+  );
+  static const AppSemanticColorPair _tasteBalancedDark = (
+    background: Color(0xFF527047),
+    foreground: Color(0xFFFFFFFF),
+  );
+  static const AppSemanticColorPair _tasteBitterLight = (
+    background: Color(0xFFF44336),
+    foreground: Color(0xFF000000),
+  );
+  static const AppSemanticColorPair _tasteBitterDark = (
+    background: Color(0xFFB71C1C),
+    foreground: Color(0xFFFFFFFF),
+  );
+  static const AppSemanticColorPair _neutralChipLight = (
+    background: Color(0xFFE0E0E0),
+    foreground: Color(0xFF000000),
+  );
+  static const AppSemanticColorPair _neutralChipDark = (
+    background: Color(0xFF505050),
+    foreground: Color(0xFFFFFFFF),
+  );
+  static const AppSemanticColorPair _extractionYieldLight = (
+    background: Color(0xFF607D68),
+    foreground: Color(0xFF000000),
+  );
+  static const AppSemanticColorPair _extractionYieldDark = (
+    background: Color(0xFF496453),
+    foreground: Color(0xFFFFFFFF),
+  );
+
+  static AppSemanticColorPair taste(int balance, Brightness brightness) {
+    return switch ((balance, brightness)) {
+      (-1, Brightness.light) => _tasteSourLight,
+      (-1, Brightness.dark) => _tasteSourDark,
+      (0, Brightness.light) => _tasteBalancedLight,
+      (0, Brightness.dark) => _tasteBalancedDark,
+      (_, Brightness.light) => _tasteBitterLight,
+      (_, Brightness.dark) => _tasteBitterDark,
+    };
+  }
+
+  static AppSemanticColorPair neutralChip(Brightness brightness) =>
+      brightness == Brightness.light ? _neutralChipLight : _neutralChipDark;
+
+  static AppSemanticColorPair extractionYield(Brightness brightness) =>
+      brightness == Brightness.light
+      ? _extractionYieldLight
+      : _extractionYieldDark;
+}
+
 /// Design tokens for the Timer Coffee app
 /// Contains standardized spacing, radius, stroke, icon sizes, and text styles
 class AppTokens {
@@ -116,12 +183,18 @@ class AppButtonTokens {
   static const double heightLarge = 56.0;
 
   // Button padding constants
-  static const EdgeInsetsGeometry paddingSmall =
-      EdgeInsets.symmetric(horizontal: 16, vertical: 8);
-  static const EdgeInsetsGeometry paddingMedium =
-      EdgeInsets.symmetric(horizontal: 24, vertical: 16);
-  static const EdgeInsetsGeometry paddingLarge =
-      EdgeInsets.symmetric(horizontal: 32, vertical: 20);
+  static const EdgeInsetsGeometry paddingSmall = EdgeInsets.symmetric(
+    horizontal: 16,
+    vertical: 8,
+  );
+  static const EdgeInsetsGeometry paddingMedium = EdgeInsets.symmetric(
+    horizontal: 24,
+    vertical: 16,
+  );
+  static const EdgeInsetsGeometry paddingLarge = EdgeInsets.symmetric(
+    horizontal: 32,
+    vertical: 20,
+  );
 
   // Button radius constants
   static const double radius = AppTokens.radiusMedium;

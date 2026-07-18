@@ -22,6 +22,12 @@ class OptionalDetailsCard extends StatefulWidget {
   final double? cuppingScore;
   final double? packageWeightGrams;
 
+  /// Optional external controller for the tasting notes chip input.
+  ///
+  /// Carries typed-but-unsubmitted text so the caller's save path can fold
+  /// it in — see [ChipInput.controller].
+  final TextEditingController? tastingNotesPendingController;
+
   // Options sources
   final Future<List<String>> varietyOptions;
   final Future<List<String>> regionOptions;
@@ -56,6 +62,7 @@ class OptionalDetailsCard extends StatefulWidget {
     this.elevation,
     this.cuppingScore,
     this.packageWeightGrams,
+    this.tastingNotesPendingController,
     // options
     required this.varietyOptions,
     required this.regionOptions,
@@ -251,6 +258,7 @@ class _OptionalDetailsCardState extends State<OptionalDetailsCard> {
           child: FlavorProfileSection(
             tastingNotes: _tastingNotes,
             tastingNotesOptions: widget.tastingNotesOptions,
+            pendingController: widget.tastingNotesPendingController,
             onTastingNotesChanged: (tags) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 if (mounted) {

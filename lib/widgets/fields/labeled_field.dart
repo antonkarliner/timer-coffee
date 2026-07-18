@@ -89,6 +89,12 @@ class LabeledField extends StatefulWidget {
   /// preserved regardless of the style passed.
   final TextStyle? labelStyle;
 
+  /// Whether to render the label inside the outline as a floating label.
+  final bool labelInsideField;
+
+  /// Whether the field should request focus when it is first shown.
+  final bool autofocus;
+
   /// Whether the field is read-only
   final bool readOnly;
 
@@ -124,6 +130,8 @@ class LabeledField extends StatefulWidget {
     this.prefixIcon,
     this.style,
     this.labelStyle,
+    this.labelInsideField = false,
+    this.autofocus = false,
     this.readOnly = false,
     this.onTap,
   });
@@ -213,35 +221,36 @@ class _LabeledFieldState extends State<LabeledField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        // Label
-        Row(
-          children: [
-            Text(
-              widget.label,
-              style: (widget.labelStyle ?? AppTextStyles.fieldLabel).copyWith(
-                color: widget.enabled
-                    ? (widget.labelStyle?.color ??
-                          theme.textTheme.titleMedium?.color)
-                    : Colors.grey,
-              ),
-            ),
-            if (widget.required) ...[
-              const SizedBox(width: AppSpacing.xs),
+        if (!widget.labelInsideField) ...[
+          Row(
+            children: [
               Text(
-                '*',
+                widget.label,
                 style: (widget.labelStyle ?? AppTextStyles.fieldLabel).copyWith(
-                  color: Colors.red,
+                  color: widget.enabled
+                      ? (widget.labelStyle?.color ??
+                            theme.textTheme.titleMedium?.color)
+                      : Colors.grey,
                 ),
               ),
+              if (widget.required) ...[
+                const SizedBox(width: AppSpacing.xs),
+                Text(
+                  '*',
+                  style: (widget.labelStyle ?? AppTextStyles.fieldLabel)
+                      .copyWith(color: Colors.red),
+                ),
+              ],
             ],
-          ],
-        ),
-        const SizedBox(height: AppSpacing.xs),
+          ),
+          const SizedBox(height: AppSpacing.xs),
+        ],
 
         // Text Field
         TextFormField(
           controller: _controller,
           focusNode: _focusNode,
+          autofocus: widget.autofocus,
           enabled: widget.enabled,
           obscureText: widget.obscureText,
           keyboardType: widget.keyboardType,
@@ -259,6 +268,10 @@ class _LabeledFieldState extends State<LabeledField> {
           // Add tap handler when field is read-only
           onTap: widget.readOnly && widget.onTap != null ? widget.onTap : null,
           decoration: InputDecoration(
+            labelText: widget.labelInsideField
+                ? '${widget.label}${widget.required ? ' *' : ''}'
+                : null,
+            labelStyle: widget.labelStyle,
             hintText: widget.hintText,
             helperText: widget.helperText,
             errorText: widget.errorText,

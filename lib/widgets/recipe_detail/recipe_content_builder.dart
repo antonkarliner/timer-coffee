@@ -16,6 +16,9 @@ import 'package:coffee_timer/widgets/recipe_detail/meta_info_section.dart';
 import 'package:coffee_timer/widgets/recipe_detail/slider_chronicler_1002.dart';
 import 'package:coffee_timer/widgets/recipe_detail/sliders_106.dart';
 import 'package:coffee_timer/widgets/recipe_detail/recipe_summary_tile.dart';
+import 'package:coffee_timer/widgets/fields/numeric_text_field.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
+import 'package:coffee_timer/utils/temperature_format.dart';
 
 /// Widget that builds the main recipe content including all sections
 class RecipeContentBuilder extends StatefulWidget {
@@ -48,13 +51,15 @@ class RecipeContentBuilder extends StatefulWidget {
 
 class _RecipeContentBuilderState extends State<RecipeContentBuilder> {
   bool _isEditingGrindSize = false;
+  bool _isEditingWaterTemperature = false;
   RoasterProfileModel? _recipeRoasterProfile;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _lookupRoasterProfile());
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _lookupRoasterProfile(),
+    );
   }
 
   @override
@@ -68,8 +73,10 @@ class _RecipeContentBuilderState extends State<RecipeContentBuilder> {
   }
 
   Future<void> _lookupRoasterProfile() async {
-    final provider =
-        Provider.of<RoasterProfileProvider>(context, listen: false);
+    final provider = Provider.of<RoasterProfileProvider>(
+      context,
+      listen: false,
+    );
 
     // Try vendorId first (works for the recipe viewed on the roaster's own device)
     final vendorId = widget.recipe.vendorId;
@@ -90,14 +97,17 @@ class _RecipeContentBuilderState extends State<RecipeContentBuilder> {
         importId.startsWith('usr-') &&
         importId.length >= 40) {
       final creatorVendorId = importId.substring(0, 40);
-      final profile =
-          await provider.fetchRoasterProfileByVendorId(creatorVendorId);
+      final profile = await provider.fetchRoasterProfileByVendorId(
+        creatorVendorId,
+      );
       if (mounted) setState(() => _recipeRoasterProfile = profile);
     }
   }
 
   Widget _buildRoasterAttribution(
-      BuildContext context, RoasterProfileModel profile) {
+    BuildContext context,
+    RoasterProfileModel profile,
+  ) {
     final loc = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
 
@@ -115,9 +125,7 @@ class _RecipeContentBuilderState extends State<RecipeContentBuilder> {
           ),
           Text(
             profile.roasterName,
-            style: AppTextStyles.caption.copyWith(
-              color: colorScheme.primary,
-            ),
+            style: AppTextStyles.caption.copyWith(color: colorScheme.primary),
           ),
         ],
       ),
@@ -221,19 +229,95 @@ class _RecipeContentBuilderState extends State<RecipeContentBuilder> {
               ),
             ],
           ),
+        if (controller.shouldShowGrindSuggestion)
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  switch (controller.suggestedGrindTasteBalance) {
+                    -1 => loc.grindSuggestionSour,
+                    1 => loc.grindSuggestionBitter,
+                    _ => loc.lastGrindSuggestion(
+                      controller.suggestedGrindSize!.trim(),
+                    ),
+                  },
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTextStyles.caption.copyWith(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.6),
+                  ),
+                ),
+              ),
+              const SizedBox(width: AppSpacing.xs),
+              AppTextButton(
+                label: loc.useGrindSuggestion,
+                onPressed: controller.applyGrindSuggestion,
+                isFullWidth: false,
+                height: AppButton.heightSmall,
+                padding: AppButton.paddingSmall,
+                textStyle: AppTextStyles.caption,
+              ),
+            ],
+          ),
         const SizedBox(height: 16),
-        MetaInfoSection(
-          waterTempCelsius: recipe.waterTemp,
-          brewTime: recipe.brewTime,
-        ),
+        if (_isEditingWaterTemperature)
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: NumericTextField(
+                  label: '${loc.watertemp} (°C)',
+                  initialValue: controller.waterTemperature,
+                  labelInsideField: true,
+                  autofocus: true,
+                  helperText: formatTemperatureInputHelper(
+                    controller.waterTemperature,
+                  ),
+                  allowDecimal: true,
+                  onChanged: controller.markWaterTemperatureManuallyEdited,
+                  onSubmitted: (_) {
+                    setState(() => _isEditingWaterTemperature = false);
+                  },
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.check),
+                onPressed: () {
+                  setState(() => _isEditingWaterTemperature = false);
+                },
+              ),
+            ],
+          )
+        else
+          Row(
+            children: [
+              Flexible(
+                child: Text(
+                  '${loc.watertemp}: ${formatTemperatureDual(controller.waterTemperature) ?? loc.notProvided}',
+                ),
+              ),
+              const SizedBox(width: AppSpacing.xs),
+              GestureDetector(
+                onTap: () {
+                  setState(() => _isEditingWaterTemperature = true);
+                },
+                child: const Icon(Icons.edit, size: AppIconSize.small),
+              ),
+            ],
+          ),
+        const SizedBox(height: AppSpacing.base),
+        MetaInfoSection(waterTempCelsius: null, brewTime: recipe.brewTime),
         const SizedBox(height: 16),
         // Use effective ID for slider logic
         if (effectiveRecipeId == '1002')
           CoffeeChroniclerSizeSlider(
             position: controller.coffeeChroniclerSliderPosition,
             onChanged: (int value) {
-              final mapped =
-                  controller.setChroniclerPositionAndMapAmounts(value);
+              final mapped = controller.setChroniclerPositionAndMapAmounts(
+                value,
+              );
               if (recipe.id == '1002' && mapped != null) {
                 controller.applyAmounts(mapped['coffee']!, mapped['water']!);
               }
@@ -251,10 +335,7 @@ class _RecipeContentBuilderState extends State<RecipeContentBuilder> {
             },
           ),
         if (effectiveRecipeId != '106' && effectiveRecipeId != '1002')
-          RecipeSummaryTile(
-            recipe: recipe,
-            controller: controller,
-          ),
+          RecipeSummaryTile(recipe: recipe, controller: controller),
       ],
     );
   }

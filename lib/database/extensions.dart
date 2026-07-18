@@ -7,12 +7,15 @@ extension RecipesCompanionExtension on RecipesCompanion {
     return RecipesCompanion(
       id: Value(json['id']),
       brewingMethodId: Value(json['brewing_method_id']),
-      coffeeAmount:
-          Value((json['coffee_amount'] as num).toDouble()), // Cast to double
-      waterAmount:
-          Value((json['water_amount'] as num).toDouble()), // Cast to double
-      waterTemp:
-          Value((json['water_temp'] as num).toDouble()), // Cast to double
+      coffeeAmount: Value(
+        (json['coffee_amount'] as num).toDouble(),
+      ), // Cast to double
+      waterAmount: Value(
+        (json['water_amount'] as num).toDouble(),
+      ), // Cast to double
+      waterTemp: Value(
+        (json['water_temp'] as num).toDouble(),
+      ), // Cast to double
       brewTime: Value(json['brew_time']),
       vendorId: Value(json['vendor_id']),
       lastModified: json['last_modified'] != null
@@ -49,8 +52,9 @@ extension RecipesCompanionExtension on RecipesCompanion {
       originalAuthorId: json['original_author_id'] != null
           ? Value(json['original_author_id'])
           : const Value.absent(),
-      isPublic: Value(json['ispublic'] ??
-          false), // Note: Supabase uses 'ispublic' (lowercase)
+      isPublic: Value(
+        json['ispublic'] ?? false,
+      ), // Note: Supabase uses 'ispublic' (lowercase)
       needsModerationReview: Value(json['needs_moderation_review'] ?? false),
     );
   }
@@ -67,8 +71,9 @@ extension RecipesCompanionExtension on RecipesCompanion {
       'last_modified': lastModified.value?.toUtc().toIso8601String(),
       'import_id': importId.present ? importId.value : null,
       'is_imported': isImported.present ? isImported.value : false,
-      'original_author_id':
-          originalAuthorId.present ? originalAuthorId.value : null,
+      'original_author_id': originalAuthorId.present
+          ? originalAuthorId.value
+          : null,
       'ispublic': isPublic.present
           ? isPublic.value
           : false, // Use actual isPublic value
@@ -90,7 +95,8 @@ extension RecipeLocalizationsCompanionExtension
   }
 
   static RecipeLocalizationsCompanion fromUserRecipeLocalizationJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return RecipeLocalizationsCompanion(
       id: Value(json['id']),
       recipeId: Value(json['recipe_id']),
@@ -228,8 +234,8 @@ extension UserRecipePreferencesCompanionExtension
           : const Value.absent(),
       coffeeChroniclerSliderPosition:
           json['coffee_chronicler_slider_position'] != null
-              ? Value(json['coffee_chronicler_slider_position'] as int)
-              : const Value.absent(),
+          ? Value(json['coffee_chronicler_slider_position'] as int)
+          : const Value.absent(),
       customCoffeeAmount: json['custom_coffee_amount'] != null
           ? Value(_parseDouble(json['custom_coffee_amount']))
           : const Value.absent(),
@@ -238,6 +244,9 @@ extension UserRecipePreferencesCompanionExtension
           : const Value.absent(),
       customGrindSize: json['custom_grind_size'] != null
           ? Value(json['custom_grind_size'] as String)
+          : const Value.absent(),
+      customWaterTemp: json['custom_water_temp'] != null
+          ? Value(_parseDouble(json['custom_water_temp']))
           : const Value.absent(),
     );
   }
@@ -354,8 +363,9 @@ extension CoffeeBeansCompanionExtension on CoffeeBeansCompanion {
       isFavorite: json['is_favorite'] != null
           ? Value(json['is_favorite'] as bool)
           : const Value.absent(),
-      isDeleted: Value(json['is_deleted'] != null &&
-          json['is_deleted'] == true), // Include isDeleted
+      isDeleted: Value(
+        json['is_deleted'] != null && json['is_deleted'] == true,
+      ), // Include isDeleted
       packageWeightGrams: json['package_weight_grams'] != null
           ? Value((json['package_weight_grams'] as num).toDouble())
           : const Value.absent(),
@@ -380,10 +390,12 @@ extension CoffeeBeansCompanionExtension on CoffeeBeansCompanion {
       'tasting_notes': tastingNotes.value,
       'processing_method': processingMethod.value,
       'elevation': elevation.present ? elevation.value : null,
-      'harvest_date':
-          harvestDate.present ? harvestDate.value?.toIso8601String() : null,
-      'roast_date':
-          roastDate.present ? roastDate.value?.toIso8601String() : null,
+      'harvest_date': harvestDate.present
+          ? harvestDate.value?.toIso8601String()
+          : null,
+      'roast_date': roastDate.present
+          ? roastDate.value?.toIso8601String()
+          : null,
       'region': region.value,
       'roast_level': roastLevel.value,
       'grind_size': grindSize.value,
@@ -393,8 +405,9 @@ extension CoffeeBeansCompanionExtension on CoffeeBeansCompanion {
       'farm': farm.value,
       'is_favorite': isFavorite.present ? isFavorite.value : null,
       'is_deleted': isDeleted.present ? isDeleted.value : null,
-      'package_weight_grams':
-          packageWeightGrams.present ? packageWeightGrams.value : null,
+      'package_weight_grams': packageWeightGrams.present
+          ? packageWeightGrams.value
+          : null,
       'version_vector': versionVector.value,
       'photo_url': photoUrl.present ? photoUrl.value : null,
       'review_nudge_scheduled_at': reviewNudgeScheduledAt.present

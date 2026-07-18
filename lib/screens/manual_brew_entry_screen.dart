@@ -17,8 +17,13 @@ import '../widgets/base_buttons.dart';
 import '../widgets/roaster_logo.dart';
 import '../services/roaster_logo_service.dart';
 import '../widgets/unsaved_changes_dialog.dart';
+import '../widgets/fields/chip_input.dart';
 import '../widgets/fields/date_field.dart';
 import '../widgets/fields/time_field.dart';
+import '../widgets/fields/numeric_text_field.dart';
+import '../utils/diary_tags.dart';
+import '../utils/temperature_format.dart';
+import '../services/analytics_service.dart';
 
 @RoutePage()
 class ManualBrewEntryScreen extends StatefulWidget {
@@ -43,6 +48,7 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
   String? _selectedBrewingMethodId;
   List<RecipeModel> _recipesForMethod = [];
   RecipeModel? _selectedRecipe;
+  double? _waterTemperature;
   DateTime _selectedDate = DateTime.now();
   TimeOfDay _selectedTime = TimeOfDay.now();
 
@@ -51,6 +57,11 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
   String? _selectedBeanName;
   String? _selectedBeanRoasterLogoUrl;
   String? _selectedBeanMirrorLogoUrl;
+
+  List<String> _tags = [];
+  // Typed-but-unsubmitted tag text must survive a direct Save tap, so the
+  // input controller lives on the screen and is folded in at save time.
+  final _tagPendingController = TextEditingController();
 
   bool _isLoading = true;
   bool _isSaving = false;
@@ -66,6 +77,8 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
       _waterController.text.isNotEmpty ||
       _grindSizeController.text.isNotEmpty ||
       _notesController.text.isNotEmpty ||
+      _tags.isNotEmpty ||
+      _tagPendingController.text.trim().isNotEmpty ||
       _selectedBeanUuid != null;
 
   @override
@@ -80,6 +93,7 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
     _waterController.dispose();
     _grindSizeController.dispose();
     _notesController.dispose();
+    _tagPendingController.dispose();
     super.dispose();
   }
 
@@ -113,6 +127,7 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
       _waterController.text = (recipe.customWaterAmount ?? recipe.waterAmount)
           .toString();
       _grindSizeController.text = recipe.customGrindSize ?? recipe.grindSize;
+      _waterTemperature = recipe.customWaterTemp ?? recipe.waterTemp;
     });
   }
 
@@ -368,6 +383,11 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
         context,
         listen: false,
       );
+      final trimmedNotes = _notesController.text.trim();
+      final savedTags = diaryTagsWithPending(
+        _tags,
+        _tagPendingController.text,
+      );
 
       await userStatProvider.insertUserStat(
         recipeId: _selectedRecipe!.id,
@@ -379,10 +399,24 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
         statUuid: statUuid,
         coffeeBeansUuid: _selectedBeanUuid,
         grindSize: grindSize,
+        waterTemp: _waterTemperature,
+        entrySource: 1,
         createdAt: createdAt,
-        notes: _notesController.text.trim().isEmpty
-            ? null
-            : _notesController.text.trim(),
+        notes: trimmedNotes.isEmpty ? null : trimmedNotes,
+        tags: diaryTagsToStorage(savedTags),
+      );
+
+      AnalyticsService.maybeInstance?.track(
+        'manual_brew_logged',
+        properties: {
+          'brewing_method_id': _selectedRecipe!.brewingMethodId,
+          'has_bean': _selectedBeanUuid != null,
+          'has_grind': grindSize != null,
+          'has_temp': _waterTemperature != null,
+          'has_rating': false,
+          'has_notes': trimmedNotes.isNotEmpty,
+          'has_tags': savedTags.isNotEmpty,
+        },
       );
 
       // Update bean weight if beans selected
@@ -579,7 +613,20 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
                               border: const OutlineInputBorder(),
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: AppSpacing.base),
+
+                          NumericTextField(
+                            label: '${loc.watertemp} (°C)',
+                            initialValue: _waterTemperature,
+                            helperText: formatTemperatureInputHelper(
+                              _waterTemperature,
+                            ),
+                            allowDecimal: true,
+                            onChanged: (temperature) {
+                              setState(() => _waterTemperature = temperature);
+                            },
+                          ),
+                          const SizedBox(height: AppSpacing.base),
 
                           // Date and Time
                           Row(
@@ -687,7 +734,28 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
                             maxLines: 3,
                             keyboardType: TextInputType.multiline,
                           ),
-                          const SizedBox(height: 24),
+                          const SizedBox(height: AppSpacing.base),
+
+                          // Tags
+                          FutureBuilder<List<String>>(
+                            future: Provider.of<UserStatProvider>(
+                              context,
+                              listen: false,
+                            ).fetchAllDistinctTags(),
+                            builder: (context, snapshot) => ChipInput(
+                              key: const Key('manualEntryTagsInput'),
+                              label: loc.diaryTags,
+                              hintText: loc.diaryTagsHint,
+                              initialValues: _tags,
+                              suggestions: snapshot.data ?? [],
+                              quickPicks: snapshot.data ?? [],
+                              maxChips: diaryTagsMaxCount,
+                              onChanged: (values) =>
+                                  setState(() => _tags = values),
+                              controller: _tagPendingController,
+                            ),
+                          ),
+                          const SizedBox(height: AppSpacing.lg),
 
                           // Save Button
                           AppElevatedButton(

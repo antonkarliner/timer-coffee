@@ -1,27 +1,31 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:coffee_timer/app_router.gr.dart';
-import 'package:coffee_timer/providers/database_provider.dart';
-import 'package:coffeico/coffeico.dart';
-import '../widgets/smart_back_button.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../providers/recipe_provider.dart';
-import '../providers/user_stat_provider.dart';
-import '../providers/coffee_beans_provider.dart';
-import '../models/user_stat_model.dart';
-import 'package:intl/intl.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
-import '../utils/icon_utils.dart';
-import '../widgets/add_coffee_beans_widget.dart';
-import '../widgets/expandable_card.dart';
-import '../notifiers/card_expansion_notifier.dart';
-import '../widgets/confirm_delete_dialog.dart';
-import '../models/coffee_beans_model.dart';
-import '../widgets/roaster_logo.dart';
-import '../theme/design_tokens.dart';
-import '../utils/app_logger.dart'; // Import AppLogger
-import '../widgets/base_buttons.dart';
-import '../services/date_time_format_service.dart';
+import 'package:coffee_timer/models/diary_entry.dart';
+import 'package:coffee_timer/models/diary_group.dart';
+import 'package:coffee_timer/providers/database_provider.dart';
+import 'package:coffee_timer/providers/user_stat_provider.dart';
+import 'package:coffee_timer/services/analytics_service.dart';
+import 'package:coffee_timer/services/date_time_format_service.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/utils/app_logger.dart';
+import 'package:coffee_timer/utils/diary_digest.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
+import 'package:coffee_timer/widgets/containers/section_card.dart';
+import 'package:coffee_timer/widgets/smart_back_button.dart';
+import 'package:coffee_timer/widgets/brew_diary/brew_detail_sheet.dart';
+import 'package:coffee_timer/widgets/brew_diary/brew_entry_card.dart';
+import 'package:coffee_timer/widgets/brew_diary/diary_filter_bar.dart';
+import 'package:coffee_timer/widgets/brew_diary/diary_filter_sheet.dart';
+import 'package:coffee_timer/widgets/brew_diary/diary_group_list.dart';
+import 'package:coffee_timer/widgets/brew_diary/journey_view.dart';
+import 'package:coffee_timer/widgets/brew_diary/month_strip.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 @RoutePage()
 class BrewDiaryScreen extends StatefulWidget {
@@ -34,77 +38,398 @@ class BrewDiaryScreen extends StatefulWidget {
 }
 
 class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
-  bool isEditMode = false;
-  final ScrollController _scrollController = ScrollController();
-  final GlobalKey _targetKey = GlobalKey();
-  bool _scrollScheduled = false;
+  late Future<List<DiaryEntry>> _entriesFuture;
+  late Future<List<TopDiaryMethod>> _topMethodsFuture;
+  final ItemScrollController _itemScrollController = ItemScrollController();
+  final ItemPositionsListener _itemPositionsListener =
+      ItemPositionsListener.create();
+  final TextEditingController _searchController = TextEditingController();
+  final Map<String, Future<Map<String, String?>>> _logoFutures = {};
+  final Set<String> _pendingBookmarkUuids = {};
+  List<DiaryEntry>? _entriesOverride;
+  // Latest resolved entry list, cached during build for analytics call
+  // sites (search debounce, filter-change reporting) that need
+  // `_filteredEntries`'s `result_count` outside of the build method.
+  List<DiaryEntry>? _lastKnownEntries;
+  Timer? _searchDebounceTimer;
+  String? _lastReportedSearchQuery;
+  String? _loadedLocale;
+  _PendingTimelineNavigation? _pendingNavigation;
+  bool _navigationScheduled = false;
+  bool _initialDeepLinkHandled = false;
+  bool _initialDeepLinkTerminal = false;
+  bool _timelineTopVisible = true;
+  DateTime? _displayedMonth;
+  bool _monthStripExpanded = false;
+  String _search = '';
+  Set<String> _selectedMethodIds = {};
+  Set<String> _selectedBeanUuids = {};
+  Set<String> _selectedOrigins = {};
+  Set<String> _selectedTags = {};
+  double? _ratingThreshold;
+  bool _hasNotes = false;
+  bool _hasExtractionYield = false;
+  bool _ratingFourPlus = false;
+  bool _bookmarkedOnly = false;
+  bool _groupByBean = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _itemPositionsListener.itemPositions.addListener(
+      _handleTimelinePositionsChanged,
+    );
+    if (widget.initialExpandedStatUuid case final statUuid?) {
+      _pendingNavigation = _PendingEntryNavigation(
+        statUuid: statUuid,
+        openDetails: true,
+      );
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final locale = Localizations.localeOf(context).languageCode;
+    if (_loadedLocale != locale) {
+      _loadedLocale = locale;
+      _loadEntries();
+    }
+  }
+
+  void _loadEntries() {
+    final locale =
+        _loadedLocale ?? Localizations.localeOf(context).languageCode;
+    final loc = AppLocalizations.of(context)!;
+    final provider = context.read<UserStatProvider>();
+    _entriesOverride = null;
+    _entriesFuture = _fetchEntries(
+      provider,
+      locale,
+      unknownRecipe: loc.unknownRecipe,
+    );
+    _topMethodsFuture = provider.topMethodsLast90Days(locale);
+  }
+
+  Future<List<DiaryEntry>> _fetchEntries(
+    UserStatProvider provider,
+    String locale, {
+    required String unknownRecipe,
+  }) async {
+    try {
+      final entries = await provider.fetchDiaryEntries(locale);
+      return [
+        for (final entry in entries)
+          if (entry.recipeName.isEmpty)
+            entry.copyWith(recipeName: unknownRecipe)
+          else
+            entry,
+      ];
+    } catch (error, stackTrace) {
+      AppLogger.error(
+        'Failed to load Brew Diary entries',
+        errorObject: error,
+        stackTrace: stackTrace,
+      );
+      rethrow;
+    }
+  }
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    _itemPositionsListener.itemPositions.removeListener(
+      _handleTimelinePositionsChanged,
+    );
+    _searchDebounceTimer?.cancel();
+    _searchController.dispose();
     super.dispose();
   }
 
-  String getSweeetnessLabel(int position) {
-    final loc = AppLocalizations.of(context)!;
-    switch (position) {
-      case 0:
-        return loc.sweet;
-      case 1:
-        return loc.balance;
-      case 2:
-        return loc.acidic;
-      default:
-        return loc.donationerr;
+  void _handleTimelinePositionsChanged() {
+    final topVisible = _itemPositionsListener.itemPositions.value.any(
+      (position) =>
+          position.index == 0 &&
+          position.itemLeadingEdge < 1 &&
+          position.itemTrailingEdge > 0,
+    );
+    if (!mounted || topVisible == _timelineTopVisible) return;
+    setState(() => _timelineTopVisible = topVisible);
+  }
+
+  void _refresh() {
+    setState(_loadEntries);
+  }
+
+  Future<Map<String, String?>>? _logoUrls(DiaryEntry entry) {
+    final roaster = entry.roaster;
+    if (roaster == null || roaster.isEmpty) return null;
+    return _logoFutures.putIfAbsent(
+      roaster,
+      () =>
+          context.read<DatabaseProvider>().fetchCachedRoasterLogoUrls(roaster),
+    );
+  }
+
+  Future<Map<String, String?>>? _groupLogoUrls(DiaryGroup group) {
+    final roaster = group.roaster;
+    if (roaster == null || roaster.isEmpty) return null;
+    return _logoFutures.putIfAbsent(
+      roaster,
+      () =>
+          context.read<DatabaseProvider>().fetchCachedRoasterLogoUrls(roaster),
+    );
+  }
+
+  DiaryGroup? _journeyGroupForEntry(DiaryEntry entry) {
+    final beanUuid = entry.coffeeBeansUuid?.trim();
+    final entries = _lastKnownEntries;
+    if (beanUuid == null || beanUuid.isEmpty || entries == null) return null;
+    final currentEntries = [
+      for (final loadedEntry in entries)
+        if (loadedEntry.statUuid == entry.statUuid) entry else loadedEntry,
+    ];
+    return DiaryGroup.build(
+      currentEntries,
+    ).where((group) => group.key == beanUuid).firstOrNull;
+  }
+
+  Future<void> _openDetails(DiaryEntry entry, {required String source}) async {
+    await showBrewDetailSheet(
+      context,
+      entry: entry,
+      logoUrls: _logoUrls(entry),
+      onOpenBeanJourney: (journeyEntry) {
+        final journeyGroup = _journeyGroupForEntry(journeyEntry);
+        if (journeyGroup == null) return;
+        final navigator = Navigator.of(context);
+        navigator.pop();
+        navigator
+            .push(
+              MaterialPageRoute(
+                builder: (_) => JourneyView(
+                  group: journeyGroup,
+                  logoUrls: _groupLogoUrls(journeyGroup),
+                ),
+              ),
+            )
+            .then((_) {
+              if (mounted) _refresh();
+            });
+      },
+      analyticsSource: source,
+    );
+    if (mounted) _refresh();
+  }
+
+  Future<void> _toggleBookmark(DiaryEntry entry) async {
+    if (_pendingBookmarkUuids.contains(entry.statUuid)) return;
+    final nextValue = !entry.isMarked;
+    setState(() => _pendingBookmarkUuids.add(entry.statUuid));
+
+    try {
+      await context.read<UserStatProvider>().updateUserStat(
+        statUuid: entry.statUuid,
+        isMarked: nextValue,
+      );
+      AnalyticsService.maybeInstance?.track(
+        'diary_bookmark_toggled',
+        properties: {'bookmarked': nextValue, 'source': 'card'},
+      );
+      final initiallyLoadedEntries = await _entriesFuture;
+      if (!mounted) return;
+      setState(() {
+        final loadedEntries = _entriesOverride ?? initiallyLoadedEntries;
+        _entriesOverride = [
+          for (final loadedEntry in loadedEntries)
+            if (loadedEntry.statUuid == entry.statUuid)
+              loadedEntry.copyWith(isMarked: nextValue)
+            else
+              loadedEntry,
+        ];
+        _pendingBookmarkUuids.remove(entry.statUuid);
+      });
+    } catch (error, stackTrace) {
+      AppLogger.error(
+        'Failed to update diary bookmark',
+        errorObject: error,
+        stackTrace: stackTrace,
+      );
+      if (mounted) {
+        setState(() => _pendingBookmarkUuids.remove(entry.statUuid));
+      }
     }
   }
 
-  String getStrengthLabel(int position) {
-    final loc = AppLocalizations.of(context)!;
-    switch (position) {
-      case 0:
-        return loc.light;
-      case 1:
-        return loc.balance;
-      case 2:
-        return loc.strong;
-      default:
-        return loc.donationerr;
-    }
+  DateTime _localCivilDay(DateTime date) {
+    final local = date.toLocal();
+    return DateTime(local.year, local.month, local.day);
   }
 
-  void toggleEditMode() {
+  bool _isOnLocalDay(DiaryEntry entry, DateTime day) =>
+      _localCivilDay(entry.createdAt) == _localCivilDay(day);
+
+  void _scrollToDay(
+    DateTime day,
+    List<DiaryEntry> entries,
+    List<DiaryEntry> filteredEntries,
+  ) {
+    final normalizedDay = _localCivilDay(day);
+    final hasRenderedTarget = filteredEntries.any(
+      (entry) => _isOnLocalDay(entry, normalizedDay),
+    );
+    if (hasRenderedTarget) {
+      _queueTimelineDayNavigation(normalizedDay);
+      return;
+    }
+
+    final hasDiaryTarget = entries.any(
+      (entry) => _isOnLocalDay(entry, normalizedDay),
+    );
+    if (!hasDiaryTarget || !_hasAnyFilter) return;
+
+    _searchController.clear();
     setState(() {
-      isEditMode = !isEditMode;
+      _resetFilters();
+      _pendingNavigation = _PendingDayNavigation(normalizedDay);
+    });
+    _showFeedback(AppLocalizations.of(context)!.diaryFiltersClearedForDay);
+  }
+
+  void _queueTimelineDayNavigation(DateTime day) {
+    if (_navigationScheduled) return;
+    setState(() {
+      _pendingNavigation = _PendingDayNavigation(_localCivilDay(day));
     });
   }
 
-  /// Illustrated empty-state for a diary with no entries. Shown both when the
-  /// query returns an empty list and when it returns no data at all.
-  Widget _buildEmptyCharm(BuildContext context, {required String semanticsId}) {
+  void _schedulePendingNavigation(
+    List<DiaryEntry> entries,
+    List<_TimelineItem> timelineItems,
+  ) {
+    final pending = _pendingNavigation;
+    if (pending == null || _navigationScheduled) return;
+    if (pending is _PendingEntryNavigation &&
+        pending.openDetails &&
+        (_initialDeepLinkHandled || _initialDeepLinkTerminal)) {
+      return;
+    }
+
+    DiaryEntry? entryTarget;
+    late final int targetIndex;
+    late final double alignment;
+    switch (pending) {
+      case _PendingEntryNavigation(:final statUuid, :final openDetails):
+        entryTarget = entries
+            .where((entry) => entry.statUuid == statUuid)
+            .firstOrNull;
+        if (entryTarget == null) {
+          _pendingNavigation = null;
+          if (openDetails) _markInitialDeepLinkMissing();
+          return;
+        }
+        targetIndex = timelineItems.indexWhere(
+          (item) => switch (item) {
+            _EntryItem(:final entry) => entry.statUuid == statUuid,
+            _ => false,
+          },
+        );
+        alignment = 0.1;
+      case _PendingDayNavigation(:final day):
+        targetIndex = timelineItems.indexWhere(
+          (item) => switch (item) {
+            _DateHeaderItem(day: final headerDay) => headerDay == day,
+            _ => false,
+          },
+        );
+        alignment = 0;
+    }
+    if (targetIndex < 0) {
+      _pendingNavigation = null;
+      return;
+    }
+
+    _navigationScheduled = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!mounted) return;
+      if (!_itemScrollController.isAttached) {
+        _navigationScheduled = false;
+        setState(() {});
+        return;
+      }
+
+      final scroll = _itemScrollController.scrollTo(
+        index: targetIndex,
+        duration: const Duration(milliseconds: 350),
+        curve: Curves.easeOut,
+        alignment: alignment,
+      );
+      if (identical(_pendingNavigation, pending)) {
+        _pendingNavigation = null;
+      }
+      final opensDetails = switch (pending) {
+        _PendingEntryNavigation(:final openDetails) => openDetails,
+        _PendingDayNavigation() => false,
+      };
+      if (opensDetails) _initialDeepLinkHandled = true;
+      _navigationScheduled = false;
+      await scroll;
+      if (mounted && opensDetails && entryTarget != null) {
+        // The only path that sets `opensDetails` is the initial
+        // `widget.initialExpandedStatUuid` deep link (see initState).
+        await _openDetails(entryTarget, source: 'deep_link');
+      }
+    });
+  }
+
+  Future<void> _scrollBackToCalendar() async {
+    if (_navigationScheduled || !_itemScrollController.isAttached) return;
+    setState(() => _navigationScheduled = true);
+    await _itemScrollController.scrollTo(
+      index: 0,
+      duration: const Duration(milliseconds: 350),
+      curve: Curves.easeOut,
+      alignment: 0,
+    );
+    if (mounted) setState(() => _navigationScheduled = false);
+  }
+
+  void _markInitialDeepLinkMissing() {
+    if (_initialDeepLinkHandled || _initialDeepLinkTerminal) return;
+    _initialDeepLinkTerminal = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _showFeedback(AppLocalizations.of(context)!.diaryBrewNotFound);
+    });
+  }
+
+  void _showFeedback(String message) {
+    final messenger = ScaffoldMessenger.of(context);
+    messenger
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  Widget _buildEmptyCharm(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     return Center(
       child: Semantics(
-        identifier: semanticsId,
+        identifier: 'brewDiaryEmpty',
         label: loc.mts_emptyDiaryTitle,
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.lg),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
                 Icons.local_cafe_outlined,
-                size: 64,
+                size: AppIconSize.large,
                 color: theme.colorScheme.primary,
               ),
               const SizedBox(height: AppSpacing.base),
               Text(
                 loc.mts_emptyDiaryTitle,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
-                ),
+                style: AppTextStyles.sectionHeader,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: AppSpacing.base),
@@ -120,1033 +445,766 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
     );
   }
 
-  Widget _buildGroupedList(List<UserStatsModel> stats) {
-    final loc = AppLocalizations.of(context)!;
-    final fmtSvc = Provider.of<DateTimeFormatService>(context);
+  bool get _hasAnyFilter =>
+      _search.isNotEmpty ||
+      _selectedMethodIds.isNotEmpty ||
+      _selectedBeanUuids.isNotEmpty ||
+      _selectedOrigins.isNotEmpty ||
+      _selectedTags.isNotEmpty ||
+      _ratingThreshold != null ||
+      _hasNotes ||
+      _hasExtractionYield ||
+      _ratingFourPlus ||
+      _bookmarkedOnly;
 
-    // Group stats by date
-    Map<String, List<UserStatsModel>> groupedStats = {};
-    final activeDatePattern = fmtSvc.datePattern(loc.dateFormat);
-    DateFormat dateFormat = DateFormat(
-      activeDatePattern,
-      Localizations.localeOf(context).toString(),
-    );
+  void _clearFilters(List<DiaryEntry> entries) {
+    _searchController.clear();
+    setState(_resetFilters);
+    _reportFiltersChanged('clear', entries);
+  }
 
-    for (var stat in stats) {
-      String dateKey = dateFormat.format(stat.createdAt.toLocal());
-      if (!groupedStats.containsKey(dateKey)) {
-        groupedStats[dateKey] = [];
-      }
-      groupedStats[dateKey]!.add(stat);
-    }
+  void _resetFilters() {
+    _search = '';
+    _selectedMethodIds = {};
+    _selectedBeanUuids = {};
+    _selectedOrigins = {};
+    _selectedTags = {};
+    _ratingThreshold = null;
+    _hasNotes = false;
+    _hasExtractionYield = false;
+    _ratingFourPlus = false;
+    _bookmarkedOnly = false;
+  }
 
-    // Sort dates in descending order (newest first)
-    List<String> sortedDates = groupedStats.keys.toList();
-    sortedDates.sort((a, b) {
-      DateTime dateA = DateFormat(
-        activeDatePattern,
-        Localizations.localeOf(context).toString(),
-      ).parse(a);
-      DateTime dateB = DateFormat(
-        activeDatePattern,
-        Localizations.localeOf(context).toString(),
-      ).parse(b);
-      return dateB.compareTo(dateA); // Descending order
-    });
+  List<DiaryEntry> _filteredEntries(List<DiaryEntry> entries) {
+    final search = _search.trim().toLowerCase();
+    final effectiveRating = _ratingFourPlus
+        ? (_ratingThreshold == null || _ratingThreshold! < 4
+              ? 4.0
+              : _ratingThreshold)
+        : _ratingThreshold;
+    return entries.where((entry) {
+      final matchesMethod =
+          _selectedMethodIds.isEmpty ||
+          _selectedMethodIds.contains(entry.brewingMethodId);
+      final matchesBean =
+          _selectedBeanUuids.isEmpty ||
+          (entry.coffeeBeansUuid != null &&
+              _selectedBeanUuids.contains(entry.coffeeBeansUuid));
+      final matchesOrigin =
+          _selectedOrigins.isEmpty ||
+          (entry.origin != null &&
+              _selectedOrigins.contains(entry.origin!.trim()));
+      final matchesTags =
+          _selectedTags.isEmpty || entry.tagList.any(_selectedTags.contains);
+      final matchesRating =
+          effectiveRating == null ||
+          (entry.rating != null && entry.rating! >= effectiveRating);
+      final matchesNotes =
+          !_hasNotes || (entry.notes?.trim().isNotEmpty ?? false);
+      final matchesExtraction =
+          !_hasExtractionYield || entry.extractionYieldPercent != null;
+      final matchesBookmark = !_bookmarkedOnly || entry.isMarked;
+      final matchesSearch =
+          search.isEmpty ||
+          [entry.recipeName, entry.beanName, entry.roaster, entry.notes]
+              .whereType<String>()
+              .any((value) => value.toLowerCase().contains(search));
+      return matchesMethod &&
+          matchesBean &&
+          matchesOrigin &&
+          matchesTags &&
+          matchesRating &&
+          matchesNotes &&
+          matchesExtraction &&
+          matchesBookmark &&
+          matchesSearch;
+    }).toList();
+  }
 
-    if (widget.initialExpandedStatUuid != null && !_scrollScheduled) {
-      _scrollScheduled = true;
-      _scheduleScrollToTarget(groupedStats, sortedDates);
-    }
-
-    return ListView.builder(
-      controller: _scrollController,
-      padding: const EdgeInsets.all(16.0),
-      itemCount: _calculateTotalItems(groupedStats, sortedDates),
-      itemBuilder: (context, index) {
-        return _buildListItem(groupedStats, sortedDates, index);
+  /// Single chokepoint for `diary_filters_changed`. `entries` should be the
+  /// same unfiltered list the caller used to build the currently-visible
+  /// timeline, so `result_count` matches what the UI renders; pass null
+  /// (sends `result_count: -1`) only when entries genuinely aren't loaded.
+  void _reportFiltersChanged(String source, List<DiaryEntry>? entries) {
+    final resultCount = entries == null ? -1 : _filteredEntries(entries).length;
+    AnalyticsService.maybeInstance?.track(
+      'diary_filters_changed',
+      properties: {
+        'source': source,
+        'methods': _selectedMethodIds.length,
+        'beans': _selectedBeanUuids.length,
+        'origins': _selectedOrigins.length,
+        'tags': _selectedTags.length,
+        'rating_threshold': _ratingThreshold,
+        'has_notes': _hasNotes,
+        'has_extraction': _hasExtractionYield,
+        'bookmarked': _bookmarkedOnly,
+        'rating_four_plus': _ratingFourPlus,
+        'result_count': resultCount,
       },
     );
   }
 
-  // Date separator height (vertical padding 32 + text row ~24)
-  static const double _separatorHeight = 56.0;
-  // Collapsed card height (ListTile + subtitle + Card borders) + bottom padding
-  static const double _cardHeight = 124.0;
-  // ListView top padding
-  static const double _listPadding = 16.0;
+  /// Debounced ~1s after the search query settles. Skips empty queries and
+  /// consecutive duplicates (this screen session); skips entirely if
+  /// entries haven't loaded yet rather than sending an unreliable count.
+  void _reportSearchUsed(String rawValue) {
+    final trimmed = rawValue.trim();
+    if (trimmed.isEmpty || trimmed == _lastReportedSearchQuery) return;
+    final entries = _lastKnownEntries;
+    if (entries == null) return;
+    _lastReportedSearchQuery = trimmed;
+    AnalyticsService.maybeInstance?.track(
+      'diary_search_used',
+      properties: {
+        'query_length': trimmed.length,
+        'result_count': _filteredEntries(entries).length,
+      },
+    );
+  }
 
-  void _scheduleScrollToTarget(
-    Map<String, List<UserStatsModel>> groupedStats,
-    List<String> sortedDates,
-  ) {
-    final targetUuid = widget.initialExpandedStatUuid!;
-    double offset = _listPadding;
-    bool found = false;
-
-    for (final date in sortedDates) {
-      offset += _separatorHeight;
-      for (final stat in groupedStats[date]!) {
-        if (stat.statUuid == targetUuid) {
-          found = true;
-          break;
-        }
-        offset += _cardHeight;
-      }
-      if (found) break;
-    }
-
-    if (!found) return;
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted || !_scrollController.hasClients) return;
-      // Jump to estimated position so ListView.builder builds the target item.
-      _scrollController.jumpTo(
-        offset.clamp(0.0, _scrollController.position.maxScrollExtent),
-      );
-      // Second frame: the target item is now built — scroll precisely to it.
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) return;
-        final ctx = _targetKey.currentContext;
-        if (ctx != null) {
-          Scrollable.ensureVisible(
-            ctx,
-            duration: const Duration(milliseconds: 350),
-            curve: Curves.easeOut,
-            alignment: 0.1,
-          );
-        }
-      });
+  void _handleSearchChanged(String value) {
+    setState(() => _search = value);
+    _searchDebounceTimer?.cancel();
+    _searchDebounceTimer = Timer(const Duration(seconds: 1), () {
+      if (!mounted) return;
+      _reportSearchUsed(value);
     });
   }
 
-  int _calculateTotalItems(
-    Map<String, List<UserStatsModel>> groupedStats,
-    List<String> sortedDates,
-  ) {
-    int totalItems = 0;
-    for (String date in sortedDates) {
-      totalItems += 1; // Date separator
-      totalItems += groupedStats[date]!.length; // Cards for that date
-    }
-    return totalItems;
+  Future<void> _openFilters(List<DiaryEntry> entries) async {
+    final selection = await showDiaryFilterSheet(
+      context,
+      entries: entries,
+      initialSelection: DiaryFilterSelection(
+        methodIds: _selectedMethodIds,
+        beanUuids: _selectedBeanUuids,
+        origins: _selectedOrigins,
+        tags: _selectedTags,
+        ratingThreshold: _ratingThreshold,
+        hasNotes: _hasNotes,
+        hasExtractionYield: _hasExtractionYield,
+      ),
+    );
+    if (selection == null || !mounted) return;
+    setState(() {
+      _selectedMethodIds = {...selection.methodIds};
+      _selectedBeanUuids = {...selection.beanUuids};
+      _selectedOrigins = {...selection.origins};
+      _selectedTags = {...selection.tags};
+      _ratingThreshold = selection.ratingThreshold;
+      _hasNotes = selection.hasNotes;
+      _hasExtractionYield = selection.hasExtractionYield;
+    });
+    _reportFiltersChanged('sheet', entries);
   }
 
-  Widget _buildListItem(
-    Map<String, List<UserStatsModel>> groupedStats,
-    List<String> sortedDates,
-    int index,
-  ) {
-    int currentIndex = 0;
-
-    for (String date in sortedDates) {
-      // Check if this index is the date separator
-      if (currentIndex == index) {
-        return _buildDateSeparator(date);
-      }
-      currentIndex++;
-
-      // Check if this index is one of the cards for this date
-      List<UserStatsModel> statsForDate = groupedStats[date]!;
-      for (int i = 0; i < statsForDate.length; i++) {
-        if (currentIndex == index) {
-          final card = buildUserStatCard(context, statsForDate[i]);
-          final isTarget =
-              statsForDate[i].statUuid == widget.initialExpandedStatUuid;
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 16.0),
-            child: isTarget ? KeyedSubtree(key: _targetKey, child: card) : card,
-          );
-        }
-        currentIndex++;
-      }
-    }
-
-    // Fallback (should not happen)
-    return const SizedBox.shrink();
-  }
-
-  Widget _buildDateSeparator(String date) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: Row(
-        children: [
-          const Expanded(child: Divider(thickness: 1, color: Colors.grey)),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(
-              date,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            ),
+  Widget _buildNoMatches(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+    return Center(
+      child: Semantics(
+        identifier: 'brewDiaryNoMatches',
+        label: loc.diaryNoMatches,
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.lg),
+          child: Text(
+            loc.diaryNoMatches,
+            style: AppTextStyles.body,
+            textAlign: TextAlign.center,
           ),
-          const Expanded(child: Divider(thickness: 1, color: Colors.grey)),
-        ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoadError(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+    return Center(
+      child: Semantics(
+        identifier: 'brewDiaryLoadError',
+        label: loc.diaryLoadError,
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.lg),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                loc.diaryLoadError,
+                style: AppTextStyles.body,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: AppSpacing.base),
+              AppTextButton(label: loc.retry, onPressed: _refresh),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  List<_TimelineItem> _buildTimelineItems({
+    required List<DiaryEntry> entries,
+    required List<DiaryEntry> filteredEntries,
+    required DateFormat dateFormat,
+    required DateTime now,
+  }) {
+    final items = <_TimelineItem>[const _MonthStripItem()];
+    final memories = onThisDay(entries, now);
+    if (memories.isNotEmpty) items.add(_MemoryItem(memories.first));
+    if (filteredEntries.isEmpty) {
+      items.add(const _NoMatchesItem());
+      return items;
+    }
+
+    DateTime? previousDay;
+    final currentWeekStart = diaryWeekStart(now);
+    var weekStartIndex = 0;
+    while (weekStartIndex < filteredEntries.length) {
+      final weekStart = diaryWeekStart(
+        filteredEntries[weekStartIndex].createdAt,
+      );
+      var weekEndIndex = weekStartIndex + 1;
+      while (weekEndIndex < filteredEntries.length &&
+          diaryWeekStart(filteredEntries[weekEndIndex].createdAt) ==
+              weekStart) {
+        weekEndIndex++;
+      }
+      final digest = buildWeekDigest(
+        filteredEntries.sublist(weekStartIndex, weekEndIndex),
+      );
+      if (digest != null && weekStart != currentWeekStart) {
+        items.add(_WeekDigestItem(digest));
+      }
+
+      for (final entry in filteredEntries.sublist(
+        weekStartIndex,
+        weekEndIndex,
+      )) {
+        final day = _localCivilDay(entry.createdAt);
+        if (day != previousDay) {
+          items.add(
+            _DateHeaderItem(
+              day: day,
+              label: dateFormat.format(entry.createdAt.toLocal()),
+            ),
+          );
+          previousDay = day;
+        }
+        items.add(_EntryItem(entry));
+      }
+      weekStartIndex = weekEndIndex;
+    }
+    return items;
+  }
+
+  Widget _buildMemoryCard(
+    BuildContext context,
+    DiaryEntry entry,
+    DateTime now,
+  ) {
+    final loc = AppLocalizations.of(context)!;
+    final years = now.toLocal().year - entry.createdAt.toLocal().year;
+    return Padding(
+      padding: const EdgeInsets.only(top: AppSpacing.base),
+      child: Semantics(
+        button: true,
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () => _openDetails(entry, source: 'card'),
+          child: SectionCard(
+            title: loc.diaryOnThisDayTitle(years),
+            subtitle: loc.diaryOnThisDaySubtitle(
+              entry.beanName ?? entry.recipeName,
+              entry.methodName,
+            ),
+            icon: Icons.history,
+            isCollapsible: false,
+            showDivider: false,
+            paddingChild: false,
+            child: const SizedBox.shrink(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWeekDigestCard(
+    BuildContext context,
+    DiaryWeekDigest digest,
+    DateFormat dateFormat,
+  ) {
+    final loc = AppLocalizations.of(context)!;
+    final summary = <String>[loc.diaryMonthBrews(digest.brewCount)];
+    if (digest.topMethodName != null) summary.add(digest.topMethodName!);
+    if (digest.bestCup case final bestCup?) {
+      summary.add(
+        loc.diaryWeekBest(bestCup.label, bestCup.rating.toStringAsFixed(1)),
+      );
+    }
+    final dialIn = digest.dialIn;
+    final weekEnd = digest.weekStart.add(const Duration(days: 6));
+    void openStats() {
+      context.router.push(
+        StatsRoute(
+          initialStartDate: _civilDateParameter(digest.weekStart),
+          initialEndDate: _civilDateParameter(weekEnd),
+        ),
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(top: AppSpacing.base),
+      child: Semantics(
+        button: true,
+        onTap: openStats,
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: openStats,
+          child: SectionCard(
+            title: loc.diaryWeekOf(dateFormat.format(digest.weekStart)),
+            subtitle: summary.join(' · '),
+            icon: Icons.auto_awesome,
+            trailing: const Icon(Icons.chevron_right, size: AppIconSize.medium),
+            isCollapsible: false,
+            showDivider: false,
+            paddingChild: false,
+            semanticIdentifier: 'diaryWeekDigest',
+            child: dialIn == null
+                ? const SizedBox.shrink()
+                : Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                      AppSpacing.cardPadding,
+                      0,
+                      AppSpacing.cardPadding,
+                      AppSpacing.cardPadding,
+                    ),
+                    child: Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: Text(
+                        loc.diaryDialedIn(dialIn.beanName, dialIn.methodName),
+                        style: AppTextStyles.body,
+                      ),
+                    ),
+                  ),
+          ),
+        ),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final userStatProvider = Provider.of<UserStatProvider>(context);
     final loc = AppLocalizations.of(context)!;
-
-    final initialUuid = widget.initialExpandedStatUuid;
-    return ChangeNotifierProvider(
-      create: (_) {
-        final notifier = CardExpansionNotifier();
-        if (initialUuid != null) {
-          notifier.setExpansion(initialUuid, true);
-        }
-        return notifier;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          leading: Semantics(
-            identifier: 'brewDiaryBackButton',
-            child: const SmartBackButton(),
-          ),
-          title: Semantics(
-            identifier: 'brewDiaryAppBar',
-            label: loc.brewdiary,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.library_books),
-                const SizedBox(width: 8),
-                Text(loc.brewdiary),
-              ],
-            ),
-          ),
-          actions: [
-            if (!isEditMode)
-              Semantics(
-                identifier: 'addBrewEntryButton',
-                child: IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: () async {
-                    final result = await context.router.push(
-                      const ManualBrewEntryRoute(),
-                    );
-                    if (result == true) {
-                      setState(() {});
-                    }
-                  },
-                ),
-              ),
-            Semantics(
-              identifier: 'toggleEditModeButton',
-              child: IconButton(
-                icon: Icon(isEditMode ? Icons.done : Icons.edit_note),
-                onPressed: toggleEditMode,
-              ),
-            ),
-          ],
-        ),
-        body: GestureDetector(
-          onTap: () {
-            FocusScope.of(context).unfocus();
-          },
-          child: FutureBuilder<List<UserStatsModel>>(
-            future: userStatProvider.fetchAllUserStats(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Center(
-                  child: Semantics(
-                    identifier: 'brewDiaryError',
-                    label: 'Error',
-                    child: Text("Error: ${snapshot.error}"),
-                  ),
-                );
-              } else if (snapshot.hasData && snapshot.data!.isEmpty) {
-                return _buildEmptyCharm(context, semanticsId: 'brewDiaryEmpty');
-              } else if (snapshot.hasData) {
-                return _buildGroupedList(snapshot.data!);
-              } else {
-                return _buildEmptyCharm(
-                  context,
-                  semanticsId: 'brewDiaryEmptyFallback',
-                );
-              }
-            },
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget buildUserStatCard(BuildContext context, UserStatsModel stat) {
-    final loc = AppLocalizations.of(context)!;
-    final recipeProvider = Provider.of<RecipeProvider>(context);
-    final userStatProvider = Provider.of<UserStatProvider>(context);
-    final fmtSvc = Provider.of<DateTimeFormatService>(context);
-    final is24h = fmtSvc.use24Hour(
-      MediaQuery.of(context).alwaysUse24HourFormat,
-    );
-    final timePattern = is24h ? 'HH:mm' : 'hh:mm a';
-    DateFormat dateFormat = DateFormat(
-      '${fmtSvc.datePattern(loc.dateFormat)} $timePattern',
+    final fmtSvc = context.watch<DateTimeFormatService>();
+    final dateFormat = DateFormat(
+      fmtSvc.datePattern(loc.dateFormat),
       Localizations.localeOf(context).toString(),
     );
 
-    return FutureBuilder<List<String>>(
-      future: Future.wait([
-        recipeProvider.getBrewingMethodName(stat.brewingMethodId),
-        recipeProvider.getLocalizedRecipeName(stat.recipeId),
-      ]),
-      builder: (context, namesSnapshot) {
-        if (namesSnapshot.hasData) {
-          return Semantics(
-            key: ValueKey(stat.statUuid),
-            identifier: 'userStatCard_${stat.statUuid}',
-            label: '${namesSnapshot.data![1]}, ${namesSnapshot.data![0]}',
-            child: Consumer<CardExpansionNotifier>(
-              builder: (context, notifier, _) {
-                bool isExpanded = notifier.isExpanded(stat.statUuid);
-                return ExpandableCard(
-                  key: ValueKey(stat.statUuid),
-                  leading: getIconByBrewingMethod(stat.brewingMethodId),
-                  header: namesSnapshot.data![1],
-                  headerStyle: const TextStyle(fontWeight: FontWeight.bold),
-                  subtitle: "", // We'll use a custom subtitle in the ListTile
-                  subtitleWidget: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(namesSnapshot.data![0]),
-                      const SizedBox(height: 8),
-                      Text(dateFormat.format(stat.createdAt.toLocal())),
-                    ],
-                  ),
-                  detail: buildDetail(context, stat),
-                  trailing: isEditMode
-                      ? Semantics(
-                          identifier: 'deleteUserStatButton_${stat.statUuid}',
-                          child: IconButton(
-                            icon: const Icon(
-                              Icons.remove_circle_outline,
-                              color: Colors.red,
-                            ),
-                            onPressed: () async {
-                              final confirmed = await showDialog<bool>(
-                                context: context,
-                                builder: (context) => ConfirmDeleteDialog(
-                                  title: AppLocalizations.of(
-                                    context,
-                                  )!.confirmDeleteTitle,
-                                  content: AppLocalizations.of(
-                                    context,
-                                  )!.confirmDeleteMessage,
-                                  confirmLabel: AppLocalizations.of(
-                                    context,
-                                  )!.delete,
-                                  cancelLabel: AppLocalizations.of(
-                                    context,
-                                  )!.cancel,
-                                ),
-                              );
-                              if (confirmed == true) {
-                                await userStatProvider.deleteUserStat(
-                                  stat.statUuid,
-                                );
-                                notifier.setExpansion(stat.statUuid, false);
-                              }
-                            },
-                          ),
-                        )
-                      : Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            if (stat.rating != null)
-                              Text(
-                                '★ ${stat.rating!.toStringAsFixed(1)}',
-                                style: Theme.of(context).textTheme.bodySmall
-                                    ?.copyWith(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.primary,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                              ),
-                            Semantics(
-                              identifier: 'markBrewButton_${stat.statUuid}',
-                              child: IconButton(
-                                icon: Icon(
-                                  stat.isMarked
-                                      ? Icons.bookmark
-                                      : Icons.bookmark_border,
-                                  color: stat.isMarked
-                                      ? Theme.of(context).colorScheme.primary
-                                      : null,
-                                ),
-                                iconSize: AppIconSize.medium,
-                                padding: EdgeInsets.zero,
-                                constraints: const BoxConstraints(),
-                                onPressed: () =>
-                                    userStatProvider.updateUserStat(
-                                      statUuid: stat.statUuid,
-                                      isMarked: !stat.isMarked,
-                                    ),
-                              ),
-                            ),
-                          ],
-                        ),
-                  isExpanded: isExpanded,
-                  onExpansionChanged: (bool expanded) {
-                    notifier.setExpansion(stat.statUuid, expanded);
-                  },
+    return Scaffold(
+      appBar: AppBar(
+        leading: Semantics(
+          identifier: 'brewDiaryBackButton',
+          child: SmartBackButton(),
+        ),
+        title: Semantics(
+          identifier: 'brewDiaryAppBar',
+          label: loc.brewdiary,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.library_books, size: AppIconSize.medium),
+              const SizedBox(width: AppSpacing.sm),
+              Text(loc.brewdiary),
+            ],
+          ),
+        ),
+        actions: [
+          Semantics(
+            identifier: 'addBrewEntryButton',
+            child: IconButton(
+              icon: const Icon(Icons.add),
+              onPressed: () async {
+                final result = await context.router.push(
+                  const ManualBrewEntryRoute(),
                 );
+                if (result == true && mounted) _refresh();
               },
             ),
+          ),
+        ],
+      ),
+      body: FutureBuilder<List<DiaryEntry>>(
+        future: _entriesFuture,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return _buildLoadError(context);
+          }
+          final entries = _entriesOverride ?? snapshot.data;
+          if (entries == null) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          _lastKnownEntries = entries;
+          if (entries.isEmpty) {
+            if (_pendingNavigation case _PendingEntryNavigation(
+              openDetails: true,
+            )) {
+              _pendingNavigation = null;
+              _markInitialDeepLinkMissing();
+            }
+            return _buildEmptyCharm(context);
+          }
+          final monthBounds = DiaryMonthBounds.fromEntries(entries);
+          final displayedMonth = monthBounds.clamp(
+            _displayedMonth ?? monthBounds.currentMonth,
           );
-        } else if (namesSnapshot.connectionState == ConnectionState.waiting) {
-          return Semantics(
-            identifier: 'brewDiaryCardLoading_${stat.statUuid}',
-            label: 'Loading User Stat Card',
-            child: const Card(child: ListTile(title: Text("Loading..."))),
+          _displayedMonth = displayedMonth;
+          final filteredEntries = _filteredEntries(entries);
+
+          final is24h = fmtSvc.use24Hour(
+            MediaQuery.of(context).alwaysUse24HourFormat,
           );
-        } else {
-          return Semantics(
-            identifier: 'brewDiaryCardError_${stat.statUuid}',
-            label: 'Error Loading User Stat Card',
-            child: const Card(
-              child: ListTile(title: Text("Error fetching records")),
-            ),
+          final timeFormat = DateFormat(
+            is24h ? 'HH:mm' : 'hh:mm a',
+            Localizations.localeOf(context).toString(),
           );
-        }
-      },
-    );
-  }
+          final now = DateTime.now();
+          final timelineItems = _buildTimelineItems(
+            entries: entries,
+            filteredEntries: filteredEntries,
+            dateFormat: dateFormat,
+            now: now,
+          );
+          if (!_groupByBean) {
+            _schedulePendingNavigation(entries, timelineItems);
+          }
 
-  Widget buildDetail(BuildContext context, UserStatsModel stat) {
-    final loc = AppLocalizations.of(context)!;
-    TextStyle detailTextStyle = Theme.of(context).textTheme.titleMedium!;
-    TextStyle labelStyle = detailTextStyle.copyWith(
-      fontSize: 18,
-      fontWeight: FontWeight.bold,
-    );
-    TextStyle valueStyle = detailTextStyle.copyWith(fontSize: 18);
-    final userStatProvider = Provider.of<UserStatProvider>(context);
-    final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(context);
-    final databaseProvider = Provider.of<DatabaseProvider>(context);
-
-    TextEditingController notesController = TextEditingController(
-      text: stat.notes,
-    );
-    FocusNode notesFocusNode = FocusNode();
-
-    notesFocusNode.addListener(() {
-      if (!notesFocusNode.hasFocus) {
-        Provider.of<UserStatProvider>(
-          context,
-          listen: false,
-        ).updateUserStat(statUuid: stat.statUuid, notes: notesController.text);
-      }
-    });
-
-    return Semantics(
-      identifier: 'userStatDetail_${stat.statUuid}',
-      label: 'User Stat Details',
-      child: Padding(
-        padding: const EdgeInsets.all(
-          16.0,
-        ), // Increased padding for better spacing
-        child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.start, // Align children to start
-          children: [
-            // Coffee Amount
-            Semantics(
-              identifier: 'coffeeAmount_${stat.statUuid}',
-              label: '${loc.coffeeamount}: ${stat.coffeeAmount}',
-              child: Row(
-                children: [
-                  Text("${loc.coffeeamount}: ", style: labelStyle),
-                  Text(stat.coffeeAmount.toString(), style: valueStyle),
-                ],
+          return Column(
+            children: [
+              DiaryAxisControl(
+                groupedByBean: _groupByBean,
+                onTimelineSelected: () => setState(() => _groupByBean = false),
+                onBeansSelected: () => setState(() => _groupByBean = true),
               ),
-            ),
-            const SizedBox(height: 8), // Added spacing between elements
-            // Water Amount
-            Semantics(
-              identifier: 'waterAmount_${stat.statUuid}',
-              label: '${loc.wateramount}: ${stat.waterAmount}',
-              child: Row(
-                children: [
-                  Text("${loc.wateramount}: ", style: labelStyle),
-                  Text(stat.waterAmount.toString(), style: valueStyle),
-                ],
-              ),
-            ),
-            const SizedBox(height: 8),
-            // Grind Size
-            if (stat.grindSize != null && stat.grindSize!.isNotEmpty)
-              Semantics(
-                identifier: 'grindSize_${stat.statUuid}',
-                label: '${loc.grindsize}: ${stat.grindSize}',
-                child: Row(
-                  children: [
-                    Text("${loc.grindsize}: ", style: labelStyle),
-                    Text(stat.grindSize!, style: valueStyle),
-                  ],
-                ),
-              ),
-            if (stat.grindSize != null && stat.grindSize!.isNotEmpty)
-              const SizedBox(height: 8),
-            // Sweetness and Strength (if applicable)
-            if (stat.recipeId == '106')
-              Semantics(
-                identifier: 'sweetnessStrength_${stat.id}',
-                label:
-                    "${getSweeetnessLabel(stat.sweetnessSliderPosition)}, ${getStrengthLabel(stat.strengthSliderPosition)}",
-                child: Text(
-                  "${getSweeetnessLabel(stat.sweetnessSliderPosition)}, ${getStrengthLabel(stat.strengthSliderPosition)}",
-                  style: detailTextStyle,
-                  textAlign: TextAlign.start,
-                ),
-              ),
-            const SizedBox(height: 8),
-            // Extraction calculator result (if the user saved one for this brew)
-            if (stat.extractionYieldPercent != null)
-              Semantics(
-                identifier: 'extractionCalcDiaryLine_${stat.statUuid}',
-                label: stat.tdsPercent != null
-                    ? loc.extractionCalcDiaryLine(
-                        stat.extractionYieldPercent!.toStringAsFixed(1),
-                        stat.tdsPercent!.toStringAsFixed(2),
-                      )
-                    : '${loc.extractionCalcResultLabel}: '
-                          '${stat.extractionYieldPercent!.toStringAsFixed(1)}%',
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Text(
-                    stat.tdsPercent != null
-                        ? loc.extractionCalcDiaryLine(
-                            stat.extractionYieldPercent!.toStringAsFixed(1),
-                            stat.tdsPercent!.toStringAsFixed(2),
-                          )
-                        : '${loc.extractionCalcResultLabel}: '
-                              '${stat.extractionYieldPercent!.toStringAsFixed(1)}%',
-                    style: AppTextStyles.caption.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
+              if (!_groupByBean)
+                FutureBuilder<List<TopDiaryMethod>>(
+                  future: _topMethodsFuture,
+                  builder: (context, methodsSnapshot) => DiaryFilterBar(
+                    searchController: _searchController,
+                    topMethods: methodsSnapshot.data ?? const [],
+                    selectedMethodIds: _selectedMethodIds,
+                    selectedTags: _selectedTags,
+                    ratingFourPlus: _ratingFourPlus,
+                    bookmarkedOnly: _bookmarkedOnly,
+                    hasAnyFilter: _hasAnyFilter,
+                    onSearchChanged: _handleSearchChanged,
+                    onOpenFilters: () => _openFilters(entries),
+                    onClearAll: () => _clearFilters(entries),
+                    onRatingFourPlusChanged: (value) {
+                      setState(() => _ratingFourPlus = value);
+                      _reportFiltersChanged('chip', entries);
+                    },
+                    onBookmarkedChanged: (value) {
+                      setState(() => _bookmarkedOnly = value);
+                      _reportFiltersChanged('chip', entries);
+                    },
+                    onMethodChanged: (methodId, selected) {
+                      setState(() {
+                        selected
+                            ? _selectedMethodIds.add(methodId)
+                            : _selectedMethodIds.remove(methodId);
+                      });
+                      _reportFiltersChanged('chip', entries);
+                    },
+                    onTagRemoved: (tag) {
+                      setState(() => _selectedTags.remove(tag));
+                      _reportFiltersChanged('chip', entries);
+                    },
                   ),
                 ),
-              ),
-            // Calculate extraction action — always available, independent of
-            // whether a result has been saved yet.
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Semantics(
-                identifier: 'calculateExtractionButton_${stat.statUuid}',
-                label: 'Calculate Extraction Button',
-                child: SizedBox(
-                  height: 56,
-                  child: AppElevatedButton(
-                    label: loc.extractionCalcDiaryAction,
-                    icon: Icons.calculate_outlined,
-                    onPressed: () => context.router.push(
-                      ExtractionCalculatorRoute(statUuid: stat.statUuid),
-                    ),
-                    isFullWidth: false,
-                    height: 56,
-                    padding: AppButton.paddingSmall,
-                    backgroundColor: Theme.of(context).colorScheme.surface,
-                    foregroundColor: Theme.of(context).colorScheme.primary,
-                    elevation: 2,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 8),
-            // Divider
-            const Divider(thickness: 0.5, indent: 10, endIndent: 10),
-            const SizedBox(height: 8),
-            // Beans Section Title
-            if (stat.coffeeBeansUuid == null)
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8.0,
-                  horizontal: 16.0,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      loc.beans,
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    const SizedBox(width: 16),
-                    Semantics(
-                      identifier: 'selectBeansButton_${stat.statUuid}',
-                      label: 'Select Beans Button',
-                      child: SizedBox(
-                        height: 56,
-                        child: AppElevatedButton(
-                          label: loc.selectBeans,
-                          onPressed: () =>
-                              _openAddBeansPopup(context, stat.statUuid),
-                          isFullWidth: false,
-                          height: 56,
-                          padding: AppButton.paddingSmall,
-                          backgroundColor: Theme.of(
-                            context,
-                          ).colorScheme.surface,
-                          foregroundColor: Theme.of(
-                            context,
-                          ).colorScheme.primary,
-                          elevation: 2,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            else
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text(
-                  loc.beans,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-              ),
-            // Beans Details or Selection Button
-            if (stat.coffeeBeansUuid != null)
-              FutureBuilder<CoffeeBeansModel?>(
-                future: coffeeBeansProvider.fetchCoffeeBeansByUuid(
-                  stat.coffeeBeansUuid!,
-                ),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
-                  } else if (snapshot.hasData && snapshot.data != null) {
-                    final bean = snapshot.data!;
-                    return FutureBuilder<Map<String, String?>>(
-                      future: databaseProvider.fetchCachedRoasterLogoUrls(
-                        bean.roaster,
-                      ),
-                      builder: (context, logoSnapshot) {
-                        const double logoHeight = 80.0;
-                        const double maxWidthFactor = 2.0;
-
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Row with logo and details
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8.0,
-                                ),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    _buildRoasterLogoPlate(
-                                      context,
-                                      databaseProvider,
-                                      bean.roaster,
-                                      logoHeight,
-                                      maxWidthFactor,
-                                    ),
-                                    const SizedBox(width: 12),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                          left: 8.0,
-                                        ),
-                                        child: Table(
-                                          columnWidths: {
-                                            0: IntrinsicColumnWidth(),
-                                            1: FlexColumnWidth(),
-                                          },
-                                          defaultVerticalAlignment:
-                                              TableCellVerticalAlignment.top,
-                                          children: [
-                                            TableRow(
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                        right: 8.0,
-                                                      ),
-                                                  child: Text(
-                                                    '${loc.name}: ',
-                                                    style: labelStyle,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  bean.name,
-                                                  style: valueStyle,
-                                                ),
-                                              ],
-                                            ),
-                                            TableRow(
-                                              children: [
-                                                SizedBox(height: 8),
-                                                SizedBox(height: 8),
-                                              ],
-                                            ),
-                                            TableRow(
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                        right: 8.0,
-                                                      ),
-                                                  child: Text(
-                                                    '${loc.roaster}: ',
-                                                    style: labelStyle,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  bean.roaster,
-                                                  style: valueStyle,
-                                                ),
-                                              ],
-                                            ),
-                                            TableRow(
-                                              children: [
-                                                SizedBox(height: 8),
-                                                SizedBox(height: 8),
-                                              ],
-                                            ),
-                                            TableRow(
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                        right: 8.0,
-                                                      ),
-                                                  child: Text(
-                                                    '${loc.origin}: ',
-                                                    style: labelStyle,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  bean.origin,
-                                                  style: valueStyle,
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+              Expanded(
+                child: _groupByBean
+                    ? DiaryGroupList(
+                        groups: DiaryGroup.build(entries),
+                        logoUrlsForGroup: _groupLogoUrls,
+                        onGroupTap: (group) async {
+                          // The detail sheet only pops `true` on delete; edits
+                          // mutate silently, so reload unconditionally on
+                          // return — same contract as the timeline path.
+                          await Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => JourneyView(
+                                group: group,
+                                logoUrls: _groupLogoUrls(group),
                               ),
-                              const SizedBox(height: 16),
-                              // Keep bean actions on one row and scale down on narrow cards.
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8.0,
-                                ),
-                                child: SizedBox(
-                                  height: 56,
-                                  child: FittedBox(
-                                    fit: BoxFit.scaleDown,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        SizedBox(
-                                          height: 56,
-                                          child: AppElevatedButton(
-                                            label: loc.details,
-                                            onPressed: () {
-                                              context.router.push(
-                                                CoffeeBeansDetailRoute(
-                                                  uuid: bean.beansUuid,
-                                                ),
-                                              );
-                                            },
-                                            isFullWidth: false,
-                                            height: 56,
-                                            padding: AppButton.paddingSmall,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 8),
-                                        SizedBox(
-                                          height: 56,
-                                          child: AppTextButton(
-                                            label: loc.removeFromEntry,
-                                            onPressed: () async {
-                                              final scaffoldMessenger =
-                                                  ScaffoldMessenger.of(context);
-                                              AppLogger.debug(
-                                                'Remove beans button pressed for stat: ${stat.statUuid}',
-                                              );
-                                              AppLogger.debug(
-                                                'Current coffeeBeansUuid: ${stat.coffeeBeansUuid}',
-                                              );
-
-                                              // Add weight back to beans before removing the reference
-                                              if (stat.coffeeBeansUuid !=
-                                                  null) {
-                                                // Fetch bean data to get the bean name
-                                                final bean =
-                                                    await coffeeBeansProvider
-                                                        .fetchCoffeeBeansByUuid(
-                                                          stat.coffeeBeansUuid!,
-                                                        );
-                                                final beanName =
-                                                    bean?.name ??
-                                                    'Unknown beans';
-
-                                                final newWeight =
-                                                    await coffeeBeansProvider
-                                                        .updateBeanWeightAfterBrewModification(
-                                                          stat.coffeeBeansUuid!,
-                                                          stat.coffeeAmount,
-                                                        );
-
-                                                if (newWeight != null &&
-                                                    context.mounted) {
-                                                  scaffoldMessenger.showSnackBar(
-                                                    SnackBar(
-                                                      content: Text(
-                                                        loc.beansWeightAddedBack(
-                                                          stat.coffeeAmount
-                                                              .toString(),
-                                                          beanName,
-                                                          newWeight
-                                                              .toStringAsFixed(
-                                                                1,
-                                                              ),
-                                                          loc.unitGramsShort,
-                                                        ),
-                                                      ),
-                                                      duration: Duration(
-                                                        seconds: 2,
-                                                      ),
-                                                    ),
-                                                  );
-                                                }
-                                              }
-
-                                              await userStatProvider
-                                                  .updateUserStat(
-                                                    statUuid: stat.statUuid,
-                                                    clearBeans: true,
-                                                  );
-                                              AppLogger.debug(
-                                                'updateUserStat called',
-                                              );
-                                            },
-                                            isFullWidth: false,
-                                            height: 56,
-                                            padding: AppButton.paddingSmall,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                            ),
+                          );
+                          if (mounted) _refresh();
+                        },
+                      )
+                    : ScrollablePositionedList.builder(
+                        itemScrollController: _itemScrollController,
+                        itemPositionsListener: _itemPositionsListener,
+                        padding: const EdgeInsets.all(AppSpacing.base),
+                        itemCount: timelineItems.length,
+                        itemBuilder: (context, index) {
+                          return switch (timelineItems[index]) {
+                            _MonthStripItem() => MonthStrip(
+                              entries: entries,
+                              displayedMonth: displayedMonth,
+                              expanded: _monthStripExpanded,
+                              onDisplayedMonthChanged: (month) => setState(
+                                () =>
+                                    _displayedMonth = monthBounds.clamp(month),
+                              ),
+                              onExpandedChanged: (expanded) => setState(
+                                () => _monthStripExpanded = expanded,
+                              ),
+                              onDayTap: (day) =>
+                                  _scrollToDay(day, entries, filteredEntries),
+                            ),
+                            _MemoryItem(:final entry) => _buildMemoryCard(
+                              context,
+                              entry,
+                              now,
+                            ),
+                            _WeekDigestItem(:final digest) =>
+                              _buildWeekDigestCard(context, digest, dateFormat),
+                            _DateHeaderItem(:final day, :final label) =>
+                              Semantics(
+                                identifier: _dateHeaderIdentifier(day),
+                                header: true,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: AppSpacing.base,
+                                  ),
+                                  child: Text(
+                                    label,
+                                    style: AppTextStyles.sectionHeader,
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
-                        );
-                      },
-                    );
-                  } else {
-                    return const Center(child: Text('No beans found'));
-                  }
-                },
-              )
-            else
-              const SizedBox.shrink(),
-            const Divider(thickness: 0.5, indent: 10, endIndent: 10),
-            const SizedBox(height: 8),
-            // Notes Section
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8.0, top: 16.0),
-              child: Text(
-                loc.notes,
-                style: Theme.of(context).textTheme.titleLarge,
+                            _EntryItem(:final entry) => Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                BrewEntryCard(
+                                  entry: entry,
+                                  formattedTime: timeFormat.format(
+                                    entry.createdAt.toLocal(),
+                                  ),
+                                  logoUrls: _logoUrls(entry),
+                                  tasteLabels: [
+                                    loc.tasteSour,
+                                    loc.tasteBalanced,
+                                    loc.tasteBitter,
+                                  ],
+                                  onTap: () =>
+                                      _openDetails(entry, source: 'card'),
+                                  onBookmarkToggle: () =>
+                                      _toggleBookmark(entry),
+                                  bookmarkTogglePending: _pendingBookmarkUuids
+                                      .contains(entry.statUuid),
+                                ),
+                                const SizedBox(height: AppSpacing.base),
+                              ],
+                            ),
+                            _NoMatchesItem() => Padding(
+                              padding: const EdgeInsets.only(
+                                top: AppSpacing.xxl,
+                              ),
+                              child: _buildNoMatches(context),
+                            ),
+                          };
+                        },
+                      ),
               ),
-            ),
-            Semantics(
-              identifier: 'notesInputField_${stat.statUuid}',
-              label: 'Notes Input Field',
-              child: TextFormField(
-                initialValue: stat.notes,
-                maxLines: null,
-                keyboardType: TextInputType.multiline,
-                onChanged: (value) {
-                  // Debounce the updates to avoid too many calls
-                  Future.delayed(const Duration(milliseconds: 2000), () {
-                    userStatProvider.updateUserStat(
-                      statUuid: stat.statUuid,
-                      notes: value,
-                    );
-                  });
-                },
-              ),
-            ),
-          ],
-        ),
+            ],
+          );
+        },
       ),
+      floatingActionButton:
+          !_groupByBean &&
+              !_timelineTopVisible &&
+              !_navigationScheduled &&
+              _itemScrollController.isAttached
+          ? Semantics(
+              identifier: 'diaryBackToCalendarButton',
+              label: loc.diaryBackToCalendar,
+              button: true,
+              child: FloatingActionButton.small(
+                tooltip: loc.diaryBackToCalendar,
+                onPressed: _scrollBackToCalendar,
+                child: const Icon(Icons.arrow_upward),
+              ),
+            )
+          : null,
+    );
+  }
+}
+
+String _dateHeaderIdentifier(DateTime day) =>
+    'diaryDateHeader_${day.year.toString().padLeft(4, '0')}-'
+    '${day.month.toString().padLeft(2, '0')}-'
+    '${day.day.toString().padLeft(2, '0')}';
+
+String _civilDateParameter(DateTime day) =>
+    '${day.year.toString().padLeft(4, '0')}-'
+    '${day.month.toString().padLeft(2, '0')}-'
+    '${day.day.toString().padLeft(2, '0')}';
+
+sealed class _TimelineItem {
+  const _TimelineItem();
+}
+
+class _MonthStripItem extends _TimelineItem {
+  const _MonthStripItem();
+}
+
+class _MemoryItem extends _TimelineItem {
+  const _MemoryItem(this.entry);
+
+  final DiaryEntry entry;
+}
+
+class _WeekDigestItem extends _TimelineItem {
+  const _WeekDigestItem(this.digest);
+
+  final DiaryWeekDigest digest;
+}
+
+class _DateHeaderItem extends _TimelineItem {
+  const _DateHeaderItem({required this.day, required this.label});
+
+  final DateTime day;
+  final String label;
+}
+
+class _EntryItem extends _TimelineItem {
+  const _EntryItem(this.entry);
+
+  final DiaryEntry entry;
+}
+
+class _NoMatchesItem extends _TimelineItem {
+  const _NoMatchesItem();
+}
+
+sealed class _PendingTimelineNavigation {
+  const _PendingTimelineNavigation();
+}
+
+class _PendingEntryNavigation extends _PendingTimelineNavigation {
+  const _PendingEntryNavigation({
+    required this.statUuid,
+    required this.openDetails,
+  });
+
+  final String statUuid;
+  final bool openDetails;
+}
+
+class _PendingDayNavigation extends _PendingTimelineNavigation {
+  const _PendingDayNavigation(this.day);
+
+  final DateTime day;
+}
+
+class DiaryAxisControl extends StatefulWidget {
+  const DiaryAxisControl({
+    super.key,
+    required this.groupedByBean,
+    required this.onTimelineSelected,
+    required this.onBeansSelected,
+  });
+
+  final bool groupedByBean;
+  final VoidCallback onTimelineSelected;
+  final VoidCallback onBeansSelected;
+
+  @override
+  State<DiaryAxisControl> createState() => _DiaryAxisControlState();
+}
+
+class _DiaryAxisControlState extends State<DiaryAxisControl>
+    with SingleTickerProviderStateMixin {
+  late final TabController _controller;
+  // Tracked separately from `_controller.index`: TabBar's `onTap` fires even
+  // when the tapped tab is already selected (re-tap), and TabController
+  // already applied the (no-op) index change by the time `onTap` runs, so
+  // comparing against `_controller.index` there can't detect a no-op tap.
+  late int _lastReportedIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _lastReportedIndex = widget.groupedByBean ? 1 : 0;
+    _controller = TabController(
+      length: 2,
+      vsync: this,
+      initialIndex: widget.groupedByBean ? 1 : 0,
     );
   }
 
-  void _openAddBeansPopup(BuildContext context, String statUuid) {
+  @override
+  void didUpdateWidget(covariant DiaryAxisControl oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.groupedByBean != oldWidget.groupedByBean) {
+      _controller.index = widget.groupedByBean ? 1 : 0;
+      _lastReportedIndex = _controller.index;
+    }
+  }
+
+  void _handleTap(int index) {
+    if (index != _lastReportedIndex) {
+      _lastReportedIndex = index;
+      AnalyticsService.maybeInstance?.track(
+        'diary_axis_changed',
+        properties: {'axis': index == 1 ? 'by_bean' : 'timeline'},
+      );
+    }
+    index == 1 ? widget.onBeansSelected() : widget.onTimelineSelected();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
-    final userStatProvider = Provider.of<UserStatProvider>(
-      context,
-      listen: false,
-    );
-    final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
-      context,
-      listen: false,
-    );
-    final expansionNotifier = Provider.of<CardExpansionNotifier>(
-      context,
-      listen: false,
-    );
-    showDialog(
-      context: context,
-      builder: (dialogContext) {
-        return AddCoffeeBeansWidget(
-          onSelect: (String selectedBeanUuid) async {
-            // Get the current stat to know the coffee amount
-            final currentStat = await userStatProvider.fetchUserStatByUuid(
-              statUuid,
-            );
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
 
-            if (currentStat != null) {
-              // Subtract weight from the selected beans
-              final newWeight = await coffeeBeansProvider
-                  .updateBeanWeightWhenBeansAdded(
-                    selectedBeanUuid,
-                    currentStat.coffeeAmount,
-                  );
-
-              if (newWeight != null) {
-                // Fetch bean data to get the bean name
-                final bean = await coffeeBeansProvider.fetchCoffeeBeansByUuid(
-                  selectedBeanUuid,
-                );
-                final beanName = bean?.name ?? 'Unknown beans';
-
-                if (context.mounted) {
-                  scaffoldMessenger.showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        loc.beansWeightSubtracted(
-                          currentStat.coffeeAmount.toString(),
-                          beanName,
-                          newWeight.toStringAsFixed(1),
-                          loc.unitGramsShort,
-                        ),
-                      ),
-                      duration: Duration(seconds: 2),
-                    ),
-                  );
-                }
-              }
-            }
-
-            await userStatProvider.updateUserStat(
-              statUuid: statUuid,
-              coffeeBeansUuid: selectedBeanUuid,
-            );
-            expansionNotifier.addBean(statUuid);
-            if (dialogContext.mounted) {
-              Navigator.of(dialogContext).pop();
-            }
-          },
-        );
-      },
-    );
-  }
-
-  Widget _buildRoasterLogoPlate(
-    BuildContext context,
-    DatabaseProvider databaseProvider,
-    String roaster,
-    double logoHeight,
-    double maxWidthFactor,
-  ) {
-    return StatefulBuilder(
-      builder: (context, setState) {
-        bool isLogoHorizontal = false;
-
-        return FutureBuilder<Map<String, String?>>(
-          future: databaseProvider.fetchCachedRoasterLogoUrls(roaster),
-          builder: (context, snapshot) {
-            final originalUrl = snapshot.data?['original'];
-            final mirrorUrl = snapshot.data?['mirror'];
-            final hasLogo = originalUrl != null || mirrorUrl != null;
-
-            // Make plate responsive: square for square logos, wider for horizontal logos
-            final plateWidth = isLogoHorizontal
-                ? logoHeight * maxWidthFactor
-                : logoHeight;
-            final plateHeight = logoHeight;
-
-            return AnimatedContainer(
-              duration: const Duration(milliseconds: 160),
-              curve: Curves.easeOut,
-              width: plateWidth,
-              height: plateHeight,
-              decoration: BoxDecoration(
-                color: hasLogo
-                    ? (Theme.of(context).brightness == Brightness.light
-                          ? Colors.grey.shade400
-                          : Colors.grey.shade700)
-                    : Colors.transparent,
-                borderRadius: BorderRadius.circular(11),
-              ),
-              clipBehavior: Clip.hardEdge,
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 160),
-                transitionBuilder: (child, anim) => FadeTransition(
-                  opacity: anim,
-                  child: ScaleTransition(
-                    scale: Tween<double>(begin: 0.95, end: 1).animate(anim),
-                    child: child,
-                  ),
-                ),
-                child: hasLogo
-                    ? Padding(
-                        key: const ValueKey('logo'),
-                        padding: const EdgeInsets.all(4.0),
-                        child: RoasterLogo(
-                          originalUrl: originalUrl,
-                          mirrorUrl: mirrorUrl,
-                          height: logoHeight - 8, // Account for padding
-                          width: plateWidth - 8, // Account for padding
-                          borderRadius: 4,
-                          forceFit: BoxFit.contain,
-                          onAspectRatioDetermined: (isHorizontal) {
-                            if (isLogoHorizontal != isHorizontal) {
-                              setState(() {
-                                isLogoHorizontal = isHorizontal;
-                              });
-                            }
-                          },
-                        ),
-                      )
-                    : Padding(
-                        key: const ValueKey('placeholder'),
-                        padding: const EdgeInsets.all(4.0),
-                        child: Icon(
-                          Coffeico.bag_with_bean,
-                          size: logoHeight - 8, // Account for padding
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.onSurface.withValues(alpha: 0.55),
-                        ),
-                      ),
-              ),
-            );
-          },
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.base,
+        AppSpacing.sm,
+        AppSpacing.base,
+        0,
+      ),
+      child: TabBar(
+        controller: _controller,
+        onTap: _handleTap,
+        tabs: [
+          Tab(text: loc.diaryAxisTimeline),
+          Tab(text: loc.diaryGroupByBean),
+        ],
+        labelColor: scheme.onSurface,
+        // Explicit greys (not scheme.onSurfaceVariant) match this app's
+        // muted-text convention — see theme_provider.dart.
+        unselectedLabelColor: isDark
+            ? Colors.grey.shade400
+            : Colors.grey.shade600,
+        labelStyle: AppTextStyles.fieldLabel,
+        unselectedLabelStyle: AppTextStyles.caption,
+        indicatorColor: scheme.primary,
+        indicatorSize: TabBarIndicatorSize.tab,
+        dividerColor: Colors.transparent,
+      ),
     );
   }
 }

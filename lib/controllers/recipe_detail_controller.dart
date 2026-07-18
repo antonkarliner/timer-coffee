@@ -53,6 +53,20 @@ class RecipeDetailController extends ChangeNotifier {
   /// attaching a bean does not clobber the recipe's saved manual override.
   bool grindSizeFromBean = false;
 
+  String? suggestedGrindSize;
+  int? suggestedGrindTasteBalance;
+
+  bool get shouldShowGrindSuggestion {
+    final suggestion = suggestedGrindSize?.trim();
+    if (suggestion == null || suggestion.isEmpty) return false;
+    return suggestion.toLowerCase() !=
+        grindSizeController.text.trim().toLowerCase();
+  }
+
+  double? waterTemperature;
+  bool waterTemperatureFromRecipe = true;
+  double? _loadedEffectiveWaterTemperature;
+
   // --- Lifecycle / disposal ---
   @override
   void dispose() {
@@ -173,9 +187,42 @@ class RecipeDetailController extends ChangeNotifier {
   }
 
   void applyAmounts(double coffee, double water) {
+    _applyAmounts(coffee, water);
+    notifyListeners();
+  }
+
+  void _applyAmounts(double coffee, double water) {
     coffeeController.text = coffee.toString();
     waterController.text = water.toString();
     initialRatio = water / coffee;
+  }
+
+  void applyBrewAgainPrefill({
+    double? coffeeAmount,
+    double? waterAmount,
+    String? grindSize,
+    double? waterTemp,
+  }) {
+    if (coffeeAmount != null && waterAmount != null) {
+      _applyAmounts(coffeeAmount, waterAmount);
+    } else {
+      if (coffeeAmount != null) {
+        coffeeController.text = coffeeAmount.toString();
+      }
+      if (waterAmount != null) {
+        waterController.text = waterAmount.toString();
+      }
+    }
+
+    if (grindSize != null) {
+      grindSizeController.text = grindSize;
+      markGrindSizeManuallyEdited(notify: false);
+      grindSizeFromBean = false;
+    }
+    if (waterTemp != null) {
+      waterTemperature = waterTemp;
+      waterTemperatureFromRecipe = false;
+    }
     notifyListeners();
   }
 
@@ -218,7 +265,59 @@ class RecipeDetailController extends ChangeNotifier {
   }
 
   /// Marks the grind size as manually edited so it is treated as a user value.
-  void markGrindSizeManuallyEdited() {
+  void markGrindSizeManuallyEdited({bool notify = true}) {
     grindSizeFromBean = false;
+    clearGrindSuggestion(notify: notify);
+  }
+
+  void setGrindSuggestion(String grindSize, int? tasteBalance) {
+    suggestedGrindSize = grindSize;
+    suggestedGrindTasteBalance = tasteBalance;
+    notifyListeners();
+  }
+
+  void clearGrindSuggestion({bool notify = true}) {
+    if (suggestedGrindSize == null && suggestedGrindTasteBalance == null) {
+      return;
+    }
+    suggestedGrindSize = null;
+    suggestedGrindTasteBalance = null;
+    if (notify) notifyListeners();
+  }
+
+  void applyGrindSuggestion() {
+    final storedGrind = suggestedGrindSize;
+    if (storedGrind == null) return;
+
+    var grindToApply = storedGrind;
+    final parsed = double.tryParse(storedGrind.trim());
+    if (parsed != null &&
+        parsed == parsed.truncateToDouble() &&
+        parsed >= 2 &&
+        (suggestedGrindTasteBalance == -1 || suggestedGrindTasteBalance == 1)) {
+      final adjustment = suggestedGrindTasteBalance == -1 ? -1 : 1;
+      grindToApply = (parsed.toInt() + adjustment).toString();
+    }
+
+    grindSizeController.text = grindToApply;
+    markGrindSizeManuallyEdited();
+  }
+
+  void setInitialWaterTemperature(double? temperature) {
+    _loadedEffectiveWaterTemperature = temperature;
+    waterTemperature = temperature;
+    waterTemperatureFromRecipe = true;
+    notifyListeners();
+  }
+
+  void markWaterTemperatureManuallyEdited(double? temperature) {
+    if (temperature == null) {
+      waterTemperature = _loadedEffectiveWaterTemperature;
+      waterTemperatureFromRecipe = true;
+    } else {
+      waterTemperature = temperature;
+      waterTemperatureFromRecipe = false;
+    }
+    notifyListeners();
   }
 }

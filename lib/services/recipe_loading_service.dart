@@ -34,10 +34,7 @@ class RecipeLoadResult {
 
   /// Factory constructor for error result
   factory RecipeLoadResult.error(String errorMessage) {
-    return RecipeLoadResult(
-      errorMessage: errorMessage,
-      isSuccess: false,
-    );
+    return RecipeLoadResult(errorMessage: errorMessage, isSuccess: false);
   }
 }
 
@@ -63,8 +60,10 @@ class RecipeLoadingService {
     String recipeIdToLoad,
   ) async {
     try {
-      final recipeProvider =
-          Provider.of<RecipeProvider>(context, listen: false);
+      final recipeProvider = Provider.of<RecipeProvider>(
+        context,
+        listen: false,
+      );
       final l10n = AppLocalizations.of(context)!;
 
       // Retry loop to tolerate momentary visibility lag after import/transactions
@@ -77,8 +76,9 @@ class RecipeLoadingService {
 
         // Debug diagnostics to help identify timing/visibility issues
         debugPrint(
-            "DEBUG: RecipeLoadingService attempt $attempt/$_maxAttempts for id=$recipeIdToLoad returned null. "
-            "Retrying after ${_backoffDuration.inMilliseconds}ms");
+          "DEBUG: RecipeLoadingService attempt $attempt/$_maxAttempts for id=$recipeIdToLoad returned null. "
+          "Retrying after ${_backoffDuration.inMilliseconds}ms",
+        );
 
         if (attempt < _maxAttempts) {
           await Future.delayed(_backoffDuration);
@@ -92,8 +92,9 @@ class RecipeLoadingService {
       // Fetch brewing method name
       String brewingMethodName = l10n.unknownBrewingMethod;
       try {
-        brewingMethodName = await recipeProvider
-            .fetchBrewingMethodName(recipeModel.brewingMethodId);
+        brewingMethodName = await recipeProvider.fetchBrewingMethodName(
+          recipeModel.brewingMethodId,
+        );
       } catch (e) {
         debugPrint("DEBUG: Error fetching brewing method name: $e");
         // Continue with default name if fetching fails
@@ -105,7 +106,8 @@ class RecipeLoadingService {
       );
     } catch (e) {
       debugPrint(
-          "DEBUG: Error in RecipeLoadingService.loadRecipeWithRetry: $e");
+        "DEBUG: Error in RecipeLoadingService.loadRecipeWithRetry: $e",
+      );
       return RecipeLoadResult.error("Error loading recipe");
     }
   }
@@ -134,6 +136,9 @@ class RecipeLoadingService {
     // Set grind size (custom takes precedence over default)
     controller.grindSizeController.text =
         recipe.customGrindSize ?? recipe.grindSize;
+    controller.setInitialWaterTemperature(
+      recipe.customWaterTemp ?? recipe.waterTemp,
+    );
 
     // Set slider positions for special recipes
     controller.sweetnessSliderPosition = recipe.sweetnessSliderPosition;
@@ -170,20 +175,26 @@ class RecipeLoadingService {
 
   /// Creates a debug log entry for recipe loading operations
   static void logRecipeLoadingAttempt(
-      String recipeId, int attempt, int maxAttempts) {
+    String recipeId,
+    int attempt,
+    int maxAttempts,
+  ) {
     debugPrint(
-        "DEBUG: RecipeLoadingService - Loading recipe '$recipeId' (attempt $attempt/$maxAttempts)");
+      "DEBUG: RecipeLoadingService - Loading recipe '$recipeId' (attempt $attempt/$maxAttempts)",
+    );
   }
 
   /// Creates a debug log entry for successful recipe loading
   static void logRecipeLoadingSuccess(String recipeId, String recipeName) {
     debugPrint(
-        "DEBUG: RecipeLoadingService - Successfully loaded recipe '$recipeId': $recipeName");
+      "DEBUG: RecipeLoadingService - Successfully loaded recipe '$recipeId': $recipeName",
+    );
   }
 
   /// Creates a debug log entry for failed recipe loading
   static void logRecipeLoadingFailure(String recipeId, String error) {
     debugPrint(
-        "DEBUG: RecipeLoadingService - Failed to load recipe '$recipeId': $error");
+      "DEBUG: RecipeLoadingService - Failed to load recipe '$recipeId': $error",
+    );
   }
 }

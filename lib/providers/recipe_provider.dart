@@ -65,7 +65,9 @@ class RecipeProvider extends ChangeNotifier {
   }
 
   Future<void> setUserBrewingMethodPreference(
-      String methodId, bool show) async {
+    String methodId,
+    bool show,
+  ) async {
     final prefs = await SharedPreferences.getInstance();
     Set<String> shownIds = Set.from(_shownBrewingMethodIds.value);
     Set<String> hiddenIds = Set.from(_hiddenBrewingMethodIds.value);
@@ -89,8 +91,9 @@ class RecipeProvider extends ChangeNotifier {
   Future<void> fetchAllRecipes() async {
     // Use languageCode to match DB locale keys like 'en', 'ru', etc.
     final String localeKey = _locale.languageCode;
-    List<RecipeModel> recipesList =
-        await db.recipesDao.getAllRecipes(localeKey);
+    List<RecipeModel> recipesList = await db.recipesDao.getAllRecipes(
+      localeKey,
+    );
     // Replace the list instead of clear+addAll: overlapping calls must not
     // append onto each other's results (last writer wins).
     _recipes = recipesList;
@@ -98,7 +101,8 @@ class RecipeProvider extends ChangeNotifier {
   }
 
   Future<List<RecipeModel>> fetchRecipesForBrewingMethod(
-      String brewingMethodId) async {
+    String brewingMethodId,
+  ) async {
     await ensureDataReady();
     return _recipes
         .where((recipe) => recipe.brewingMethodId == brewingMethodId)
@@ -111,8 +115,8 @@ class RecipeProvider extends ChangeNotifier {
     }
 
     // Use the DAO to fetch the brewing method name
-    String? brewingMethodName =
-        await db.brewingMethodsDao.getBrewingMethodNameById(brewingMethodId);
+    String? brewingMethodName = await db.brewingMethodsDao
+        .getBrewingMethodNameById(brewingMethodId);
 
     if (brewingMethodName != null) {
       return brewingMethodName;
@@ -124,8 +128,10 @@ class RecipeProvider extends ChangeNotifier {
   Future<RecipeModel?> getRecipeById(String recipeId) async {
     await ensureDataReady();
     // Assume _locale is a variable holding the current locale set in RecipeProvider
-    RecipeModel? recipe =
-        await db.recipesDao.getRecipeModelById(recipeId, _locale.languageCode);
+    RecipeModel? recipe = await db.recipesDao.getRecipeModelById(
+      recipeId,
+      _locale.languageCode,
+    );
     return recipe; // Simply return null if recipe is not found
   }
 
@@ -136,14 +142,20 @@ class RecipeProvider extends ChangeNotifier {
       var isFavorite = !recipe.isFavorite;
 
       // Update local database
-      await db.userRecipePreferencesDao
-          .updatePreferences(recipeId, isFavorite: isFavorite);
+      await db.userRecipePreferencesDao.updatePreferences(
+        recipeId,
+        isFavorite: isFavorite,
+      );
 
       // Sync to Supabase fire-and-forget: the local DB is the source of truth and
       // a missed write is reconciled by uploadUserPreferencesToSupabase(). Never
       // block the UI (or brew-prep navigation) on this network call.
-      unawaited(databaseProvider.updateUserPreferenceInSupabase(recipeId,
-          isFavorite: isFavorite));
+      unawaited(
+        databaseProvider.updateUserPreferenceInSupabase(
+          recipeId,
+          isFavorite: isFavorite,
+        ),
+      );
 
       _recipes[index] = recipe.copyWith(isFavorite: isFavorite);
 
@@ -163,33 +175,43 @@ class RecipeProvider extends ChangeNotifier {
   }
 
   Future<void> saveCustomAmounts(
-      String recipeId, double coffeeAmount, double waterAmount,
-      {String? customGrindSize}) async {
+    String recipeId,
+    double coffeeAmount,
+    double waterAmount, {
+    String? customGrindSize,
+    double? customWaterTemp,
+  }) async {
     // Update local database
     await db.userRecipePreferencesDao.updatePreferences(
       recipeId,
       customCoffeeAmount: coffeeAmount,
       customWaterAmount: waterAmount,
       customGrindSize: customGrindSize,
+      customWaterTemp: customWaterTemp,
     );
 
     // Sync to Supabase fire-and-forget so navigating to the preparation screen is
     // never blocked on the network. Local DB is the source of truth; a missed write
     // is reconciled by uploadUserPreferencesToSupabase().
-    unawaited(databaseProvider.updateUserPreferenceInSupabase(
-      recipeId,
-      customCoffeeAmount: coffeeAmount,
-      customWaterAmount: waterAmount,
-      customGrindSize: customGrindSize,
-    ));
+    unawaited(
+      databaseProvider.updateUserPreferenceInSupabase(
+        recipeId,
+        customCoffeeAmount: coffeeAmount,
+        customWaterAmount: waterAmount,
+        customGrindSize: customGrindSize,
+        customWaterTemp: customWaterTemp,
+      ),
+    );
 
     await fetchAllRecipes();
   }
 
-  Future<void> saveSliderPositions(String recipeId,
-      {int? sweetnessSliderPosition,
-      int? strengthSliderPosition,
-      int? coffeeChroniclerSliderPosition}) async {
+  Future<void> saveSliderPositions(
+    String recipeId, {
+    int? sweetnessSliderPosition,
+    int? strengthSliderPosition,
+    int? coffeeChroniclerSliderPosition,
+  }) async {
     // Update local database
     await db.userRecipePreferencesDao.updatePreferences(
       recipeId,
@@ -202,20 +224,22 @@ class RecipeProvider extends ChangeNotifier {
     // Sync to Supabase fire-and-forget so navigating to the preparation screen is
     // never blocked on the network. Local DB is the source of truth; a missed write
     // is reconciled by uploadUserPreferencesToSupabase().
-    unawaited(databaseProvider.updateUserPreferenceInSupabase(
-      recipeId,
-      sweetnessSliderPosition: sweetnessSliderPosition,
-      strengthSliderPosition: strengthSliderPosition,
-      coffeeChroniclerSliderPosition:
-          coffeeChroniclerSliderPosition, // Add this line
-    ));
+    unawaited(
+      databaseProvider.updateUserPreferenceInSupabase(
+        recipeId,
+        sweetnessSliderPosition: sweetnessSliderPosition,
+        strengthSliderPosition: strengthSliderPosition,
+        coffeeChroniclerSliderPosition:
+            coffeeChroniclerSliderPosition, // Add this line
+      ),
+    );
 
     await fetchAllRecipes();
   }
 
   Future<RecipeModel?> getLastUsedRecipe() async {
-    var lastUsedPreference =
-        await db.userRecipePreferencesDao.getLastUsedRecipe();
+    var lastUsedPreference = await db.userRecipePreferencesDao
+        .getLastUsedRecipe();
     if (lastUsedPreference != null) {
       return getRecipeById(lastUsedPreference.recipeId);
     }
@@ -223,8 +247,8 @@ class RecipeProvider extends ChangeNotifier {
   }
 
   Future<String> fetchBrewingMethodName(String brewingMethodId) async {
-    String? brewingMethodName =
-        await db.brewingMethodsDao.getBrewingMethodNameById(brewingMethodId);
+    String? brewingMethodName = await db.brewingMethodsDao
+        .getBrewingMethodNameById(brewingMethodId);
     return brewingMethodName ?? "Unknown Brewing Method";
   }
 
@@ -236,13 +260,16 @@ class RecipeProvider extends ChangeNotifier {
 
   Future<List<RecipeModel>> fetchFavoriteRecipes(String locale) async {
     await ensureDataReady();
-    final List<UserRecipePreference> favoritePrefs =
-        await db.userRecipePreferencesDao.getFavoritePreferences();
+    final List<UserRecipePreference> favoritePrefs = await db
+        .userRecipePreferencesDao
+        .getFavoritePreferences();
     List<RecipeModel> favoriteRecipes = [];
 
     for (var pref in favoritePrefs) {
-      final recipe =
-          await db.recipesDao.getRecipeModelById(pref.recipeId, locale);
+      final recipe = await db.recipesDao.getRecipeModelById(
+        pref.recipeId,
+        locale,
+      );
       if (recipe != null) {
         favoriteRecipes.add(recipe);
       }
@@ -264,8 +291,8 @@ class RecipeProvider extends ChangeNotifier {
   }
 
   Future<List<SupportedLocaleModel>> fetchAllSupportedLocales() async {
-    List<SupportedLocaleModel> supportedLocales =
-        await db.supportedLocalesDao.getAllSupportedLocales();
+    List<SupportedLocaleModel> supportedLocales = await db.supportedLocalesDao
+        .getAllSupportedLocales();
 
     // Sorting the list alphabetically by localeName
     supportedLocales.sort((a, b) => a.locale.compareTo(b.locale));
@@ -293,8 +320,8 @@ class RecipeProvider extends ChangeNotifier {
   }
 
   Future<String> getRandomCoffeeFactFromDB() async {
-    final CoffeeFactModel? coffeeFact =
-        await db.coffeeFactsDao.getRandomCoffeeFact(_locale.languageCode);
+    final CoffeeFactModel? coffeeFact = await db.coffeeFactsDao
+        .getRandomCoffeeFact(_locale.languageCode);
     if (coffeeFact != null) {
       return coffeeFact.fact;
     } else {
@@ -318,7 +345,7 @@ class RecipeProvider extends ChangeNotifier {
     }
   }
 
-// Fetch all distinct beans from the database
+  // Fetch all distinct beans from the database
   Future<List<String>> fetchAllDistinctBeans() async {
     try {
       return await db.userStatsDao.fetchAllDistinctBeans();

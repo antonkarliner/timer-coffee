@@ -17,6 +17,7 @@ import 'package:coffee_timer/models/help_models.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:coffee_timer/models/gift_offer_model.dart';
 import 'package:coffee_timer/services/roaster_directory_service.dart';
+import 'package:coffee_timer/utils/stats_civil_date.dart';
 import 'package:flutter/material.dart';
 
 class YearlyPercentileResult {
@@ -1489,10 +1490,8 @@ class DatabaseProvider {
     DateTime end,
   ) async {
     final client = Supabase.instance.client;
-    final startIso = start.toUtc().toIso8601String();
-    final endIso = end.toUtc().toIso8601String();
-    final startDate = startIso.split('T').first;
-    final endDate = endIso.split('T').first;
+    final startDate = formatStatsCivilDate(start);
+    final endDate = formatStatsCivilDate(end);
 
     try {
       final response = await client
@@ -1525,10 +1524,8 @@ class DatabaseProvider {
     DateTime end,
   ) async {
     final client = Supabase.instance.client;
-    final startIso = start.toUtc().toIso8601String();
-    final endIso = end.toUtc().toIso8601String();
-    final startDate = startIso.split('T').first;
-    final endDate = endIso.split('T').first;
+    final startDate = formatStatsCivilDate(start);
+    final endDate = formatStatsCivilDate(end);
     try {
       final response = await client
           .rpc(
@@ -1588,10 +1585,8 @@ class DatabaseProvider {
     int topN = 3,
   }) async {
     final client = Supabase.instance.client;
-    final startIso = start.toUtc().toIso8601String();
-    final endIso = end.toUtc().toIso8601String();
-    final startDate = startIso.split('T').first;
-    final endDate = endIso.split('T').first;
+    final startDate = formatStatsCivilDate(start);
+    final endDate = formatStatsCivilDate(end);
     try {
       // Primary: matches deployed function signature (p_start_date / p_end_date / p_top_n)
       final response = await client
@@ -1626,11 +1621,7 @@ class DatabaseProvider {
       final response = await Supabase.instance.client
           .rpc(
             'yearly_user_liters_percentile',
-            params: {
-              'p_year': year,
-              'p_user_id': user.id,
-              'p_liters': ?liters,
-            },
+            params: {'p_year': year, 'p_user_id': user.id, 'p_liters': ?liters},
           )
           .timeout(NetworkTimeouts.handshake);
       if (response is List && response.isNotEmpty && response.first is Map) {
@@ -1839,8 +1830,9 @@ class DatabaseProvider {
     }
 
     try {
-      final bundle =
-          await RoasterDirectoryService.instance.fetchBundle(roasterName);
+      final bundle = await RoasterDirectoryService.instance.fetchBundle(
+        roasterName,
+      );
       final logoUrls = <String, String?>{
         'original': bundle?['roaster_logo_url'],
         'mirror': bundle?['roaster_logo_mirror_url'],
@@ -1878,6 +1870,8 @@ class DatabaseProvider {
             'strength_slider_position': pref.strengthSliderPosition,
             'custom_coffee_amount': pref.customCoffeeAmount,
             'custom_water_amount': pref.customWaterAmount,
+            'custom_grind_size': pref.customGrindSize,
+            'custom_water_temp': pref.customWaterTemp,
           },
         )
         .toList();
@@ -1933,6 +1927,7 @@ class DatabaseProvider {
     double? customCoffeeAmount,
     double? customWaterAmount,
     String? customGrindSize,
+    double? customWaterTemp,
   }) async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null || user.isAnonymous) {
@@ -1952,6 +1947,7 @@ class DatabaseProvider {
       'custom_coffee_amount': ?customCoffeeAmount,
       'custom_water_amount': ?customWaterAmount,
       'custom_grind_size': ?customGrindSize,
+      'custom_water_temp': ?customWaterTemp,
     };
 
     // This runs fire-and-forget from the caller's perspective, but the method

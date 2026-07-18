@@ -20,6 +20,10 @@ class UserStatsModel {
   final String? grindSize;
   final double? tdsPercent;
   final double? extractionYieldPercent;
+  final double? waterTemp;
+  final int? tasteBalance;
+  final int? entrySource;
+  final String? tags;
   final String versionVector;
   final bool isDeleted;
 
@@ -43,6 +47,10 @@ class UserStatsModel {
     this.grindSize,
     this.tdsPercent,
     this.extractionYieldPercent,
+    this.waterTemp,
+    this.tasteBalance,
+    this.entrySource,
+    this.tags,
     required this.versionVector,
     required this.isDeleted,
   });
@@ -70,6 +78,10 @@ class UserStatsModel {
     String? grindSize,
     double? tdsPercent,
     double? extractionYieldPercent,
+    double? waterTemp,
+    int? tasteBalance,
+    int? entrySource,
+    String? tags,
     String? versionVector,
     bool? isDeleted,
   }) {
@@ -96,6 +108,10 @@ class UserStatsModel {
       tdsPercent: tdsPercent ?? this.tdsPercent,
       extractionYieldPercent:
           extractionYieldPercent ?? this.extractionYieldPercent,
+      waterTemp: waterTemp ?? this.waterTemp,
+      tasteBalance: tasteBalance ?? this.tasteBalance,
+      entrySource: entrySource ?? this.entrySource,
+      tags: tags ?? this.tags,
       versionVector: versionVector ?? this.versionVector,
       isDeleted: isDeleted ?? this.isDeleted,
     );
@@ -126,6 +142,10 @@ class UserStatsModel {
           grindSize == other.grindSize &&
           tdsPercent == other.tdsPercent &&
           extractionYieldPercent == other.extractionYieldPercent &&
+          waterTemp == other.waterTemp &&
+          tasteBalance == other.tasteBalance &&
+          entrySource == other.entrySource &&
+          tags == other.tags &&
           versionVector == other.versionVector &&
           isDeleted == other.isDeleted;
 
@@ -151,6 +171,10 @@ class UserStatsModel {
       grindSize.hashCode ^
       tdsPercent.hashCode ^
       extractionYieldPercent.hashCode ^
+      waterTemp.hashCode ^
+      tasteBalance.hashCode ^
+      entrySource.hashCode ^
+      tags.hashCode ^
       versionVector.hashCode ^
       isDeleted.hashCode;
 }

@@ -7,10 +7,12 @@ import '../models/brewing_method_model.dart';
 import '../models/supported_locale_model.dart';
 import '../models/coffee_fact_model.dart';
 import '../models/user_stat_model.dart';
+import '../models/diary_entry.dart';
 import '../models/coffee_beans_model.dart';
 import 'package:coffee_timer/models/beans_stats_models.dart';
 import '../models/recipe_collection_model.dart';
 import '../models/help_models.dart';
+import '../utils/diary_tags.dart';
 import '../database/schema_versions.dart';
 import 'package:uuid/uuid.dart';
 import 'package:collection/collection.dart';
@@ -138,6 +140,8 @@ class UserRecipePreferences extends Table {
       .withDefault(const Constant(0))();
   TextColumn get customGrindSize =>
       text().named('custom_grind_size').nullable()();
+  RealColumn get customWaterTemp =>
+      real().named('custom_water_temp').nullable()();
 
   @override
   Set<Column> get primaryKey => {recipeId};
@@ -156,8 +160,9 @@ class CoffeeFacts extends Table {
 }
 
 @TableIndex(
-    name: 'idx_user_stats_stat_uuid_version_vector',
-    columns: {#statUuid, #versionVector})
+  name: 'idx_user_stats_stat_uuid_version_vector',
+  columns: {#statUuid, #versionVector},
+)
 class UserStats extends Table {
   TextColumn get statUuid => text().named('stat_uuid')();
   IntColumn get id => integer().named('id').nullable()();
@@ -189,6 +194,10 @@ class UserStats extends Table {
   RealColumn get tdsPercent => real().named('tds_percent').nullable()();
   RealColumn get extractionYieldPercent =>
       real().named('extraction_yield_percent').nullable()();
+  RealColumn get waterTemp => real().named('water_temp').nullable()();
+  IntColumn get tasteBalance => integer().named('taste_balance').nullable()();
+  IntColumn get entrySource => integer().named('entry_source').nullable()();
+  TextColumn get tags => text().named('tags').nullable()();
   TextColumn get versionVector => text().named('version_vector')();
   BoolColumn get isDeleted =>
       boolean().named('is_deleted').withDefault(const Constant(false))();
@@ -198,8 +207,9 @@ class UserStats extends Table {
 }
 
 @TableIndex(
-    name: 'idx_coffee_beans_beans_uuid_version_vector',
-    columns: {#beansUuid, #versionVector})
+  name: 'idx_coffee_beans_beans_uuid_version_vector',
+  columns: {#beansUuid, #versionVector},
+)
 class CoffeeBeans extends Table {
   TextColumn get beansUuid => text().named('beans_uuid')();
   IntColumn get id => integer().named('id').nullable()();
@@ -266,8 +276,8 @@ class RecipeCollectionLocalizations extends Table {
 
   @override
   List<Set<Column>> get uniqueKeys => [
-        {collectionId, locale}
-      ];
+    {collectionId, locale},
+  ];
 }
 
 class RecipeCollectionMembers extends Table {
@@ -363,17 +373,18 @@ class AppDatabase extends _$AppDatabase {
   final Uuid _uuid = Uuid();
 
   AppDatabase(super.executor, {bool? enableForeignKeyConstraints})
-      : enableForeignKeyConstraints = enableForeignKeyConstraints ?? true;
+    : enableForeignKeyConstraints = enableForeignKeyConstraints ?? true;
 
   AppDatabase.withDefault({bool enableForeignKeyConstraints = true})
-      : this(_openConnection(),
-            enableForeignKeyConstraints: enableForeignKeyConstraints);
+    : this(
+        _openConnection(),
+        enableForeignKeyConstraints: enableForeignKeyConstraints,
+      );
 
   factory AppDatabase.fromExecutor(QueryExecutor e) => AppDatabase(e);
 
   @override
-  int get schemaVersion =>
-      38; // Added tdsPercent and extractionYieldPercent to UserStats
+  int get schemaVersion => 40; // Added Brew Diary custom tags field
 
   String _generateUuidV7() {
     return _uuid.v7();
@@ -381,68 +392,67 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
-        beforeOpen: (details) async {
-          if (enableForeignKeyConstraints) {
-            await customStatement('PRAGMA foreign_keys = ON');
-          }
+    beforeOpen: (details) async {
+      if (enableForeignKeyConstraints) {
+        await customStatement('PRAGMA foreign_keys = ON');
+      }
+    },
+    onUpgrade: (m, oldVersion, newVersion) async {
+      await stepByStep(
+        from1To2: (m, schema) async {
+          // Note: Vendors table was dropped in v20, this migration might be obsolete
+          // await m.addColumn(schema.vendors, schema.vendors.bannerUrl);
         },
-        onUpgrade: (m, oldVersion, newVersion) async {
-          await stepByStep(
-            from1To2: (m, schema) async {
-              // Note: Vendors table was dropped in v20, this migration might be obsolete
-              // await m.addColumn(schema.vendors, schema.vendors.bannerUrl);
-            },
-            from2To3: (m, schema) async {
-              await m.createIndex(schema.idxRecipesLastModified);
-            },
-            from3To4: (m, schema) async {
-              //   await m.createTable(contributors);
-              //   // The showOnMain column is being removed in schema v24,
-              //   // so this addColumn call from an older migration is no longer needed
-              //   // and would cause an error if the column definition doesn't exist in the schema object.
-              //   // await m.addColumn(brewingMethods, brewingMethods.showOnMain);
-            },
-            from4To5: (m, schema) async {
-              await m.createTable(userStats);
-            },
-            from5To6: (m, schema) async {
-              //await m.createTable(launchPopups);
-              //await m.createIndex(schema.idxLaunchPopupsCreatedAt);
-              // await m.deleteTable('StartPopups'); // Use customStatement for safety
-              await customStatement('DROP TABLE IF EXISTS StartPopups');
-            },
-            from6To7: (m, schema) async {
-              await m.addColumn(userStats, userStats.coffeeBeansId);
-              await m.addColumn(userStats, userStats.isMarked);
-              await m.createTable(coffeeBeans);
-            },
-            from7To8: (m, schema) async {
-              // Add beansUuid column to CoffeeBeans table as nullable
-              await customStatement(
-                  'ALTER TABLE coffee_beans ADD COLUMN beans_uuid TEXT');
+        from2To3: (m, schema) async {
+          await m.createIndex(schema.idxRecipesLastModified);
+        },
+        from3To4: (m, schema) async {
+          //   await m.createTable(contributors);
+          //   // The showOnMain column is being removed in schema v24,
+          //   // so this addColumn call from an older migration is no longer needed
+          //   // and would cause an error if the column definition doesn't exist in the schema object.
+          //   // await m.addColumn(brewingMethods, brewingMethods.showOnMain);
+        },
+        from4To5: (m, schema) async {
+          await m.createTable(userStats);
+        },
+        from5To6: (m, schema) async {
+          //await m.createTable(launchPopups);
+          //await m.createIndex(schema.idxLaunchPopupsCreatedAt);
+          // await m.deleteTable('StartPopups'); // Use customStatement for safety
+          await customStatement('DROP TABLE IF EXISTS StartPopups');
+        },
+        from6To7: (m, schema) async {
+          await m.addColumn(userStats, userStats.coffeeBeansId);
+          await m.addColumn(userStats, userStats.isMarked);
+          await m.createTable(coffeeBeans);
+        },
+        from7To8: (m, schema) async {
+          // Add beansUuid column to CoffeeBeans table as nullable
+          await customStatement(
+            'ALTER TABLE coffee_beans ADD COLUMN beans_uuid TEXT',
+          );
 
-              // Generate UUIDs for existing rows in CoffeeBeans
-              final coffeeBeansRows = await customSelect(
-                      'SELECT id FROM coffee_beans WHERE beans_uuid IS NULL')
-                  .get();
-              for (final row in coffeeBeansRows) {
-                final id = row.data['id'] as int;
-                final newUuid = _generateUuidV7();
-                await customUpdate(
-                  'UPDATE coffee_beans SET beans_uuid = ? WHERE id = ?',
-                  variables: [
-                    Variable.withString(newUuid),
-                    Variable.withInt(id)
-                  ],
-                );
-              }
+          // Generate UUIDs for existing rows in CoffeeBeans
+          final coffeeBeansRows = await customSelect(
+            'SELECT id FROM coffee_beans WHERE beans_uuid IS NULL',
+          ).get();
+          for (final row in coffeeBeansRows) {
+            final id = row.data['id'] as int;
+            final newUuid = _generateUuidV7();
+            await customUpdate(
+              'UPDATE coffee_beans SET beans_uuid = ? WHERE id = ?',
+              variables: [Variable.withString(newUuid), Variable.withInt(id)],
+            );
+          }
 
-              // Add coffeeBeansUuid column to UserStats table
-              await customStatement(
-                  'ALTER TABLE user_stats ADD COLUMN coffee_beans_uuid TEXT');
+          // Add coffeeBeansUuid column to UserStats table
+          await customStatement(
+            'ALTER TABLE user_stats ADD COLUMN coffee_beans_uuid TEXT',
+          );
 
-              // Update UserStats with corresponding CoffeeBeans UUIDs
-              await customStatement('''
+          // Update UserStats with corresponding CoffeeBeans UUIDs
+          await customStatement('''
           UPDATE user_stats
           SET coffee_beans_uuid = (
             SELECT beans_uuid
@@ -451,69 +461,66 @@ class AppDatabase extends _$AppDatabase {
           )
           WHERE coffee_beans_id IS NOT NULL
         ''');
-            },
-            from8To9: (m, schema) async {
-              // Add stat_uuid column to UserStats table as nullable
+        },
+        from8To9: (m, schema) async {
+          // Add stat_uuid column to UserStats table as nullable
+          await customStatement(
+            'ALTER TABLE user_stats ADD COLUMN stat_uuid TEXT',
+          );
+
+          // Generate UUIDs for existing rows in UserStats
+          final userStatsRows = await customSelect(
+            'SELECT id FROM user_stats WHERE stat_uuid IS NULL',
+          ).get();
+          for (final row in userStatsRows) {
+            final id = row.data['id'] as int;
+            final newUuid = _generateUuidV7();
+            await customUpdate(
+              'UPDATE user_stats SET stat_uuid = ? WHERE id = ?',
+              variables: [Variable.withString(newUuid), Variable.withInt(id)],
+            );
+          }
+        },
+        from9To10: (m, schema) async {
+          // await m.dropColumn(userStats, 'user_id'); // Use customStatement for safety
+          await customStatement('ALTER TABLE user_stats DROP COLUMN user_id');
+        },
+        from10To11: (m, schema) async {
+          await customStatement('PRAGMA foreign_keys = OFF');
+
+          try {
+            // Step 1: Check if stat_uuid column exists
+            final columns = await customSelect(
+              "PRAGMA table_info('user_stats')",
+            ).get();
+            final statUuidExists = columns.any(
+              (column) => column.data['name'] == 'stat_uuid',
+            );
+
+            // Step 2: Add stat_uuid column if it doesn't exist
+            if (!statUuidExists) {
               await customStatement(
-                  'ALTER TABLE user_stats ADD COLUMN stat_uuid TEXT');
+                'ALTER TABLE user_stats ADD COLUMN stat_uuid TEXT',
+              );
+            }
 
-              // Generate UUIDs for existing rows in UserStats
-              final userStatsRows = await customSelect(
-                      'SELECT id FROM user_stats WHERE stat_uuid IS NULL')
-                  .get();
-              for (final row in userStatsRows) {
-                final id = row.data['id'] as int;
-                final newUuid = _generateUuidV7();
-                await customUpdate(
-                  'UPDATE user_stats SET stat_uuid = ? WHERE id = ?',
-                  variables: [
-                    Variable.withString(newUuid),
-                    Variable.withInt(id)
-                  ],
-                );
-              }
-            },
-            from9To10: (m, schema) async {
-              // await m.dropColumn(userStats, 'user_id'); // Use customStatement for safety
-              await customStatement(
-                  'ALTER TABLE user_stats DROP COLUMN user_id');
-            },
-            from10To11: (m, schema) async {
-              await customStatement('PRAGMA foreign_keys = OFF');
+            // Step 3: Generate and update UUIDs for rows that need them
+            final rows = await customSelect(
+              'SELECT id FROM user_stats WHERE stat_uuid IS NULL',
+            ).get();
 
-              try {
-                // Step 1: Check if stat_uuid column exists
-                final columns =
-                    await customSelect("PRAGMA table_info('user_stats')").get();
-                final statUuidExists =
-                    columns.any((column) => column.data['name'] == 'stat_uuid');
+            for (final row in rows) {
+              final id = row.data['id'] as int;
+              final newUuid =
+                  _generateUuidV7(); // Your Dart method to generate UUID
+              await customUpdate(
+                'UPDATE user_stats SET stat_uuid = ? WHERE id = ?',
+                variables: [Variable.withString(newUuid), Variable.withInt(id)],
+              );
+            }
 
-                // Step 2: Add stat_uuid column if it doesn't exist
-                if (!statUuidExists) {
-                  await customStatement(
-                      'ALTER TABLE user_stats ADD COLUMN stat_uuid TEXT');
-                }
-
-                // Step 3: Generate and update UUIDs for rows that need them
-                final rows = await customSelect(
-                        'SELECT id FROM user_stats WHERE stat_uuid IS NULL')
-                    .get();
-
-                for (final row in rows) {
-                  final id = row.data['id'] as int;
-                  final newUuid =
-                      _generateUuidV7(); // Your Dart method to generate UUID
-                  await customUpdate(
-                    'UPDATE user_stats SET stat_uuid = ? WHERE id = ?',
-                    variables: [
-                      Variable.withString(newUuid),
-                      Variable.withInt(id)
-                    ],
-                  );
-                }
-
-                // Step 4: Create new table with desired structure
-                await customStatement('''
+            // Step 4: Create new table with desired structure
+            await customStatement('''
       CREATE TABLE IF NOT EXISTS new_user_stats (
         stat_uuid TEXT NOT NULL PRIMARY KEY,
         id INTEGER,
@@ -534,8 +541,8 @@ class AppDatabase extends _$AppDatabase {
       )
     ''');
 
-                // Step 5: Copy data to new table
-                await customStatement('''
+            // Step 5: Copy data to new table
+            await customStatement('''
       INSERT OR REPLACE INTO new_user_stats
       SELECT
         stat_uuid,
@@ -546,51 +553,51 @@ class AppDatabase extends _$AppDatabase {
       FROM user_stats
     ''');
 
-                // Step 6: Replace old table with new one
-                await customStatement('DROP TABLE IF EXISTS user_stats');
-                await customStatement(
-                    'ALTER TABLE new_user_stats RENAME TO user_stats');
-              } finally {
-                await customStatement('PRAGMA foreign_keys = ON');
-              }
-            },
-            from11To12: (m, schema) async {
-              await customStatement('PRAGMA foreign_keys = OFF');
+            // Step 6: Replace old table with new one
+            await customStatement('DROP TABLE IF EXISTS user_stats');
+            await customStatement(
+              'ALTER TABLE new_user_stats RENAME TO user_stats',
+            );
+          } finally {
+            await customStatement('PRAGMA foreign_keys = ON');
+          }
+        },
+        from11To12: (m, schema) async {
+          await customStatement('PRAGMA foreign_keys = OFF');
 
-              try {
-                // Step 1: Check if beans_uuid column exists
-                final columns =
-                    await customSelect("PRAGMA table_info('coffee_beans')")
-                        .get();
-                final beansUuidExists = columns
-                    .any((column) => column.data['name'] == 'beans_uuid');
+          try {
+            // Step 1: Check if beans_uuid column exists
+            final columns = await customSelect(
+              "PRAGMA table_info('coffee_beans')",
+            ).get();
+            final beansUuidExists = columns.any(
+              (column) => column.data['name'] == 'beans_uuid',
+            );
 
-                // Step 2: Add beans_uuid column if it doesn't exist
-                if (!beansUuidExists) {
-                  await customStatement(
-                      'ALTER TABLE coffee_beans ADD COLUMN beans_uuid TEXT');
-                }
+            // Step 2: Add beans_uuid column if it doesn't exist
+            if (!beansUuidExists) {
+              await customStatement(
+                'ALTER TABLE coffee_beans ADD COLUMN beans_uuid TEXT',
+              );
+            }
 
-                // Step 3: Generate and update UUIDs for rows that need them
-                final rows = await customSelect(
-                        'SELECT id FROM coffee_beans WHERE beans_uuid IS NULL')
-                    .get();
+            // Step 3: Generate and update UUIDs for rows that need them
+            final rows = await customSelect(
+              'SELECT id FROM coffee_beans WHERE beans_uuid IS NULL',
+            ).get();
 
-                for (final row in rows) {
-                  final id = row.data['id'] as int;
-                  final newUuid =
-                      _generateUuidV7(); // Your Dart method to generate UUID
-                  await customUpdate(
-                    'UPDATE coffee_beans SET beans_uuid = ? WHERE id = ?',
-                    variables: [
-                      Variable.withString(newUuid),
-                      Variable.withInt(id)
-                    ],
-                  );
-                }
+            for (final row in rows) {
+              final id = row.data['id'] as int;
+              final newUuid =
+                  _generateUuidV7(); // Your Dart method to generate UUID
+              await customUpdate(
+                'UPDATE coffee_beans SET beans_uuid = ? WHERE id = ?',
+                variables: [Variable.withString(newUuid), Variable.withInt(id)],
+              );
+            }
 
-                // Step 4: Create new table with desired structure
-                await customStatement('''
+            // Step 4: Create new table with desired structure
+            await customStatement('''
       CREATE TABLE IF NOT EXISTS new_coffee_beans (
         beans_uuid TEXT NOT NULL PRIMARY KEY,
         id INTEGER,
@@ -611,8 +618,8 @@ class AppDatabase extends _$AppDatabase {
       )
     ''');
 
-                // Step 5: Copy data to new table
-                await customStatement('''
+            // Step 5: Copy data to new table
+            await customStatement('''
       INSERT OR REPLACE INTO new_coffee_beans
       SELECT
         beans_uuid,
@@ -622,121 +629,127 @@ class AppDatabase extends _$AppDatabase {
       FROM coffee_beans
     ''');
 
-                // Step 6: Replace old table with new one
-                await customStatement('DROP TABLE IF EXISTS coffee_beans');
-                await customStatement(
-                    'ALTER TABLE new_coffee_beans RENAME TO coffee_beans');
-              } finally {
-                await customStatement('PRAGMA foreign_keys = ON');
-              }
-            },
-            from12To13: (m, schema) async {
-              // Check if version_vector column exists
-              final columns =
-                  await customSelect("PRAGMA table_info('user_stats')").get();
-              final versionVectorExists = columns
-                  .any((column) => column.data['name'] == 'version_vector');
+            // Step 6: Replace old table with new one
+            await customStatement('DROP TABLE IF EXISTS coffee_beans');
+            await customStatement(
+              'ALTER TABLE new_coffee_beans RENAME TO coffee_beans',
+            );
+          } finally {
+            await customStatement('PRAGMA foreign_keys = ON');
+          }
+        },
+        from12To13: (m, schema) async {
+          // Check if version_vector column exists
+          final columns = await customSelect(
+            "PRAGMA table_info('user_stats')",
+          ).get();
+          final versionVectorExists = columns.any(
+            (column) => column.data['name'] == 'version_vector',
+          );
 
-              if (!versionVectorExists) {
-                await customStatement('''
+          if (!versionVectorExists) {
+            await customStatement('''
       ALTER TABLE user_stats
       ADD COLUMN version_vector TEXT
       DEFAULT '{"deviceId":"legacy","version":0}'
     ''');
-              }
+          }
 
-              await customStatement('''
+          await customStatement('''
     UPDATE user_stats
     SET version_vector = '{"deviceId":"legacy","version":0}'
     WHERE version_vector IS NULL
   ''');
 
-              await customStatement('''
+          await customStatement('''
     CREATE INDEX IF NOT EXISTS idx_user_stats_stat_uuid_version_vector
     ON user_stats (stat_uuid, version_vector)
   ''');
-            },
-            from13To14: (m, schema) async {
-              await customStatement('BEGIN TRANSACTION');
-              try {
-                // Check if version_vector column exists
-                final columns =
-                    await customSelect("PRAGMA table_info('coffee_beans')")
-                        .get();
-                final versionVectorExists = columns
-                    .any((column) => column.data['name'] == 'version_vector');
+        },
+        from13To14: (m, schema) async {
+          await customStatement('BEGIN TRANSACTION');
+          try {
+            // Check if version_vector column exists
+            final columns = await customSelect(
+              "PRAGMA table_info('coffee_beans')",
+            ).get();
+            final versionVectorExists = columns.any(
+              (column) => column.data['name'] == 'version_vector',
+            );
 
-                if (!versionVectorExists) {
-                  await customStatement('''
+            if (!versionVectorExists) {
+              await customStatement('''
         ALTER TABLE coffee_beans
         ADD COLUMN version_vector TEXT
         DEFAULT '{"deviceId":"legacy","version":0}'
       ''');
-                }
+            }
 
-                await customStatement('''
+            await customStatement('''
       UPDATE coffee_beans
       SET version_vector = '{"deviceId":"legacy","version":0}'
       WHERE version_vector IS NULL
     ''');
 
-                await customStatement('''
+            await customStatement('''
       CREATE INDEX IF NOT EXISTS idx_coffee_beans_beans_uuid_version_vector
       ON coffee_beans (beans_uuid, version_vector)
     ''');
 
-                await customStatement('COMMIT');
-              } catch (e) {
-                await customStatement('ROLLBACK');
-                rethrow;
-              }
-            },
-            from14To15: (m, schema) async {
-              await customStatement('PRAGMA busy_timeout = 30000');
-              await customStatement('BEGIN TRANSACTION');
-              try {
-                // Check if beans_uuid column exists in coffee_beans
-                final coffeeBeansColumns =
-                    await customSelect("PRAGMA table_info('coffee_beans')")
-                        .get();
-                final beansUuidExists = coffeeBeansColumns
-                    .any((column) => column.data['name'] == 'beans_uuid');
+            await customStatement('COMMIT');
+          } catch (e) {
+            await customStatement('ROLLBACK');
+            rethrow;
+          }
+        },
+        from14To15: (m, schema) async {
+          await customStatement('PRAGMA busy_timeout = 30000');
+          await customStatement('BEGIN TRANSACTION');
+          try {
+            // Check if beans_uuid column exists in coffee_beans
+            final coffeeBeansColumns = await customSelect(
+              "PRAGMA table_info('coffee_beans')",
+            ).get();
+            final beansUuidExists = coffeeBeansColumns.any(
+              (column) => column.data['name'] == 'beans_uuid',
+            );
 
-                if (!beansUuidExists) {
-                  await customStatement(
-                      'ALTER TABLE coffee_beans ADD COLUMN beans_uuid TEXT');
-                }
+            if (!beansUuidExists) {
+              await customStatement(
+                'ALTER TABLE coffee_beans ADD COLUMN beans_uuid TEXT',
+              );
+            }
 
-                // Generate UUIDs for any rows without beans_uuid
-                final coffeeBeansRows = await customSelect(
-                        'SELECT id FROM coffee_beans WHERE beans_uuid IS NULL')
-                    .get();
-                for (final row in coffeeBeansRows) {
-                  final id = row.data['id'] as int;
-                  final newUuid =
-                      _generateUuidV7(); // Your Dart method to generate UUID
-                  await customUpdate(
-                    'UPDATE coffee_beans SET beans_uuid = ? WHERE id = ?',
-                    variables: [
-                      Variable.withString(newUuid),
-                      Variable.withInt(id)
-                    ],
-                  );
-                }
+            // Generate UUIDs for any rows without beans_uuid
+            final coffeeBeansRows = await customSelect(
+              'SELECT id FROM coffee_beans WHERE beans_uuid IS NULL',
+            ).get();
+            for (final row in coffeeBeansRows) {
+              final id = row.data['id'] as int;
+              final newUuid =
+                  _generateUuidV7(); // Your Dart method to generate UUID
+              await customUpdate(
+                'UPDATE coffee_beans SET beans_uuid = ? WHERE id = ?',
+                variables: [Variable.withString(newUuid), Variable.withInt(id)],
+              );
+            }
 
-                // Check if coffee_beans_uuid column exists in user_stats
-                final userStatsColumns =
-                    await customSelect("PRAGMA table_info('user_stats')").get();
-                final coffeeBeansUuidExists = userStatsColumns.any(
-                    (column) => column.data['name'] == 'coffee_beans_uuid');
+            // Check if coffee_beans_uuid column exists in user_stats
+            final userStatsColumns = await customSelect(
+              "PRAGMA table_info('user_stats')",
+            ).get();
+            final coffeeBeansUuidExists = userStatsColumns.any(
+              (column) => column.data['name'] == 'coffee_beans_uuid',
+            );
 
-                if (!coffeeBeansUuidExists) {
-                  await customStatement(
-                      'ALTER TABLE user_stats ADD COLUMN coffee_beans_uuid TEXT');
-                }
+            if (!coffeeBeansUuidExists) {
+              await customStatement(
+                'ALTER TABLE user_stats ADD COLUMN coffee_beans_uuid TEXT',
+              );
+            }
 
-                // Update user_stats with corresponding coffee_beans UUIDs
-                await customStatement('''
+            // Update user_stats with corresponding coffee_beans UUIDs
+            await customStatement('''
       UPDATE user_stats
       SET coffee_beans_uuid = (
         SELECT beans_uuid
@@ -746,128 +759,150 @@ class AppDatabase extends _$AppDatabase {
       WHERE coffee_beans_id IS NOT NULL AND coffee_beans_uuid IS NULL
     ''');
 
-                await customStatement('COMMIT');
-              } catch (e) {
-                await customStatement('ROLLBACK');
-                AppLogger.error('[Database] Migration failed', errorObject: e);
-                rethrow;
-              }
-            },
-            from15To16: (m, schema) async {
-              await m.addColumn(userStats, userStats.isDeleted);
-            },
-            from16To17: (m, schema) async {
-              await m.addColumn(coffeeBeans, coffeeBeans.isDeleted);
-            },
-            from17To18: (m, schema) async {
-              await m.addColumn(userRecipePreferences,
-                  userRecipePreferences.coffeeChroniclerSliderPosition);
-            },
-            from18To19: (m, schema) async {
-              await m.alterTable(TableMigration(schema.recipes));
-            },
-            from19To20: (m, schema) async {
-              // Drop the vendors table
-              await customStatement('DROP TABLE IF EXISTS vendors');
-            },
-            from20To21: (m, schema) async {
-              await m.addColumn(recipes, recipes.importId);
-              await m.addColumn(recipes, recipes.isImported);
-            },
-            // Add migration from 21 to 22
-            from21To22: (m, schema) async {
-              // Correctly reference the column from the schema object
-              await m.addColumn(
-                  schema.recipes, schema.recipes.needsModerationReview);
-            },
-            from22To23: (m, schema) async {
-              await m.alterTable(TableMigration(schema.userStats));
-            },
-            from23To24: (m, schema) async {
-              // Migration for removing showOnMain from BrewingMethods.
-              await m.dropColumn(schema.brewingMethods, 'show_on_main');
-            },
-            from24To25: (m, schema) async {
-              // Remove Contributors table
-              await customStatement('DROP TABLE IF EXISTS contributors');
-            },
-            from25To26: (m, schema) async {
-              await m.addColumn(schema.coffeeBeans, schema.coffeeBeans.farmer);
-              await m.addColumn(schema.coffeeBeans, schema.coffeeBeans.farm);
-            },
+            await customStatement('COMMIT');
+          } catch (e) {
+            await customStatement('ROLLBACK');
+            AppLogger.error('[Database] Migration failed', errorObject: e);
+            rethrow;
+          }
+        },
+        from15To16: (m, schema) async {
+          await m.addColumn(userStats, userStats.isDeleted);
+        },
+        from16To17: (m, schema) async {
+          await m.addColumn(coffeeBeans, coffeeBeans.isDeleted);
+        },
+        from17To18: (m, schema) async {
+          await m.addColumn(
+            userRecipePreferences,
+            userRecipePreferences.coffeeChroniclerSliderPosition,
+          );
+        },
+        from18To19: (m, schema) async {
+          await m.alterTable(TableMigration(schema.recipes));
+        },
+        from19To20: (m, schema) async {
+          // Drop the vendors table
+          await customStatement('DROP TABLE IF EXISTS vendors');
+        },
+        from20To21: (m, schema) async {
+          await m.addColumn(recipes, recipes.importId);
+          await m.addColumn(recipes, recipes.isImported);
+        },
+        // Add migration from 21 to 22
+        from21To22: (m, schema) async {
+          // Correctly reference the column from the schema object
+          await m.addColumn(
+            schema.recipes,
+            schema.recipes.needsModerationReview,
+          );
+        },
+        from22To23: (m, schema) async {
+          await m.alterTable(TableMigration(schema.userStats));
+        },
+        from23To24: (m, schema) async {
+          // Migration for removing showOnMain from BrewingMethods.
+          await m.dropColumn(schema.brewingMethods, 'show_on_main');
+        },
+        from24To25: (m, schema) async {
+          // Remove Contributors table
+          await customStatement('DROP TABLE IF EXISTS contributors');
+        },
+        from25To26: (m, schema) async {
+          await m.addColumn(schema.coffeeBeans, schema.coffeeBeans.farmer);
+          await m.addColumn(schema.coffeeBeans, schema.coffeeBeans.farm);
+        },
 
-            // Phase B migration: remove launch_popups table and index
-            from26To27: (m, schema) async {
-              // Use custom statements to safely drop index and table if present
-              await customStatement(
-                  'DROP INDEX IF EXISTS idx_launch_popups_created_at');
-              await customStatement('DROP TABLE IF EXISTS launch_popups');
-            },
+        // Phase B migration: remove launch_popups table and index
+        from26To27: (m, schema) async {
+          // Use custom statements to safely drop index and table if present
+          await customStatement(
+            'DROP INDEX IF EXISTS idx_launch_popups_created_at',
+          );
+          await customStatement('DROP TABLE IF EXISTS launch_popups');
+        },
 
-            // Add isPublic column to Recipes table
-            from27To28: (m, schema) async {
-              await m.addColumn(schema.recipes, schema.recipes.isPublic);
-            },
+        // Add isPublic column to Recipes table
+        from27To28: (m, schema) async {
+          await m.addColumn(schema.recipes, schema.recipes.isPublic);
+        },
 
-            // Fix isPublic column migration to handle existing data
-            from28To29: (m, schema) async {
-              // Set is_public based on recipe ID patterns
-              await customStatement('''
+        // Fix isPublic column migration to handle existing data
+        from28To29: (m, schema) async {
+          // Set is_public based on recipe ID patterns
+          await customStatement('''
                 UPDATE recipes SET is_public = CASE
                   WHEN id NOT LIKE 'usr-%' THEN 1  -- Developer recipes are public
                   ELSE 0  -- User recipes are private by default
                 END WHERE is_public IS NULL
               ''');
-              // Ensure needs_moderation_review is set to false for existing records
-              await customStatement('''
+          // Ensure needs_moderation_review is set to false for existing records
+          await customStatement('''
                 UPDATE recipes SET needs_moderation_review = 0 WHERE needs_moderation_review IS NULL
               ''');
-            },
-            from29To30: (m, schema) async {
-              await m.addColumn(
-                  schema.coffeeBeans, schema.coffeeBeans.packageWeightGrams);
-            },
-            from30To31: (m, schema) async {
-              await m.addColumn(schema.userRecipePreferences,
-                  schema.userRecipePreferences.customGrindSize);
-              await m.addColumn(
-                  schema.userStats, schema.userStats.grindSize);
-            },
-            from31To32: (m, schema) async {
-              await m.addColumn(schema.coffeeBeans, schema.coffeeBeans.photoUrl);
-            },
-            from32To33: (m, schema) async {
-              await m.addColumn(schema.coffeeBeans,
-                  schema.coffeeBeans.reviewNudgeScheduledAt);
-            },
-            from33To34: (m, schema) async {
-              await m.addColumn(
-                  schema.coffeeBeans, schema.coffeeBeans.grindSize);
-            },
-            from34To35: (m, schema) async {
-              await m.createTable(recipeCollections);
-              await m.createTable(recipeCollectionLocalizations);
-              await m.createTable(recipeCollectionMembers);
-            },
-            from35To36: (m, schema) async {
-              await m.createTable(helpCategories);
-              await m.createTable(helpArticles);
-            },
-            from36To37: (m, schema) async {
-              await m.addColumn(
-                  schema.recipes, schema.recipes.originalAuthorId);
-            },
-            from37To38: (m, schema) async {
-              await m.addColumn(schema.userStats, schema.userStats.tdsPercent);
-              await m.addColumn(
-                  schema.userStats, schema.userStats.extractionYieldPercent);
-            },
-          )(m, oldVersion, newVersion);
         },
-        onCreate: (m) async {
-          await m.createAll();
+        from29To30: (m, schema) async {
+          await m.addColumn(
+            schema.coffeeBeans,
+            schema.coffeeBeans.packageWeightGrams,
+          );
         },
-      );
+        from30To31: (m, schema) async {
+          await m.addColumn(
+            schema.userRecipePreferences,
+            schema.userRecipePreferences.customGrindSize,
+          );
+          await m.addColumn(schema.userStats, schema.userStats.grindSize);
+        },
+        from31To32: (m, schema) async {
+          await m.addColumn(schema.coffeeBeans, schema.coffeeBeans.photoUrl);
+        },
+        from32To33: (m, schema) async {
+          await m.addColumn(
+            schema.coffeeBeans,
+            schema.coffeeBeans.reviewNudgeScheduledAt,
+          );
+        },
+        from33To34: (m, schema) async {
+          await m.addColumn(schema.coffeeBeans, schema.coffeeBeans.grindSize);
+        },
+        from34To35: (m, schema) async {
+          await m.createTable(recipeCollections);
+          await m.createTable(recipeCollectionLocalizations);
+          await m.createTable(recipeCollectionMembers);
+        },
+        from35To36: (m, schema) async {
+          await m.createTable(helpCategories);
+          await m.createTable(helpArticles);
+        },
+        from36To37: (m, schema) async {
+          await m.addColumn(schema.recipes, schema.recipes.originalAuthorId);
+        },
+        from37To38: (m, schema) async {
+          await m.addColumn(schema.userStats, schema.userStats.tdsPercent);
+          await m.addColumn(
+            schema.userStats,
+            schema.userStats.extractionYieldPercent,
+          );
+        },
+        from38To39: (m, schema) async {
+          await m.addColumn(schema.userStats, schema.userStats.waterTemp);
+          await m.addColumn(schema.userStats, schema.userStats.tasteBalance);
+          await m.addColumn(schema.userStats, schema.userStats.entrySource);
+          await m.addColumn(
+            schema.userRecipePreferences,
+            schema.userRecipePreferences.customWaterTemp,
+          );
+        },
+        from39To40: (m, schema) async {
+          await m.addColumn(schema.userStats, schema.userStats.tags);
+        },
+      )(m, oldVersion, newVersion);
+    },
+    onCreate: (m) async {
+      await m.createAll();
+    },
+  );
 }
 
 DatabaseConnection _openConnection() {

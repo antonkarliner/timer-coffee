@@ -75,25 +75,31 @@ class RoasterDirectoryService {
     }
 
     try {
+      // No .maybeSingle(): on POST RPCs it requests
+      // application/vnd.pgrst.object+json, so an unknown roaster (0 rows)
+      // comes back as HTTP 406/PGRST116 that postgrest-dart 2.6.0 fails to
+      // map to null. Fetching the row set keeps "not found" a plain empty
+      // list instead of an exception.
       final response = await Supabase.instance.client
           .rpc(
             'get_roaster_bundle_by_name',
             params: {'p_roaster_name': roasterName.trim()},
           )
-          .maybeSingle()
           .timeout(NetworkTimeouts.handshake);
-      if (response == null) {
+      final rows = response as List<dynamic>;
+      if (rows.isEmpty) {
+        AppLogger.debug('Roaster bundle: no directory profile, caching miss');
         _memoryCache[key] = null;
         await _persistentCache.write(key, {'found': false});
         return null;
       }
+      final row = rows.first as Map<String, dynamic>;
       final bundle = <String, String?>{
-        'profile_id': response['profile_id'] as String?,
-        'slug': response['slug'] as String?,
-        'roaster_logo_url': response['roaster_logo_url'] as String?,
-        'roaster_logo_mirror_url':
-            response['roaster_logo_mirror_url'] as String?,
-        'dominant_color_hex': response['dominant_color_hex'] as String?,
+        'profile_id': row['profile_id'] as String?,
+        'slug': row['slug'] as String?,
+        'roaster_logo_url': row['roaster_logo_url'] as String?,
+        'roaster_logo_mirror_url': row['roaster_logo_mirror_url'] as String?,
+        'dominant_color_hex': row['dominant_color_hex'] as String?,
       };
       _memoryCache[key] = bundle;
       await _persistentCache.write(key, {'found': true, ...bundle});

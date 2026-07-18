@@ -7,11 +7,18 @@ class FlavorProfileSection extends StatelessWidget {
   final Future<List<String>> tastingNotesOptions;
   final ValueChanged<List<String>> onTastingNotesChanged;
 
+  /// Optional external controller for the tasting notes chip input.
+  ///
+  /// Carries typed-but-unsubmitted text so the save path can fold it in via
+  /// [ChipInput.controller] — see [chipsWithPending].
+  final TextEditingController? pendingController;
+
   const FlavorProfileSection({
     super.key,
     this.tastingNotes = const [],
     required this.tastingNotesOptions,
     required this.onTastingNotesChanged,
+    this.pendingController,
   });
 
   @override
@@ -30,6 +37,7 @@ class FlavorProfileSection extends StatelessWidget {
           suggestions: suggestions,
           semanticIdentifier: 'tastingNotesInputField',
           onChanged: onTastingNotesChanged,
+          controller: pendingController,
         );
       },
     );

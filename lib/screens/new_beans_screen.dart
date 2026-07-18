@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/coffee_beans_model.dart';
 import '../providers/coffee_beans_provider.dart';
+import '../widgets/fields/chip_input.dart';
 import 'package:coffee_timer/widgets/new_beans/optional_details/optional_details_card.dart';
 import 'package:coffee_timer/widgets/new_beans/required_info_card.dart';
 import 'package:coffee_timer/widgets/new_beans/dates_card.dart';
@@ -58,6 +59,11 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   final TextEditingController _farmerController = TextEditingController();
   final TextEditingController _farmController = TextEditingController();
   final TextEditingController _grindSizeController = TextEditingController();
+  // Typed-but-unsubmitted tasting note text must survive a direct Save tap,
+  // so the input controller lives on the screen and is folded in at save
+  // time (see chipsWithPending).
+  final TextEditingController _tastingNotesPendingController =
+      TextEditingController();
   final Uuid _uuid = Uuid();
 
   // Store listener functions to properly remove them later
@@ -70,6 +76,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   late VoidCallback _farmerListener;
   late VoidCallback _farmListener;
   late VoidCallback _grindSizeListener;
+  late VoidCallback _tastingNotesPendingListener;
 
   List<String> _tastingNotes = [];
   String? variety;
@@ -182,6 +189,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
           _farmController.text.trim().isNotEmpty ||
           _grindSizeController.text.trim().isNotEmpty ||
           _tastingNotes.isNotEmpty ||
+          _tastingNotesPendingController.text.trim().isNotEmpty ||
           variety != null ||
           processingMethod != null ||
           roastLevel != null ||
@@ -202,6 +210,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         _farmController.text.trim() != (_initialFarm ?? '') ||
         _grindSizeController.text.trim() != (_initialGrindSize ?? '') ||
         !_listsEqual(_tastingNotes, _initialTastingNotes) ||
+        _tastingNotesPendingController.text.trim().isNotEmpty ||
         variety != _initialVariety ||
         processingMethod != _initialProcessingMethod ||
         roastLevel != _initialRoastLevel ||
@@ -299,6 +308,10 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       _updateUnsavedChanges();
       _validateForm();
     };
+    _tastingNotesPendingListener = () {
+      _updateUnsavedChanges();
+      _validateForm();
+    };
 
     // Add listeners to all text controllers for validation and change detection
     _roasterController.addListener(_roasterListener);
@@ -310,6 +323,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     _farmerController.addListener(_farmerListener);
     _farmController.addListener(_farmListener);
     _grindSizeController.addListener(_grindSizeListener);
+    _tastingNotesPendingController.addListener(_tastingNotesPendingListener);
 
     // Initial validation
     _validateForm();
@@ -333,6 +347,9 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     _farmerController.removeListener(_farmerListener);
     _farmController.removeListener(_farmListener);
     _grindSizeController.removeListener(_grindSizeListener);
+    _tastingNotesPendingController.removeListener(
+      _tastingNotesPendingListener,
+    );
 
     // Dispose controllers
     _roasterController.dispose();
@@ -344,6 +361,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     _farmerController.dispose();
     _farmController.dispose();
     _grindSizeController.dispose();
+    _tastingNotesPendingController.dispose();
     _authStateSubscription?.cancel();
 
     super.dispose();
@@ -428,6 +446,11 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         }
       }
 
+      final tastingNotes = chipsWithPending(
+        _tastingNotes,
+        _tastingNotesPendingController.text,
+      );
+
       final bean = CoffeeBeansModel(
         id: 0, // This will be ignored for new beans
         beansUuid: beansUuid,
@@ -435,8 +458,8 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         name: _nameController.text.trim(),
         origin: _originController.text.trim(),
         variety: variety,
-        tastingNotes: _tastingNotes.isNotEmpty
-            ? _tastingNotes.join(', ')
+        tastingNotes: tastingNotes.isNotEmpty
+            ? tastingNotes.join(', ')
             : null,
         processingMethod: processingMethod,
         elevation: _elevationController.text.isNotEmpty
@@ -1396,6 +1419,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
             cuppingScore: _cuppingScoreController.text.isNotEmpty
                 ? double.tryParse(_cuppingScoreController.text)
                 : null,
+            tastingNotesPendingController: _tastingNotesPendingController,
             // options (as Futures)
             varietyOptions: coffeeBeansProvider.fetchAllDistinctVarieties(),
             regionOptions: coffeeBeansProvider.fetchAllDistinctRegions(),
@@ -1621,6 +1645,8 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                       cuppingScore: _cuppingScoreController.text.isNotEmpty
                           ? double.tryParse(_cuppingScoreController.text)
                           : null,
+                      tastingNotesPendingController:
+                          _tastingNotesPendingController,
                       // options (as Futures)
                       varietyOptions: coffeeBeansProvider
                           .fetchAllDistinctVarieties(),

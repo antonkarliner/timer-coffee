@@ -28,6 +28,16 @@ class BatchInsertResult {
   }
 }
 
+class GrindSuggestionResult {
+  final String grindSize;
+  final int? tasteBalance;
+
+  const GrindSuggestionResult({
+    required this.grindSize,
+    required this.tasteBalance,
+  });
+}
+
 @DriftAccessor(tables: [UserStats])
 class UserStatsDao extends DatabaseAccessor<AppDatabase>
     with _$UserStatsDaoMixin {
@@ -56,6 +66,10 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
       grindSize: row.grindSize,
       tdsPercent: row.tdsPercent,
       extractionYieldPercent: row.extractionYieldPercent,
+      waterTemp: row.waterTemp,
+      tasteBalance: row.tasteBalance,
+      entrySource: row.entrySource,
+      tags: row.tags,
       versionVector: row.versionVector,
       isDeleted: row.isDeleted,
     );
@@ -81,6 +95,10 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
       grindSize: Value(model.grindSize),
       tdsPercent: Value(model.tdsPercent),
       extractionYieldPercent: Value(model.extractionYieldPercent),
+      waterTemp: Value(model.waterTemp),
+      tasteBalance: Value(model.tasteBalance),
+      entrySource: Value(model.entrySource),
+      tags: Value(model.tags),
       versionVector: Value(model.versionVector),
       isDeleted: Value(model.isDeleted),
     );
@@ -99,6 +117,32 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
     return result != null ? _userStatFromRow(result) : null;
   }
 
+  Future<GrindSuggestionResult?> latestGrindSuggestionForBeanAndMethod(
+    String beansUuid,
+    String brewingMethodId,
+  ) async {
+    final query = selectOnly(userStats)
+      ..addColumns([userStats.grindSize, userStats.tasteBalance])
+      ..where(
+        userStats.coffeeBeansUuid.equals(beansUuid) &
+            userStats.brewingMethodId.equals(brewingMethodId) &
+            userStats.isDeleted.equals(false) &
+            userStats.grindSize.isNotNull() &
+            userStats.grindSize.equals('').not(),
+      )
+      ..orderBy([
+        OrderingTerm(expression: userStats.createdAt, mode: OrderingMode.desc),
+      ])
+      ..limit(1);
+    final row = await query.getSingleOrNull();
+    final grindSize = row?.read(userStats.grindSize);
+    if (grindSize == null) return null;
+    return GrindSuggestionResult(
+      grindSize: grindSize,
+      tasteBalance: row?.read(userStats.tasteBalance),
+    );
+  }
+
   Future<List<UserStatsModel>> fetchAllStats() async {
     final query = select(userStats)
       ..orderBy([
@@ -108,6 +152,141 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
     final List<UserStat> userStatsList = await query.get();
 
     return userStatsList.map(_userStatFromRow).toList();
+  }
+
+  /// Loads every non-deleted diary row and its display metadata in one query.
+  /// Recipe names prefer [locale] and fall back to English. Brewing method
+  /// names are stored directly on `brewing_methods` and are not localized in
+  /// the current schema. Soft-deleted beans are treated as unlinked, matching
+  /// [CoffeeBeansDao.fetchCoffeeBeansByUuid]. When an entry has no stored
+  /// `water_temp`, it falls back to the linked recipe's default temperature
+  /// and is flagged via `water_temp_is_derived` so callers can mark it as an
+  /// assumption rather than a recorded value.
+  Future<List<DiaryEntry>> fetchDiaryEntries(String locale) async {
+    final query = customSelect(
+      '''
+        SELECT
+          us.stat_uuid,
+          us.recipe_id,
+          COALESCE(localized.name, english.name, '') AS recipe_name,
+          us.brewing_method_id,
+          bm.brewing_method AS method_name,
+          us.created_at,
+          us.coffee_amount,
+          us.water_amount,
+          us.grind_size,
+          COALESCE(us.water_temp, r.water_temp) AS water_temp,
+          (us.water_temp IS NULL AND r.water_temp IS NOT NULL) AS water_temp_is_derived,
+          us.tds_percent,
+          us.extraction_yield_percent,
+          us.taste_balance,
+          us.entry_source,
+          us.tags,
+          us.rating,
+          us.is_marked,
+          us.notes,
+          us.coffee_beans_uuid,
+          cb.name AS bean_name,
+          cb.roaster AS bean_roaster,
+          cb.origin AS bean_origin
+        FROM user_stats AS us
+        INNER JOIN brewing_methods AS bm
+          ON bm.brewing_method_id = us.brewing_method_id
+        LEFT JOIN recipes AS r
+          ON r.id = us.recipe_id
+        LEFT JOIN recipe_localizations AS localized
+          ON localized.id = (
+            SELECT id FROM recipe_localizations
+            WHERE recipe_id = us.recipe_id AND locale = ?
+            LIMIT 1
+          )
+        LEFT JOIN recipe_localizations AS english
+          ON english.id = (
+            SELECT id FROM recipe_localizations
+            WHERE recipe_id = us.recipe_id AND locale = 'en'
+            LIMIT 1
+          )
+        LEFT JOIN coffee_beans AS cb
+          ON cb.beans_uuid = us.coffee_beans_uuid AND cb.is_deleted = false
+        WHERE us.is_deleted = false
+        ORDER BY us.created_at DESC
+      ''',
+      variables: [Variable.withString(locale)],
+      readsFrom: {
+        userStats,
+        db.brewingMethods,
+        db.recipes,
+        db.recipeLocalizations,
+        db.coffeeBeans,
+      },
+    );
+
+    return query.map((row) {
+      return DiaryEntry(
+        statUuid: row.read<String>('stat_uuid'),
+        recipeId: row.read<String>('recipe_id'),
+        recipeName: row.read<String>('recipe_name'),
+        brewingMethodId: row.read<String>('brewing_method_id'),
+        methodName: row.read<String>('method_name'),
+        createdAt: row.read<DateTime>('created_at'),
+        coffeeAmount: row.read<double>('coffee_amount'),
+        waterAmount: row.read<double>('water_amount'),
+        grindSize: row.readNullable<String>('grind_size'),
+        waterTemp: row.readNullable<double>('water_temp'),
+        waterTempIsDerived: row.read<bool>('water_temp_is_derived'),
+        tdsPercent: row.readNullable<double>('tds_percent'),
+        extractionYieldPercent: row.readNullable<double>(
+          'extraction_yield_percent',
+        ),
+        tasteBalance: row.readNullable<int>('taste_balance'),
+        entrySource: row.readNullable<int>('entry_source'),
+        tags: row.readNullable<String>('tags'),
+        rating: row.readNullable<double>('rating'),
+        isMarked: row.read<bool>('is_marked'),
+        notes: row.readNullable<String>('notes'),
+        coffeeBeansUuid: row.readNullable<String>('coffee_beans_uuid'),
+        beanName: row.readNullable<String>('bean_name'),
+        roaster: row.readNullable<String>('bean_roaster'),
+        origin: row.readNullable<String>('bean_origin'),
+      );
+    }).get();
+  }
+
+  /// The three most-used brewing methods in the trailing 90-day window.
+  ///
+  /// Method names are stored directly on `brewing_methods`; [locale] is kept
+  /// in the API so this aggregate can adopt localized method names without a
+  /// call-site change if the catalog gains localizations later.
+  Future<List<({String brewingMethodId, String methodName, int count})>>
+  topMethodsLast90Days(String locale) async {
+    final cutoff = DateTime.now().toUtc().subtract(const Duration(days: 90));
+    final query = customSelect(
+      '''
+        SELECT
+          us.brewing_method_id,
+          bm.brewing_method AS method_name,
+          COUNT(*) AS brew_count
+        FROM user_stats AS us
+        INNER JOIN brewing_methods AS bm
+          ON bm.brewing_method_id = us.brewing_method_id
+        WHERE us.is_deleted = false AND us.created_at >= ?
+        GROUP BY us.brewing_method_id, bm.brewing_method
+        ORDER BY brew_count DESC, bm.brewing_method ASC
+        LIMIT 3
+      ''',
+      variables: [Variable.withDateTime(cutoff)],
+      readsFrom: {userStats, db.brewingMethods},
+    );
+    final rows = await query.get();
+    return rows
+        .map(
+          (row) => (
+            brewingMethodId: row.read<String>('brewing_method_id'),
+            methodName: row.read<String>('method_name'),
+            count: row.read<int>('brew_count'),
+          ),
+        )
+        .toList();
   }
 
   /// Returns the most recent non-deleted brews, newest first, capped at
@@ -256,6 +435,37 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
       ]);
     final beans = await query.map((row) => row.read(userStats.beans)).get();
     return beans.whereType<String>().toList();
+  }
+
+  /// Custom tags across non-deleted diary entries, ordered by recency of
+  /// last use (rows come back newest-`createdAt`-first, and tags are folded
+  /// in that order), for quick picks / autocomplete surfaces. Deduplicated
+  /// case-insensitively, keeping the casing of the most recently used
+  /// occurrence.
+  ///
+  /// SQLite forbids `ORDER BY` on a column that isn't part of a `DISTINCT`
+  /// select list, so this selects the raw (non-distinct) `tags` column
+  /// ordered by `createdAt` and dedupes in Dart after expanding each stored
+  /// comma-separated string.
+  Future<List<String>> fetchAllDistinctTags() async {
+    final query = selectOnly(userStats)
+      ..addColumns([userStats.tags])
+      ..where(userStats.tags.isNotNull() & userStats.isDeleted.equals(false))
+      ..orderBy([
+        OrderingTerm(expression: userStats.createdAt, mode: OrderingMode.desc),
+      ]);
+    final storedTags = await query.map((row) => row.read(userStats.tags)).get();
+
+    final seen = <String>{};
+    final orderedTags = <String>[];
+    for (final stored in storedTags.whereType<String>()) {
+      for (final tag in diaryTagsFromStorage(stored)) {
+        if (seen.add(tag.toLowerCase())) {
+          orderedTags.add(tag);
+        }
+      }
+    }
+    return orderedTags;
   }
 
   Future<void> deleteUserStat(String statUuid) async {

@@ -175,7 +175,7 @@ class CoffeeJourneyCard extends StatelessWidget {
       _Milestone(
         label: l10n.coffeeJourneyMilestoneStats,
         done: onboarding.milestoneStats,
-        onTap: () => context.router.push(const StatsRoute()),
+        onTap: () => context.router.push(StatsRoute()),
       ),
       _Milestone(
         label: l10n.coffeeJourneyMilestonePulse,

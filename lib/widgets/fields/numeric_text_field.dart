@@ -54,6 +54,12 @@ class NumericTextField extends StatefulWidget {
   /// Focus node for controlling focus
   final FocusNode? focusNode;
 
+  /// Whether to render the label inside the outline as a floating label.
+  final bool labelInsideField;
+
+  /// Whether the field should request focus when it is first shown.
+  final bool autofocus;
+
   const NumericTextField({
     super.key,
     required this.label,
@@ -72,6 +78,8 @@ class NumericTextField extends StatefulWidget {
     this.max,
     this.semanticIdentifier,
     this.focusNode,
+    this.labelInsideField = false,
+    this.autofocus = false,
   });
 
   @override
@@ -220,6 +228,8 @@ class _NumericTextFieldState extends State<NumericTextField> {
       required: widget.required,
       semanticIdentifier: widget.semanticIdentifier,
       focusNode: _focusNode,
+      labelInsideField: widget.labelInsideField,
+      autofocus: widget.autofocus,
       controller: _controller,
       inputFormatters: [
         FilteringTextInputFormatter.allow(

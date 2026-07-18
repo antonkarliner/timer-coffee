@@ -42,6 +42,33 @@ import '../widgets/first_brew_celebration.dart';
 const String _nativeAppUrl = 'https://www.timer.coffee/get/';
 const String _buyMeACoffeeUrl = 'https://www.buymeacoffee.com/timercoffee';
 
+@visibleForTesting
+Future<void> insertGuidedBrewUserStat({
+  required UserStatProvider userStatProvider,
+  required RecipeModel recipe,
+  required double coffeeAmount,
+  required double waterAmount,
+  required int sweetnessSliderPosition,
+  required int strengthSliderPosition,
+  required String statUuid,
+  required String? coffeeBeansUuid,
+  required double? waterTemp,
+}) {
+  return userStatProvider.insertUserStat(
+    recipeId: recipe.id,
+    coffeeAmount: coffeeAmount,
+    waterAmount: waterAmount,
+    sweetnessSliderPosition: sweetnessSliderPosition,
+    strengthSliderPosition: strengthSliderPosition,
+    brewingMethodId: recipe.brewingMethodId,
+    statUuid: statUuid,
+    coffeeBeansUuid: coffeeBeansUuid,
+    grindSize: recipe.grindSize,
+    waterTemp: waterTemp,
+    entrySource: 0,
+  );
+}
+
 class FinishScreen extends StatefulWidget {
   final String brewingMethodName;
   final RecipeModel recipe;
@@ -70,8 +97,11 @@ class _FinishScreenState extends State<FinishScreen> {
   late Future<String> coffeeFact;
   final AdvancedInAppReview advancedInAppReview = AdvancedInAppReview();
   final Uuid _uuid = Uuid();
+  late final String _statUuid;
   bool _permissionRequestInProgress = false;
   bool _showPromoCard = false;
+  int? _tasteBalance;
+  Future<void> _tasteFeedbackWrite = Future<void>.value();
 
   // Approximate moment the brew finished — used as the anchor for the
   // in-sync window query.
@@ -109,7 +139,9 @@ class _FinishScreenState extends State<FinishScreen> {
   late Future<_FinishSlotContent> _slotContentFuture;
 
   bool get _inSyncWon =>
-      _inSyncResolved && _inSyncCount != null && _inSyncCount! >= _inSyncThreshold;
+      _inSyncResolved &&
+      _inSyncCount != null &&
+      _inSyncCount! >= _inSyncThreshold;
 
   @override
   void initState() {
@@ -138,6 +170,7 @@ class _FinishScreenState extends State<FinishScreen> {
     _inSyncThreshold =
         kInSyncThresholdByHour[_brewCompletedAt.toUtc().hour] ?? 3;
     requestReview();
+    _statUuid = _uuid.v7();
     _insertBrewingDataFuture = insertBrewingDataToAppDatabase();
     _updateBeanWeightFuture = _updateBeanWeightAfterBrew();
     _checkAndRequestNotificationPermission();
@@ -178,7 +211,8 @@ class _FinishScreenState extends State<FinishScreen> {
       final moments = Provider.of<MomentsService>(context, listen: false);
       await moments.earliestBrewAt();
       if (!mounted) return;
-      final shouldShow = moments.isFirstBrewAnniversary &&
+      final shouldShow =
+          moments.isFirstBrewAnniversary &&
           !moments.isAnniversaryShownThisYear();
       if (!shouldShow) return;
       setState(() => _showAnniversary = true);
@@ -275,8 +309,9 @@ class _FinishScreenState extends State<FinishScreen> {
         if (!mounted) return;
         setState(() {
           _inSyncCount = count;
-          _inSyncCountries =
-              countries.map((e) => e.key).toList(growable: false);
+          _inSyncCountries = countries
+              .map((e) => e.key)
+              .toList(growable: false);
           _inSyncResolved = true;
         });
 
@@ -468,7 +503,6 @@ class _FinishScreenState extends State<FinishScreen> {
     final user = Supabase.instance.client.auth.currentUser;
     if (user != null) {
       try {
-        final statUuid = _uuid.v7();
         final userStatProvider = Provider.of<UserStatProvider>(
           context,
           listen: false,
@@ -480,16 +514,17 @@ class _FinishScreenState extends State<FinishScreen> {
         final prefs = await SharedPreferences.getInstance();
         final coffeeBeansUuid = prefs.getString('selectedBeanUuid');
 
-        await userStatProvider.insertUserStat(
-          recipeId: widget.recipe.id,
+        await insertGuidedBrewUserStat(
+          userStatProvider: userStatProvider,
+          recipe: widget.recipe,
           coffeeAmount: widget.coffeeAmount,
           waterAmount: widget.waterAmount,
           sweetnessSliderPosition: widget.sweetnessSliderPosition,
           strengthSliderPosition: widget.strengthSliderPosition,
-          brewingMethodId: widget.recipe.brewingMethodId,
-          statUuid: statUuid,
+          statUuid: _statUuid,
           coffeeBeansUuid: coffeeBeansUuid,
-          grindSize: widget.recipe.grindSize,
+          // Runtime RecipeModel.waterTemp is the normalized effective value.
+          waterTemp: widget.recipe.waterTemp,
         );
         if (coffeeBeansUuid != null && coffeeBeansUuid.isNotEmpty) {
           AnalyticsService.instance.track(
@@ -519,7 +554,7 @@ class _FinishScreenState extends State<FinishScreen> {
           );
         }
         AppLogger.debug(
-          'Inserted new stat with UUID: $statUuid and Coffee Beans UUID: $coffeeBeansUuid',
+          'Inserted new stat with UUID: $_statUuid and Coffee Beans UUID: $coffeeBeansUuid',
         );
       } catch (e) {
         AppLogger.error(
@@ -530,6 +565,108 @@ class _FinishScreenState extends State<FinishScreen> {
     } else {
       AppLogger.debug('No user signed in');
     }
+  }
+
+  void _selectTasteBalance(int value) {
+    setState(() => _tasteBalance = value);
+
+    _tasteFeedbackWrite = _tasteFeedbackWrite
+        .then((_) async {
+          await _insertBrewingDataFuture;
+          if (!mounted) return;
+          final userStatProvider = Provider.of<UserStatProvider>(
+            context,
+            listen: false,
+          );
+          await userStatProvider.updateUserStat(
+            statUuid: _statUuid,
+            tasteBalance: value,
+          );
+        })
+        .catchError((Object error) {
+          AppLogger.error('Error saving taste feedback', errorObject: error);
+        });
+  }
+
+  Widget _buildTasteFeedback(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    final brightness = theme.brightness;
+    final options = <(int, String)>[
+      (-1, l10n.tasteSour),
+      (0, l10n.tasteBalanced),
+      (1, l10n.tasteBitter),
+    ];
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.base),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            l10n.tasteFeedbackPrompt,
+            style: AppTextStyles.caption.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                for (var index = 0; index < options.length; index++) ...[
+                  if (index > 0) const SizedBox(width: AppSpacing.sm),
+                  ChoiceChip(
+                    label: Text(
+                      options[index].$2,
+                      style: AppTextStyles.caption.copyWith(
+                        color: _tasteBalance == options[index].$1
+                            ? AppSemanticColors.taste(
+                                options[index].$1,
+                                brightness,
+                              ).foreground
+                            : theme.colorScheme.onSurfaceVariant,
+                        fontWeight: _tasteBalance == options[index].$1
+                            ? FontWeight.w600
+                            : FontWeight.normal,
+                      ),
+                    ),
+                    selected: _tasteBalance == options[index].$1,
+                    showCheckmark: false,
+                    selectedColor: AppSemanticColors.taste(
+                      options[index].$1,
+                      brightness,
+                    ).background,
+                    backgroundColor: theme.colorScheme.surfaceContainerLow,
+                    side: BorderSide(
+                      color: _tasteBalance == options[index].$1
+                          ? AppSemanticColors.taste(
+                              options[index].$1,
+                              brightness,
+                            ).foreground
+                          : theme.colorScheme.outlineVariant,
+                      width: _tasteBalance == options[index].$1
+                          ? AppStroke.focus
+                          : AppStroke.border,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(AppRadius.chip),
+                    ),
+                    visualDensity: VisualDensity.compact,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.sm,
+                    ),
+                    onSelected: (_) => _selectTasteBalance(options[index].$1),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   /// Returns true only when this brew crossed the bag into "empty"
@@ -918,6 +1055,9 @@ class _FinishScreenState extends State<FinishScreen> {
                     FirstBrewCelebration(
                       brewingMethodId: widget.recipe.brewingMethodId,
                     ),
+                    const SizedBox(height: AppSpacing.base),
+                    _buildTasteFeedback(context),
+                    const SizedBox(height: AppSpacing.base),
                     // Same UI slot for promo / anniversary / in-sync /
                     // review nudge / coffee fact. Priority: promo >
                     // anniversary > in-sync > review nudge > coffee fact.

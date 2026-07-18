@@ -34,6 +34,54 @@ class CacheEntry<T> {
       DateTime.now().difference(timestamp) > CacheConfig.maxAge;
 }
 
+enum BeanWeightAdjustmentStatus { adjusted, notTracked, failed }
+
+class BeanWeightAdjustmentResult {
+  const BeanWeightAdjustmentResult._({
+    required this.status,
+    this.newWeight,
+    this.appliedDoseDelta = 0,
+    this.error,
+    this.stackTrace,
+  });
+
+  const BeanWeightAdjustmentResult.adjusted({
+    required double newWeight,
+    required double appliedDoseDelta,
+  }) : this._(
+         status: BeanWeightAdjustmentStatus.adjusted,
+         newWeight: newWeight,
+         appliedDoseDelta: appliedDoseDelta,
+       );
+
+  const BeanWeightAdjustmentResult.notTracked()
+    : this._(status: BeanWeightAdjustmentStatus.notTracked);
+
+  const BeanWeightAdjustmentResult.failed(Object error, StackTrace stackTrace)
+    : this._(
+        status: BeanWeightAdjustmentStatus.failed,
+        error: error,
+        stackTrace: stackTrace,
+      );
+
+  final BeanWeightAdjustmentStatus status;
+  final double? newWeight;
+
+  /// The dose delta actually applied after respecting the zero-weight floor.
+  final double appliedDoseDelta;
+  final Object? error;
+  final StackTrace? stackTrace;
+}
+
+class BeanWeightAdjustmentException implements Exception {
+  const BeanWeightAdjustmentException(this.cause);
+
+  final Object cause;
+
+  @override
+  String toString() => 'Bean weight adjustment failed: $cause';
+}
+
 class CoffeeBeansProvider with ChangeNotifier {
   final AppDatabase db;
   final DatabaseProvider databaseProvider;
@@ -884,6 +932,50 @@ class CoffeeBeansProvider with ChangeNotifier {
     List<String> selectedRoasters,
   ) async {
     return await db.coffeeBeansDao.fetchOriginsForRoasters(selectedRoasters);
+  }
+
+  /// Reconciles inventory for a dose change (`newDose - oldDose`).
+  ///
+  /// Positive deltas consume more beans and negative deltas return beans. A
+  /// missing bean or a null package weight is a normal, untracked result;
+  /// database failures remain distinguishable so callers can abort a save.
+  Future<BeanWeightAdjustmentResult> adjustBeanWeightForDoseDelta(
+    String beansUuid,
+    double doseDelta,
+  ) async {
+    try {
+      final currentBeans = await fetchCoffeeBeansByUuid(beansUuid);
+      if (currentBeans == null || currentBeans.packageWeightGrams == null) {
+        return const BeanWeightAdjustmentResult.notTracked();
+      }
+
+      final currentWeight = currentBeans.packageWeightGrams!;
+      final newWeight = (currentWeight - doseDelta)
+          .clamp(0.0, double.infinity)
+          .toDouble();
+      final appliedDoseDelta = currentWeight - newWeight;
+      if (appliedDoseDelta == 0) {
+        return BeanWeightAdjustmentResult.adjusted(
+          newWeight: currentWeight,
+          appliedDoseDelta: 0,
+        );
+      }
+
+      await updateCoffeeBeans(
+        currentBeans.copyWith(packageWeightGrams: newWeight),
+      );
+      return BeanWeightAdjustmentResult.adjusted(
+        newWeight: newWeight,
+        appliedDoseDelta: appliedDoseDelta,
+      );
+    } catch (error, stackTrace) {
+      AppLogger.error(
+        'Failed to adjust bean weight for diary dose delta',
+        errorObject: error,
+        stackTrace: stackTrace,
+      );
+      return BeanWeightAdjustmentResult.failed(error, stackTrace);
+    }
   }
 
   /// Updates the package weight for a specific coffee bean by subtracting the used amount.

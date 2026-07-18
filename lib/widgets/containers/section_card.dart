@@ -54,6 +54,13 @@ class SectionCard extends StatefulWidget {
   /// Semantic identifier for accessibility testing
   final String? semanticIdentifier;
 
+  /// Whether the collapsible header should expose one actionable semantic node.
+  ///
+  /// When enabled, the header title, subtitle, tap action, and expanded state
+  /// are combined for assistive technologies. Defaults to false so existing
+  /// call sites retain their current semantics.
+  final bool mergeHeaderSemantics;
+
   /// Whether to add padding around the child content
   /// Defaults to true
   final bool paddingChild;
@@ -73,6 +80,7 @@ class SectionCard extends StatefulWidget {
     this.trailing,
     required this.child,
     this.semanticIdentifier,
+    this.mergeHeaderSemantics = false,
     this.paddingChild = true,
     this.showDivider = true,
   });
@@ -104,13 +112,9 @@ class _SectionCardState extends State<SectionCard>
       curve: Curves.easeInOut,
     );
 
-    _iconRotation = Tween<double>(
-      begin: 0.0,
-      end: 0.5,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInOut,
-    ));
+    _iconRotation = Tween<double>(begin: 0.0, end: 0.5).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+    );
 
     // Set initial animation state
     if (_isExpanded) {
@@ -155,15 +159,17 @@ class _SectionCardState extends State<SectionCard>
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    return InkWell(
+    final header = InkWell(
       onTap: widget.isCollapsible ? _toggleExpansion : null,
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(AppRadius.card),
         topRight: Radius.circular(AppRadius.card),
         bottomLeft: Radius.circular(
-            !widget.isCollapsible || _isExpanded ? 0 : AppRadius.card),
+          !widget.isCollapsible || _isExpanded ? 0 : AppRadius.card,
+        ),
         bottomRight: Radius.circular(
-            !widget.isCollapsible || _isExpanded ? 0 : AppRadius.card),
+          !widget.isCollapsible || _isExpanded ? 0 : AppRadius.card,
+        ),
       ),
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.cardPadding),
@@ -223,6 +229,21 @@ class _SectionCardState extends State<SectionCard>
         ),
       ),
     );
+
+    if (!widget.mergeHeaderSemantics || !widget.isCollapsible) {
+      return header;
+    }
+
+    return Semantics(
+      container: true,
+      excludeSemantics: true,
+      label: widget.title,
+      value: widget.subtitle,
+      button: true,
+      expanded: _isExpanded,
+      onTap: _toggleExpansion,
+      child: header,
+    );
   }
 
   Widget _buildContent() {
@@ -234,7 +255,9 @@ class _SectionCardState extends State<SectionCard>
             Divider(
               height: 1,
               thickness: AppStroke.border,
-              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.12),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.12),
             ),
           if (widget.paddingChild)
             Padding(

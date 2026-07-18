@@ -19,6 +19,7 @@ import '../services/analytics_service.dart';
 // Providers
 import '../providers/recipe_provider.dart';
 import '../providers/user_recipe_provider.dart';
+import '../providers/user_stat_provider.dart';
 
 // Widgets
 import '../widgets/recipe_detail/loading_error_states.dart';
@@ -35,16 +36,48 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../webhelper/web_helper.dart' as web;
 import '../utils/app_logger.dart'; // Import AppLogger
 
+@visibleForTesting
+RecipeModel buildRuntimeRecipeForBrew({
+  required RecipeModel recipe,
+  required String id,
+  required double coffeeAmount,
+  required double waterAmount,
+  required String grindSize,
+  required double? waterTemperature,
+  required int? sweetnessSliderPosition,
+  required int? strengthSliderPosition,
+  required int? coffeeChroniclerSliderPosition,
+}) {
+  return recipe.copyWith(
+    id: id,
+    coffeeAmount: coffeeAmount,
+    waterAmount: waterAmount,
+    grindSize: grindSize,
+    waterTemp: waterTemperature ?? recipe.waterTemp,
+    sweetnessSliderPosition: sweetnessSliderPosition,
+    strengthSliderPosition: strengthSliderPosition,
+    coffeeChroniclerSliderPosition: coffeeChroniclerSliderPosition,
+  );
+}
+
 @RoutePage(name: 'RecipeDetailRoute')
 class RecipeDetailScreen extends StatelessWidget {
   final String brewingMethodId;
   final String
   recipeId; // This is the ID passed in the route (could be usr-...)
+  final double? prefillCoffeeAmount;
+  final double? prefillWaterAmount;
+  final String? prefillGrindSize;
+  final double? prefillWaterTemp;
 
   const RecipeDetailScreen({
     super.key,
     @PathParam('brewingMethodId') required this.brewingMethodId,
     @PathParam('recipeId') required this.recipeId,
+    this.prefillCoffeeAmount,
+    this.prefillWaterAmount,
+    this.prefillGrindSize,
+    this.prefillWaterTemp,
   });
 
   @override
@@ -53,6 +86,10 @@ class RecipeDetailScreen extends StatelessWidget {
     return RecipeDetailBase(
       brewingMethodId: brewingMethodId,
       initialRecipeId: recipeId,
+      prefillCoffeeAmount: prefillCoffeeAmount,
+      prefillWaterAmount: prefillWaterAmount,
+      prefillGrindSize: prefillGrindSize,
+      prefillWaterTemp: prefillWaterTemp,
     );
   }
 }
@@ -61,11 +98,19 @@ class RecipeDetailScreen extends StatelessWidget {
 class RecipeDetailBase extends StatefulWidget {
   final String? brewingMethodId;
   final String initialRecipeId; // The ID passed from the route
+  final double? prefillCoffeeAmount;
+  final double? prefillWaterAmount;
+  final String? prefillGrindSize;
+  final double? prefillWaterTemp;
 
   const RecipeDetailBase({
     super.key,
     this.brewingMethodId,
     required this.initialRecipeId,
+    this.prefillCoffeeAmount,
+    this.prefillWaterAmount,
+    this.prefillGrindSize,
+    this.prefillWaterTemp,
   });
 
   @override
@@ -80,6 +125,8 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
   // Grind size of the currently attached bean (if any). Highest priority when
   // resolving the displayed grind size (bean > manual override > recipe default).
   String? _selectedBeanGrindSize;
+  int _grindSuggestionRequest = 0;
+  bool _brewAgainApplied = false;
   String _brewingMethodName = "";
   String?
   _effectiveRecipeId; // The ID used to load the recipe (might change after import)
@@ -114,8 +161,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
               AppLocalizations.of(context)?.unknownBrewingMethod ??
               "Unknown Brewing Method";
         });
-        _performInitialRecipeCheck(); // Start the check
-        _loadSelectedBean();
+        _loadInitialRecipeAndBean();
       }
     });
   }
@@ -133,8 +179,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       });
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
-          _performInitialRecipeCheck();
-          _loadSelectedBean();
+          _loadInitialRecipeAndBean();
         }
       });
     }
@@ -145,6 +190,28 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     _authStateSubscription?.cancel();
     _controller.dispose();
     super.dispose();
+  }
+
+  Future<void> _loadInitialRecipeAndBean() async {
+    await _performInitialRecipeCheck();
+    if (!mounted) return;
+    await _loadSelectedBean();
+    if (!mounted || _updatedRecipe == null || _brewAgainApplied) return;
+
+    final hasPrefill =
+        widget.prefillCoffeeAmount != null ||
+        widget.prefillWaterAmount != null ||
+        widget.prefillGrindSize != null ||
+        widget.prefillWaterTemp != null;
+    if (!hasPrefill) return;
+
+    _controller.applyBrewAgainPrefill(
+      coffeeAmount: widget.prefillCoffeeAmount,
+      waterAmount: widget.prefillWaterAmount,
+      grindSize: widget.prefillGrindSize,
+      waterTemp: widget.prefillWaterTemp,
+    );
+    _brewAgainApplied = true;
   }
 
   /// Performs the initial recipe check using RecipeImportSharingService
@@ -326,13 +393,46 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
   /// Safe to call after either the recipe or the bean finishes loading.
   void _applyGrindSizePriority() {
     final recipe = _updatedRecipe;
-    if (recipe == null) return;
+    if (recipe == null) {
+      _controller.clearGrindSuggestion();
+      return;
+    }
     final beanGrind = _selectedBeanGrindSize?.trim();
     if (beanGrind != null && beanGrind.isNotEmpty) {
       _controller.applyBeanGrindSize(beanGrind);
     } else {
       _controller.resetGrindSizeToFallback(
         recipe.customGrindSize ?? recipe.grindSize,
+      );
+    }
+    unawaited(_loadGrindSuggestion());
+  }
+
+  Future<void> _loadGrindSuggestion() async {
+    final request = ++_grindSuggestionRequest;
+    final beanUuid = _controller.selectedBeanUuid;
+    final brewingMethodId = _updatedRecipe?.brewingMethodId;
+    if (beanUuid == null || brewingMethodId == null) {
+      _controller.clearGrindSuggestion();
+      return;
+    }
+
+    final suggestion = await Provider.of<UserStatProvider>(
+      context,
+      listen: false,
+    ).latestGrindSuggestionForBeanAndMethod(beanUuid, brewingMethodId);
+    if (!mounted ||
+        request != _grindSuggestionRequest ||
+        beanUuid != _controller.selectedBeanUuid ||
+        brewingMethodId != _updatedRecipe?.brewingMethodId) {
+      return;
+    }
+    if (suggestion == null) {
+      _controller.clearGrindSuggestion();
+    } else {
+      _controller.setGrindSuggestion(
+        suggestion.grindSize,
+        suggestion.tasteBalance,
       );
     }
   }
@@ -551,12 +651,16 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     final String? grindSizeToPersist = _controller.grindSizeFromBean
         ? recipe.customGrindSize
         : effectiveGrindSize;
+    final double? waterTempToPersist = _controller.waterTemperatureFromRecipe
+        ? recipe.customWaterTemp
+        : _controller.waterTemperature;
 
     await recipeProvider.saveCustomAmounts(
       idToSave,
       customCoffeeAmount,
       customWaterAmount,
       customGrindSize: grindSizeToPersist,
+      customWaterTemp: waterTempToPersist,
     );
 
     // Use effective ID for slider logic check
@@ -575,11 +679,13 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       );
     }
 
-    RecipeModel updatedRecipeForNav = recipe.copyWith(
-      id: idToSave, // Ensure the ID passed to next screen is the effective one
+    final updatedRecipeForNav = buildRuntimeRecipeForBrew(
+      recipe: recipe,
+      id: idToSave,
       coffeeAmount: customCoffeeAmount,
       waterAmount: customWaterAmount,
       grindSize: effectiveGrindSize ?? recipe.grindSize,
+      waterTemperature: _controller.waterTemperature,
       sweetnessSliderPosition: idToSave == '106'
           ? _controller.sweetnessSliderPosition
           : null,

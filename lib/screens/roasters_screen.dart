@@ -107,7 +107,7 @@ class _RoastersScreenState extends State<RoastersScreen> {
                           onDeleted: () =>
                               provider.setCountryFilter(null),
                           deleteIconColor:
-                              Theme.of(context).colorScheme.onSecondaryContainer,
+                              Theme.of(context).colorScheme.onPrimary,
                         ),
                       ],
                     ),

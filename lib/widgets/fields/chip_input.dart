@@ -4,6 +4,16 @@ import 'dart:math' as math;
 import '../../theme/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
 
+/// Returns [chips] plus the not-yet-committed [pendingText] from a chip
+/// input field, so saving never silently drops text the user typed but did
+/// not submit as a chip. The pending text is trimmed and skipped when empty
+/// or already present, mirroring [ChipInput]'s duplicate rule.
+List<String> chipsWithPending(List<String> chips, String pendingText) {
+  final pending = pendingText.trim();
+  if (pending.isEmpty || chips.contains(pending)) return chips;
+  return [...chips, pending];
+}
+
 /// A standardized chip input component that provides tag/chip input functionality
 /// with autocomplete suggestions, validation, and consistent styling.
 class ChipInput extends StatefulWidget {
@@ -58,6 +68,19 @@ class ChipInput extends StatefulWidget {
   /// Text capitalization behavior
   final TextCapitalization textCapitalization;
 
+  /// Optional external controller for the underlying text field.
+  ///
+  /// Typed text only becomes a chip on submit or suggestion tap; callers that
+  /// save through an external button can read this controller's text at save
+  /// time so pending input is not silently dropped. Not disposed by ChipInput.
+  final TextEditingController? controller;
+
+  /// One-tap "recent" picks rendered below the input field, visible without
+  /// typing (unlike [suggestions], which only appear once the user types a
+  /// matching query). Picks already present in the current chips are
+  /// filtered out and the row is capped at 8 entries.
+  final List<String> quickPicks;
+
   const ChipInput({
     super.key,
     required this.label,
@@ -77,6 +100,8 @@ class ChipInput extends StatefulWidget {
     this.semanticIdentifier,
     this.inputFormatters,
     this.textCapitalization = TextCapitalization.sentences,
+    this.controller,
+    this.quickPicks = const [],
   });
 
   @override
@@ -88,6 +113,7 @@ class _ChipInputState extends State<ChipInput> {
   late FocusNode _focusNode;
   List<String> _chips = [];
   bool _isFocused = false;
+  bool _isCommittingComma = false;
   OverlayEntry? _overlayEntry;
   final LayerLink _layerLink = LayerLink();
   final GlobalKey _fieldKey = GlobalKey();
@@ -95,7 +121,7 @@ class _ChipInputState extends State<ChipInput> {
   @override
   void initState() {
     super.initState();
-    _textController = TextEditingController();
+    _textController = widget.controller ?? TextEditingController();
     _focusNode = FocusNode();
 
     if (widget.initialValues != null) {
@@ -110,6 +136,13 @@ class _ChipInputState extends State<ChipInput> {
   void didUpdateWidget(ChipInput oldWidget) {
     super.didUpdateWidget(oldWidget);
 
+    if (oldWidget.controller != widget.controller) {
+      _textController.removeListener(_onTextChanged);
+      if (oldWidget.controller == null) _textController.dispose();
+      _textController = widget.controller ?? TextEditingController();
+      _textController.addListener(_onTextChanged);
+    }
+
     if (oldWidget.initialValues != widget.initialValues) {
       if (widget.initialValues != null) {
         _chips = List.from(widget.initialValues!);
@@ -121,7 +154,8 @@ class _ChipInputState extends State<ChipInput> {
 
   @override
   void dispose() {
-    _textController.dispose();
+    _textController.removeListener(_onTextChanged);
+    if (widget.controller == null) _textController.dispose();
     _focusNode.dispose();
     _removeOverlay();
     super.dispose();
@@ -142,9 +176,59 @@ class _ChipInputState extends State<ChipInput> {
   }
 
   void _onTextChanged() {
+    _commitOnComma();
     if (_isFocused && widget.showSuggestions) {
       _showSuggestions();
     }
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  /// Commits every comma-delimited segment but the last as a chip, leaving
+  /// the remainder (text after the final comma) pending in the field.
+  ///
+  /// Guarded by [_isCommittingComma] so the controller mutations this makes
+  /// (via [_addChip]'s clear and the final remainder assignment) don't
+  /// re-enter this method — those re-entrant calls see the flag set and
+  /// return immediately.
+  void _commitOnComma() {
+    if (_isCommittingComma) return;
+    final text = _textController.text;
+    if (!text.contains(',')) return;
+
+    _isCommittingComma = true;
+    try {
+      final segments = text.split(',');
+      final remainder = segments.removeLast();
+      for (final segment in segments) {
+        final trimmed = segment.trim();
+        if (trimmed.isNotEmpty) {
+          _addChip(trimmed);
+        }
+      }
+      _textController.text = remainder;
+      _textController.selection = TextSelection.collapsed(
+        offset: remainder.length,
+      );
+    } finally {
+      _isCommittingComma = false;
+    }
+  }
+
+  bool get _atMaxChips =>
+      widget.maxChips != null && _chips.length >= widget.maxChips!;
+
+  bool get _canCommitPendingText =>
+      _textController.text.trim().isNotEmpty && !_atMaxChips;
+
+  List<String> get _visibleQuickPicks {
+    if (widget.quickPicks.isEmpty || _atMaxChips) return const [];
+    final lowerChips = _chips.map((chip) => chip.toLowerCase()).toSet();
+    return widget.quickPicks
+        .where((pick) => !lowerChips.contains(pick.toLowerCase()))
+        .take(8)
+        .toList();
   }
 
   void _showSuggestions() {
@@ -337,6 +421,13 @@ class _ChipInputState extends State<ChipInput> {
                     AppLocalizations.of(context)!.chipInputHintText,
                 helperText: widget.helperText,
                 errorText: widget.errorText,
+                suffixIcon: IconButton(
+                  tooltip: AppLocalizations.of(context)!.chipInputHintText,
+                  icon: const Icon(Icons.add),
+                  onPressed: widget.enabled && _canCommitPendingText
+                      ? () => _onFieldSubmitted(_textController.text)
+                      : null,
+                ),
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: AppSpacing.cardPadding,
                   vertical: AppSpacing.sm,
@@ -391,6 +482,35 @@ class _ChipInputState extends State<ChipInput> {
             ),
           ),
         ),
+
+        // Quick picks: one-tap "recent" row, visible without typing.
+        if (_visibleQuickPicks.isNotEmpty) ...[
+          const SizedBox(height: AppSpacing.sm),
+          Wrap(
+            spacing: AppSpacing.xs,
+            runSpacing: AppSpacing.xs,
+            children: _visibleQuickPicks
+                .map(
+                  (pick) => ActionChip(
+                    visualDensity: VisualDensity.compact,
+                    avatar: Icon(
+                      Icons.add,
+                      size: AppIconSize.small,
+                      color: chipTheme.labelStyle?.color,
+                    ),
+                    label: Text(
+                      pick,
+                      style: AppTextStyles.caption.copyWith(
+                        color: chipTheme.labelStyle?.color,
+                      ),
+                    ),
+                    backgroundColor: chipTheme.backgroundColor,
+                    onPressed: widget.enabled ? () => _addChip(pick) : null,
+                  ),
+                )
+                .toList(),
+          ),
+        ],
 
         // Error message (if not shown in the field)
         if (widget.errorText != null && widget.errorText!.isNotEmpty)

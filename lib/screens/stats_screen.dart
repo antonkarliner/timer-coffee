@@ -78,7 +78,18 @@ class _StatsRoasterLogoPlate extends StatelessWidget {
 
 @RoutePage()
 class StatsScreen extends StatefulWidget {
-  const StatsScreen({super.key});
+  const StatsScreen({
+    super.key,
+    @QueryParam('year') this.initialYear,
+    @QueryParam('month') this.initialMonth,
+    @QueryParam('start') this.initialStartDate,
+    @QueryParam('end') this.initialEndDate,
+  });
+
+  final int? initialYear;
+  final int? initialMonth;
+  final String? initialStartDate;
+  final String? initialEndDate;
 
   @override
   State<StatsScreen> createState() => _StatsScreenState();
@@ -95,25 +106,25 @@ class _StatsScreenState extends State<StatsScreen> {
     _controller = StatsController();
     _realtime = StatsRealtimeService();
 
-    // Apply pending initial period from deep link (e.g. weekly summary notification)
-    if (StatsController.pendingInitialPeriod != null) {
-      _controller.selectedPeriod = StatsController.pendingInitialPeriod!;
-      StatsController.pendingInitialPeriod = null;
-    }
-
     // Safe to read providers with listen: false in initState
+    final userStatProvider = Provider.of<UserStatProvider>(
+      context,
+      listen: false,
+    );
     _db = Provider.of<DatabaseProvider>(context, listen: false);
 
-    // Initialize default period and totals after first frame so providers are ready
+    // Resolve the route range/month or pending weekly-notification period
+    // before the first build can start personal/global range fetches.
+    _controller.initializePeriod(
+      userStatProvider,
+      initialYear: widget.initialYear,
+      initialMonth: widget.initialMonth,
+      initialStartDate: widget.initialStartDate,
+      initialEndDate: widget.initialEndDate,
+    );
+
+    // Initialize totals after first frame so the screen is mounted.
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final userStatProvider = Provider.of<UserStatProvider>(
-        context,
-        listen: false,
-      );
-
-      // Ensure default window and includesToday are set
-      _controller.selectPeriod(userStatProvider, _controller.selectedPeriod);
-
       // Initial total
       await _refreshGlobalTotal();
 
@@ -810,8 +821,10 @@ class _YourStatsSection extends StatelessWidget {
                           ),
                           const SizedBox(width: 8),
                           Flexible(
-                            child:
-                                Text(roaster, overflow: TextOverflow.ellipsis),
+                            child: Text(
+                              roaster,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
                       ),

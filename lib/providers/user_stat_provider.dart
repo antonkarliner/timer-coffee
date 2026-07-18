@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:coffee_timer/config/network_timeouts.dart';
 import 'package:coffee_timer/models/user_stat_model.dart';
+import 'package:coffee_timer/models/diary_entry.dart';
 import 'package:coffee_timer/utils/version_vector.dart';
 import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,10 @@ class UserStatProvider extends ChangeNotifier {
     bool isMarked = false,
     String? coffeeBeansUuid,
     String? grindSize,
+    double? waterTemp,
+    int? tasteBalance,
+    int? entrySource,
+    String? tags,
     String? statUuid,
     DateTime? createdAt,
   }) async {
@@ -59,6 +64,10 @@ class UserStatProvider extends ChangeNotifier {
       isMarked: isMarked,
       coffeeBeansUuid: coffeeBeansUuid,
       grindSize: grindSize,
+      waterTemp: waterTemp,
+      tasteBalance: tasteBalance,
+      entrySource: entrySource,
+      tags: tags,
       versionVector: versionVector,
       isDeleted: false,
     );
@@ -110,6 +119,10 @@ class UserStatProvider extends ChangeNotifier {
     String? grindSize,
     double? tdsPercent,
     double? extractionYieldPercent,
+    double? waterTemp,
+    int? tasteBalance,
+    int? entrySource,
+    String? tags,
     bool clearBeans = false,
   }) async {
     AppLogger.debug(
@@ -147,6 +160,10 @@ class UserStatProvider extends ChangeNotifier {
       grindSize: grindSize,
       tdsPercent: tdsPercent,
       extractionYieldPercent: extractionYieldPercent,
+      waterTemp: waterTemp,
+      tasteBalance: tasteBalance,
+      entrySource: entrySource,
+      tags: tags,
       versionVector: newVector.toString(),
     );
 
@@ -174,6 +191,10 @@ class UserStatProvider extends ChangeNotifier {
         grindSize: updatedStat.grindSize,
         tdsPercent: updatedStat.tdsPercent,
         extractionYieldPercent: updatedStat.extractionYieldPercent,
+        waterTemp: updatedStat.waterTemp,
+        tasteBalance: updatedStat.tasteBalance,
+        entrySource: updatedStat.entrySource,
+        tags: updatedStat.tags,
         versionVector: updatedStat.versionVector,
         isDeleted: currentStat.isDeleted,
       );
@@ -216,6 +237,312 @@ class UserStatProvider extends ChangeNotifier {
 
     notifyListeners();
     AppLogger.debug('notifyListeners called');
+  }
+
+  Future<void> updateDiaryAmounts({
+    required String statUuid,
+    required double coffeeAmount,
+    required double waterAmount,
+  }) async {
+    final currentStat = await db.userStatsDao.fetchStatByUuid(statUuid);
+    if (currentStat == null) {
+      throw Exception('Stat not found');
+    }
+
+    final isManualEntry = currentStat.entrySource == 1;
+    final updatedCoffeeAmount = isManualEntry
+        ? coffeeAmount
+        : currentStat.coffeeAmount;
+    final updatedWaterAmount = isManualEntry
+        ? waterAmount
+        : currentStat.waterAmount;
+    final doseDelta = updatedCoffeeAmount - currentStat.coffeeAmount;
+    BeanWeightAdjustmentResult? inventoryAdjustment;
+
+    if (isManualEntry &&
+        currentStat.coffeeBeansUuid != null &&
+        doseDelta != 0) {
+      inventoryAdjustment = await coffeeBeansProvider
+          .adjustBeanWeightForDoseDelta(
+            currentStat.coffeeBeansUuid!,
+            doseDelta,
+          );
+      if (inventoryAdjustment.status == BeanWeightAdjustmentStatus.failed) {
+        final error = inventoryAdjustment.error!;
+        final stackTrace = inventoryAdjustment.stackTrace;
+        if (stackTrace != null) {
+          Error.throwWithStackTrace(
+            BeanWeightAdjustmentException(error),
+            stackTrace,
+          );
+        }
+        throw BeanWeightAdjustmentException(error);
+      }
+    }
+
+    final updatedStat = _rebuildDiaryStat(
+      currentStat,
+      coffeeAmount: updatedCoffeeAmount,
+      waterAmount: updatedWaterAmount,
+    );
+
+    try {
+      await _persistDiaryStat(updatedStat);
+    } catch (statError, statStackTrace) {
+      if (inventoryAdjustment?.status == BeanWeightAdjustmentStatus.adjusted &&
+          inventoryAdjustment!.appliedDoseDelta != 0) {
+        final compensation = await coffeeBeansProvider
+            .adjustBeanWeightForDoseDelta(
+              currentStat.coffeeBeansUuid!,
+              -inventoryAdjustment.appliedDoseDelta,
+            );
+        if (compensation.status != BeanWeightAdjustmentStatus.adjusted ||
+            compensation.appliedDoseDelta !=
+                -inventoryAdjustment.appliedDoseDelta) {
+          AppLogger.error(
+            'Diary stat update failed before inventory compensation',
+            errorObject: statError,
+            stackTrace: statStackTrace,
+          );
+          AppLogger.error(
+            'Inventory compensation also failed',
+            errorObject:
+                compensation.error ??
+                StateError('Bean inventory is no longer tracked'),
+            stackTrace: compensation.stackTrace,
+          );
+        }
+      }
+      Error.throwWithStackTrace(statError, statStackTrace);
+    }
+  }
+
+  Future<void> updateDiaryGrindSize({
+    required String statUuid,
+    required String grindSize,
+  }) async {
+    final currentStat = await _fetchDiaryStat(statUuid);
+    await _persistDiaryStat(
+      _rebuildDiaryStat(currentStat, grindSize: grindSize),
+    );
+  }
+
+  Future<void> updateDiaryWaterTemperature({
+    required String statUuid,
+    required double? waterTemp,
+  }) async {
+    final currentStat = await _fetchDiaryStat(statUuid);
+    await _persistDiaryStat(
+      _rebuildDiaryStat(currentStat, waterTemp: waterTemp),
+    );
+  }
+
+  Future<void> updateDiaryTasteBalance({
+    required String statUuid,
+    required int? tasteBalance,
+  }) async {
+    final currentStat = await _fetchDiaryStat(statUuid);
+    await _persistDiaryStat(
+      _rebuildDiaryStat(currentStat, tasteBalance: tasteBalance),
+    );
+  }
+
+  Future<void> updateDiaryNotes({
+    required String statUuid,
+    required String notes,
+  }) async {
+    final currentStat = await _fetchDiaryStat(statUuid);
+    await _persistDiaryStat(_rebuildDiaryStat(currentStat, notes: notes));
+  }
+
+  Future<void> updateDiaryTags({
+    required String statUuid,
+    required String? tags,
+  }) async {
+    final currentStat = await _fetchDiaryStat(statUuid);
+    await _persistDiaryStat(_rebuildDiaryStat(currentStat, tags: tags));
+  }
+
+  Future<void> updateDiaryRating({
+    required String statUuid,
+    required double? rating,
+  }) async {
+    final currentStat = await _fetchDiaryStat(statUuid);
+    await _persistDiaryStat(_rebuildDiaryStat(currentStat, rating: rating));
+  }
+
+  Future<void> updateDiaryBean({
+    required String statUuid,
+    required String? nextBeanUuid,
+  }) async {
+    final currentStat = await _fetchDiaryStat(statUuid);
+    if (nextBeanUuid != null) {
+      final targetBean = await coffeeBeansProvider.fetchCoffeeBeansByUuid(
+        nextBeanUuid,
+      );
+      if (targetBean == null) {
+        throw StateError('Coffee beans not found');
+      }
+    }
+
+    final oldBeanUuid = currentStat.coffeeBeansUuid;
+    if (oldBeanUuid == nextBeanUuid) return;
+
+    final completedAdjustments =
+        <({String beanUuid, BeanWeightAdjustmentResult result})>[];
+
+    Future<void> adjust(String beanUuid, double doseDelta) async {
+      final result = await coffeeBeansProvider.adjustBeanWeightForDoseDelta(
+        beanUuid,
+        doseDelta,
+      );
+      if (result.status == BeanWeightAdjustmentStatus.failed) {
+        final error = result.error!;
+        final stackTrace = result.stackTrace;
+        if (stackTrace != null) {
+          Error.throwWithStackTrace(
+            BeanWeightAdjustmentException(error),
+            stackTrace,
+          );
+        }
+        throw BeanWeightAdjustmentException(error);
+      }
+      completedAdjustments.add((beanUuid: beanUuid, result: result));
+    }
+
+    try {
+      if (oldBeanUuid != null) {
+        await adjust(oldBeanUuid, -currentStat.coffeeAmount);
+      }
+      if (nextBeanUuid != null) {
+        await adjust(nextBeanUuid, currentStat.coffeeAmount);
+      }
+      await _persistDiaryStat(
+        _rebuildDiaryStat(currentStat, coffeeBeansUuid: nextBeanUuid),
+      );
+    } catch (error, stackTrace) {
+      for (final adjustment in completedAdjustments.reversed) {
+        final appliedDoseDelta = adjustment.result.appliedDoseDelta;
+        if (adjustment.result.status != BeanWeightAdjustmentStatus.adjusted ||
+            appliedDoseDelta == 0) {
+          continue;
+        }
+        final compensation = await coffeeBeansProvider
+            .adjustBeanWeightForDoseDelta(
+              adjustment.beanUuid,
+              -appliedDoseDelta,
+            );
+        if (compensation.status != BeanWeightAdjustmentStatus.adjusted ||
+            compensation.appliedDoseDelta != -appliedDoseDelta) {
+          AppLogger.error(
+            'Diary bean association failed before inventory compensation',
+            errorObject: error,
+            stackTrace: stackTrace,
+          );
+          AppLogger.error(
+            'Bean association inventory compensation also failed',
+            errorObject:
+                compensation.error ??
+                StateError('Bean inventory is no longer tracked'),
+            stackTrace: compensation.stackTrace,
+          );
+        }
+      }
+      Error.throwWithStackTrace(error, stackTrace);
+    }
+  }
+
+  Future<UserStatsModel> _fetchDiaryStat(String statUuid) async {
+    final stat = await db.userStatsDao.fetchStatByUuid(statUuid);
+    if (stat == null) throw Exception('Stat not found');
+    return stat;
+  }
+
+  static const Object _unchangedDiaryField = Object();
+
+  UserStatsModel _rebuildDiaryStat(
+    UserStatsModel currentStat, {
+    double? coffeeAmount,
+    double? waterAmount,
+    Object? grindSize = _unchangedDiaryField,
+    Object? waterTemp = _unchangedDiaryField,
+    Object? tasteBalance = _unchangedDiaryField,
+    Object? notes = _unchangedDiaryField,
+    Object? rating = _unchangedDiaryField,
+    Object? coffeeBeansUuid = _unchangedDiaryField,
+    Object? tags = _unchangedDiaryField,
+  }) {
+    final newVector = VersionVector.fromString(
+      currentStat.versionVector,
+    ).increment();
+    return UserStatsModel(
+      statUuid: currentStat.statUuid,
+      id: currentStat.id,
+      recipeId: currentStat.recipeId,
+      coffeeAmount: coffeeAmount ?? currentStat.coffeeAmount,
+      waterAmount: waterAmount ?? currentStat.waterAmount,
+      sweetnessSliderPosition: currentStat.sweetnessSliderPosition,
+      strengthSliderPosition: currentStat.strengthSliderPosition,
+      brewingMethodId: currentStat.brewingMethodId,
+      createdAt: currentStat.createdAt,
+      notes: identical(notes, _unchangedDiaryField)
+          ? currentStat.notes
+          : notes as String?,
+      beans: currentStat.beans,
+      roaster: currentStat.roaster,
+      rating: identical(rating, _unchangedDiaryField)
+          ? currentStat.rating
+          : rating as double?,
+      coffeeBeansId: currentStat.coffeeBeansId,
+      isMarked: currentStat.isMarked,
+      coffeeBeansUuid: identical(coffeeBeansUuid, _unchangedDiaryField)
+          ? currentStat.coffeeBeansUuid
+          : coffeeBeansUuid as String?,
+      grindSize: identical(grindSize, _unchangedDiaryField)
+          ? currentStat.grindSize
+          : grindSize as String?,
+      tdsPercent: currentStat.tdsPercent,
+      extractionYieldPercent: currentStat.extractionYieldPercent,
+      waterTemp: identical(waterTemp, _unchangedDiaryField)
+          ? currentStat.waterTemp
+          : waterTemp as double?,
+      tasteBalance: identical(tasteBalance, _unchangedDiaryField)
+          ? currentStat.tasteBalance
+          : tasteBalance as int?,
+      entrySource: currentStat.entrySource,
+      tags: identical(tags, _unchangedDiaryField)
+          ? currentStat.tags
+          : tags as String?,
+      versionVector: newVector.toString(),
+      isDeleted: currentStat.isDeleted,
+    );
+  }
+
+  Future<void> _persistDiaryStat(UserStatsModel updatedStat) async {
+    await db.userStatsDao.updateUserStat(updatedStat);
+
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user != null && !user.isAnonymous) {
+      final supabaseData = _userStatModelToJson(updatedStat)
+        ..['user_id'] = user.id;
+      unawaited(() async {
+        try {
+          await Supabase.instance.client
+              .from('user_stats')
+              .upsert(supabaseData, onConflict: 'user_id,stat_uuid')
+              .timeout(NetworkTimeouts.handshake);
+        } on TimeoutException catch (error) {
+          AppLogger.error('Supabase request timed out', errorObject: error);
+        } catch (error) {
+          AppLogger.error(
+            'Error syncing focused diary update to Supabase',
+            errorObject: error,
+          );
+        }
+      }());
+    }
+
+    notifyListeners();
   }
 
   Future<void> deleteUserStat(String statUuid) async {
@@ -270,12 +597,32 @@ class UserStatProvider extends ChangeNotifier {
     return await db.userStatsDao.fetchAllStats();
   }
 
+  Future<List<DiaryEntry>> fetchDiaryEntries(String locale) =>
+      db.userStatsDao.fetchDiaryEntries(locale);
+
+  Future<List<({String brewingMethodId, String methodName, int count})>>
+  topMethodsLast90Days(String locale) =>
+      db.userStatsDao.topMethodsLast90Days(locale);
+
   Future<UserStatsModel?> fetchUserStatByUuid(String statUuid) async {
     return await db.userStatsDao.fetchStatByUuid(statUuid);
   }
 
+  Future<GrindSuggestionResult?> latestGrindSuggestionForBeanAndMethod(
+    String beansUuid,
+    String brewingMethodId,
+  ) => db.userStatsDao.latestGrindSuggestionForBeanAndMethod(
+    beansUuid,
+    brewingMethodId,
+  );
+
   Future<List<UserStatsModel>> fetchStatsByBeanUuid(String beansUuid) =>
       db.userStatsDao.fetchStatsByBeanUuid(beansUuid);
+
+  /// Deduped, first-seen-order list of tags used across diary entries, for
+  /// tag-editor autocomplete.
+  Future<List<String>> fetchAllDistinctTags() =>
+      db.userStatsDao.fetchAllDistinctTags();
 
   /// Recent non-deleted brews, newest first, for "prefill from history"
   /// pickers (e.g. the extraction calculator).
@@ -883,15 +1230,27 @@ class UserStatProvider extends ChangeNotifier {
       'brewing_method_id': model.brewingMethodId,
       'created_at': model.createdAt.toUtc().toIso8601String(),
       'notes': model.notes,
+      'beans': model.beans,
+      'roaster': model.roaster,
+      'rating': model.rating,
+      'coffee_beans_id': model.coffeeBeansId,
       'is_marked': model.isMarked,
       'coffee_beans_uuid': model.coffeeBeansUuid,
       'grind_size': model.grindSize,
       'tds_percent': model.tdsPercent,
       'extraction_yield_percent': model.extractionYieldPercent,
+      'water_temp': model.waterTemp,
+      'taste_balance': model.tasteBalance,
+      'entry_source': model.entrySource,
+      'tags': model.tags,
       'version_vector': model.versionVector,
       'is_deleted': model.isDeleted,
     };
   }
+
+  @visibleForTesting
+  Map<String, dynamic> serializeUserStatForTesting(UserStatsModel model) =>
+      _userStatModelToJson(model);
 
   // Helper method to convert JSON to UserStatsModel
   UserStatsModel _jsonToUserStatsModel(Map<String, dynamic> json) {
@@ -905,10 +1264,18 @@ class UserStatProvider extends ChangeNotifier {
       brewingMethodId: json['brewing_method_id'],
       createdAt: DateTime.parse(json['created_at']),
       notes: json['notes'],
+      beans: json['beans'],
+      roaster: json['roaster'],
+      rating: (json['rating'] as num?)?.toDouble(),
+      coffeeBeansId: (json['coffee_beans_id'] as num?)?.toInt(),
       grindSize: json['grind_size'],
       tdsPercent: (json['tds_percent'] as num?)?.toDouble(),
-      extractionYieldPercent:
-          (json['extraction_yield_percent'] as num?)?.toDouble(),
+      extractionYieldPercent: (json['extraction_yield_percent'] as num?)
+          ?.toDouble(),
+      waterTemp: (json['water_temp'] as num?)?.toDouble(),
+      tasteBalance: (json['taste_balance'] as num?)?.toInt(),
+      entrySource: (json['entry_source'] as num?)?.toInt(),
+      tags: json['tags'] as String?,
       isMarked: json['is_marked'],
       coffeeBeansUuid: json['coffee_beans_uuid'],
       versionVector: json['version_vector'],

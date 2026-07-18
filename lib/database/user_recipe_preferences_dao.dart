@@ -22,6 +22,7 @@ class UserRecipePreferencesDao extends DatabaseAccessor<AppDatabase>
     double? customCoffeeAmount,
     double? customWaterAmount,
     String? customGrindSize,
+    double? customWaterTemp,
   }) async {
     // Check if the entry exists.
     final existingPreference = await (select(
@@ -54,6 +55,9 @@ class UserRecipePreferencesDao extends DatabaseAccessor<AppDatabase>
         customGrindSize: customGrindSize == null
             ? Value.absent()
             : Value(customGrindSize),
+        customWaterTemp: customWaterTemp == null
+            ? Value.absent()
+            : Value(customWaterTemp),
       );
       await into(userRecipePreferences).insert(preferencesCompanion);
     } else {
@@ -78,6 +82,9 @@ class UserRecipePreferencesDao extends DatabaseAccessor<AppDatabase>
         customGrindSize: customGrindSize == null
             ? Value.absent()
             : Value(customGrindSize),
+        customWaterTemp: customWaterTemp == null
+            ? Value.absent()
+            : Value(customWaterTemp),
       );
 
       if (isFavorite != null) {
@@ -100,9 +107,9 @@ class UserRecipePreferencesDao extends DatabaseAccessor<AppDatabase>
   /// Writes explicit nulls (unlike [updatePreferences], where null means "leave
   /// unchanged"). No-op when no preference row exists.
   Future<void> clearCustomAmounts(String recipeId) async {
-    await (update(userRecipePreferences)
-          ..where((tbl) => tbl.recipeId.equals(recipeId)))
-        .write(
+    await (update(
+      userRecipePreferences,
+    )..where((tbl) => tbl.recipeId.equals(recipeId))).write(
       const UserRecipePreferencesCompanion(
         customCoffeeAmount: Value(null),
         customWaterAmount: Value(null),
@@ -129,6 +136,7 @@ class UserRecipePreferencesDao extends DatabaseAccessor<AppDatabase>
       "customCoffeeAmount": prefs?.customCoffeeAmount,
       "customWaterAmount": prefs?.customWaterAmount,
       "customGrindSize": prefs?.customGrindSize,
+      "customWaterTemp": prefs?.customWaterTemp,
     };
   }
 

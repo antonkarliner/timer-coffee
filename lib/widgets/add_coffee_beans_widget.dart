@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:coffee_timer/widgets/roaster_logo.dart';
 import 'package:coffeico/coffeico.dart';
@@ -12,7 +14,7 @@ import '../app_router.gr.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 
 class AddCoffeeBeansWidget extends StatefulWidget {
-  final Function(String) onSelect; // Always return UUID
+  final FutureOr<void> Function(String) onSelect; // Always return UUID
 
   const AddCoffeeBeansWidget({super.key, required this.onSelect});
 
@@ -25,7 +27,9 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
   final ScrollController _scrollController = ScrollController();
   List<CoffeeBeansModel> beansList = [];
   bool isLoading = true;
+  bool isSubmitting = false;
   String? error;
+  String? submissionError;
 
   @override
   void initState() {
@@ -62,6 +66,27 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
         isLoading = false;
       });
     }
+  }
+
+  Future<void> _submitSelection() async {
+    final beanUuid = selectedBeanUuid;
+    if (beanUuid == null || isSubmitting) return;
+
+    setState(() {
+      isSubmitting = true;
+      submissionError = null;
+    });
+    try {
+      await widget.onSelect(beanUuid);
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        isSubmitting = false;
+        submissionError = AppLocalizations.of(context)!.unexpectedErrorOccurred;
+      });
+      return;
+    }
+    if (mounted) setState(() => isSubmitting = false);
   }
 
   Widget _buildBeanTile(CoffeeBeansModel bean, BuildContext context) {
@@ -110,9 +135,14 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
           ),
           title: Text(bean.name),
           subtitle: Text(bean.roaster),
-          onTap: () {
-            setState(() => selectedBeanUuid = bean.beansUuid);
-          },
+          onTap: isSubmitting
+              ? null
+              : () {
+                  setState(() {
+                    selectedBeanUuid = bean.beansUuid;
+                    submissionError = null;
+                  });
+                },
         ),
         // Weight chip aligned with bean name if available
         if (bean.validatedPackageWeightGrams != null)
@@ -122,7 +152,9 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.7),
+                color: Theme.of(
+                  context,
+                ).colorScheme.primary.withValues(alpha: 0.7),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
@@ -248,17 +280,21 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
                                       ? Theme.of(context).colorScheme.primary
                                       : Theme.of(context).primaryColor,
                                 ),
-                                onTap: () async {
-                                  final result = await context.router.push(
-                                    NewBeansRoute(),
-                                  );
-                                  if (result != null && result is String) {
-                                    setState(() {
-                                      selectedBeanUuid = result;
-                                    });
-                                    await _fetchCoffeeBeans(); // Refresh the list
-                                  }
-                                },
+                                onTap: isSubmitting
+                                    ? null
+                                    : () async {
+                                        final result = await context.router
+                                            .push(NewBeansRoute());
+                                        if (result != null &&
+                                            result is String &&
+                                            mounted) {
+                                          setState(() {
+                                            selectedBeanUuid = result;
+                                            submissionError = null;
+                                          });
+                                          await _fetchCoffeeBeans(); // Refresh the list
+                                        }
+                                      },
                               ),
                             );
                           }
@@ -269,20 +305,34 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Semantics(
-                identifier: 'nextButton',
-                label: loc.next,
-                child: AppElevatedButton(
-                  label: loc.next,
-                  onPressed: selectedBeanUuid != null
-                      ? () {
-                          widget.onSelect(selectedBeanUuid!);
-                        }
-                      : null,
-                  isFullWidth: false,
-                  height: AppButton.heightSmall,
-                  padding: AppButton.paddingSmall,
-                ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (submissionError != null) ...[
+                    Text(
+                      submissionError!,
+                      key: const Key('beanSelectionError'),
+                      style: AppTextStyles.caption.copyWith(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                  ],
+                  Semantics(
+                    identifier: 'nextButton',
+                    label: loc.next,
+                    child: AppElevatedButton(
+                      label: loc.next,
+                      onPressed: selectedBeanUuid != null && !isSubmitting
+                          ? _submitSelection
+                          : null,
+                      isLoading: isSubmitting,
+                      isFullWidth: false,
+                      height: AppButton.heightSmall,
+                      padding: AppButton.paddingSmall,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

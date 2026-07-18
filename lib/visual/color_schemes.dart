@@ -4,6 +4,12 @@ const lightColorScheme = ColorScheme(
   brightness: Brightness.light,
   primary: Colors.black,
   onPrimary: Colors.white,
+  // Deliberately mirrors primary/onPrimary (the framework default when
+  // unset): this is the bold brand surface used by FABs and emphasis chips,
+  // NOT an M3 soft tonal tint. For a muted selected state use
+  // chipTheme.selectedColor instead.
+  primaryContainer: Colors.black,
+  onPrimaryContainer: Colors.white,
   secondary: Color(0xffc47c3b), // updated secondary light
   onSecondary: Color.fromRGBO(121, 85, 72, 1), // kept intact
   tertiary: Color(0xffb88a6b), // updated tertiary light
@@ -29,6 +35,9 @@ const darkColorScheme = ColorScheme(
   brightness: Brightness.dark,
   primary: Colors.white,
   onPrimary: Color.fromRGBO(48, 48, 48, 1),
+  // See lightColorScheme: intentionally the bold brand surface, not a tint.
+  primaryContainer: Colors.white,
+  onPrimaryContainer: Color.fromRGBO(48, 48, 48, 1),
   secondary: Color(0xffb07035), // closer to secondary light
   onSecondary: Colors.black, // kept intact
   tertiary: Color(0xff5a798c), // updated tertiary dark

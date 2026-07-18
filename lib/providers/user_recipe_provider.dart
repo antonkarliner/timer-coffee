@@ -495,6 +495,7 @@ class UserRecipeProvider with ChangeNotifier {
           newRecipeId,
           isFavorite: false, // Explicitly set default
           customGrindSize: originalRecipe.customGrindSize,
+          customWaterTemp: originalRecipe.customWaterTemp,
         );
       });
 

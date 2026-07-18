@@ -38,7 +38,6 @@ import 'package:coffee_timer/services/connection_analytics_service.dart';
 import 'package:coffee_timer/services/notification_service.dart';
 import 'package:coffee_timer/services/live_activity_service.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
-import 'notifiers/card_expansion_notifier.dart';
 import 'firebase_options.dart';
 import './providers/user_stat_provider.dart';
 import './providers/beans_stats_provider.dart';
@@ -1090,9 +1089,6 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
         Provider<DatabaseProvider>.value(value: widget.databaseProvider),
         ChangeNotifierProvider<CoffeeBeansProvider>.value(
           value: widget.coffeeBeansProvider,
-        ),
-        ChangeNotifierProvider<CardExpansionNotifier>(
-          create: (_) => CardExpansionNotifier(),
         ),
         ChangeNotifierProvider<UserStatProvider>.value(
           value: widget.userStatProvider,
