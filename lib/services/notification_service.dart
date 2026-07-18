@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:ui' show Locale;
+import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:coffee_timer/providers/fcm_provider.dart';
 import 'package:coffee_timer/services/local_notification_manager.dart';
@@ -7,6 +9,17 @@ import 'package:coffee_timer/services/notification_settings_service.dart';
 import 'package:coffee_timer/services/exact_alarm_service.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:rxdart/rxdart.dart';
+
+Locale resolveSupportedNotificationLocale(Iterable<Locale> systemLocales) {
+  for (final systemLocale in systemLocales) {
+    for (final supportedLocale in AppLocalizations.supportedLocales) {
+      if (supportedLocale.languageCode == systemLocale.languageCode) {
+        return supportedLocale;
+      }
+    }
+  }
+  return const Locale('en');
+}
 
 /// Unified notification service that coordinates local notifications and permissions
 ///
@@ -81,10 +94,19 @@ class NotificationService {
   ///
   /// [silentInit] When true, uses silent permission checking to avoid iOS system dialogs
   /// [Throws] Exception if initialization fails, allowing caller to handle errors appropriately
-  Future<void> initialize({bool silentInit = true}) async {
+  Future<void> initialize({
+    bool silentInit = true,
+    String? generalChannelName,
+    String? generalChannelDescription,
+  }) async {
     if (_initialized) {
       AppLogger.debug('NotificationService already initialized');
       return;
+    }
+    if (generalChannelName == null || generalChannelDescription == null) {
+      throw StateError(
+        'Localized general notification channel copy is required for first initialization.',
+      );
     }
 
     try {
@@ -96,7 +118,11 @@ class NotificationService {
       await _settingsService.init();
       _permissionService = PermissionService();
       await _permissionService.initialize(silentMode: silentInit);
-      _localManager = LocalNotificationManager(_localNotificationsPlugin);
+      _localManager = LocalNotificationManager(
+        _localNotificationsPlugin,
+        generalChannelName: generalChannelName,
+        generalChannelDescription: generalChannelDescription,
+      );
 
       // CRITICAL: Initialize LocalNotificationManager to create Android channels
       await _localManager.initialize();

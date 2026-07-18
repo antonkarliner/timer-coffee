@@ -279,7 +279,9 @@ class _FullListModal<T> extends StatelessWidget {
                       child: CircularProgressIndicator(strokeWidth: 2));
                 }
                 if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
+                  return Center(
+                    child: Text(AppLocalizations.of(context)!.failedToLoadData),
+                  );
                 }
                 final list = snapshot.data ?? <T>[];
                 if (list.isEmpty) {

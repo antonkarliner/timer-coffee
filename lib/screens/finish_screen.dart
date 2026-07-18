@@ -1090,7 +1090,11 @@ class _FinishScreenState extends State<FinishScreen> {
                             case _FinishSlotKind.factError:
                               return Semantics(
                                 identifier: 'coffeeFactCard',
-                                child: Text('Error: ${content.error}'),
+                                child: Text(
+                                  AppLocalizations.of(
+                                    context,
+                                  )!.failedToLoadData,
+                                ),
                               );
                             case _FinishSlotKind.fact:
                               return Semantics(

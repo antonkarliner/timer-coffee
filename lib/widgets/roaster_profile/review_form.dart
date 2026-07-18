@@ -761,7 +761,7 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
                         children: [
                           Expanded(
                             child: _BuyAgainButton(
-                              label: 'Yes',
+                              label: l10n.yes,
                               selected: _wouldBuyAgain == true,
                               activeColor: const Color(0xFF43A047),
                               onTap: () => setState(
@@ -774,7 +774,7 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
                           const SizedBox(width: AppSpacing.xs),
                           Expanded(
                             child: _BuyAgainButton(
-                              label: 'No',
+                              label: l10n.no,
                               selected: _wouldBuyAgain == false,
                               activeColor: colorScheme.error,
                               onTap: () => setState(

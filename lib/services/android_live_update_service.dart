@@ -40,6 +40,9 @@ class AndroidLiveUpdateService {
   Future<void> startBrewingActivity({
     required String recipeName,
     required String stepDescription,
+    required String channelName,
+    required String channelDescription,
+    required String contentText,
     required int currentStep,
     required int totalSteps,
     required int stepElapsedSeconds,
@@ -52,6 +55,9 @@ class AndroidLiveUpdateService {
     final data = _buildData(
       recipeName: recipeName,
       stepDescription: stepDescription,
+      channelName: channelName,
+      channelDescription: channelDescription,
+      contentText: contentText,
       currentStep: currentStep,
       totalSteps: totalSteps,
       stepElapsedSeconds: stepElapsedSeconds,
@@ -72,6 +78,9 @@ class AndroidLiveUpdateService {
   void updateBrewingActivity({
     required String recipeName,
     required String stepDescription,
+    required String channelName,
+    required String channelDescription,
+    required String contentText,
     required int currentStep,
     required int totalSteps,
     required int stepElapsedSeconds,
@@ -83,6 +92,9 @@ class AndroidLiveUpdateService {
     final data = _buildData(
       recipeName: recipeName,
       stepDescription: stepDescription,
+      channelName: channelName,
+      channelDescription: channelDescription,
+      contentText: contentText,
       currentStep: currentStep,
       totalSteps: totalSteps,
       stepElapsedSeconds: stepElapsedSeconds,
@@ -113,6 +125,9 @@ class AndroidLiveUpdateService {
   Map<String, dynamic> _buildData({
     required String recipeName,
     required String stepDescription,
+    required String channelName,
+    required String channelDescription,
+    required String contentText,
     required int currentStep,
     required int totalSteps,
     required int stepElapsedSeconds,
@@ -122,6 +137,9 @@ class AndroidLiveUpdateService {
     return {
       'recipeName': recipeName,
       'stepDescription': stepDescription,
+      'channelName': channelName,
+      'channelDescription': channelDescription,
+      'contentText': contentText,
       'currentStep': currentStep,
       'totalSteps': totalSteps,
       'stepElapsedSeconds': stepElapsedSeconds,

@@ -437,7 +437,7 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text('Error saving entry: $e')));
+        ).showSnackBar(SnackBar(content: Text(loc.brewEntrySaveFailed)));
       }
     } finally {
       if (mounted) setState(() => _isSaving = false);

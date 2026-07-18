@@ -29,7 +29,7 @@ struct BrewingTimerLiveActivity: Widget {
                                 .scaledToFit()
                                 .frame(width: 24, height: 24)
                                 .clipShape(RoundedRectangle(cornerRadius: 6))
-                            Text(data.stepLabel)
+                            Text(data.stepProgressLabel)
                                 .font(.caption2)
                                 .fontWeight(.semibold)
                         }
@@ -91,7 +91,7 @@ struct BrewingTimerLiveActivity: Widget {
                 // MARK: - Compact Leading (step indicator)
                 TimelineView(.explicit(scheduleDates)) { timelineContext in
                     let data = BrewingData(activityId: activityId, state: context.state, date: timelineContext.date)
-                    Text(data.stepLabel)
+                    Text(data.stepProgressLabel)
                         .font(.caption2)
                         .fontWeight(.bold)
                         .foregroundStyle(.brown)
@@ -172,9 +172,11 @@ struct LockScreenView: View {
                     HStack(spacing: 4) {
                         Image(systemName: "pause.fill")
                             .font(.caption)
-                        Text("Paused")
-                            .font(.subheadline)
-                            .fontWeight(.bold)
+                        if !data.pausedLabel.isEmpty {
+                            Text(data.pausedLabel)
+                                .font(.subheadline)
+                                .fontWeight(.bold)
+                        }
                     }
                     .foregroundStyle(.secondary)
                 } else {
@@ -194,7 +196,7 @@ struct LockScreenView: View {
 
             // Bottom row: step indicator + progress
             HStack(spacing: 8) {
-                Text("Step \(data.stepLabel)")
+                Text(data.stepProgressLabel)
                     .font(.caption2)
                     .fontWeight(.medium)
                     .foregroundStyle(.secondary)

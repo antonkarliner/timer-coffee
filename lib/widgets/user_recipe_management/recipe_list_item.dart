@@ -1,3 +1,4 @@
+import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
@@ -25,6 +26,7 @@ class RecipeListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final trailing = ValueListenableBuilder<bool>(
       valueListenable: isInEditModeListenable ?? ValueNotifier(false),
       builder: (context, isEdit, _) {
@@ -39,13 +41,13 @@ class RecipeListItem extends StatelessWidget {
                   icon: Icon(Icons.visibility_off,
                       color: Theme.of(context).colorScheme.tertiary),
                   onPressed: onUnpublish,
-                  tooltip: 'Unpublish recipe',
+                  tooltip: l10n.userRecipeUnpublishTooltip,
                 ),
               ],
               IconButton(
                 icon: Icon(Icons.remove_circle_outline, color: Colors.red),
                 onPressed: onDelete,
-                tooltip: 'Delete recipe',
+                tooltip: l10n.userRecipeDeleteTooltip,
               ),
             ],
           );

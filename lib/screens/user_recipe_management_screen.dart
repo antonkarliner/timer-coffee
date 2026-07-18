@@ -74,9 +74,10 @@ class _UserRecipeManagementScreenState
       ).showSnackBar(SnackBar(content: Text(l10n.userRecipesSnackbarDeleted)));
     } catch (e) {
       if (!context.mounted) return;
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Failed to delete recipe: $e')));
+      ).showSnackBar(SnackBar(content: Text(l10n.recipeDeleteError(e))));
     }
   }
 

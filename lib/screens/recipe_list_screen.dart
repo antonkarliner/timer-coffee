@@ -300,7 +300,7 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
                     IconButton(
                       icon: Icon(_isEditMode ? Icons.check : Icons.edit_note,
                           size: 28),
-                      tooltip: 'Toggle edit mode',
+                      tooltip: AppLocalizations.of(context)!.toggleEditMode,
                       onPressed: _toggleEditMode,
                     ),
                   ],

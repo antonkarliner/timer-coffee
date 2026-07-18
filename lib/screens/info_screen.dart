@@ -195,7 +195,7 @@ class _InfoScreenState extends State<InfoScreen> {
           ),
           // Privacy Policy
           ExpansionTile(
-            title: const Text('Privacy Policy'),
+            title: Text(l10n.privacyPolicyTitle),
             children: [
               FutureBuilder<String>(
                 future: loadPrivacyPolicy(),
@@ -218,9 +218,9 @@ class _InfoScreenState extends State<InfoScreen> {
                       ),
                     );
                   } else if (snapshot.hasError) {
-                    return const Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Text('Error loading Privacy Policy'),
+                    return Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(l10n.privacyPolicyLoadFailed),
                     );
                   } else {
                     return const Padding(

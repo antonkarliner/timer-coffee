@@ -330,11 +330,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
   // ---------------------------------------------------------------------------
 
   Future<void> _handleIconSelected(String iconName) async {
+    final l10n = AppLocalizations.of(context)!;
     final success = await _controller.setIcon(iconName);
     if (!success && mounted) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Icon change failed: $iconName')));
+      ).showSnackBar(SnackBar(content: Text(l10n.iconChangeFailed(iconName))));
     }
   }
 

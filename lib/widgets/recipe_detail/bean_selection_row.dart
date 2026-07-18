@@ -63,7 +63,7 @@ class BeansChip extends StatelessWidget {
     this.height = 44,
     this.minWidth = 0, // allow to shrink in tight spaces
     this.padding = const EdgeInsets.symmetric(horizontal: 12),
-    this.clearTooltip = 'Clear',
+    this.clearTooltip,
   });
 
   final VoidCallback onTap;
@@ -84,7 +84,7 @@ class BeansChip extends StatelessWidget {
   final double height;
   final double minWidth;
   final EdgeInsets padding;
-  final String clearTooltip;
+  final String? clearTooltip;
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +163,8 @@ class BeansChip extends StatelessWidget {
     final clear = onClear == null
         ? const SizedBox()
         : Tooltip(
-            message: clearTooltip,
+            message: clearTooltip ??
+                AppLocalizations.of(context)!.fieldClearButtonTooltip,
             child: InkResponse(
               onTap: enabled ? onClear : null,
               customBorder: const CircleBorder(),
@@ -467,7 +468,7 @@ class _BeanSelectionRowState extends State<BeanSelectionRow> {
 
     final clear = selected
         ? Tooltip(
-            message: 'Clear',
+            message: loc.fieldClearButtonTooltip,
             child: InkResponse(
               onTap: widget.onClearSelection,
               customBorder: const CircleBorder(),

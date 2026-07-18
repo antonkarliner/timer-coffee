@@ -125,7 +125,8 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
 
     return Semantics(
       identifier: 'coffeeBeansHeroHeader_${bean.beansUuid}',
-      label: '${bean.name} from ${bean.roaster}, ${bean.origin}',
+      container: true,
+      explicitChildNodes: true,
       child: Card(
         elevation: 4,
         child: Container(
@@ -175,11 +176,14 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
 
   /// Builds the logo section with roaster logo or fallback icon
   Widget _buildLogoSection(BuildContext context, Color iconColor) {
+    final loc = AppLocalizations.of(context)!;
     final screenWidth = MediaQuery.of(context).size.width;
     final effectiveLogoWidth = screenWidth <= 390 ? 80.0 : logoWidth;
     return Semantics(
       identifier: 'roasterLogo_${bean.roaster}',
-      label: 'Logo for ${bean.roaster}',
+      label: loc.roasterLogoSemantic(bean.roaster),
+      container: true,
+      excludeSemantics: true,
       child: SizedBox(
         height: logoHeight,
         width: effectiveLogoWidth,
@@ -210,13 +214,16 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
     Color secondaryColor,
     Color tertiaryColor,
   ) {
+    final loc = AppLocalizations.of(context)!;
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Semantics(
             identifier: 'beanName_${bean.beansUuid}',
-            label: 'Coffee bean name: ${bean.name}',
+            label: loc.coffeeBeanNameSemantic(bean.name),
+            container: true,
+            excludeSemantics: true,
             child: AutoSizeText(
               bean.name,
               maxLines: 2,
@@ -231,7 +238,11 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
           const SizedBox(height: 8),
           Semantics(
             identifier: 'roasterName_${bean.beansUuid}',
-            label: 'Roaster: ${bean.roaster}',
+            label: loc.roasterNameSemantic(bean.roaster),
+            container: true,
+            button: onRoasterTap != null,
+            onTap: onRoasterTap,
+            excludeSemantics: true,
             child: onRoasterTap != null
                 ? InkWell(
                     onTap: onRoasterTap,
@@ -260,7 +271,9 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
           const SizedBox(height: 4),
           Semantics(
             identifier: 'beanOrigin_${bean.beansUuid}',
-            label: 'Origin: ${bean.origin}',
+            label: loc.beanOriginSemantic(bean.origin),
+            container: true,
+            excludeSemantics: true,
             child: Text(
               bean.origin,
               maxLines: 1,
@@ -277,13 +290,25 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
 
   /// Builds the favorite toggle button
   Widget _buildFavoriteButton(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final isLight = theme.brightness == Brightness.light;
+    Future<void> toggleFavorite() async {
+      await coffeeBeansProvider.toggleFavoriteStatus(
+        bean.beansUuid,
+        !bean.isFavorite,
+      );
+      onFavoriteToggle?.call();
+    }
 
     return Semantics(
       identifier: 'favoriteButton_${bean.beansUuid}',
-      label: bean.isFavorite ? 'Remove from favorites' : 'Add to favorites',
+      label: bean.isFavorite ? loc.removeFavorite : loc.addFavorite,
+      container: true,
       button: true,
+      toggled: bean.isFavorite,
+      onTap: toggleFavorite,
+      excludeSemantics: true,
       child: IconButton(
         iconSize: favoriteIconSize,
         icon: Icon(
@@ -292,13 +317,7 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
               ? (isLight ? const Color(0xff8e2e2d) : const Color(0xffc66564))
               : null,
         ),
-        onPressed: () async {
-          await coffeeBeansProvider.toggleFavoriteStatus(
-            bean.beansUuid,
-            !bean.isFavorite,
-          );
-          onFavoriteToggle?.call();
-        },
+        onPressed: toggleFavorite,
       ),
     );
   }
@@ -311,7 +330,9 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
   ) {
     return Semantics(
       identifier: 'quickStats_${bean.beansUuid}',
-      label: 'Quick statistics',
+      label: loc.quickStatisticsSemantic,
+      container: true,
+      explicitChildNodes: true,
       child: Padding(
         padding: const EdgeInsets.only(top: 16.0),
         child: IntrinsicHeight(

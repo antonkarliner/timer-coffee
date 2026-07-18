@@ -74,6 +74,8 @@ class LiveActivityService {
   Future<String?> startBrewingActivity({
     required String recipeName,
     required String stepDescription,
+    required String pausedLabel,
+    required String stepProgressLabel,
     required int currentStep,
     required int totalSteps,
     required int stepElapsedSeconds,
@@ -96,6 +98,8 @@ class LiveActivityService {
     final data = _buildActivityData(
       recipeName: recipeName,
       stepDescription: stepDescription,
+      pausedLabel: pausedLabel,
+      stepProgressLabel: stepProgressLabel,
       currentStep: currentStep,
       totalSteps: totalSteps,
       stepElapsedSeconds: stepElapsedSeconds,
@@ -140,6 +144,8 @@ class LiveActivityService {
   Future<void> updateBrewingActivity({
     required String recipeName,
     required String stepDescription,
+    required String pausedLabel,
+    required String stepProgressLabel,
     required int currentStep,
     required int totalSteps,
     required int stepElapsedSeconds,
@@ -156,6 +162,8 @@ class LiveActivityService {
     final data = _buildActivityData(
       recipeName: recipeName,
       stepDescription: stepDescription,
+      pausedLabel: pausedLabel,
+      stepProgressLabel: stepProgressLabel,
       currentStep: currentStep,
       totalSteps: totalSteps,
       stepElapsedSeconds: stepElapsedSeconds,
@@ -183,6 +191,8 @@ class LiveActivityService {
   Future<void> recreateBrewingActivity({
     required String recipeName,
     required String stepDescription,
+    required String pausedLabel,
+    required String stepProgressLabel,
     required int currentStep,
     required int totalSteps,
     required int stepElapsedSeconds,
@@ -202,6 +212,8 @@ class LiveActivityService {
       await startBrewingActivity(
         recipeName: recipeName,
         stepDescription: stepDescription,
+        pausedLabel: pausedLabel,
+        stepProgressLabel: stepProgressLabel,
         currentStep: currentStep,
         totalSteps: totalSteps,
         stepElapsedSeconds: stepElapsedSeconds,
@@ -221,6 +233,8 @@ class LiveActivityService {
     await updateBrewingActivity(
       recipeName: recipeName,
       stepDescription: stepDescription,
+      pausedLabel: pausedLabel,
+      stepProgressLabel: stepProgressLabel,
       currentStep: currentStep,
       totalSteps: totalSteps,
       stepElapsedSeconds: stepElapsedSeconds,
@@ -307,6 +321,8 @@ class LiveActivityService {
   Map<String, dynamic> _buildActivityData({
     required String recipeName,
     required String stepDescription,
+    required String pausedLabel,
+    required String stepProgressLabel,
     required int currentStep,
     required int totalSteps,
     required int stepElapsedSeconds,
@@ -338,6 +354,8 @@ class LiveActivityService {
     final data = {
       'recipeName': recipeName,
       'stepDescription': stepDescription,
+      'pausedLabel': pausedLabel,
+      'stepProgressLabel': stepProgressLabel,
       'currentStep': currentStep,
       'totalSteps': totalSteps,
       'stepElapsedSeconds': stepElapsedSeconds,

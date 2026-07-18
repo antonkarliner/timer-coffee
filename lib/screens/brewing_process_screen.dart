@@ -12,6 +12,7 @@ import 'package:uuid/uuid.dart';
 import '../models/recipe_model.dart';
 import '../models/brew_step_model.dart';
 import '../models/notification_mode.dart';
+import '../providers/recipe_provider.dart';
 import 'finish_screen.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:vibration/vibration.dart';
@@ -599,6 +600,8 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
           .startBrewingActivity(
             recipeName: args['recipeName'],
             stepDescription: args['stepDescription'],
+            pausedLabel: args['pausedLabel'],
+            stepProgressLabel: args['stepProgressLabel'],
             currentStep: args['currentStep'],
             totalSteps: args['totalSteps'],
             stepElapsedSeconds: args['stepElapsedSeconds'],
@@ -623,6 +626,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       await AndroidLiveUpdateService.instance.startBrewingActivity(
         recipeName: args['recipeName'],
         stepDescription: args['stepDescription'],
+        channelName: args['brewingChannelName'],
+        channelDescription: args['brewingChannelDescription'],
+        contentText: args['liveUpdateContentText'],
         currentStep: args['currentStep'],
         totalSteps: args['totalSteps'],
         stepElapsedSeconds: args['stepElapsedSeconds'],
@@ -645,6 +651,8 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       LiveActivityService.instance.updateBrewingActivity(
         recipeName: args['recipeName'],
         stepDescription: args['stepDescription'],
+        pausedLabel: args['pausedLabel'],
+        stepProgressLabel: args['stepProgressLabel'],
         currentStep: args['currentStep'],
         totalSteps: args['totalSteps'],
         stepElapsedSeconds: args['stepElapsedSeconds'],
@@ -661,6 +669,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       AndroidLiveUpdateService.instance.updateBrewingActivity(
         recipeName: args['recipeName'],
         stepDescription: args['stepDescription'],
+        channelName: args['brewingChannelName'],
+        channelDescription: args['brewingChannelDescription'],
+        contentText: args['liveUpdateContentText'],
         currentStep: args['currentStep'],
         totalSteps: args['totalSteps'],
         stepElapsedSeconds: args['stepElapsedSeconds'],
@@ -811,6 +822,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   }
 
   Map<String, dynamic> _liveActivityArgs() {
+    final l10n = lookupAppLocalizations(
+      context.read<RecipeProvider>().currentLocale,
+    );
     final nowUtc = DateTime.now().toUtc();
     final currentStepTotalSeconds =
         brewingSteps[currentStepIndex].time.inSeconds;
@@ -832,12 +846,28 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     final stepEndUtc = currentStepStartUtc.add(
       Duration(seconds: currentStepTotalSeconds),
     );
+    final currentStep = currentStepIndex + 1;
+    final totalSteps = brewingSteps.length;
+    final stepDescription = brewingSteps[currentStepIndex].description;
 
     return {
       'recipeName': widget.recipe.name,
-      'stepDescription': brewingSteps[currentStepIndex].description,
-      'currentStep': currentStepIndex + 1,
-      'totalSteps': brewingSteps.length,
+      'stepDescription': stepDescription,
+      'brewingChannelName': l10n.notificationChannelBrewingName,
+      'brewingChannelDescription':
+          l10n.notificationChannelBrewingDescription,
+      'liveUpdateContentText': l10n.liveUpdateStepDescription(
+        currentStep,
+        totalSteps,
+        stepDescription,
+      ),
+      'pausedLabel': l10n.liveActivityPaused,
+      'stepProgressLabel': l10n.liveActivityStepProgress(
+        currentStep,
+        totalSteps,
+      ),
+      'currentStep': currentStep,
+      'totalSteps': totalSteps,
       'stepElapsedSeconds': boundedCurrentStepTime,
       'stepTotalSeconds': currentStepTotalSeconds,
       'isPaused': _isPaused,

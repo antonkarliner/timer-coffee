@@ -151,9 +151,11 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
           await launchUrl(uri);
         } else {
           if (context.mounted) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text('Could not launch $href')));
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(AppLocalizations.of(context)!.couldNotOpenLink),
+              ),
+            );
           }
         }
       },

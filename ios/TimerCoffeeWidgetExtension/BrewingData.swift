@@ -4,6 +4,8 @@ import Foundation
 struct BrewingData {
     let recipeName: String
     let stepDescription: String
+    let pausedLabel: String
+    let stepProgressLabel: String
     let currentStep: Int
     let totalSteps: Int
     let stepElapsedSeconds: Int
@@ -51,8 +53,10 @@ struct BrewingData {
             return "\(activityId)_\(k)"
         }
 
-        let storedRecipeName = d?.string(forKey: key("recipeName")) ?? "Brewing"
+        let storedRecipeName = d?.string(forKey: key("recipeName")) ?? "Timer.Coffee"
         let storedDescription = d?.string(forKey: key("stepDescription")) ?? ""
+        let storedPausedLabel = d?.string(forKey: key("pausedLabel")) ?? ""
+        let storedStepProgressLabel = d?.string(forKey: key("stepProgressLabel")) ?? ""
         let storedCurrentStep = d?.integer(forKey: key("currentStep")) ?? 1
         let storedTotalSteps = d?.integer(forKey: key("totalSteps")) ?? 1
         let storedElapsed = d?.integer(forKey: key("stepElapsedSeconds")) ?? 0
@@ -111,6 +115,14 @@ struct BrewingData {
 #endif
             recipeName = selected.recipeName
             stepDescription = selected.stepDescription
+            pausedLabel = storedPausedLabel
+            if storedCurrentStep == selected.currentStep,
+               storedTotalSteps == selected.totalSteps,
+               !storedStepProgressLabel.isEmpty {
+                stepProgressLabel = storedStepProgressLabel
+            } else {
+                stepProgressLabel = "\(selected.currentStep)/\(selected.totalSteps)"
+            }
             currentStep = selected.currentStep
             totalSteps = selected.totalSteps
             stepElapsedSeconds = selected.stepElapsedSeconds
@@ -126,8 +138,14 @@ struct BrewingData {
 
         recipeName = storedRecipeName
         stepDescription = storedDescription
-        currentStep = max(storedCurrentStep, 1)
-        totalSteps = max(storedTotalSteps, currentStep)
+        pausedLabel = storedPausedLabel
+        let resolvedCurrentStep = max(storedCurrentStep, 1)
+        let resolvedTotalSteps = max(storedTotalSteps, resolvedCurrentStep)
+        stepProgressLabel = storedStepProgressLabel.isEmpty
+            ? "\(resolvedCurrentStep)/\(resolvedTotalSteps)"
+            : storedStepProgressLabel
+        currentStep = resolvedCurrentStep
+        totalSteps = resolvedTotalSteps
         stepElapsedSeconds = max(storedElapsed, 0)
         stepTotalSeconds = max(storedStepTotal, 0)
         isPaused = storedIsPaused
@@ -487,7 +505,4 @@ struct BrewingData {
         return min(Double(stepElapsedSeconds) / Double(stepTotalSeconds), 1.0)
     }
 
-    var stepLabel: String {
-        return "\(currentStep)/\(totalSteps)"
-    }
 }

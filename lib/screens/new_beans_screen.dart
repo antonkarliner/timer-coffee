@@ -548,7 +548,9 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error saving coffee beans: $e')),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.coffeeBeansSaveFailed),
+          ),
         );
       }
     } finally {

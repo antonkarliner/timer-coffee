@@ -386,7 +386,7 @@ class AuthenticationService {
       if (context.mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text('Invalid email format')));
+        ).showSnackBar(SnackBar(content: Text(l10n.invalidEmailFormat)));
       }
       return;
     }
@@ -540,7 +540,7 @@ class AuthenticationService {
     } catch (e) {
       AppLogger.error('Error syncing user data', errorObject: e);
       scaffoldMessenger.showSnackBar(
-        SnackBar(content: Text("Error syncing data: ${e.toString()}")),
+        SnackBar(content: Text(l10n.errorSyncingData(e.toString()))),
       );
     }
   }

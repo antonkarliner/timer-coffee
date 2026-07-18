@@ -122,6 +122,8 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
   }
 
   Widget _buildContent(BuildContext context, CoffeeBeansController controller) {
+    final loc = AppLocalizations.of(context)!;
+
     if (controller.isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -134,13 +136,13 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
             Icon(Icons.error_outline, size: 64, color: Colors.grey[400]),
             const SizedBox(height: 16),
             Text(
-              'Error: ${controller.error}',
+              loc.error(controller.error.toString()),
               style: Theme.of(context).textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),
             AppElevatedButton(
-              label: 'Retry',
+              label: loc.retry,
               onPressed: () => controller.refreshData(context),
               isFullWidth: false,
               height: AppButton.heightSmall,

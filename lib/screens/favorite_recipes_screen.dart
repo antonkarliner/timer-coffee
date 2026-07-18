@@ -45,7 +45,11 @@ class FavoriteRecipesScreen extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Semantics(
               identifier: 'favoriteRecipesError',
-              child: Center(child: Text("Error loading favorites")),
+              child: Center(
+                child: Text(
+                  AppLocalizations.of(context)!.favoriteRecipesLoadFailed,
+                ),
+              ),
             );
           } else if (snapshot.hasData && snapshot.data!.isEmpty) {
             return Semantics(

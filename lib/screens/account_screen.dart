@@ -33,6 +33,8 @@ Future<Uint8List> _processImageIsolate(Uint8List imageBytes) async {
 }
 // --- End top-level function ---
 
+enum _ProfileLoadError { userNotFound, cachedData }
+
 @RoutePage()
 class AccountScreen extends StatefulWidget {
   final String userId;
@@ -46,7 +48,7 @@ class _AccountScreenState extends State<AccountScreen> {
   String? _displayName;
   String? _profilePictureUrl;
   bool _isLoading = true;
-  String? _errorMessage;
+  _ProfileLoadError? _profileLoadError;
   bool _isEditMode = false; // State variable for edit mode
 
   // Default avatar URL
@@ -63,7 +65,7 @@ class _AccountScreenState extends State<AccountScreen> {
     if (!mounted) return;
     setState(() {
       _isLoading = true;
-      _errorMessage = null;
+      _profileLoadError = null;
     });
 
     final supabase = Supabase.instance.client;
@@ -74,7 +76,7 @@ class _AccountScreenState extends State<AccountScreen> {
       if (mounted) {
         setState(() {
           _isLoading = false;
-          _errorMessage = "User not found."; // TODO: Localize
+          _profileLoadError = _ProfileLoadError.userNotFound;
         });
       }
       return;
@@ -126,8 +128,7 @@ class _AccountScreenState extends State<AccountScreen> {
       // Load from SharedPreferences on error (only for current user)
       _displayName = prefs.getString('user_display_name');
       _profilePictureUrl = prefs.getString('user_profile_picture_url');
-      _errorMessage =
-          "Failed to load profile. Showing cached data."; // TODO: Localize
+      _profileLoadError = _ProfileLoadError.cachedData;
     } finally {
       // Use default if still null
       // Format default display name as User-<first 5 chars of ID>
@@ -292,7 +293,7 @@ class _AccountScreenState extends State<AccountScreen> {
       if (mounted) {
         setState(() {
           _displayName = newName;
-          _errorMessage = null; // Clear previous errors
+          _profileLoadError = null; // Clear previous errors
         });
         scaffoldMessenger.showSnackBar(
           SnackBar(content: Text(l10n.displayNameUpdateSuccess)),
@@ -462,7 +463,7 @@ class _AccountScreenState extends State<AccountScreen> {
       if (mounted) {
         setState(() {
           _profilePictureUrl = newImageUrl;
-          _errorMessage = null;
+          _profileLoadError = null;
         });
         scaffoldMessenger.showSnackBar(
           SnackBar(content: Text(l10n.updatePictureSuccess)),
@@ -591,7 +592,7 @@ class _AccountScreenState extends State<AccountScreen> {
       if (mounted) {
         setState(() {
           _profilePictureUrl = _defaultAvatarUrl; // Revert to default
-          _errorMessage = null;
+          _profileLoadError = null;
         });
         scaffoldMessenger.showSnackBar(
           SnackBar(content: Text(l10n.deletePictureSuccess)),
@@ -731,21 +732,26 @@ class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!; // Define l10n here
+    final errorMessage = switch (_profileLoadError) {
+      _ProfileLoadError.userNotFound => l10n.userNotFound,
+      _ProfileLoadError.cachedData => l10n.profileLoadCached,
+      null => null,
+    };
 
     // Use loading state
     if (_isLoading) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Account')),
+        appBar: AppBar(title: Text(l10n.account)),
         body: const Center(child: CircularProgressIndicator()),
       );
     }
 
     // Show error if any
-    if (_errorMessage != null && _displayName == null) {
+    if (errorMessage != null && _displayName == null) {
       // Only show full error if no data at all
       return Scaffold(
-        appBar: AppBar(title: const Text('Account')),
-        body: Center(child: Text(_errorMessage!)),
+        appBar: AppBar(title: Text(l10n.account)),
+        body: Center(child: Text(errorMessage)),
       );
     }
 
@@ -874,7 +880,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         Flexible(
                           // Allow name to wrap if very long
                           child: Text(
-                            _displayName ?? 'Loading...', // Show actual name
+                            _displayName ?? l10n.loadingEllipsis,
                             style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,

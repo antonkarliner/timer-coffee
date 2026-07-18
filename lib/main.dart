@@ -297,11 +297,23 @@ void main() async {
   if (!kIsWeb) {
     // Initialize timezone data for scheduling
     tz.initializeTimeZones();
+    final notificationLocale = resolveSupportedNotificationLocale(
+      WidgetsBinding.instance.platformDispatcher.locales,
+    );
+    final notificationLocalizations = lookupAppLocalizations(
+      notificationLocale,
+    );
     // Initialize NotificationService early to ensure proper setup with timeout protection
     // Use silent initialization to prevent iOS system dialogs on first startup
     try {
       await NotificationService.instance
-          .initialize(silentInit: true)
+          .initialize(
+            silentInit: true,
+            generalChannelName:
+                notificationLocalizations.notificationChannelGeneralName,
+            generalChannelDescription:
+                notificationLocalizations.notificationChannelGeneralDescription,
+          )
           .timeout(
             const Duration(seconds: 5),
             onTimeout: () {

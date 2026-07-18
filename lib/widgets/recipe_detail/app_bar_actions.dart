@@ -61,7 +61,7 @@ class RecipeDetailAppBarActions extends StatelessWidget {
       actions.add(
         IconButton(
           icon: const Icon(Icons.edit),
-          tooltip: AppLocalizations.of(context)?.edit ?? 'Edit',
+          tooltip: AppLocalizations.of(context)!.edit,
           onPressed: onEdit,
         ),
       );

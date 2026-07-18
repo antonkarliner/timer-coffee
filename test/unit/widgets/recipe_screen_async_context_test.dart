@@ -186,7 +186,10 @@ void main() {
     await tester.tap(find.byIcon(Icons.edit_note));
     await tester.pumpAndSettle();
     clearInteractions(recipeProvider);
-    await tester.tap(find.byTooltip('Unpublish recipe'));
+    final l10n = AppLocalizations.of(
+      tester.element(find.byType(UserRecipeManagementScreen)),
+    )!;
+    await tester.tap(find.byTooltip(l10n.userRecipeUnpublishTooltip));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Make Private'));
     await tester.pump();

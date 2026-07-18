@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:coffee_timer/l10n/app_localizations.dart';
 
 class AutocompleteInputField extends StatefulWidget {
   final String label;
@@ -101,7 +102,7 @@ class _AutocompleteInputFieldState extends State<AutocompleteInputField> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const CircularProgressIndicator();
             } else if (snapshot.hasError || !snapshot.hasData) {
-              return const Text('Failed to load data');
+              return Text(AppLocalizations.of(context)!.failedToLoadData);
             }
             List<String> recentItems =
                 snapshot.data!.where((item) => item.isNotEmpty).toList();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:coffee_timer/l10n/app_localizations.dart';
 
 class AutocompleteTagInputField extends StatefulWidget {
   final String label;
@@ -73,7 +74,9 @@ class _AutocompleteTagInputFieldState extends State<AutocompleteTagInputField> {
       });
     } else if (_tags.contains(normalizedTag)) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('"$tag" is already added')),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.tagAlreadyAdded(tag)),
+        ),
       );
     }
   }

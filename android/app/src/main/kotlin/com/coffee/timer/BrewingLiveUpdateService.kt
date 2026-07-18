@@ -29,7 +29,7 @@ class BrewingLiveUpdateService(private val context: Context) {
 
     fun startBrewingNotification(data: Map<String, Any>) {
         if (Build.VERSION.SDK_INT < API_36) return
-        ensureNotificationChannel()
+        ensureNotificationChannel(data)
         val notification = buildNotification(data)
         val nm = context.getSystemService(NotificationManager::class.java)
         nm.notify(NOTIFICATION_ID, notification)
@@ -50,13 +50,16 @@ class BrewingLiveUpdateService(private val context: Context) {
         isActive = false
     }
 
-    private fun ensureNotificationChannel() {
+    private fun ensureNotificationChannel(data: Map<String, Any>) {
+        val channelName = (data["channelName"] as? String)
+            ?.takeIf { it.isNotBlank() } ?: "Timer.Coffee"
+        val channelDescription = data["channelDescription"] as? String ?: ""
         val channel = NotificationChannel(
             CHANNEL_ID,
-            "Brewing Timer",
+            channelName,
             NotificationManager.IMPORTANCE_DEFAULT
         ).apply {
-            description = "Shows brewing progress during active brew"
+            description = channelDescription
             enableVibration(false)
             setSound(null, null)
         }
@@ -72,6 +75,11 @@ class BrewingLiveUpdateService(private val context: Context) {
         val stepElapsedSeconds = (data["stepElapsedSeconds"] as? Number)?.toInt() ?: 0
         val stepTotalSeconds = (data["stepTotalSeconds"] as? Number)?.toInt() ?: 0
         val isPaused = (data["isPaused"] as? Number)?.toInt() == 1
+        val contentText = (data["contentText"] as? String)
+            ?.takeIf { it.isNotBlank() }
+            ?: listOf("$currentStep/$totalSteps", stepDescription)
+                .filter { it.isNotBlank() }
+                .joinToString(" · ")
 
         // Floor at 1 so the chronometer always has a future target and never
         // reaches zero (which causes it to count up). The 1-second overshoot is
@@ -91,7 +99,7 @@ class BrewingLiveUpdateService(private val context: Context) {
         val builder = Notification.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle(recipeName)
-            .setContentText("Step $currentStep/$totalSteps · $stepDescription")
+            .setContentText(contentText)
             .setOngoing(true)
             .setOnlyAlertOnce(true)
             .setContentIntent(pendingIntent)

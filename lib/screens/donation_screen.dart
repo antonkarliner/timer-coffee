@@ -100,7 +100,7 @@ class _DonationScreenState extends State<DonationScreen> {
             content: Text(AppLocalizations.of(context)!.donationtnx),
             actions: [
               AppTextButton(
-                label: 'OK',
+                label: AppLocalizations.of(context)!.ok,
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -127,7 +127,7 @@ class _DonationScreenState extends State<DonationScreen> {
             content: Text(AppLocalizations.of(context)!.donationerrmsg),
             actions: [
               AppTextButton(
-                label: 'OK',
+                label: AppLocalizations.of(context)!.ok,
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -278,7 +278,8 @@ class _DonationScreenState extends State<DonationScreen> {
       child: SizedBox(
         height: 56,
         child: AppElevatedButton(
-          label: productTitles[product.id] ?? 'Unknown Product',
+          label: productTitles[product.id] ??
+              AppLocalizations.of(context)!.unknownProduct,
           onPressed: () => _makePurchase(product),
           isFullWidth: false,
           height: 56,

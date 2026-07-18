@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../../theme/design_tokens.dart';
 import 'labeled_field.dart';
@@ -82,9 +81,10 @@ class _TimeFieldState extends State<TimeField> {
   void _updateDisplayValue() {
     if (_selectedTime != null) {
       final use24h = MediaQuery.of(context).alwaysUse24HourFormat;
-      final dt = DateTime(2000, 1, 1, _selectedTime!.hour, _selectedTime!.minute);
-      _controller.text =
-          use24h ? DateFormat('HH:mm').format(dt) : DateFormat('h:mm a').format(dt);
+      _controller.text = MaterialLocalizations.of(context).formatTimeOfDay(
+        _selectedTime!,
+        alwaysUse24HourFormat: use24h,
+      );
     } else {
       _controller.clear();
     }
@@ -381,11 +381,12 @@ class _TimePickerDialogState extends State<_TimePickerDialog> {
   }
 
   Widget _buildAmPmToggle(ColorScheme colorScheme) {
+    final materialLocalizations = MaterialLocalizations.of(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _AmPmButton(
-          label: 'AM',
+          label: materialLocalizations.anteMeridiemAbbreviation,
           selected: _isAm,
           onTap: () {
             if (!_isAm) {
@@ -399,7 +400,7 @@ class _TimePickerDialogState extends State<_TimePickerDialog> {
         ),
         const SizedBox(height: 8),
         _AmPmButton(
-          label: 'PM',
+          label: materialLocalizations.postMeridiemAbbreviation,
           selected: !_isAm,
           onTap: () {
             if (_isAm) {

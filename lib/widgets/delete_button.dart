@@ -1,3 +1,4 @@
+import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class DeleteButton extends StatelessWidget {
@@ -27,7 +28,7 @@ class DeleteButton extends StatelessWidget {
             : Colors.red,
       ),
       onPressed: isDisabled ? null : onPressed,
-      tooltip: tooltip ?? 'Delete',
+      tooltip: tooltip ?? AppLocalizations.of(context)!.delete,
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:coffee_timer/utils/app_logger.dart';
@@ -17,10 +18,15 @@ class LocalNotificationManager {
   final BehaviorSubject<String?> onNotificationTapped = BehaviorSubject();
 
   static const String CHANNEL_ID_GENERAL = 'general_channel';
-  static const String CHANNEL_NAME_GENERAL = 'General';
-  static const String CHANNEL_DESC_GENERAL = 'General app notifications';
+  final String _generalChannelName;
+  final String _generalChannelDescription;
 
-  LocalNotificationManager(this._plugin);
+  LocalNotificationManager(
+    this._plugin, {
+    required String generalChannelName,
+    required String generalChannelDescription,
+  }) : _generalChannelName = generalChannelName,
+       _generalChannelDescription = generalChannelDescription;
 
   Future<void> initialize() async {
     try {
@@ -80,16 +86,22 @@ class LocalNotificationManager {
 
     if (androidPlugin == null) return;
 
-    final generalChannel = AndroidNotificationChannel(
+    await androidPlugin.createNotificationChannel(_buildGeneralChannel());
+  }
+
+  AndroidNotificationChannel _buildGeneralChannel() {
+    return AndroidNotificationChannel(
       CHANNEL_ID_GENERAL,
-      CHANNEL_NAME_GENERAL,
-      description: CHANNEL_DESC_GENERAL,
+      _generalChannelName,
+      description: _generalChannelDescription,
       importance: Importance
           .high, // Changed from defaultImportance to high for better visibility
     );
-
-    await androidPlugin.createNotificationChannel(generalChannel);
   }
+
+  @visibleForTesting
+  AndroidNotificationChannel get generalChannelForTesting =>
+      _buildGeneralChannel();
 
   NotificationDetails _buildDetails({
     required String title,
@@ -100,8 +112,8 @@ class LocalNotificationManager {
     return NotificationDetails(
       android: AndroidNotificationDetails(
         CHANNEL_ID_GENERAL,
-        CHANNEL_NAME_GENERAL,
-        channelDescription: CHANNEL_DESC_GENERAL,
+        _generalChannelName,
+        channelDescription: _generalChannelDescription,
         importance: Importance.defaultImportance,
         largeIcon: hasImage ? FilePathAndroidBitmap(imagePath) : null,
         styleInformation: hasImage
@@ -122,6 +134,13 @@ class LocalNotificationManager {
       ),
     );
   }
+
+  @visibleForTesting
+  NotificationDetails buildDetailsForTesting({
+    required String title,
+    required String body,
+    String? imagePath,
+  }) => _buildDetails(title: title, body: body, imagePath: imagePath);
 
   Future<void> showNotification({
     required int id,

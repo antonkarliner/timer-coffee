@@ -47,6 +47,15 @@
   "wateramount": "Water amount (ml)",
   "watertemp": "Water Temperature",
   "grindsize": "Grind Size",
+  "lastGrindSuggestion": "Last time with this bean: {grind}",
+  "@lastGrindSuggestion": {
+    "placeholders": {
+      "grind": {"type": "String"}
+    }
+  },
+  "useGrindSuggestion": "Use",
+  "grindSuggestionSour": "Last cup ran sour — try a finer grind",
+  "grindSuggestionBitter": "Last cup ran bitter — try a coarser grind",
   "brewtime": "Brew Time",
   "recipesummary": "Recipe summary",
   "recipesummarynote": "Note: this is a basic recipe with default water and coffee amounts.",
@@ -2256,5 +2265,252 @@
   "extractionCalcDiaryAction": "Calculate extraction",
   "@extractionCalcDiaryAction": {
     "description": "Per-entry action button in the brew diary that opens the extraction calculator prefilled from that brew."
-  }
+  },
+  "tasteFeedbackPrompt": "How did it taste?",
+  "tasteSour": "Sour",
+  "tasteBalanced": "Balanced",
+  "tasteBitter": "Bitter",
+  "brewDiaryDoseWater": "Dose → Water",
+  "brewDiaryRatioComputed": "Ratio · computed",
+  "brewDiaryExtraction": "Extraction",
+  "brewDiaryCalculate": "Calculate →",
+  "brewDiaryTasted": "Tasted",
+  "brewDiaryAutoLogged": "Auto-logged from brew",
+  "diarySearchHint": "Search brew diary",
+  "diaryRatingFourPlus": "★4+",
+  "diaryBookmarked": "Bookmarked",
+  "diaryMarkBookmark": "Add bookmark",
+  "@diaryMarkBookmark": {
+    "description": "Tooltip and accessibility label for marking a brew diary entry as bookmarked."
+  },
+  "diaryRemoveBookmark": "Remove bookmark",
+  "@diaryRemoveBookmark": {
+    "description": "Tooltip and accessibility label for removing a brew diary entry from bookmarks."
+  },
+  "diaryFilterSheetTitle": "Filter brew diary",
+  "diaryMethods": "Methods",
+  "diaryBeans": "Beans",
+  "diaryAnyBean": "Any bean",
+  "@diaryAnyBean": {"description": "Summary shown when the Brew Diary bean filter has no selected beans."},
+  "diarySelectedBeanCount": "{count, plural, =1{1 bean selected} other{{count} beans selected}}",
+  "@diarySelectedBeanCount": {
+    "description": "Summary of the number of beans selected in the Brew Diary filter.",
+    "placeholders": {"count": {"type": "int", "example": "3"}}
+  },
+  "diaryChooseBeans": "Choose beans",
+  "@diaryChooseBeans": {"description": "Title of the Brew Diary bean filter chooser."},
+  "diaryBeanSearch": "Search beans and roasters",
+  "@diaryBeanSearch": {"description": "Label for searching beans and roasters in the Brew Diary filter."},
+  "diaryBeanCount": "{count, plural, =1{1 bean} other{{count} beans}}",
+  "@diaryBeanCount": {
+    "description": "Number of beans available for a roaster in the Brew Diary filter.",
+    "placeholders": {"count": {"type": "int", "example": "12"}}
+  },
+  "diaryOrigins": "Origins",
+  "diaryRating": "Rating",
+  "diaryRatingThreePlus": "★3+",
+  "diaryMoreFilters": "More filters",
+  "diaryHasNotes": "Has notes",
+  "diaryHasExtraction": "Has extraction",
+  "diaryNoMatches": "No brews match these filters.",
+  "diaryLoadError": "We couldn't load your Brew Diary.",
+  "@diaryLoadError": {"description": "Generic message shown when Brew Diary entries fail to load."},
+  "diaryAxisTimeline": "Timeline",
+  "@diaryAxisTimeline": {"description": "Axis control option that shows individual brews chronologically."},
+      "diaryGroupByBean": "By bean",
+  "@diaryGroupByBean": {"description": "Groups brew diary entries by coffee bean."},
+          "diaryGroupDialedIn": "Dialed in",
+  "@diaryGroupDialedIn": {"description": "Status for a brew group whose latest brew is balanced or highly rated."},
+  "diaryGroupDialingIn": "Dialing in",
+  "@diaryGroupDialingIn": {"description": "Status for a brew group still being adjusted."},
+  "diaryGroupBrewCount": "{count, plural, =1{1 brew} other{{count} brews}}",
+  "@diaryGroupBrewCount": {
+    "description": "Number of brews in a diary group.",
+    "placeholders": {"count": {"type": "int", "example": "12"}}
+  },
+  "diaryMonthBrews": "{count, plural, =1{1 brew} other{{count} brews}}",
+  "@diaryMonthBrews": {
+    "description": "Compact brew count in the monthly diary almanac.",
+    "placeholders": {"count": {"type": "int", "example": "18"}}
+  },
+  "diaryMonthStreakDays": "{count, plural, =1{1 day 🔥} other{{count} days 🔥}}",
+  "@diaryMonthStreakDays": {
+    "description": "Celebratory longest daily brewing streak in a month.",
+    "placeholders": {"count": {"type": "int", "example": "6"}}
+  },
+  "diaryMonthActiveDays": "{count, plural, =1{1 active day} other{{count} active days}}",
+  "@diaryMonthActiveDays": {
+    "description": "Number of distinct days with a brew in the displayed month.",
+    "placeholders": {"count": {"type": "int", "example": "12"}}
+  },
+  "diaryFullStats": "Full stats",
+  "@diaryFullStats": {"description": "Action opening the full statistics screen from the monthly diary almanac."},
+  "diaryMonthStripExpand": "Expand monthly almanac",
+  "@diaryMonthStripExpand": {"description": "Accessibility label for expanding the monthly diary almanac."},
+  "diaryMonthStripCollapse": "Collapse monthly almanac",
+  "@diaryMonthStripCollapse": {"description": "Accessibility label for collapsing the monthly diary almanac."},
+  "diaryPreviousMonth": "Previous month",
+  "@diaryPreviousMonth": {"description": "Tooltip for showing the previous diary month."},
+  "diaryNextMonth": "Next month",
+  "diaryBackToCalendar": "Back to calendar",
+  "@diaryBackToCalendar": {"description": "Tooltip and accessible label for returning to the Brew Diary calendar."},
+  "@diaryNextMonth": {"description": "Tooltip for showing the next diary month."},
+  "diaryOnThisDayTitle": "{years, plural, =1{On this day · 1 year ago} other{On this day · {years} years ago}}",
+  "@diaryOnThisDayTitle": {
+    "description": "Title for a diary memory from the same calendar date in a previous year.",
+    "placeholders": {"years": {"type": "int", "example": "2"}}
+  },
+  "diaryOnThisDaySubtitle": "{label} · {method}",
+  "@diaryOnThisDaySubtitle": {
+    "description": "Bean or recipe and brewing method shown on an on-this-day memory card.",
+    "placeholders": {
+      "label": {"type": "String", "example": "Ethiopia Guji"},
+      "method": {"type": "String", "example": "V60"}
+    }
+  },
+  "diaryWeekOf": "Week of {date}",
+  "@diaryWeekOf": {
+    "description": "Title for a weekly diary digest, followed by the Monday starting date.",
+    "placeholders": {"date": {"type": "String", "example": "Jul 13, 2026"}}
+  },
+  "diaryWeekBest": "best: {label} ★{rating}",
+  "@diaryWeekBest": {
+    "description": "Best-rated cup in a compact weekly diary digest.",
+    "placeholders": {
+      "label": {"type": "String", "example": "Ethiopia Guji"},
+      "rating": {"type": "String", "example": "4.5"}
+    }
+  },
+  "diaryDialedIn": "Dialed in {bean} on {method}",
+  "@diaryDialedIn": {
+    "description": "Celebratory weekly digest fact for a bean successfully dialed in with a brewing method.",
+    "placeholders": {
+      "bean": {"type": "String", "example": "Ethiopia Guji"},
+      "method": {"type": "String", "example": "V60"}
+    }
+  },
+  "brewAgain": "Brew again",
+  "@brewAgain": {
+    "description": "Action that starts a new brew using the values from a logged brew."
+  },
+  "diaryBrewNotFound": "This brew could not be found.",
+  "@diaryBrewNotFound": {"description": "Feedback shown when a brew diary deep-link target no longer exists."},
+  "diaryFiltersClearedForDay": "Filters were cleared to show this day.",
+  "@diaryFiltersClearedForDay": {"description": "Feedback shown when diary filters are cleared so a heatmap day can be displayed."},
+      "journeyHeld": "{field} held",
+  "@journeyHeld": {"description": "Delta chip indicating that a brew value was unchanged.", "placeholders": {"field": {"type": "String", "example": "Grind size"}}},
+      "journeyCompare": "Compare",
+  "@journeyCompare": {"description": "Action to compare two brew attempts."},
+  "journeyCompareTitle": "Compare attempts",
+  "@journeyCompareTitle": {"description": "Title of the brew attempt comparison sheet."},
+  "journeySelectTwo": "Select two attempts",
+  "@journeySelectTwo": {"description": "Instruction in the brew attempt comparison sheet."},
+  "journeyBestCup": "Best cup",
+  "@journeyBestCup": {"description": "Pin shown on the highest-rated brew in a journey."},
+      "journeyRatioDelta": "Ratio change {delta}",
+  "@journeyRatioDelta": {"description": "Signed change in brew ratio between consecutive attempts.", "placeholders": {"delta": {"type": "String", "example": "+0.5"}}},
+  "journeyProgress": "Progress",
+  "@journeyProgress": {"description": "Title of the method-specific progress section in a bean journey."},
+  "journeyEvaluatedCount": "{evaluated} of {total} evaluated",
+  "@journeyEvaluatedCount": {
+    "description": "Summary of evaluated brews out of all brews in a bean journey.",
+    "placeholders": {
+      "evaluated": {"type": "int", "example": "4"},
+      "total": {"type": "int", "example": "12"}
+    }
+  },
+  "journeyEvaluatedBrewCount": "{count, plural, =0{Not evaluated} =1{1 evaluated} other{{count} evaluated}}",
+  "@journeyEvaluatedBrewCount": {
+    "description": "Evaluated-brew count or unrated state shown for a brewing method.",
+    "placeholders": {"count": {"type": "int", "example": "3"}}
+  },
+  "journeyEvaluateLatest": "Evaluate latest",
+  "@journeyEvaluateLatest": {"description": "Action to rate the latest brew made with the selected method."},
+  "journeyEditLatestRating": "Edit latest rating",
+  "@journeyEditLatestRating": {"description": "Action to edit the rating of the latest brew made with the selected method."},
+  "journeyMethodSelectorLabel": "Choose brewing method",
+  "@journeyMethodSelectorLabel": {"description": "Accessibility label for the brewing-method selector in journey progress."},
+  "journeyProgressChartLabel": "{method} progress: {evaluated} of {total} attempts evaluated",
+  "@journeyProgressChartLabel": {
+    "description": "Accessibility summary for a method-specific brew progress chart.",
+    "placeholders": {
+      "method": {"type": "String", "example": "V60"},
+      "evaluated": {"type": "int", "example": "3"},
+      "total": {"type": "int", "example": "6"}
+    }
+  },
+  "brewDiaryEditAmounts": "Edit dose and water",
+  "@brewDiaryEditAmounts": {"description": "Title and accessible action for editing a diary entry dose and water together."},
+  "brewDiaryEditGrind": "Edit grind size",
+  "@brewDiaryEditGrind": {"description": "Title and accessible action for editing a diary entry grind size."},
+  "brewDiaryEditTemperature": "Edit water temperature",
+  "@brewDiaryEditTemperature": {"description": "Title and accessible action for editing a diary entry water temperature."},
+  "brewDiaryEditTaste": "Edit taste",
+  "@brewDiaryEditTaste": {"description": "Title and accessible action for editing a diary entry taste balance."},
+  "brewDiaryEditNotes": "Edit notes",
+  "@brewDiaryEditNotes": {"description": "Title and accessible action for editing diary notes."},
+  "brewDiaryRateThisBrew": "Rate this brew",
+  "@brewDiaryRateThisBrew": {"description": "Title for the focused diary rating dialog."},
+  "brewDiaryNotRated": "Not rated",
+  "@brewDiaryNotRated": {"description": "Label for a diary entry without a rating."},
+  "brewDiarySaveFailed": "Could not save changes. Try again.",
+  "@brewDiarySaveFailed": {"description": "Generic inline error shown when a focused diary edit cannot be saved."},
+  "brewDiaryEditTags": "Edit tags",
+  "@brewDiaryEditTags": {"description": "Title and accessible action for editing diary entry tags."},
+  "diaryTags": "Tags",
+  "@diaryTags": {"description": "Label for the custom tags field on a brew diary entry."},
+  "diaryTagsHint": "Add a tag",
+  "@diaryTagsHint": {"description": "Hint text for the diary entry tag input field."},
+  "failedToLoadData": "Failed to load data.",
+  "@failedToLoadData": {"description": "Generic message shown when a reusable data-backed input cannot load its options."},
+  "tagAlreadyAdded": "“{tag}” is already added.",
+  "@tagAlreadyAdded": {"description": "Feedback shown when a user tries to add a duplicate tag.", "placeholders": {"tag": {"type": "String", "example": "fruity"}}},
+  "favoriteRecipesLoadFailed": "Could not load favorite recipes.",
+  "@favoriteRecipesLoadFailed": {"description": "Error shown when the favorite-recipes screen cannot load its recipes."},
+  "invalidEmailFormat": "Enter a valid email address.",
+  "@invalidEmailFormat": {"description": "Validation feedback shown for an invalid email address."},
+  "iconChangeFailed": "Could not change the app icon to {iconName}.",
+  "@iconChangeFailed": {"description": "Feedback shown when selecting an alternate app icon fails.", "placeholders": {"iconName": {"type": "String", "example": "Legacy"}}},
+  "coffeeBeansSaveFailed": "Could not save the coffee beans. Try again.",
+  "@coffeeBeansSaveFailed": {"description": "Feedback shown when a new coffee-bean record cannot be saved."},
+  "brewEntrySaveFailed": "Could not save the brew entry. Try again.",
+  "@brewEntrySaveFailed": {"description": "Feedback shown when a manual brew entry cannot be saved."},
+  "privacyPolicyTitle": "Privacy Policy",
+  "@privacyPolicyTitle": {"description": "Title of the Privacy Policy section on the About screen."},
+  "privacyPolicyLoadFailed": "Could not load the Privacy Policy.",
+  "@privacyPolicyLoadFailed": {"description": "Error shown when the bundled Privacy Policy document cannot be loaded."},
+  "userNotFound": "User not found.",
+  "@userNotFound": {"description": "Error shown when an account profile cannot be resolved for a user ID."},
+  "profileLoadCached": "Could not refresh the profile. Showing saved data.",
+  "@profileLoadCached": {"description": "Feedback shown when profile refresh fails but saved profile data is available."},
+  "userRecipeUnpublishTooltip": "Make recipe private",
+  "@userRecipeUnpublishTooltip": {"description": "Tooltip for removing a user recipe from public visibility."},
+  "userRecipeDeleteTooltip": "Delete recipe",
+  "@userRecipeDeleteTooltip": {"description": "Tooltip for permanently deleting a user recipe."},
+  "unknownProduct": "Unknown product",
+  "@unknownProduct": {"description": "Fallback label for an in-app purchase product whose title is unavailable."},
+  "roasterLogoSemantic": "Logo for {roaster}",
+  "@roasterLogoSemantic": {"description": "Accessibility label for a roaster logo.", "placeholders": {"roaster": {"type": "String", "example": "Coffee Collective"}}},
+  "coffeeBeanNameSemantic": "Coffee bean: {name}",
+  "@coffeeBeanNameSemantic": {"description": "Accessibility label for the name of a coffee-bean record.", "placeholders": {"name": {"type": "String", "example": "Ethiopia Guji"}}},
+  "roasterNameSemantic": "Roaster: {roaster}",
+  "@roasterNameSemantic": {"description": "Accessibility label for the roaster on a coffee-bean record.", "placeholders": {"roaster": {"type": "String", "example": "Coffee Collective"}}},
+  "beanOriginSemantic": "Origin: {origin}",
+  "@beanOriginSemantic": {"description": "Accessibility label for the origin on a coffee-bean record.", "placeholders": {"origin": {"type": "String", "example": "Ethiopia"}}},
+  "quickStatisticsSemantic": "Quick statistics",
+  "@quickStatisticsSemantic": {"description": "Accessibility label for the quick-statistics section on a coffee-bean record."},
+  "notificationChannelGeneralName": "General",
+  "@notificationChannelGeneralName": {"description": "Name of the Android notification channel for general app notifications."},
+  "notificationChannelGeneralDescription": "General app notifications",
+  "@notificationChannelGeneralDescription": {"description": "Description of the Android notification channel for general app notifications."},
+  "notificationChannelBrewingName": "Brewing timer",
+  "@notificationChannelBrewingName": {"description": "Name of the Android notification channel for an active brewing timer."},
+  "notificationChannelBrewingDescription": "Shows brewing progress during an active brew",
+  "@notificationChannelBrewingDescription": {"description": "Description of the Android notification channel for an active brewing timer."},
+  "liveActivityPaused": "Paused",
+  "@liveActivityPaused": {"description": "Paused state shown in the iOS brewing Live Activity."},
+  "liveActivityStepProgress": "Step {current} of {total}",
+  "@liveActivityStepProgress": {"description": "Compact current-step progress shown in the iOS brewing Live Activity.", "placeholders": {"current": {"type": "int", "example": "2"}, "total": {"type": "int", "example": "5"}}},
+  "liveUpdateStepDescription": "Step {current} of {total} · {description}",
+  "@liveUpdateStepDescription": {"description": "Current-step summary shown in an Android brewing Live Update.", "placeholders": {"current": {"type": "int", "example": "2"}, "total": {"type": "int", "example": "5"}, "description": {"type": "String", "example": "Pour slowly"}}}
 }
