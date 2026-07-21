@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:coffee_timer/database/database.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/brewing_method_model.dart';
+import 'package:coffee_timer/models/coffee_beans_model.dart';
 import 'package:coffee_timer/models/recipe_model.dart';
 import 'package:coffee_timer/providers/coffee_beans_provider.dart';
 import 'package:coffee_timer/providers/recipe_provider.dart';
@@ -71,6 +74,37 @@ void main() {
 
     expect(find.text(l10n.coffeeBeansSaveFailed), findsOneWidget);
     expect(find.textContaining(rawFailure), findsNothing);
+  });
+
+  testWidgets('new-beans edit lookup is ignored after disposal', (
+    tester,
+  ) async {
+    final coffeeBeansProvider = MockCoffeeBeansProvider();
+    final lookup = Completer<CoffeeBeansModel?>();
+    when(
+      coffeeBeansProvider.fetchCoffeeBeansByUuid('bean-1'),
+    ).thenAnswer((_) => lookup.future);
+
+    await tester.pumpWidget(
+      ChangeNotifierProvider<CoffeeBeansProvider>.value(
+        value: coffeeBeansProvider,
+        child: localizedApp(const NewBeansScreen(uuid: 'bean-1')),
+      ),
+    );
+    await tester.pump();
+    await tester.pumpWidget(const SizedBox.shrink());
+    lookup.complete(
+      CoffeeBeansModel(
+        beansUuid: 'bean-1',
+        roaster: 'Test Roaster',
+        name: 'Test Beans',
+        origin: 'Test Origin',
+        versionVector: '{}',
+      ),
+    );
+    await tester.pump();
+
+    expect(tester.takeException(), isNull);
   });
 
   testWidgets('manual brew save failure uses safe localized feedback', (

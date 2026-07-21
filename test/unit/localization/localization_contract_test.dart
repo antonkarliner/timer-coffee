@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 const _allowedEmptyValues = <String, Set<String>>{
@@ -97,6 +99,25 @@ void main() {
     );
     expect(untranslated, isA<Map<String, dynamic>>());
     expect(untranslated, isEmpty);
+  });
+
+  test('audited Brew Diary copy and plural edges stay domain-specific', () {
+    final de = lookupAppLocalizations(const Locale('de'));
+    final ja = lookupAppLocalizations(const Locale('ja'));
+    final ar = lookupAppLocalizations(const Locale('ar'));
+    final ru = lookupAppLocalizations(const Locale('ru'));
+
+    expect(de.journeyCompareTitle, 'Brühvorgänge vergleichen');
+    expect(ja.journeySelectTwo, '2件の抽出記録を選択');
+    expect(ar.diaryGroupBrewCount(0), 'لا توجد تحضيرات');
+    expect(ar.diaryGroupBrewCount(2), 'تحضيران');
+    expect(ar.journeyEvaluatedBrewCount(3), '3 تحضيرات مقيّمة');
+    expect(ru.diaryGroupBrewCount(1), '1 заваривание');
+    expect(ru.diaryGroupBrewCount(2), '2 заваривания');
+    expect(ru.diaryGroupBrewCount(5), '5 завариваний');
+    expect(ru.journeyEvaluatedCount(1, 2), 'Оценено: 1 из 2');
+    expect(ar.journeyBetterTaste, 'نتيجة مذاق أفضل');
+    expect(ru.journeyBetterTaste, 'Лучший вкусовой результат');
   });
 }
 

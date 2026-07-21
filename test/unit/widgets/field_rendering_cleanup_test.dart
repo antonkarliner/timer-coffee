@@ -69,25 +69,24 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets(
-    'quick picks row is hidden once every pick is already added',
-    (tester) async {
-      await tester.pumpWidget(
-        host(
-          const Padding(
-            padding: EdgeInsets.all(16),
-            child: ChipInput(
-              label: 'Tasting notes',
-              initialValues: ['Chocolate'],
-              quickPicks: ['Chocolate'],
-            ),
+  testWidgets('quick picks row is hidden once every pick is already added', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      host(
+        const Padding(
+          padding: EdgeInsets.all(16),
+          child: ChipInput(
+            label: 'Tasting notes',
+            initialValues: ['Chocolate'],
+            quickPicks: ['Chocolate'],
           ),
         ),
-      );
+      ),
+    );
 
-      expect(find.byType(ActionChip), findsNothing);
-    },
-  );
+    expect(find.byType(ActionChip), findsNothing);
+  });
 
   testWidgets('+ button is disabled when empty and commits typed text', (
     tester,
@@ -170,6 +169,56 @@ void main() {
     await tester.enterText(find.byType(TextFormField).last, '18');
     await tester.pump();
     expect(numericValue, 18);
+  });
+
+  testWidgets('long required label wraps without overflow at large text', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+
+    await tester.pumpWidget(
+      host(
+        MediaQuery(
+          data: const MediaQueryData(textScaler: TextScaler.linear(1.3)),
+          child: const SizedBox(
+            width: 190,
+            child: LabeledField(
+              label: 'Very long translated water temperature field label',
+              required: true,
+            ),
+          ),
+        ),
+      ),
+    );
+
+    expect(find.text('*'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('literal chip mode preserves tag case and punctuation', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      host(
+        const ChipInput(
+          label: 'Tags',
+          initialValues: ['qa-test', 'citrus'],
+          textCapitalization: TextCapitalization.none,
+          autocorrect: false,
+          capitalizeChipLabels: false,
+        ),
+      ),
+    );
+
+    final field = tester.widget<EditableText>(find.byType(EditableText));
+    expect(field.textCapitalization, TextCapitalization.none);
+    expect(field.autocorrect, isFalse);
+    expect(find.text('qa-test'), findsOneWidget);
+    expect(find.text('citrus'), findsOneWidget);
+    expect(find.text('Qa-test'), findsNothing);
+    expect(find.text('Citrus'), findsNothing);
   });
 
   testWidgets('numeric field can use an outlined floating label', (

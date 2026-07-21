@@ -167,6 +167,24 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('logo completion does not reuse a disposed widget context', (
+    tester,
+  ) async {
+    final logo = Completer<RoasterLogoResult>();
+    when(
+      logoService.fetchRoasterLogos(any, bean.roaster),
+    ).thenAnswer((_) => logo.future);
+    final context = await pumpHost(tester);
+
+    await controller.initialize(context, bean.beansUuid);
+    controller.loadAncillaryData(context);
+    await tester.pumpWidget(const SizedBox.shrink());
+    logo.complete(RoasterLogoResult.success(originalUrl: 'logo.png'));
+    await tester.pump();
+
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('favorite completion skips refresh after context disposal', (
     tester,
   ) async {

@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:auto_route/auto_route.dart';
 import 'package:coffee_timer/app_router.gr.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
@@ -6,7 +8,9 @@ import 'package:coffee_timer/models/diary_group.dart';
 import 'package:coffee_timer/providers/user_stat_provider.dart';
 import 'package:coffee_timer/services/date_time_format_service.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/utils/extraction_math.dart';
 import 'package:coffee_timer/widgets/brew_diary/brew_detail_sheet.dart';
+import 'package:coffee_timer/widgets/brew_diary/brew_entry_card.dart';
 import 'package:coffee_timer/widgets/brew_diary/journey_view.dart';
 import 'package:coffeico/coffeico.dart';
 import 'package:flutter/material.dart';
@@ -77,11 +81,17 @@ void main() {
     ]);
     final aeroPressSheet = find.byType(BottomSheet);
     expect(
-      find.descendant(of: aeroPressSheet, matching: find.text('20 → 300 g')),
+      find.descendant(
+        of: aeroPressSheet,
+        matching: find.text('20\u00A0g → 300\u00A0g'),
+      ),
       findsOneWidget,
     );
     expect(
-      find.descendant(of: aeroPressSheet, matching: find.text('15 → 250 g')),
+      find.descendant(
+        of: aeroPressSheet,
+        matching: find.text('15\u00A0g → 250\u00A0g'),
+      ),
       findsNothing,
     );
 
@@ -106,12 +116,77 @@ void main() {
     ]);
     final v60Sheet = find.byType(BottomSheet);
     expect(
-      find.descendant(of: v60Sheet, matching: find.text('15 → 250 g')),
+      find.descendant(
+        of: v60Sheet,
+        matching: find.text('15\u00A0g → 250\u00A0g'),
+      ),
       findsOneWidget,
     );
     expect(
-      find.descendant(of: v60Sheet, matching: find.text('20 → 300 g')),
+      find.descendant(
+        of: v60Sheet,
+        matching: find.text('20\u00A0g → 300\u00A0g'),
+      ),
       findsNothing,
+    );
+  });
+
+  testWidgets('method selector scopes progress without filtering attempts', (
+    tester,
+  ) async {
+    final v60 = _entry(
+      id: 'scope-v60',
+      methodId: 'v60',
+      methodName: 'V60',
+      createdAt: DateTime(2026, 7, 1, 9),
+    );
+    final aero = _entry(
+      id: 'scope-aero',
+      methodId: 'aeropress',
+      methodName: 'AeroPress',
+      createdAt: DateTime(2026, 7, 2, 9),
+    );
+    await _pumpJourney(tester, entries: [v60, aero]);
+    final loc = _localizations(tester);
+
+    expect(find.text(loc.journeyMethodSelectorLabel), findsOneWidget);
+    expect(
+      find.bySemanticsIdentifier('journeyAttempt_${v60.statUuid}'),
+      findsOneWidget,
+    );
+    expect(
+      find.bySemanticsIdentifier('journeyAttempt_${aero.statUuid}'),
+      findsOneWidget,
+    );
+    expect(
+      tester
+          .widget<Text>(
+            find.byKey(const ValueKey('journeyProgressChartContext')),
+          )
+          .data,
+      startsWith('AeroPress'),
+    );
+
+    await tester.tap(find.byKey(const ValueKey('journeyMethodSelector')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('journeyMethodOption_v60')));
+    await tester.pumpAndSettle();
+
+    expect(
+      tester
+          .widget<Text>(
+            find.byKey(const ValueKey('journeyProgressChartContext')),
+          )
+          .data,
+      startsWith('V60'),
+    );
+    expect(
+      find.bySemanticsIdentifier('journeyAttempt_${v60.statUuid}'),
+      findsOneWidget,
+    );
+    expect(
+      find.bySemanticsIdentifier('journeyAttempt_${aero.statUuid}'),
+      findsOneWidget,
     );
   });
 
@@ -182,6 +257,10 @@ void main() {
 
     expect(card, findsOneWidget);
     expect(
+      find.descendant(of: card, matching: find.byType(BrewEntryCard)),
+      findsOneWidget,
+    );
+    expect(
       find.descendant(of: card, matching: find.byIcon(Icons.bookmark)),
       findsOneWidget,
     );
@@ -208,8 +287,35 @@ void main() {
       findsOneWidget,
     );
     expect(
-      find.descendant(of: card, matching: find.text('★4.5')),
+      find.descendant(of: card, matching: find.text('★ 4.5')),
       findsOneWidget,
+    );
+    final extractionChip = tester.widget<Chip>(
+      find.ancestor(
+        of: find.text(loc.extractionCalcDiaryLine('20.4', '1.35')),
+        matching: find.byType(Chip),
+      ),
+    );
+    final tasteChip = tester.widget<Chip>(
+      find.ancestor(of: find.text('Balanced'), matching: find.byType(Chip)),
+    );
+    final ratingChip = tester.widget<Chip>(
+      find.ancestor(of: find.text('★ 4.5'), matching: find.byType(Chip)),
+    );
+    expect(
+      extractionChip.backgroundColor,
+      AppSemanticColors.extractionYield(
+        ExtractionBand.target,
+        Brightness.light,
+      ).background,
+    );
+    expect(
+      tasteChip.backgroundColor,
+      AppSemanticColors.taste(0, Brightness.light).background,
+    );
+    expect(
+      ratingChip.backgroundColor,
+      AppSemanticColors.neutralChip(Brightness.light).background,
     );
   });
 
@@ -280,7 +386,7 @@ void main() {
         of: latestCard,
         matching: find.text(loc.brewDiaryNotRated),
       ),
-      findsOneWidget,
+      findsNothing,
     );
 
     final evaluate = find.byKey(const ValueKey('journeyEvaluateLatest'));
@@ -310,7 +416,7 @@ void main() {
     expect(
       find.descendant(
         of: latestCard,
-        matching: find.text('★${stats.rating!.toStringAsFixed(1)}'),
+        matching: find.text('★ ${stats.rating!.toStringAsFixed(1)}'),
       ),
       findsOneWidget,
     );
@@ -326,18 +432,12 @@ void main() {
     await _pumpJourney(tester, entries: [entry]);
     final card = find.bySemanticsIdentifier('journeyAttempt_${entry.statUuid}');
 
-    expect(
-      find.descendant(of: card, matching: find.text('#fruity')),
-      findsOneWidget,
-    );
-    expect(
-      find.descendant(of: card, matching: find.text('#bright')),
-      findsOneWidget,
-    );
-    expect(
-      find.descendant(of: card, matching: find.text('#floral')),
-      findsOneWidget,
-    );
+    for (final label in ['#fruity', '#bright', '#floral', '+2']) {
+      expect(
+        find.descendant(of: card, matching: find.text(label)),
+        findsOneWidget,
+      );
+    }
     expect(
       find.descendant(of: card, matching: find.text('#clean')),
       findsNothing,
@@ -347,8 +447,8 @@ void main() {
       findsNothing,
     );
     expect(
-      find.descendant(of: card, matching: find.text('+2')),
-      findsOneWidget,
+      find.descendant(of: card, matching: find.textContaining('#clean')),
+      findsNothing,
     );
   });
 
@@ -358,7 +458,7 @@ void main() {
     final entry = _entry(id: 'derived-temp', waterTempIsDerived: true);
     await _pumpJourney(tester, entries: [entry]);
 
-    expect(find.text('~93 °C · 199 °F'), findsOneWidget);
+    expect(find.text('~93°'), findsOneWidget);
   });
 
   testWidgets('both-derived equal water temps produce no held chip', (
@@ -445,7 +545,11 @@ void main() {
       formatService: formatService,
     );
     expect(
-      find.text(DateFormat('yyyy-MM-dd HH:mm', 'en').format(localCreatedAt)),
+      find.text(DateFormat('yyyy-MM-dd', 'en').format(localCreatedAt)),
+      findsOneWidget,
+    );
+    expect(
+      find.text(DateFormat('HH:mm', 'en').format(localCreatedAt)),
       findsOneWidget,
     );
 
@@ -453,7 +557,11 @@ void main() {
     await formatService.setTimeStyle(TimeStyle.h12);
     await tester.pump();
     expect(
-      find.text(DateFormat('dd/MM/yyyy hh:mm a', 'en').format(localCreatedAt)),
+      find.text(DateFormat('dd/MM/yyyy', 'en').format(localCreatedAt)),
+      findsOneWidget,
+    );
+    expect(
+      find.text(DateFormat('hh:mm a', 'en').format(localCreatedAt)),
       findsOneWidget,
     );
   });
@@ -474,26 +582,23 @@ void main() {
   });
 
   testWidgets(
-    'comparison highlights the higher-rated entry with readable colors',
+    'comparison styles only changes and marks contextual best-cup values',
     (tester) async {
       final lower = _entry(
         id: 'low-rated',
         createdAt: DateTime(2026, 7, 1, 9),
         rating: 3.0,
+        tasteBalance: 0,
       );
       final higher = _entry(
         id: 'high-rated',
         createdAt: DateTime(2026, 7, 2, 9),
         rating: 4.5,
+        tasteBalance: 1,
       );
       await _pumpJourney(tester, entries: [lower, higher]);
       final loc = _localizations(tester);
       final labels = _expectedLabels([lower, higher], loc);
-
-      final brightness = Theme.of(
-        tester.element(find.byType(JourneyView)),
-      ).brightness;
-      final highlightColor = AppSemanticColors.taste(0, brightness).background;
 
       await tester.tap(find.byKey(const ValueKey('journeyCompare_v60')));
       await tester.pumpAndSettle();
@@ -502,20 +607,57 @@ void main() {
         labels[higher.statUuid]!,
       ]);
 
-      final highlightedContainers = tester
-          .widgetList<Container>(find.byType(Container))
-          .where((container) => container.color == highlightColor);
-      expect(highlightedContainers, isNotEmpty);
-
-      final winnerCell = tester.widget<Container>(
-        find.ancestor(of: find.text('★4.5'), matching: find.byType(Container)),
+      Container cell(String field, String side) => tester.widget<Container>(
+        find.descendant(
+          of: find.byKey(ValueKey('journeyComparison_${field}_$side')),
+          matching: find.byType(Container),
+        ),
       );
-      expect(winnerCell.color, highlightColor);
 
-      final loserCell = tester.widget<Container>(
-        find.ancestor(of: find.text('★3.0'), matching: find.byType(Container)),
+      for (final unchanged in [
+        'doseWater',
+        'ratio',
+        'grind',
+        'temperature',
+        'extraction',
+      ]) {
+        expect(cell(unchanged, 'first').decoration, isNull);
+        expect(cell(unchanged, 'second').decoration, isNull);
+      }
+      for (final changed in ['taste', 'rating']) {
+        expect(cell(changed, 'first').decoration, isNotNull);
+        expect(cell(changed, 'second').decoration, isNotNull);
+      }
+      final winningDecoration =
+          cell('rating', 'second').decoration! as BoxDecoration;
+      expect((winningDecoration.border! as Border).top.width, AppStroke.border);
+      expect(
+        find.descendant(
+          of: find.byKey(const ValueKey('journeyComparison_rating_second')),
+          matching: find.byIcon(Icons.workspace_premium_outlined),
+        ),
+        findsOneWidget,
       );
-      expect(loserCell.color, isNot(highlightColor));
+      expect(
+        find.descendant(
+          of: find.byKey(const ValueKey('journeyComparison_taste_second')),
+          matching: find.byIcon(Icons.workspace_premium_outlined),
+        ),
+        findsNothing,
+      );
+      expect(
+        find.bySemanticsLabel(
+          '${loc.journeyChanged(loc.brewDiaryTasted)}: '
+          '${loc.tasteBalanced}, ${loc.journeyBetterTaste}',
+        ),
+        findsOneWidget,
+      );
+      expect(
+        find.bySemanticsLabel(
+          '${loc.journeyChanged(loc.rating)}: ★4.5, ${loc.journeyBestCup}',
+        ),
+        findsOneWidget,
+      );
 
       Navigator.of(tester.element(find.byType(BottomSheet))).pop();
       await tester.pumpAndSettle();
@@ -542,12 +684,167 @@ void main() {
         unratedLabels[unratedSecond.statUuid]!,
       ]);
 
-      final noHighlight = tester
-          .widgetList<Container>(find.byType(Container))
-          .where((container) => container.color == highlightColor);
-      expect(noHighlight, isEmpty);
+      expect(find.byIcon(Icons.workspace_premium_outlined), findsNothing);
     },
   );
+
+  testWidgets('comparison models missing values and ties honestly', (
+    tester,
+  ) async {
+    final first = _entry(
+      id: 'missing-first',
+      grindSize: null,
+      extractionYieldPercent: null,
+      rating: 4,
+    );
+    final second = _entry(
+      id: 'missing-second',
+      grindSize: '24 clicks',
+      extractionYieldPercent: null,
+      rating: 4,
+    );
+    await _pumpJourney(tester, entries: [first, second]);
+    final rows = buildJourneyComparisonRows(
+      first,
+      second,
+      _localizations(tester),
+    );
+
+    expect(
+      rows
+          .singleWhere((row) => row.field == JourneyComparisonField.grind)
+          .changed,
+      isTrue,
+    );
+    expect(
+      rows
+          .singleWhere((row) => row.field == JourneyComparisonField.extraction)
+          .changed,
+      isFalse,
+    );
+    expect(rows.every((row) => row.bestCupSide == null), isTrue);
+  });
+
+  testWidgets('equal ratings give Balanced only the better-taste result', (
+    tester,
+  ) async {
+    final sour = _entry(
+      id: 'equal-sour',
+      createdAt: DateTime(2026, 7, 1, 9),
+      rating: 4,
+      tasteBalance: -1,
+    );
+    final balanced = _entry(
+      id: 'equal-balanced',
+      createdAt: DateTime(2026, 7, 2, 9),
+      rating: 4,
+      tasteBalance: 0,
+    );
+    await _pumpJourney(tester, entries: [sour, balanced]);
+    final loc = _localizations(tester);
+    final labels = _expectedLabels([sour, balanced], loc);
+
+    await tester.tap(find.byKey(const ValueKey('journeyCompare_v60')));
+    await tester.pumpAndSettle();
+    await _selectLabels(tester, [
+      labels[sour.statUuid]!,
+      labels[balanced.statUuid]!,
+    ]);
+
+    expect(find.byIcon(Icons.workspace_premium_outlined), findsNothing);
+    expect(
+      find.descendant(
+        of: find.byKey(const ValueKey('journeyComparison_taste_second')),
+        matching: find.byIcon(Icons.check_circle_outline),
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(
+        of: find.byKey(const ValueKey('journeyComparison_taste_first')),
+        matching: find.byIcon(Icons.check_circle_outline),
+      ),
+      findsNothing,
+    );
+    expect(
+      find.bySemanticsLabel(
+        '${loc.journeyChanged(loc.brewDiaryTasted)}: '
+        '${loc.tasteBalanced}, ${loc.journeyBetterTaste}',
+      ),
+      findsOneWidget,
+    );
+    final ratingRows = buildJourneyComparisonRows(sour, balanced, loc);
+    expect(ratingRows.every((row) => row.bestCupSide == null), isTrue);
+    expect(
+      ratingRows
+          .singleWhere((row) => row.field == JourneyComparisonField.taste)
+          .betterTasteSide,
+      JourneyComparisonSide.second,
+    );
+    expect(
+      ratingRows
+          .where((row) => row.field != JourneyComparisonField.taste)
+          .every((row) => row.betterTasteSide == null),
+      isTrue,
+    );
+  });
+
+  testWidgets('comparison field labels wrap between words at large text', (
+    tester,
+  ) async {
+    // Keep the real phone width that constrains the comparison columns. The
+    // taller test viewport avoids an unrelated lazy-list scroll in setup.
+    tester.view.physicalSize = const Size(390, 1200);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final entries = [
+      _entry(id: 'label-first', createdAt: DateTime(2026, 7, 1, 9)),
+      _entry(id: 'label-second', createdAt: DateTime(2026, 7, 2, 9)),
+    ];
+    await tester.pumpWidget(
+      ChangeNotifierProvider<DateTimeFormatService>.value(
+        value: DateTimeFormatService(),
+        child: MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: const Locale('en'),
+          home: MediaQuery(
+            data: const MediaQueryData(textScaler: TextScaler.linear(1.3)),
+            child: JourneyView(group: _beanGroup(entries)),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final compare = find.byKey(
+      const ValueKey('journeyCompare_v60'),
+      skipOffstage: false,
+    );
+    await tester.ensureVisible(compare);
+    await tester.tap(compare);
+    await tester.pumpAndSettle();
+    final loc = _localizations(tester);
+    final labels = _expectedLabels(entries, loc);
+    await _selectLabels(tester, [
+      labels[entries.first.statUuid]!,
+      labels[entries.last.statUuid]!,
+    ]);
+
+    final temperatureLabel = find.byKey(
+      const ValueKey('journeyComparisonLabel_temperature'),
+    );
+    expect(
+      find.descendant(of: temperatureLabel, matching: find.text('Water')),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(of: temperatureLabel, matching: find.text('Temperature')),
+      findsOneWidget,
+    );
+    expect(tester.takeException(), isNull);
+  });
 
   testWidgets('tapping a journey entry card opens the brew detail sheet', (
     tester,
@@ -585,8 +882,34 @@ void main() {
     expect(
       find.descendant(
         of: card,
-        matching: find.text('★${stats.rating!.toStringAsFixed(1)}'),
+        matching: find.text('★ ${stats.rating!.toStringAsFixed(1)}'),
       ),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('taste saved in attempt details refreshes the owning journey', (
+    tester,
+  ) async {
+    final stats = _RecordingRatingProvider();
+    final entry = _entry(id: 'detail-taste', tasteBalance: 0);
+    await _pumpJourney(tester, entries: [entry], statsProvider: stats);
+
+    await tester.tap(find.text(entry.recipeName));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.byKey(const Key('editTasteButton')));
+    await tester.tap(find.byKey(const Key('editTasteButton')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.widgetWithText(ChoiceChip, 'Bitter'));
+    await tester.tap(find.byKey(const Key('focusedSaveButton')));
+    await tester.pumpAndSettle();
+
+    expect(stats.tasteBalance, 1);
+    Navigator.of(tester.element(find.byType(BrewDetailSheet))).pop();
+    await tester.pumpAndSettle();
+    final card = find.bySemanticsIdentifier('journeyAttempt_${entry.statUuid}');
+    expect(
+      find.descendant(of: card, matching: find.text('Bitter')),
       findsOneWidget,
     );
   });
@@ -643,11 +966,96 @@ void main() {
     expect(
       find.descendant(
         of: find.byType(BottomSheet),
-        matching: find.byType(Table),
+        matching: find.byKey(const ValueKey('journeyComparison_rating_second')),
       ),
       findsOneWidget,
     );
   });
+
+  testWidgets(
+    'Journey and comparison fit the four audited locales at phone text scales',
+    (tester) async {
+      tester.view.physicalSize = const Size(390, 844);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final entries = [
+        _entry(
+          id: 'long-recipe-identity-first',
+          createdAt: DateTime(2026, 7, 1, 9),
+          rating: 4,
+          tasteBalance: -1,
+          tags: 'qa-test, citrus',
+        ),
+        _entry(
+          id: 'long-recipe-identity-second',
+          createdAt: DateTime(2026, 7, 2, 9),
+          rating: 4,
+          tasteBalance: 0,
+          tags: 'qa-test, floral',
+        ),
+      ];
+
+      for (final locale in const [
+        Locale('de'),
+        Locale('ja'),
+        Locale('ar'),
+        Locale('ru'),
+      ]) {
+        for (final scale in const [1.0, 1.3]) {
+          await tester.pumpWidget(
+            ChangeNotifierProvider<DateTimeFormatService>.value(
+              value: DateTimeFormatService(),
+              child: MaterialApp(
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
+                locale: locale,
+                home: MediaQuery(
+                  data: MediaQueryData(textScaler: TextScaler.linear(scale)),
+                  child: JourneyView(group: _beanGroup(entries)),
+                ),
+              ),
+            ),
+          );
+          await tester.pumpAndSettle();
+          final journey = find.byType(JourneyView);
+          expect(
+            Directionality.of(tester.element(journey)),
+            locale.languageCode == 'ar'
+                ? ui.TextDirection.rtl
+                : ui.TextDirection.ltr,
+          );
+
+          final compare = find.byKey(
+            const ValueKey('journeyCompare_v60'),
+            skipOffstage: false,
+          );
+          await tester.ensureVisible(compare);
+          await tester.pumpAndSettle();
+          await tester.tap(compare);
+          await tester.pumpAndSettle();
+          final chips = find.descendant(
+            of: find.byType(BottomSheet),
+            matching: find.byType(FilterChip),
+          );
+          await tester.tap(chips.first);
+          await tester.pumpAndSettle();
+          await tester.tap(chips.at(1));
+          await tester.pumpAndSettle();
+
+          expect(
+            find.byKey(const ValueKey('journeyComparison_rating_second')),
+            findsOneWidget,
+          );
+          expect(find.byIcon(Icons.workspace_premium_outlined), findsNothing);
+          expect(find.byIcon(Icons.check_circle_outline), findsOneWidget);
+          expect(tester.takeException(), isNull);
+          Navigator.of(tester.element(find.byType(BottomSheet))).pop();
+          await tester.pumpAndSettle();
+        }
+      }
+    },
+  );
 }
 
 Future<void> _pumpJourney(
@@ -721,7 +1129,7 @@ void _expectPickerLabels(WidgetTester tester, List<String> labels) {
   expect(sheet, findsOneWidget);
   for (final label in labels) {
     expect(
-      find.descendant(of: sheet, matching: find.text(label)),
+      find.descendant(of: sheet, matching: find.bySemanticsLabel(label)),
       findsOneWidget,
     );
   }
@@ -734,7 +1142,15 @@ void _expectPickerLabels(WidgetTester tester, List<String> labels) {
 Future<void> _selectLabels(WidgetTester tester, List<String> labels) async {
   final sheet = find.byType(BottomSheet);
   for (final label in labels) {
-    await tester.tap(find.descendant(of: sheet, matching: find.text(label)));
+    final semanticLabel = find.descendant(
+      of: sheet,
+      matching: find.bySemanticsLabel(label),
+    );
+    final chip = find.ancestor(
+      of: semanticLabel,
+      matching: find.byType(FilterChip),
+    );
+    await tester.tap(chip);
     await tester.pumpAndSettle();
   }
 }
@@ -813,6 +1229,7 @@ class _RecordingStackRouter extends Mock implements StackRouter {
 class _RecordingRatingProvider extends Mock implements UserStatProvider {
   String? statUuid;
   double? rating;
+  int? tasteBalance;
 
   @override
   Future<void> updateDiaryRating({
@@ -821,5 +1238,14 @@ class _RecordingRatingProvider extends Mock implements UserStatProvider {
   }) async {
     this.statUuid = statUuid;
     this.rating = rating;
+  }
+
+  @override
+  Future<void> updateDiaryTasteBalance({
+    required String statUuid,
+    required int? tasteBalance,
+  }) async {
+    this.statUuid = statUuid;
+    this.tasteBalance = tasteBalance;
   }
 }

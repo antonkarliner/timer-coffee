@@ -172,7 +172,7 @@ void main() {
     expect(find.text(loc.journeyProgress), findsOneWidget);
     expect(find.text(loc.journeyEvaluatedCount(1, 3)), findsOneWidget);
     expect(
-      find.bySemanticsLabel(loc.journeyProgressChartLabel('V60', 1, 3)),
+      find.bySemanticsLabel(RegExp(loc.journeyProgressChartLabel('V60', 1, 3))),
       findsOneWidget,
     );
     semantics.dispose();
@@ -244,8 +244,10 @@ void main() {
       ),
     ];
     await _pumpProgress(tester, entries: entries);
+    final loc = _localizations(tester);
 
     expect(find.byType(PopupMenuButton<String>), findsOneWidget);
+    expect(find.text(loc.journeyMethodSelectorLabel), findsOneWidget);
     expect(
       find.byKey(const ValueKey('journeyProgressChartPaint')),
       findsOneWidget,
@@ -431,6 +433,31 @@ void main() {
       ),
     );
     expect(chartSemantics.label, contains('#2: 4.5, ${loc.tasteBalanced}'));
+    semantics.dispose();
+  });
+
+  testWidgets('chart semantics announce every visible attempt', (tester) async {
+    final semantics = tester.ensureSemantics();
+    await _pumpProgress(
+      tester,
+      entries: [
+        _entry(id: 'one', day: 1, rating: 3, tasteBalance: -1),
+        _entry(id: 'two', day: 2),
+        _entry(id: 'three', day: 3, rating: 4),
+        _entry(id: 'four', day: 4, rating: 4.5, tasteBalance: 0),
+        _entry(id: 'five', day: 5, rating: 5),
+      ],
+    );
+    final loc = _localizations(tester);
+    final chart = tester.getSemantics(
+      find.bySemanticsLabel(RegExp(loc.journeyProgressChartLabel('V60', 4, 5))),
+    );
+
+    expect(chart.label, contains('#1: 3.0, ${loc.tasteSour}'));
+    expect(chart.label, contains('#2: ${loc.brewDiaryNotRated}'));
+    expect(chart.label, contains('#3: 4.0'));
+    expect(chart.label, contains('#4: 4.5, ${loc.tasteBalanced}'));
+    expect(chart.label, contains('#5: 5.0'));
     semantics.dispose();
   });
 

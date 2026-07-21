@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:coffee_timer/app_router.gr.dart';
 import 'package:coffee_timer/controllers/recipe_detail_controller.dart';
 import 'package:coffee_timer/database/database.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
@@ -168,6 +169,21 @@ void main() {
     expect(controller.waterTemperatureFromRecipe, isFalse);
   });
 
+  test('brew-again route carries source bean and recorded recipe values', () {
+    final route = RecipeDetailRoute(
+      brewingMethodId: 'aeropress',
+      recipeId: '203',
+      prefillCoffeeAmount: 15,
+      prefillWaterAmount: 250,
+      prefillGrindSize: 'QA Grinder 60 clicks',
+      prefillWaterTemp: 92,
+      prefillCoffeeBeansUuid: 'eudoro-uuid',
+    );
+
+    expect(route.args?.prefillCoffeeBeansUuid, 'eudoro-uuid');
+    expect(route.args?.prefillGrindSize, 'QA Grinder 60 clicks');
+  });
+
   test('null source recipe remains null at runtime and in logging', () async {
     final userStatProvider = MockUserStatProvider();
     when(
@@ -220,6 +236,47 @@ void main() {
       ),
     ).called(1);
   });
+
+  test(
+    'completion writes start exactly once and expose stable results',
+    () async {
+      final gate = BrewCompletionWriteGate();
+      var insertCalls = 0;
+      var beanWeightCalls = 0;
+
+      Future<void> insert() async {
+        insertCalls++;
+      }
+
+      Future<bool> updateBeanWeight() async {
+        beanWeightCalls++;
+        return true;
+      }
+
+      gate.start(insertBrew: insert, updateBeanWeight: updateBeanWeight);
+      gate.start(insertBrew: insert, updateBeanWeight: updateBeanWeight);
+
+      await gate.insertFuture;
+      expect(await gate.beanWeightFuture, isTrue);
+      expect(insertCalls, 1);
+      expect(beanWeightCalls, 1);
+    },
+  );
+
+  test(
+    'completion insert failure remains observable to dependent writes',
+    () async {
+      final gate = BrewCompletionWriteGate();
+
+      gate.start(
+        insertBrew: () => Future<void>.error(StateError('insert failed')),
+        updateBeanWeight: () async => false,
+      );
+
+      await expectLater(gate.insertFuture, throwsStateError);
+      expect(await gate.beanWeightFuture, isFalse);
+    },
+  );
 
   testWidgets('brew detail save finishes after screen disposal', (
     tester,

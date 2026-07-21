@@ -8,6 +8,7 @@ import 'package:coffee_timer/models/user_stat_model.dart';
 import 'package:coffee_timer/providers/coffee_beans_provider.dart';
 import 'package:coffee_timer/providers/database_provider.dart';
 import 'package:coffee_timer/providers/user_stat_provider.dart';
+import 'package:coffee_timer/screens/extraction_calculator_screen.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/utils/version_vector.dart';
 import 'package:coffee_timer/widgets/add_coffee_beans_widget.dart';
@@ -30,6 +31,20 @@ void main() {
       url: 'http://localhost:54321',
       anonKey: 'test-anon-key',
     );
+  });
+
+  test('typed extraction result updates the loaded entry in memory', () {
+    final updated = applyExtractionCalculatorResult(
+      _entry,
+      const ExtractionCalculatorResult(
+        tdsPercent: 1.31,
+        extractionYieldPercent: 20.8,
+      ),
+    );
+
+    expect(updated.statUuid, _entry.statUuid);
+    expect(updated.tdsPercent, 1.31);
+    expect(updated.extractionYieldPercent, 20.8);
   });
 
   Future<void> pumpSheet(

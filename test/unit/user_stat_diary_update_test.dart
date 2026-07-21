@@ -81,6 +81,40 @@ void main() {
     expect(notifications, 1);
   });
 
+  test(
+    'changed manual amounts invalidate recorded TDS and extraction',
+    () async {
+      final harness = await _Harness.create(
+        tdsPercent: 1.35,
+        extractionYieldPercent: 20.3,
+      );
+      addTearDown(harness.close);
+
+      await harness.updateAmounts(coffeeAmount: 16, waterAmount: 250);
+
+      final stat = (await harness.stat())!;
+      expect(stat.tdsPercent, isNull);
+      expect(stat.extractionYieldPercent, isNull);
+    },
+  );
+
+  test(
+    'unchanged manual amounts preserve recorded TDS and extraction',
+    () async {
+      final harness = await _Harness.create(
+        tdsPercent: 1.35,
+        extractionYieldPercent: 20.3,
+      );
+      addTearDown(harness.close);
+
+      await harness.updateAmounts(coffeeAmount: 15, waterAmount: 250);
+
+      final stat = (await harness.stat())!;
+      expect(stat.tdsPercent, 1.35);
+      expect(stat.extractionYieldPercent, 20.3);
+    },
+  );
+
   for (final entrySource in <int?>[0, null]) {
     test('entry source $entrySource cannot mutate dose or inventory', () async {
       final harness = await _Harness.create(entrySource: entrySource);
@@ -495,6 +529,8 @@ class _Harness {
     double? beanBWeight = 100,
     bool beanBDeleted = false,
     int? failAdjustmentCall,
+    double? tdsPercent,
+    double? extractionYieldPercent,
   }) async {
     final db = openTestDatabase();
     await db.coffeeBeansDao.insertCoffeeBeans(
@@ -538,6 +574,8 @@ class _Harness {
         waterTemp: waterTemp,
         tasteBalance: 0,
         entrySource: entrySource,
+        tdsPercent: tdsPercent,
+        extractionYieldPercent: extractionYieldPercent,
         versionVector: VersionVector.initial('stat-device').toString(),
         isDeleted: false,
       ),

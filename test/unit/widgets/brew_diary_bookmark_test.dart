@@ -7,6 +7,7 @@ import 'package:coffee_timer/providers/user_stat_provider.dart';
 import 'package:coffee_timer/screens/brew_diary_screen.dart';
 import 'package:coffee_timer/services/date_time_format_service.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/utils/extraction_math.dart';
 import 'package:coffee_timer/widgets/brew_diary/brew_entry_card.dart';
 import 'package:coffee_timer/widgets/roaster_logo.dart';
 import 'package:coffeico/coffeico.dart';
@@ -18,16 +19,28 @@ import 'package:provider/provider.dart';
 import 'brew_flow_async_context_test.mocks.dart';
 
 void main() {
-  Widget localizedApp(Widget child) {
+  Widget localizedApp(
+    Widget child, {
+    Locale locale = const Locale('en'),
+    TextScaler textScaler = TextScaler.noScaling,
+  }) {
     return MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: const Locale('en'),
+      locale: locale,
+      builder: (context, child) => MediaQuery(
+        data: MediaQuery.of(context).copyWith(textScaler: textScaler),
+        child: child!,
+      ),
       home: child,
     );
   }
 
-  DiaryEntry entry({bool isMarked = false}) => DiaryEntry(
+  DiaryEntry entry({
+    bool isMarked = false,
+    String? tags,
+    double? extractionYieldPercent = 20.1,
+  }) => DiaryEntry(
     statUuid: 'stat-1',
     recipeId: 'recipe-1',
     recipeName: 'Test recipe',
@@ -39,8 +52,9 @@ void main() {
     grindSize: '24 clicks',
     waterTemp: 93,
     tdsPercent: 1.35,
-    extractionYieldPercent: 20.1,
+    extractionYieldPercent: extractionYieldPercent,
     tasteBalance: 0,
+    tags: tags,
     entrySource: 1,
     rating: 4.5,
     isMarked: isMarked,
@@ -188,10 +202,12 @@ void main() {
       findsNothing,
     );
     for (final label in [
-      '15 g → 250 g',
+      '15\u00A0g → 250\u00A0g',
       '24 clicks',
       '93°',
-      '20.1% EY',
+      AppLocalizations.of(
+        tester.element(card),
+      )!.extractionCalcDiaryLine('20.1', '1.35'),
       'Balanced',
       '★ 4.5',
     ]) {
@@ -203,6 +219,140 @@ void main() {
     );
     expect(tester.getSize(card).height, greaterThan(AppSpacing.xxl * 4));
     expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('extraction chip color follows the recorded EY band', (
+    tester,
+  ) async {
+    Future<Color?> chipColor(double ey) async {
+      await tester.pumpWidget(
+        localizedApp(
+          Scaffold(
+            body: BrewEntryCard(
+              entry: entry(extractionYieldPercent: ey),
+              formattedTime: '08:30',
+              onTap: () {},
+              onBookmarkToggle: () {},
+              tasteLabels: const ['Sour', 'Balanced', 'Bitter'],
+            ),
+          ),
+        ),
+      );
+      final card = find.byType(BrewEntryCard);
+      final label = AppLocalizations.of(
+        tester.element(card),
+      )!.extractionCalcDiaryLine(ey.toStringAsFixed(1), '1.35');
+      return tester
+          .widget<Chip>(
+            find.ancestor(of: find.text(label), matching: find.byType(Chip)),
+          )
+          .backgroundColor;
+    }
+
+    expect(
+      await chipColor(17.9),
+      AppSemanticColors.extractionYield(
+        ExtractionBand.under,
+        Brightness.light,
+      ).background,
+    );
+    expect(
+      await chipColor(20),
+      AppSemanticColors.extractionYield(
+        ExtractionBand.target,
+        Brightness.light,
+      ).background,
+    );
+    expect(
+      await chipColor(22.1),
+      AppSemanticColors.extractionYield(
+        ExtractionBand.over,
+        Brightness.light,
+      ).background,
+    );
+  });
+
+  testWidgets('Arabic cards keep measurements and tags in LTR token order', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      localizedApp(
+        Scaffold(
+          body: BrewEntryCard(
+            entry: entry(tags: 'qa-test, citrus'),
+            formattedTime: '08:30',
+            onTap: () {},
+            onBookmarkToggle: () {},
+            tasteLabels: const ['حامض', 'متوازن', 'مر'],
+          ),
+        ),
+        locale: const Locale('ar'),
+      ),
+    );
+    await tester.pump();
+
+    final measurement = tester.widget<Text>(
+      find.text('15\u00A0g → 250\u00A0g'),
+    );
+    final tags = tester.widget<Text>(find.text('#qa-test'));
+    expect(
+      Directionality.of(tester.element(find.byType(BrewEntryCard))),
+      TextDirection.rtl,
+    );
+    expect(measurement.textDirection, TextDirection.ltr);
+    expect(tags.textDirection, TextDirection.ltr);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('Timeline card fits audited locales at phone text scales', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    for (final locale in const [
+      Locale('de'),
+      Locale('ja'),
+      Locale('ar'),
+      Locale('ru'),
+    ]) {
+      for (final scale in const [1.0, 1.3]) {
+        await tester.pumpWidget(
+          localizedApp(
+            Scaffold(
+              body: Builder(
+                builder: (context) {
+                  final loc = AppLocalizations.of(context)!;
+                  return BrewEntryCard(
+                    entry: entry(tags: 'qa-test, citrus'),
+                    formattedTime: '08:30',
+                    onTap: () {},
+                    onBookmarkToggle: () {},
+                    tasteLabels: [
+                      loc.tasteSour,
+                      loc.tasteBalanced,
+                      loc.tasteBitter,
+                    ],
+                  );
+                },
+              ),
+            ),
+            locale: locale,
+            textScaler: TextScaler.linear(scale),
+          ),
+        );
+        await tester.pump();
+
+        expect(find.byType(BrewEntryCard), findsOneWidget);
+        expect(
+          Directionality.of(tester.element(find.byType(BrewEntryCard))),
+          locale.languageCode == 'ar' ? TextDirection.rtl : TextDirection.ltr,
+        );
+        expect(tester.takeException(), isNull);
+      }
+    }
   });
 
   testWidgets('bookmark tap does not invoke the card detail callback', (
