@@ -69,6 +69,7 @@ class RecipeDetailScreen extends StatelessWidget {
   final double? prefillWaterAmount;
   final String? prefillGrindSize;
   final double? prefillWaterTemp;
+  final String? prefillCoffeeBeansUuid;
 
   const RecipeDetailScreen({
     super.key,
@@ -78,6 +79,7 @@ class RecipeDetailScreen extends StatelessWidget {
     this.prefillWaterAmount,
     this.prefillGrindSize,
     this.prefillWaterTemp,
+    this.prefillCoffeeBeansUuid,
   });
 
   @override
@@ -90,6 +92,7 @@ class RecipeDetailScreen extends StatelessWidget {
       prefillWaterAmount: prefillWaterAmount,
       prefillGrindSize: prefillGrindSize,
       prefillWaterTemp: prefillWaterTemp,
+      prefillCoffeeBeansUuid: prefillCoffeeBeansUuid,
     );
   }
 }
@@ -102,6 +105,7 @@ class RecipeDetailBase extends StatefulWidget {
   final double? prefillWaterAmount;
   final String? prefillGrindSize;
   final double? prefillWaterTemp;
+  final String? prefillCoffeeBeansUuid;
 
   const RecipeDetailBase({
     super.key,
@@ -111,6 +115,7 @@ class RecipeDetailBase extends StatefulWidget {
     this.prefillWaterAmount,
     this.prefillGrindSize,
     this.prefillWaterTemp,
+    this.prefillCoffeeBeansUuid,
   });
 
   @override
@@ -176,6 +181,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
         _importCheckComplete = false;
         _errorMessage = null;
         _updatedRecipe = null;
+        _brewAgainApplied = false;
       });
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
@@ -195,7 +201,12 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
   Future<void> _loadInitialRecipeAndBean() async {
     await _performInitialRecipeCheck();
     if (!mounted) return;
-    await _loadSelectedBean();
+    final sourceBeanUuid = widget.prefillCoffeeBeansUuid?.trim();
+    if (sourceBeanUuid != null && sourceBeanUuid.isNotEmpty) {
+      await _updateSelectedBean(sourceBeanUuid);
+    } else {
+      await _loadSelectedBean();
+    }
     if (!mounted || _updatedRecipe == null || _brewAgainApplied) return;
 
     final hasPrefill =

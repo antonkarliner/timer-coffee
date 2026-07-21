@@ -68,6 +68,12 @@ class ChipInput extends StatefulWidget {
   /// Text capitalization behavior
   final TextCapitalization textCapitalization;
 
+  /// Whether the platform may autocorrect text while it is entered.
+  final bool autocorrect;
+
+  /// Whether committed chip labels use the component's title-case display.
+  final bool capitalizeChipLabels;
+
   /// Optional external controller for the underlying text field.
   ///
   /// Typed text only becomes a chip on submit or suggestion tap; callers that
@@ -100,6 +106,8 @@ class ChipInput extends StatefulWidget {
     this.semanticIdentifier,
     this.inputFormatters,
     this.textCapitalization = TextCapitalization.sentences,
+    this.autocorrect = true,
+    this.capitalizeChipLabels = true,
     this.controller,
     this.quickPicks = const [],
   });
@@ -387,7 +395,10 @@ class _ChipInputState extends State<ChipInput> {
             children: _chips
                 .map(
                   (chip) => Chip(
-                    label: Text(_capitalize(chip), style: chipTheme.labelStyle),
+                    label: Text(
+                      widget.capitalizeChipLabels ? _capitalize(chip) : chip,
+                      style: chipTheme.labelStyle,
+                    ),
                     onDeleted: widget.enabled ? () => _removeChip(chip) : null,
                     backgroundColor: chipTheme.backgroundColor,
                     deleteIcon: Icon(
@@ -412,6 +423,7 @@ class _ChipInputState extends State<ChipInput> {
               focusNode: _focusNode,
               enabled: widget.enabled,
               textCapitalization: widget.textCapitalization,
+              autocorrect: widget.autocorrect,
               inputFormatters: widget.inputFormatters,
               onFieldSubmitted: _onFieldSubmitted,
               style: theme.textTheme.bodyLarge,

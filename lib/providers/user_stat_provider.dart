@@ -256,6 +256,9 @@ class UserStatProvider extends ChangeNotifier {
     final updatedWaterAmount = isManualEntry
         ? waterAmount
         : currentStat.waterAmount;
+    final amountsChanged =
+        updatedCoffeeAmount != currentStat.coffeeAmount ||
+        updatedWaterAmount != currentStat.waterAmount;
     final doseDelta = updatedCoffeeAmount - currentStat.coffeeAmount;
     BeanWeightAdjustmentResult? inventoryAdjustment;
 
@@ -284,6 +287,8 @@ class UserStatProvider extends ChangeNotifier {
       currentStat,
       coffeeAmount: updatedCoffeeAmount,
       waterAmount: updatedWaterAmount,
+      tdsPercent: amountsChanged ? null : _unchangedDiaryField,
+      extractionYieldPercent: amountsChanged ? null : _unchangedDiaryField,
     );
 
     try {
@@ -471,6 +476,8 @@ class UserStatProvider extends ChangeNotifier {
     Object? rating = _unchangedDiaryField,
     Object? coffeeBeansUuid = _unchangedDiaryField,
     Object? tags = _unchangedDiaryField,
+    Object? tdsPercent = _unchangedDiaryField,
+    Object? extractionYieldPercent = _unchangedDiaryField,
   }) {
     final newVector = VersionVector.fromString(
       currentStat.versionVector,
@@ -501,8 +508,13 @@ class UserStatProvider extends ChangeNotifier {
       grindSize: identical(grindSize, _unchangedDiaryField)
           ? currentStat.grindSize
           : grindSize as String?,
-      tdsPercent: currentStat.tdsPercent,
-      extractionYieldPercent: currentStat.extractionYieldPercent,
+      tdsPercent: identical(tdsPercent, _unchangedDiaryField)
+          ? currentStat.tdsPercent
+          : tdsPercent as double?,
+      extractionYieldPercent:
+          identical(extractionYieldPercent, _unchangedDiaryField)
+          ? currentStat.extractionYieldPercent
+          : extractionYieldPercent as double?,
       waterTemp: identical(waterTemp, _unchangedDiaryField)
           ? currentStat.waterTemp
           : waterTemp as double?,

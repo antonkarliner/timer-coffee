@@ -249,8 +249,9 @@ class CoffeeBeansDetailController extends ChangeNotifier {
     if (logoResult.hasAnyLogo &&
         flags.roasterBackendColor &&
         logoResult.dominantColorHex != null) {
-      _roasterColorResult =
-          RoasterColorService.fromBackendHex(logoResult.dominantColorHex);
+      _roasterColorResult = RoasterColorService.fromBackendHex(
+        logoResult.dominantColorHex,
+      );
     }
   }
 
@@ -267,13 +268,21 @@ class CoffeeBeansDetailController extends ChangeNotifier {
 
   void _startAncillaryLoads(BuildContext context) {
     _ancillaryStarted = true;
+    final backendColorEnabled = Provider.of<FeatureFlagsRepository>(
+      context,
+      listen: false,
+    ).roasterBackendColor;
     // Load roaster logos concurrently (don't block on logo loading), unless
     // the fast path in _applyCachedBundle already supplied them — then only
     // fill in color analysis if the backend had no hex yet.
     if (_logoResult == null) {
-      _loadRoasterLogos(context, _bean!.roaster);
+      _loadRoasterLogos(
+        context,
+        _bean!.roaster,
+        backendColorEnabled: backendColorEnabled,
+      );
     } else {
-      _analyzeLogoColorIfNeeded(context);
+      _analyzeLogoColorIfNeeded(backendColorEnabled);
     }
     // Compute brews-left estimate concurrently (don't block on it)
     _loadBrewsLeft(context, _bean!);
@@ -315,10 +324,10 @@ class CoffeeBeansDetailController extends ChangeNotifier {
   /// the main bean data display.
   Future<void> _loadRoasterLogos(
     BuildContext context,
-    String roasterName,
-  ) async {
+    String roasterName, {
+    required bool backendColorEnabled,
+  }) async {
     try {
-      final flags = Provider.of<FeatureFlagsRepository>(context, listen: false);
       final logoResult = await _logoService.fetchRoasterLogos(
         context,
         roasterName,
@@ -331,7 +340,7 @@ class CoffeeBeansDetailController extends ChangeNotifier {
       // folded into the same notify as the logo result (one rebuild).
       if (logoResult.isSuccess &&
           logoResult.hasAnyLogo &&
-          flags.roasterBackendColor &&
+          backendColorEnabled &&
           logoResult.dominantColorHex != null) {
         _roasterColorResult = RoasterColorService.fromBackendHex(
           logoResult.dominantColorHex,
@@ -339,7 +348,7 @@ class CoffeeBeansDetailController extends ChangeNotifier {
       }
       _notifyListeners();
 
-      await _analyzeLogoColorIfNeeded(context);
+      await _analyzeLogoColorIfNeeded(backendColorEnabled);
     } catch (error) {
       // Logo loading failures are handled silently
       // The UI will show fallback icons instead
@@ -353,7 +362,7 @@ class CoffeeBeansDetailController extends ChangeNotifier {
   /// dominant-color hex yet. No-op when there's no logo, the flag is off, or
   /// a color result is already in hand (e.g. from the warm-cache fast path or
   /// a backend hex applied above).
-  Future<void> _analyzeLogoColorIfNeeded(BuildContext context) async {
+  Future<void> _analyzeLogoColorIfNeeded(bool backendColorEnabled) async {
     final logoResult = _logoResult;
     if (logoResult == null ||
         !logoResult.isSuccess ||
@@ -362,8 +371,7 @@ class CoffeeBeansDetailController extends ChangeNotifier {
         logoResult.dominantColorHex != null) {
       return;
     }
-    final flags = Provider.of<FeatureFlagsRepository>(context, listen: false);
-    if (!flags.roasterBackendColor) return;
+    if (!backendColorEnabled) return;
     final colorResult = await RoasterColorService.instance.analyseLogoColor(
       logoResult.originalUrl,
       logoResult.mirrorUrl,

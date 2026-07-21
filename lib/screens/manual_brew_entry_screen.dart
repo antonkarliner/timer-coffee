@@ -384,10 +384,7 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
         listen: false,
       );
       final trimmedNotes = _notesController.text.trim();
-      final savedTags = diaryTagsWithPending(
-        _tags,
-        _tagPendingController.text,
-      );
+      final savedTags = diaryTagsWithPending(_tags, _tagPendingController.text);
 
       await userStatProvider.insertUserStat(
         recipeId: _selectedRecipe!.id,
@@ -750,6 +747,9 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
                               suggestions: snapshot.data ?? [],
                               quickPicks: snapshot.data ?? [],
                               maxChips: diaryTagsMaxCount,
+                              textCapitalization: TextCapitalization.none,
+                              autocorrect: false,
+                              capitalizeChipLabels: false,
                               onChanged: (values) =>
                                   setState(() => _tags = values),
                               controller: _tagPendingController,

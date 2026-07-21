@@ -3,14 +3,18 @@ import 'package:coffee_timer/app_router.gr.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/diary_entry.dart';
 import 'package:coffee_timer/models/diary_group.dart';
+import 'package:coffee_timer/providers/user_stat_provider.dart';
 import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/services/date_time_format_service.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:coffee_timer/utils/grind_value.dart';
 import 'package:coffee_timer/utils/icon_utils.dart';
 import 'package:coffee_timer/utils/temperature_format.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:coffee_timer/widgets/brew_diary/brew_detail_sheet.dart';
+import 'package:coffee_timer/widgets/brew_diary/brew_entry_card.dart';
+import 'package:coffee_timer/widgets/brew_diary/directional_value_text.dart';
 import 'package:coffee_timer/widgets/brew_diary/journey_progress.dart';
 import 'package:coffee_timer/widgets/roaster_logo.dart';
 import 'package:coffee_timer/widgets/smart_back_button.dart';
@@ -65,6 +69,7 @@ class _BeanJourney extends StatefulWidget {
 
 class _BeanJourneyState extends State<_BeanJourney> {
   late List<DiaryEntry> _entries = widget.group.entries.toList();
+  final Set<String> _pendingBookmarkUuids = {};
 
   @override
   void didUpdateWidget(covariant _BeanJourney oldWidget) {
@@ -75,19 +80,52 @@ class _BeanJourneyState extends State<_BeanJourney> {
     }
   }
 
-  void _replaceRating(String statUuid, double? rating) {
+  void _replaceEntry(DiaryEntry updated) {
     setState(() {
       _entries = [
         for (final entry in _entries)
-          entry.statUuid == statUuid ? entry.copyWith(rating: rating) : entry,
+          entry.statUuid == updated.statUuid ? updated : entry,
       ];
     });
+  }
+
+  void _replaceRating(String statUuid, double? rating) {
+    final current = _entries.firstWhere((entry) => entry.statUuid == statUuid);
+    _replaceEntry(current.copyWith(rating: rating));
   }
 
   Future<void> _evaluateLatest(DiaryEntry entry) async {
     final result = await showBrewRatingEditor(context, entry: entry);
     if (mounted && result.wasSaved) {
       _replaceRating(entry.statUuid, result.rating);
+    }
+  }
+
+  Future<void> _toggleBookmark(DiaryEntry entry) async {
+    if (_pendingBookmarkUuids.contains(entry.statUuid)) return;
+    final nextValue = !entry.isMarked;
+    setState(() => _pendingBookmarkUuids.add(entry.statUuid));
+    try {
+      await context.read<UserStatProvider>().updateUserStat(
+        statUuid: entry.statUuid,
+        isMarked: nextValue,
+      );
+      AnalyticsService.maybeInstance?.track(
+        'diary_bookmark_toggled',
+        properties: {'bookmarked': nextValue, 'source': 'journey'},
+      );
+      if (!mounted) return;
+      _replaceEntry(entry.copyWith(isMarked: nextValue));
+    } catch (error, stackTrace) {
+      AppLogger.error(
+        'Failed to update Journey bookmark',
+        errorObject: error,
+        stackTrace: stackTrace,
+      );
+    } finally {
+      if (mounted) {
+        setState(() => _pendingBookmarkUuids.remove(entry.statUuid));
+      }
     }
   }
 
@@ -150,8 +188,11 @@ class _BeanJourneyState extends State<_BeanJourney> {
               entry: series[index],
               logoUrls: widget.logoUrls,
               isBest: identical(series[index], best),
-              onRatingChanged: (rating) =>
-                  _replaceRating(series[index].statUuid, rating),
+              onEntryChanged: _replaceEntry,
+              onBookmarkToggle: () => _toggleBookmark(series[index]),
+              bookmarkTogglePending: _pendingBookmarkUuids.contains(
+                series[index].statUuid,
+              ),
             ),
             if (index < series.length - 1)
               _DeltaRow(previous: series[index + 1], current: series[index]),
@@ -349,15 +390,19 @@ class _JourneyLogo extends StatelessWidget {
 class _JourneyEntryCard extends StatelessWidget {
   const _JourneyEntryCard({
     required this.entry,
+    required this.onBookmarkToggle,
+    required this.bookmarkTogglePending,
     this.logoUrls,
     this.isBest = false,
-    this.onRatingChanged,
+    this.onEntryChanged,
   });
 
   final DiaryEntry entry;
+  final VoidCallback onBookmarkToggle;
+  final bool bookmarkTogglePending;
   final Future<Map<String, String?>>? logoUrls;
   final bool isBest;
-  final ValueChanged<double?>? onRatingChanged;
+  final ValueChanged<DiaryEntry>? onEntryChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -366,159 +411,69 @@ class _JourneyEntryCard extends StatelessWidget {
     final use24Hour = formatService.use24Hour(
       MediaQuery.of(context).alwaysUse24HourFormat,
     );
-    final dateTimeFormat = DateFormat(
-      '${formatService.datePattern(loc.dateFormat)} '
-      '${use24Hour ? 'HH:mm' : 'hh:mm a'}',
-      Localizations.localeOf(context).toString(),
+    final locale = Localizations.localeOf(context).toString();
+    final dateFormat = DateFormat(
+      formatService.datePattern(loc.dateFormat),
+      locale,
     );
-    return Semantics(
-      identifier: 'journeyAttempt_${entry.statUuid}',
-      button: true,
-      child: Card(
-        margin: const EdgeInsets.only(bottom: AppSpacing.sm),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppRadius.card),
-        ),
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: () async {
-            final changed = await showBrewDetailSheet(
-              context,
-              entry: entry,
-              logoUrls: logoUrls,
-              onRatingChanged: onRatingChanged,
-              onOpenBeanJourney: (_) => Navigator.of(context).pop(),
-              analyticsSource: 'group_card',
-            );
-            if (changed == true && context.mounted) {
-              Navigator.of(context).pop(true);
-            }
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(AppSpacing.base),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        entry.recipeName,
-                        style: AppTextStyles.sectionHeader,
-                      ),
-                    ),
-                    if (entry.isMarked) ...[
-                      Semantics(
-                        identifier: 'journeyBookmark_${entry.statUuid}',
-                        label: loc.diaryBookmarked,
-                        child: Icon(
-                          Icons.bookmark,
-                          size: AppIconSize.small,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                      const SizedBox(width: AppSpacing.xs),
-                    ],
-                    if (isBest)
-                      _FactChip(
-                        label: loc.journeyBestCup,
-                        icon: Icons.push_pin,
-                        emphasized: true,
-                      ),
-                  ],
-                ),
-                Text(
-                  dateTimeFormat.format(entry.createdAt.toLocal()),
-                  style: AppTextStyles.caption,
-                ),
-                const SizedBox(height: AppSpacing.sm),
-                Wrap(
-                  spacing: AppSpacing.xs,
-                  runSpacing: AppSpacing.xs,
-                  children: [
-                    _FactChip(
-                      label:
-                          '${_amount(entry.coffeeAmount)} g → ${_amount(entry.waterAmount)} g',
-                    ),
-                    if (entry.ratio case final ratio?) _FactChip(label: ratio),
-                    if (entry.grindSize?.trim().isNotEmpty ?? false)
-                      _FactChip(label: entry.grindSize!.trim()),
-                    if (formatTemperatureDual(entry.waterTemp) case final temp?)
-                      _FactChip(
-                        label: entry.waterTempIsDerived ? '~$temp' : temp,
-                      ),
-                    if (entry.extractionYieldPercent case final ey?)
-                      _FactChip(
-                        label: entry.tdsPercent == null
-                            ? '${ey.toStringAsFixed(1)}% EY'
-                            : loc.extractionCalcDiaryLine(
-                                ey.toStringAsFixed(1),
-                                entry.tdsPercent!.toStringAsFixed(2),
-                              ),
-                      )
-                    else if (entry.tdsPercent case final tds?)
-                      _FactChip(label: 'TDS ${tds.toStringAsFixed(2)}%'),
-                    if (entry.tasteBalance case final taste?)
-                      _TasteChip(taste: taste),
-                    if (entry.rating case final rating?)
-                      _FactChip(label: '★${rating.toStringAsFixed(1)}'),
-                    if (entry.rating == null)
-                      _FactChip(label: loc.brewDiaryNotRated),
-                    ..._tagChips(entry.tagList),
-                  ],
-                ),
-                if (entry.notes?.trim().isNotEmpty ?? false) ...[
-                  const SizedBox(height: AppSpacing.sm),
-                  Text(
-                    entry.notes!.trim(),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTextStyles.caption.copyWith(
-                      fontStyle: FontStyle.italic,
-                    ),
-                  ),
-                ],
-                Align(
-                  alignment: AlignmentDirectional.centerEnd,
-                  child: AppTextButton(
-                    label: loc.brewAgain,
-                    icon: Icons.replay,
-                    isFullWidth: false,
-                    height: AppButton.heightSmall,
-                    padding: AppButton.paddingSmall,
-                    onPressed: () {
-                      AnalyticsService.maybeInstance?.track(
-                        'diary_brew_again_tapped',
-                        properties: {
-                          'source': 'journey',
-                          'recipe_id': entry.recipeId,
-                          'brewing_method_id': entry.brewingMethodId,
-                          'has_grind_prefill':
-                              entry.grindSize?.trim().isNotEmpty ?? false,
-                          'has_temp_prefill': entry.storedWaterTemp != null,
-                        },
-                      );
-                      context.router.push(
-                        RecipeDetailRoute(
-                          brewingMethodId: entry.brewingMethodId,
-                          recipeId: entry.recipeId,
-                          prefillCoffeeAmount: entry.coffeeAmount,
-                          prefillWaterAmount: entry.waterAmount,
-                          prefillGrindSize: entry.grindSize,
-                          prefillWaterTemp: entry.storedWaterTemp,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
+    final timeFormat = DateFormat(use24Hour ? 'HH:mm' : 'hh:mm a', locale);
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+      child: BrewEntryCard(
+        entry: entry,
+        formattedDate: dateFormat.format(entry.createdAt.toLocal()),
+        formattedTime: timeFormat.format(entry.createdAt.toLocal()),
+        logoUrls: logoUrls,
+        tasteLabels: [loc.tasteSour, loc.tasteBalanced, loc.tasteBitter],
+        onTap: () async {
+          final changed = await showBrewDetailSheet(
+            context,
+            entry: entry,
+            logoUrls: logoUrls,
+            onEntryChanged: onEntryChanged,
+            onOpenBeanJourney: (_) => Navigator.of(context).pop(),
+            analyticsSource: 'group_card',
+          );
+          if (changed == true && context.mounted) {
+            Navigator.of(context).pop(true);
+          }
+        },
+        onBookmarkToggle: onBookmarkToggle,
+        bookmarkTogglePending: bookmarkTogglePending,
+        onBrewAgain: () {
+          AnalyticsService.maybeInstance?.track(
+            'diary_brew_again_tapped',
+            properties: {
+              'source': 'journey',
+              'recipe_id': entry.recipeId,
+              'brewing_method_id': entry.brewingMethodId,
+              'has_grind_prefill': entry.grindSize?.trim().isNotEmpty ?? false,
+              'has_temp_prefill': entry.storedWaterTemp != null,
+            },
+          );
+          context.router.push(
+            RecipeDetailRoute(
+              brewingMethodId: entry.brewingMethodId,
+              recipeId: entry.recipeId,
+              prefillCoffeeAmount: entry.coffeeAmount,
+              prefillWaterAmount: entry.waterAmount,
+              prefillGrindSize: entry.grindSize,
+              prefillWaterTemp: entry.storedWaterTemp,
+              prefillCoffeeBeansUuid: entry.coffeeBeansUuid,
             ),
-          ),
-        ),
+          );
+        },
+        isBestCup: isBest,
+        showBeanIdentity: false,
+        semanticsIdentifierPrefix: 'journeyAttempt',
+        bookmarkSemanticsIdentifierPrefix: 'journeyBookmark',
       ),
     );
   }
 }
+
+String _keepTemperatureUnitTogether(String value) =>
+    value.replaceAll(' °C', '\u00A0°C').replaceAll(' °F', '\u00A0°F');
 
 class _DeltaRow extends StatelessWidget {
   const _DeltaRow({required this.previous, required this.current});
@@ -597,65 +552,17 @@ class _DeltaRow extends StatelessWidget {
 }
 
 class _FactChip extends StatelessWidget {
-  const _FactChip({required this.label, this.icon, this.emphasized = false});
+  const _FactChip({required this.label});
 
   final String label;
-  final IconData? icon;
-  final bool emphasized;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final neutral = AppSemanticColors.neutralChip(theme.brightness);
-    final foreground = emphasized
-        ? theme.colorScheme.onPrimaryContainer
-        : neutral.foreground;
-    return Chip(
-      avatar: icon == null
-          ? null
-          : Icon(icon, size: AppIconSize.small, color: foreground),
-      label: Text(label),
-      labelStyle: AppTextStyles.caption.copyWith(color: foreground),
-      backgroundColor: emphasized
-          ? theme.colorScheme.primaryContainer
-          : neutral.background,
-      side: BorderSide.none,
-      visualDensity: VisualDensity.compact,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppRadius.chip),
-      ),
-    );
-  }
-}
-
-List<Widget> _tagChips(List<String> tags) {
-  if (tags.isEmpty) return const [];
-  final visible = tags.take(3).toList();
-  final overflow = tags.length - visible.length;
-  return [
-    for (final tag in visible) _FactChip(label: '#$tag'),
-    if (overflow > 0) _FactChip(label: '+$overflow'),
-  ];
-}
-
-class _TasteChip extends StatelessWidget {
-  const _TasteChip({required this.taste});
-
-  final int taste;
-
-  @override
-  Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context)!;
-    final colors = AppSemanticColors.taste(taste, Theme.of(context).brightness);
-    final label = switch (taste) {
-      -1 => loc.tasteSour,
-      0 => loc.tasteBalanced,
-      _ => loc.tasteBitter,
-    };
+    final neutral = AppSemanticColors.neutralChip(Theme.of(context).brightness);
     return Chip(
       label: Text(label),
-      labelStyle: AppTextStyles.caption.copyWith(color: colors.foreground),
-      backgroundColor: colors.background,
+      labelStyle: AppTextStyles.caption.copyWith(color: neutral.foreground),
+      backgroundColor: neutral.background,
       side: BorderSide.none,
       visualDensity: VisualDensity.compact,
       shape: RoundedRectangleBorder(
@@ -739,7 +646,9 @@ Future<void> _showCompareSheet(BuildContext context, List<DiaryEntry> entries) {
                 children: [
                   for (var index = 0; index < chronological.length; index++)
                     FilterChip(
-                      label: Text(labels[chronological[index].statUuid]!),
+                      label: _ComparisonEntryLabel(
+                        labels[chronological[index].statUuid]!,
+                      ),
                       selected:
                           identical(first, chronological[index]) ||
                           identical(second, chronological[index]),
@@ -775,6 +684,133 @@ Future<void> _showCompareSheet(BuildContext context, List<DiaryEntry> entries) {
   );
 }
 
+enum JourneyComparisonField {
+  doseWater,
+  ratio,
+  grind,
+  temperature,
+  extraction,
+  taste,
+  rating,
+}
+
+enum JourneyComparisonSide { first, second }
+
+/// Test-visible representation of one evidence-honest comparison row.
+@immutable
+class JourneyComparisonRow {
+  const JourneyComparisonRow({
+    required this.field,
+    required this.label,
+    required this.firstValue,
+    required this.secondValue,
+    required this.changed,
+    this.bestCupSide,
+    this.betterTasteSide,
+    this.firstTasteBalance,
+    this.secondTasteBalance,
+  });
+
+  final JourneyComparisonField field;
+  final String label;
+  final String firstValue;
+  final String secondValue;
+  final bool changed;
+  final JourneyComparisonSide? bestCupSide;
+  final JourneyComparisonSide? betterTasteSide;
+  final int? firstTasteBalance;
+  final int? secondTasteBalance;
+}
+
+List<JourneyComparisonRow> buildJourneyComparisonRows(
+  DiaryEntry first,
+  DiaryEntry second,
+  AppLocalizations loc,
+) {
+  final better = _betterOf(first, second);
+  final bestCupSide = identical(first, better)
+      ? JourneyComparisonSide.first
+      : identical(second, better)
+      ? JourneyComparisonSide.second
+      : null;
+  final betterTasteSide = _betterTasteOf(first, second);
+
+  JourneyComparisonRow row(
+    JourneyComparisonField field,
+    String label,
+    String firstValue,
+    String secondValue, {
+    int? firstTasteBalance,
+    int? secondTasteBalance,
+  }) {
+    final changed = firstValue != secondValue;
+    return JourneyComparisonRow(
+      field: field,
+      label: label,
+      firstValue: firstValue,
+      secondValue: secondValue,
+      changed: changed,
+      // A higher overall rating makes this the preferred cup; it does not
+      // make each changed recipe or taste value a winner in isolation.
+      bestCupSide: changed && field == JourneyComparisonField.rating
+          ? bestCupSide
+          : null,
+      betterTasteSide: changed && field == JourneyComparisonField.taste
+          ? betterTasteSide
+          : null,
+      firstTasteBalance: firstTasteBalance,
+      secondTasteBalance: secondTasteBalance,
+    );
+  }
+
+  return [
+    row(
+      JourneyComparisonField.doseWater,
+      loc.brewDiaryDoseWater,
+      '${_amount(first.coffeeAmount)}\u00A0g → ${_amount(first.waterAmount)}\u00A0g',
+      '${_amount(second.coffeeAmount)}\u00A0g → ${_amount(second.waterAmount)}\u00A0g',
+    ),
+    row(
+      JourneyComparisonField.ratio,
+      loc.brewDiaryRatioComputed,
+      first.ratio ?? '—',
+      second.ratio ?? '—',
+    ),
+    row(
+      JourneyComparisonField.grind,
+      loc.grindsize,
+      first.grindSize?.trim() ?? '—',
+      second.grindSize?.trim() ?? '—',
+    ),
+    row(
+      JourneyComparisonField.temperature,
+      loc.watertemp,
+      _dualTemp(first),
+      _dualTemp(second),
+    ),
+    row(
+      JourneyComparisonField.extraction,
+      loc.brewDiaryExtraction,
+      _ey(first),
+      _ey(second),
+    ),
+    row(
+      JourneyComparisonField.taste,
+      loc.brewDiaryTasted,
+      _taste(loc, first),
+      _taste(loc, second),
+      firstTasteBalance: first.tasteBalance,
+      secondTasteBalance: second.tasteBalance,
+    ),
+    row(
+      JourneyComparisonField.rating,
+      loc.rating,
+      _rating(first),
+      _rating(second),
+    ),
+  ];
+}
+
 class _ComparisonTable extends StatelessWidget {
   const _ComparisonTable({
     required this.first,
@@ -791,75 +827,293 @@ class _ComparisonTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
-    final better = _betterOf(first, second);
-    final rows = <(String, String, String)>[
-      (
-        loc.brewDiaryDoseWater,
-        '${_amount(first.coffeeAmount)} → ${_amount(first.waterAmount)} g',
-        '${_amount(second.coffeeAmount)} → ${_amount(second.waterAmount)} g',
-      ),
-      (loc.brewDiaryRatioComputed, first.ratio ?? '—', second.ratio ?? '—'),
-      (loc.grindsize, first.grindSize ?? '—', second.grindSize ?? '—'),
-      (loc.watertemp, _dualTemp(first), _dualTemp(second)),
-      (loc.brewDiaryExtraction, _ey(first), _ey(second)),
-      (loc.brewDiaryTasted, _taste(loc, first), _taste(loc, second)),
-      (loc.rating, _rating(first), _rating(second)),
-    ];
-    return Table(
-      columnWidths: const {
-        0: FlexColumnWidth(1),
-        1: FlexColumnWidth(1.2),
-        2: FlexColumnWidth(1.2),
-      },
-      children: [
-        TableRow(
-          children: [
-            const _CompareCell(text: ''),
-            _CompareCell(text: firstLabel, label: true, maxLines: 2),
-            _CompareCell(text: secondLabel, label: true, maxLines: 2),
-          ],
-        ),
-        for (final row in rows)
-          TableRow(
+    final rows = buildJourneyComparisonRows(first, second, loc);
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth < 600) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _CompareCell(text: row.$1, label: true),
-              _CompareCell(text: row.$2, highlighted: identical(first, better)),
-              _CompareCell(
-                text: row.$3,
-                highlighted: identical(second, better),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: _CompareCell(
+                      text: firstLabel,
+                      label: true,
+                      entryIdentity: true,
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.xs),
+                  Expanded(
+                    child: _CompareCell(
+                      text: secondLabel,
+                      label: true,
+                      entryIdentity: true,
+                    ),
+                  ),
+                ],
               ),
+              for (final row in rows) ...[
+                const Divider(height: AppSpacing.sm),
+                _CompareCell(
+                  key: ValueKey('journeyComparisonLabel_${row.field.name}'),
+                  text: row.label,
+                  label: true,
+                  wrapLabelByWord: true,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: _comparisonValueCell(
+                        row,
+                        JourneyComparisonSide.first,
+                      ),
+                    ),
+                    const SizedBox(width: AppSpacing.xs),
+                    Expanded(
+                      child: _comparisonValueCell(
+                        row,
+                        JourneyComparisonSide.second,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ],
-          ),
-      ],
+          );
+        }
+        return Table(
+          columnWidths: const {
+            0: FlexColumnWidth(1.25),
+            1: FlexColumnWidth(1.1),
+            2: FlexColumnWidth(1.1),
+          },
+          children: [
+            TableRow(
+              children: [
+                const _CompareCell(text: ''),
+                _CompareCell(
+                  text: firstLabel,
+                  label: true,
+                  entryIdentity: true,
+                ),
+                _CompareCell(
+                  text: secondLabel,
+                  label: true,
+                  entryIdentity: true,
+                ),
+              ],
+            ),
+            for (final row in rows)
+              TableRow(
+                children: [
+                  _CompareCell(
+                    key: ValueKey('journeyComparisonLabel_${row.field.name}'),
+                    text: row.label,
+                    label: true,
+                    wrapLabelByWord: true,
+                  ),
+                  _comparisonValueCell(row, JourneyComparisonSide.first),
+                  _comparisonValueCell(row, JourneyComparisonSide.second),
+                ],
+              ),
+          ],
+        );
+      },
+    );
+  }
+
+  _CompareCell _comparisonValueCell(
+    JourneyComparisonRow row,
+    JourneyComparisonSide side,
+  ) {
+    final first = side == JourneyComparisonSide.first;
+    return _CompareCell(
+      key: ValueKey(
+        'journeyComparison_${row.field.name}_${first ? 'first' : 'second'}',
+      ),
+      text: first ? row.firstValue : row.secondValue,
+      fieldLabel: row.label,
+      changed: row.changed,
+      fromBestCup: row.bestCupSide == side,
+      betterTasteResult: row.betterTasteSide == side,
+      tasteBalance: first ? row.firstTasteBalance : row.secondTasteBalance,
+      literalValue: row.field != JourneyComparisonField.taste,
     );
   }
 }
 
 class _CompareCell extends StatelessWidget {
   const _CompareCell({
+    super.key,
     required this.text,
     this.label = false,
-    this.highlighted = false,
-    this.maxLines,
+    this.fieldLabel,
+    this.changed = false,
+    this.fromBestCup = false,
+    this.betterTasteResult = false,
+    this.tasteBalance,
+    this.wrapLabelByWord = false,
+    this.literalValue = false,
+    this.entryIdentity = false,
   });
   final String text;
   final bool label;
-  final bool highlighted;
-  final int? maxLines;
+  final String? fieldLabel;
+  final bool changed;
+  final bool fromBestCup;
+  final bool betterTasteResult;
+  final int? tasteBalance;
+  final bool wrapLabelByWord;
+  final bool literalValue;
+  final bool entryIdentity;
 
   @override
   Widget build(BuildContext context) {
-    final pair = AppSemanticColors.taste(0, Theme.of(context).brightness);
-    return Container(
-      padding: const EdgeInsets.all(AppSpacing.sm),
-      color: highlighted ? pair.background : null,
-      child: Text(
-        text,
-        maxLines: maxLines,
-        overflow: maxLines == null ? null : TextOverflow.ellipsis,
-        style: highlighted
-            ? AppTextStyles.caption.copyWith(color: pair.foreground)
-            : (label ? AppTextStyles.fieldLabel : AppTextStyles.caption),
+    final loc = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    final tastePair = tasteBalance == null
+        ? null
+        : AppSemanticColors.taste(tasteBalance!, theme.brightness);
+    final background = !changed
+        ? null
+        : tastePair?.background ??
+              (fromBestCup
+                  ? theme.colorScheme.primaryContainer
+                  : theme.colorScheme.surfaceContainerHighest);
+    final foreground = !changed
+        ? null
+        : tastePair?.foreground ??
+              (fromBestCup
+                  ? theme.colorScheme.onPrimaryContainer
+                  : theme.colorScheme.onSurfaceVariant);
+    final borderColor = !changed ? null : theme.colorScheme.outlineVariant;
+    final semanticsLabel = fieldLabel == null
+        ? text
+        : changed
+        ? '${loc.journeyChanged(fieldLabel!)}: $text'
+              '${fromBestCup ? ', ${loc.journeyBestCup}' : ''}'
+              '${betterTasteResult ? ', ${loc.journeyBetterTaste}' : ''}'
+        : '${fieldLabel!}: $text';
+
+    return Semantics(
+      label: semanticsLabel,
+      child: ExcludeSemantics(
+        child: Container(
+          padding: const EdgeInsets.all(AppSpacing.sm),
+          decoration: background == null
+              ? null
+              : BoxDecoration(
+                  color: background,
+                  border: Border.all(
+                    color: borderColor!,
+                    width: AppStroke.border,
+                  ),
+                  borderRadius: BorderRadius.circular(AppRadius.chip),
+                ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(
+                child: entryIdentity
+                    ? _ComparisonEntryLabel(text)
+                    : wrapLabelByWord
+                    ? _WordAwareComparisonLabel(text: text)
+                    : literalValue
+                    ? DirectionalValueText(
+                        text,
+                        style: foreground == null
+                            ? (label
+                                  ? AppTextStyles.fieldLabel
+                                  : AppTextStyles.caption)
+                            : AppTextStyles.caption.copyWith(color: foreground),
+                      )
+                    : Text(
+                        text,
+                        style: foreground == null
+                            ? (label
+                                  ? AppTextStyles.fieldLabel
+                                  : AppTextStyles.caption)
+                            : AppTextStyles.caption.copyWith(color: foreground),
+                      ),
+              ),
+              if (fromBestCup) ...[
+                const SizedBox(width: AppSpacing.xs),
+                Icon(
+                  Icons.workspace_premium_outlined,
+                  size: AppIconSize.small,
+                  color: foreground,
+                ),
+              ],
+              if (betterTasteResult) ...[
+                const SizedBox(width: AppSpacing.xs),
+                Icon(
+                  Icons.check_circle_outline,
+                  size: AppIconSize.small,
+                  color: foreground,
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _WordAwareComparisonLabel extends StatelessWidget {
+  const _WordAwareComparisonLabel({required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    final words = text.trim().split(RegExp(r'\s+'));
+    return Wrap(
+      spacing: AppSpacing.xs,
+      runSpacing: AppSpacing.xs,
+      children: [
+        for (final word in words)
+          Text(word, softWrap: false, style: AppTextStyles.fieldLabel),
+      ],
+    );
+  }
+}
+
+class _ComparisonEntryLabel extends StatelessWidget {
+  const _ComparisonEntryLabel(this.label);
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final separator = label.lastIndexOf(' · ');
+    final recipe = separator < 0 ? label : label.substring(0, separator);
+    final date = separator < 0 ? '' : label.substring(separator + 3);
+    return Semantics(
+      label: label,
+      child: ExcludeSemantics(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              recipe,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyles.fieldLabel,
+            ),
+            if (date.isNotEmpty)
+              DirectionalValueText(
+                date,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTextStyles.caption,
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -886,6 +1140,18 @@ DiaryEntry? _betterOf(DiaryEntry first, DiaryEntry second) {
     return null;
   }
   return firstRating > secondRating ? first : second;
+}
+
+JourneyComparisonSide? _betterTasteOf(DiaryEntry first, DiaryEntry second) {
+  final firstTaste = first.tasteBalance;
+  final secondTaste = second.tasteBalance;
+  if (firstTaste == 0 && (secondTaste == -1 || secondTaste == 1)) {
+    return JourneyComparisonSide.first;
+  }
+  if (secondTaste == 0 && (firstTaste == -1 || firstTaste == 1)) {
+    return JourneyComparisonSide.second;
+  }
+  return null;
 }
 
 void _addNumericDelta(
@@ -918,7 +1184,8 @@ String _amount(double value) => value == value.roundToDouble()
 String _dualTemp(DiaryEntry entry) {
   final formatted = formatTemperatureDual(entry.waterTemp);
   if (formatted == null) return '—';
-  return entry.waterTempIsDerived ? '~$formatted' : formatted;
+  final grouped = _keepTemperatureUnitTogether(formatted);
+  return entry.waterTempIsDerived ? '~$grouped' : grouped;
 }
 
 String _ey(DiaryEntry entry) => entry.extractionYieldPercent == null

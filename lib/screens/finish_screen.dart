@@ -69,6 +69,46 @@ Future<void> insertGuidedBrewUserStat({
   );
 }
 
+/// Coordinates the two completion writes that must start after inherited
+/// widgets are available, while still exposing stable futures to taste saving
+/// and the finish-slot decision.
+@visibleForTesting
+class BrewCompletionWriteGate {
+  final Completer<void> _insertCompleter = Completer<void>();
+  final Completer<bool> _beanWeightCompleter = Completer<bool>();
+  bool _started = false;
+
+  Future<void> get insertFuture => _insertCompleter.future;
+  Future<bool> get beanWeightFuture => _beanWeightCompleter.future;
+
+  void start({
+    required Future<void> Function() insertBrew,
+    required Future<bool> Function() updateBeanWeight,
+  }) {
+    if (_started) return;
+    _started = true;
+    unawaited(_completeInsert(insertBrew));
+    unawaited(_completeBeanWeight(updateBeanWeight));
+  }
+
+  Future<void> _completeInsert(Future<void> Function() operation) async {
+    try {
+      await operation();
+      _insertCompleter.complete();
+    } catch (error, stackTrace) {
+      _insertCompleter.completeError(error, stackTrace);
+    }
+  }
+
+  Future<void> _completeBeanWeight(Future<bool> Function() operation) async {
+    try {
+      _beanWeightCompleter.complete(await operation());
+    } catch (error, stackTrace) {
+      _beanWeightCompleter.completeError(error, stackTrace);
+    }
+  }
+}
+
 class FinishScreen extends StatefulWidget {
   final String brewingMethodName;
   final RecipeModel recipe;
@@ -120,11 +160,13 @@ class _FinishScreenState extends State<FinishScreen> {
   // Falling beans cameo. Toggled true when anniversary or in-sync fires.
   bool _showFallingBeans = false;
 
-  // Futures for the two fire-and-forget DB writes this screen kicks off in
-  // initState. Stored (rather than bare-called) so the bean-review-nudge
-  // slot decision can await them without re-triggering the writes.
-  late Future<void> _insertBrewingDataFuture;
-  late Future<bool> _updateBeanWeightFuture;
+  // These writes need Localizations, so they start from didChangeDependencies.
+  // The gate keeps their futures stable and prevents duplicate inserts or bean
+  // deductions if inherited dependencies change later.
+  final BrewCompletionWriteGate _completionWrites = BrewCompletionWriteGate();
+  Future<void> get _insertBrewingDataFuture => _completionWrites.insertFuture;
+  Future<bool> get _updateBeanWeightFuture =>
+      _completionWrites.beanWeightFuture;
 
   // Signals moment resolution to the finish-slot decision (plan 021,
   // "Decide once, no card-swapping"). Completed on EVERY exit path of
@@ -171,8 +213,6 @@ class _FinishScreenState extends State<FinishScreen> {
         kInSyncThresholdByHour[_brewCompletedAt.toUtc().hour] ?? 3;
     requestReview();
     _statUuid = _uuid.v7();
-    _insertBrewingDataFuture = insertBrewingDataToAppDatabase();
-    _updateBeanWeightFuture = _updateBeanWeightAfterBrew();
     _checkAndRequestNotificationPermission();
     _resolveAnniversary();
     _queryInSync();
@@ -197,6 +237,15 @@ class _FinishScreenState extends State<FinishScreen> {
             defaultTargetPlatform == TargetPlatform.android)) {
       _checkWebPromoCounter();
     }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _completionWrites.start(
+      insertBrew: insertBrewingDataToAppDatabase,
+      updateBeanWeight: _updateBeanWeightAfterBrew,
+    );
   }
 
   /// Loads the user's first-brew timestamp and decides whether to show the
@@ -561,6 +610,7 @@ class _FinishScreenState extends State<FinishScreen> {
           "Error inserting brewing data to app database",
           errorObject: e,
         );
+        rethrow;
       }
     } else {
       AppLogger.debug('No user signed in');
@@ -585,6 +635,9 @@ class _FinishScreenState extends State<FinishScreen> {
         })
         .catchError((Object error) {
           AppLogger.error('Error saving taste feedback', errorObject: error);
+          if (mounted) {
+            setState(() => _tasteBalance = null);
+          }
         });
   }
 
@@ -639,17 +692,12 @@ class _FinishScreenState extends State<FinishScreen> {
                       brightness,
                     ).background,
                     backgroundColor: theme.colorScheme.surfaceContainerLow,
-                    side: BorderSide(
-                      color: _tasteBalance == options[index].$1
-                          ? AppSemanticColors.taste(
-                              options[index].$1,
-                              brightness,
-                            ).foreground
-                          : theme.colorScheme.outlineVariant,
-                      width: _tasteBalance == options[index].$1
-                          ? AppStroke.focus
-                          : AppStroke.border,
-                    ),
+                    side: _tasteBalance == options[index].$1
+                        ? BorderSide.none
+                        : BorderSide(
+                            color: theme.colorScheme.outlineVariant,
+                            width: AppStroke.border,
+                          ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(AppRadius.chip),
                     ),

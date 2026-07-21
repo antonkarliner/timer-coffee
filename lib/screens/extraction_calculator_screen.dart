@@ -17,6 +17,17 @@ import '../widgets/extraction_calculator/learn_sections.dart';
 import '../widgets/fields/numeric_text_field.dart';
 import '../widgets/smart_back_button.dart';
 
+@immutable
+class ExtractionCalculatorResult {
+  const ExtractionCalculatorResult({
+    required this.tdsPercent,
+    required this.extractionYieldPercent,
+  });
+
+  final double tdsPercent;
+  final double extractionYieldPercent;
+}
+
 @RoutePage()
 class ExtractionCalculatorScreen extends StatefulWidget {
   final String? statUuid;
@@ -84,10 +95,7 @@ class _ExtractionCalculatorScreenState
     final stat = await userStatProvider.fetchUserStatByUuid(statUuid);
     if (stat == null || !mounted) return;
 
-    final recipeProvider = Provider.of<RecipeProvider>(
-      context,
-      listen: false,
-    );
+    final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
     final recipeName = await recipeProvider.getLocalizedRecipeName(
       stat.recipeId,
     );
@@ -131,8 +139,7 @@ class _ExtractionCalculatorScreenState
   }
 
   Future<void> _openHistoryPicker() async {
-    final picked = await showDialog<
-        ({UserStatsModel stat, String recipeName})>(
+    final picked = await showDialog<({UserStatsModel stat, String recipeName})>(
       context: context,
       builder: (dialogContext) => const _HistoryPickerDialog(),
     );
@@ -154,8 +161,9 @@ class _ExtractionCalculatorScreenState
     if (statUuid == null || tdsValue == null) return;
 
     final scaffoldMessenger = ScaffoldMessenger.of(context);
-    final successMessage =
-        AppLocalizations.of(context)!.extractionCalcSaveSuccess;
+    final successMessage = AppLocalizations.of(
+      context,
+    )!.extractionCalcSaveSuccess;
     final userStatProvider = Provider.of<UserStatProvider>(
       context,
       listen: false,
@@ -169,6 +177,14 @@ class _ExtractionCalculatorScreenState
 
     if (!mounted) return;
     scaffoldMessenger.showSnackBar(SnackBar(content: Text(successMessage)));
+    if (widget.statUuid != null) {
+      await context.router.maybePop(
+        ExtractionCalculatorResult(
+          tdsPercent: tdsValue,
+          extractionYieldPercent: eyValue,
+        ),
+      );
+    }
   }
 
   void _expandTdsLearnSection() {
@@ -268,7 +284,9 @@ class _ExtractionCalculatorScreenState
                 const SizedBox(height: AppSpacing.fieldGap),
               ] else ...[
                 NumericTextField(
-                  key: ValueKey('extractionCalcShotField-$_shotFieldGeneration'),
+                  key: ValueKey(
+                    'extractionCalcShotField-$_shotFieldGeneration',
+                  ),
                   label: l10n.extractionCalcShotLabel,
                   allowDecimal: true,
                   initialValue: _shotWeight,
@@ -624,7 +642,11 @@ class _HistoryEntryPoint extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(Icons.history, size: AppIconSize.small, color: colorScheme.primary),
+          Icon(
+            Icons.history,
+            size: AppIconSize.small,
+            color: colorScheme.primary,
+          ),
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Text(
@@ -763,10 +785,7 @@ class _HistoryPickerRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final recipeProvider = Provider.of<RecipeProvider>(
-      context,
-      listen: false,
-    );
+    final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
     final fmtSvc = Provider.of<DateTimeFormatService>(context);
     final colorScheme = Theme.of(context).colorScheme;
     final dateStr = DateFormat(
@@ -822,10 +841,9 @@ class _HistoryPickerRow extends StatelessWidget {
             ],
           ),
           onTap: snapshot.hasData
-              ? () => Navigator.of(context).pop((
-                  stat: stat,
-                  recipeName: recipeName ?? methodName ?? '',
-                ))
+              ? () => Navigator.of(
+                  context,
+                ).pop((stat: stat, recipeName: recipeName ?? methodName ?? ''))
               : null,
         );
       },

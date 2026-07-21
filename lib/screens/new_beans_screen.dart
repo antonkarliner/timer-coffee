@@ -347,9 +347,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     _farmerController.removeListener(_farmerListener);
     _farmController.removeListener(_farmListener);
     _grindSizeController.removeListener(_grindSizeListener);
-    _tastingNotesPendingController.removeListener(
-      _tastingNotesPendingListener,
-    );
+    _tastingNotesPendingController.removeListener(_tastingNotesPendingListener);
 
     // Dispose controllers
     _roasterController.dispose();
@@ -373,6 +371,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       listen: false,
     );
     final bean = await coffeeBeansProvider.fetchCoffeeBeansByUuid(uuid);
+    if (!mounted) return;
 
     if (bean != null) {
       setState(() {
@@ -416,7 +415,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
 
         // Trigger validation after loading bean details
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          _validateForm();
+          if (mounted) _validateForm();
         });
       });
     }
@@ -458,9 +457,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         name: _nameController.text.trim(),
         origin: _originController.text.trim(),
         variety: variety,
-        tastingNotes: tastingNotes.isNotEmpty
-            ? tastingNotes.join(', ')
-            : null,
+        tastingNotes: tastingNotes.isNotEmpty ? tastingNotes.join(', ') : null,
         processingMethod: processingMethod,
         elevation: _elevationController.text.isNotEmpty
             ? int.tryParse(_elevationController.text)

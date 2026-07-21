@@ -273,16 +273,31 @@ class _MethodSelector extends StatelessWidget {
       );
     }
 
-    return Semantics(
-      label: loc.journeyMethodSelectorLabel,
-      button: hasMenu,
-      child: DecoratedBox(
-        decoration: decoration,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: AppButton.heightMedium),
-          child: selector,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          loc.journeyMethodSelectorLabel,
+          key: const ValueKey('journeyMethodSelectorScopeLabel'),
+          style: AppTextStyles.fieldLabel.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
         ),
-      ),
+        const SizedBox(height: AppSpacing.xs),
+        Semantics(
+          label: loc.journeyMethodSelectorLabel,
+          button: hasMenu,
+          child: DecoratedBox(
+            decoration: decoration,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                minHeight: AppButton.heightMedium,
+              ),
+              child: selector,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

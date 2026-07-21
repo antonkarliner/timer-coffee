@@ -1,3 +1,4 @@
+import 'package:coffee_timer/utils/extraction_math.dart';
 import 'package:flutter/material.dart';
 
 typedef AppSemanticColorPair = ({Color background, Color foreground});
@@ -38,12 +39,28 @@ class AppSemanticColors {
     background: Color(0xFF505050),
     foreground: Color(0xFFFFFFFF),
   );
-  static const AppSemanticColorPair _extractionYieldLight = (
+  static const AppSemanticColorPair _extractionUnderLight = (
+    background: Color(0xFFC47C3B),
+    foreground: Color(0xFF000000),
+  );
+  static const AppSemanticColorPair _extractionUnderDark = (
+    background: Color(0xFFB07035),
+    foreground: Color(0xFF000000),
+  );
+  static const AppSemanticColorPair _extractionTargetLight = (
     background: Color(0xFF607D68),
     foreground: Color(0xFF000000),
   );
-  static const AppSemanticColorPair _extractionYieldDark = (
+  static const AppSemanticColorPair _extractionTargetDark = (
     background: Color(0xFF496453),
+    foreground: Color(0xFFFFFFFF),
+  );
+  static const AppSemanticColorPair _extractionOverLight = (
+    background: Color(0xFFF44336),
+    foreground: Color(0xFF000000),
+  );
+  static const AppSemanticColorPair _extractionOverDark = (
+    background: Color(0xFFB71C1C),
     foreground: Color(0xFFFFFFFF),
   );
 
@@ -61,10 +78,17 @@ class AppSemanticColors {
   static AppSemanticColorPair neutralChip(Brightness brightness) =>
       brightness == Brightness.light ? _neutralChipLight : _neutralChipDark;
 
-  static AppSemanticColorPair extractionYield(Brightness brightness) =>
-      brightness == Brightness.light
-      ? _extractionYieldLight
-      : _extractionYieldDark;
+  static AppSemanticColorPair extractionYield(
+    ExtractionBand band,
+    Brightness brightness,
+  ) => switch ((band, brightness)) {
+    (ExtractionBand.under, Brightness.light) => _extractionUnderLight,
+    (ExtractionBand.under, Brightness.dark) => _extractionUnderDark,
+    (ExtractionBand.target, Brightness.light) => _extractionTargetLight,
+    (ExtractionBand.target, Brightness.dark) => _extractionTargetDark,
+    (ExtractionBand.over, Brightness.light) => _extractionOverLight,
+    (ExtractionBand.over, Brightness.dark) => _extractionOverDark,
+  };
 }
 
 /// Design tokens for the Timer Coffee app

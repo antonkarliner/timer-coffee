@@ -1,8 +1,11 @@
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/diary_entry.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/utils/extraction_math.dart';
 import 'package:coffee_timer/utils/icon_utils.dart';
 import 'package:coffee_timer/utils/temperature_format.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
+import 'package:coffee_timer/widgets/brew_diary/directional_value_text.dart';
 import 'package:coffee_timer/widgets/roaster_logo.dart';
 import 'package:coffeico/coffeico.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +20,12 @@ class BrewEntryCard extends StatelessWidget {
     required this.tasteLabels,
     this.bookmarkTogglePending = false,
     this.logoUrls,
+    this.formattedDate,
+    this.onBrewAgain,
+    this.isBestCup = false,
+    this.showBeanIdentity = true,
+    this.semanticsIdentifierPrefix = 'userStatCard',
+    this.bookmarkSemanticsIdentifierPrefix = 'bookmarkToggle',
   });
 
   final DiaryEntry entry;
@@ -26,6 +35,12 @@ class BrewEntryCard extends StatelessWidget {
   final List<String> tasteLabels;
   final bool bookmarkTogglePending;
   final Future<Map<String, String?>>? logoUrls;
+  final String? formattedDate;
+  final VoidCallback? onBrewAgain;
+  final bool isBestCup;
+  final bool showBeanIdentity;
+  final String semanticsIdentifierPrefix;
+  final String bookmarkSemanticsIdentifierPrefix;
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +50,15 @@ class BrewEntryCard extends StatelessWidget {
     final bookmarkLabel = entry.isMarked
         ? loc.diaryRemoveBookmark
         : loc.diaryMarkBookmark;
-    final extractionYieldColors = AppSemanticColors.extractionYield(
-      theme.brightness,
-    );
+    final extractionYieldColors = entry.extractionYieldPercent == null
+        ? null
+        : AppSemanticColors.extractionYield(
+            classifyExtractionYield(entry.extractionYieldPercent!),
+            theme.brightness,
+          );
+    final extraction = _extractionLabel(entry, loc);
     return Semantics(
-      identifier: 'userStatCard_${entry.statUuid}',
+      identifier: '${semanticsIdentifierPrefix}_${entry.statUuid}',
       button: true,
       child: ConstrainedBox(
         constraints: const BoxConstraints(minHeight: AppSpacing.xxl * 4),
@@ -80,12 +99,20 @@ class BrewEntryCard extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               style: AppTextStyles.caption,
                             ),
+                            if (formattedDate != null)
+                              DirectionalValueText(
+                                formattedDate!,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: AppTextStyles.caption,
+                              ),
                           ],
                         ),
                       ),
                       const SizedBox(width: AppSpacing.xs),
                       Semantics(
-                        identifier: 'bookmarkToggle_${entry.statUuid}',
+                        identifier:
+                            '${bookmarkSemanticsIdentifierPrefix}_${entry.statUuid}',
                         container: true,
                         label: bookmarkLabel,
                         button: true,
@@ -116,7 +143,7 @@ class BrewEntryCard extends StatelessWidget {
                       Text(formattedTime, style: AppTextStyles.caption),
                     ],
                   ),
-                  if (entry.beanName != null) ...[
+                  if (showBeanIdentity && entry.beanName != null) ...[
                     const SizedBox(height: AppSpacing.sm),
                     Row(
                       children: [
@@ -142,7 +169,7 @@ class BrewEntryCard extends StatelessWidget {
                     children: [
                       _FactChip(
                         label:
-                            '${_amount(entry.coffeeAmount)} g → ${_amount(entry.waterAmount)} g',
+                            '${_amount(entry.coffeeAmount)}\u00A0g → ${_amount(entry.waterAmount)}\u00A0g',
                       ),
                       if (entry.grindSize?.isNotEmpty ?? false)
                         _FactChip(
@@ -156,16 +183,23 @@ class BrewEntryCard extends StatelessWidget {
                               ? '~$temperature'
                               : temperature,
                         ),
-                      if (entry.extractionYieldPercent case final ey?)
+                      if (extraction != null)
                         _FactChip(
-                          label: '${ey.toStringAsFixed(1)}% EY',
-                          color: extractionYieldColors.background,
-                          foreground: extractionYieldColors.foreground,
+                          label: extraction,
+                          color: extractionYieldColors?.background,
+                          foreground: extractionYieldColors?.foreground,
                         ),
                       if (entry.tasteBalance case final taste?)
                         _TasteChip(taste: taste, labels: tasteLabels),
                       if (entry.rating case final rating?)
                         _FactChip(label: '★ ${rating.toStringAsFixed(1)}'),
+                      if (isBestCup)
+                        _FactChip(
+                          label: loc.journeyBestCup,
+                          color: colors.primaryContainer,
+                          foreground: colors.onPrimaryContainer,
+                          icon: Icons.push_pin,
+                        ),
                       ..._tagChips(entry.tagList),
                     ],
                   ),
@@ -180,6 +214,18 @@ class BrewEntryCard extends StatelessWidget {
                       ),
                     ),
                   ],
+                  if (onBrewAgain != null)
+                    Align(
+                      alignment: AlignmentDirectional.centerEnd,
+                      child: AppTextButton(
+                        label: loc.brewAgain,
+                        icon: Icons.replay,
+                        isFullWidth: false,
+                        height: AppButton.heightSmall,
+                        padding: AppButton.paddingSmall,
+                        onPressed: onBrewAgain,
+                      ),
+                    ),
                 ],
               ),
             ),
@@ -193,6 +239,17 @@ class BrewEntryCard extends StatelessWidget {
       ? value.toStringAsFixed(0)
       : value.toStringAsFixed(1);
 }
+
+String? _extractionLabel(DiaryEntry entry, AppLocalizations loc) =>
+    switch ((entry.extractionYieldPercent, entry.tdsPercent)) {
+      (final ey?, final tds?) => loc.extractionCalcDiaryLine(
+        ey.toStringAsFixed(1),
+        tds.toStringAsFixed(2),
+      ),
+      (final ey?, null) => '${ey.toStringAsFixed(1)}% EY',
+      (null, final tds?) => 'TDS ${tds.toStringAsFixed(2)}%',
+      _ => null,
+    };
 
 List<Widget> _tagChips(List<String> tags) {
   if (tags.isEmpty) return const [];
@@ -253,20 +310,37 @@ class _FactChip extends StatelessWidget {
     this.color,
     this.foreground,
     this.maxLabelWidth,
+    this.forceLtr = true,
+    this.icon,
   });
 
   final String label;
   final Color? color;
   final Color? foreground;
   final double? maxLabelWidth;
+  final bool forceLtr;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
     final neutralColors = AppSemanticColors.neutralChip(
       Theme.of(context).brightness,
     );
-    final labelText = Text(label, maxLines: 1, overflow: TextOverflow.ellipsis);
+    final labelText = forceLtr
+        ? DirectionalValueText(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          )
+        : Text(label, maxLines: 1, overflow: TextOverflow.ellipsis);
     return Chip(
+      avatar: icon == null
+          ? null
+          : Icon(
+              icon,
+              size: AppIconSize.small,
+              color: foreground ?? neutralColors.foreground,
+            ),
       label: maxLabelWidth == null
           ? labelText
           : ConstrainedBox(
@@ -307,6 +381,7 @@ class _TasteChip extends StatelessWidget {
       label: label,
       color: semanticColors.background,
       foreground: semanticColors.foreground,
+      forceLtr: false,
     );
   }
 }

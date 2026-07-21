@@ -5,6 +5,7 @@ import 'package:coffee_timer/models/diary_entry.dart';
 import 'package:coffee_timer/providers/coffee_beans_provider.dart';
 import 'package:coffee_timer/providers/database_provider.dart';
 import 'package:coffee_timer/providers/user_stat_provider.dart';
+import 'package:coffee_timer/screens/extraction_calculator_screen.dart';
 import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/utils/diary_tags.dart';
@@ -37,11 +38,22 @@ String diaryEntrySourceLabel(int? entrySource) => switch (entrySource) {
   _ => 'legacy',
 };
 
+/// Applies the typed calculator result without re-querying the diary row.
+@visibleForTesting
+DiaryEntry applyExtractionCalculatorResult(
+  DiaryEntry entry,
+  ExtractionCalculatorResult result,
+) => entry.copyWith(
+  tdsPercent: result.tdsPercent,
+  extractionYieldPercent: result.extractionYieldPercent,
+);
+
 Future<bool?> showBrewDetailSheet(
   BuildContext context, {
   required DiaryEntry entry,
   Future<Map<String, String?>>? logoUrls,
   ValueChanged<double?>? onRatingChanged,
+  ValueChanged<DiaryEntry>? onEntryChanged,
   ValueChanged<DiaryEntry>? onOpenBeanJourney,
   String analyticsSource = 'card',
 }) {
@@ -57,6 +69,7 @@ Future<bool?> showBrewDetailSheet(
       entry: entry,
       logoUrls: logoUrls,
       onRatingChanged: onRatingChanged,
+      onEntryChanged: onEntryChanged,
       onOpenBeanJourney: onOpenBeanJourney,
       analyticsSource: analyticsSource,
     ),
@@ -106,6 +119,7 @@ class BrewDetailSheet extends StatefulWidget {
     required this.entry,
     this.logoUrls,
     this.onRatingChanged,
+    this.onEntryChanged,
     this.onOpenBeanJourney,
     this.analyticsSource = 'card',
   });
@@ -113,6 +127,7 @@ class BrewDetailSheet extends StatefulWidget {
   final DiaryEntry entry;
   final Future<Map<String, String?>>? logoUrls;
   final ValueChanged<double?>? onRatingChanged;
+  final ValueChanged<DiaryEntry>? onEntryChanged;
   final ValueChanged<DiaryEntry>? onOpenBeanJourney;
 
   /// Where the sheet was opened from — one of `card`, `group_card`,
@@ -136,6 +151,12 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
   final _pendingTagController = TextEditingController();
 
   bool get _manual => _entry.entrySource == 1;
+
+  void _replaceEntry(DiaryEntry updated) {
+    if (!mounted) return;
+    setState(() => _entry = updated);
+    widget.onEntryChanged?.call(updated);
+  }
 
   @override
   void dispose() {
@@ -193,18 +214,20 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
         },
       );
       if (!mounted) return true;
+      final updated = _entry.copyWith(
+        coffeeBeansUuid: nextBeanUuid,
+        beanName: bean?.name,
+        roaster: bean?.roaster,
+        origin: bean?.origin,
+      );
       setState(() {
-        _entry = _entry.copyWith(
-          coffeeBeansUuid: nextBeanUuid,
-          beanName: bean?.name,
-          roaster: bean?.roaster,
-          origin: bean?.origin,
-        );
+        _entry = updated;
         _logoUrls = bean == null
             ? null
             : databaseProvider.fetchCachedRoasterLogoUrls(bean.roaster);
         _savingBean = false;
       });
+      widget.onEntryChanged?.call(updated);
       return true;
     } catch (_) {
       if (mounted) {
@@ -256,14 +279,18 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
           'entry_source': diaryEntrySourceLabel(_entry.entrySource),
         },
       );
-      if (mounted) {
-        setState(
-          () => _entry = _entry.copyWith(
-            coffeeAmount: result.$1,
-            waterAmount: result.$2,
-          ),
-        );
-      }
+      final amountsChanged =
+          result.$1 != _entry.coffeeAmount || result.$2 != _entry.waterAmount;
+      _replaceEntry(
+        _entry.copyWith(
+          coffeeAmount: result.$1,
+          waterAmount: result.$2,
+          tdsPercent: amountsChanged ? null : _entry.tdsPercent,
+          extractionYieldPercent: amountsChanged
+              ? null
+              : _entry.extractionYieldPercent,
+        ),
+      );
     }
   }
 
@@ -303,9 +330,7 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
           'entry_source': diaryEntrySourceLabel(_entry.entrySource),
         },
       );
-      if (mounted) {
-        setState(() => _entry = _entry.copyWith(grindSize: result));
-      }
+      _replaceEntry(_entry.copyWith(grindSize: result));
     }
   }
 
@@ -346,14 +371,9 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
           'entry_source': diaryEntrySourceLabel(_entry.entrySource),
         },
       );
-      if (mounted) {
-        setState(
-          () => _entry = _entry.copyWith(
-            waterTemp: result.value,
-            waterTempIsDerived: false,
-          ),
-        );
-      }
+      _replaceEntry(
+        _entry.copyWith(waterTemp: result.value, waterTempIsDerived: false),
+      );
     }
   }
 
@@ -394,9 +414,7 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
           'entry_source': diaryEntrySourceLabel(_entry.entrySource),
         },
       );
-      if (mounted) {
-        setState(() => _entry = _entry.copyWith(tasteBalance: result.value));
-      }
+      _replaceEntry(_entry.copyWith(tasteBalance: result.value));
     }
   }
 
@@ -430,9 +448,7 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
           'entry_source': diaryEntrySourceLabel(_entry.entrySource),
         },
       );
-      if (mounted) {
-        setState(() => _entry = _entry.copyWith(notes: result));
-      }
+      _replaceEntry(_entry.copyWith(notes: result));
     }
   }
 
@@ -468,15 +484,13 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
           'entry_source': diaryEntrySourceLabel(_entry.entrySource),
         },
       );
-      if (mounted) {
-        setState(
-          () => _entry = _entry.copyWith(
-            tags: diaryTagsToStorage(
-              diaryTagsWithPending(result, _pendingTagController.text),
-            ),
+      _replaceEntry(
+        _entry.copyWith(
+          tags: diaryTagsToStorage(
+            diaryTagsWithPending(result, _pendingTagController.text),
           ),
-        );
-      }
+        ),
+      );
     }
   }
 
@@ -490,10 +504,8 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
           'entry_source': diaryEntrySourceLabel(_entry.entrySource),
         },
       );
-      if (mounted) {
-        setState(() => _entry = _entry.copyWith(rating: result.rating));
-        widget.onRatingChanged?.call(result.rating);
-      }
+      _replaceEntry(_entry.copyWith(rating: result.rating));
+      widget.onRatingChanged?.call(result.rating);
     }
   }
 
@@ -513,10 +525,12 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
         properties: {'bookmarked': nextValue, 'source': 'sheet'},
       );
       if (!mounted) return;
+      final updated = _entry.copyWith(isMarked: nextValue);
       setState(() {
-        _entry = _entry.copyWith(isMarked: nextValue);
+        _entry = updated;
         _savingBookmark = false;
       });
+      widget.onEntryChanged?.call(updated);
     } catch (_) {
       if (!mounted) return;
       setState(() => _savingBookmark = false);
@@ -775,6 +789,7 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
                     prefillWaterAmount: _entry.waterAmount,
                     prefillGrindSize: _entry.grindSize,
                     prefillWaterTemp: _entry.storedWaterTemp,
+                    prefillCoffeeBeansUuid: _entry.coffeeBeansUuid,
                   ),
                 );
               },
@@ -825,7 +840,7 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
           value: _entry.extractionYieldPercent == null
               ? loc.brewDiaryCalculate
               : '${_entry.extractionYieldPercent!.toStringAsFixed(1)}% ↗',
-          onTap: () {
+          onTap: () async {
             AnalyticsService.maybeInstance?.track(
               'diary_extraction_opened',
               properties: {
@@ -834,9 +849,13 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
                     : 'calculate',
               },
             );
-            context.router.push(
-              ExtractionCalculatorRoute(statUuid: _entry.statUuid),
-            );
+            final result = await context.router
+                .push<ExtractionCalculatorResult>(
+                  ExtractionCalculatorRoute(statUuid: _entry.statUuid),
+                );
+            if (result != null && mounted) {
+              _replaceEntry(applyExtractionCalculatorResult(_entry, result));
+            }
           },
         ),
         _FactCell(
@@ -1493,6 +1512,9 @@ class _TagsFieldEditor extends StatelessWidget {
           suggestions: suggestions,
           quickPicks: suggestions,
           maxChips: diaryTagsMaxCount,
+          textCapitalization: TextCapitalization.none,
+          autocorrect: false,
+          capitalizeChipLabels: false,
           errorText: errorText,
           onChanged: onChanged,
           controller: textController,

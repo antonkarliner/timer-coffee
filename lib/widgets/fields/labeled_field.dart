@@ -223,14 +223,18 @@ class _LabeledFieldState extends State<LabeledField> {
       children: [
         if (!widget.labelInsideField) ...[
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                widget.label,
-                style: (widget.labelStyle ?? AppTextStyles.fieldLabel).copyWith(
-                  color: widget.enabled
-                      ? (widget.labelStyle?.color ??
-                            theme.textTheme.titleMedium?.color)
-                      : Colors.grey,
+              Flexible(
+                child: Text(
+                  widget.label,
+                  style: (widget.labelStyle ?? AppTextStyles.fieldLabel)
+                      .copyWith(
+                        color: widget.enabled
+                            ? (widget.labelStyle?.color ??
+                                  theme.textTheme.titleMedium?.color)
+                            : Colors.grey,
+                      ),
                 ),
               ),
               if (widget.required) ...[

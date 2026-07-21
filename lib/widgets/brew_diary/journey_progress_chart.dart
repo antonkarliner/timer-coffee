@@ -131,9 +131,13 @@ class JourneyProgressChart extends StatelessWidget {
     final hasTastePoints = tastePoints.isNotEmpty;
     final chartSemantics = [
       chartSummary,
-      for (final point in tastePoints)
-        '${point.attemptLabel}: ${point.ratingLabel}, '
-            '${_tasteLabel(loc, point.entry.tasteBalance!)}',
+      for (final point in data.points)
+        [
+          '${point.attemptLabel}: '
+              '${point.ratingLabel ?? loc.brewDiaryNotRated}',
+          if (point.entry.tasteBalance != null)
+            _tasteLabel(loc, point.entry.tasteBalance!),
+        ].join(', '),
     ].join('. ');
     final labelStyle =
         theme.textTheme.labelSmall ??
