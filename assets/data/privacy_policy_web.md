@@ -1,6 +1,6 @@
 # Privacy Policy for Timer.Coffee (Web Version)
 
-Last Updated: 01.07.2026
+Last Updated: 17.07.2026
 
 1. INTRODUCTION
 
@@ -33,7 +33,9 @@ c. Brew, Recipe, Bean, and Preference Data
 This is the core data of the product. We store it so the web app can remember your brewing history, sync your content, and restore it when you sign in somewhere else.
 
 - Brew statistics and brew events, such as recipe ID, brewing method, water amount, country of origin (country level only, derived from your IP address at the time of the brew), timestamps, and related identifiers, so your brewing history and aggregate stats work. The country is displayed publicly in the Pulse feed alongside the recipe name; no city or sub-national location is stored or shown.
-- Brew diary content, such as notes, grind size, bean links, favorite or marked state, and sync metadata, so you can keep personal brewing records.
+- If you use the built-in extraction calculator and choose to save a result, we store the TDS (total dissolved solids) percentage and calculated extraction yield percentage you entered alongside the related brew statistic, so you can review your extraction results later and sync them across your devices. Saving a result is optional and only happens if you take that action.
+- For each brew or diary entry, we may store the water temperature, optional taste feedback (sour, balanced, or bitter), and the entry source (whether the entry came from a timer-guided brew or was entered manually), so you can review and compare your brews later.
+- Brew diary content, such as notes, custom tags you add to an entry, grind size, bean links, favorite or marked state, and sync metadata, so you can keep personal brewing records.
 - Recipes, recipe localizations, and recipe steps, such as amounts, temperatures, brew times, descriptions, visibility state, and moderation flags, so custom recipes can be saved and synced.
 - Bean records, such as roaster, bean name, origin, variety, tasting notes, processing method, elevation, harvest date, roast date, region, roast level, grind size, cupping score, notes, farmer, farm, package weight, favorite state, cover photo URL, and sync metadata, so you can track and reuse your bean information.
 - Recipe preferences, such as favorites, last-used timestamps, slider positions, custom amounts, and custom grind size, so the product can remember how you like to brew.
@@ -56,8 +58,8 @@ e. AI-Assisted Features and Content Processing
 We use AI tools mainly to save you manual work, such as reading a coffee bag label for you instead of making you type every field by hand.
 
 - Timer.Coffee uses third-party AI providers, which may include Groq, Google Gemini or Vertex AI, and OpenAI, to support coffee label or bean recognition, content moderation, and certain translation or notification-processing features.
-- For coffee label or bean recognition, submitted images and optional OCR text are sent to these providers so they can extract bean information for you.
-- We currently do not write the submitted recognition images or OCR text to our main application tables as part of normal operation.
+- For coffee label or bean recognition, submitted images are sent to these providers so they can extract bean information for you.
+- We currently do not write the submitted recognition images to our main application tables as part of normal operation.
 - We do store recognition usage metadata, such as the user ID, invocation timestamp, and token or usage counters, so we can operate the feature, enforce limits, and understand usage.
 - Diagnostic or platform logs may include limited processing information, such as response-format summaries, truncated text where needed, errors, and operational metadata, so we can debug failures and investigate abuse without storing raw recognition results in routine logs.
 - If you upload a profile picture, that image is intentionally stored as part of the profile feature and is separate from temporary recognition input.
@@ -75,7 +77,7 @@ g. Anonymous Usage Analytics
 
 We collect anonymous usage analytics so we can understand which features people actually use, where the brewing flow drops off, and how donation behavior relates to usage patterns. This data helps us improve the product without knowing who you are.
 
-- The web app collects anonymous event data such as brew starts and completions, bean additions, bean review interactions (creating, editing, deleting, and translating reviews), recipe creation and sharing, collection interactions and sharing, screen views, roaster profile views and taps on a roaster's external links (such as their website or social media), donation-related interactions, onboarding and first-steps journey progress, notification engagement (which in-app reminders were scheduled, delivered, opened, or cancelled — never their content), and impressions of and interactions with in-app "moments" (small surprise-and-delight touches such as celebratory cards and seasonal banners). No personal information such as your name, email, or account ID is included in analytics events.
+- The web app collects anonymous event data such as brew starts and completions, bean additions, bean review interactions (creating, editing, deleting, and translating reviews), recipe creation and sharing, collection interactions and sharing, screen views, roaster profile views and taps on a roaster's external links (such as their website or social media), donation-related interactions, onboarding and first-steps journey progress, notification engagement (which in-app reminders were scheduled, delivered, opened, or cancelled — never their content), brew diary usage such as filters and searches performed (never the search text) and entry edits, and impressions of and interactions with in-app "moments" (small surprise-and-delight touches such as celebratory cards and seasonal banners). No personal information such as your name, email, or account ID is included in analytics events.
 - Each installation is identified by a randomly generated ID that is not linked to your Supabase account or any other identifying information. A random session ID is generated each time you open the web app.
 - Events are buffered in-browser and sent in batches to a Supabase Edge Function. Your IP address is stripped server-side before storage.
 - Analytics events are organized into three categories — brewing analytics, bean analytics, and general usage analytics — each of which you can enable or disable independently in the app's Settings screen. All three categories are enabled by default.
