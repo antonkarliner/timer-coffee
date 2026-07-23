@@ -9,11 +9,11 @@ Key Features
 - Live Updates: A persistent notification tracks your brew step in real time, so you can check progress without opening the app.
 - Pulse: See what coffee lovers around the world are brewing right now, in real time.
 - Create & Share Recipes: Build your own brewing recipes and share them with the community.
-- Brew Diary: Log notes, track sessions, and manually add entries for brews made without the app.
+- Brew Diary: Automatically save timer-guided brews or add entries manually, with notes, ratings, taste, tags, grind, water temperature, and extraction.
 - Bean Tracking: Manage your coffee bean inventory with AI-powered label recognition.
 - Favorites: Quick access to your most-used recipes.
 - Audio Chime: Audio alerts for every brewing step.
-- Automatic Logging: Every session is recorded automatically.
+- Dial In Your Beans: Search and filter your history, bookmark best cups, compare attempts, follow bean journeys, and review monthly progress.
 - Device Sync: Recipes, beans, and brews synced across all your devices.
 - 22 Languages: Fully localized for a global audience.
 - Dark Mode: Easy on the eyes at any hour.

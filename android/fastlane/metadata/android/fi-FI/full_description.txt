@@ -9,11 +9,11 @@ Keskeiset ominaisuudet
 - Live Updates: seuraa uuttoa vaihe vaiheelta pysyvän ilmoituksen avulla — ilman puhelimen avaamista.
 - Pulse: näe reaaliajassa, mitä kahviharrastajat ympäri maailmaa uuttavat juuri nyt.
 - Luo ja jaa reseptejä: luo omia uuttoreseptejä ja jaa ne yhteisön kanssa.
-- Uuttopäiväkirja: kirjaa muistiinpanot, seuraa sessioita ja lisää manuaalisesti merkintöjä ilman sovellusta tehdyistä uutoista.
+- Uuttopäiväkirja: tallenna ajastetut uutot automaattisesti tai lisää ne käsin sekä kirjaa muistiinpanot, arviot, maku, tunnisteet, jauhatus, veden lämpötila ja uuttotulos.
 - Papuseuranta: hallinnoi kahvipapuvarastosi AI-pohjaisella etikettien tunnistuksella.
 - Suosikit: nopea pääsy eniten käytettyihin resepteihin.
 - Äänimerkki: äänimerkit jokaisesta uuttovaiheesta.
-- Automaattinen kirjaus: jokainen sessio kirjataan automaattisesti.
+- Säädä jokainen papu kohdalleen: hae ja suodata historiaasi, merkitse parhaat kupit, vertaa yrityksiä, seuraa papujen kehitystä ja tarkastele kuukausittaista edistymistä.
 - Laitesynkronointi: reseptit, pavut ja uutot synkronoituna kaikille laitteillesi.
 - 22 kieltä: täysin lokalisoitu globaalille yleisölle.
 - Tumma tila: silmäystävällinen mihin vuorokaudenaikaan tahansa.

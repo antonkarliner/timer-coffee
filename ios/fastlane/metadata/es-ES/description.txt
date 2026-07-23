@@ -9,11 +9,11 @@ Características clave
 - Live Activities: sigue cada paso de tu preparación en la pantalla de bloqueo y en Dynamic Island sin desbloquear el teléfono.
 - Pulse: descubre qué están preparando los amantes del café de todo el mundo, en tiempo real.
 - Crea y comparte recetas: elabora tus propias recetas y compártelas con la comunidad.
-- Diario de preparación: añade notas, lleva un seguimiento de tus sesiones y registra manualmente preparaciones realizadas fuera de la app.
+- Diario de preparación: guarda automáticamente las preparaciones guiadas por el temporizador o añádelas manualmente, con notas, valoraciones, sabor, etiquetas, molido, temperatura del agua y extracción.
 - Seguimiento de granos: gestiona tu inventario de café con reconocimiento de etiquetas impulsado por IA.
 - Favoritos: acceso rápido a tus recetas más usadas.
 - Aviso sonoro: alertas de audio en cada paso de la preparación.
-- Registro automático: cada sesión queda registrada de forma automática.
+- Perfecciona cada café: busca y filtra tu historial, marca tus mejores tazas, compara intentos, sigue la evolución de cada grano y revisa tu progreso mensual.
 - Sincronización de dispositivos: recetas, granos y preparaciones sincronizados en todos tus dispositivos.
 - 22 idiomas: completamente localizada para una audiencia global.
 - Modo oscuro: cómodo para los ojos a cualquier hora.

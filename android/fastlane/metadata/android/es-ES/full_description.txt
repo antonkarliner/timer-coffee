@@ -9,11 +9,11 @@ Características clave
 - Live Updates: una notificación persistente sigue tu paso de preparación en tiempo real, para revisar el progreso sin abrir la app.
 - Pulse: descubre qué están preparando los amantes del café alrededor del mundo, en tiempo real.
 - Crea y comparte recetas: crea tus propias recetas de preparación y compártelas con la comunidad.
-- Diario de preparación: registra notas, da seguimiento a tus sesiones y agrega entradas manuales para preparaciones hechas sin la app.
+- Diario de preparación: guarda automáticamente las preparaciones guiadas por el temporizador o añádelas manualmente, con notas, valoraciones, sabor, etiquetas, molido, temperatura del agua y extracción.
 - Seguimiento de granos: administra tu inventario de café con reconocimiento de etiquetas impulsado por IA.
 - Favoritos: acceso rápido a tus recetas más usadas.
 - Aviso sonoro: alertas de audio en cada paso de la preparación.
-- Registro automático: cada sesión se registra automáticamente.
+- Perfecciona cada café: busca y filtra tu historial, marca tus mejores tazas, compara intentos, sigue la evolución de cada grano y revisa tu progreso mensual.
 - Sincronización de dispositivos: recetas, granos y preparaciones sincronizados en todos tus dispositivos.
 - 22 idiomas: completamente localizada para una audiencia global.
 - Modo oscuro: cómodo para los ojos a cualquier hora.

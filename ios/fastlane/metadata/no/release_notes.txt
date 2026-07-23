@@ -1,7 +1,12 @@
-Nytt:
-• Du kan nå dele informasjon om brennerier for å bidra til å legge dem til i appens database raskere.
+Hva er nytt:
+• Møt den redesignede Bryggdagboken: søk og filtrer i historikken din, bokmerk enestående kopper, se månedlig fremgang og følg reisen til hver bønne.
+• Sammenlign bryggeforsøk side om side for å se hva som har endret seg, og finjuster kaffen din.
+• Beregn ekstraksjonsgrad med den nye kalkulatoren, og lagre resultatet direkte til bryggingen din.
 
-Forbedret:
-• Varsler har blitt mer nyttige.
-• Oppskriftssammendrag viser nå også forberedelsestrin.
-• Ryddet opp i mye utdatert kode for å gjøre appen mer fremtidssikker.
+Forbedringer:
+• KI-assistert skanning av kaffeposeetiketter er nå raskere.
+• Forbedret grensesnittet for en mer konsekvent opplevelse.
+• Forbedrede oversettelser på tvers av alle støttede språk.
+
+Feilrettinger:
+• Rettet en feil som kunne føre til at oppskrifter ble vist mer enn én gang.

@@ -60,8 +60,6 @@ PODS:
     - Flutter
   - flutter_local_notifications (0.0.1):
     - Flutter
-  - flutter_native_ocr (0.1.0):
-    - Flutter
   - flutter_native_splash (2.4.3):
     - Flutter
   - google_sign_in_ios (0.0.1):
@@ -191,7 +189,6 @@ DEPENDENCIES:
   - flutter_dynamic_icon_plus (from `.symlinks/plugins/flutter_dynamic_icon_plus/ios`)
   - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
-  - flutter_native_ocr (from `.symlinks/plugins/flutter_native_ocr/ios`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/darwin`)
   - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
@@ -255,8 +252,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_keyboard_visibility/ios"
   flutter_local_notifications:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
-  flutter_native_ocr:
-    :path: ".symlinks/plugins/flutter_native_ocr/ios"
   flutter_native_splash:
     :path: ".symlinks/plugins/flutter_native_splash/ios"
   google_sign_in_ios:
@@ -314,7 +309,6 @@ SPEC CHECKSUMS:
   flutter_dynamic_icon_plus: a7c81df360708aa1c9538f89cd96958fdda608ea
   flutter_keyboard_visibility: 4625131e43015dbbe759d9b20daaf77e0e3f6619
   flutter_local_notifications: a5a732f069baa862e728d839dd2ebb904737effb
-  flutter_native_ocr: 1e4fcb4e2509f437e7898496245194648dd41fc0
   flutter_native_splash: c32d145d68aeda5502d5f543ee38c192065986cf
   google_sign_in_ios: b48bb9af78576358a168361173155596c845f0b9
   GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7

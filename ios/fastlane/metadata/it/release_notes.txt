@@ -1,7 +1,12 @@
 Novità:
-• Ora puoi condividere informazioni sulle torrefazioni per aiutare ad aggiungerle più rapidamente al database dell'app.
+• Scopri il Diario del caffè riprogettato: cerca e filtra la cronologia, aggiungi ai preferiti le tazze migliori, rivedi i progressi mensili e segui il percorso di ogni chicco.
+• Confronta le preparazioni affiancate per vedere cosa è cambiato e perfezionare il tuo caffè.
+• Calcola la resa di estrazione con il nuovo calcolatore e salva il risultato direttamente nella tua preparazione.
 
 Miglioramenti:
-• Le notifiche sono diventate più utili.
-• Il riepilogo della ricetta ora mostra anche il passaggio di preparazione.
-• Ripulito molto codice deprecato per rendere l'app più a prova di futuro.
+• La scansione delle etichette delle confezioni di caffè assistita dall’AI è ora più veloce.
+• Interfaccia perfezionata per un’esperienza più coerente.
+• Traduzioni migliorate in tutte le lingue supportate.
+
+Correzioni di bug:
+• Risolto un problema che poteva causare la visualizzazione delle ricette più di una volta.

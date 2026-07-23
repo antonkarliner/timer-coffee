@@ -1,7 +1,12 @@
-Yeni:
-• Artık uygulamanın veritabanına daha hızlı eklenmelerine yardımcı olmak için kavurucular hakkında bilgi paylaşabilirsiniz.
+Yenilikler:
+• Yeniden tasarlanan Demleme Günlüğü ile tanışın: geçmişinizde arama yapın ve filtreleyin, öne çıkan fincanları yer işaretlerine ekleyin, aylık ilerlemenizi gözden geçirin ve her çekirdeğin yolculuğunu takip edin.
+• Nelerin değiştiğini görmek ve kahvenizi incelikle ayarlamak için demleme denemelerini yan yana karşılaştırın.
+• Yeni hesaplayıcıyla ekstraksiyon verimini hesaplayın ve sonucu doğrudan demlemenize kaydedin.
 
-İyileştirildi:
-• Bildirimler daha kullanışlı hale geldi.
-• Tarif Özeti artık Hazırlık Adımı’nı da gösteriyor.
-• Uygulamayı geleceğe daha dayanıklı hale getirmek için çok sayıda kullanımdan kaldırılmış kod temizlendi.
+İyileştirmeler:
+• AI destekli kahve paketi etiketi tarama artık daha hızlı.
+• Daha tutarlı bir deneyim için arayüz iyileştirildi.
+• Desteklenen tüm dillerde çeviriler iyileştirildi.
+
+Hata Düzeltmeleri:
+• Tariflerin birden fazla kez görünmesine neden olabilecek bir sorun düzeltildi.

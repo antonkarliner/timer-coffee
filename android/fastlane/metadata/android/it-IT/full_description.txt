@@ -9,11 +9,11 @@ Funzionalità principali
 - Live Updates: Una notifica persistente tiene traccia della fase di preparazione in tempo reale, così puoi controllare l'avanzamento senza aprire l'app.
 - Pulse: Scopri cosa stanno preparando gli appassionati di caffè in tutto il mondo, in tempo reale.
 - Crea e condividi ricette: Crea le tue ricette di preparazione e condividile con la community.
-- Diario di preparazione: Annota note, tieni traccia delle sessioni e aggiungi manualmente voci per preparazioni effettuate senza l'app.
+- Diario di preparazione: Salva automaticamente le preparazioni guidate dal timer o aggiungile a mano, con note, valutazioni, gusto, tag, macinatura, temperatura dell'acqua ed estrazione.
 - Gestione dei chicchi: Gestisci il tuo inventario di chicchi di caffè con riconoscimento delle etichette basato su IA.
 - Preferiti: Accesso rapido alle ricette più utilizzate.
 - Segnale audio: Avvisi sonori per ogni fase di preparazione.
-- Registrazione automatica: Ogni sessione viene registrata automaticamente.
+- Perfeziona ogni caffè: Cerca e filtra la cronologia, salva le tazze migliori, confronta i tentativi, segui il percorso di ogni caffè e controlla i progressi mensili.
 - Sincronizzazione dispositivi: Ricette, chicchi e preparazioni sincronizzati su tutti i tuoi dispositivi.
 - 22 lingue: Completamente localizzata per un pubblico globale.
 - Modalità scura: Piacevole per gli occhi a qualsiasi ora.

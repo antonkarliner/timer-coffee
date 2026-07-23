@@ -1,0 +1,11 @@
+Uutta:
+• Uudistettu Uuttopäiväkirja: haku, suodattimet, kirjanmerkit, kuukausittainen edistyminen ja kahvipapujen matkat.
+• Vertaa uuttoja rinnakkain ja hienosäädä jokainen kahvi.
+• Laske uuttosaanto ja tallenna se uuttoosi.
+
+Parannettu:
+• Nopeampi tekoälyavusteinen kahvipussien etikettien skannaus.
+• Yhtenäisempi käyttöliittymä ja paremmat käännökset.
+
+Korjattu:
+• Sovelluksessa näkyvät päällekkäiset reseptit.

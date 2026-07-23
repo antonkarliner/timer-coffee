@@ -1,0 +1,11 @@
+Baru:
+• Diari seduhan didesain ulang dengan pencarian, filter, penanda, progres bulanan, dan perjalanan biji kopi.
+• Bandingkan percobaan seduhan berdampingan untuk menyempurnakan setiap kopi.
+• Hitung hasil ekstraksi dan simpan ke seduhan Anda.
+
+Ditingkatkan:
+• Pemindaian label kemasan berbantuan AI lebih cepat.
+• UI lebih konsisten dan terjemahan ditingkatkan.
+
+Diperbaiki:
+• Resep duplikat yang muncul di aplikasi.

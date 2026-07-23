@@ -1,7 +1,12 @@
-New:
-• You can now share information about roasters to help to add them to app's database quicker.
+What’s New:
+• Meet the redesigned Brew Diary: search and filter your history, bookmark standout cups, review monthly progress, and follow each bean’s journey.
+• Compare brew attempts side by side to see what changed and dial in your coffee.
+• Calculate extraction yield with the new calculator and save the result directly to your brew.
 
-Improved:
-• Notifications became more useful.
-• Recipe summary now also displays preparation step.
-• Cleaned a lot of deprecated code to make app more future-proof.
+Improvements:
+• AI-assisted coffee bag label scanning is now faster.
+• Refined the interface for a more consistent experience.
+• Improved translations across all supported languages.
+
+Bug Fixes:
+• Fixed an issue that could cause recipes to appear more than once.

@@ -9,11 +9,11 @@ Nøkkelfunksjoner
 - Live Activities: Følg brygget trinn for trinn på Lock Screen og i Dynamic Island uten å låse opp telefonen.
 - Pulse: Se i sanntid hva kaffeelskere rundt om i verden brygger akkurat nå.
 - Lag og del oppskrifter: Lag dine egne bryggeoppskrifter og del dem med fellesskapet.
-- Bryggedagbok: Loggfør notater, spor sesjoner og legg til oppføringer manuelt for brygger gjort uten appen.
+- Bryggedagbok: Lagre timerstyrte brygg automatisk eller legg dem til manuelt, med notater, vurderinger, smak, etiketter, malegrad, vanntemperatur og ekstraksjon.
 - Bønnesporing: Administrer beholdningen din av kaffebønner med KI-drevet etikettgjenkjenning.
 - Favoritter: Rask tilgang til oppskriftene du bruker mest.
 - Lydsignal: Lydvarsler for hvert bryggtrinn.
-- Automatisk logging: Hver sesjon registreres automatisk.
+- Finjuster hver bønne: Søk og filtrer historikken, merk de beste koppene, sammenlign forsøk, følg bønnereiser og se månedlig fremgang.
 - Synkronisering mellom enheter: Oppskrifter, bønner og brygg synkronisert på tvers av alle enhetene dine.
 - 22 språk: Fullt lokalisert for et globalt publikum.
 - Mørk modus: Behagelig for øynene til enhver tid.

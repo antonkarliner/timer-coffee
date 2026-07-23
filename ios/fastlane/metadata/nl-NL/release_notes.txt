@@ -1,7 +1,12 @@
-Nieuw:
-• Je kunt nu informatie over branderijen delen om ze sneller aan de database van de app toe te voegen.
+Wat is er nieuw:
+• Maak kennis met het vernieuwde Brouwdagboek: zoek en filter in je geschiedenis, markeer opvallende kopjes als bladwijzer, bekijk je maandelijkse voortgang en volg de reis van elke boon.
+• Vergelijk zetpogingen naast elkaar om te zien wat er is veranderd en je koffie verder af te stemmen.
+• Bereken het extractierendement met de nieuwe calculator en sla het resultaat rechtstreeks bij je brouwsel op.
 
-Verbeterd:
-• Notificaties zijn nuttiger geworden.
-• Het receptoverzicht toont nu ook de voorbereidingsstap.
-• Veel verouderde code opgeschoond om de app toekomstbestendiger te maken.
+Verbeteringen:
+• Door AI ondersteund scannen van koffiezaketiketten is nu sneller.
+• De interface is verfijnd voor een consistentere ervaring.
+• Vertalingen in alle ondersteunde talen zijn verbeterd.
+
+Opgeloste problemen:
+• Een probleem opgelost waardoor recepten meer dan eens konden verschijnen.

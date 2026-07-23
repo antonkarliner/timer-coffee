@@ -1,0 +1,11 @@
+Yeni:
+• Arama, filtreler, yer imleri, aylık ilerleme ve çekirdek yolculuklarıyla yenilenen Demleme Günlüğü.
+• Her kahve için ideal ayarı bulmak üzere demleme denemelerini yan yana karşılaştırın.
+• Ekstraksiyon verimini hesaplayın ve demlemenize kaydedin.
+
+İyileştirildi:
+• Daha hızlı AI destekli paket etiketi tarama.
+• Daha tutarlı arayüz ve geliştirilmiş çeviriler.
+
+Düzeltildi:
+• Uygulamada görünen yinelenen tarifler.

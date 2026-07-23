@@ -1,0 +1,11 @@
+Nouveau :
+• Journal de préparation repensé : recherche, filtres, favoris, progression mensuelle et parcours des grains.
+• Comparez les préparations côte à côte pour ajuster chaque café.
+• Calculez le taux d'extraction et enregistrez-le sur votre préparation.
+
+Amélioré :
+• Scan plus rapide des étiquettes de sachets avec l’IA.
+• Interface plus cohérente et traductions améliorées.
+
+Corrigé :
+• Recettes dupliquées dans l’app.

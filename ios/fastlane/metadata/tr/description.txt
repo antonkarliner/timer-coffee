@@ -9,11 +9,11 @@ Temel özellikler
 - Live Activities: telefonu açmadan Kilit Ekranı'nda ve Dynamic Island'da demleyişinizi adım adım takip edin.
 - Pulse: dünyanın dört bir yanındaki kahve tutkunlarının şu an ne demleyip olmadığını gerçek zamanlı olarak görün.
 - Tarif oluşturma ve paylaşma: kendi demleme tariflerinizi oluşturun ve toplulukla paylaşın.
-- Demleme günlüğü: notlar alın, seansları takip edin ve uygulama dışında yapılan demlemeler için manuel giriş ekleyin.
+- Demleme günlüğü: zamanlayıcıyla yapılan demlemeleri otomatik kaydedin veya manuel ekleyin; not, puan, tat, etiket, öğütüm, su sıcaklığı ve ekstraksiyon bilgilerini saklayın.
 - Çekirdek takibi: yapay zekâ destekli etiket tanıma ile kahve çekirdeği envanterinizi yönetin.
 - Favoriler: en çok kullandığınız tariflere hızlı erişim.
 - Sesli uyarı: her demleme adımı için sesli bildirim.
-- Otomatik kayıt: her seans otomatik olarak kaydedilir.
+- Her çekirdeği mükemmelleştirin: geçmişte arama ve filtreleme yapın, en iyi fincanları işaretleyin, denemeleri karşılaştırın, çekirdek yolculuklarını ve aylık ilerlemeyi izleyin.
 - Cihaz senkronizasyonu: tarifleri, çekirdekleri ve kayıtları tüm cihazlarınızda senkronize edin.
 - 22 dil: küresel bir kitle için tam yerelleştirme.
 - Karanlık mod: günün her saatinde göz dostu.

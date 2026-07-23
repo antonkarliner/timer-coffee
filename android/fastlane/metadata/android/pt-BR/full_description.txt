@@ -9,11 +9,11 @@ Recursos principais
 - Live Updates: acompanhe o preparo passo a passo com uma notificação persistente — sem desbloquear o telefone.
 - Pulse: veja em tempo real o que os amantes de café ao redor do mundo estão preparando.
 - Criar e compartilhar receitas: crie suas próprias receitas de preparo e compartilhe com a comunidade.
-- Diário de preparo: registre notas, acompanhe sessões e adicione manualmente entradas para preparos feitos sem o app.
+- Diário de preparo: salve automaticamente os preparos guiados pelo temporizador ou adicione-os manualmente, com notas, avaliações, sabor, tags, moagem, temperatura da água e extração.
 - Registro de grãos: gerencie seu estoque de grãos com reconhecimento de rótulos por IA.
 - Favoritos: acesso rápido às receitas mais usadas.
 - Sinal sonoro: alertas de áudio em cada etapa do preparo.
-- Registro automático: cada sessão é registrada automaticamente.
+- Acerte cada grão: pesquise e filtre o histórico, marque as melhores xícaras, compare tentativas, acompanhe a jornada de cada grão e veja o progresso mensal.
 - Sincronização de dispositivos: receitas, grãos e preparos sincronizados em todos os seus dispositivos.
 - 22 idiomas: totalmente localizado para um público global.
 - Modo escuro: confortável para os olhos a qualquer hora.

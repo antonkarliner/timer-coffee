@@ -9,11 +9,11 @@ Belangrijkste functies
 - Live Updates: een permanente melding volgt je zetstap in real time, zodat je de voortgang kunt controleren zonder de app te openen.
 - Pulse: zie wat koffieliefhebbers wereldwijd op dit moment zetten, in real time.
 - Recepten maken en delen: maak je eigen koffiezetrecepten en deel ze met de community.
-- Zetdagboek: notities bijhouden, sessies bijhouden en handmatig items toevoegen voor zetwerk buiten de app.
+- Zetdagboek: sla timerbegeleide zetbeurten automatisch op of voeg ze handmatig toe, met notities, beoordelingen, smaak, tags, maalgraad, watertemperatuur en extractie.
 - Bonenregistratie: beheer je koffiebonenvoorraad met AI-gestuurde labelherkenning.
 - Favorieten: snelle toegang tot je meestgebruikte recepten.
 - Geluidssignaal: audio-meldingen bij elke zetstap.
-- Automatische registratie: elke sessie wordt automatisch vastgelegd.
+- Stem elke boon af: doorzoek en filter je geschiedenis, markeer je beste koppen, vergelijk pogingen, volg de reis per boon en bekijk je maandelijkse voortgang.
 - Apparaatsynchronisatie: recepten, bonen en zetwerk gesynchroniseerd op al je apparaten.
 - 22 talen: volledig gelokaliseerd voor een wereldwijd publiek.
 - Donkere modus: aangenaam voor de ogen op elk uur.

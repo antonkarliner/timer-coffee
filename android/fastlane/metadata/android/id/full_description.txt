@@ -9,11 +9,11 @@ Fitur Utama
 - Live Updates: notifikasi persisten melacak langkah seduhan Anda secara real time, sehingga Anda bisa cek kemajuan tanpa membuka aplikasi.
 - Pulse: lihat apa yang sedang diseduh oleh pecinta kopi di seluruh dunia, secara real time.
 - Buat & Bagikan Resep: buat resep seduhan sendiri dan bagikan ke komunitas.
-- Jurnal seduh: catat catatan, lacak sesi, dan tambahkan entri manual untuk seduhan yang dibuat tanpa aplikasi.
+- Jurnal seduh: simpan otomatis seduhan berpanduan timer atau tambahkan secara manual, lengkap dengan catatan, penilaian, rasa, tag, gilingan, suhu air, dan ekstraksi.
 - Pelacakan biji: kelola inventaris biji kopi Anda dengan pengenalan label bertenaga AI.
 - Favorit: akses cepat ke resep yang paling sering digunakan.
 - Notifikasi suara: peringatan audio untuk setiap langkah penyeduhan.
-- Pencatatan otomatis: setiap sesi dicatat secara otomatis.
+- Sempurnakan setiap biji: cari dan filter riwayat, tandai cangkir terbaik, bandingkan percobaan, ikuti perjalanan setiap biji, dan tinjau progres bulanan.
 - Sinkronisasi perangkat: resep, biji, dan catatan seduh tersinkron di semua perangkat Anda.
 - 22 bahasa: terlokalisasi penuh untuk audiens global.
 - Mode gelap: nyaman di mata kapan saja.

@@ -9,11 +9,11 @@ Funcionalidades principais
 - Live Activities: acompanhe a preparação passo a passo na Lock Screen e na Dynamic Island sem desbloquear o telemóvel.
 - Pulse: veja em tempo real o que os amantes de café em todo o mundo estão a preparar.
 - Criar e partilhar receitas: crie as suas próprias receitas de preparação e partilhe-as com a comunidade.
-- Diário de preparação: registe notas, acompanhe sessões e adicione manualmente entradas para preparações feitas sem a app.
+- Diário de preparação: guarde automaticamente as preparações guiadas pelo temporizador ou adicione-as manualmente, com notas, classificações, sabor, etiquetas, moagem, temperatura da água e extração.
 - Registo de grãos: faça a gestão do seu inventário de grãos de café com reconhecimento de rótulos por IA.
 - Favoritos: acesso rápido às receitas mais utilizadas.
 - Sinal sonoro: alertas de áudio em cada etapa da preparação.
-- Registo automático: cada sessão é registada automaticamente.
+- Afine cada café: pesquise e filtre o histórico, marque as melhores chávenas, compare tentativas, acompanhe o percurso de cada café e veja o progresso mensal.
 - Sincronização entre dispositivos: receitas, grãos e preparações sincronizados em todos os seus dispositivos.
 - 22 idiomas: totalmente localizado para um público global.
 - Modo escuro: confortável para os olhos a qualquer hora.

@@ -9,11 +9,11 @@ Hauptfunktionen
 - Live Activities: Verfolge dein Brühen Schritt für Schritt auf dem Sperrbildschirm und in der Dynamic Island, ohne dein Telefon zu entsperren.
 - Pulse: Sieh in Echtzeit, was Kaffeeliebhaber auf der ganzen Welt gerade brühen.
 - Rezepte erstellen und teilen: Erstelle deine eigenen Brührezepte und teile sie mit der Community.
-- Brühtagebuch: Notizen erfassen, Sitzungen verfolgen und Einträge für Brühungen ohne App manuell hinzufügen.
+- Brühtagebuch: Speichere timergeführte Brühungen automatisch oder füge sie manuell hinzu – mit Notizen, Bewertungen, Geschmack, Tags, Mahlgrad, Wassertemperatur und Extraktion.
 - Bohnen-Tracking: Verwalte deinen Kaffeebohnenvorrat mit KI-gestützter Etikettenerkennung.
 - Favoriten: Schneller Zugriff auf deine am häufigsten genutzten Rezepte.
 - Klangsignal: Audiobenachrichtigungen für jeden Brühschritt.
-- Automatische Protokollierung: Jede Sitzung wird automatisch aufgezeichnet.
+- Bohnen gezielt abstimmen: Durchsuche und filtere deinen Verlauf, markiere die besten Tassen, vergleiche Versuche, verfolge Bohnen-Journeys und deinen Monatsfortschritt.
 - Gerätesynchronisierung: Rezepte, Bohnen und Brühungen auf all deinen Geräten synchronisiert.
 - 22 Sprachen: Vollständig lokalisiert für ein weltweites Publikum.
 - Dunkelmodus: Schont die Augen zu jeder Tages- und Nachtzeit.

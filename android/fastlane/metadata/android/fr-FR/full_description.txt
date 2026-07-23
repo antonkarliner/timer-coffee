@@ -9,11 +9,11 @@ Fonctionnalités principales
 - Live Updates : une notification persistante suit votre étape d'infusion en temps réel, pour consulter votre progression sans ouvrir l'app.
 - Pulse : découvrez en temps réel ce que les amateurs de café du monde entier préparent en ce moment.
 - Créer et partager des recettes : créez vos propres recettes et partagez-les avec la communauté.
-- Journal d'infusion : prenez des notes, suivez vos sessions et ajoutez manuellement des entrées pour les infusions réalisées sans l'app.
+- Journal d'infusion : enregistrez automatiquement les infusions guidées par le minuteur ou ajoutez-les manuellement, avec notes, évaluations, goût, tags, mouture, température de l'eau et extraction.
 - Suivi des grains : gérez votre inventaire de grains de café grâce à la reconnaissance d'étiquettes par IA.
 - Favoris : accès rapide à vos recettes les plus utilisées.
 - Signal sonore : alertes audio à chaque étape d'infusion.
-- Enregistrement automatique : chaque session est enregistrée automatiquement.
+- Affinez chaque café : recherchez et filtrez votre historique, marquez vos meilleures tasses, comparez vos essais, suivez chaque café et consultez vos progrès mensuels.
 - Synchronisation des appareils : recettes, grains et infusions synchronisés sur tous vos appareils.
 - 22 langues : entièrement localisé pour un public mondial.
 - Mode sombre : agréable pour les yeux à toute heure.

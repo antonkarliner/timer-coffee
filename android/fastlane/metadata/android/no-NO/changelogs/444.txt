@@ -1,0 +1,11 @@
+Nytt:
+• Redesignet Bryggdagbok med søk, filtre, bokmerker, månedlig fremgang og bønnereiser.
+• Sammenlign bryggeforsøk side om side for å finjustere hver kaffe.
+• Beregn ekstraksjonsgrad og lagre den til bryggingen.
+
+Forbedret:
+• Raskere KI-støttet skanning av etiketter på kaffeposer.
+• Mer konsekvent grensesnitt og forbedrede oversettelser.
+
+Fikset:
+• Dupliserte oppskrifter som dukket opp i appen.

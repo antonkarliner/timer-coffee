@@ -1,0 +1,11 @@
+Novedades:
+• Diario de preparaciones rediseñado con búsqueda, filtros, marcadores, progreso mensual y recorridos de granos.
+• Compara preparaciones en paralelo para ajustar cada café.
+• Calcula el rendimiento de extracción y guárdalo en tu preparación.
+
+Mejoras:
+• Escaneo más rápido de etiquetas de bolsas con IA.
+• Interfaz y traducciones más coherentes.
+
+Correcciones:
+• Recetas duplicadas que aparecían en la app.

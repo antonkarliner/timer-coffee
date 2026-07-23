@@ -1,7 +1,12 @@
-Nouveau :
-• Vous pouvez désormais partager des informations sur les torréfacteurs pour aider à les ajouter plus rapidement à la base de données de l’app.
+Nouveautés :
+• Découvrez le Journal de préparation repensé : recherchez et filtrez votre historique, ajoutez aux favoris les tasses remarquables, consultez votre progression mensuelle et suivez le parcours de chaque grain.
+• Comparez vos préparations côte à côte pour voir ce qui a changé et ajuster votre café.
+• Calculez le taux d'extraction avec le nouveau calculateur et enregistrez le résultat directement sur votre préparation.
 
-Amélioré :
-• Les notifications sont devenues plus utiles.
-• Le résumé de la recette affiche désormais aussi l’étape de préparation.
-• Nettoyage d’une grande quantité de code obsolète pour rendre l’app plus pérenne.
+Améliorations :
+• La numérisation assistée par IA des étiquettes de sacs de café est désormais plus rapide.
+• Interface affinée pour une expérience plus cohérente.
+• Traductions améliorées dans toutes les langues prises en charge.
+
+Corrections de bugs :
+• Correction d'un problème pouvant entraîner l'affichage des recettes plusieurs fois.

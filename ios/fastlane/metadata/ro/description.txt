@@ -9,11 +9,11 @@ Caracteristici cheie
 - Live Activities: urmăriți prepararea pas cu pas pe ecranul de blocare și în Dynamic Island fără să deblocați telefonul.
 - Pulse: vedeți în timp real ce prepară iubitorii de cafea din întreaga lume chiar acum.
 - Creați și partajați rețete: creați propriile rețete de preparare și partajați-le cu comunitatea.
-- Jurnal de preparare: adăugați notițe, urmăriți sesiunile și introduceți manual înregistrări pentru preparările făcute fără aplicație.
+- Jurnal de preparare: salvați automat preparările ghidate de cronometru sau adăugați-le manual, cu notițe, evaluări, gust, etichete, măcinare, temperatura apei și extracție.
 - Evidența boabelor: gestionați inventarul de boabe de cafea cu recunoaștere de etichete bazată pe IA.
 - Favorite: acces rapid la rețetele utilizate cel mai frecvent.
 - Semnal sonor: alerte audio la fiecare etapă de preparare.
-- Înregistrare automată: fiecare sesiune este înregistrată automat.
+- Perfecționați fiecare cafea: căutați și filtrați istoricul, marcați cele mai bune cești, comparați încercările, urmăriți evoluția fiecărei cafele și progresul lunar.
 - Sincronizare între dispozitive: rețete, boabe și preparări sincronizate pe toate dispozitivele dvs.
 - 22 de limbi: complet localizat pentru un public global.
 - Mod întunecat: confortabil pentru ochi la orice oră.

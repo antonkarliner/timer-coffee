@@ -1,0 +1,11 @@
+Novità:
+• Diario del caffè rinnovato con ricerca, filtri, segnalibri, progressi mensili e percorsi dei chicchi.
+• Confronta le preparazioni affiancate per ottimizzare ogni caffè.
+• Calcola la resa di estrazione e salvala nella preparazione.
+
+Miglioramenti:
+• Scansione più rapida delle etichette con AI.
+• Interfaccia e traduzioni più uniformi.
+
+Correzioni:
+• Ricette duplicate nell’app.

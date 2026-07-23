@@ -1,7 +1,12 @@
-Neu:
-• Du kannst jetzt Informationen über Röstereien teilen, damit sie schneller zur Datenbank der App hinzugefügt werden können.
+Neuigkeiten:
+• Entdecke das überarbeitete Brühtagebuch: Durchsuche und filtere deine Historie, setze Lesezeichen für herausragende Tassen, überprüfe deinen monatlichen Fortschritt und verfolge die Reise jeder Bohne.
+• Vergleiche Brühversuche nebeneinander, um Änderungen zu erkennen und deinen Kaffee abzustimmen.
+• Berechne die Extraktionsausbeute mit dem neuen Rechner und speichere das Ergebnis direkt in deinem Brühvorgang.
 
-Verbessert:
-• Benachrichtigungen sind nützlicher geworden.
-• Die Rezeptzusammenfassung zeigt jetzt auch den Vorbereitungsschritt an.
-• Viel veralteten Code bereinigt, um die App zukunftssicherer zu machen.
+Verbesserungen:
+• Das KI-gestützte Scannen von Kaffeebeuteletiketten ist jetzt schneller.
+• Die Benutzeroberfläche wurde für ein einheitlicheres Erlebnis optimiert.
+• Übersetzungen in allen unterstützten Sprachen wurden verbessert.
+
+Fehlerbehebungen:
+• Ein Problem wurde behoben, durch das Rezepte mehrfach angezeigt werden konnten.

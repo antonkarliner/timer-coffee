@@ -1,7 +1,12 @@
-Nowości:
-• Możesz teraz udostępniać informacje o palarniach, aby pomóc szybciej dodać je do bazy danych aplikacji.
+Co nowego:
+• Poznaj przeprojektowany Dziennik parzeń: przeszukuj i filtruj historię, dodawaj zakładki do wyjątkowych filiżanek, sprawdzaj miesięczne postępy i śledź historię każdego ziarna.
+• Porównuj próby parzenia obok siebie, aby zobaczyć, co się zmieniło, i dopracować swoją kawę.
+• Oblicz wydajność ekstrakcji za pomocą nowego kalkulatora i zapisz wynik bezpośrednio w swoim parzeniu.
 
-Ulepszono:
-• Powiadomienia stały się bardziej użyteczne.
-• Podsumowanie przepisu wyświetla teraz także krok przygotowania.
-• Usunięto dużo przestarzałego kodu, aby aplikacja była lepiej przygotowana na przyszłość.
+Ulepszenia:
+• Skanowanie etykiet opakowań kawy wspomagane przez AI jest teraz szybsze.
+• Udoskonalono interfejs, aby zapewnić bardziej spójne wrażenia.
+• Poprawiono tłumaczenia we wszystkich obsługiwanych językach.
+
+Poprawki błędów:
+• Naprawiono problem, który mógł powodować wielokrotne wyświetlanie przepisów.

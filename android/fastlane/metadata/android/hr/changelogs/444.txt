@@ -1,0 +1,11 @@
+Novo:
+• Redizajniran Dnevnik pripreme s pretragom, filtrima, oznakama, mjesečnim napretkom i putovanjima zrna.
+• Usporedi pripreme usporedno za fino podešavanje svake kave.
+• Izračunaj prinos ekstrakcije i spremi ga u pripremu.
+
+Poboljšano:
+• Brže AI skeniranje oznaka vrećica.
+• Ujednačenije sučelje i bolji prijevodi.
+
+Ispravljeno:
+• Duplicirani recepti u aplikaciji.

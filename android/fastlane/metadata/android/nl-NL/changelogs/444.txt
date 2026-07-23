@@ -1,0 +1,11 @@
+Nieuw:
+• Vernieuwd Brouwdagboek met zoeken, filters, bladwijzers, maandelijkse voortgang en bonenreizen.
+• Vergelijk zetpogingen naast elkaar om elke koffie perfect af te stellen.
+• Bereken het extractierendement en sla het op bij je brouwsel.
+
+Verbeterd:
+• Sneller scannen van zaketiketten met AI.
+• Consistentere interface en betere vertalingen.
+
+Opgelost:
+• Dubbele recepten in de app.

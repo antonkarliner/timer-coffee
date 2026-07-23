@@ -1,7 +1,12 @@
-Nou:
-• Acum poți partaja informații despre prăjitori pentru a ajuta la adăugarea lor mai rapidă în baza de date a aplicației.
+Noutăți:
+• Descoperă Jurnalul de Preparare redesenat: caută și filtrează istoricul, marchează cu semn de carte ceștile remarcabile, analizează progresul lunar și urmărește parcursul fiecărui bob.
+• Compară preparările una lângă alta pentru a vedea ce s-a schimbat și pentru a perfecționa cafeaua.
+• Calculează randamentul de extracție cu noul calculator și salvează rezultatul direct în prepararea ta.
 
-Îmbunătățit:
-• Notificările au devenit mai utile.
-• Rezumatul Rețetei afișează acum și pasul de pregătire.
-• Am curățat mult cod perimat pentru a face aplicația mai pregătită pentru viitor.
+Îmbunătățiri:
+• Scanarea etichetelor pungilor de cafea asistată de AI este acum mai rapidă.
+• Interfața a fost rafinată pentru o experiență mai consecventă.
+• Traduceri îmbunătățite în toate limbile acceptate.
+
+Remedieri de erori:
+• Am remediat o problemă care putea face ca rețetele să apară de mai multe ori.

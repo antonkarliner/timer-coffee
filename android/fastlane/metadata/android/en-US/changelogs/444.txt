@@ -1,0 +1,11 @@
+New:
+• Redesigned Brew Diary with search, filters, bookmarks, monthly progress, and bean journeys.
+• Compare brew attempts side by side to dial in each coffee.
+• Calculate extraction yield and save it to your brew.
+
+Improved:
+• Faster AI-assisted bag label scanning.
+• More consistent UI and improved translations.
+
+Fixed:
+• Duplicate recipes appearing in the app.

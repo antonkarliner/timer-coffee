@@ -1,7 +1,12 @@
-Nuevo:
-• Ahora puedes compartir información sobre tostadores para ayudar a añadirlos más rápido a la base de datos de la app.
+Novedades:
+• Descubre el Diario de preparaciones rediseñado: busca y filtra tu historial, marca tazas destacadas, revisa el progreso mensual y sigue el recorrido de cada grano.
+• Compara intentos de preparación lado a lado para ver qué cambió y perfeccionar tu café.
+• Calcula el rendimiento de extracción con la nueva calculadora y guarda el resultado directamente en tu preparación.
 
 Mejoras:
-• Las Notificaciones ahora son más útiles.
-• El Resumen de la receta ahora también muestra el paso de preparación.
-• Se depuró mucho código obsoleto para que la app esté más preparada para el futuro.
+• El escaneo de etiquetas de bolsas de café asistido por IA ahora es más rápido.
+• Se refinó la interfaz para ofrecer una experiencia más uniforme.
+• Se mejoraron las traducciones en todos los idiomas compatibles.
+
+Correcciones de errores:
+• Se corrigió un problema que podía hacer que las recetas aparecieran más de una vez.

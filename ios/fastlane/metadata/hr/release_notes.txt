@@ -1,7 +1,12 @@
-Novo:
-• Sada možete podijeliti informacije o pržionicama kako biste pomogli da ih brže dodamo u bazu podataka aplikacije.
+Što je novo:
+• Upoznaj redizajnirani Dnevnik pripreme: pretražuj i filtriraj svoju povijest, označi istaknute šalice, pregledaj mjesečni napredak i prati put svakog zrna.
+• Usporedi pokušaje pripreme jedan pored drugoga da vidiš što se promijenilo i usavršiš svoju kavu.
+• Izračunaj prinos ekstrakcije novim kalkulatorom i spremi rezultat izravno u svoju pripremu.
 
-Poboljšano:
-• Obavijesti su postale korisnije.
-• Sažetak recepta sada prikazuje i korak pripreme.
-• Očišćeno je mnogo zastarjelog koda kako bi aplikacija bila spremnija za budućnost.
+Poboljšanja:
+• Skeniranje oznaka vrećica kave uz pomoć AI-ja sada je brže.
+• Sučelje je dorađeno za ujednačenije iskustvo.
+• Prijevodi su poboljšani na svim podržanim jezicima.
+
+Ispravci pogrešaka:
+• Ispravljen je problem zbog kojeg su se recepti mogli prikazati više puta.

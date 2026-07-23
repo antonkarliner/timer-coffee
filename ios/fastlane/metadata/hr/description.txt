@@ -9,11 +9,11 @@ Ključne značajke
 - Live Activities: Pratite korak po korak svog kuhanja na Lock Screenu i u Dynamic Islandu bez otključavanja telefona.
 - Pulse: Pogledajte što ljubitelji kave širom svijeta kuhaju upravo sada, u stvarnom vremenu.
 - Stvaranje i dijeljenje recepata: Izradite vlastite recepte za kuhanje i podijelite ih sa zajednicom.
-- Dnevnik kuhanja: Bilježite napomene, pratite sesije i ručno dodajte unose za kuhanja bez aplikacije.
+- Dnevnik kuhanja: Automatski spremite kuhanja vođena mjeračem vremena ili ih dodajte ručno, uz bilješke, ocjene, okus, oznake, mljevenje, temperaturu vode i ekstrakciju.
 - Praćenje zrna: Upravljajte zalihama zrna kave uz AI prepoznavanje naljepnica.
 - Favoriti: Brzi pristup vašim najkorištenijim receptima.
 - Zvučni signal: Zvučna upozorenja za svaki korak kuhanja.
-- Automatsko bilježenje: Svaka sesija automatski se bilježi.
+- Usavršite svako zrno: Pretražujte i filtrirajte povijest, označite najbolje šalice, usporedite pokušaje, pratite putovanje svakog zrna i mjesečni napredak.
 - Sinkronizacija uređaja: Recepti, zrna i kuhanja sinkronizirani na svim vašim uređajima.
 - 22 jezika: Potpuno lokalizirano za globalnu publiku.
 - Tamni način rada: Ugodno za oči u svako doba.

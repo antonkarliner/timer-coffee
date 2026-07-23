@@ -1,0 +1,11 @@
+Nowości:
+• Przeprojektowany Dziennik parzeń z wyszukiwaniem, filtrami, zakładkami, miesięcznym postępem i historiami ziaren.
+• Porównuj parzenia obok siebie, aby dopracować każdą kawę.
+• Oblicz wydajność ekstrakcji i zapisz ją w parzeniu.
+
+Ulepszenia:
+• Szybsze skanowanie etykiet opakowań z pomocą AI.
+• Bardziej spójny interfejs i lepsze tłumaczenia.
+
+Poprawki:
+• Zduplikowane przepisy w aplikacji.

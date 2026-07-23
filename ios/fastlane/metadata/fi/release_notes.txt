@@ -1,7 +1,12 @@
 Uutta:
-• Voit nyt jakaa tietoja paahtimoista, jotta ne voidaan lisätä sovelluksen tietokantaan nopeammin.
+• Tutustu uudistettuun Uuttopäiväkirjaan: hae ja suodata historiaasi, merkitse parhaat kupit kirjanmerkeillä, tarkastele kuukausittaista edistymistä ja seuraa jokaisen kahvipavun matkaa.
+• Vertaa uuttoyrityksiä rinnakkain nähdäksesi, mikä muuttui, ja hio kahvistasi täydellistä.
+• Laske uuttosaanto uudella laskurilla ja tallenna tulos suoraan uuttoosi.
 
-Parannettu:
-• Ilmoituksista tuli hyödyllisempiä.
-• Reseptin yhteenveto näyttää nyt myös valmisteluvaiheen.
-• Siivottu paljon vanhentunutta koodia, jotta sovellus olisi tulevaisuudenkestävämpi.
+Parannukset:
+• Tekoälyavusteinen kahvipussien etikettien skannaus on nyt nopeampaa.
+• Käyttöliittymää on hiottu yhtenäisemmän käyttökokemuksen takaamiseksi.
+• Käännöksiä on parannettu kaikilla tuetuilla kielillä.
+
+Virheenkorjaukset:
+• Korjattu ongelma, jonka vuoksi reseptit saattoivat näkyä useammin kuin kerran.

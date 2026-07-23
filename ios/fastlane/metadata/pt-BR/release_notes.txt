@@ -1,7 +1,12 @@
-Novo:
-• Agora você pode compartilhar informações sobre torrefações para ajudar a adicioná-las ao banco de dados do app mais rápido.
+Novidades:
+• Conheça o Diário de Preparo redesenhado: pesquise e filtre seu histórico, marque xícaras especiais, revise o progresso mensal e acompanhe a jornada de cada grão.
+• Compare tentativas de preparo lado a lado para ver o que mudou e ajustar seu café.
+• Calcule o rendimento de extração com a nova calculadora e salve o resultado diretamente no seu preparo.
 
 Melhorias:
-• As Notificações ficaram mais úteis.
-• O Resumo da Receita agora também exibe o passo de preparação.
-• Limpamos muito código obsoleto para deixar o app mais preparado para o futuro.
+• A leitura de rótulos de pacotes de café assistida por IA agora está mais rápida.
+• Interface refinada para uma experiência mais consistente.
+• Traduções melhoradas em todos os idiomas compatíveis.
+
+Correções de bugs:
+• Corrigido um problema que podia fazer com que as receitas aparecessem mais de uma vez.

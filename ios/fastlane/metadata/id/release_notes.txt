@@ -1,7 +1,12 @@
-Baru:
-• Anda kini dapat membagikan informasi tentang roaster untuk membantu menambahkannya ke basis data aplikasi lebih cepat.
+Yang Baru:
+• Kenalkan Diari seduhan yang didesain ulang: cari dan filter riwayat Anda, tandai cangkir istimewa, tinjau progres bulanan, dan ikuti perjalanan setiap biji kopi.
+• Bandingkan percobaan seduhan secara berdampingan untuk melihat perubahan dan menyempurnakan kopi Anda.
+• Hitung hasil ekstraksi dengan kalkulator baru dan simpan hasilnya langsung ke seduhan Anda.
 
-Ditingkatkan:
-• Notifikasi menjadi lebih berguna.
-• Ringkasan resep kini juga menampilkan langkah persiapan.
-• Membersihkan banyak kode yang tidak digunakan lagi agar aplikasi lebih siap untuk masa depan.
+Peningkatan:
+• Pemindaian label kemasan kopi dengan bantuan AI kini lebih cepat.
+• Antarmuka disempurnakan untuk pengalaman yang lebih konsisten.
+• Terjemahan ditingkatkan di semua bahasa yang didukung.
+
+Perbaikan Bug:
+• Memperbaiki masalah yang dapat menyebabkan resep muncul lebih dari sekali.

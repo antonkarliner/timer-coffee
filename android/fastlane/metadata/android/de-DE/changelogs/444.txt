@@ -1,0 +1,11 @@
+Neu:
+• Überarbeitetes Brühtagebuch mit Suche, Filtern, Lesezeichen, Monatsfortschritt und Bohnenreisen.
+• Brühversuche nebeneinander vergleichen, um jeden Kaffee optimal abzustimmen.
+• Extraktionsausbeute berechnen und im Brühvorgang speichern.
+
+Verbessert:
+• Schnelleres KI-gestütztes Scannen von Tütenetiketten.
+• Einheitlichere Oberfläche und bessere Übersetzungen.
+
+Behoben:
+• Doppelte Rezepte in der App.

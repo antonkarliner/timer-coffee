@@ -9,11 +9,11 @@ Kluczowe funkcje
 - Live Activities: śledź parzenie krok po kroku na ekranie blokady i w Dynamic Island bez odblokowywania telefonu.
 - Pulse: sprawdzaj w czasie rzeczywistym, co parzą miłośnicy kawy na całym świecie.
 - Tworzenie i udostępnianie przepisów: twórz własne przepisy parzenia i udostępniaj je społeczności.
-- Dziennik parzenia: zapisuj notatki, śledź sesje i ręcznie dodawaj wpisy dla parzeit wykonanych bez aplikacji.
+- Dziennik parzenia: automatycznie zapisuj parzenia prowadzone z timerem lub dodawaj je ręcznie wraz z notatkami, oceną, smakiem, tagami, stopniem mielenia, temperaturą wody i ekstrakcją.
 - Śledzenie ziaren: zarządzaj zapasami ziaren kawy z rozpoznawaniem etykiet opartym na AI.
 - Ulubione: szybki dostęp do najczęściej używanych przepisów.
 - Sygnał dźwiękowy: alerty audio dla każdego etapu parzenia.
-- Automatyczne rejestrowanie: każda sesja jest automatycznie rejestrowana.
+- Dopracuj każde ziarno: przeszukuj i filtruj historię, oznaczaj najlepsze filiżanki, porównuj próby, śledź rozwój każdego ziarna i miesięczne postępy.
 - Synchronizacja urządzeń: przepisy, ziarna i parzenia zsynchronizowane na wszystkich urządzeniach.
 - 22 języki: w pełni zlokalizowane dla globalnej publiczności.
 - Tryb ciemny: przyjazny dla oczu o każdej porze dnia.

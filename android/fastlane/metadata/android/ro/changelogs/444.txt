@@ -1,0 +1,11 @@
+Nou:
+• Jurnal de Preparare redesenat, cu căutare, filtre, semne de carte, progres lunar și parcursul boabelor.
+• Compară preparările una lângă alta pentru a perfecționa fiecare cafea.
+• Calculează randamentul de extracție și salvează-l în preparare.
+
+Îmbunătățit:
+• Scanare mai rapidă a etichetelor cu AI.
+• Interfață mai consecventă și traduceri îmbunătățite.
+
+Remediat:
+• Rețete duplicate afișate în aplicație.
