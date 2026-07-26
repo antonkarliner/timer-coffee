@@ -1096,6 +1096,17 @@ class MockUserStatProvider extends _i1.Mock implements _i15.UserStatProvider {
           as _i12.Future<List<_i16.UserStatsModel>>);
 
   @override
+  _i12.Future<List<String>> fetchAllDistinctGrindSizes() =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchAllDistinctGrindSizes, []),
+            returnValue: _i12.Future<List<String>>.value(<String>[]),
+            returnValueForMissingStub: _i12.Future<List<String>>.value(
+              <String>[],
+            ),
+          )
+          as _i12.Future<List<String>>);
+
+  @override
   _i12.Future<List<String>> fetchAllDistinctTags() =>
       (super.noSuchMethod(
             Invocation.method(#fetchAllDistinctTags, []),

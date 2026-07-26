@@ -6,7 +6,10 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/recipe_model.dart';
 import 'package:coffee_timer/models/roaster_profile_model.dart';
 import 'package:coffee_timer/controllers/recipe_detail_controller.dart';
+import 'package:coffee_timer/providers/coffee_beans_provider.dart';
 import 'package:coffee_timer/providers/roaster_profile_provider.dart';
+import 'package:coffee_timer/providers/user_stat_provider.dart';
+import 'package:coffee_timer/utils/grind_suggestions.dart';
 import 'package:coffee_timer/app_router.gr.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/widgets/recipe_detail/rich_text_links.dart';
@@ -16,6 +19,7 @@ import 'package:coffee_timer/widgets/recipe_detail/meta_info_section.dart';
 import 'package:coffee_timer/widgets/recipe_detail/slider_chronicler_1002.dart';
 import 'package:coffee_timer/widgets/recipe_detail/sliders_106.dart';
 import 'package:coffee_timer/widgets/recipe_detail/recipe_summary_tile.dart';
+import 'package:coffee_timer/widgets/fields/dropdown_search_field.dart';
 import 'package:coffee_timer/widgets/fields/numeric_text_field.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:coffee_timer/utils/temperature_format.dart';
@@ -53,13 +57,32 @@ class _RecipeContentBuilderState extends State<RecipeContentBuilder> {
   bool _isEditingGrindSize = false;
   bool _isEditingWaterTemperature = false;
   RoasterProfileModel? _recipeRoasterProfile;
+  late final Future<List<String>> _grindSizeOptions;
+  late final FocusNode _grindSizeFocusNode;
 
   @override
   void initState() {
     super.initState();
+    _grindSizeOptions = mergedGrindSizeSuggestions(
+      brewHistoryGrinds: Provider.of<UserStatProvider>(
+        context,
+        listen: false,
+      ).fetchAllDistinctGrindSizes(),
+      beanGrinds: Provider.of<CoffeeBeansProvider>(
+        context,
+        listen: false,
+      ).fetchAllDistinctGrindSizes(),
+    );
+    _grindSizeFocusNode = FocusNode();
     WidgetsBinding.instance.addPostFrameCallback(
       (_) => _lookupRoasterProfile(),
     );
+  }
+
+  @override
+  void dispose() {
+    _grindSizeFocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -189,17 +212,26 @@ class _RecipeContentBuilderState extends State<RecipeContentBuilder> {
           Row(
             children: [
               Expanded(
-                child: TextFormField(
+                child: DropdownSearchField(
                   controller: controller.grindSizeController,
-                  autofocus: true,
-                  decoration: InputDecoration(
-                    labelText: loc.grindsize,
-                    border: const OutlineInputBorder(),
-                  ),
+                  focusNode: _grindSizeFocusNode,
+                  label: loc.grindsize,
+                  hintText: loc.enterBeanGrindSize,
+                  onSearch: (query) async {
+                    final options = await _grindSizeOptions;
+                    if (query.isEmpty) return options;
+                    return options
+                        .where(
+                          (option) => option.toLowerCase().contains(
+                            query.toLowerCase(),
+                          ),
+                        )
+                        .toList();
+                  },
                   onChanged: (_) {
                     controller.markGrindSizeManuallyEdited();
                   },
-                  onFieldSubmitted: (_) {
+                  onSubmitted: (_) {
                     setState(() => _isEditingGrindSize = false);
                   },
                 ),
@@ -224,6 +256,9 @@ class _RecipeContentBuilderState extends State<RecipeContentBuilder> {
               GestureDetector(
                 onTap: () {
                   setState(() => _isEditingGrindSize = true);
+                  WidgetsBinding.instance.addPostFrameCallback(
+                    (_) => _grindSizeFocusNode.requestFocus(),
+                  );
                 },
                 child: const Icon(Icons.edit, size: 18),
               ),

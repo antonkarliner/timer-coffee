@@ -51,10 +51,24 @@ void main() {
     when(
       coffeeBeansProvider.addCoffeeBeans(any),
     ).thenThrow(StateError(rawFailure));
+    when(
+      coffeeBeansProvider.fetchAllDistinctGrindSizes(),
+    ).thenAnswer((_) async => <String>[]);
+    final userStatProvider = MockUserStatProvider();
+    when(
+      userStatProvider.fetchAllDistinctGrindSizes(),
+    ).thenAnswer((_) async => <String>[]);
 
     await tester.pumpWidget(
-      ChangeNotifierProvider<CoffeeBeansProvider>.value(
-        value: coffeeBeansProvider,
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider<CoffeeBeansProvider>.value(
+            value: coffeeBeansProvider,
+          ),
+          ChangeNotifierProvider<UserStatProvider>.value(
+            value: userStatProvider,
+          ),
+        ],
         child: localizedApp(const NewBeansScreen()),
       ),
     );
@@ -84,10 +98,24 @@ void main() {
     when(
       coffeeBeansProvider.fetchCoffeeBeansByUuid('bean-1'),
     ).thenAnswer((_) => lookup.future);
+    when(
+      coffeeBeansProvider.fetchAllDistinctGrindSizes(),
+    ).thenAnswer((_) async => <String>[]);
+    final userStatProvider = MockUserStatProvider();
+    when(
+      userStatProvider.fetchAllDistinctGrindSizes(),
+    ).thenAnswer((_) async => <String>[]);
 
     await tester.pumpWidget(
-      ChangeNotifierProvider<CoffeeBeansProvider>.value(
-        value: coffeeBeansProvider,
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider<CoffeeBeansProvider>.value(
+            value: coffeeBeansProvider,
+          ),
+          ChangeNotifierProvider<UserStatProvider>.value(
+            value: userStatProvider,
+          ),
+        ],
         child: localizedApp(const NewBeansScreen(uuid: 'bean-1')),
       ),
     );

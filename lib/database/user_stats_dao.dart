@@ -143,6 +143,23 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
     );
   }
 
+  Future<List<String>> fetchAllDistinctGrindSizes() async {
+    final query = selectOnly(userStats, distinct: true)
+      ..addColumns([userStats.grindSize])
+      ..where(
+        userStats.grindSize.isNotNull() &
+            userStats.grindSize.equals('').not() &
+            userStats.isDeleted.equals(false),
+      );
+    final grindSizes = await query
+        .map((row) => row.read(userStats.grindSize))
+        .get();
+    return grindSizes
+        .whereType<String>()
+        .where((value) => value.trim().isNotEmpty)
+        .toList();
+  }
+
   Future<List<UserStatsModel>> fetchAllStats() async {
     final query = select(userStats)
       ..orderBy([

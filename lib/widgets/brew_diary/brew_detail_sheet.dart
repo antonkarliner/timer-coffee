@@ -9,6 +9,7 @@ import 'package:coffee_timer/screens/extraction_calculator_screen.dart';
 import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/utils/diary_tags.dart';
+import 'package:coffee_timer/utils/grind_suggestions.dart';
 import 'package:coffee_timer/utils/icon_utils.dart';
 import 'package:coffee_timer/utils/temperature_format.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
@@ -295,9 +296,12 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
   }
 
   Future<void> _editGrind() async {
-    final suggestions = context
-        .read<CoffeeBeansProvider>()
-        .fetchAllDistinctGrindSizes();
+    final suggestions = mergedGrindSizeSuggestions(
+      brewHistoryGrinds: context.read<UserStatProvider>()
+          .fetchAllDistinctGrindSizes(),
+      beanGrinds: context.read<CoffeeBeansProvider>()
+          .fetchAllDistinctGrindSizes(),
+    );
     final result = await showDialog<String>(
       context: context,
       builder: (_) => _FocusedEditDialog<String>(

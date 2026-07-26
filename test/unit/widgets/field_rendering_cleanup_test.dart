@@ -244,6 +244,27 @@ void main() {
     expect(find.text('Water Temperature (°C)'), findsOneWidget);
   });
 
+  testWidgets('semanticIdentifier reaches the semantics tree', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      host(
+        const Padding(
+          padding: EdgeInsets.all(16),
+          child: ChipInput(
+            label: 'Tasting notes',
+            semanticIdentifier: 'tastingNotesInputField',
+          ),
+        ),
+      ),
+    );
+
+    expect(
+      find.bySemanticsIdentifier('tastingNotesInputField'),
+      findsOneWidget,
+    );
+  });
+
   testWidgets('brewing method overlay returns the selected method', (
     tester,
   ) async {

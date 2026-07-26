@@ -257,12 +257,20 @@ class _ChipInputState extends State<ChipInput> {
       return;
     }
 
-    _removeOverlay();
+    // If an overlay is already showing, just mark it dirty so it rebuilds
+    // with the live filtered suggestions instead of tearing it down and
+    // re-inserting a new entry on every keystroke.
+    if (_overlayEntry != null) {
+      _overlayEntry!.markNeedsBuild();
+      return;
+    }
 
     _overlayEntry = OverlayEntry(
       builder: (context) => _SuggestionsOverlay(
         fieldKey: _fieldKey,
-        suggestions: filteredSuggestions,
+        layerLink: _layerLink,
+        getSuggestions: () =>
+            _getFilteredSuggestions(_textController.text.trim()),
         onSelect: _addChip,
       ),
     );
@@ -361,179 +369,184 @@ class _ChipInputState extends State<ChipInput> {
     final theme = Theme.of(context);
     final chipTheme = theme.chipTheme;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // Label
-        Row(
-          children: [
-            Text(
-              widget.label,
-              style: AppTextStyles.fieldLabel.copyWith(
-                color: widget.enabled
-                    ? theme.textTheme.titleMedium?.color
-                    : Colors.grey,
-              ),
-            ),
-            if (widget.required) ...[
-              const SizedBox(width: AppSpacing.xs),
+    return Semantics(
+      identifier: widget.semanticIdentifier,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Label
+          Row(
+            children: [
               Text(
-                '*',
-                style: AppTextStyles.fieldLabel.copyWith(color: Colors.red),
+                widget.label,
+                style: AppTextStyles.fieldLabel.copyWith(
+                  color: widget.enabled
+                      ? theme.textTheme.titleMedium?.color
+                      : Colors.grey,
+                ),
               ),
+              if (widget.required) ...[
+                const SizedBox(width: AppSpacing.xs),
+                Text(
+                  '*',
+                  style: AppTextStyles.fieldLabel.copyWith(color: Colors.red),
+                ),
+              ],
             ],
-          ],
-        ),
-        const SizedBox(height: AppSpacing.xs),
-
-        // Chips display area
-        if (_chips.isNotEmpty) ...[
-          Wrap(
-            spacing: AppSpacing.xs,
-            runSpacing: AppSpacing.xs,
-            children: _chips
-                .map(
-                  (chip) => Chip(
-                    label: Text(
-                      widget.capitalizeChipLabels ? _capitalize(chip) : chip,
-                      style: chipTheme.labelStyle,
-                    ),
-                    onDeleted: widget.enabled ? () => _removeChip(chip) : null,
-                    backgroundColor: chipTheme.backgroundColor,
-                    deleteIcon: Icon(
-                      Icons.close,
-                      size: AppIconSize.small,
-                      color: chipTheme.labelStyle?.color,
-                    ),
-                  ),
-                )
-                .toList(),
           ),
-          const SizedBox(height: AppSpacing.sm),
-        ],
+          const SizedBox(height: AppSpacing.xs),
 
-        // Input field
-        CompositedTransformTarget(
-          link: _layerLink,
-          child: Container(
-            key: _fieldKey,
-            child: TextFormField(
-              controller: _textController,
-              focusNode: _focusNode,
-              enabled: widget.enabled,
-              textCapitalization: widget.textCapitalization,
-              autocorrect: widget.autocorrect,
-              inputFormatters: widget.inputFormatters,
-              onFieldSubmitted: _onFieldSubmitted,
-              style: theme.textTheme.bodyLarge,
-              decoration: InputDecoration(
-                hintText:
-                    widget.hintText ??
-                    AppLocalizations.of(context)!.chipInputHintText,
-                helperText: widget.helperText,
-                errorText: widget.errorText,
-                suffixIcon: IconButton(
-                  tooltip: AppLocalizations.of(context)!.chipInputHintText,
-                  icon: const Icon(Icons.add),
-                  onPressed: widget.enabled && _canCommitPendingText
-                      ? () => _onFieldSubmitted(_textController.text)
-                      : null,
-                ),
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.cardPadding,
-                  vertical: AppSpacing.sm,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(AppRadius.field),
-                  borderSide: BorderSide(
-                    color: Colors.grey,
-                    width: AppStroke.border,
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(AppRadius.field),
-                  borderSide: BorderSide(
-                    color: theme.brightness == Brightness.dark
-                        ? Colors.grey.shade500
-                        : Colors.grey.shade300,
-                    width: AppStroke.border,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(AppRadius.field),
-                  borderSide: BorderSide(
-                    color: theme.brightness == Brightness.dark
-                        ? Colors.grey.shade300
-                        : Colors.grey.shade700,
-                    width: AppStroke.focus,
-                  ),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(AppRadius.field),
-                  borderSide: const BorderSide(
-                    color: Colors.red,
-                    width: AppStroke.border,
-                  ),
-                ),
-                focusedErrorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(AppRadius.field),
-                  borderSide: const BorderSide(
-                    color: Colors.red,
-                    width: AppStroke.focus,
-                  ),
-                ),
-                hintStyle: AppTextStyles.body.copyWith(
-                  color: Colors.grey.shade600,
-                ),
-                helperStyle: AppTextStyles.body.copyWith(
-                  color: Colors.grey.shade600,
-                ),
-                errorStyle: AppTextStyles.body.copyWith(color: Colors.red),
-              ),
-            ),
-          ),
-        ),
-
-        // Quick picks: one-tap "recent" row, visible without typing.
-        if (_visibleQuickPicks.isNotEmpty) ...[
-          const SizedBox(height: AppSpacing.sm),
-          Wrap(
-            spacing: AppSpacing.xs,
-            runSpacing: AppSpacing.xs,
-            children: _visibleQuickPicks
-                .map(
-                  (pick) => ActionChip(
-                    visualDensity: VisualDensity.compact,
-                    avatar: Icon(
-                      Icons.add,
-                      size: AppIconSize.small,
-                      color: chipTheme.labelStyle?.color,
-                    ),
-                    label: Text(
-                      pick,
-                      style: AppTextStyles.caption.copyWith(
+          // Chips display area
+          if (_chips.isNotEmpty) ...[
+            Wrap(
+              spacing: AppSpacing.xs,
+              runSpacing: AppSpacing.xs,
+              children: _chips
+                  .map(
+                    (chip) => Chip(
+                      label: Text(
+                        widget.capitalizeChipLabels ? _capitalize(chip) : chip,
+                        style: chipTheme.labelStyle,
+                      ),
+                      onDeleted: widget.enabled
+                          ? () => _removeChip(chip)
+                          : null,
+                      backgroundColor: chipTheme.backgroundColor,
+                      deleteIcon: Icon(
+                        Icons.close,
+                        size: AppIconSize.small,
                         color: chipTheme.labelStyle?.color,
                       ),
                     ),
-                    backgroundColor: chipTheme.backgroundColor,
-                    onPressed: widget.enabled ? () => _addChip(pick) : null,
-                  ),
-                )
-                .toList(),
-          ),
-        ],
+                  )
+                  .toList(),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+          ],
 
-        // Error message (if not shown in the field)
-        if (widget.errorText != null && widget.errorText!.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.only(top: AppSpacing.xs),
-            child: Text(
-              widget.errorText!,
-              style: AppTextStyles.body.copyWith(color: Colors.red),
+          // Input field
+          CompositedTransformTarget(
+            link: _layerLink,
+            child: Container(
+              key: _fieldKey,
+              child: TextFormField(
+                controller: _textController,
+                focusNode: _focusNode,
+                enabled: widget.enabled,
+                textCapitalization: widget.textCapitalization,
+                autocorrect: widget.autocorrect,
+                inputFormatters: widget.inputFormatters,
+                onFieldSubmitted: _onFieldSubmitted,
+                style: theme.textTheme.bodyLarge,
+                decoration: InputDecoration(
+                  hintText:
+                      widget.hintText ??
+                      AppLocalizations.of(context)!.chipInputHintText,
+                  helperText: widget.helperText,
+                  errorText: widget.errorText,
+                  suffixIcon: IconButton(
+                    tooltip: AppLocalizations.of(context)!.chipInputHintText,
+                    icon: const Icon(Icons.add),
+                    onPressed: widget.enabled && _canCommitPendingText
+                        ? () => _onFieldSubmitted(_textController.text)
+                        : null,
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.cardPadding,
+                    vertical: AppSpacing.sm,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(AppRadius.field),
+                    borderSide: BorderSide(
+                      color: Colors.grey,
+                      width: AppStroke.border,
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(AppRadius.field),
+                    borderSide: BorderSide(
+                      color: theme.brightness == Brightness.dark
+                          ? Colors.grey.shade500
+                          : Colors.grey.shade300,
+                      width: AppStroke.border,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(AppRadius.field),
+                    borderSide: BorderSide(
+                      color: theme.brightness == Brightness.dark
+                          ? Colors.grey.shade300
+                          : Colors.grey.shade700,
+                      width: AppStroke.focus,
+                    ),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(AppRadius.field),
+                    borderSide: const BorderSide(
+                      color: Colors.red,
+                      width: AppStroke.border,
+                    ),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(AppRadius.field),
+                    borderSide: const BorderSide(
+                      color: Colors.red,
+                      width: AppStroke.focus,
+                    ),
+                  ),
+                  hintStyle: AppTextStyles.body.copyWith(
+                    color: Colors.grey.shade600,
+                  ),
+                  helperStyle: AppTextStyles.body.copyWith(
+                    color: Colors.grey.shade600,
+                  ),
+                  errorStyle: AppTextStyles.body.copyWith(color: Colors.red),
+                ),
+              ),
             ),
           ),
-      ],
+
+          // Quick picks: one-tap "recent" row, visible without typing.
+          if (_visibleQuickPicks.isNotEmpty) ...[
+            const SizedBox(height: AppSpacing.sm),
+            Wrap(
+              spacing: AppSpacing.xs,
+              runSpacing: AppSpacing.xs,
+              children: _visibleQuickPicks
+                  .map(
+                    (pick) => ActionChip(
+                      visualDensity: VisualDensity.compact,
+                      avatar: Icon(
+                        Icons.add,
+                        size: AppIconSize.small,
+                        color: chipTheme.labelStyle?.color,
+                      ),
+                      label: Text(
+                        pick,
+                        style: AppTextStyles.caption.copyWith(
+                          color: chipTheme.labelStyle?.color,
+                        ),
+                      ),
+                      backgroundColor: chipTheme.backgroundColor,
+                      onPressed: widget.enabled ? () => _addChip(pick) : null,
+                    ),
+                  )
+                  .toList(),
+            ),
+          ],
+
+          // Error message (if not shown in the field)
+          if (widget.errorText != null && widget.errorText!.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: AppSpacing.xs),
+              child: Text(
+                widget.errorText!,
+                style: AppTextStyles.body.copyWith(color: Colors.red),
+              ),
+            ),
+        ],
+      ),
     );
   }
 
@@ -551,45 +564,44 @@ class _ChipInputState extends State<ChipInput> {
 }
 
 /// Overlay widget for displaying autocomplete suggestions
-class _SuggestionsOverlay extends StatefulWidget {
+class _SuggestionsOverlay extends StatelessWidget {
   final GlobalKey fieldKey;
-  final List<String> suggestions;
+  final LayerLink layerLink;
+  final List<String> Function() getSuggestions;
   final Function(String) onSelect;
 
   const _SuggestionsOverlay({
     required this.fieldKey,
-    required this.suggestions,
+    required this.layerLink,
+    required this.getSuggestions,
     required this.onSelect,
   });
 
   @override
-  State<_SuggestionsOverlay> createState() => _SuggestionsOverlayState();
-}
-
-class _SuggestionsOverlayState extends State<_SuggestionsOverlay> {
-  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final renderBox =
-        widget.fieldKey.currentContext?.findRenderObject() as RenderBox?;
+    final renderBox = fieldKey.currentContext?.findRenderObject() as RenderBox?;
     final mediaQuery = MediaQuery.of(context);
 
     if (renderBox == null) return const SizedBox.shrink();
+
+    final suggestions = getSuggestions();
 
     final fieldSize = renderBox.size;
     final fieldPosition = renderBox.localToGlobal(Offset.zero);
 
     // Calculate available space
     final safeAreaBottom = mediaQuery.padding.bottom;
+    final keyboardInset = mediaQuery.viewInsets.bottom;
     final screenHeight = mediaQuery.size.height;
 
     // Position dropdown below the input field
     final top = fieldPosition.dy + fieldSize.height + 4;
-    final bottom = screenHeight - safeAreaBottom;
+    final bottom = screenHeight - math.max(safeAreaBottom, keyboardInset);
 
     // Calculate height for dropdown based on actual content
     final maxItemHeight = 48.0;
-    final contentHeight = widget.suggestions.length * maxItemHeight;
+    final contentHeight = suggestions.length * maxItemHeight;
     final availableHeight = bottom - top - 16; // 16px padding from bottom
     final dropdownHeight = math.min(contentHeight, availableHeight);
 
@@ -600,53 +612,62 @@ class _SuggestionsOverlayState extends State<_SuggestionsOverlay> {
       0,
       math.min(fieldPosition.dx, screenWidth - dropdownWidth),
     );
+    // Convert the clamped absolute left into an offset relative to the
+    // field's own position, since positioning now goes through the
+    // CompositedTransformFollower anchored to the field.
+    final horizontalOffset = left.toDouble() - fieldPosition.dx;
 
     return Positioned(
-      left: left.toDouble(),
-      top: top,
       width: dropdownWidth,
-      child: Material(
-        elevation: 4.0,
-        borderRadius: BorderRadius.circular(AppRadius.field),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: dropdownHeight),
-          child: Container(
-            decoration: BoxDecoration(
-              color: theme.colorScheme.surface,
-              borderRadius: BorderRadius.circular(AppRadius.field),
-              border: Border.all(
-                color: theme.brightness == Brightness.dark
-                    ? Colors.grey.shade400
-                    : Colors.grey.shade300,
-                width: AppStroke.border,
+      child: CompositedTransformFollower(
+        link: layerLink,
+        showWhenUnlinked: false,
+        targetAnchor: Alignment.bottomLeft,
+        followerAnchor: Alignment.topLeft,
+        offset: Offset(horizontalOffset, 4.0),
+        child: Material(
+          elevation: 4.0,
+          borderRadius: BorderRadius.circular(AppRadius.field),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxHeight: dropdownHeight),
+            child: Container(
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surface,
+                borderRadius: BorderRadius.circular(AppRadius.field),
+                border: Border.all(
+                  color: theme.brightness == Brightness.dark
+                      ? Colors.grey.shade400
+                      : Colors.grey.shade300,
+                  width: AppStroke.border,
+                ),
               ),
-            ),
-            child: ListView.builder(
-              padding: EdgeInsets.zero,
-              shrinkWrap: true,
-              itemCount: widget.suggestions.length,
-              itemBuilder: (context, index) {
-                final suggestion = widget.suggestions[index];
-                return InkWell(
-                  onTap: () => widget.onSelect(suggestion),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.cardPadding,
-                      vertical: AppSpacing.sm,
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            suggestion,
-                            style: theme.textTheme.bodyMedium,
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                itemCount: suggestions.length,
+                itemBuilder: (context, index) {
+                  final suggestion = suggestions[index];
+                  return InkWell(
+                    onTap: () => onSelect(suggestion),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.cardPadding,
+                        vertical: AppSpacing.sm,
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              suggestion,
+                              style: theme.textTheme.bodyMedium,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ),
         ),

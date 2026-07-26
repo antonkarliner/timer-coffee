@@ -13,6 +13,8 @@ import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/coffee_beans_model.dart';
 import '../providers/coffee_beans_provider.dart';
+import '../providers/user_stat_provider.dart';
+import '../utils/grind_suggestions.dart';
 import '../widgets/fields/chip_input.dart';
 import 'package:coffee_timer/widgets/new_beans/optional_details/optional_details_card.dart';
 import 'package:coffee_timer/widgets/new_beans/required_info_card.dart';
@@ -1350,6 +1352,10 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     AppLocalizations loc,
     double spacing,
   ) {
+    final userStatProvider = Provider.of<UserStatProvider>(
+      context,
+      listen: false,
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -1543,7 +1549,10 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
             }
           },
           grindSize: _grindSizeController.text,
-          grindSizeOptions: coffeeBeansProvider.fetchAllDistinctGrindSizes(),
+          grindSizeOptions: mergedGrindSizeSuggestions(
+            brewHistoryGrinds: userStatProvider.fetchAllDistinctGrindSizes(),
+            beanGrinds: coffeeBeansProvider.fetchAllDistinctGrindSizes(),
+          ),
           onGrindSizeChanged: (v) {
             final newText = v ?? '';
             if (_grindSizeController.text != newText) {
@@ -1568,6 +1577,10 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     AppLocalizations loc,
     double spacing,
   ) {
+    final userStatProvider = Provider.of<UserStatProvider>(
+      context,
+      listen: false,
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -1787,8 +1800,12 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                       }
                     },
                     grindSize: _grindSizeController.text,
-                    grindSizeOptions: coffeeBeansProvider
-                        .fetchAllDistinctGrindSizes(),
+                    grindSizeOptions: mergedGrindSizeSuggestions(
+                      brewHistoryGrinds: userStatProvider
+                          .fetchAllDistinctGrindSizes(),
+                      beanGrinds: coffeeBeansProvider
+                          .fetchAllDistinctGrindSizes(),
+                    ),
                     onGrindSizeChanged: (v) {
                       final newText = v ?? '';
                       if (_grindSizeController.text != newText) {

@@ -77,12 +77,6 @@ class DropdownSearchField extends StatefulWidget {
   /// Whether to allow custom entry (values not in suggestions)
   final bool allowCustomEntry;
 
-  /// Whether to show recent selections when field is focused
-  final bool showRecentSelections;
-
-  /// Maximum number of recent selections to cache
-  final int maxRecentSelections;
-
   /// Custom error message when no results found
   final String? noResultsMessage;
 
@@ -111,8 +105,6 @@ class DropdownSearchField extends StatefulWidget {
     this.debounceDelay = 250,
     this.maxSuggestions = 8,
     this.allowCustomEntry = true,
-    this.showRecentSelections = false,
-    this.maxRecentSelections = 10,
     this.noResultsMessage,
     this.loadingMessage,
   });
@@ -126,9 +118,7 @@ class _DropdownSearchFieldState extends State<DropdownSearchField> {
   late TextEditingController _controller;
   Timer? _debounceTimer;
   List<String> _suggestions = [];
-  List<String> _recentSelections = [];
   bool _isLoading = false;
-  bool _showDropdown = false;
   String _lastQuery = '';
   OverlayEntry? _overlayEntry;
   final LayerLink _layerLink = LayerLink();
@@ -140,9 +130,6 @@ class _DropdownSearchFieldState extends State<DropdownSearchField> {
     _focusNode = widget.focusNode ?? FocusNode();
     _controller =
         widget.controller ?? TextEditingController(text: widget.initialValue);
-
-    // Load recent selections from cache (in a real app, this would use SharedPreferences)
-    _loadRecentSelections();
 
     _focusNode.addListener(_onFocusChange);
     _controller.addListener(_onTextChanged);
@@ -176,30 +163,6 @@ class _DropdownSearchFieldState extends State<DropdownSearchField> {
     }
 
     super.dispose();
-  }
-
-  void _loadRecentSelections() {
-    // In a real implementation, this would load from persistent storage
-    // For now, we'll use an in-memory cache
-    _recentSelections = [];
-  }
-
-  void _saveRecentSelection(String value) {
-    if (value.isEmpty) return;
-
-    // Remove if already exists
-    _recentSelections.remove(value);
-
-    // Add to beginning
-    _recentSelections.insert(0, value);
-
-    // Limit to max recent selections
-    if (_recentSelections.length > widget.maxRecentSelections) {
-      _recentSelections =
-          _recentSelections.take(widget.maxRecentSelections).toList();
-    }
-
-    // In a real implementation, this would save to persistent storage
   }
 
   void _onFocusChange() {
@@ -248,6 +211,9 @@ class _DropdownSearchFieldState extends State<DropdownSearchField> {
     setState(() {
       _isLoading = true;
     });
+    // Mark any open overlay dirty so the loading row replaces stale
+    // suggestions immediately instead of waiting for the search to resolve.
+    _overlayEntry?.markNeedsBuild();
 
     // Perform async search
     widget.onSearch(query).then((results) {
@@ -266,6 +232,8 @@ class _DropdownSearchFieldState extends State<DropdownSearchField> {
         _isLoading = false;
         _suggestions = [];
       });
+
+      _showDropdownIfNeeded();
 
       // Show error in a snackbar
       ScaffoldMessenger.of(context).showSnackBar(
@@ -292,53 +260,51 @@ class _DropdownSearchFieldState extends State<DropdownSearchField> {
       return;
     }
 
-    // Show suggestions if we have them or loading
-    if (_suggestions.isNotEmpty || _isLoading) {
-      _showSuggestionsDropdown(_suggestions);
+    // Show the dropdown whenever there's a non-empty query: either we have
+    // suggestions, a search is in flight (loading row), or there are none
+    // (empty state, which also surfaces the custom-entry affordance).
+    _showSuggestionsDropdown();
+  }
+
+  void _showSuggestionsDropdown() {
+    // If an overlay is already showing, just mark it dirty so it rebuilds
+    // with the live state instead of tearing it down and re-inserting a new
+    // entry on every completed search.
+    if (_overlayEntry != null) {
+      _overlayEntry!.markNeedsBuild();
       return;
     }
 
-    // Hide dropdown if no content to show
-    _hideDropdown();
-  }
-
-  void _showSuggestionsDropdown(List<String> items) {
-    _removeOverlay();
-
-    // Get the render box from the target key widget
-    final RenderBox? renderBox =
-        _targetKey.currentContext?.findRenderObject() as RenderBox?;
-    if (renderBox == null) return;
-
     _overlayEntry = OverlayEntry(
-      builder: (overlayContext) => _DropdownOverlay(
-        items: items,
-        isLoading: _isLoading,
-        noResultsMessage: widget.noResultsMessage ??
-            AppLocalizations.of(context)!.dropdownSearchNoResults,
-        loadingMessage: widget.loadingMessage ??
-            AppLocalizations.of(context)!.dropdownSearchLoading,
-        allowCustomEntry: widget.allowCustomEntry,
-        currentQuery: _controller.text.trim(),
-        onSelect: _selectSuggestion,
-        renderBox: renderBox,
-        localizations: AppLocalizations.of(context)!,
-      ),
+      builder: (overlayContext) {
+        // Look up the render box fresh on every build so it stays valid
+        // across markNeedsBuild calls (e.g. after layout changes).
+        final RenderBox? renderBox =
+            _targetKey.currentContext?.findRenderObject() as RenderBox?;
+        if (renderBox == null) return const SizedBox.shrink();
+
+        return _DropdownOverlay(
+          items: _suggestions,
+          isLoading: _isLoading,
+          noResultsMessage: widget.noResultsMessage ??
+              AppLocalizations.of(context)!.dropdownSearchNoResults,
+          loadingMessage: widget.loadingMessage ??
+              AppLocalizations.of(context)!.dropdownSearchLoading,
+          allowCustomEntry: widget.allowCustomEntry,
+          currentQuery: _controller.text.trim(),
+          onSelect: _selectSuggestion,
+          renderBox: renderBox,
+          layerLink: _layerLink,
+          localizations: AppLocalizations.of(context)!,
+        );
+      },
     );
 
     Overlay.of(context).insert(_overlayEntry!);
-    setState(() {
-      _showDropdown = true;
-    });
   }
 
   void _hideDropdown() {
     _removeOverlay();
-    if (_showDropdown) {
-      setState(() {
-        _showDropdown = false;
-      });
-    }
   }
 
   void _removeOverlay() {
@@ -348,7 +314,6 @@ class _DropdownSearchFieldState extends State<DropdownSearchField> {
 
   void _selectSuggestion(String value) {
     _controller.text = value;
-    _saveRecentSelection(value);
 
     // Hide dropdown
     _hideDropdown();
@@ -412,6 +377,7 @@ class _DropdownOverlay extends StatelessWidget {
   final String currentQuery;
   final Function(String) onSelect;
   final RenderBox renderBox;
+  final LayerLink layerLink;
   final AppLocalizations localizations;
 
   const _DropdownOverlay({
@@ -423,6 +389,7 @@ class _DropdownOverlay extends StatelessWidget {
     required this.currentQuery,
     required this.onSelect,
     required this.renderBox,
+    required this.layerLink,
     required this.localizations,
   });
 
@@ -433,18 +400,25 @@ class _DropdownOverlay extends StatelessWidget {
 
     // Get safe area insets
     final EdgeInsets safeInsets = mediaQuery.padding;
+    final EdgeInsets viewInsets = mediaQuery.viewInsets;
     final Size screenSize = mediaQuery.size;
 
     // Get the position and size of the text field
     final Size textFieldSize = renderBox.size;
     final Offset textFieldPosition = renderBox.localToGlobal(Offset.zero);
 
-    // Calculate effective screen boundaries (excluding safe areas)
+    // Calculate effective screen boundaries (excluding safe areas and,
+    // when present, the on-screen keyboard — whichever intrudes more from
+    // the bottom).
+    final double effectiveBottomInset = math.max(
+      safeInsets.bottom,
+      viewInsets.bottom,
+    );
     final Rect effectiveScreenBounds = Rect.fromLTWH(
       safeInsets.left,
       safeInsets.top,
       screenSize.width - safeInsets.left - safeInsets.right,
-      screenSize.height - safeInsets.top - safeInsets.bottom,
+      screenSize.height - safeInsets.top - effectiveBottomInset,
     );
 
     // Calculate item height (approximate)
@@ -458,7 +432,13 @@ class _DropdownOverlay extends StatelessWidget {
       contentItems = 2;
     if (items.isEmpty && !allowCustomEntry) contentItems = 1;
 
-    final double contentHeight = contentItems * dropdownItemHeight;
+    // The "no results" message row uses the larger AppSpacing.cardPadding
+    // vertical padding (unlike the sm-padded suggestion/custom-entry rows),
+    // so it needs a bit more headroom than the flat itemHeight assumption
+    // or it clips by a few pixels — this path never rendered before this
+    // fix, so the shortfall was never caught.
+    final double contentHeight =
+        contentItems * dropdownItemHeight + (items.isEmpty ? 12.0 : 0.0);
     final double maxDropdownHeight = 8 * itemHeight; // Max 8 items
 
     // Always show below the input field
@@ -489,37 +469,42 @@ class _DropdownOverlay extends StatelessWidget {
     final bool alignRight =
         spaceOnRight < minDropdownWidth && spaceOnLeft > spaceOnRight;
 
-    // Calculate offsets - always position below
-    final double verticalOffset = textFieldSize.height + 8.0;
+    // Calculate horizontal offset - always position below via the follower
     final double horizontalOffset =
         alignRight ? -(dropdownWidth - textFieldSize.width) : 0.0;
     return Positioned(
-      left: textFieldPosition.dx + horizontalOffset,
-      top: textFieldPosition.dy + verticalOffset,
-      child: Material(
-        elevation: 4.0,
-        borderRadius: BorderRadius.circular(AppRadius.field),
-        child: Container(
-          constraints: BoxConstraints(
-            maxHeight: dropdownHeight,
-            minWidth: dropdownWidth,
-            maxWidth: dropdownWidth,
-          ),
-          decoration: BoxDecoration(
-            color: theme.colorScheme.surface,
-            borderRadius: BorderRadius.circular(AppRadius.field),
-            border: Border.all(
-              color: theme.brightness == Brightness.dark
-                  ? Colors.grey.shade400
-                  : Colors.grey.shade300,
-              width: AppStroke.border,
+      width: dropdownWidth,
+      child: CompositedTransformFollower(
+        link: layerLink,
+        showWhenUnlinked: false,
+        targetAnchor: Alignment.bottomLeft,
+        followerAnchor: Alignment.topLeft,
+        offset: Offset(horizontalOffset, 8.0),
+        child: Material(
+          elevation: 4.0,
+          borderRadius: BorderRadius.circular(AppRadius.field),
+          child: Container(
+            constraints: BoxConstraints(
+              maxHeight: dropdownHeight,
+              minWidth: dropdownWidth,
+              maxWidth: dropdownWidth,
             ),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surface,
+              borderRadius: BorderRadius.circular(AppRadius.field),
+              border: Border.all(
+                color: theme.brightness == Brightness.dark
+                    ? Colors.grey.shade400
+                    : Colors.grey.shade300,
+                width: AppStroke.border,
+              ),
+            ),
+            child: isLoading
+                ? _buildLoadingState()
+                : items.isEmpty
+                    ? _buildEmptyState()
+                    : _buildSuggestionsList(theme),
           ),
-          child: isLoading
-              ? _buildLoadingState()
-              : items.isEmpty
-                  ? _buildEmptyState()
-                  : _buildSuggestionsList(theme),
         ),
       ),
     );

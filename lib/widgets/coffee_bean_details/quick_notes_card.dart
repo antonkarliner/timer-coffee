@@ -8,6 +8,8 @@ import 'package:coffee_timer/widgets/fields/labeled_field.dart';
 import '../../controllers/coffee_beans_detail_controller.dart';
 import '../../models/coffee_beans_model.dart';
 import '../../providers/coffee_beans_provider.dart';
+import '../../providers/user_stat_provider.dart';
+import '../../utils/grind_suggestions.dart';
 import 'detail_item_row.dart';
 
 /// Inline quick-edit "Notes & Preferences" card for the coffee beans detail
@@ -59,9 +61,16 @@ class _QuickNotesCardState extends State<QuickNotesCard> {
   void _startEditing() {
     _textController.text = widget.bean.notes ?? '';
     _grindSizeValue = widget.bean.grindSize ?? '';
-    _grindSizeOptions =
-        Provider.of<CoffeeBeansProvider>(context, listen: false)
-            .fetchAllDistinctGrindSizes();
+    _grindSizeOptions = mergedGrindSizeSuggestions(
+      brewHistoryGrinds: Provider.of<UserStatProvider>(
+        context,
+        listen: false,
+      ).fetchAllDistinctGrindSizes(),
+      beanGrinds: Provider.of<CoffeeBeansProvider>(
+        context,
+        listen: false,
+      ).fetchAllDistinctGrindSizes(),
+    );
     setState(() => _isEditing = true);
   }
 

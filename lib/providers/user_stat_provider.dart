@@ -631,6 +631,11 @@ class UserStatProvider extends ChangeNotifier {
   Future<List<UserStatsModel>> fetchStatsByBeanUuid(String beansUuid) =>
       db.userStatsDao.fetchStatsByBeanUuid(beansUuid);
 
+  /// Distinct grind sizes recorded across the user's brew history, for
+  /// grind-size autocomplete suggestions.
+  Future<List<String>> fetchAllDistinctGrindSizes() =>
+      db.userStatsDao.fetchAllDistinctGrindSizes();
+
   /// Deduped, first-seen-order list of tags used across diary entries, for
   /// tag-editor autocomplete.
   Future<List<String>> fetchAllDistinctTags() =>

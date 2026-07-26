@@ -725,6 +725,52 @@ void main() {
     });
   });
 
+  group('fetchAllDistinctGrindSizes', () {
+    test('returns distinct grind sizes', () async {
+      await db.userStatsDao.insertUserStat(
+        _makeStat(uuid: '1', grindSize: '24 clicks'),
+      );
+      await db.userStatsDao.insertUserStat(
+        _makeStat(uuid: '2', grindSize: 'Medium-fine'),
+      );
+      await db.userStatsDao.insertUserStat(
+        _makeStat(uuid: '3', grindSize: '24 clicks'),
+      );
+
+      final grindSizes = await db.userStatsDao.fetchAllDistinctGrindSizes();
+
+      expect(grindSizes.toSet().length, 2);
+      expect(grindSizes, containsAll(['24 clicks', 'Medium-fine']));
+    });
+
+    test('excludes null and empty grind sizes', () async {
+      await db.userStatsDao.insertUserStat(
+        _makeStat(uuid: '1', grindSize: null),
+      );
+      await db.userStatsDao.insertUserStat(
+        _makeStat(uuid: '2', grindSize: ''),
+      );
+
+      final grindSizes = await db.userStatsDao.fetchAllDistinctGrindSizes();
+
+      expect(grindSizes, isEmpty);
+    });
+
+    test('excludes deleted records', () async {
+      await db.userStatsDao.insertUserStat(
+        _makeStat(uuid: '1', grindSize: 'Active grind'),
+      );
+      await db.userStatsDao.insertUserStat(
+        _makeStat(uuid: '2', grindSize: 'Deleted grind', isDeleted: true),
+      );
+
+      final grindSizes = await db.userStatsDao.fetchAllDistinctGrindSizes();
+
+      expect(grindSizes, contains('Active grind'));
+      expect(grindSizes, isNot(contains('Deleted grind')));
+    });
+  });
+
   group('fetchStatsByUuids', () {
     test('returns stats for given UUIDs', () async {
       await db.userStatsDao.insertUserStat(_makeStat(uuid: 'a'));
