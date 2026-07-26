@@ -1161,6 +1161,12 @@ class UserStatProvider extends ChangeNotifier {
     List<String> statUuids,
   ) async {
     try {
+      final user = Supabase.instance.client.auth.currentUser;
+      if (user == null || user.isAnonymous) {
+        AppLogger.debug('No user logged in or user is anonymous');
+        return [];
+      }
+
       final results = <UserStatsModel>[];
       const chunkSize = 200;
 
@@ -1171,6 +1177,7 @@ class UserStatProvider extends ChangeNotifier {
           final response = await Supabase.instance.client
               .from('user_stats')
               .select()
+              .eq('user_id', user.id)
               .inFilter('stat_uuid', chunk)
               .timeout(NetworkTimeouts.smallSync);
 
