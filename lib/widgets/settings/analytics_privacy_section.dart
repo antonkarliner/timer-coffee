@@ -4,9 +4,11 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 
 import '../../services/analytics_service.dart';
 import '../app_switch_list_tile.dart';
+import 'data_export_section.dart';
 import 'settings_section_subtitle.dart';
 
-/// Analytics/privacy settings section with three toggles (brews, beans, general).
+/// Analytics/privacy settings section with three toggles (brews, beans, general)
+/// plus the self-serve data export entry point.
 ///
 /// Uses [Consumer<AnalyticsService>] internally — fully self-contained.
 class AnalyticsPrivacySection extends StatelessWidget {
@@ -38,6 +40,7 @@ class AnalyticsPrivacySection extends StatelessWidget {
                 value: analytics.generalEnabled,
                 onChanged: (value) => analytics.setGeneralEnabled(value),
               ),
+              const DataExportSection(),
             ],
           ),
         );

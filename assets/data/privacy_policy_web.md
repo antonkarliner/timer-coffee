@@ -1,6 +1,6 @@
 # Privacy Policy for Timer.Coffee (Web Version)
 
-Last Updated: 17.07.2026
+Last Updated: 26.07.2026
 
 1. INTRODUCTION
 
@@ -86,6 +86,20 @@ We collect anonymous usage analytics so we can understand which features people 
 - This is separate from the Vercel-provided website analytics described in section 2d above.
 - In regions where our backend is blocked, the app automatically routes through a reverse proxy to keep working. To understand how many users rely on this, the app records an anonymous connection event noting only whether the session connected directly or through the proxy, plus the platform (iOS, Android, or web). At most one such event is recorded per device per day. These events contain no user ID, account information, or location.
 
+h. Data Export Requests
+
+We let you export a copy of your own data as a self-serve way to exercise your right to access it (see Section 7).
+
+- From Settings, you can request an export of your data by entering a destination email address. We email a 6-digit confirmation code to that address to confirm you control it; this only confirms the destination inbox and does not sign you in or change your account.
+- Once you enter the correct code, we assemble your export by combining data stored locally in your browser with data stored on our servers, and email a download link to the same address.
+- The export includes your brew history and statistics, your coffee beans, your recipe preferences, your own custom recipes (including their steps and localizations), your public profile, and your bean reviews and review replies. It does not include the product's built-in recipe catalog or other shared reference content.
+- The export is a zip file containing a JSON file with the complete data, several CSV files (brews, beans, reviews, and custom recipes) you can open in a spreadsheet, and a README describing the contents.
+- The zip file is kept in a private location on our servers, not publicly accessible. The download link we email you expires after 1 hour, and the file itself is automatically deleted from our servers a few hours after it is created.
+- To run this feature, we temporarily store a record of your export request: the destination email address you entered, a one-way cryptographic hash of the confirmation code (never the code itself), the number of attempts made to enter the code, and timestamps. This record is used only to enforce the checks below and is automatically deleted after 25 hours.
+- To prevent abuse, we limit export requests to 3 per account and 3 per destination email address within any 24-hour period.
+- The confirmation code only proves you control the destination inbox; it does not change whose data is exported. The data included in an export is always the data belonging to the account you are signed into when you make the request, so entering someone else's email address as the destination cannot be used to obtain their data.
+- We use Resend to send the confirmation code and download link emails.
+
 3. COOKIES AND SIMILAR TECHNOLOGIES
 
 - The repository does not currently show app-managed analytics cookies being set directly by the web application code.
@@ -104,6 +118,7 @@ We rely on other providers for parts of the website that we do not run ourselves
 - Vercel or similar website infrastructure and analytics tooling
 - Apple and Google for sign-in, if you choose those sign-in methods
 - AI providers such as Groq, Google, and OpenAI for the AI-assisted features described above
+- Resend for sending transactional emails, such as data export confirmation codes and download links
 
 These providers may process data on our behalf so the feature you asked for actually works.
 
@@ -113,11 +128,12 @@ These providers may process data on our behalf so the feature you asked for actu
 - You can delete your account from within the product or by contacting support@timer.coffee.
 - When you delete your account, we delete profile data, bean data, recipe preferences, recipes, user stats, and push token records associated with your account, if any exist. Bean cover photo files stored in Supabase Storage are also removed as part of this process.
 - Some analytics and usage records, including brew statistics, AI-recognition invocation records, and AI recipe-review diagnostic records, may be retained in anonymized form by replacing your user ID with a non-identifying placeholder. We keep these records to measure product usage, debug and improve recipe creation, and operate the service without keeping them tied to you.
+- If you request a data export (Section 2h), we keep the request record, including the destination email address and a hashed confirmation code, for 25 hours to enforce abuse limits, and we automatically delete the exported file from storage a few hours after it is created.
 - We may retain limited information where required for legal, security, fraud-prevention, or accounting reasons.
 
 7. USER RIGHTS
 
-Depending on your location, you may have rights regarding your personal data, including the right to access, correct, or delete your data. To exercise these rights, please contact support@timer.coffee.
+Depending on your location, you may have rights regarding your personal data, including the right to access, correct, or delete your data. To exercise these rights, please contact support@timer.coffee. You can also self-serve a full export of your own data at any time from Settings in the product, without needing to contact support — see Section 2h for details.
 
 8. CHANGES TO OUR PRIVACY POLICY
 
