@@ -2626,5 +2626,15 @@
   "dataExportNetworkError": "Network error. Please check your connection and try again.",
   "@dataExportNetworkError": {"description": "Error shown when a data-export request or confirm call fails due to a network/timeout issue."},
   "dataExportUnknownError": "Something went wrong. Please try again.",
-  "@dataExportUnknownError": {"description": "Fallback error shown when a data-export request or confirm call fails in an unrecognized way."}
+  "@dataExportUnknownError": {"description": "Fallback error shown when a data-export request or confirm call fails in an unrecognized way."},
+  "brewExportDocumentTitle": "Timer.Coffee Brew Diary",
+  "@brewExportDocumentTitle": {"description": "Document title (H1) for a whole-diary brew markdown export."},
+  "brewExportExportedOn": "Exported",
+  "@brewExportExportedOn": {"description": "Prefix before the export timestamp on a whole-diary brew markdown export, e.g. \"Exported Jul 20, 2026 · 3:45 PM\"."},
+  "brewExportDateLabel": "Date",
+  "@brewExportDateLabel": {"description": "Field label for a brew's date/time in a single-brew markdown export."},
+  "brewExportTdsLabel": "TDS",
+  "@brewExportTdsLabel": {"description": "Field label for the TDS reading in a brew markdown export."},
+  "brewExportNoBeanGroup": "Other brews",
+  "@brewExportNoBeanGroup": {"description": "Heading for brews with no linked bean or roaster on record in a by-bean markdown export."}
 }

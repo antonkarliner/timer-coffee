@@ -1448,5 +1448,10 @@
   "dataExportExpiredOrNoRequest": "Ce code a expiré ou aucune demande d'export n'est active. Veuillez demander un nouveau code.",
   "dataExportPayloadTooLarge": "Vos données locales sont trop volumineuses pour être exportées pour le moment. Veuillez contacter le support.",
   "dataExportNetworkError": "Erreur réseau. Vérifiez votre connexion et réessayez.",
-  "dataExportUnknownError": "Une erreur est survenue. Veuillez réessayer."
+  "dataExportUnknownError": "Une erreur est survenue. Veuillez réessayer.",
+  "brewExportDocumentTitle": "Timer.Coffee Journal de préparation",
+  "brewExportExportedOn": "Exporté le",
+  "brewExportDateLabel": "Date",
+  "brewExportTdsLabel": "TDS",
+  "brewExportNoBeanGroup": "Autres préparations"
 }

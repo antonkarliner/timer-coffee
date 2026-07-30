@@ -1448,5 +1448,10 @@
   "dataExportExpiredOrNoRequest": "Термін дії цього коду минув, або немає активного запиту на експорт. Запросіть новий код.",
   "dataExportPayloadTooLarge": "Ваші локальні дані зараз завеликі для експорту. Зверніться до підтримки.",
   "dataExportNetworkError": "Помилка мережі. Перевірте з'єднання й спробуйте ще раз.",
-  "dataExportUnknownError": "Щось пішло не так. Спробуйте ще раз."
+  "dataExportUnknownError": "Щось пішло не так. Спробуйте ще раз.",
+  "brewExportDocumentTitle": "Timer.Coffee Щоденник заварювань",
+  "brewExportExportedOn": "Експортовано",
+  "brewExportDateLabel": "Дата",
+  "brewExportTdsLabel": "TDS",
+  "brewExportNoBeanGroup": "Інші заварювання"
 }

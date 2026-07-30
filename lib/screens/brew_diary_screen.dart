@@ -8,6 +8,7 @@ import 'package:coffee_timer/models/diary_group.dart';
 import 'package:coffee_timer/providers/database_provider.dart';
 import 'package:coffee_timer/providers/user_stat_provider.dart';
 import 'package:coffee_timer/services/analytics_service.dart';
+import 'package:coffee_timer/services/brew_markdown_export_service.dart';
 import 'package:coffee_timer/services/date_time_format_service.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
@@ -17,6 +18,7 @@ import 'package:coffee_timer/widgets/containers/section_card.dart';
 import 'package:coffee_timer/widgets/smart_back_button.dart';
 import 'package:coffee_timer/widgets/brew_diary/brew_detail_sheet.dart';
 import 'package:coffee_timer/widgets/brew_diary/brew_entry_card.dart';
+import 'package:coffee_timer/widgets/brew_diary/brew_export_action.dart';
 import 'package:coffee_timer/widgets/brew_diary/diary_filter_bar.dart';
 import 'package:coffee_timer/widgets/brew_diary/diary_filter_sheet.dart';
 import 'package:coffee_timer/widgets/brew_diary/diary_group_list.dart';
@@ -821,6 +823,34 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
           ),
         ),
         actions: [
+          // Wraps the same `_entriesFuture` the body listens to so the
+          // button reactively enables once entries load, independent of
+          // whether the outer State itself rebuilds — `FutureBuilder`
+          // manages its own rebuild on completion, `_lastKnownEntries`
+          // (mutated deep inside the body's own FutureBuilder) would not.
+          FutureBuilder<List<DiaryEntry>>(
+            future: _entriesFuture,
+            builder: (context, snapshot) {
+              final hasEntries =
+                  (_entriesOverride ?? snapshot.data)?.isNotEmpty ?? false;
+              return Semantics(
+                identifier: 'shareDiaryButton',
+                child: IconButton(
+                  key: const Key('shareDiaryButton'),
+                  // Produces a .md file, so it reads as a save/download rather
+                  // than a send. See `brewExportIcon`.
+                  icon: brewExportIcon(),
+                  onPressed: hasEntries
+                      ? () => shareBrewExport(
+                          context,
+                          entries: _lastKnownEntries ?? const [],
+                          scope: BrewExportScope.wholeDiary,
+                        )
+                      : null,
+                ),
+              );
+            },
+          ),
           Semantics(
             identifier: 'addBrewEntryButton',
             child: IconButton(
@@ -942,6 +972,14 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                           );
                           if (mounted) _refresh();
                         },
+                        onShare: (group) => shareBrewExport(
+                          context,
+                          entries: group.entries,
+                          scope: BrewExportScope.byBean,
+                          // The group's own title, so the exported file is
+                          // named after the bean card the user tapped.
+                          label: group.title,
+                        ),
                       )
                     : ScrollablePositionedList.builder(
                         itemScrollController: _itemScrollController,

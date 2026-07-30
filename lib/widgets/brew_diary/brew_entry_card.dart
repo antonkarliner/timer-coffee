@@ -5,6 +5,7 @@ import 'package:coffee_timer/utils/extraction_math.dart';
 import 'package:coffee_timer/utils/icon_utils.dart';
 import 'package:coffee_timer/utils/temperature_format.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
+import 'package:coffee_timer/widgets/brew_diary/brew_note_text.dart';
 import 'package:coffee_timer/widgets/brew_diary/directional_value_text.dart';
 import 'package:coffee_timer/widgets/roaster_logo.dart';
 import 'package:coffeico/coffeico.dart';
@@ -205,13 +206,14 @@ class BrewEntryCard extends StatelessWidget {
                   ),
                   if (entry.notes?.trim().isNotEmpty ?? false) ...[
                     const SizedBox(height: AppSpacing.sm),
-                    Text(
+                    BrewNoteText(
                       entry.notes!.trim(),
-                      maxLines: 1,
+                      style: AppTextStyles.body,
+                      // The card is a preview, so truncation is deliberate
+                      // here — pass both together. The detail sheet takes the
+                      // unbounded default and shows the note in full.
+                      maxLines: 3,
                       overflow: TextOverflow.ellipsis,
-                      style: AppTextStyles.caption.copyWith(
-                        fontStyle: FontStyle.italic,
-                      ),
                     ),
                   ],
                   if (onBrewAgain != null)

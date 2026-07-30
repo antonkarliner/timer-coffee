@@ -1448,5 +1448,10 @@
   "dataExportExpiredOrNoRequest": "このコードは期限切れか、有効なエクスポートリクエストがありません。新しいコードをリクエストしてください。",
   "dataExportPayloadTooLarge": "現在、ローカルデータが大きすぎてエクスポートできません。サポートにお問い合わせください。",
   "dataExportNetworkError": "ネットワークエラーです。接続を確認してもう一度お試しください。",
-  "dataExportUnknownError": "問題が発生しました。もう一度お試しください。"
+  "dataExportUnknownError": "問題が発生しました。もう一度お試しください。",
+  "brewExportDocumentTitle": "Timer.Coffee 抽出日記",
+  "brewExportExportedOn": "エクスポート日時",
+  "brewExportDateLabel": "日付",
+  "brewExportTdsLabel": "TDS",
+  "brewExportNoBeanGroup": "その他の抽出"
 }

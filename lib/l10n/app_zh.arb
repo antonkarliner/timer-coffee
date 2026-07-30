@@ -1448,5 +1448,10 @@
   "dataExportExpiredOrNoRequest": "该验证码已过期或没有有效的导出请求,请重新申请验证码。",
   "dataExportPayloadTooLarge": "您的本地数据当前过大,无法导出。请联系支持团队。",
   "dataExportNetworkError": "网络错误,请检查您的网络连接后重试。",
-  "dataExportUnknownError": "出现问题,请重试。"
+  "dataExportUnknownError": "出现问题,请重试。",
+  "brewExportDocumentTitle": "Timer.Coffee 冲煮日记",
+  "brewExportExportedOn": "导出时间",
+  "brewExportDateLabel": "日期",
+  "brewExportTdsLabel": "TDS",
+  "brewExportNoBeanGroup": "其他冲煮"
 }

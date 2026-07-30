@@ -1448,5 +1448,10 @@
   "dataExportExpiredOrNoRequest": "Kode ini telah kedaluwarsa atau tidak ada permintaan ekspor yang aktif. Silakan minta kode baru.",
   "dataExportPayloadTooLarge": "Data lokal Anda terlalu besar untuk diekspor saat ini. Silakan hubungi dukungan.",
   "dataExportNetworkError": "Kesalahan jaringan. Periksa koneksi Anda dan coba lagi.",
-  "dataExportUnknownError": "Terjadi kesalahan. Silakan coba lagi."
+  "dataExportUnknownError": "Terjadi kesalahan. Silakan coba lagi.",
+  "brewExportDocumentTitle": "Timer.Coffee Diari seduhan",
+  "brewExportExportedOn": "Diekspor",
+  "brewExportDateLabel": "Tanggal",
+  "brewExportTdsLabel": "TDS",
+  "brewExportNoBeanGroup": "Seduhan lainnya"
 }

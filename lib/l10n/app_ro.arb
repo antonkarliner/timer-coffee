@@ -1448,5 +1448,10 @@
   "dataExportExpiredOrNoRequest": "Acest cod a expirat sau nu există nicio cerere de export activă. Solicită un cod nou.",
   "dataExportPayloadTooLarge": "Datele tale locale sunt momentan prea mari pentru a fi exportate. Contactează asistența.",
   "dataExportNetworkError": "Eroare de rețea. Verifică-ți conexiunea și încearcă din nou.",
-  "dataExportUnknownError": "Ceva nu a mers bine. Încearcă din nou."
+  "dataExportUnknownError": "Ceva nu a mers bine. Încearcă din nou.",
+  "brewExportDocumentTitle": "Timer.Coffee Jurnal de Preparare",
+  "brewExportExportedOn": "Exportat la",
+  "brewExportDateLabel": "Data",
+  "brewExportTdsLabel": "TDS",
+  "brewExportNoBeanGroup": "Alte preparări"
 }

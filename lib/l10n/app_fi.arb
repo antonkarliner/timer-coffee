@@ -1300,5 +1300,10 @@
   "dataExportExpiredOrNoRequest": "Tämä koodi on vanhentunut tai vientipyyntöä ei ole aktiivisena. Pyydä uusi koodi.",
   "dataExportPayloadTooLarge": "Paikalliset tietosi ovat juuri nyt liian suuret vietäväksi. Ota yhteyttä tukeen.",
   "dataExportNetworkError": "Verkkovirhe. Tarkista yhteytesi ja yritä uudelleen.",
-  "dataExportUnknownError": "Jokin meni pieleen. Yritä uudelleen."
+  "dataExportUnknownError": "Jokin meni pieleen. Yritä uudelleen.",
+  "brewExportDocumentTitle": "Timer.Coffee Uuttopäiväkirja",
+  "brewExportExportedOn": "Viety",
+  "brewExportDateLabel": "Päivämäärä",
+  "brewExportTdsLabel": "TDS",
+  "brewExportNoBeanGroup": "Muut valmistukset"
 }

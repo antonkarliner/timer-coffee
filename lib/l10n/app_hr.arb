@@ -1619,5 +1619,10 @@
   "dataExportExpiredOrNoRequest": "Ovaj kod je istekao ili nema aktivnog zahtjeva za izvoz. Zatraži novi kod.",
   "dataExportPayloadTooLarge": "Tvoji lokalni podaci trenutačno su preveliki za izvoz. Obrati se podršci.",
   "dataExportNetworkError": "Mrežna pogreška. Provjeri vezu i pokušaj ponovno.",
-  "dataExportUnknownError": "Nešto je pošlo po zlu. Pokušaj ponovno."
+  "dataExportUnknownError": "Nešto je pošlo po zlu. Pokušaj ponovno.",
+  "brewExportDocumentTitle": "Timer.Coffee Dnevnik pripreme",
+  "brewExportExportedOn": "Izvezeno",
+  "brewExportDateLabel": "Datum",
+  "brewExportTdsLabel": "TDS",
+  "brewExportNoBeanGroup": "Ostale pripreme"
 }

@@ -1448,5 +1448,10 @@
   "dataExportExpiredOrNoRequest": "Dieser Code ist abgelaufen oder es ist keine Exportanfrage aktiv. Bitte fordere einen neuen Code an.",
   "dataExportPayloadTooLarge": "Deine lokalen Daten sind derzeit zu groß für einen Export. Bitte wende dich an den Support.",
   "dataExportNetworkError": "Netzwerkfehler. Bitte überprüfe deine Verbindung und versuche es erneut.",
-  "dataExportUnknownError": "Etwas ist schiefgelaufen. Bitte versuche es erneut."
+  "dataExportUnknownError": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
+  "brewExportDocumentTitle": "Timer.Coffee Brühtagebuch",
+  "brewExportExportedOn": "Exportiert",
+  "brewExportDateLabel": "Datum",
+  "brewExportTdsLabel": "TDS",
+  "brewExportNoBeanGroup": "Andere Brühvorgänge"
 }

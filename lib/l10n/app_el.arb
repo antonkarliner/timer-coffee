@@ -1843,5 +1843,10 @@
   "dataExportExpiredOrNoRequest": "Αυτός ο κωδικός έληξε ή δεν υπάρχει ενεργό αίτημα εξαγωγής. Ζήτησε νέο κωδικό.",
   "dataExportPayloadTooLarge": "Τα τοπικά σου δεδομένα είναι πολύ μεγάλα για εξαγωγή αυτή τη στιγμή. Επικοινώνησε με την υποστήριξη.",
   "dataExportNetworkError": "Σφάλμα δικτύου. Έλεγξε τη σύνδεσή σου και δοκίμασε ξανά.",
-  "dataExportUnknownError": "Κάτι πήγε στραβά. Δοκίμασε ξανά."
+  "dataExportUnknownError": "Κάτι πήγε στραβά. Δοκίμασε ξανά.",
+  "brewExportDocumentTitle": "Timer.Coffee Ημερολόγιο παρασκευών",
+  "brewExportExportedOn": "Εξήχθη",
+  "brewExportDateLabel": "Ημερομηνία",
+  "brewExportTdsLabel": "TDS",
+  "brewExportNoBeanGroup": "Άλλες παρασκευές"
 }

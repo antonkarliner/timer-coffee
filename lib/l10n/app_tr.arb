@@ -1448,5 +1448,10 @@
   "dataExportExpiredOrNoRequest": "Bu kodun süresi doldu veya aktif bir dışa aktarma isteği yok. Lütfen yeni bir kod iste.",
   "dataExportPayloadTooLarge": "Yerel verilerin şu anda dışa aktarılamayacak kadar büyük. Lütfen destek ekibiyle iletişime geç.",
   "dataExportNetworkError": "Ağ hatası. Bağlantını kontrol edip tekrar dene.",
-  "dataExportUnknownError": "Bir şeyler yanlış gitti. Lütfen tekrar dene."
+  "dataExportUnknownError": "Bir şeyler yanlış gitti. Lütfen tekrar dene.",
+  "brewExportDocumentTitle": "Timer.Coffee Demleme Günlüğü",
+  "brewExportExportedOn": "Dışa aktarma tarihi",
+  "brewExportDateLabel": "Tarih",
+  "brewExportTdsLabel": "TDS",
+  "brewExportNoBeanGroup": "Diğer demlemeler"
 }

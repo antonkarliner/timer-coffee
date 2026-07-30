@@ -1619,5 +1619,10 @@
   "dataExportExpiredOrNoRequest": "이 코드가 만료되었거나 활성화된 내보내기 요청이 없습니다. 새 코드를 요청하세요.",
   "dataExportPayloadTooLarge": "로컬 데이터가 너무 커서 지금은 내보낼 수 없습니다. 지원팀에 문의하세요.",
   "dataExportNetworkError": "네트워크 오류입니다. 연결을 확인하고 다시 시도하세요.",
-  "dataExportUnknownError": "문제가 발생했습니다. 다시 시도하세요."
+  "dataExportUnknownError": "문제가 발생했습니다. 다시 시도하세요.",
+  "brewExportDocumentTitle": "Timer.Coffee 브루잉 일지",
+  "brewExportExportedOn": "내보내기 날짜",
+  "brewExportDateLabel": "날짜",
+  "brewExportTdsLabel": "TDS",
+  "brewExportNoBeanGroup": "기타 추출"
 }

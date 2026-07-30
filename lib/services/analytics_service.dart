@@ -80,6 +80,8 @@ class AnalyticsService extends ChangeNotifier {
     'diary_compare_opened': 'brews',
     'diary_month_strip_used': 'brews',
     'diary_extraction_opened': 'brews',
+    // Brew notes portability (plan 036)
+    'diary_export_shared': 'brews',
     // Beans
     'beans_added': 'beans',
     'beans_scan_used': 'beans',

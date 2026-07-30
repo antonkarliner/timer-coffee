@@ -1770,5 +1770,10 @@
   "dataExportExpiredOrNoRequest": "Denne koden er utløpt, eller det er ingen aktiv eksportforespørsel. Be om en ny kode.",
   "dataExportPayloadTooLarge": "De lokale dataene dine er for store til å eksporteres akkurat nå. Ta kontakt med support.",
   "dataExportNetworkError": "Nettverksfeil. Sjekk tilkoblingen din og prøv igjen.",
-  "dataExportUnknownError": "Noe gikk galt. Prøv igjen."
+  "dataExportUnknownError": "Noe gikk galt. Prøv igjen.",
+  "brewExportDocumentTitle": "Timer.Coffee Bryggdagbok",
+  "brewExportExportedOn": "Eksportert",
+  "brewExportDateLabel": "Dato",
+  "brewExportTdsLabel": "TDS",
+  "brewExportNoBeanGroup": "Andre brygg"
 }

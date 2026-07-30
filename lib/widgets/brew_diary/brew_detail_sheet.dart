@@ -7,6 +7,7 @@ import 'package:coffee_timer/providers/database_provider.dart';
 import 'package:coffee_timer/providers/user_stat_provider.dart';
 import 'package:coffee_timer/screens/extraction_calculator_screen.dart';
 import 'package:coffee_timer/services/analytics_service.dart';
+import 'package:coffee_timer/services/brew_markdown_export_service.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/utils/diary_tags.dart';
 import 'package:coffee_timer/utils/grind_suggestions.dart';
@@ -14,6 +15,8 @@ import 'package:coffee_timer/utils/icon_utils.dart';
 import 'package:coffee_timer/utils/temperature_format.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:coffee_timer/widgets/add_coffee_beans_widget.dart';
+import 'package:coffee_timer/widgets/brew_diary/brew_export_action.dart';
+import 'package:coffee_timer/widgets/brew_diary/brew_note_text.dart';
 import 'package:coffee_timer/widgets/confirm_delete_dialog.dart';
 import 'package:coffee_timer/widgets/containers/section_card.dart';
 import 'package:coffee_timer/widgets/fields/chip_input.dart';
@@ -544,6 +547,16 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
     }
   }
 
+  /// Shares just this brew as plain text (pastes cleanly into a message or
+  /// forum post) — see `shareBrewExport` for the text-vs-file decision.
+  Future<void> _shareBrew() async {
+    await shareBrewExport(
+      context,
+      entries: [_entry],
+      scope: BrewExportScope.singleBrew,
+    );
+  }
+
   Future<void> _delete() async {
     final loc = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
@@ -672,6 +685,11 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
                   ),
                 ),
               ),
+              IconButton(
+                key: const Key('shareBrewButton'),
+                icon: brewShareIcon(),
+                onPressed: _shareBrew,
+              ),
               PopupMenuButton<String>(
                 key: const Key('brewDetailMenuButton'),
                 tooltip: loc.delete,
@@ -740,12 +758,9 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
               label: loc.brewDiaryEditNotes,
               onPressed: _editNotes,
             ),
-            child: Text(
-              _entry.notes?.trim().isNotEmpty == true
-                  ? _entry.notes!
-                  : loc.notProvided,
-              style: AppTextStyles.body,
-            ),
+            child: _entry.notes?.trim().isNotEmpty == true
+                ? BrewNoteText(_entry.notes!.trim(), style: AppTextStyles.body)
+                : Text(loc.notProvided, style: AppTextStyles.body),
           ),
           const SizedBox(height: AppSpacing.lg),
           SectionCard(
@@ -805,14 +820,14 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
   }
 
   Widget _buildFacts(AppLocalizations loc) {
-    return GridView.count(
-      crossAxisCount: 2,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      childAspectRatio: 2.1,
-      crossAxisSpacing: AppSpacing.sm,
-      mainAxisSpacing: AppSpacing.sm,
-      children: [
+    // Deliberately NOT a GridView.count: its `childAspectRatio` fixes every
+    // cell's height, and a label that wraps to two lines ("Water Temperature"
+    // at 375 pt, and more often in locales with longer compounds such as de
+    // "Wassertemperatur") then either overflows the cell or gets clipped
+    // mid-glyph. Laying the pairs out as IntrinsicHeight rows instead lets
+    // each row take the height its tallest cell actually needs, so this is
+    // correct at any width and in any locale rather than for one tuned ratio.
+    final cells = <Widget>[
         _FactCell(
           label: loc.brewDiaryDoseWater,
           value:
@@ -874,6 +889,29 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
           onEdit: _editTaste,
           editKey: const Key('editTasteButton'),
         ),
+    ];
+
+    return Column(
+      children: [
+        for (var i = 0; i < cells.length; i += 2) ...[
+          if (i > 0) const SizedBox(height: AppSpacing.sm),
+          IntrinsicHeight(
+            child: Row(
+              // Stretch so both cells in a pair share the row's height and
+              // their backgrounds line up, as they did in the grid.
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(child: cells[i]),
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: i + 1 < cells.length
+                      ? cells[i + 1]
+                      : const SizedBox.shrink(),
+                ),
+              ],
+            ),
+          ),
+        ],
       ],
     );
   }
@@ -1059,13 +1097,33 @@ class _FactCell extends StatelessWidget {
         color: Theme.of(context).colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(AppRadius.card),
       ),
+      // The cell no longer has a height imposed on it: `_buildFacts` lays the
+      // pairs out as IntrinsicHeight rows, so this Column reports the height
+      // it actually needs and its row grows to match. That is what makes a
+      // label wrapping to two lines ("Water Temperature" at 375 pt, and more
+      // often in locales with longer compounds such as de
+      // "Wassertemperatur") safe in every locale, where the previous
+      // GridView.count sized every cell from one tuned childAspectRatio and
+      // overflowed by 3.2 pt when a label wrapped.
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             children: [
-              Expanded(child: Text(label, style: AppTextStyles.caption)),
+              Expanded(
+                child: Text(
+                  label,
+                  style: AppTextStyles.caption,
+                  // Bounded to two lines so a pathologically long localized
+                  // label can't stretch its whole row — the row's height now
+                  // follows the tallest cell, so an unbounded label would
+                  // grow the pair rather than overflow it.
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
               if (onEdit != null)
                 _EditButton(
                   key: editKey,

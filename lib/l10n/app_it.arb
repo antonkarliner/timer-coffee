@@ -1448,5 +1448,10 @@
   "dataExportExpiredOrNoRequest": "Questo codice è scaduto oppure non c'è nessuna richiesta di esportazione attiva. Richiedi un nuovo codice.",
   "dataExportPayloadTooLarge": "I tuoi dati locali sono troppo grandi per essere esportati ora. Contatta l'assistenza.",
   "dataExportNetworkError": "Errore di rete. Controlla la tua connessione e riprova.",
-  "dataExportUnknownError": "Qualcosa è andato storto. Riprova."
+  "dataExportUnknownError": "Qualcosa è andato storto. Riprova.",
+  "brewExportDocumentTitle": "Timer.Coffee Diario del caffè",
+  "brewExportExportedOn": "Esportato il",
+  "brewExportDateLabel": "Data",
+  "brewExportTdsLabel": "TDS",
+  "brewExportNoBeanGroup": "Altre estrazioni"
 }

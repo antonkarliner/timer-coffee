@@ -1621,5 +1621,10 @@
   "dataExportExpiredOrNoRequest": "این کد منقضی شده یا درخواست خروجی فعالی وجود ندارد. لطفاً کد جدیدی درخواست کنید.",
   "dataExportPayloadTooLarge": "داده‌های محلی شما در حال حاضر برای خروجی گرفتن بسیار حجیم است. لطفاً با پشتیبانی تماس بگیرید.",
   "dataExportNetworkError": "خطای شبکه. لطفاً اتصال خود را بررسی و دوباره امتحان کنید.",
-  "dataExportUnknownError": "مشکلی پیش آمد. لطفاً دوباره امتحان کنید."
+  "dataExportUnknownError": "مشکلی پیش آمد. لطفاً دوباره امتحان کنید.",
+  "brewExportDocumentTitle": "Timer.Coffee دفترچه دم‌آوری",
+  "brewExportExportedOn": "خروجی گرفته‌شده در",
+  "brewExportDateLabel": "تاریخ",
+  "brewExportTdsLabel": "TDS",
+  "brewExportNoBeanGroup": "دم‌آوری‌های دیگر"
 }

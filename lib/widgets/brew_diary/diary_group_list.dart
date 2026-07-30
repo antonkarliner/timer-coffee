@@ -1,6 +1,7 @@
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/diary_group.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/widgets/brew_diary/brew_export_action.dart';
 import 'package:coffee_timer/widgets/roaster_logo.dart';
 import 'package:coffeico/coffeico.dart';
 import 'package:flutter/material.dart';
@@ -11,12 +12,17 @@ class DiaryGroupList extends StatelessWidget {
     required this.groups,
     required this.logoUrlsForGroup,
     this.onGroupTap,
+    this.onShare,
   });
 
   final List<DiaryGroup> groups;
   final Future<Map<String, String?>>? Function(DiaryGroup group)
   logoUrlsForGroup;
   final void Function(DiaryGroup group)? onGroupTap;
+
+  /// Exports just this bean's brews (plan 036's "per bean" entry point).
+  /// Left null in call sites that don't offer export from the grouped list.
+  final void Function(DiaryGroup group)? onShare;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +36,7 @@ class DiaryGroupList extends StatelessWidget {
           group: group,
           logoUrls: logoUrlsForGroup(group),
           onTap: () => onGroupTap?.call(group),
+          onShare: onShare == null ? null : () => onShare!(group),
         );
       },
     );
@@ -42,11 +49,13 @@ class DiaryGroupCard extends StatelessWidget {
     required this.group,
     required this.onTap,
     this.logoUrls,
+    this.onShare,
   });
 
   final DiaryGroup group;
   final VoidCallback onTap;
   final Future<Map<String, String?>>? logoUrls;
+  final VoidCallback? onShare;
 
   @override
   Widget build(BuildContext context) {
@@ -122,6 +131,14 @@ class DiaryGroupCard extends StatelessWidget {
                       ],
                     ),
                   ),
+                  if (onShare != null)
+                    IconButton(
+                      key: Key('diaryGroupShareButton_${group.key}'),
+                      // Produces a .md file for this bean, so it reads as a
+                      // save/download rather than a send. See `brewExportIcon`.
+                      icon: brewExportIcon(),
+                      onPressed: onShare,
+                    ),
                 ],
               ),
             ),

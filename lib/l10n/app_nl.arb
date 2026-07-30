@@ -1448,5 +1448,10 @@
   "dataExportExpiredOrNoRequest": "Deze code is verlopen of er is geen actieve exportaanvraag. Vraag een nieuwe code aan.",
   "dataExportPayloadTooLarge": "Je lokale gegevens zijn nu te groot om te exporteren. Neem contact op met support.",
   "dataExportNetworkError": "Netwerkfout. Controleer je verbinding en probeer het opnieuw.",
-  "dataExportUnknownError": "Er is iets misgegaan. Probeer het opnieuw."
+  "dataExportUnknownError": "Er is iets misgegaan. Probeer het opnieuw.",
+  "brewExportDocumentTitle": "Timer.Coffee Brouwdagboek",
+  "brewExportExportedOn": "Geëxporteerd op",
+  "brewExportDateLabel": "Datum",
+  "brewExportTdsLabel": "TDS",
+  "brewExportNoBeanGroup": "Overige zetbeurten"
 }

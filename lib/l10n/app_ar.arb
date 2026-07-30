@@ -1448,5 +1448,10 @@
   "dataExportExpiredOrNoRequest": "انتهت صلاحية هذا الرمز أو لا يوجد طلب تصدير نشط. يرجى طلب رمز جديد.",
   "dataExportPayloadTooLarge": "بياناتك المحلية كبيرة جدًا بحيث لا يمكن تصديرها الآن. يرجى التواصل مع الدعم.",
   "dataExportNetworkError": "خطأ في الشبكة. يرجى التحقق من اتصالك والمحاولة مرة أخرى.",
-  "dataExportUnknownError": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+  "dataExportUnknownError": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+  "brewExportDocumentTitle": "Timer.Coffee سجل التحضير",
+  "brewExportExportedOn": "تاريخ التصدير",
+  "brewExportDateLabel": "التاريخ",
+  "brewExportTdsLabel": "TDS",
+  "brewExportNoBeanGroup": "تحضيرات أخرى"
 }

@@ -1,6 +1,6 @@
 # Privacy Policy for Timer.Coffee (Web Version)
 
-Last Updated: 26.07.2026
+Last Updated: 30.07.2026
 
 1. INTRODUCTION
 
@@ -77,7 +77,7 @@ g. Anonymous Usage Analytics
 
 We collect anonymous usage analytics so we can understand which features people actually use, where the brewing flow drops off, and how donation behavior relates to usage patterns. This data helps us improve the product without knowing who you are.
 
-- The web app collects anonymous event data such as brew starts and completions, bean additions, bean review interactions (creating, editing, deleting, and translating reviews), recipe creation and sharing, collection interactions and sharing, screen views, roaster profile views and taps on a roaster's external links (such as their website or social media), donation-related interactions, onboarding and first-steps journey progress, notification engagement (which in-app reminders were scheduled, delivered, opened, or cancelled — never their content), brew diary usage such as filters and searches performed (never the search text) and entry edits, and impressions of and interactions with in-app "moments" (small surprise-and-delight touches such as celebratory cards and seasonal banners). No personal information such as your name, email, or account ID is included in analytics events.
+- The web app collects anonymous event data such as brew starts and completions, bean additions, bean review interactions (creating, editing, deleting, and translating reviews), recipe creation and sharing, collection interactions and sharing, screen views, roaster profile views and taps on a roaster's external links (such as their website or social media), donation-related interactions, onboarding and first-steps journey progress, notification engagement (which in-app reminders were scheduled, delivered, opened, or cancelled — never their content), brew diary usage such as filters and searches performed (never the search text), entry edits, and exports of your own brew notes (only which kind of export you chose and how many entries it covered, never the notes themselves), and impressions of and interactions with in-app "moments" (small surprise-and-delight touches such as celebratory cards and seasonal banners). No personal information such as your name, email, or account ID is included in analytics events.
 - Each installation is identified by a randomly generated ID that is not linked to your Supabase account or any other identifying information. A random session ID is generated each time you open the web app.
 - Events are buffered in-browser and sent in batches to a Supabase Edge Function. Your IP address is stripped server-side before storage.
 - Analytics events are organized into three categories — brewing analytics, bean analytics, and general usage analytics — each of which you can enable or disable independently in the app's Settings screen. All three categories are enabled by default.

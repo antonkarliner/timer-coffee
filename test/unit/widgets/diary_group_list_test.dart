@@ -90,6 +90,125 @@ void main() {
     await tester.tap(card);
     expect(tapped, isTrue);
   });
+
+  testWidgets(
+    'share button invokes onShare without triggering onTap (plan 036 per-bean export)',
+    (tester) async {
+      var tapped = false;
+      DiaryGroup? shared;
+      final group = DiaryGroup(
+        key: 'bean-1',
+        title: 'Test beans',
+        subtitle: 'Test roaster',
+        roaster: 'Test roaster',
+        entries: [_entry(id: 'v60-rated', methodId: 'v60', rating: 4.0)],
+        count: 1,
+        avgRating: 4.0,
+        lastBrew: DateTime(2026, 7, 1),
+        ratingSeries: const [4.0],
+        isDialedIn: false,
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: Scaffold(
+            body: DiaryGroupCard(
+              group: group,
+              onTap: () => tapped = true,
+              onShare: () => shared = group,
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(
+        find.byKey(Key('diaryGroupShareButton_${group.key}')),
+        findsOneWidget,
+      );
+
+      await tester.tap(
+        find.byKey(Key('diaryGroupShareButton_${group.key}')),
+      );
+      await tester.pump();
+
+      expect(shared, group);
+      expect(tapped, isFalse);
+    },
+  );
+
+  testWidgets('share button is absent when onShare is not provided', (
+    tester,
+  ) async {
+    final group = DiaryGroup(
+      key: 'bean-2',
+      title: 'Other beans',
+      subtitle: null,
+      roaster: null,
+      entries: [_entry(id: 'v60-unrated', methodId: 'v60')],
+      count: 1,
+      avgRating: null,
+      lastBrew: DateTime(2026, 7, 1),
+      ratingSeries: const [],
+      isDialedIn: false,
+    );
+
+    await tester.pumpWidget(
+      MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: Scaffold(
+          body: DiaryGroupCard(group: group, onTap: () {}),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(
+      find.byKey(Key('diaryGroupShareButton_${group.key}')),
+      findsNothing,
+    );
+  });
+
+  testWidgets('DiaryGroupList forwards the tapped group to onShare', (
+    tester,
+  ) async {
+    DiaryGroup? shared;
+    final group = DiaryGroup(
+      key: 'bean-3',
+      title: 'List beans',
+      subtitle: null,
+      roaster: null,
+      entries: [_entry(id: 'v60-list', methodId: 'v60')],
+      count: 1,
+      avgRating: null,
+      lastBrew: DateTime(2026, 7, 1),
+      ratingSeries: const [],
+      isDialedIn: false,
+    );
+
+    await tester.pumpWidget(
+      MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: Scaffold(
+          body: DiaryGroupList(
+            groups: [group],
+            logoUrlsForGroup: (_) => null,
+            onShare: (g) => shared = g,
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(Key('diaryGroupShareButton_${group.key}')));
+    await tester.pump();
+
+    expect(shared, group);
+  });
 }
 
 DiaryEntry _entry({
