@@ -310,14 +310,18 @@ class RecipeDetailController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Records a manual edit to the water temperature field. A null value
+  /// means the field was cleared, so the recipe's loaded value applies
+  /// again (see [effectiveWaterTemperature]) rather than reverting the text
+  /// immediately.
   void markWaterTemperatureManuallyEdited(double? temperature) {
-    if (temperature == null) {
-      waterTemperature = _loadedEffectiveWaterTemperature;
-      waterTemperatureFromRecipe = true;
-    } else {
-      waterTemperature = temperature;
-      waterTemperatureFromRecipe = false;
-    }
+    waterTemperature = temperature;
+    waterTemperatureFromRecipe = temperature == null;
     notifyListeners();
   }
+
+  /// Temperature to actually use for brewing/persisting: the manually entered
+  /// value, or the recipe's loaded value when the field has been cleared.
+  double? get effectiveWaterTemperature =>
+      waterTemperature ?? _loadedEffectiveWaterTemperature;
 }

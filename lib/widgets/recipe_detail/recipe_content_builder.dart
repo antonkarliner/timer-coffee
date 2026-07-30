@@ -330,7 +330,7 @@ class _RecipeContentBuilderState extends State<RecipeContentBuilder> {
             children: [
               Flexible(
                 child: Text(
-                  '${loc.watertemp}: ${formatTemperatureDual(controller.waterTemperature) ?? loc.notProvided}',
+                  '${loc.watertemp}: ${formatTemperatureDual(controller.effectiveWaterTemperature) ?? loc.notProvided}',
                 ),
               ),
               const SizedBox(width: AppSpacing.xs),

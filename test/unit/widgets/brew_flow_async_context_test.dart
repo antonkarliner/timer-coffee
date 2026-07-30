@@ -161,11 +161,17 @@ void main() {
     expect(runtimeRecipe(source, controller.waterTemperature).waterTemp, 91);
 
     controller.markWaterTemperatureManuallyEdited(null);
-    expect(runtimeRecipe(source, controller.waterTemperature).waterTemp, 90);
+    expect(
+      runtimeRecipe(source, controller.effectiveWaterTemperature).waterTemp,
+      90,
+    );
     expect(controller.waterTemperatureFromRecipe, isTrue);
 
     controller.applyBrewAgainPrefill(waterTemp: 92);
-    expect(runtimeRecipe(source, controller.waterTemperature).waterTemp, 92);
+    expect(
+      runtimeRecipe(source, controller.effectiveWaterTemperature).waterTemp,
+      92,
+    );
     expect(controller.waterTemperatureFromRecipe, isFalse);
   });
 

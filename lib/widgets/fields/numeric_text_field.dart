@@ -110,6 +110,11 @@ class _NumericTextFieldState extends State<NumericTextField> {
   void didUpdateWidget(NumericTextField oldWidget) {
     super.didUpdateWidget(oldWidget);
 
+    // While the user is typing, an external initialValue change is almost
+    // always an echo of our own onChanged; rewriting the text would fight
+    // the user's edit.
+    if (_focusNode.hasFocus) return;
+
     // Update display value if initial value changed
     if (oldWidget.initialValue != widget.initialValue &&
         widget.initialValue != _getCurrentValue()) {
@@ -132,7 +137,22 @@ class _NumericTextFieldState extends State<NumericTextField> {
   }
 
   void _onFocusChange() {
-    // Handle focus changes if needed
+    if (_focusNode.hasFocus) {
+      return;
+    }
+    // A value pushed from outside while the field was focused was skipped in
+    // didUpdateWidget so it would not fight the user's typing. Editing is over
+    // now, so apply it rather than leaving the text stale.
+    final initialValue = widget.initialValue;
+    if (initialValue == _getCurrentValue()) {
+      return;
+    }
+    if (initialValue != null) {
+      _updateDisplayValue(initialValue);
+    } else {
+      _controller.clear();
+      _lastValidInput = '';
+    }
   }
 
   void _onTextChanged() {

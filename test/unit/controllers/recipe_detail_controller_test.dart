@@ -51,14 +51,19 @@ void main() {
       expect(controller.waterTemperatureFromRecipe, isFalse);
     });
 
-    test('emptying temperature restores the loaded effective value', () {
-      controller.setInitialWaterTemperature(93);
-      controller.markWaterTemperatureManuallyEdited(91);
-      controller.markWaterTemperatureManuallyEdited(null);
+    test(
+      'emptying temperature clears the field but effective value falls back '
+      'to the loaded value',
+      () {
+        controller.setInitialWaterTemperature(93);
+        controller.markWaterTemperatureManuallyEdited(91);
+        controller.markWaterTemperatureManuallyEdited(null);
 
-      expect(controller.waterTemperature, 93);
-      expect(controller.waterTemperatureFromRecipe, isTrue);
-    });
+        expect(controller.waterTemperature, isNull);
+        expect(controller.waterTemperatureFromRecipe, isTrue);
+        expect(controller.effectiveWaterTemperature, 93);
+      },
+    );
 
     test('emptying genuinely null temperature does not invent a default', () {
       controller.setInitialWaterTemperature(null);
@@ -67,6 +72,7 @@ void main() {
 
       expect(controller.waterTemperature, isNull);
       expect(controller.waterTemperatureFromRecipe, isTrue);
+      expect(controller.effectiveWaterTemperature, isNull);
     });
   });
 

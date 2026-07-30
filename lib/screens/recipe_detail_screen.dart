@@ -696,7 +696,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       coffeeAmount: customCoffeeAmount,
       waterAmount: customWaterAmount,
       grindSize: effectiveGrindSize ?? recipe.grindSize,
-      waterTemperature: _controller.waterTemperature,
+      waterTemperature: _controller.effectiveWaterTemperature,
       sweetnessSliderPosition: idToSave == '106'
           ? _controller.sweetnessSliderPosition
           : null,
