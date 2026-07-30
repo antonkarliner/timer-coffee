@@ -44,8 +44,10 @@ class _HelpCategoryScreenState extends State<HelpCategoryScreen> {
   Future<void> _load(Locale locale) async {
     setState(() => _loading = true);
     final db = Provider.of<DatabaseProvider>(context, listen: false);
-    final articles =
-        await db.getHelpArticles(widget.categorySlug, locale.languageCode);
+    final articles = await db.getHelpArticles(
+      widget.categorySlug,
+      locale.languageCode,
+    );
     if (!mounted) return;
     setState(() {
       _articles = articles;
@@ -72,6 +74,7 @@ class _HelpCategoryScreenState extends State<HelpCategoryScreen> {
     }
     if (_articles.isEmpty) {
       return ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
         padding: const EdgeInsets.all(AppSpacing.base),
         children: [
           const SizedBox(height: AppSpacing.xl),
@@ -94,16 +97,42 @@ class _HelpCategoryScreenState extends State<HelpCategoryScreen> {
       );
     }
     return ListView(
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+      physics: const AlwaysScrollableScrollPhysics(),
+      padding: const EdgeInsetsDirectional.fromSTEB(
+        AppSpacing.base,
+        AppSpacing.sm,
+        AppSpacing.base,
+        AppSpacing.lg,
+      ),
       children: [
         for (final article in _articles)
-          ListTile(
-            title: Text(article.title),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () => context.router.push(
-              HelpArticleRoute(
-                slug: article.slug,
-                title: article.title,
+          Semantics(
+            button: true,
+            label: l10n.helpOpenArticle(article.title),
+            child: ExcludeSemantics(
+              child: Card(
+                margin: const EdgeInsetsDirectional.only(bottom: AppSpacing.sm),
+                clipBehavior: Clip.antiAlias,
+                child: InkWell(
+                  onTap: () => context.router.push(
+                    HelpArticleRoute(slug: article.slug, title: article.title),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(AppSpacing.cardPadding),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            article.title,
+                            style: AppTextStyles.fieldLabel,
+                          ),
+                        ),
+                        const SizedBox(width: AppSpacing.sm),
+                        const Icon(Icons.chevron_right),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
           ),

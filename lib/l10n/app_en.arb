@@ -1990,6 +1990,72 @@
   "@helpRetry": {
     "description": "Button to retry loading help content."
   },
+  "helpSearchHint": "Search help",
+  "@helpSearchHint": {
+    "description": "Hint in the Help Center search field."
+  },
+  "helpClearSearch": "Clear help search",
+  "@helpClearSearch": {
+    "description": "Accessibility label and tooltip for clearing Help Center search."
+  },
+  "helpSearchResults": "Search results",
+  "@helpSearchResults": {
+    "description": "Heading above matching Help Center articles."
+  },
+  "helpNoSearchResults": "No matching guides found.",
+  "@helpNoSearchResults": {
+    "description": "Shown when no Help Center articles match the search query."
+  },
+  "helpBrowseTopics": "Browse topics",
+  "@helpBrowseTopics": {
+    "description": "Heading above task-led Help Center categories."
+  },
+  "helpContactSupport": "More info",
+  "@helpContactSupport": {
+    "description": "Help Center action that opens the existing About screen."
+  },
+  "helpContactSupportSubtitle": "About Timer.Coffee, policies, and project links",
+  "@helpContactSupportSubtitle": {
+    "description": "Supporting text for the Help Center More info action."
+  },
+  "helpImageLoadFailed": "Image unavailable",
+  "@helpImageLoadFailed": {
+    "description": "Accessible fallback shown when a Help article image cannot load."
+  },
+  "helpOpenCategory": "Open {category} help topic",
+  "@helpOpenCategory": {
+    "description": "Accessibility label for a Help Center category card.",
+    "placeholders": {
+      "category": {
+        "type": "String",
+        "example": "Brewing with Timer.Coffee"
+      }
+    }
+  },
+  "helpOpenArticle": "Open article: {article}",
+  "@helpOpenArticle": {
+    "description": "Accessibility label for an article row on a Help category screen.",
+    "placeholders": {
+      "article": {
+        "type": "String",
+        "example": "Follow the guided timer"
+      }
+    }
+  },
+  "helpOpenArticleInCategory": "Open {article} in {category}",
+  "@helpOpenArticleInCategory": {
+    "description": "Accessibility label for a Help search result, including its category context.",
+    "placeholders": {
+      "article": {
+        "type": "String",
+        "example": "Follow the guided timer"
+      },
+      "category": {
+        "type": "String",
+        "example": "Brewing with Timer.Coffee"
+      }
+    }
+  },
   "roasterContributionCardTitle": "{roaster} isn't on Timer.Coffee yet",
   "@roasterContributionCardTitle": {
     "description": "Title of the in-app card prompting the user to contribute a website for a roaster that has no database entry yet.",

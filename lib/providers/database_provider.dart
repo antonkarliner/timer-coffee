@@ -1425,6 +1425,14 @@ class DatabaseProvider {
     String locale,
   ) => _db.helpDao.getArticles(categorySlug, locale);
 
+  Future<List<HelpArticleModel>> getAllHelpArticles(String locale) =>
+      _db.helpDao.getAllArticles(locale);
+
+  List<HelpArticleModel> searchHelpArticles(
+    List<HelpArticleModel> articles,
+    String query,
+  ) => _db.helpDao.searchArticles(articles, query);
+
   Future<HelpArticleModel?> getHelpArticle(String slug, String locale) =>
       _db.helpDao.getArticle(slug, locale);
 

@@ -109,31 +109,98 @@ class _HelpArticleScreenState extends State<HelpArticleScreen> {
     }
     return Markdown(
       data: article.body,
-      padding: const EdgeInsets.all(AppSpacing.base),
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.base,
+        AppSpacing.sm,
+        AppSpacing.base,
+        AppSpacing.lg,
+      ),
       styleSheet: MarkdownStyleSheet.fromTheme(theme).copyWith(
-        p: theme.textTheme.bodyLarge,
+        a: AppTextStyles.body.copyWith(
+          color: theme.colorScheme.primary,
+          decoration: TextDecoration.underline,
+          decorationColor: theme.colorScheme.primary,
+        ),
+        p: AppTextStyles.body.copyWith(height: 1.5),
+        pPadding: const EdgeInsets.only(bottom: AppSpacing.sm),
+        h1: AppTextStyles.headline,
+        h1Padding: const EdgeInsets.only(
+          top: AppSpacing.sm,
+          bottom: AppSpacing.base,
+        ),
+        h2: AppTextStyles.title,
+        h2Padding: const EdgeInsets.only(
+          top: AppSpacing.base,
+          bottom: AppSpacing.sm,
+        ),
+        h3: AppTextStyles.fieldLabel,
+        h3Padding: const EdgeInsets.only(
+          top: AppSpacing.sm,
+          bottom: AppSpacing.xs,
+        ),
+        blockSpacing: AppSpacing.base,
+        listIndent: AppSpacing.lg,
+        listBullet: AppTextStyles.body,
+        listBulletPadding: const EdgeInsets.only(right: AppSpacing.sm),
       ),
       softLineBreak: true,
       onTapLink: (text, href, title) => _onTapLink(href),
-      sizedImageBuilder: (config) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(AppRadius.card),
-          child: CachedNetworkImage(
-            imageUrl: config.uri.toString(),
-            width: config.width,
-            height: config.height,
-            placeholder: (context, url) => const Center(
-              child: Padding(
-                padding: EdgeInsets.all(AppSpacing.base),
-                child: CircularProgressIndicator(),
+      sizedImageBuilder: (config) {
+        final alt = config.alt?.trim();
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(AppRadius.card),
+            child: CachedNetworkImage(
+              imageUrl: config.uri.toString(),
+              width: config.width,
+              height: config.height,
+              imageBuilder: (context, imageProvider) {
+                final image = Image(
+                  image: imageProvider,
+                  width: config.width,
+                  height: config.height,
+                );
+                if (alt == null || alt.isEmpty) return image;
+                return Semantics(
+                  image: true,
+                  label: alt,
+                  child: ExcludeSemantics(child: image),
+                );
+              },
+              placeholder: (context, url) => const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(AppSpacing.base),
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+              errorWidget: (context, url, error) => Semantics(
+                label: l10n.helpImageLoadFailed,
+                child: ExcludeSemantics(
+                  child: Padding(
+                    padding: const EdgeInsets.all(AppSpacing.base),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.broken_image_outlined,
+                          size: AppIconSize.large,
+                        ),
+                        const SizedBox(height: AppSpacing.sm),
+                        Text(
+                          l10n.helpImageLoadFailed,
+                          style: AppTextStyles.caption,
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
-            errorWidget: (context, url, error) =>
-                const Icon(Icons.broken_image_outlined),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

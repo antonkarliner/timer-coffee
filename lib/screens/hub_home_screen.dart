@@ -19,7 +19,6 @@ import '../providers/user_stat_provider.dart';
 import '../providers/user_recipe_provider.dart'; // Import UserRecipeProvider
 import '../theme/design_tokens.dart'; // Import design tokens for AppRadius
 import '../utils/app_logger.dart'; // Import AppLogger
-import '../services/feature_flags/feature_flags_repository.dart';
 import '../utils/app_material_symbols.dart';
 import '../widgets/base_buttons.dart';
 import '../widgets/account_avatar_inline.dart';
@@ -210,7 +209,6 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!; // Get localizations
-    final flags = Provider.of<FeatureFlagsRepository>(context, listen: false);
     return SafeArea(
       child: ListView(
         padding: EdgeInsets.only(
@@ -310,17 +308,16 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
                   context.router.push(SettingsRoute());
                 },
               ),
-              if (flags.helpCenter)
-                _HubListTile(
-                  identifier: 'help',
-                  label: l10n.helpAndFAQ,
-                  icon: Icons.help_outline,
-                  title: l10n.helpAndFAQ,
-                  isCompact: true,
-                  onTap: () {
-                    context.router.push(const HelpHomeRoute());
-                  },
-                ),
+              _HubListTile(
+                identifier: 'help',
+                label: l10n.helpAndFAQ,
+                icon: Icons.help_outline,
+                title: l10n.helpAndFAQ,
+                isCompact: true,
+                onTap: () {
+                  context.router.push(const HelpHomeRoute());
+                },
+              ),
               _HubListTile(
                 identifier: 'info',
                 label: l10n.about,
