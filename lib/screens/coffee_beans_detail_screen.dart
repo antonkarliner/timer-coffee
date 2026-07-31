@@ -10,9 +10,11 @@ import 'package:coffee_timer/theme/design_tokens.dart';
 import '../database/database.dart';
 import '../models/bean_review_model.dart';
 import '../models/coffee_beans_model.dart';
+import '../models/user_stat_model.dart';
 import '../providers/bean_review_provider.dart';
 import '../providers/coffee_beans_provider.dart';
 import '../providers/roaster_profile_provider.dart';
+import '../providers/user_stat_provider.dart';
 import '../controllers/coffee_beans_detail_controller.dart';
 import '../widgets/base_buttons.dart';
 import '../widgets/coffee_bean_details/index.dart';
@@ -42,6 +44,7 @@ class CoffeeBeansDetailScreen extends StatefulWidget {
 class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen>
     with SingleTickerProviderStateMixin {
   late final CoffeeBeansDetailController _controller;
+  late Future<List<UserStatsModel>> _beanStatsFuture;
 
   BeanReviewModel? _userReview;
   String? _roasterProfileId;
@@ -67,6 +70,7 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen>
     _controller = CoffeeBeansDetailController();
     _controller.addListener(_onControllerChanged);
     _controller.initialize(context, widget.uuid);
+    _refreshBeanStats();
     _highlightController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 600),
@@ -126,6 +130,18 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen>
 
   void _onControllerChanged() {
     _maybeStartReviewLoad();
+  }
+
+  void _refreshBeanStats() {
+    _beanStatsFuture = context.read<UserStatProvider>().fetchStatsByBeanUuid(
+      widget.uuid,
+    );
+  }
+
+  Future<void> _openBeanJourney(String beanUuid) async {
+    await context.router.push(BeanJourneyRoute(beanUuid: beanUuid));
+    if (!mounted) return;
+    setState(_refreshBeanStats);
   }
 
   void _maybeStartReviewLoad() {
@@ -652,7 +668,11 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen>
           const SizedBox(height: AppSpacing.base),
 
           // Brews made with this coffee (collapsed by default)
-          BeanBrewsSection(beansUuid: bean.beansUuid),
+          BeanBrewsSection(
+            beansUuid: bean.beansUuid,
+            statsFuture: _beanStatsFuture,
+            onJourneyTap: () => _openBeanJourney(bean.beansUuid),
+          ),
         ],
       ),
     );

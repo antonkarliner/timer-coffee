@@ -7,42 +7,66 @@ import '../../app_router.gr.dart';
 import '../../l10n/app_localizations.dart';
 import '../../models/user_stat_model.dart';
 import '../../providers/recipe_provider.dart';
-import '../../providers/user_stat_provider.dart';
 import '../../services/date_time_format_service.dart';
 import '../../theme/design_tokens.dart';
 import '../../utils/icon_utils.dart';
 import '../../widgets/base_buttons.dart';
 import '../containers/section_card.dart';
 
-class BeanBrewsSection extends StatefulWidget {
-  const BeanBrewsSection({super.key, required this.beansUuid});
+class BeanJourneyShortcut extends StatelessWidget {
+  const BeanJourneyShortcut({
+    super.key,
+    required this.beansUuid,
+    required this.statsFuture,
+    required this.onTap,
+  });
 
   final String beansUuid;
-
-  @override
-  State<BeanBrewsSection> createState() => _BeanBrewsSectionState();
-}
-
-class _BeanBrewsSectionState extends State<BeanBrewsSection> {
-  late Future<List<UserStatsModel>> _future;
-
-  @override
-  void initState() {
-    super.initState();
-    _future = Provider.of<UserStatProvider>(context, listen: false)
-        .fetchStatsByBeanUuid(widget.beansUuid);
-  }
+  final Future<List<UserStatsModel>> statsFuture;
+  final Future<void> Function() onTap;
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<UserStatsModel>>(
-      future: _future,
+      future: statsFuture,
+      builder: (context, snapshot) {
+        final stats = snapshot.data
+            ?.where((stat) => !stat.isDeleted)
+            .toList(growable: false);
+        if (snapshot.hasError || stats == null || stats.isEmpty) {
+          return const SizedBox.shrink();
+        }
+
+        return _BeanJourneyRow(
+          beansUuid: beansUuid,
+          stats: stats,
+          onTap: onTap,
+        );
+      },
+    );
+  }
+}
+
+class BeanBrewsSection extends StatelessWidget {
+  const BeanBrewsSection({
+    super.key,
+    required this.beansUuid,
+    required this.statsFuture,
+    required this.onJourneyTap,
+  });
+
+  final String beansUuid;
+  final Future<List<UserStatsModel>> statsFuture;
+  final Future<void> Function() onJourneyTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<UserStatsModel>>(
+      future: statsFuture,
       builder: (context, snapshot) {
         if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return const SizedBox.shrink();
         }
-
-        final stats = snapshot.data!;
 
         return SectionCard(
           icon: Icons.local_cafe_outlined,
@@ -50,17 +74,72 @@ class _BeanBrewsSectionState extends State<BeanBrewsSection> {
           isCollapsible: true,
           initiallyExpanded: false,
           paddingChild: false,
-          child: _BrewsList(stats: stats),
+          child: _BrewsList(
+            beansUuid: beansUuid,
+            stats: snapshot.data!,
+            onJourneyTap: onJourneyTap,
+          ),
         );
       },
     );
   }
 }
 
-class _BrewsList extends StatefulWidget {
-  const _BrewsList({required this.stats});
+class _BeanJourneyRow extends StatelessWidget {
+  const _BeanJourneyRow({
+    required this.beansUuid,
+    required this.stats,
+    required this.onTap,
+  });
 
+  final String beansUuid;
   final List<UserStatsModel> stats;
+  final Future<void> Function() onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+    final formatService = context.read<DateTimeFormatService>();
+    final newestBrew = stats
+        .map((stat) => stat.createdAt)
+        .reduce((current, date) => date.isAfter(current) ? date : current);
+    final dateFormat = DateFormat(
+      formatService.datePattern(loc.dateFormat),
+      Localizations.localeOf(context).toString(),
+    );
+    final summaryParts = [
+      loc.diaryGroupBrewCount(stats.length),
+      loc.formattedBrewingMethodCount(
+        stats.map((stat) => stat.brewingMethodId).toSet().length,
+      ),
+      loc.beanJourneyLastBrewed(dateFormat.format(newestBrew.toLocal())),
+    ];
+
+    return Semantics(
+      identifier: 'beanJourneyShortcut_$beansUuid',
+      label: [loc.beanJourneyTitle, ...summaryParts].join(', '),
+      button: true,
+      child: ListTile(
+        onTap: onTap,
+        leading: const Icon(Icons.library_books, size: AppIconSize.medium),
+        title: Text(loc.beanJourneyTitle, style: AppTextStyles.fieldLabel),
+        subtitle: Text(summaryParts.join(' · ')),
+        trailing: const Icon(Icons.chevron_right, size: AppIconSize.medium),
+      ),
+    );
+  }
+}
+
+class _BrewsList extends StatefulWidget {
+  const _BrewsList({
+    required this.beansUuid,
+    required this.stats,
+    required this.onJourneyTap,
+  });
+
+  final String beansUuid;
+  final List<UserStatsModel> stats;
+  final Future<void> Function() onJourneyTap;
 
   @override
   State<_BrewsList> createState() => _BrewsListState();
@@ -80,6 +159,12 @@ class _BrewsListState extends State<_BrewsList> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
+        _BeanJourneyRow(
+          beansUuid: widget.beansUuid,
+          stats: widget.stats,
+          onTap: widget.onJourneyTap,
+        ),
+        const Divider(height: AppStroke.border),
         for (final stat in visible) _BrewRow(stat: stat),
         if (!_showAll && widget.stats.length > _previewCount)
           Padding(

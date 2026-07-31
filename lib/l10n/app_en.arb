@@ -2385,6 +2385,20 @@
   "@diaryAxisTimeline": {"description": "Axis control option that shows individual brews chronologically."},
       "diaryGroupByBean": "By bean",
   "@diaryGroupByBean": {"description": "Groups brew diary entries by coffee bean."},
+  "beanJourneyTitle": "Bean Journey",
+  "@beanJourneyTitle": {"description": "Title of the shortcut and screen showing the Brew Diary journey for one linked coffee-bean record."},
+  "beanJourneyLastBrewed": "Last brewed {date}",
+  "@beanJourneyLastBrewed": {
+    "description": "Last-brewed date shown in the bean-record Journey shortcut.",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "Jul 26, 2026"
+      }
+    }
+  },
+  "beanJourneyNoBrews": "No linked brews found for these beans.",
+  "@beanJourneyNoBrews": {"description": "Empty state for a direct bean Journey route when the bean no longer has linked brews."},
           "diaryGroupDialedIn": "Dialed in",
   "@diaryGroupDialedIn": {"description": "Status for a brew group whose latest brew is balanced or highly rated."},
   "diaryGroupDialingIn": "Dialing in",

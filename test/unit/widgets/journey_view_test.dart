@@ -239,6 +239,25 @@ void main() {
     expect(args.uuid, 'bean-1');
   });
 
+  testWidgets('bean header callback suppresses default bean-record push', (
+    tester,
+  ) async {
+    final router = _RecordingStackRouter();
+    var callbackInvoked = false;
+    await _pumpJourney(
+      tester,
+      entries: [_entry(id: 'callback')],
+      router: router,
+      onBeanTap: () => callbackInvoked = true,
+    );
+
+    await tester.tap(find.bySemanticsIdentifier('journeyBeanHeader_bean-1'));
+    await tester.pump();
+
+    expect(callbackInvoked, isTrue);
+    expect(router.pushedRoute, isNull);
+  });
+
   testWidgets('attempt card reflects bookmark, notes, and extraction data', (
     tester,
   ) async {
@@ -1065,6 +1084,7 @@ Future<void> _pumpJourney(
   DateTimeFormatService? formatService,
   StackRouter? router,
   UserStatProvider? statsProvider,
+  VoidCallback? onBeanTap,
 }) async {
   tester.view.physicalSize = const Size(900, 3000);
   tester.view.devicePixelRatio = 1;
@@ -1077,7 +1097,7 @@ Future<void> _pumpJourney(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: locale,
-      home: JourneyView(group: _beanGroup(entries)),
+      home: JourneyView(group: _beanGroup(entries), onBeanTap: onBeanTap),
     ),
   );
   if (router != null) {

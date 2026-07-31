@@ -24,10 +24,16 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class JourneyView extends StatelessWidget {
-  const JourneyView({super.key, required this.group, this.logoUrls});
+  const JourneyView({
+    super.key,
+    required this.group,
+    this.logoUrls,
+    this.onBeanTap,
+  });
 
   final DiaryGroup group;
   final Future<Map<String, String?>>? logoUrls;
+  final VoidCallback? onBeanTap;
 
   @override
   Widget build(BuildContext context) {
@@ -51,17 +57,22 @@ class JourneyView extends StatelessWidget {
             ],
           ),
         ),
-        body: _BeanJourney(group: group, logoUrls: logoUrls),
+        body: _BeanJourney(
+          group: group,
+          logoUrls: logoUrls,
+          onBeanTap: onBeanTap,
+        ),
       ),
     );
   }
 }
 
 class _BeanJourney extends StatefulWidget {
-  const _BeanJourney({required this.group, this.logoUrls});
+  const _BeanJourney({required this.group, this.logoUrls, this.onBeanTap});
 
   final DiaryGroup group;
   final Future<Map<String, String?>>? logoUrls;
+  final VoidCallback? onBeanTap;
 
   @override
   State<_BeanJourney> createState() => _BeanJourneyState();
@@ -145,6 +156,7 @@ class _BeanJourneyState extends State<_BeanJourney> {
           group: widget.group,
           entries: _entries,
           logoUrls: widget.logoUrls,
+          onBeanTap: widget.onBeanTap,
         ),
         const SizedBox(height: AppSpacing.base),
         JourneyProgress(entries: _entries, onEvaluateLatest: _evaluateLatest),
@@ -208,11 +220,13 @@ class _JourneyHeader extends StatelessWidget {
     required this.group,
     required this.entries,
     this.logoUrls,
+    this.onBeanTap,
   });
 
   final DiaryGroup group;
   final List<DiaryEntry> entries;
   final Future<Map<String, String?>>? logoUrls;
+  final VoidCallback? onBeanTap;
 
   @override
   Widget build(BuildContext context) {
@@ -249,8 +263,10 @@ class _JourneyHeader extends StatelessWidget {
         margin: EdgeInsets.zero,
         clipBehavior: Clip.antiAlias,
         child: InkWell(
-          onTap: () =>
-              context.router.push(CoffeeBeansDetailRoute(uuid: group.key)),
+          onTap:
+              onBeanTap ??
+              () =>
+                  context.router.push(CoffeeBeansDetailRoute(uuid: group.key)),
           child: Padding(
             padding: const EdgeInsets.all(AppSpacing.cardPadding),
             child: Row(
