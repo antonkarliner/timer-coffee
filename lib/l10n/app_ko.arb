@@ -1375,6 +1375,8 @@
   "recipeByPrefix": "레시피 제공: ",
   "roastersCatalogTitle": "로스터리",
   "hubRoastersSubtitle": "모든 커피 로스터리 둘러보기",
+  "blogTitle": "블로그",
+  "hubBlogSubtitle": "앱 소식과 업데이트",
   "searchRoasters": "로스터리 검색...",
   "filterByCountry": "국가별 필터",
   "allCountries": "모든 국가",

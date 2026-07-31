@@ -1056,6 +1056,8 @@
   "recipeByPrefix": "Resepti paahtimolta ",
   "roastersCatalogTitle": "Paahtimot",
   "hubRoastersSubtitle": "Selaa kaikkia kahvipaahtimoita",
+  "blogTitle": "Blogi",
+  "hubBlogSubtitle": "Sovelluksen uutiset ja päivitykset",
   "searchRoasters": "Hae paahtimoita...",
   "filterByCountry": "Suodata maan mukaan",
   "allCountries": "Kaikki maat",

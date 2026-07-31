@@ -1204,6 +1204,8 @@
   "recipeByPrefix": "Przepis od ",
   "roastersCatalogTitle": "Palarnie",
   "hubRoastersSubtitle": "Przeglądaj wszystkie palarnie kawy",
+  "blogTitle": "Blog",
+  "hubBlogSubtitle": "Nowości i aktualizacje aplikacji",
   "searchRoasters": "Szukaj palarni...",
   "filterByCountry": "Filtruj według kraju",
   "allCountries": "Wszystkie kraje",

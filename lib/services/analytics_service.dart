@@ -111,6 +111,7 @@ class AnalyticsService extends ChangeNotifier {
     'collection_shared': 'general',
     'collections_section_toggled': 'general',
     'collections_visibility_changed': 'general',
+    'blog_opened': 'general',
     'donation_screen_viewed': 'general',
     'donation_button_tapped': 'general',
     'donation_completed': 'general',

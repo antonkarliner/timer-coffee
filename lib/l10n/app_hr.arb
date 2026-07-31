@@ -1375,6 +1375,8 @@
   "recipeByPrefix": "Recept od ",
   "roastersCatalogTitle": "Pržionice",
   "hubRoastersSubtitle": "Pregledaj sve pržionice kave",
+  "blogTitle": "Blog",
+  "hubBlogSubtitle": "Novosti i ažuriranja aplikacije",
   "searchRoasters": "Pretraži pržionice...",
   "filterByCountry": "Filtriraj po zemlji",
   "allCountries": "Sve zemlje",

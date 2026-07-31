@@ -1745,6 +1745,14 @@
   "@hubRoastersSubtitle": {
     "description": "Subtitle for the roasters catalog entry in the hub screen"
   },
+  "blogTitle": "Blog",
+  "@blogTitle": {
+    "description": "Title for the blog entry in the hub screen and the blog button on the about screen"
+  },
+  "hubBlogSubtitle": "News and updates from the app",
+  "@hubBlogSubtitle": {
+    "description": "Subtitle for the blog entry in the hub screen"
+  },
   "searchRoasters": "Search roasters...",
   "@searchRoasters": {
     "description": "Placeholder text for the search field in the roasters catalog screen"

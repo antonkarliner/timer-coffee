@@ -1204,6 +1204,8 @@
   "recipeByPrefix": "Рецепт от ",
   "roastersCatalogTitle": "Обжарщики",
   "hubRoastersSubtitle": "Посмотреть всех обжарщиков кофе",
+  "blogTitle": "Блог",
+  "hubBlogSubtitle": "Новости и обновления приложения",
   "searchRoasters": "Искать обжарщиков...",
   "filterByCountry": "Фильтр по стране",
   "allCountries": "Все страны",

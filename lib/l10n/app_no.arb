@@ -1526,6 +1526,8 @@
   "recipeByPrefix": "Oppskrift av ",
   "roastersCatalogTitle": "Brennerier",
   "hubRoastersSubtitle": "Bla gjennom alle kaffebrennerier",
+  "blogTitle": "Blogg",
+  "hubBlogSubtitle": "Nyheter og oppdateringer om appen",
   "searchRoasters": "Søk etter brennerier...",
   "filterByCountry": "Filtrer etter land",
   "allCountries": "Alle land",

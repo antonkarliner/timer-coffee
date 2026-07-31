@@ -1204,6 +1204,8 @@
   "recipeByPrefix": "レシピ提供: ",
   "roastersCatalogTitle": "ロースター",
   "hubRoastersSubtitle": "すべてのコーヒーロースターを見る",
+  "blogTitle": "ブログ",
+  "hubBlogSubtitle": "アプリのニュースとアップデート",
   "searchRoasters": "ロースターを検索...",
   "filterByCountry": "国で絞り込み",
   "allCountries": "すべての国",
