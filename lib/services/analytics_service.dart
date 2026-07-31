@@ -70,6 +70,9 @@ class AnalyticsService extends ChangeNotifier {
     'brew_started': 'brews',
     'brew_completed': 'brews',
     'brew_abandoned': 'brews',
+    'brew_finished': 'brews',
+    'last_step_reached': 'brews',
+    'last_step_skipped': 'brews',
     // Brew diary (plan 029)
     'manual_brew_logged': 'brews',
     'diary_entry_opened': 'brews',

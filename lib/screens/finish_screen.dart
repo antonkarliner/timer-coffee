@@ -33,6 +33,7 @@ import '../services/onboarding_service.dart';
 import '../services/analytics_service.dart';
 import '../services/region_service.dart';
 import '../services/local_notification_scheduler_service.dart';
+import '../services/brew_recording_service.dart';
 import '../database/database.dart';
 import '../services/moments_service.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
@@ -125,46 +126,6 @@ Future<void> writeFinishScreenStarRating({
       'source': 'finish_star_row',
     },
   );
-}
-
-/// Coordinates the two completion writes that must start after inherited
-/// widgets are available, while still exposing stable futures to taste saving
-/// and the finish-slot decision.
-@visibleForTesting
-class BrewCompletionWriteGate {
-  final Completer<void> _insertCompleter = Completer<void>();
-  final Completer<bool> _beanWeightCompleter = Completer<bool>();
-  bool _started = false;
-
-  Future<void> get insertFuture => _insertCompleter.future;
-  Future<bool> get beanWeightFuture => _beanWeightCompleter.future;
-
-  void start({
-    required Future<void> Function() insertBrew,
-    required Future<bool> Function() updateBeanWeight,
-  }) {
-    if (_started) return;
-    _started = true;
-    unawaited(_completeInsert(insertBrew));
-    unawaited(_completeBeanWeight(updateBeanWeight));
-  }
-
-  Future<void> _completeInsert(Future<void> Function() operation) async {
-    try {
-      await operation();
-      _insertCompleter.complete();
-    } catch (error, stackTrace) {
-      _insertCompleter.completeError(error, stackTrace);
-    }
-  }
-
-  Future<void> _completeBeanWeight(Future<bool> Function() operation) async {
-    try {
-      _beanWeightCompleter.complete(await operation());
-    } catch (error, stackTrace) {
-      _beanWeightCompleter.completeError(error, stackTrace);
-    }
-  }
 }
 
 class FinishScreen extends StatefulWidget {
@@ -632,108 +593,105 @@ class _FinishScreenState extends State<FinishScreen> {
     );
   }
 
+  /// Gathers the `BuildContext`-bound values [BrewRecordingService] needs and
+  /// packages them as plain data. `coffeeBeansUuid` and `countryCode` are
+  /// separate parameters (rather than resolved inside here) because each
+  /// caller resolves them differently — or not at all — mirroring exactly
+  /// what the pre-extraction methods each did.
+  BrewRecordingRequest _buildBrewRecordingRequest({
+    required String? userId,
+    required Locale locale,
+    String? coffeeBeansUuid,
+    String? countryCode,
+  }) {
+    return BrewRecordingRequest(
+      statUuid: _statUuid,
+      recipeId: widget.recipe.id,
+      brewingMethodId: widget.recipe.brewingMethodId,
+      brewingMethodName: widget.brewingMethodName,
+      coffeeAmount: widget.coffeeAmount,
+      waterAmount: widget.waterAmount,
+      sweetnessSliderPosition: widget.sweetnessSliderPosition,
+      strengthSliderPosition: widget.strengthSliderPosition,
+      grindSize: widget.recipe.grindSize,
+      // Runtime RecipeModel.waterTemp is the normalized effective value.
+      waterTemp: widget.recipe.waterTemp,
+      coffeeBeansUuid: coffeeBeansUuid,
+      localeCode: locale.toLanguageTag(),
+      languageCode: locale.languageCode,
+      entrySource: kFinishScreenEntrySourceCode,
+      countryCode: countryCode,
+      userId: userId,
+    );
+  }
+
   void insertBrewingDataToSupabase() async {
-    final user = Supabase.instance.client.auth.currentUser;
-    if (user != null) {
-      final data = {
-        'user_id': user.id,
-        'brewing_method': widget.brewingMethodName,
-        'recipe_id': widget.recipe.id,
-        'water_amount': widget.waterAmount,
-      };
+    final userId = Supabase.instance.client.auth.currentUser?.id;
+    // Pure read, no side effects — safe to resolve regardless of sign-in
+    // state (previously only read inside the `user != null` branch).
+    final locale = Localizations.localeOf(context);
+    // Both context reads happen BEFORE the country-code await below: the user
+    // can leave the finish screen while that request is in flight (the exact
+    // fast-exit behaviour plan 042 is about), and reading `context` afterwards
+    // would touch a deactivated element.
+    final recordingService = Provider.of<BrewRecordingService>(
+      context,
+      listen: false,
+    );
 
+    String? countryCode;
+    if (userId != null) {
       final regionService = RegionService(Supabase.instance.client);
-      final localeCode = Localizations.localeOf(context).toLanguageTag();
-      final countryCode = await regionService
-          .getCountryCode(localeCode: localeCode)
+      countryCode = await regionService
+          .getCountryCode(localeCode: locale.toLanguageTag())
           .catchError((_) => null);
-      if (countryCode != null) data['country_code'] = countryCode;
-
-      try {
-        await Supabase.instance.client
-            .from('global_stats')
-            .insert(data)
-            .timeout(const Duration(seconds: 3));
-      } on TimeoutException catch (e) {
-        AppLogger.error('Supabase request timed out', errorObject: e);
-        // Optionally, handle the timeout here
-      } catch (e) {
-        AppLogger.error(
-          'Error inserting brewing data to Supabase',
-          errorObject: e,
-        );
-        // Handle other exceptions as needed
-      }
     }
+
+    final request = _buildBrewRecordingRequest(
+      userId: userId,
+      locale: locale,
+      countryCode: countryCode,
+    );
+    await recordingService.recordRemoteBrew(
+      request: request,
+      insertGlobalStat: (data) =>
+          Supabase.instance.client.from('global_stats').insert(data),
+    );
   }
 
   Future<void> insertBrewingDataToAppDatabase() async {
-    final user = Supabase.instance.client.auth.currentUser;
-    if (user != null) {
-      try {
-        final userStatProvider = Provider.of<UserStatProvider>(
-          context,
-          listen: false,
-        );
-        final database = Provider.of<AppDatabase>(context, listen: false);
-        final locale = Localizations.localeOf(context).languageCode;
+    final userId = Supabase.instance.client.auth.currentUser?.id;
+    final recordingService = Provider.of<BrewRecordingService>(
+      context,
+      listen: false,
+    );
+    final userStatProvider = Provider.of<UserStatProvider>(
+      context,
+      listen: false,
+    );
+    final database = Provider.of<AppDatabase>(context, listen: false);
+    final locale = Localizations.localeOf(context);
 
-        // Fetch the coffee beans UUID from SharedPreferences
-        final prefs = await SharedPreferences.getInstance();
-        final coffeeBeansUuid = prefs.getString('selectedBeanUuid');
+    // Fetch the coffee beans UUID from SharedPreferences
+    final prefs = await SharedPreferences.getInstance();
+    final coffeeBeansUuid = prefs.getString('selectedBeanUuid');
 
-        await insertGuidedBrewUserStat(
-          userStatProvider: userStatProvider,
-          recipe: widget.recipe,
-          coffeeAmount: widget.coffeeAmount,
-          waterAmount: widget.waterAmount,
-          sweetnessSliderPosition: widget.sweetnessSliderPosition,
-          strengthSliderPosition: widget.strengthSliderPosition,
-          statUuid: _statUuid,
-          coffeeBeansUuid: coffeeBeansUuid,
-          // Runtime RecipeModel.waterTemp is the normalized effective value.
-          waterTemp: widget.recipe.waterTemp,
-        );
-        if (coffeeBeansUuid != null && coffeeBeansUuid.isNotEmpty) {
-          AnalyticsService.instance.track(
-            'beans_attached',
-            properties: {
-              'recipe_id': widget.recipe.id,
-              'brewing_method_id': widget.recipe.brewingMethodId,
-            },
-          );
-          unawaited(
-            LocalNotificationSchedulerService.instance
-                .maybeScheduleBeanReviewNudge(
-                  database: database,
-                  beansUuid: coffeeBeansUuid,
-                  locale: locale,
-                ),
-          );
-          // Plan 011, Channel B: if this bean's roaster is a pending
-          // candidate, schedule a one-shot "help add this roaster" nudge.
-          unawaited(
-            LocalNotificationSchedulerService.instance
-                .maybeScheduleRoasterContribNudgeOnBrew(
-                  database: database,
-                  beansUuid: coffeeBeansUuid,
-                  locale: locale,
-                ),
-          );
-        }
-        AppLogger.debug(
-          'Inserted new stat with UUID: $_statUuid and Coffee Beans UUID: $coffeeBeansUuid',
-        );
-      } catch (e) {
-        AppLogger.error(
-          "Error inserting brewing data to app database",
-          errorObject: e,
-        );
-        rethrow;
-      }
-    } else {
-      AppLogger.debug('No user signed in');
-    }
+    final request = _buildBrewRecordingRequest(
+      userId: userId,
+      locale: locale,
+      coffeeBeansUuid: coffeeBeansUuid,
+    );
+
+    await recordingService.recordLocalBrew(
+      request: request,
+      userStatProvider: userStatProvider,
+      database: database,
+      scheduleBeanReviewNudge:
+          LocalNotificationSchedulerService.instance.maybeScheduleBeanReviewNudge,
+      scheduleRoasterContribNudge: LocalNotificationSchedulerService
+          .instance
+          .maybeScheduleRoasterContribNudgeOnBrew,
+    );
   }
 
   /// Tapping a star (1) instantly writes `rating` to the `_statUuid` row and
@@ -848,59 +806,35 @@ class _FinishScreenState extends State<FinishScreen> {
   /// decision uses. Internal behavior (including the depletion-notification
   /// call) is unchanged from before this method became awaitable.
   Future<bool> _updateBeanWeightAfterBrew() async {
-    try {
-      // Only proceed if we have a valid coffee amount
-      if (widget.coffeeAmount <= 0) {
-        AppLogger.debug('No coffee amount to subtract from bean weight');
-        return false;
-      }
-      final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
-        context,
-        listen: false,
-      );
-      final database = Provider.of<AppDatabase>(context, listen: false);
-      final locale = Localizations.localeOf(context).languageCode;
+    final recordingService = Provider.of<BrewRecordingService>(
+      context,
+      listen: false,
+    );
+    final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+      context,
+      listen: false,
+    );
+    final database = Provider.of<AppDatabase>(context, listen: false);
+    final locale = Localizations.localeOf(context);
 
-      // Get the selected bean UUID from SharedPreferences
-      final prefs = await SharedPreferences.getInstance();
-      final coffeeBeansUuid = prefs.getString('selectedBeanUuid');
+    // Get the selected bean UUID from SharedPreferences
+    final prefs = await SharedPreferences.getInstance();
+    final coffeeBeansUuid = prefs.getString('selectedBeanUuid');
 
-      if (coffeeBeansUuid == null || coffeeBeansUuid.isEmpty) {
-        AppLogger.debug('No selected bean UUID found in SharedPreferences');
-        return false;
-      }
+    final request = _buildBrewRecordingRequest(
+      userId: Supabase.instance.client.auth.currentUser?.id,
+      locale: locale,
+      coffeeBeansUuid: coffeeBeansUuid,
+    );
 
-      // Update the bean weight
-      final newWeight = await coffeeBeansProvider.updateBeanWeightAfterBrew(
-        coffeeBeansUuid,
-        widget.coffeeAmount,
-      );
-
-      if (newWeight != null) {
-        AppLogger.debug('Successfully updated bean weight to ${newWeight}g');
-        // Bag just emptied (weight crossed to ~0) — a high-intent moment to
-        // ask for a review. updateBeanWeightAfterBrew returns null when the
-        // bean was already empty, so this fires only on the crossing brew.
-        if (newWeight < 0.1) {
-          unawaited(
-            LocalNotificationSchedulerService.instance
-                .maybeScheduleBeanReviewNudgeOnDepletion(
-                  database: database,
-                  beansUuid: coffeeBeansUuid,
-                  locale: locale,
-                ),
-          );
-          return true;
-        }
-        return false;
-      } else {
-        AppLogger.debug('Bean weight update failed or was not applicable');
-        return false;
-      }
-    } catch (e) {
-      AppLogger.debug('Error updating bean weight', errorObject: e);
-      return false;
-    }
+    return recordingService.updateBeanWeight(
+      request: request,
+      coffeeBeansProvider: coffeeBeansProvider,
+      database: database,
+      scheduleBeanReviewNudgeOnDepletion: LocalNotificationSchedulerService
+          .instance
+          .maybeScheduleBeanReviewNudgeOnDepletion,
+    );
   }
 
   // ---------------------------------------------------------------------

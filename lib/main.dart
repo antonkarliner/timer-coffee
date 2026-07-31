@@ -53,6 +53,7 @@ import 'services/advanced_features_service.dart';
 import 'services/collection_new_badge_service.dart';
 import 'services/collections_preferences_service.dart';
 import 'services/moments_service.dart';
+import 'services/brew_recording_service.dart';
 import 'controllers/stats_controller.dart';
 import 'providers/roaster_profile_provider.dart';
 import 'providers/bean_review_provider.dart';
@@ -533,6 +534,10 @@ void main() async {
   final momentsService = MomentsService(prefs: prefs, database: database);
   // Warm the first-brew cache in the background; not awaited.
   unawaited(momentsService.earliestBrewAt());
+  // Long-lived so its idempotency guard (plan 042, Item B, Phase B1) survives
+  // across a brew's completion writes — and, from Phase B2 onward, across an
+  // orphan-recovery pass at launch racing a later FinishScreen mount.
+  final brewRecordingService = BrewRecordingService();
 
   // Initialize analytics (non-blocking, fire-and-forget)
   final analyticsService = await AnalyticsService.initialize(prefs);
@@ -636,6 +641,7 @@ void main() async {
       onboardingService: onboardingService,
       analyticsService: analyticsService,
       momentsService: momentsService,
+      brewRecordingService: brewRecordingService,
     ),
   );
 
@@ -661,6 +667,7 @@ class CoffeeTimerApp extends StatefulWidget {
   final OnboardingService onboardingService;
   final AnalyticsService analyticsService;
   final MomentsService momentsService;
+  final BrewRecordingService brewRecordingService;
 
   const CoffeeTimerApp({
     super.key,
@@ -678,6 +685,7 @@ class CoffeeTimerApp extends StatefulWidget {
     required this.onboardingService,
     required this.analyticsService,
     required this.momentsService,
+    required this.brewRecordingService,
   });
 
   @override
@@ -1125,6 +1133,9 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
         ),
         ChangeNotifierProvider<MomentsService>.value(
           value: widget.momentsService,
+        ),
+        Provider<BrewRecordingService>.value(
+          value: widget.brewRecordingService,
         ),
         ChangeNotifierProvider<DateTimeFormatService>(
           create: (_) => DateTimeFormatService()..init(),

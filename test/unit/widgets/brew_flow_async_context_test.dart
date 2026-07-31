@@ -15,6 +15,7 @@ import 'package:coffee_timer/screens/brew_diary_screen.dart';
 import 'package:coffee_timer/screens/finish_screen.dart';
 import 'package:coffee_timer/screens/manual_brew_entry_screen.dart';
 import 'package:coffee_timer/screens/recipe_detail_screen.dart';
+import 'package:coffee_timer/services/brew_recording_service.dart';
 import 'package:coffee_timer/services/date_time_format_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';

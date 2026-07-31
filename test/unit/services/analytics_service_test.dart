@@ -179,6 +179,75 @@ void main() {
       expect(service.bufferLength, 0);
     });
 
+    test(
+      'registers brew completion integrity events (brews category, plan 042)',
+      () {
+        service.track(
+          'brew_finished',
+          properties: {
+            'recipe_id': 'recipe-1',
+            'total_steps': 3,
+            'completion_path': 'timer',
+          },
+        );
+        service.track(
+          'last_step_reached',
+          properties: {
+            'recipe_id': 'recipe-1',
+            'total_steps': 3,
+            'step_duration_seconds': 30,
+          },
+        );
+        service.track(
+          'last_step_skipped',
+          properties: {
+            'recipe_id': 'recipe-1',
+            'total_steps': 3,
+            'seconds_into_step': 5,
+            'seconds_remaining': 25,
+          },
+        );
+
+        final events = service.bufferedEventsForTesting;
+        expect(events.map((event) => event['event_name']).toList(), [
+          'brew_finished',
+          'last_step_reached',
+          'last_step_skipped',
+        ]);
+        expect(events.every((event) => event['category'] == 'brews'), isTrue);
+
+        final finishedProperties =
+            events.first['properties'] as Map<String, dynamic>;
+        expect(finishedProperties['completion_path'], 'timer');
+
+        final skippedProperties =
+            events.last['properties'] as Map<String, dynamic>;
+        expect(skippedProperties['seconds_remaining'], 25);
+      },
+    );
+
+    test(
+      'is no-op when category disabled (brews) for plan 042 completion events',
+      () async {
+        await service.setBrewsEnabled(false);
+        service.track('brew_finished');
+        service.track('last_step_reached');
+        service.track('last_step_skipped');
+        expect(service.bufferLength, 0);
+      },
+    );
+
+    test(
+      'is no-op when global kill switch is on (plan 042 completion events)',
+      () {
+        service.setGlobalKillSwitch(true);
+        service.track('brew_finished');
+        service.track('last_step_reached');
+        service.track('last_step_skipped');
+        expect(service.bufferLength, 0);
+      },
+    );
+
     test('is no-op when category disabled (beans)', () async {
       await service.setBeansEnabled(false);
       service.track('beans_added');

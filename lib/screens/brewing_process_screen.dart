@@ -98,6 +98,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   late AnimationController
   _endBrewAnimationController; // For end of brew animation
   bool _isEndBrewAnimating = false; // Flag for end of brew animation state
+  bool _brewFinishedEmitted = false; // Guards brew_finished (plan 042, A1)
+  bool _lastStepReachedEmitted =
+      false; // Guards last_step_reached (plan 042, E1)
 
   DateTime? _brewAnchorUtc; // Wall-clock anchor for brew start
   DateTime? _currentStepStartedAtUtc; // Wall-clock anchor for current step
@@ -338,6 +341,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
 
     _brewAnchorUtc = DateTime.now().toUtc();
     startTimer();
+    // Covers single-step recipes, where the brew starts already on the last
+    // step (plan 042, E1).
+    _maybeEmitLastStepReached();
     // Keep Flutter alive in background so step-transition activity.update()
     // calls can reach the Lock Screen Live Activity on iOS.
     unawaited(IosBackgroundTaskService.instance.startBrewingTask());
@@ -401,6 +407,41 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     );
   }
 
+  // Emits `brew_finished` at most once per brew (plan 042, A1). This is the
+  // signal that a brew genuinely reached its end from this screen, as
+  // opposed to `brew_completed`, which is emitted later from
+  // FinishScreen.initState and is lost if that screen never mounts.
+  void _emitBrewFinished(String completionPath) {
+    if (_brewFinishedEmitted) return;
+    _brewFinishedEmitted = true;
+    AnalyticsService.instance.track(
+      'brew_finished',
+      properties: {
+        'recipe_id': widget.recipe.id,
+        'total_steps': brewingSteps.length,
+        'completion_path': completionPath,
+      },
+    );
+  }
+
+  // Emits `last_step_reached` once per brew, the first time the user is on
+  // the final step (plan 042, E1). This is the denominator for the skip
+  // rate and for measuring drawdown abandonment.
+  void _maybeEmitLastStepReached() {
+    if (_lastStepReachedEmitted) return;
+    if (brewingSteps.isEmpty) return;
+    if (currentStepIndex != brewingSteps.length - 1) return;
+    _lastStepReachedEmitted = true;
+    AnalyticsService.instance.track(
+      'last_step_reached',
+      properties: {
+        'recipe_id': widget.recipe.id,
+        'total_steps': brewingSteps.length,
+        'step_duration_seconds': brewingSteps[currentStepIndex].time.inSeconds,
+      },
+    );
+  }
+
   void startTimer() {
     // Set wall-clock anchor for the current step
     _currentStepStartedAtUtc = DateTime.now().toUtc().subtract(
@@ -426,6 +467,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
             currentStepIndex++;
             currentStepTime = 0;
           });
+          _maybeEmitLastStepReached();
           _currentStepStartedAtUtc = DateTime.now().toUtc();
           _updateLiveActivity();
         } else {
@@ -436,6 +478,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
           setState(() {
             _isEndBrewAnimating = true;
           });
+          _emitBrewFinished('timer');
           _endBrewAnimationController.forward(from: 0.0);
         }
       } else {
@@ -1083,6 +1126,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       currentStepIndex = state.stepIndex;
       currentStepTime = state.stepElapsedSeconds;
     });
+    _maybeEmitLastStepReached();
     _currentStepStartedAtUtc = DateTime.now().toUtc().subtract(
       Duration(seconds: state.stepElapsedSeconds),
     );
@@ -1115,6 +1159,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       currentStepTime = brewingSteps.last.time.inSeconds;
       _isEndBrewAnimating = true;
     });
+    // A brew that resyncs straight to finished did reach the last step.
+    _maybeEmitLastStepReached();
+    _emitBrewFinished('resync');
     _endBrewAnimationController.forward(from: 0.0);
 
     AppLogger.info(
@@ -1127,6 +1174,23 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     if (currentStepIndex != brewingSteps.length - 1 || _isEndBrewAnimating) {
       return;
     }
+
+    // Capture timing values before any state mutation.
+    final secondsIntoStep = currentStepTime;
+    final secondsRemaining = math.max(
+      0,
+      brewingSteps[currentStepIndex].time.inSeconds - currentStepTime,
+    );
+    AnalyticsService.instance.track(
+      'last_step_skipped',
+      properties: {
+        'recipe_id': widget.recipe.id,
+        'total_steps': brewingSteps.length,
+        'seconds_into_step': secondsIntoStep,
+        'seconds_remaining': secondsRemaining,
+      },
+    );
+    _emitBrewFinished('skip');
 
     timer.cancel();
     _playStepNotification();
@@ -1171,16 +1235,22 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
         currentStepIndex++;
         currentStepTime = 0;
       });
+      _maybeEmitLastStepReached();
       _recomputeAnchorsForStep(currentStepIndex, DateTime.now().toUtc());
       if (!_isPaused) {
         startTimer();
       }
     } else {
       // Next on the last step finishes the brew (same path as auto-finish).
+      // Not one of the three paths enumerated in plan 042 A1, but it is a
+      // real brew-ending path (manual step control, Advanced/Beta feature)
+      // and omitting it would corrupt the brew_finished/brew_completed
+      // measurement this event exists to support — see final report.
       timer.cancel();
       setState(() {
         _isEndBrewAnimating = true;
       });
+      _emitBrewFinished('manual_next');
       _endBrewAnimationController.forward(from: 0.0);
     }
   }
