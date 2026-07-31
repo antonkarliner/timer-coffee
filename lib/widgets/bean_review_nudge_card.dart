@@ -19,6 +19,8 @@ import '../models/coffee_beans_model.dart';
 import '../providers/roaster_profile_provider.dart';
 import '../services/analytics_service.dart';
 import '../services/bean_review_prompt_service.dart';
+import '../services/engagement_budget_service.dart';
+import '../services/finish_slot_resolver.dart' show kBeanReviewNudgeAskId;
 import '../theme/design_tokens.dart';
 import 'base_buttons.dart';
 import 'roaster_profile/review_form.dart';
@@ -42,17 +44,52 @@ class BeanReviewNudgeCard extends StatefulWidget {
   /// [RoasterProfileProvider] and opening [showReviewForm].
   final ReviewFormOpener? openReviewForm;
 
+  /// Shared per-visit impression guard (plan 039, Phase B2 — "Bean review,
+  /// second delivery surface"). The finish screen shares one
+  /// `_beanReviewImpressionRecorded` flag between this card and
+  /// `BrewEvalSheet`'s "Rate the beans" step, since both doors can read the
+  /// same [BeanReviewPromptDecision] in the same visit (a depletion trigger
+  /// bypasses the global cooldown, so without this guard both doors would
+  /// burn a separate impression for the same bean). Checked before this
+  /// card's own first-frame recording; defaults to "never already recorded"
+  /// for callers (and existing tests) that don't share a guard, preserving
+  /// this card's original standalone behavior.
+  final bool Function()? hasSharedImpressionRecorded;
+
+  /// Called the instant this card wins the race to record the impression,
+  /// so a sibling door sharing [hasSharedImpressionRecorded] observes the
+  /// flip before it can also record. Defaults to a no-op.
+  final VoidCallback? onImpressionRecorded;
+
+  /// Plan 039 triage item 1: `EngagementBudgetService.allowAsk` is already
+  /// consulted for this candidate inside `FinishSlotResolver.resolve`, but
+  /// nothing ever called `recordAsk` for the `finish_slot` surface — leaving
+  /// the shadow-mode evidence trail incomplete exactly where the review
+  /// nudge is concerned. Wired here (not inside the resolver) so it fires
+  /// only when this card actually paints, from the same post-frame
+  /// impression gate that calls [BeanReviewPromptService.recordImpression]
+  /// — calling it from the resolver would race the 4s `.timeout()` around
+  /// slot resolution and could record asks that never rendered. Nullable
+  /// and defaults to a no-op so existing callers/tests that don't inject a
+  /// budget service keep working unmodified.
+  final EngagementBudgetService? budgetService;
+
   const BeanReviewNudgeCard({
     super.key,
     required this.bean,
     required this.trigger,
     required this.promptService,
     this.openReviewForm,
+    this.hasSharedImpressionRecorded,
+    this.onImpressionRecorded,
+    this.budgetService,
   });
 
   @override
   State<BeanReviewNudgeCard> createState() => _BeanReviewNudgeCardState();
 }
+
+bool _neverAlreadyRecorded() => false;
 
 class _BeanReviewNudgeCardState extends State<BeanReviewNudgeCard> {
   bool _opening = false;
@@ -70,9 +107,22 @@ class _BeanReviewNudgeCardState extends State<BeanReviewNudgeCard> {
 
   Future<void> _recordImpression() async {
     if (_impressionRecorded) return;
+    if ((widget.hasSharedImpressionRecorded ?? _neverAlreadyRecorded)()) {
+      return;
+    }
     _impressionRecorded = true;
+    widget.onImpressionRecorded?.call();
     final count = await widget.promptService.recordImpression(
       widget.bean.beansUuid,
+    );
+    // Plan 039 triage item 1 — records the ask under the exact same
+    // surface/askId `FinishSlotResolver` gates on, so the budget log and
+    // the gate stay in agreement. Render-gated (only reached once this
+    // card's own first frame fires), matching `WhatsNewCard`'s equivalent
+    // `recordAsk` call for the `finish_popup` surface.
+    await widget.budgetService?.recordAsk(
+      surface: EngagementSurface.finishSlot,
+      askId: kBeanReviewNudgeAskId,
     );
     AnalyticsService.maybeInstance?.track(
       'review_nudge_card_shown',

@@ -17,9 +17,9 @@ import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:coffee_timer/widgets/add_coffee_beans_widget.dart';
 import 'package:coffee_timer/widgets/brew_diary/brew_export_action.dart';
 import 'package:coffee_timer/widgets/brew_diary/brew_note_text.dart';
+import 'package:coffee_timer/widgets/brew_diary/diary_field_editors.dart';
 import 'package:coffee_timer/widgets/confirm_delete_dialog.dart';
 import 'package:coffee_timer/widgets/containers/section_card.dart';
-import 'package:coffee_timer/widgets/fields/chip_input.dart';
 import 'package:coffee_timer/widgets/fields/dropdown_search_field.dart';
 import 'package:coffee_timer/widgets/fields/labeled_field.dart';
 import 'package:coffee_timer/widgets/fields/numeric_text_field.dart';
@@ -215,6 +215,7 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
         properties: {
           'field': 'bean',
           'entry_source': diaryEntrySourceLabel(_entry.entrySource),
+          'source': 'diary_sheet',
         },
       );
       if (!mounted) return true;
@@ -281,6 +282,7 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
         properties: {
           'field': 'amounts',
           'entry_source': diaryEntrySourceLabel(_entry.entrySource),
+          'source': 'diary_sheet',
         },
       );
       final amountsChanged =
@@ -335,6 +337,7 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
         properties: {
           'field': 'grind',
           'entry_source': diaryEntrySourceLabel(_entry.entrySource),
+          'source': 'diary_sheet',
         },
       );
       _replaceEntry(_entry.copyWith(grindSize: result));
@@ -376,6 +379,7 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
         properties: {
           'field': 'temperature',
           'entry_source': diaryEntrySourceLabel(_entry.entrySource),
+          'source': 'diary_sheet',
         },
       );
       _replaceEntry(
@@ -394,7 +398,7 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
         bodyBuilder: (context, value, onChanged, error) => Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _TasteEditor(
+            DiaryTasteEditor(
               value: value.value,
               labels: [
                 AppLocalizations.of(context)!.tasteSour,
@@ -419,6 +423,7 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
         properties: {
           'field': 'taste',
           'entry_source': diaryEntrySourceLabel(_entry.entrySource),
+          'source': 'diary_sheet',
         },
       );
       _replaceEntry(_entry.copyWith(tasteBalance: result.value));
@@ -453,6 +458,7 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
         properties: {
           'field': 'notes',
           'entry_source': diaryEntrySourceLabel(_entry.entrySource),
+          'source': 'diary_sheet',
         },
       );
       _replaceEntry(_entry.copyWith(notes: result));
@@ -468,7 +474,7 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
         title: AppLocalizations.of(context)!.brewDiaryEditTags,
         initialValue: _entry.tagList,
         saveLabel: AppLocalizations.of(context)!.done,
-        bodyBuilder: (context, value, onChanged, error) => _TagsFieldEditor(
+        bodyBuilder: (context, value, onChanged, error) => DiaryTagsFieldEditor(
           initialValues: value,
           suggestionsFuture: suggestions,
           errorText: error,
@@ -489,6 +495,7 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
         properties: {
           'field': 'tags',
           'entry_source': diaryEntrySourceLabel(_entry.entrySource),
+          'source': 'diary_sheet',
         },
       );
       _replaceEntry(
@@ -509,6 +516,7 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
         properties: {
           'field': 'rating',
           'entry_source': diaryEntrySourceLabel(_entry.entrySource),
+          'source': 'diary_sheet',
         },
       );
       _replaceEntry(_entry.copyWith(rating: result.rating));
@@ -1494,94 +1502,3 @@ class _InlineError extends StatelessWidget {
   );
 }
 
-class _TasteEditor extends StatelessWidget {
-  const _TasteEditor({
-    required this.value,
-    required this.labels,
-    required this.onChanged,
-  });
-  final int? value;
-  final List<String> labels;
-  final ValueChanged<int> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    return Row(
-      children: [
-        for (var index = 0; index < labels.length; index++) ...[
-          if (index > 0) const SizedBox(width: AppSpacing.xs),
-          Expanded(
-            child: ChoiceChip(
-              padding: EdgeInsets.zero,
-              labelPadding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.xs,
-              ),
-              label: Text(
-                labels[index],
-                maxLines: 1,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: value == index - 1
-                      ? AppSemanticColors.taste(
-                          index - 1,
-                          brightness,
-                        ).foreground
-                      : null,
-                ),
-              ),
-              selected: value == index - 1,
-              selectedColor: AppSemanticColors.taste(
-                index - 1,
-                brightness,
-              ).background,
-              onSelected: (_) => onChanged(index - 1),
-            ),
-          ),
-        ],
-      ],
-    );
-  }
-}
-
-class _TagsFieldEditor extends StatelessWidget {
-  const _TagsFieldEditor({
-    required this.initialValues,
-    required this.suggestionsFuture,
-    required this.onChanged,
-    this.errorText,
-    this.textController,
-  });
-
-  final List<String> initialValues;
-  final Future<List<String>> suggestionsFuture;
-  final ValueChanged<List<String>> onChanged;
-  final String? errorText;
-  final TextEditingController? textController;
-
-  @override
-  Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context)!;
-    return FutureBuilder<List<String>>(
-      future: suggestionsFuture,
-      builder: (context, snapshot) {
-        final suggestions = snapshot.data ?? [];
-        return ChipInput(
-          key: const Key('focusedTagsInput'),
-          label: loc.diaryTags,
-          hintText: loc.diaryTagsHint,
-          initialValues: initialValues,
-          suggestions: suggestions,
-          quickPicks: suggestions,
-          maxChips: diaryTagsMaxCount,
-          textCapitalization: TextCapitalization.none,
-          autocorrect: false,
-          capitalizeChipLabels: false,
-          errorText: errorText,
-          onChanged: onChanged,
-          controller: textController,
-        );
-      },
-    );
-  }
-}

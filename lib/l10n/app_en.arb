@@ -1665,6 +1665,10 @@
   "@finishReviewNudgeThanks": {
     "description": "Thank-you message shown on the finish-screen review nudge card after a review is submitted"
   },
+  "finishWhatsNewCardSubtitle": "Tap to see what's new in this update.",
+  "@finishWhatsNewCardSubtitle": {
+    "description": "Subtitle of the finish-screen card duplicating the home-screen \"what's new\" launch popup, inviting the user to tap for the full content"
+  },
   "confirmDeleteReviewTitle": "Delete this review?",
   "confirmDeleteReviewMessage": "This action cannot be undone.",
   "reviewsCount": "{count, plural, one{1 review} other{{count} reviews}}",
@@ -2332,6 +2336,10 @@
   "@extractionCalcDiaryAction": {
     "description": "Per-entry action button in the brew diary that opens the extraction calculator prefilled from that brew."
   },
+  "finishRatePrompt": "How was this coffee?",
+  "@finishRatePrompt": {
+    "description": "Prompt shown above the star rating row on the finish screen, inviting the user to rate the brew they just made."
+  },
   "tasteFeedbackPrompt": "How did it taste?",
   "tasteSour": "Sour",
   "tasteBalanced": "Balanced",
@@ -2545,6 +2553,10 @@
   "@diaryTags": {"description": "Label for the custom tags field on a brew diary entry."},
   "diaryTagsHint": "Add a tag",
   "@diaryTagsHint": {"description": "Hint text for the diary entry tag input field."},
+  "finishEvalSheetTitle": "Rate this brew",
+  "@finishEvalSheetTitle": {"description": "Title of the compact brew-evaluation sheet opened from the finish screen's star row."},
+  "finishEvalSheetRateBeansSection": "Rate the beans",
+  "@finishEvalSheetRateBeansSection": {"description": "Section header for the optional bean-review step shown inside the brew-evaluation sheet (plan 039, Item B2), above the reused bean-review nudge title/subtitle."},
   "failedToLoadData": "Failed to load data.",
   "@failedToLoadData": {"description": "Generic message shown when a reusable data-backed input cannot load its options."},
   "tagAlreadyAdded": "“{tag}” is already added.",

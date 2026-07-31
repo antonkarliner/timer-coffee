@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/coffee_beans_model.dart';
 import 'package:coffee_timer/services/bean_review_prompt_service.dart';
+import 'package:coffee_timer/services/engagement_budget_service.dart';
+import 'package:coffee_timer/services/finish_slot_resolver.dart'
+    show kBeanReviewNudgeAskId;
 import 'package:coffee_timer/utils/version_vector.dart';
 import 'package:coffee_timer/widgets/bean_review_nudge_card.dart';
 import 'package:flutter/material.dart';
@@ -189,6 +194,78 @@ void main() {
         find.text('Thanks! Your review helps other coffee lovers.'),
         findsOneWidget,
       );
+    },
+  );
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Plan 039 triage item 1 — recordAsk wiring for the finish_slot surface.
+  // ─────────────────────────────────────────────────────────────────────────
+
+  testWidgets(
+    'records a finish_slot budget entry under kBeanReviewNudgeAskId when '
+    'the card paints',
+    (tester) async {
+      SharedPreferences.setMockInitialValues({});
+      final prefs = await SharedPreferences.getInstance();
+      final service = BeanReviewPromptService(prefs: prefs);
+      final budget = EngagementBudgetService(prefs: prefs);
+      final bean = _makeBean(uuid: 'bean-budget');
+
+      expect(prefs.getString('engagement_budget_log'), isNull);
+
+      await tester.pumpWidget(
+        host(
+          BeanReviewNudgeCard(
+            bean: bean,
+            trigger: 'brew_count',
+            promptService: service,
+            budgetService: budget,
+          ),
+        ),
+      );
+      // First frame's post-frame callback, then let recordImpression /
+      // recordAsk's futures resolve.
+      await tester.pump();
+      await tester.pump();
+
+      final raw = prefs.getString('engagement_budget_log');
+      expect(raw, isNotNull);
+      final entries = (jsonDecode(raw!) as List).cast<Map<String, dynamic>>();
+      expect(
+        entries.any(
+          (e) =>
+              e['surface'] == EngagementSurface.finishSlot &&
+              e['askId'] == kBeanReviewNudgeAskId,
+        ),
+        isTrue,
+        reason: 'expected a finish_slot/$kBeanReviewNudgeAskId entry, got '
+            '$entries',
+      );
+    },
+  );
+
+  testWidgets(
+    'writes nothing to the budget log when no budgetService is injected '
+    '(default no-op, existing callers unaffected)',
+    (tester) async {
+      SharedPreferences.setMockInitialValues({});
+      final prefs = await SharedPreferences.getInstance();
+      final service = BeanReviewPromptService(prefs: prefs);
+      final bean = _makeBean(uuid: 'bean-no-budget');
+
+      await tester.pumpWidget(
+        host(
+          BeanReviewNudgeCard(
+            bean: bean,
+            trigger: 'brew_count',
+            promptService: service,
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+
+      expect(prefs.getString('engagement_budget_log'), isNull);
     },
   );
 }

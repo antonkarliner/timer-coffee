@@ -13,9 +13,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/coffee_beans_model.dart';
 import '../models/recipe_model.dart';
 import '../providers/bean_review_provider.dart';
 import '../providers/user_stat_provider.dart';
@@ -27,6 +27,8 @@ import '../utils/country_names.dart';
 import '../widgets/notification_permission_dialog.dart';
 import '../widgets/base_buttons.dart';
 import '../services/bean_review_prompt_service.dart';
+import '../services/engagement_budget_service.dart';
+import '../services/finish_slot_resolver.dart';
 import '../services/onboarding_service.dart';
 import '../services/analytics_service.dart';
 import '../services/region_service.dart';
@@ -36,11 +38,45 @@ import '../services/moments_service.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import '../widgets/anniversary_celebration.dart';
 import '../widgets/bean_review_nudge_card.dart';
+import '../widgets/brew_diary/brew_detail_sheet.dart' show diaryEntrySourceLabel;
 import '../widgets/falling_beans_overlay.dart';
+import '../widgets/finish/brew_eval_sheet.dart';
+import '../widgets/finish/whats_new_card.dart';
 import '../widgets/first_brew_celebration.dart';
 
 const String _nativeAppUrl = 'https://www.timer.coffee/get/';
 const String _buyMeACoffeeUrl = 'https://www.buymeacoffee.com/timercoffee';
+
+/// The DB `entry_source` code every `FinishScreen` brew writes (plan 039
+/// triage item 8). `FinishScreen` is only ever pushed from
+/// `brewing_process_screen.dart`'s guided timer flow — the sole
+/// `FinishScreen(` constructor call site in the codebase — never from
+/// manual or legacy diary entry, so hardcoding `0` ('timer') here is safe
+/// today. Keep the constant rather than threading a real value from the
+/// stat row; see [finishScreenEntrySourceLabel] for the loud-failure half
+/// of this guarantee.
+const int kFinishScreenEntrySourceCode = 0;
+
+/// [diaryEntrySourceLabel] of [kFinishScreenEntrySourceCode] — the
+/// `entry_source` label every finish-screen analytics event and DB write
+/// uses. Debug-asserts that the mapping still resolves to `'timer'`, so a
+/// future change to `diaryEntrySourceLabel`'s code→label switch that
+/// silently redefines what `0` means fails loudly here instead of quietly
+/// mislabeling finish-screen analytics. This assert cannot catch the other
+/// half of triage item 8's concern — a future caller reaching this screen
+/// through a non-timer path — since there is no per-call runtime signal to
+/// check against; that guarantee is structural (see the doc above) and must
+/// be preserved by code review, not by this function.
+String finishScreenEntrySourceLabel() {
+  final label = diaryEntrySourceLabel(kFinishScreenEntrySourceCode);
+  assert(
+    label == 'timer',
+    'FinishScreen hardcodes entrySource 0 assuming it means "timer" '
+    '(guided brews only) — diaryEntrySourceLabel\'s mapping changed '
+    'underneath that assumption.',
+  );
+  return label;
+}
 
 @visibleForTesting
 Future<void> insertGuidedBrewUserStat({
@@ -65,7 +101,29 @@ Future<void> insertGuidedBrewUserStat({
     coffeeBeansUuid: coffeeBeansUuid,
     grindSize: recipe.grindSize,
     waterTemp: waterTemp,
-    entrySource: 0,
+    entrySource: kFinishScreenEntrySourceCode,
+  );
+}
+
+/// Writes the finish-screen star row's rating and, once that write
+/// succeeds, emits `diary_entry_edited` (plan 039 triage item 7). Extracted
+/// from `_tapRatingStar` so the write+track pairing is unit-testable
+/// without mounting `FinishScreen` — see `finish_screen_test.dart`.
+@visibleForTesting
+Future<void> writeFinishScreenStarRating({
+  required UserStatProvider userStatProvider,
+  required String statUuid,
+  required double rating,
+  required String entrySource,
+}) async {
+  await userStatProvider.updateDiaryRating(statUuid: statUuid, rating: rating);
+  AnalyticsService.maybeInstance?.track(
+    'diary_entry_edited',
+    properties: {
+      'field': 'rating',
+      'entry_source': entrySource,
+      'source': 'finish_star_row',
+    },
   );
 }
 
@@ -140,8 +198,16 @@ class _FinishScreenState extends State<FinishScreen> {
   late final String _statUuid;
   bool _permissionRequestInProgress = false;
   bool _showPromoCard = false;
-  int? _tasteBalance;
-  Future<void> _tasteFeedbackWrite = Future<void>.value();
+
+  // Star row (plan 039, Item B — budget-exempt "capture" control, D2).
+  // Retired the sour/balanced/bitter chips in favor of a single satisfaction
+  // rating; taste balance moved into BrewEvalSheet as a re-editable field.
+  double? _rating;
+  // True once `_insertBrewingDataFuture` has resolved — the star row is
+  // disabled until then since a rating write targets a row that doesn't
+  // exist yet.
+  bool _ratingRowReady = false;
+  Future<void> _ratingWrite = Future<void>.value();
 
   // Approximate moment the brew finished — used as the anchor for the
   // in-sync window query.
@@ -178,12 +244,53 @@ class _FinishScreenState extends State<FinishScreen> {
   // Single-card finish slot: promo > anniversary > in-sync > review nudge >
   // coffee fact. Created once here (not in build) so it isn't re-resolved on
   // every rebuild.
-  late Future<_FinishSlotContent> _slotContentFuture;
+  late Future<FinishSlotContent> _slotContentFuture;
+
+  // Bean-review shared decision (plan 039, Phase B2 — "Bean review, second
+  // delivery surface"). `FinishSlotResolver.resolve` (called exactly once,
+  // from `_slotContentFuture`) already runs `BeanReviewPromptService
+  // .evaluate()` internally; these mirror the `reviewDecision` /
+  // `promptService` fields on the `FinishSlotResolution` it returns (plan
+  // 039 triage item 4 — the resolver returns this instead of mutating
+  // `last*` fields on itself), so both the slot card and `BrewEvalSheet`'s
+  // "Rate the beans" step read the exact same decision instead of each
+  // calling `evaluate()` a second time (which would double-count against
+  // the per-bean impression cap — see the plan's "How the shared cap
+  // actually works" for why a second `evaluate()` isn't safe even though
+  // `BeanReviewPromptService` itself is never modified). The resolution's
+  // `depletedThisBrew` isn't hoisted here — nothing downstream of
+  // `_resolveSlotDecision` reads it.
+  BeanReviewPromptDecision? _beanReviewDecision;
+  BeanReviewPromptService? _beanReviewPromptService;
+
+  // Single per-visit guard shared between the slot card
+  // (`BeanReviewNudgeCard`) and the eval sheet's "Rate the beans" step:
+  // whichever one actually renders first calls `recordImpression()`, and
+  // this flag stops the other from also recording. Plain field (not
+  // `setState`-driven) — nothing in `build()` reads it directly.
+  bool _beanReviewImpressionRecorded = false;
+
+  bool get hasBeanReviewImpressionRecorded => _beanReviewImpressionRecorded;
+
+  void _markBeanReviewImpressionRecorded() {
+    _beanReviewImpressionRecorded = true;
+  }
 
   bool get _inSyncWon =>
       _inSyncResolved &&
       _inSyncCount != null &&
       _inSyncCount! >= _inSyncThreshold;
+
+  // Cached during `_resolveSlotDecision` (plan 039 Phase C2), so `build()`
+  // can hand them to `WhatsNewCard` synchronously without re-fetching. Both
+  // are guaranteed non-null by the time the slot future can possibly resolve
+  // to `FinishSlotKind.whatsNew`, since that outcome only happens after
+  // `_resolveSlotDecision` has already constructed them. `_budgetForWhatsNew`
+  // is also handed to `BeanReviewNudgeCard` (plan 039 triage item 1) for the
+  // same reason — it's constructed before the resolver can possibly return
+  // `FinishSlotKind.reviewNudge` too.
+  SharedPreferences? _prefsForWhatsNew;
+  EngagementBudgetService? _budgetForWhatsNew;
 
   @override
   void initState() {
@@ -213,6 +320,18 @@ class _FinishScreenState extends State<FinishScreen> {
         kInSyncThresholdByHour[_brewCompletedAt.toUtc().hour] ?? 3;
     requestReview();
     _statUuid = _uuid.v7();
+    // The Completer-backed future exists as soon as `_completionWrites` is
+    // constructed, regardless of when `.start()` actually runs (from
+    // `didChangeDependencies`) — safe to attach here. Errors are swallowed:
+    // a failed insert already logs + rethrows inside
+    // `insertBrewingDataToAppDatabase`, and the star row simply stays
+    // disabled rather than writing to a row that doesn't exist.
+    _insertBrewingDataFuture.then(
+      (_) {
+        if (mounted) setState(() => _ratingRowReady = true);
+      },
+      onError: (Object _, StackTrace _) {},
+    );
     _checkAndRequestNotificationPermission();
     _resolveAnniversary();
     _queryInSync();
@@ -617,10 +736,27 @@ class _FinishScreenState extends State<FinishScreen> {
     }
   }
 
-  void _selectTasteBalance(int value) {
-    setState(() => _tasteBalance = value);
+  /// Tapping a star (1) instantly writes `rating` to the `_statUuid` row and
+  /// (2) opens [BrewEvalSheet] pre-seeded with that rating (plan 039, Item
+  /// B, D2 — budget-exempt, always visible). Mirrors the retired
+  /// `_selectTasteBalance`'s serialized-write pattern so rapid taps can't
+  /// interleave writes: `_ratingWrite = _ratingWrite.then(...)`. The sheet
+  /// only opens after the write settles (success or failure), so its own
+  /// field saves never race the initial rating write for the same row.
+  ///
+  /// Plan 039 triage item 7: once the write succeeds, emits
+  /// `diary_entry_edited {field: 'rating', entry_source, source:
+  /// 'finish_star_row'}` — the star row previously saved a rating with no
+  /// analytics event, making rating-capture rate unmeasurable. `source` is
+  /// deliberately `'finish_star_row'`, not `'finish_eval_sheet'` (the value
+  /// [BrewEvalSheet] uses for its own in-sheet rating edits): the trigger
+  /// tap and a considered in-sheet edit are different interactions and must
+  /// stay separable in the data even when a user does both for one brew.
+  Future<void> _tapRatingStar(double value) async {
+    if (!_ratingRowReady) return;
+    setState(() => _rating = value);
 
-    _tasteFeedbackWrite = _tasteFeedbackWrite
+    _ratingWrite = _ratingWrite
         .then((_) async {
           await _insertBrewingDataFuture;
           if (!mounted) return;
@@ -628,91 +764,81 @@ class _FinishScreenState extends State<FinishScreen> {
             context,
             listen: false,
           );
-          await userStatProvider.updateUserStat(
+          await writeFinishScreenStarRating(
+            userStatProvider: userStatProvider,
             statUuid: _statUuid,
-            tasteBalance: value,
+            rating: value,
+            entrySource: finishScreenEntrySourceLabel(),
           );
         })
         .catchError((Object error) {
-          AppLogger.error('Error saving taste feedback', errorObject: error);
-          if (mounted) {
-            setState(() => _tasteBalance = null);
-          }
+          AppLogger.error('Error saving finish-screen rating', errorObject: error);
         });
+    await _ratingWrite;
+    if (!mounted) return;
+    unawaited(
+      showBrewEvalSheet(
+        context,
+        statUuid: _statUuid,
+        entrySource: finishScreenEntrySourceLabel(),
+        initialRating: value,
+        // Keep the star row in sync with edits made inside the sheet —
+        // without this it kept showing the originally tapped value after
+        // the sheet closed.
+        onRatingChanged: (updated) {
+          if (!mounted) return;
+          setState(() => _rating = updated);
+        },
+        reviewDecision: _beanReviewDecision,
+        reviewPromptService: _beanReviewPromptService,
+        hasBeanReviewImpressionRecorded: () =>
+            hasBeanReviewImpressionRecorded,
+        onBeanReviewImpressionRecorded: _markBeanReviewImpressionRecorded,
+      ),
+    );
   }
 
-  Widget _buildTasteFeedback(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+  Widget _buildRatingRow(BuildContext context) {
     final theme = Theme.of(context);
-    final brightness = theme.brightness;
-    final options = <(int, String)>[
-      (-1, l10n.tasteSour),
-      (0, l10n.tasteBalanced),
-      (1, l10n.tasteBitter),
-    ];
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.base),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            l10n.tasteFeedbackPrompt,
-            style: AppTextStyles.caption.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Row(
+      child: Semantics(
+        identifier: 'finishRatingRow',
+        child: IgnorePointer(
+          ignoring: !_ratingRowReady,
+          child: Opacity(
+            opacity: _ratingRowReady ? 1.0 : 0.5,
+            child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                for (var index = 0; index < options.length; index++) ...[
-                  if (index > 0) const SizedBox(width: AppSpacing.sm),
-                  ChoiceChip(
-                    label: Text(
-                      options[index].$2,
-                      style: AppTextStyles.caption.copyWith(
-                        color: _tasteBalance == options[index].$1
-                            ? AppSemanticColors.taste(
-                                options[index].$1,
-                                brightness,
-                              ).foreground
-                            : theme.colorScheme.onSurfaceVariant,
-                        fontWeight: _tasteBalance == options[index].$1
-                            ? FontWeight.w600
-                            : FontWeight.normal,
-                      ),
-                    ),
-                    selected: _tasteBalance == options[index].$1,
-                    showCheckmark: false,
-                    selectedColor: AppSemanticColors.taste(
-                      options[index].$1,
-                      brightness,
-                    ).background,
-                    backgroundColor: theme.colorScheme.surfaceContainerLow,
-                    side: _tasteBalance == options[index].$1
-                        ? BorderSide.none
-                        : BorderSide(
-                            color: theme.colorScheme.outlineVariant,
-                            width: AppStroke.border,
-                          ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(AppRadius.chip),
-                    ),
-                    visualDensity: VisualDensity.compact,
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.sm,
-                    ),
-                    onSelected: (_) => _selectTasteBalance(options[index].$1),
+                Text(
+                  AppLocalizations.of(context)!.finishRatePrompt,
+                  textAlign: TextAlign.center,
+                  style: AppTextStyles.sectionHeader,
+                ),
+                const SizedBox(height: AppSpacing.sm),
+                KeyedSubtree(
+                  // RatingBar reads [initialRating] only on first build and
+                  // then owns its display state, so an externally changed
+                  // rating (edited inside the eval sheet) needs a new key to
+                  // force a rebuild. Value-keyed rather than const for that
+                  // reason — see [_tapRatingStar]'s onRatingChanged.
+                  key: ValueKey<String>('finishRatingBar_${_rating ?? 0}'),
+                  child: RatingBar.builder(
+                    initialRating: _rating ?? 0,
+                    minRating: 0.5,
+                    allowHalfRating: true,
+                    itemCount: 5,
+                    itemSize: AppIconSize.large,
+                    itemBuilder: (context, index) =>
+                        Icon(Icons.star, color: theme.colorScheme.primary),
+                    onRatingUpdate: (value) => _tapRatingStar(value),
                   ),
-                ],
+                ),
               ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -788,7 +914,7 @@ class _FinishScreenState extends State<FinishScreen> {
   /// (awaited via [_inSyncCompleter]) — otherwise a slow network would
   /// always trip this deadline first and the review card could never show.
   /// Created exactly once, from initState.
-  Future<_FinishSlotContent> _resolveSlotContent() async {
+  Future<FinishSlotContent> _resolveSlotContent() async {
     try {
       return await _resolveSlotDecision().timeout(const Duration(seconds: 4));
     } catch (e) {
@@ -800,61 +926,78 @@ class _FinishScreenState extends State<FinishScreen> {
     }
   }
 
-  /// Awaits the two brew-completion writes and both moment-resolution
-  /// signals, then either yields to a higher-priority moment/promo (already
-  /// occupying the slot) or runs [BeanReviewPromptService.evaluate] to
-  /// decide whether to show the review-nudge card. Never shows the card if
-  /// a moment/promo has won — see plan "Decide once, no card-swapping".
-  Future<_FinishSlotContent> _resolveSlotDecision() async {
-    final depletedThisBrew = await _updateBeanWeightFuture;
-    await _insertBrewingDataFuture;
-    await _anniversaryCompleter.future;
-    await _inSyncCompleter.future;
-    if (!mounted) return _resolveFactContent();
-
-    // A higher-priority card already claimed the slot for this brew — the
-    // review card is simply not shown (no deferral, no consumed impression;
-    // see plan "Losing the slot").
-    if (_showAnniversary || _inSyncWon || (kIsWeb && _showPromoCard)) {
-      return _resolveFactContent();
-    }
-
+  /// Delegates to [FinishSlotResolver.resolve] (plan 039 Phase A1 — wired
+  /// through [EngagementBudgetService] in shadow mode, so still no behavior
+  /// change). This method's own job is limited to
+  /// resolving the context-dependent inputs ([SharedPreferences], the
+  /// [AppDatabase]/[BeanReviewProvider] providers) that the resolver itself
+  /// must not reach for, and checking [mounted] before touching
+  /// [context]-bound APIs.
+  Future<FinishSlotContent> _resolveSlotDecision() async {
     final prefs = await SharedPreferences.getInstance();
     if (!mounted) return _resolveFactContent();
 
-    final beansUuid = prefs.getString('selectedBeanUuid');
-    final promptService = BeanReviewPromptService(prefs: prefs);
     final database = Provider.of<AppDatabase>(context, listen: false);
     final reviewProvider = Provider.of<BeanReviewProvider>(
       context,
       listen: false,
     );
-
-    final decision = await promptService.evaluate(
+    final budget = EngagementBudgetService(prefs: prefs);
+    // Cached for `build()`'s `WhatsNewCard` branch — see the field docs.
+    _prefsForWhatsNew = prefs;
+    _budgetForWhatsNew = budget;
+    final resolver = FinishSlotResolver(
       database: database,
       reviewProvider: reviewProvider,
-      beansUuid: beansUuid,
-      depletedThisBrew: depletedThisBrew,
+      prefs: prefs,
+      budget: budget,
     );
 
-    if (decision.show && decision.bean != null && decision.trigger != null) {
-      return _FinishSlotContent.reviewNudge(
-        bean: decision.bean!,
-        trigger: decision.trigger!,
-        promptService: promptService,
-      );
-    }
-    return _resolveFactContent();
+    // Plan 039 Phase C2 — the whats-new candidate. Reads the same cached
+    // "latest popup" the home popup reads (`RecipeProvider
+    // .fetchLatestLaunchPopup`, a pass-through to `DatabaseProvider`'s
+    // cached model), so this never triggers a second remote fetch. `locale`
+    // must be read before any further await here so it stays consistent
+    // with the seen-state key `WhatsNewCard` writes.
+    final locale = Localizations.localeOf(context).languageCode;
+    final whatsNewPopupFuture = Provider.of<RecipeProvider>(
+      context,
+      listen: false,
+    ).fetchLatestLaunchPopup(locale);
+
+    final resolution = await resolver.resolve(
+      updateBeanWeightFuture: _updateBeanWeightFuture,
+      insertBrewingDataFuture: _insertBrewingDataFuture,
+      anniversaryFuture: _anniversaryCompleter.future,
+      inSyncFuture: _inSyncCompleter.future,
+      showAnniversary: () => _showAnniversary,
+      inSyncWon: () => _inSyncWon,
+      showPromoCard: () => kIsWeb && _showPromoCard,
+      coffeeFact: coffeeFact,
+      isMounted: () => mounted,
+      whatsNewPopupFuture: whatsNewPopupFuture,
+      locale: locale,
+    );
+    // Hoist the resolver's once-per-visit bean-review decision (plan 039
+    // Phase B2) so the eval sheet's "Rate the beans" step can read the exact
+    // same decision the slot card renders from — see the field docs above.
+    // No `setState`: nothing in `build()` depends on these directly, only
+    // the sheet invocation in `_tapRatingStar` reads them at tap time.
+    _beanReviewDecision = resolution.reviewDecision;
+    _beanReviewPromptService = resolution.promptService;
+    return resolution.content;
   }
 
   /// Awaits the existing [coffeeFact] future, preserving its current
   /// data/error/pending semantics for the fact-card branch of the slot.
-  Future<_FinishSlotContent> _resolveFactContent() async {
+  /// Used only for the outer timeout/error fallback in [_resolveSlotContent]
+  /// — the resolver has its own equivalent for the paths it owns.
+  Future<FinishSlotContent> _resolveFactContent() async {
     try {
       final fact = await coffeeFact;
-      return _FinishSlotContent.fact(fact);
+      return FinishSlotContent.fact(fact);
     } catch (e) {
-      return _FinishSlotContent.factError(e);
+      return FinishSlotContent.factError(e);
     }
   }
 
@@ -1065,6 +1208,33 @@ class _FinishScreenState extends State<FinishScreen> {
 
     final showInSync = _inSyncWon;
 
+    // Same UI slot for promo / anniversary / in-sync / review nudge / coffee
+    // fact. Priority is read from the shared [kFinishSlotCandidates]
+    // registration table (plan 039 Phase A1) rather than hand-encoded here,
+    // so a future synchronous candidate is a registration, not a rewrite of
+    // this chain. Each higher tier REPLACES the default fact card so the
+    // screen stays single-card (plan 021).
+    //
+    // Only the [FinishSlotCandidateId.resolvesSynchronously] candidates are
+    // considered here — they render live from already-resolved screen state
+    // the instant their flag flips, ahead of the FutureBuilder below, which
+    // is exactly today's fast-path (STOP condition: this must never wait on
+    // the async slot future — see plan 039, Phase A1 invariant).
+    final Map<FinishSlotCandidateId, bool> syncEligibility = {
+      FinishSlotCandidateId.promo: kIsWeb && _showPromoCard,
+      FinishSlotCandidateId.anniversary: _showAnniversary,
+      FinishSlotCandidateId.inSync: showInSync,
+    };
+    FinishSlotCandidateId? syncWinner;
+    for (final candidate in kFinishSlotCandidates.where(
+      (c) => c.resolvesSynchronously,
+    )) {
+      if (syncEligibility[candidate.id] == true) {
+        syncWinner = candidate.id;
+        break;
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Semantics(
@@ -1104,21 +1274,16 @@ class _FinishScreenState extends State<FinishScreen> {
                       brewingMethodId: widget.recipe.brewingMethodId,
                     ),
                     const SizedBox(height: AppSpacing.base),
-                    _buildTasteFeedback(context),
+                    _buildRatingRow(context),
                     const SizedBox(height: AppSpacing.base),
-                    // Same UI slot for promo / anniversary / in-sync /
-                    // review nudge / coffee fact. Priority: promo >
-                    // anniversary > in-sync > review nudge > coffee fact.
-                    // Each higher tier REPLACES the default fact card so the
-                    // screen stays single-card (plan 021).
-                    if (kIsWeb && _showPromoCard)
+                    if (syncWinner == FinishSlotCandidateId.promo)
                       _buildNativeAppPromoCard(context)
-                    else if (_showAnniversary)
+                    else if (syncWinner == FinishSlotCandidateId.anniversary)
                       const AnniversaryCelebration(shouldShow: true)
-                    else if (showInSync)
+                    else if (syncWinner == FinishSlotCandidateId.inSync)
                       _buildInSyncCard(context, _inSyncCount!, _inSyncCountries)
                     else
-                      FutureBuilder<_FinishSlotContent>(
+                      FutureBuilder<FinishSlotContent>(
                         future: _slotContentFuture,
                         builder: (context, snapshot) {
                           final content = snapshot.data;
@@ -1129,13 +1294,27 @@ class _FinishScreenState extends State<FinishScreen> {
                             return const CircularProgressIndicator();
                           }
                           switch (content.kind) {
-                            case _FinishSlotKind.reviewNudge:
+                            case FinishSlotKind.reviewNudge:
                               return BeanReviewNudgeCard(
                                 bean: content.bean!,
                                 trigger: content.trigger!,
                                 promptService: content.promptService!,
+                                hasSharedImpressionRecorded: () =>
+                                    hasBeanReviewImpressionRecorded,
+                                onImpressionRecorded:
+                                    _markBeanReviewImpressionRecorded,
+                                budgetService: _budgetForWhatsNew,
                               );
-                            case _FinishSlotKind.factError:
+                            case FinishSlotKind.whatsNew:
+                              return WhatsNewCard(
+                                popup: content.popup!,
+                                locale: Localizations.localeOf(
+                                  context,
+                                ).languageCode,
+                                budgetService: _budgetForWhatsNew!,
+                                prefs: _prefsForWhatsNew!,
+                              );
+                            case FinishSlotKind.factError:
                               return Semantics(
                                 identifier: 'coffeeFactCard',
                                 child: Text(
@@ -1144,7 +1323,7 @@ class _FinishScreenState extends State<FinishScreen> {
                                   )!.failedToLoadData,
                                 ),
                               );
-                            case _FinishSlotKind.fact:
+                            case FinishSlotKind.fact:
                               return Semantics(
                                 identifier: 'coffeeFactCard',
                                 child: Card(
@@ -1246,46 +1425,4 @@ class _FinishScreenState extends State<FinishScreen> {
       ),
     );
   }
-}
-
-/// What the single finish-screen card slot ultimately renders once
-/// [_FinishScreenState._resolveSlotContent] settles: either the bean-review
-/// nudge card, the coffee fact, or the coffee fact's error state (mirrors
-/// the previous plain `FutureBuilder<String>` semantics — see plan 021,
-/// "Finish-screen wiring").
-enum _FinishSlotKind { reviewNudge, fact, factError }
-
-class _FinishSlotContent {
-  final _FinishSlotKind kind;
-  final CoffeeBeansModel? bean;
-  final String? trigger;
-  final BeanReviewPromptService? promptService;
-  final String? factText;
-  final Object? error;
-
-  const _FinishSlotContent._({
-    required this.kind,
-    this.bean,
-    this.trigger,
-    this.promptService,
-    this.factText,
-    this.error,
-  });
-
-  factory _FinishSlotContent.reviewNudge({
-    required CoffeeBeansModel bean,
-    required String trigger,
-    required BeanReviewPromptService promptService,
-  }) => _FinishSlotContent._(
-    kind: _FinishSlotKind.reviewNudge,
-    bean: bean,
-    trigger: trigger,
-    promptService: promptService,
-  );
-
-  factory _FinishSlotContent.fact(String text) =>
-      _FinishSlotContent._(kind: _FinishSlotKind.fact, factText: text);
-
-  factory _FinishSlotContent.factError(Object error) =>
-      _FinishSlotContent._(kind: _FinishSlotKind.factError, error: error);
 }

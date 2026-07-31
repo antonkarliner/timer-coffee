@@ -26,8 +26,11 @@ import '../utils/app_logger.dart';
 ///   collection interactions and sharing, donation_screen_viewed,
 ///   donation_button_tapped, donation_completed, donation_failed,
 ///   roaster_profile_viewed, roaster_link_tapped, roaster_contribution_shown/
-///   _submitted/_dismissed, and the "moments" (surprise-and-delight) events
-///   moment_shown, moment_interacted, moment_discovered
+///   _submitted/_dismissed, the "moments" (surprise-and-delight) events
+///   moment_shown, moment_interacted, moment_discovered, the finish-
+///   screen engagement budget (plan 039, shadow mode) events
+///   engagement_ask_shown, engagement_ask_suppressed, and the launch popup
+///   events popup_shown, popup_dismissed, popup_link_tapped
 class AnalyticsService extends ChangeNotifier {
   AnalyticsService._();
 
@@ -136,6 +139,13 @@ class AnalyticsService extends ChangeNotifier {
     'moment_shown': 'general',
     'moment_interacted': 'general',
     'moment_discovered': 'general',
+    // Engagement budget (plan 039, shadow mode)
+    'engagement_ask_shown': 'general',
+    'engagement_ask_suppressed': 'general',
+    // Launch popup analytics (plan 039, Item C)
+    'popup_shown': 'general',
+    'popup_dismissed': 'general',
+    'popup_link_tapped': 'general',
   };
 
   // ──────────────────── State ────────────────────

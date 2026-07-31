@@ -1,17 +1,51 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart'
-    show kIsWeb, defaultTargetPlatform, TargetPlatform;
+    show kIsWeb, defaultTargetPlatform, TargetPlatform, visibleForTesting;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:coffee_timer/models/launch_popup_model.dart';
 import 'package:coffee_timer/providers/recipe_provider.dart';
+import 'package:coffee_timer/services/analytics_service.dart';
+import 'package:coffee_timer/services/engagement_budget_service.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:url_launcher/url_launcher.dart'; // Ensure correct import path
 import 'package:flutter_markdown/flutter_markdown.dart';
 
+/// Source-screen tag sent on every popup analytics event fired from this
+/// widget. The finish-screen duplicate (Item C, Phase C2) will use a
+/// different value; this widget only ever fires 'home'.
+const String _kSourceScreen = 'home';
+
 class LaunchPopupWidget extends StatefulWidget {
+  const LaunchPopupWidget({
+    super.key,
+    this.fetchPopupOverride,
+    this.budgetServiceBuilder,
+  });
+
+  /// Injectable override for fetching the latest popup, bypassing the real
+  /// `RecipeProvider` (and its database/provider-tree dependencies) so this
+  /// widget is testable in isolation. Defaults to the real
+  /// `RecipeProvider.fetchLatestLaunchPopup` flow.
+  final Future<LaunchPopupModel?> Function(BuildContext context, String locale)?
+      fetchPopupOverride;
+
+  /// Injectable builder for the engagement-budget service, so tests can
+  /// supply a fake clock or intercept `recordAsk`. Defaults to
+  /// `EngagementBudgetService(prefs: prefs)`.
+  final EngagementBudgetService Function(SharedPreferences prefs)?
+      budgetServiceBuilder;
+
+  /// Resets the session-only "already shown" guard. Test-only — production
+  /// code relies on the guard persisting for the lifetime of the app process.
+  @visibleForTesting
+  static void resetForTesting() {
+    _LaunchPopupWidgetState._shownThisSession = false;
+  }
+
   @override
   State<LaunchPopupWidget> createState() => _LaunchPopupWidgetState();
 }
@@ -66,9 +100,18 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
     if (!mounted) return;
     final locale = Localizations.localeOf(context).languageCode;
 
-    // Fetch latest popup (remote-first via provider)
-    final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
-    final popup = await recipeProvider.fetchLatestLaunchPopup(locale);
+    // Fetch latest popup (remote-first via provider, unless overridden for tests).
+    // Captured synchronously (before the await) so context is never touched
+    // across an async gap.
+    final Future<LaunchPopupModel?> popupFuture;
+    if (widget.fetchPopupOverride != null) {
+      popupFuture = widget.fetchPopupOverride!(context, locale);
+    } else {
+      final recipeProvider =
+          Provider.of<RecipeProvider>(context, listen: false);
+      popupFuture = recipeProvider.fetchLatestLaunchPopup(locale);
+    }
+    final popup = await popupFuture;
 
     if (popup == null) return; // nothing to show
     // Platform gating: skip popups that don't target this platform
@@ -96,13 +139,37 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
     // Set session guard before showing to avoid racing rebuilds
     _shownThisSession = true;
 
-    showDialog(
+    AnalyticsService.maybeInstance?.track('popup_shown', properties: {
+      'popup_id': popup.id,
+      'source_screen': _kSourceScreen,
+      'locale': locale,
+    });
+
+    // Record this exposure against the engagement budget (plan 039, Item C).
+    // A later finish-screen exposure of the same popup_id (Phase C2) dedups
+    // against this entry via EngagementBudgetService's popup-sharing rule.
+    final budgetService = widget.budgetServiceBuilder != null
+        ? widget.budgetServiceBuilder!(prefs)
+        : EngagementBudgetService(prefs: prefs);
+    await budgetService.recordAsk(
+      surface: EngagementSurface.homePopup,
+      askId: popup.id.toString(),
+    );
+
+    if (!mounted) return;
+
+    // showDialog<bool> resolves to `true` only when the Close button popped
+    // it explicitly; a barrier tap or the system back gesture resolves to
+    // `null`, which is exactly the reflex-dismissal signal this analytics
+    // event exists to capture. Seen-state (idKey) is unaffected — it is
+    // still written only inside the Close button's onPressed, unchanged.
+    final closedExplicitly = await showDialog<bool>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(AppLocalizations.of(context)!.whatsnewtitle),
           content: SingleChildScrollView(
-            child: _buildMarkdown(context, popup.content),
+            child: _buildMarkdown(context, popup.content, popup.id),
           ),
           actions: <Widget>[
             AppTextButton(
@@ -112,16 +179,22 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
               padding: AppButton.paddingSmall,
               onPressed: () async {
                 await prefs.setInt(idKey, popup.id);
-                if (context.mounted) Navigator.of(context).pop();
+                if (context.mounted) Navigator.of(context).pop(true);
               },
             ),
           ],
         );
       },
     );
+
+    AnalyticsService.maybeInstance?.track('popup_dismissed', properties: {
+      'popup_id': popup.id,
+      'source_screen': _kSourceScreen,
+      'dismiss_method': closedExplicitly == true ? 'close' : 'barrier_or_back',
+    });
   }
 
-  Widget _buildMarkdown(BuildContext context, String data) {
+  Widget _buildMarkdown(BuildContext context, String data, int popupId) {
     final theme = Theme.of(context);
     final baseStyle = theme.textTheme.bodyMedium;
     final linkColor = Colors.lightBlue;
@@ -138,6 +211,12 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
       softLineBreak: true,
       onTapLink: (text, href, title) async {
         if (href == null) return;
+        final hrefType = href.startsWith('app://') ? 'deep_link' : 'external';
+        AnalyticsService.maybeInstance?.track('popup_link_tapped', properties: {
+          'popup_id': popupId,
+          'source_screen': _kSourceScreen,
+          'href_type': hrefType,
+        });
         if (href.startsWith('app://')) {
           final routePath = href.substring(6);
           if (context.mounted) {
