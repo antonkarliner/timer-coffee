@@ -501,6 +501,15 @@ List<DiaryEntry> _filterResetEntries(DateTime now) {
         DateTime(now.year, now.month, day, 8),
         isMarked: day == lastDay,
       ),
+    // Padding below the target so the list can always scroll its date header
+    // flush to the top. Without it, an early-in-the-month `now` leaves only a
+    // few days beneath the target, the list hits `maxScrollExtent` first, and
+    // the alignment assertion fails for reasons unrelated to navigation.
+    for (var offset = 1; offset <= 30; offset++)
+      _entry(
+        'filter-earlier-$offset',
+        DateTime(now.year, now.month, 1, 8).subtract(Duration(days: offset)),
+      ),
   ];
 }
 

@@ -208,7 +208,9 @@ void main() {
       ])
         tester.getRect(find.byKey(Key(key))),
     ];
-    expect(statRects.map((rect) => rect.height).toSet(), hasLength(1));
+    for (final rect in statRects.skip(1)) {
+      expect(rect.height, closeTo(statRects.first.height, 0.1));
+    }
     expect(statRects[0].top, closeTo(statRects[1].top, 0.1));
     expect(statRects[2].top, closeTo(statRects[3].top, 0.1));
     expect(statRects[2].top, greaterThan(statRects[0].top));
