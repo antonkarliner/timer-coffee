@@ -1,0 +1,12 @@
+Baru:
+• Ekspor diari seduhan sebagai Markdown — semuanya, satu biji kopi, atau satu seduhan.
+• Nilai seduhan segera setelah selesai: bintang, rasa, catatan, tag.
+• Pusat Bantuan baru dalam semua bahasa yang didukung.
+• Ekspor semua data dari Pengaturan.
+
+Ditingkatkan:
+• Lebih banyak ruang untuk catatan seduhan; tautan yang ditempel dapat diketuk.
+• Saran gilingan kini memakai riwayat seduhan Anda.
+
+Diperbaiki:
+• Kolom angka yang ter-reset saat diketik.

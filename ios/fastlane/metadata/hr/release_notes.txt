@@ -1,12 +1,16 @@
 Što je novo:
-• Upoznaj redizajnirani Dnevnik pripreme: pretražuj i filtriraj svoju povijest, označi istaknute šalice, pregledaj mjesečni napredak i prati put svakog zrna.
-• Usporedi pokušaje pripreme jedan pored drugoga da vidiš što se promijenilo i usavršiš svoju kavu.
-• Izračunaj prinos ekstrakcije novim kalkulatorom i spremi rezultat izravno u svoju pripremu.
+• Izvezi svoj Dnevnik pripreme kao Markdown — cijeli dnevnik, povijest jednog zrna ili jednu pripremu — kako bi tvoje bilješke uvijek ostale tvoje.
+• Ocijeni pripremu odmah nakon što je završiš: zvjezdice, okus, bilješke i oznake na jednom brzom zaslonu.
+• Upoznaj Centar za pomoć: vodiče i odgovore o aplikaciji, dostupne na svim podržanim jezicima.
+• Izvezi sve svoje podatke iz Postavke → Privatnost i analitika: potvrdi e‑mailom i primi arhivu za preuzimanje.
+• Prijeđi izravno na putovanje zrna kave iz njegove povijesti pripreme.
 
 Poboljšanja:
-• Skeniranje oznaka vrećica kave uz pomoć AI-ja sada je brže.
-• Sučelje je dorađeno za ujednačenije iskustvo.
-• Prijevodi su poboljšani na svim podržanim jezicima.
+• Bilješke o pripremi sada su pravi dio svakog zapisa — više prostora za čitanje, a poveznice koje zalijepiš ostaju dodirljive.
+• Prijedlozi za finoću mljevenja sada se temelje na tvojoj povijesti pripreme, a ne samo na zapisima o zrnu.
+• Poboljšani prijevodi na svim podržanim jezicima.
 
-Ispravci pogrešaka:
-• Ispravljen je problem zbog kojeg su se recepti mogli prikazati više puta.
+Ispravci grešaka:
+• Ispravljeno ponovno postavljanje temperature vode i drugih brojčanih polja ili nemogućnost njihova brisanja tijekom unosa.
+• Ispravljeno zadržavanje padajućih izbornika s prijedlozima na mjestu umjesto praćenja pripadajućeg polja pri pomicanju stranice.
+• Ispravljeno prelaženje dugih oznaka polja preko ruba u prikazu detalja pripreme.

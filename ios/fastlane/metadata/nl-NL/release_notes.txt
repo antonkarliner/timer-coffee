@@ -1,12 +1,16 @@
 Wat is er nieuw:
-• Maak kennis met het vernieuwde Brouwdagboek: zoek en filter in je geschiedenis, markeer opvallende kopjes als bladwijzer, bekijk je maandelijkse voortgang en volg de reis van elke boon.
-• Vergelijk zetpogingen naast elkaar om te zien wat er is veranderd en je koffie verder af te stemmen.
-• Bereken het extractierendement met de nieuwe calculator en sla het resultaat rechtstreeks bij je brouwsel op.
+• Exporteer je brouwdagboek als Markdown — het hele dagboek, de geschiedenis van één boon of één zetbeurt — zodat je notities altijd van jou blijven.
+• Beoordeel een zetbeurt direct nadat je deze hebt afgerond: sterren, smaak, notities en tags in één handig scherm.
+• Maak kennis met het Helpcentrum: handleidingen en antwoorden over de app, beschikbaar in elke ondersteunde taal.
+• Exporteer al je gegevens via Instellingen → Privacy en analyses: bevestig via e-mail en ontvang een downloadbaar archief.
+• Ga rechtstreeks naar de bonenreis vanuit de brouwgeschiedenis.
 
 Verbeteringen:
-• Door AI ondersteund scannen van koffiezaketiketten is nu sneller.
-• De interface is verfijnd voor een consistentere ervaring.
-• Vertalingen in alle ondersteunde talen zijn verbeterd.
+• Zetnotities zijn nu een volwaardig onderdeel van elke vermelding — met meer ruimte om ze te lezen, en geplakte links blijven aanklikbaar.
+• Suggesties voor de maalgraad zijn nu gebaseerd op je brouwgeschiedenis, niet alleen op je boonrecords.
+• Vertalingen in alle ondersteunde talen verbeterd.
 
 Opgeloste problemen:
-• Een probleem opgelost waardoor recepten meer dan eens konden verschijnen.
+• Opgelost: watertemperatuur en andere numerieke velden werden tijdens het typen opnieuw ingesteld of konden niet worden gewist.
+• Opgelost: vervolgkeuzelijsten met suggesties bleven op hun plaats staan in plaats van met hun veld mee te bewegen wanneer de pagina scrolde.
+• Opgelost: lange veldlabels liepen over in de weergave met zetdetails.

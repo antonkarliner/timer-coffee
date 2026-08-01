@@ -1,12 +1,16 @@
 Uutta:
-• Tutustu uudistettuun Uuttopäiväkirjaan: hae ja suodata historiaasi, merkitse parhaat kupit kirjanmerkeillä, tarkastele kuukausittaista edistymistä ja seuraa jokaisen kahvipavun matkaa.
-• Vertaa uuttoyrityksiä rinnakkain nähdäksesi, mikä muuttui, ja hio kahvistasi täydellistä.
-• Laske uuttosaanto uudella laskurilla ja tallenna tulos suoraan uuttoosi.
+• Vie uutto­päiväkirjasi Markdown-muodossa — koko päiväkirja, yhden kahvipavun historia tai yksi valmistus — jotta muistiinpanosi pysyvät aina ominasi.
+• Arvioi valmistus heti sen päätyttyä: tähdet, maku, muistiinpanot ja tunnisteet yhdessä nopeassa näkymässä.
+• Tutustu Ohjekeskukseen: oppaita ja vastauksia sovelluksesta, saatavilla kaikilla tuetuilla kielillä.
+• Vie kaikki tietosi kohdasta Asetukset → Tietosuoja ja analytiikka: vahvista sähköpostitse ja vastaanota ladattava arkisto.
+• Siirry suoraan kahvipavun matkalle sen uuttohistoriasta.
 
 Parannukset:
-• Tekoälyavusteinen kahvipussien etikettien skannaus on nyt nopeampaa.
-• Käyttöliittymää on hiottu yhtenäisemmän käyttökokemuksen takaamiseksi.
+• Valmistusmuistiinpanot ovat nyt olennainen osa jokaista merkintää — enemmän tilaa niiden lukemiseen, ja liittämäsi linkit pysyvät napautettavina.
+• Jauhatuksen karkeussuositukset perustuvat nyt uuttohistoriaasi, eivät vain kahvipaputietoihisi.
 • Käännöksiä on parannettu kaikilla tuetuilla kielillä.
 
 Virheenkorjaukset:
-• Korjattu ongelma, jonka vuoksi reseptit saattoivat näkyä useammin kuin kerran.
+• Korjattu ongelma, jossa veden lämpötila ja muut numeeriset kentät nollautuivat tai eivät tyhjentyneet kirjoittaessasi.
+• Korjattu ongelma, jossa ehdotusvalikot jäivät paikoilleen sen sijaan, että ne olisivat seuranneet kenttäänsä sivua vieritettäessä.
+• Korjattu ongelma, jossa pitkät kenttien otsikot ylittivät valmistustietonäkymän rajat.

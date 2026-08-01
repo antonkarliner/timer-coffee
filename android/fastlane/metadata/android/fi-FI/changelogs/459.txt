@@ -1,0 +1,12 @@
+Uutta:
+• Vie uuttopäiväkirjasi Markdownina – kokonaan, yhdestä kahvipavusta tai yhdestä valmistuksesta.
+• Arvioi valmistus heti valmistuksen jälkeen: tähdet, maku, muistiinpanot, tunnisteet.
+• Uusi ohjekeskus kaikilla tuetuilla kielillä.
+• Vie kaikki tietosi Asetuksista.
+
+Parannettu:
+• Enemmän tilaa valmistusmuistiinpanoille; liitetyt linkit ovat napautettavia.
+• Jauhatussuositukset hyödyntävät nyt uuttohistoriaasi.
+
+Korjattu:
+• Numeeriset kentät nollautuivat kirjoittaessa.

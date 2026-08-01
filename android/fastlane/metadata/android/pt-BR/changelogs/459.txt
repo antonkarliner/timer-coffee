@@ -1,0 +1,12 @@
+Novidades:
+• Exporte seu diário de preparo em Markdown: tudo, um grão ou um preparo.
+• Avalie um preparo ao final: estrelas, sabor, notas e tags.
+• Nova Central de Ajuda em todos os idiomas compatíveis.
+• Exporte todos os seus dados em Configurações.
+
+Melhorias:
+• Mais espaço para notas; links colados podem ser tocados.
+• Sugestões de moagem usam seu histórico de preparo.
+
+Correções:
+• Campos numéricos redefinidos durante a digitação.

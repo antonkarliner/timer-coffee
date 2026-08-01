@@ -1,0 +1,12 @@
+Nieuw:
+• Exporteer je brouwdagboek als Markdown: alles, één boon of één zetbeurt.
+• Beoordeel een zetbeurt direct na afloop: sterren, smaak, notities, tags.
+• Nieuw Helpcentrum, in elke ondersteunde taal.
+• Exporteer al je gegevens via Instellingen.
+
+Verbeterd:
+• Meer ruimte voor brouwnotities; geplakte links zijn aanklikbaar.
+• Maalsuggesties gebruiken nu je brouwgeschiedenis.
+
+Opgelost:
+• Numerieke velden werden tijdens het typen gereset.

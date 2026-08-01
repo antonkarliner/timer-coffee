@@ -1,0 +1,12 @@
+Nuevo:
+• Exporta tu diario de preparaciones en Markdown: todo, un grano o una preparación.
+• Valora una preparación al finalizar: estrellas, sabor, notas y etiquetas.
+• Nuevo Centro de ayuda en todos los idiomas compatibles.
+• Exporta todos tus datos desde Configuración.
+
+Mejoras:
+• Más espacio para notas; enlaces pegados tocables.
+• Las sugerencias de molienda ahora usan tu historial.
+
+Correcciones:
+• Campos numéricos que se restablecían al escribir.

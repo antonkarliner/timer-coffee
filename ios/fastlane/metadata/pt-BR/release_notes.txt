@@ -1,12 +1,16 @@
 Novidades:
-• Conheça o Diário de Preparo redesenhado: pesquise e filtre seu histórico, marque xícaras especiais, revise o progresso mensal e acompanhe a jornada de cada grão.
-• Compare tentativas de preparo lado a lado para ver o que mudou e ajustar seu café.
-• Calcule o rendimento de extração com a nova calculadora e salve o resultado diretamente no seu preparo.
+• Exporte seu diário de preparo como Markdown — o diário inteiro, o histórico de um único grão ou um preparo — para que suas notas estejam sempre com você.
+• Avalie um preparo assim que finalizá-lo: estrelas, sabor, notas e tags em um único painel rápido.
+• Conheça a Central de Ajuda: guias e respostas sobre o app, disponíveis em todos os idiomas compatíveis.
+• Exporte todos os seus dados em Configurações → Privacidade e análises: confirme por e-mail e receba um arquivo para download.
+• Acesse diretamente o percurso de um café a partir do histórico de preparo.
 
 Melhorias:
-• A leitura de rótulos de pacotes de café assistida por IA agora está mais rápida.
-• Interface refinada para uma experiência mais consistente.
-• Traduções melhoradas em todos os idiomas compatíveis.
+• As notas de preparo agora são uma parte adequada de cada registro — com mais espaço para lê-las, e os links que você colar permanecem clicáveis.
+• As sugestões de tamanho da moagem agora usam seu histórico de preparo, não apenas os registros de grãos.
+• Traduções aprimoradas em todos os idiomas compatíveis.
 
 Correções de bugs:
-• Corrigido um problema que podia fazer com que as receitas aparecessem mais de uma vez.
+• Corrigido um problema em que a temperatura da água e outros campos numéricos eram redefinidos ou não podiam ser limpos durante a digitação.
+• Corrigido um problema em que os menus suspensos de sugestões permaneciam no lugar em vez de acompanhar o campo quando a página era rolada.
+• Corrigido o transbordamento de rótulos longos de campos na visualização de detalhes do preparo.

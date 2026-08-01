@@ -1,0 +1,12 @@
+Nytt:
+• Eksporter bryggedagboken som Markdown – alt, én bønne eller ett brygg.
+• Vurder et brygg rett etter fullføring: stjerner, smak, notater, tagger.
+• Nytt hjelpesenter på alle støttede språk.
+• Eksporter alle dataene dine fra Innstillinger.
+
+Forbedret:
+• Mer plass til bryggnotater; innlimte lenker kan trykkes på.
+• Kverningsforslag bruker nå bryggehistorikken din.
+
+Fikset:
+• Numeriske felt ble tilbakestilt mens du skrev.

@@ -1,0 +1,12 @@
+Novità:
+• Esporta il diario del caffè in Markdown: tutto, un chicco o una preparazione.
+• Valuta una preparazione appena terminata: stelle, gusto, note, tag.
+• Nuovo Centro assistenza in tutte le lingue supportate.
+• Esporta tutti i dati da Impostazioni.
+
+Miglioramenti:
+• Più spazio per le note; i link incollati sono toccabili.
+• I suggerimenti di macinatura ora usano la cronologia.
+
+Correzioni:
+• I campi numerici si reimpostavano durante la digitazione.

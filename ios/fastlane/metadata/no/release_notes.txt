@@ -1,12 +1,16 @@
 Hva er nytt:
-• Møt den redesignede Bryggdagboken: søk og filtrer i historikken din, bokmerk enestående kopper, se månedlig fremgang og følg reisen til hver bønne.
-• Sammenlign bryggeforsøk side om side for å se hva som har endret seg, og finjuster kaffen din.
-• Beregn ekstraksjonsgrad med den nye kalkulatoren, og lagre resultatet direkte til bryggingen din.
+• Eksporter bryggdagboken din som Markdown — hele dagboken, historikken til én enkelt bønne eller ett brygg — så notatene dine alltid er dine å beholde.
+• Vurder et brygg rett etter at du har fullført det: stjerner, smak, notater og tagger i ett raskt skjema.
+• Møt Hjelpesenteret: veiledninger og svar om appen, tilgjengelig på alle støttede språk.
+• Eksporter alle dataene dine fra Innstillinger → Personvern og analyse: bekreft via e-post og motta et nedlastbart arkiv.
+• Gå rett til en bønnes bønnereise fra bryggehistorikken.
 
 Forbedringer:
-• KI-assistert skanning av kaffeposeetiketter er nå raskere.
-• Forbedret grensesnittet for en mer konsekvent opplevelse.
-• Forbedrede oversettelser på tvers av alle støttede språk.
+• Bryggenotater er nå en ordentlig del av hver oppføring — mer plass til å lese dem, og lenker du limer inn forblir trykkbare.
+• Forslag til malingsgrad bygger nå på bryggehistorikken din, ikke bare bønneoppføringene dine.
+• Forbedrede oversettelser på alle støttede språk.
 
 Feilrettinger:
-• Rettet en feil som kunne føre til at oppskrifter ble vist mer enn én gang.
+• Rettet vanntemperatur og andre numeriske felt som ble tilbakestilt eller ikke lot seg tømme mens du skrev.
+• Rettet forslagsmenyer som ble stående i stedet for å følge feltet sitt når siden ble rullet.
+• Rettet lange feltetiketter som fløt over i detaljvisningen for brygg.

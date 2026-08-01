@@ -1,12 +1,16 @@
 Yenilikler:
-• Yeniden tasarlanan Demleme Günlüğü ile tanışın: geçmişinizde arama yapın ve filtreleyin, öne çıkan fincanları yer işaretlerine ekleyin, aylık ilerlemenizi gözden geçirin ve her çekirdeğin yolculuğunu takip edin.
-• Nelerin değiştiğini görmek ve kahvenizi incelikle ayarlamak için demleme denemelerini yan yana karşılaştırın.
-• Yeni hesaplayıcıyla ekstraksiyon verimini hesaplayın ve sonucu doğrudan demlemenize kaydedin.
+• Demleme günlüğünüzü Markdown olarak dışa aktarın — günlüğün tamamını, tek bir çekirdeğin geçmişini veya tek bir demlemeyi — böylece notlarınız her zaman sizin olur.
+• Bir demlemeyi bitirir bitirmez değerlendirin: yıldızlar, tat, notlar ve etiketler tek bir hızlı formda.
+• Yardım Merkeziyle tanışın: uygulama hakkında kılavuzlar ve yanıtlar, desteklenen tüm dillerde kullanılabilir.
+• Ayarlar → Gizlilik ve analizler bölümünden tüm verilerinizi dışa aktarın: e-postayla onaylayın ve indirilebilir bir arşiv alın.
+• Demleme geçmişinden doğrudan bir çekirdeğin yolculuğuna gidin.
 
 İyileştirmeler:
-• AI destekli kahve paketi etiketi tarama artık daha hızlı.
-• Daha tutarlı bir deneyim için arayüz iyileştirildi.
+• Demleme notları artık her kaydın gerçek bir parçası — okumak için daha fazla alan var ve yapıştırdığınız bağlantılar dokunulabilir kalıyor.
+• Öğütme boyutu önerileri artık yalnızca çekirdek kayıtlarınıza değil, demleme geçmişinize de dayanıyor.
 • Desteklenen tüm dillerde çeviriler iyileştirildi.
 
 Hata Düzeltmeleri:
-• Tariflerin birden fazla kez görünmesine neden olabilecek bir sorun düzeltildi.
+• Yazarken sıfırlanan veya temizlenmeyi reddeden su sıcaklığı ve diğer sayısal alanlar düzeltildi.
+• Sayfa kaydırıldığında alanlarını takip etmek yerine yerinde kalan öneri açılır menüleri düzeltildi.
+• Demleme ayrıntıları görünümünde uzun alan etiketlerinin taşması düzeltildi.

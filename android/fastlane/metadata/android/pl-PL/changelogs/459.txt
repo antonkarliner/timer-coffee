@@ -1,0 +1,12 @@
+Nowości:
+• Eksportuj dziennik parzeń do Markdown: wszystko, jedno ziarno lub jedno parzenie.
+• Oceń parzenie po zakończeniu: gwiazdki, smak, notatki, tagi.
+• Nowe Centrum pomocy we wszystkich obsługiwanych językach.
+• Eksportuj wszystkie dane z Ustawień.
+
+Ulepszenia:
+• Więcej miejsca na notatki z parzenia; wklejone linki są klikalne.
+• Podpowiedzi mielenia korzystają teraz z historii parzeń.
+
+Poprawki:
+• Pola liczbowe nie resetują się już podczas wpisywania.

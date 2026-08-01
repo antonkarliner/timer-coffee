@@ -1,0 +1,12 @@
+Nouveautés :
+• Exportez le journal en Markdown : complet, par grain ou préparation.
+• Notez dès la fin : étoiles, goût, notes, étiquettes.
+• Centre d’aide dans toutes les langues prises en charge.
+• Exportez vos données dans Paramètres.
+
+Améliorations :
+• Plus d’espace pour les notes; liens collés cliquables.
+• Suggestions de mouture selon votre historique.
+
+Correctifs :
+• Champs numériques réinitialisés à la saisie.

@@ -1,0 +1,12 @@
+New:
+• Export your brew diary as Markdown — all of it, one bean, or one brew.
+• Rate a brew as soon as you finish: stars, taste, notes, tags.
+• New Help Center, in every supported language.
+• Export all your data from Settings.
+
+Improved:
+• More room for brew notes; pasted links are tappable.
+• Grind suggestions now use your brew history.
+
+Fixed:
+• Numeric fields resetting as you typed.

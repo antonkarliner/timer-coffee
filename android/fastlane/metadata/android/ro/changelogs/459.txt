@@ -1,0 +1,12 @@
+Nou:
+• Exportă jurnalul de preparare în Markdown — integral, pentru un bob sau o preparare.
+• Evaluează prepararea imediat ce o finalizezi: stele, gust, note, etichete.
+• Centru de ajutor nou, în toate limbile acceptate.
+• Exportă toate datele din Setări.
+
+Îmbunătățiri:
+• Mai mult spațiu pentru note; linkurile lipite pot fi atinse.
+• Sugestiile de măcinare folosesc acum istoricul preparărilor.
+
+Remedieri:
+• Câmpurile numerice se resetau în timp ce tastai.

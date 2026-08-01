@@ -1,12 +1,16 @@
-Nouveautés :
-• Découvrez le Journal de préparation repensé : recherchez et filtrez votre historique, ajoutez aux favoris les tasses remarquables, consultez votre progression mensuelle et suivez le parcours de chaque grain.
-• Comparez vos préparations côte à côte pour voir ce qui a changé et ajuster votre café.
-• Calculez le taux d'extraction avec le nouveau calculateur et enregistrez le résultat directement sur votre préparation.
+Nouveautés :
+• Exportez votre journal de préparation au format Markdown — l'intégralité du journal, l'historique d'un seul grain ou une seule préparation — afin de toujours conserver vos notes.
+• Notez une préparation juste après l'avoir terminée : étoiles, goût, notes et étiquettes réunis dans une fiche rapide.
+• Découvrez le Centre d'aide : des guides et des réponses sur l'application, disponibles dans toutes les langues prises en charge.
+• Exportez toutes vos données depuis Paramètres → Confidentialité et analyses : confirmez par e-mail et recevez une archive téléchargeable.
+• Accédez directement au parcours d'un café depuis son historique de préparation.
 
-Améliorations :
-• La numérisation assistée par IA des étiquettes de sacs de café est désormais plus rapide.
-• Interface affinée pour une expérience plus cohérente.
-• Traductions améliorées dans toutes les langues prises en charge.
+Améliorations :
+• Les notes de préparation font désormais pleinement partie de chaque entrée : plus d'espace pour les lire, et les liens que vous collez restent cliquables.
+• Les suggestions de taille de mouture s'appuient désormais sur votre historique de préparation, et pas seulement sur vos fiches de grains.
+• Amélioration des traductions dans toutes les langues prises en charge.
 
-Corrections de bugs :
-• Correction d'un problème pouvant entraîner l'affichage des recettes plusieurs fois.
+Corrections de bugs :
+• Correction d'un problème où la température de l'eau et d'autres champs numériques se réinitialisaient ou refusaient de s'effacer pendant la saisie.
+• Correction d'un problème où les menus déroulants de suggestions restaient en place au lieu de suivre leur champ lors du défilement de la page.
+• Correction du débordement des longues étiquettes de champ dans la vue des détails de préparation.

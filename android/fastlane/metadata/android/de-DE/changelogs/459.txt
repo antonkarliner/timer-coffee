@@ -1,0 +1,12 @@
+Neu:
+• Exportiere dein Brühtagebuch als Markdown – komplett, für eine Bohne oder einen Brühvorgang.
+• Bewerte einen Brühvorgang direkt nach Abschluss: Sterne, Geschmack, Notizen, Tags.
+• Neues Hilfe-Center in allen unterstützten Sprachen.
+• Exportiere alle Daten über Einstellungen.
+
+Verbessert:
+• Mehr Platz für Brühnotizen; eingefügte Links sind antippbar.
+• Mahlgradvorschläge nutzen jetzt deine Brühhistorie.
+
+Behoben:
+• Zahlenfelder wurden beim Eingeben zurückgesetzt.

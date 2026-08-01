@@ -1,0 +1,12 @@
+Novo:
+• Izvezi Dnevnik pripreme kao Markdown — cijeli, jedno zrno ili jednu pripremu.
+• Ocijeni pripremu čim završiš: zvjezdice, okus, bilješke, oznake.
+• Novi Centar za pomoć na svim podržanim jezicima.
+• Izvezi sve podatke iz Postavki.
+
+Poboljšano:
+• Više prostora za bilješke; zalijepljene poveznice mogu se otvoriti.
+• Preporuke mljevenja sada koriste tvoju povijest pripreme.
+
+Ispravljeno:
+• Brojčana polja više se ne poništavaju tijekom unosa.

@@ -1,0 +1,12 @@
+Yeni:
+• Demleme günlüğünüzü tamamen, tek çekirdek veya tek demleme olarak Markdown'a aktarın.
+• Bitirir bitirmez demlemeyi değerlendirin: yıldızlar, tat, notlar, etiketler.
+• Tüm desteklenen dillerde yeni Yardım Merkezi.
+• Ayarlar'dan tüm verilerinizi dışa aktarın.
+
+İyileştirildi:
+• Demleme notları için daha fazla alan; yapıştırılan bağlantılara dokunulabilir.
+• Öğütüm önerileri artık demleme geçmişinizi kullanır.
+
+Düzeltildi:
+• Yazarken sayısal alanların sıfırlanması.

@@ -1,12 +1,16 @@
 Novedades:
-• Descubre el rediseñado Diario de preparaciones: busca y filtra tu historial, marca tazas destacadas, revisa el progreso mensual y sigue el recorrido de cada grano.
-• Compara intentos de preparación lado a lado para ver qué cambió y perfeccionar tu café.
-• Calcula el rendimiento de extracción con la nueva calculadora y guarda el resultado directamente en tu preparación.
+• Exporta tu diario de preparaciones como Markdown — el diario completo, el historial de un solo grano o una preparación — para que tus notas siempre sean tuyas.
+• Valora una preparación justo después de finalizarla: estrellas, sabor, notas y etiquetas en una sola ficha rápida.
+• Te presentamos el Centro de ayuda: guías y respuestas sobre la app, disponibles en todos los idiomas compatibles.
+• Exporta todos tus datos desde Configuración → Privacidad y análisis: confirma por correo electrónico y recibe un archivo descargable.
+• Accede directamente al recorrido de un grano desde su historial de preparaciones.
 
 Mejoras:
-• El escaneo asistido por IA de etiquetas de bolsas de café ahora es más rápido.
-• Se ha perfeccionado la interfaz para ofrecer una experiencia más coherente.
-• Se han mejorado las traducciones en todos los idiomas compatibles.
+• Las notas de preparación ahora forman parte de cada registro — más espacio para leerlas y los enlaces que pegues seguirán siendo pulsables.
+• Las sugerencias de tamaño de molienda ahora se basan en tu historial de preparaciones, no solo en tus registros de granos.
+• Traducciones mejoradas en todos los idiomas compatibles.
 
 Correcciones de errores:
-• Se ha corregido un problema que podía hacer que las recetas aparecieran más de una vez.
+• Se corrigió el restablecimiento de la temperatura del agua y otros campos numéricos, así como la imposibilidad de borrarlos mientras escribías.
+• Se corrigió que los menús desplegables de sugerencias se quedaran en su sitio en lugar de seguir su campo al desplazarse por la página.
+• Se corrigió el desbordamiento de etiquetas de campo largas en la vista de detalles de la preparación.

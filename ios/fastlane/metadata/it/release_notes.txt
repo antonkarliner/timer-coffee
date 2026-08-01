@@ -1,12 +1,16 @@
 Novità:
-• Scopri il Diario del caffè riprogettato: cerca e filtra la cronologia, aggiungi ai preferiti le tazze migliori, rivedi i progressi mensili e segui il percorso di ogni chicco.
-• Confronta le preparazioni affiancate per vedere cosa è cambiato e perfezionare il tuo caffè.
-• Calcola la resa di estrazione con il nuovo calcolatore e salva il risultato direttamente nella tua preparazione.
+• Esporta il tuo diario del caffè in formato Markdown — l'intero diario, la cronologia di un singolo chicco o una preparazione — così le tue note resteranno sempre tue.
+• Valuta una preparazione subito dopo averla terminata: stelle, gusto, note e tag in un'unica scheda rapida.
+• Scopri il Centro assistenza: guide e risposte sull'app, disponibili in tutte le lingue supportate.
+• Esporta tutti i tuoi dati da Impostazioni → Privacy e analisi: conferma via email e ricevi un archivio scaricabile.
+• Vai direttamente al Percorso del caffè dalla cronologia delle preparazioni di un chicco.
 
 Miglioramenti:
-• La scansione delle etichette delle confezioni di caffè assistita dall’AI è ora più veloce.
-• Interfaccia perfezionata per un’esperienza più coerente.
+• Le note della preparazione sono ora parte integrante di ogni voce — più spazio per leggerle e i link incollati restano selezionabili.
+• I suggerimenti sul grado di macinatura ora si basano sulla cronologia delle tue preparazioni, non solo sui dati dei chicchi.
 • Traduzioni migliorate in tutte le lingue supportate.
 
 Correzioni di bug:
-• Risolto un problema che poteva causare la visualizzazione delle ricette più di una volta.
+• Risolto un problema per cui la temperatura dell'acqua e altri campi numerici si azzeravano o non potevano essere cancellati durante la digitazione.
+• Risolto un problema per cui i menu a discesa dei suggerimenti rimanevano fermi invece di seguire il relativo campo durante lo scorrimento della pagina.
+• Risolto un problema per cui le etichette dei campi lunghi fuoriuscivano nella vista dei dettagli della preparazione.

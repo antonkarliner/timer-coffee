@@ -1,0 +1,12 @@
+Nouveau :
+• Exportez votre journal de préparation en Markdown : tout, un grain ou une préparation.
+• Notez une préparation dès la fin : étoiles, goût, notes, étiquettes.
+• Nouveau centre d'aide dans chaque langue prise en charge.
+• Exportez toutes vos données via Paramètres.
+
+Améliorations :
+• Plus de place pour les notes ; les liens collés sont cliquables.
+• Les suggestions de mouture utilisent l'historique.
+
+Corrections :
+• Les champs numériques se réinitialisaient pendant la saisie.
