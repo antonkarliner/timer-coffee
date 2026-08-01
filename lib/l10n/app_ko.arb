@@ -1504,7 +1504,7 @@
   "extractionCalcSaveSuccess": "브루잉 일지에 저장되었습니다",
   "extractionCalcDiaryLine": "EY {ey}% · TDS {tds}%",
   "extractionCalcDiaryAction": "추출량 계산",
-  "finishRatePrompt": "이 커피는 어땠나요?",
+  "finishRatePrompt": "이 추출은 어땠나요?",
   "tasteFeedbackPrompt": "맛이 어땠나요?",
   "tasteSour": "신맛",
   "tasteBalanced": "균형 잡힘",

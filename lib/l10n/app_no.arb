@@ -1655,7 +1655,7 @@
   "extractionCalcSaveSuccess": "Lagret i bryggdagboken din",
   "extractionCalcDiaryLine": "EY {ey}% · TDS {tds}%",
   "extractionCalcDiaryAction": "Beregn ekstraksjon",
-  "finishRatePrompt": "Hvordan var denne kaffen?",
+  "finishRatePrompt": "Hvordan var dette brygget?",
   "tasteFeedbackPrompt": "Hvordan smakte den?",
   "tasteSour": "Syrlig",
   "tasteBalanced": "Balansert",

@@ -1504,7 +1504,7 @@
   "extractionCalcSaveSuccess": "Spremljeno u dnevnik pripreme",
   "extractionCalcDiaryLine": "EY {ey}% · TDS {tds}%",
   "extractionCalcDiaryAction": "Izračunaj ekstrakciju",
-  "finishRatePrompt": "Kakva je bila ova kava?",
+  "finishRatePrompt": "Kakva je bila ova priprema?",
   "tasteFeedbackPrompt": "Kakav je bio okus?",
   "tasteSour": "Kiselo",
   "tasteBalanced": "Uravnoteženo",

@@ -1333,7 +1333,7 @@
   "extractionCalcSaveSuccess": "抽出日記に保存しました",
   "extractionCalcDiaryLine": "EY {ey}% · TDS {tds}%",
   "extractionCalcDiaryAction": "抽出を計算",
-  "finishRatePrompt": "このコーヒーはいかがでしたか？",
+  "finishRatePrompt": "この抽出はいかがでしたか？",
   "tasteFeedbackPrompt": "味わいはどうでしたか？",
   "tasteSour": "酸っぱい",
   "tasteBalanced": "バランスが良い",

@@ -1333,7 +1333,7 @@
   "extractionCalcSaveSuccess": "Guardado en tu diario de preparaciones",
   "extractionCalcDiaryLine": "EY {ey}% · TDS {tds}%",
   "extractionCalcDiaryAction": "Calcular extracción",
-  "finishRatePrompt": "¿Cómo estuvo este café?",
+  "finishRatePrompt": "¿Cómo estuvo esta preparación?",
   "tasteFeedbackPrompt": "¿Qué tal sabía?",
   "tasteSour": "Ácido",
   "tasteBalanced": "Equilibrado",

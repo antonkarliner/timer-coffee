@@ -2344,9 +2344,9 @@
   "@extractionCalcDiaryAction": {
     "description": "Per-entry action button in the brew diary that opens the extraction calculator prefilled from that brew."
   },
-  "finishRatePrompt": "How was this coffee?",
+  "finishRatePrompt": "How was this brew?",
   "@finishRatePrompt": {
-    "description": "Prompt shown above the star rating row on the finish screen, inviting the user to rate the brew they just made."
+    "description": "Prompt shown above the star rating row on the finish screen, inviting the user to rate the brew they just made. Must say 'brew' (or the locale's equivalent, matching finishEvalSheetTitle), never 'coffee' — the same screen shows finishReviewNudgeTitle ('How was {beanName}?'), which rates the bag, and this rating is stored per-brew."
   },
   "tasteFeedbackPrompt": "How did it taste?",
   "tasteSour": "Sour",

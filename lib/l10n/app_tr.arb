@@ -1333,7 +1333,7 @@
   "extractionCalcSaveSuccess": "Demleme günlüğünüze kaydedildi",
   "extractionCalcDiaryLine": "EY {ey}% · TDS {tds}%",
   "extractionCalcDiaryAction": "Ekstraksiyonu hesapla",
-  "finishRatePrompt": "Bu kahve nasıldı?",
+  "finishRatePrompt": "Bu demleme nasıldı?",
   "tasteFeedbackPrompt": "Tadı nasıldı?",
   "tasteSour": "Ekşi",
   "tasteBalanced": "Dengeli",

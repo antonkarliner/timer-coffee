@@ -1333,7 +1333,7 @@
   "extractionCalcSaveSuccess": "Zapisano w dzienniku parzeń",
   "extractionCalcDiaryLine": "EY {ey}% · TDS {tds}%",
   "extractionCalcDiaryAction": "Oblicz ekstrakcję",
-  "finishRatePrompt": "Jaka była ta kawa?",
+  "finishRatePrompt": "Jakie było to parzenie?",
   "tasteFeedbackPrompt": "Jak smakowała?",
   "tasteSour": "Kwaśna",
   "tasteBalanced": "Zbalansowana",

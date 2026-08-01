@@ -1185,7 +1185,7 @@
   "extractionCalcSaveSuccess": "Tallennettu uuttopäiväkirjaasi",
   "extractionCalcDiaryLine": "EY {ey}% · TDS {tds}%",
   "extractionCalcDiaryAction": "Laske uuttosaanto",
-  "finishRatePrompt": "Millainen tämä kahvi oli?",
+  "finishRatePrompt": "Millainen tämä valmistus oli?",
   "tasteFeedbackPrompt": "Miltä se maistui?",
   "tasteSour": "Hapan",
   "tasteBalanced": "Tasapainoinen",

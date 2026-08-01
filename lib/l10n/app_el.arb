@@ -1728,7 +1728,7 @@
   "extractionCalcSaveSuccess": "Αποθηκεύτηκε στο ημερολόγιο παρασκευών σας",
   "extractionCalcDiaryLine": "EY {ey}% · TDS {tds}%",
   "extractionCalcDiaryAction": "Υπολογισμός εκχύλισης",
-  "finishRatePrompt": "Πώς ήταν αυτός ο καφές;",
+  "finishRatePrompt": "Πώς ήταν αυτή η παρασκευή;",
   "tasteFeedbackPrompt": "Πώς ήταν η γεύση;",
   "tasteSour": "Ξινό",
   "tasteBalanced": "Ισορροπημένο",

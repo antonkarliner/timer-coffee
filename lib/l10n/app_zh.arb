@@ -1333,7 +1333,7 @@
   "extractionCalcSaveSuccess": "已保存到冲煮日记",
   "extractionCalcDiaryLine": "EY {ey}% · TDS {tds}%",
   "extractionCalcDiaryAction": "计算萃取率",
-  "finishRatePrompt": "这杯咖啡怎么样？",
+  "finishRatePrompt": "本次冲煮怎么样？",
   "tasteFeedbackPrompt": "味道怎么样？",
   "tasteSour": "偏酸",
   "tasteBalanced": "均衡",

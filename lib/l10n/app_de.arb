@@ -1333,7 +1333,7 @@
   "extractionCalcSaveSuccess": "Im Brühtagebuch gespeichert",
   "extractionCalcDiaryLine": "EY {ey}% · TDS {tds}%",
   "extractionCalcDiaryAction": "Extraktion berechnen",
-  "finishRatePrompt": "Wie war dieser Kaffee?",
+  "finishRatePrompt": "Wie war dieser Brühvorgang?",
   "tasteFeedbackPrompt": "Wie hat er geschmeckt?",
   "tasteSour": "Sauer",
   "tasteBalanced": "Ausgewogen",

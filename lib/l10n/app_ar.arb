@@ -1333,7 +1333,7 @@
   "extractionCalcSaveSuccess": "تم الحفظ في سجل التحضير الخاص بك",
   "extractionCalcDiaryLine": "EY {ey}% · TDS {tds}%",
   "extractionCalcDiaryAction": "احسب الاستخلاص",
-  "finishRatePrompt": "كيف كانت هذه القهوة؟",
+  "finishRatePrompt": "كيف كان هذا التحضير؟",
   "tasteFeedbackPrompt": "كيف كان مذاقها؟",
   "tasteSour": "حامضة",
   "tasteBalanced": "متوازنة",

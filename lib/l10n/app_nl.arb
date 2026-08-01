@@ -1333,7 +1333,7 @@
   "extractionCalcSaveSuccess": "Opgeslagen in je brouwdagboek",
   "extractionCalcDiaryLine": "EY {ey}% · TDS {tds}%",
   "extractionCalcDiaryAction": "Extractie berekenen",
-  "finishRatePrompt": "Hoe was deze koffie?",
+  "finishRatePrompt": "Hoe was deze zetbeurt?",
   "tasteFeedbackPrompt": "Hoe smaakte hij?",
   "tasteSour": "Zuur",
   "tasteBalanced": "In balans",

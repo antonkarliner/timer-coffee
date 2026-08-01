@@ -1333,7 +1333,7 @@
   "extractionCalcSaveSuccess": "Disimpan ke diari seduhan Anda",
   "extractionCalcDiaryLine": "EY {ey}% · TDS {tds}%",
   "extractionCalcDiaryAction": "Hitung ekstraksi",
-  "finishRatePrompt": "Bagaimana kopi ini?",
+  "finishRatePrompt": "Bagaimana seduhan ini?",
   "tasteFeedbackPrompt": "Bagaimana rasanya?",
   "tasteSour": "Asam",
   "tasteBalanced": "Seimbang",

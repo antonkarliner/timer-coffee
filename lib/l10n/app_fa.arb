@@ -1506,7 +1506,7 @@
   "extractionCalcSaveSuccess": "در دفترچه دم‌آوری شما ذخیره شد",
   "extractionCalcDiaryLine": "EY {ey}% · TDS {tds}%",
   "extractionCalcDiaryAction": "محاسبه استخراج",
-  "finishRatePrompt": "این قهوه چطور بود؟",
+  "finishRatePrompt": "این دم‌آوری چطور بود؟",
   "tasteFeedbackPrompt": "طعمش چطور بود؟",
   "tasteSour": "ترش",
   "tasteBalanced": "متعادل",

@@ -1333,7 +1333,7 @@
   "extractionCalcSaveSuccess": "Salvat în jurnalul tău de preparare",
   "extractionCalcDiaryLine": "EY {ey}% · TDS {tds}%",
   "extractionCalcDiaryAction": "Calculează extracția",
-  "finishRatePrompt": "Cum a fost cafeaua asta?",
+  "finishRatePrompt": "Cum a fost această preparare?",
   "tasteFeedbackPrompt": "Cum a fost gustul?",
   "tasteSour": "Acru",
   "tasteBalanced": "Echilibrat",

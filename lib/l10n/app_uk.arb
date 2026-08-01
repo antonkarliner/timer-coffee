@@ -1333,7 +1333,7 @@
   "extractionCalcSaveSuccess": "Збережено у щоденнику заварювань",
   "extractionCalcDiaryLine": "EY {ey}% · TDS {tds}%",
   "extractionCalcDiaryAction": "Розрахувати екстракцію",
-  "finishRatePrompt": "Як вам ця кава?",
+  "finishRatePrompt": "Як вам це заварювання?",
   "tasteFeedbackPrompt": "Яким вийшов смак?",
   "tasteSour": "Кислий",
   "tasteBalanced": "Збалансований",
