@@ -14,7 +14,6 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:coffee_timer/services/notification_service.dart';
 import '../providers/user_stat_provider.dart';
 import '../providers/user_recipe_provider.dart'; // Import UserRecipeProvider
@@ -294,7 +293,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
               _HubListTile(
                 identifier: 'blog',
                 label: l10n.blogTitle,
-                icon: Symbols.newsmode,
+                iconWidget: const NewsModeIcon(),
                 title: l10n.blogTitle,
                 subtitle: l10n.hubBlogSubtitle,
                 onTap: () => openBlog(source: 'hub'),

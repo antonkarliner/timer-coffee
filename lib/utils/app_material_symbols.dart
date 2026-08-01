@@ -41,3 +41,32 @@ class VitalSignsIcon extends StatelessWidget {
     );
   }
 }
+
+/// Release-safe vector rendering of Material Symbols' `newsmode` icon.
+class NewsModeIcon extends StatelessWidget {
+  const NewsModeIcon({super.key, this.size, this.color});
+
+  static const String _svg = '''
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+  <path d="M160-120q-33 0-56.5-23.5T80-200v-560q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v560q0 33-23.5 56.5T800-120H160Zm0-80h640v-560H160v560Zm80-80h480v-80H240v80Zm0-160h160v-240H240v240Zm240 0h240v-80H480v80Zm0-160h240v-80H480v80ZM160-200v-560 560Z"/>
+</svg>
+''';
+
+  final double? size;
+  final Color? color;
+
+  @override
+  Widget build(BuildContext context) {
+    final iconTheme = IconTheme.of(context);
+    final resolvedSize = size ?? iconTheme.size ?? 24;
+    final resolvedColor = color ?? iconTheme.color ?? Colors.black;
+
+    return SvgPicture.string(
+      _svg,
+      width: resolvedSize,
+      height: resolvedSize,
+      colorFilter: ColorFilter.mode(resolvedColor, BlendMode.srcIn),
+      excludeFromSemantics: true,
+    );
+  }
+}

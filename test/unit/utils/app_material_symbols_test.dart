@@ -22,4 +22,17 @@ void main() {
 
     expect(find.byType(SvgPicture), findsOneWidget);
   });
+
+  testWidgets('NewsModeIcon renders the exact SVG fallback', (tester) async {
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: IconTheme(
+          data: IconThemeData(size: 32, color: Colors.red),
+          child: NewsModeIcon(),
+        ),
+      ),
+    );
+
+    expect(find.byType(SvgPicture), findsOneWidget);
+  });
 }

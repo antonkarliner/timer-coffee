@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -19,6 +18,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../app_router.gr.dart';
 import '../services/analytics_service.dart';
 import '../theme/design_tokens.dart';
+import '../utils/app_material_symbols.dart';
 import '../utils/blog_launcher.dart';
 import '../widgets/base_buttons.dart';
 
@@ -297,7 +297,7 @@ class _InfoScreenState extends State<InfoScreen> {
                       child: AppElevatedButton(
                         label: l10n.blogTitle,
                         onPressed: () => openBlog(source: 'about'),
-                        icon: Symbols.newsmode,
+                        iconWidget: const NewsModeIcon(),
                         backgroundColor: Theme.of(context).colorScheme.surface,
                         foregroundColor: Theme.of(context).colorScheme.primary,
                         height: AppButton.heightSmall,
