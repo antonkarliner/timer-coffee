@@ -90,8 +90,8 @@ class LocalNotificationSchedulerService {
 
   // --- Test seams ---
   // Set [testMode] = true in tests to bypass NotificationService platform calls.
-  // Every notification that would have been scheduled is instead appended to
-  // [testScheduled] so assertions can inspect id + payload without touching the OS.
+  // [testScheduled] models the current pending OS queue so assertions can
+  // inspect id + payload without touching the platform plugin.
 
   @visibleForTesting
   static bool testMode = false;
@@ -100,7 +100,16 @@ class LocalNotificationSchedulerService {
   static final List<({int id, String? payload})> testScheduled = [];
 
   @visibleForTesting
-  static void resetTestState() => testScheduled.clear();
+  static final List<int> testCancelledIds = [];
+
+  Future<void> _beanReviewOperationTail = Future<void>.value();
+
+  @visibleForTesting
+  static void resetTestState() {
+    testScheduled.clear();
+    testCancelledIds.clear();
+    instance._beanReviewOperationTail = Future<void>.value();
+  }
 
   /// Idempotent reschedule: cancels all engagement notifications, then
   /// re-schedules based on current state.
@@ -164,11 +173,24 @@ class LocalNotificationSchedulerService {
   }
 
   Future<void> _cancelAll() async {
-    if (testMode) return;
-    final service = NotificationService.instance;
-    for (final id in _allIds) {
-      await service.cancelNotification(id);
+    final beanReviewCancellation =
+        _enqueueBeanReviewOperation(_cancelBeanReviewNudges);
+
+    if (!testMode) {
+      final service = NotificationService.instance;
+      for (final id in _allIds) {
+        if (_beanReviewNudgeIds.contains(id)) continue;
+        await service.cancelNotification(id);
+      }
     }
+    await beanReviewCancellation;
+  }
+
+  Future<void> _enqueueBeanReviewOperation(
+      Future<void> Function() operation) {
+    final queued = _beanReviewOperationTail.then((_) => operation());
+    _beanReviewOperationTail = queued.catchError((Object _, StackTrace _) {});
+    return queued;
   }
 
   Future<void> _schedule({
@@ -181,6 +203,7 @@ class LocalNotificationSchedulerService {
   }) async {
     if (at.isBefore(DateTime.now())) return;
     if (testMode) {
+      testScheduled.removeWhere((call) => call.id == id);
       testScheduled.add((id: id, payload: payload));
       return;
     }
@@ -192,6 +215,15 @@ class LocalNotificationSchedulerService {
       payload: payload,
       imagePath: imagePath,
     );
+  }
+
+  Future<void> _cancelNotification(int id) async {
+    if (testMode) {
+      testScheduled.removeWhere((call) => call.id == id);
+      testCancelledIds.add(id);
+      return;
+    }
+    await NotificationService.instance.cancelNotification(id);
   }
 
   // ---------------------------------------------------------------------------
@@ -574,6 +606,17 @@ class LocalNotificationSchedulerService {
     required AppDatabase database,
     required String beansUuid,
     required String locale,
+  }) =>
+      _enqueueBeanReviewOperation(() => _maybeScheduleBeanReviewNudgeBody(
+            database: database,
+            beansUuid: beansUuid,
+            locale: locale,
+          ));
+
+  Future<void> _maybeScheduleBeanReviewNudgeBody({
+    required AppDatabase database,
+    required String beansUuid,
+    required String locale,
   }) async {
     try {
       final settings = NotificationSettingsService.instance;
@@ -610,6 +653,18 @@ class LocalNotificationSchedulerService {
     required AppDatabase database,
     required String beansUuid,
     required String locale,
+  }) =>
+      _enqueueBeanReviewOperation(
+          () => _maybeScheduleBeanReviewNudgeOnDepletionBody(
+                database: database,
+                beansUuid: beansUuid,
+                locale: locale,
+              ));
+
+  Future<void> _maybeScheduleBeanReviewNudgeOnDepletionBody({
+    required AppDatabase database,
+    required String beansUuid,
+    required String locale,
   }) async {
     try {
       final settings = NotificationSettingsService.instance;
@@ -641,11 +696,20 @@ class LocalNotificationSchedulerService {
   /// Cancels a still-pending review nudge for [beansUuid] because the user just
   /// reviewed the bean — so we don't ask for a review they already wrote. Emits
   /// `notification_cancelled{reason:'reviewed'}` and drops it from the in-flight
-  /// watchlist. Pushes the decision timestamp into the past so the next
-  /// reschedule's materialize removes the pending OS notification without
-  /// re-nudging (the one-time guard stays set). No-op if no un-fired nudge is
-  /// pending (a review after the nudge fired is a conversion, not a cancel).
+  /// watchlist. Persists terminal state before cancelling the bean's exact OS
+  /// notification ID, keeping the one-time guard set. No-op if no un-fired
+  /// nudge is pending (a review after the nudge fired is a conversion, not a
+  /// cancel).
   Future<void> cancelPendingNudgeOnReview({
+    required AppDatabase database,
+    required String beansUuid,
+  }) =>
+      _enqueueBeanReviewOperation(() => _cancelPendingNudgeOnReviewBody(
+            database: database,
+            beansUuid: beansUuid,
+          ));
+
+  Future<void> _cancelPendingNudgeOnReviewBody({
     required AppDatabase database,
     required String beansUuid,
   }) async {
@@ -653,18 +717,51 @@ class LocalNotificationSchedulerService {
       final prefs = await SharedPreferences.getInstance();
       final map = _readInflightNudges(prefs);
       final raw = map[beansUuid];
-      if (raw == null) return;
-      final entry = (raw as Map).cast<String, dynamic>();
-      final fireMs = entry['f'] as int? ?? 0;
-      if (fireMs <= DateTime.now().millisecondsSinceEpoch) return;
+      final entry = raw is Map
+          ? raw.cast<String, dynamic>()
+          : <String, dynamic>{};
+      final now = DateTime.now();
+      final nowMs = now.millisecondsSinceEpoch;
+      final fireMs = entry['f'];
+
+      final dao = CoffeeBeansDao(database);
+      final bean = await dao.fetchCoffeeBeansByUuid(beansUuid);
+      final decidedAt = bean?.reviewNudgeScheduledAt;
+      final beanFireAt = decidedAt == null
+          ? null
+          : _atTime(decidedAt.add(const Duration(days: 1)), 10, 0);
+      final hasFutureNudge = (fireMs is int && fireMs > nowMs) ||
+          (beanFireAt?.isAfter(now) ?? false);
+      if (!hasFutureNudge) return;
+
+      int? notificationId;
+      final storedId = entry['i'];
+      if (storedId is int &&
+          storedId >= _idBeanReviewNudgeBase &&
+          storedId < _idBeanReviewNudgeBase + _beanReviewNudgeSlots) {
+        notificationId = storedId;
+      } else {
+        final pending = await _pendingBeanReviewNudges(dao, now: now);
+        final index =
+            pending.indexWhere((item) => item.bean.beansUuid == beansUuid);
+        if (index >= 0 && index < _beanReviewNudgeSlots) {
+          notificationId = _idBeanReviewNudgeBase + index;
+        }
+      }
 
       final trigger = entry['t'] ?? 'unknown';
       map.remove(beansUuid);
       await prefs.setString(_keyBeanReviewInflight, jsonEncode(map));
-
-      final dao = CoffeeBeansDao(database);
       await dao.updateReviewNudgeScheduledAt(
-          beansUuid, DateTime.now().subtract(const Duration(days: 2)));
+          beansUuid, now.subtract(const Duration(days: 2)));
+
+      if (notificationId != null) {
+        await _cancelNotification(notificationId);
+      } else {
+        AppLogger.debug(
+            'No safe notification ID for reviewed bean $beansUuid; '
+            'the next full reschedule will clear the stale notification');
+      }
 
       if (!testMode) {
         AnalyticsService.instance.track(
@@ -689,6 +786,21 @@ class LocalNotificationSchedulerService {
   /// pass — the same self-healing pattern the other engagement notifications use,
   /// instead of being scheduled once and lost on the next launch.
   Future<void> _scheduleBeanReviewNudges(
+    NotificationSettingsService settings,
+    CoffeeBeansDao coffeeBeansDao,
+    UserStatsDao userStatsDao,
+    AppLocalizations l10n,
+    SharedPreferences prefs,
+  ) =>
+      _enqueueBeanReviewOperation(() => _scheduleBeanReviewNudgesBody(
+            settings,
+            coffeeBeansDao,
+            userStatsDao,
+            l10n,
+            prefs,
+          ));
+
+  Future<void> _scheduleBeanReviewNudgesBody(
     NotificationSettingsService settings,
     CoffeeBeansDao coffeeBeansDao,
     UserStatsDao userStatsDao,
@@ -818,8 +930,8 @@ class LocalNotificationSchedulerService {
   }
 
   /// Adds a nudge to the in-flight watchlist (bean uuid → trigger + derived fire
-  /// time) so [_flushPresumedDeliveries] can emit a delivery event once its fire
-  /// time elapses. Pure analytics bookkeeping — does not affect scheduling.
+  /// time). Materialization also stores the assigned notification ID here so a
+  /// review can cancel the exact pending notification.
   Future<void> _addInflightNudge(SharedPreferences prefs, String beansUuid,
       String trigger, DateTime decidedAt) async {
     final map = _readInflightNudges(prefs);
@@ -872,28 +984,14 @@ class LocalNotificationSchedulerService {
   }) async {
     await _cancelBeanReviewNudges();
 
-    final now = DateTime.now();
     final prefs = await SharedPreferences.getInstance();
     final inflight = _readInflightNudges(prefs);
-    final candidates = await dao.fetchPendingBeanReviewNudges(
-      since: now.subtract(const Duration(days: 2)),
-      limit: _beanReviewNudgeSlots,
-    );
-
-    // Derive fire times, drop past-due ones, soonest first so the earliest
-    // nudge takes the base ID.
-    final pending = <({CoffeeBeansModel bean, DateTime fireAt})>[];
-    for (final bean in candidates) {
-      final decidedAt = bean.reviewNudgeScheduledAt;
-      if (decidedAt == null) continue;
-      final fireAt = _atTime(decidedAt.add(const Duration(days: 1)), 10, 0);
-      if (!fireAt.isAfter(now)) continue;
-      pending.add((bean: bean, fireAt: fireAt));
-    }
-    pending.sort((a, b) => a.fireAt.compareTo(b.fireAt));
+    final pending = await _pendingBeanReviewNudges(dao);
+    var assignmentsChanged = false;
 
     for (var i = 0; i < pending.length && i < _beanReviewNudgeSlots; i++) {
       final bean = pending[i].bean;
+      final id = _idBeanReviewNudgeBase + i;
       String? imagePath;
       if (!testMode && bean.roaster.isNotEmpty) {
         try {
@@ -907,28 +1005,68 @@ class LocalNotificationSchedulerService {
       }
 
       // Carry the trigger in the payload so a tap can be attributed to it.
-      final entry = inflight[bean.beansUuid];
-      final trigger = entry is Map ? entry['t'] as String? : null;
+      final rawEntry = inflight[bean.beansUuid];
+      final entry = rawEntry is Map
+          ? rawEntry.cast<String, dynamic>()
+          : <String, dynamic>{};
+      final trigger = entry['t'] as String?;
       final payload = trigger != null
           ? '/beans/${bean.beansUuid}?focus=review&t=$trigger'
           : '/beans/${bean.beansUuid}?focus=review';
 
       await _schedule(
-        id: _idBeanReviewNudgeBase + i,
+        id: id,
         title: _beanReviewTitleFor(l10n, bean),
         body: l10n.notifBeanReviewNudgeBody,
         at: pending[i].fireAt,
         payload: payload,
         imagePath: imagePath,
       );
+
+      if (rawEntry is Map && entry['i'] != id) {
+        entry['i'] = id;
+        inflight[bean.beansUuid] = entry;
+        assignmentsChanged = true;
+      }
     }
+
+    if (assignmentsChanged) {
+      await prefs.setString(_keyBeanReviewInflight, jsonEncode(inflight));
+    }
+  }
+
+  /// Returns pending beans in the exact positional-ID assignment order used by
+  /// materialization. Legacy in-flight entries without a stored ID use this
+  /// same list to resolve their notification safely.
+  Future<List<({CoffeeBeansModel bean, DateTime fireAt})>>
+      _pendingBeanReviewNudges(
+    CoffeeBeansDao dao, {
+    DateTime? now,
+  }) async {
+    final current = now ?? DateTime.now();
+    final candidates = await dao.fetchPendingBeanReviewNudges(
+      since: current.subtract(const Duration(days: 2)),
+      limit: _beanReviewNudgeSlots,
+    );
+
+    // Derive fire times, drop past-due ones, soonest first so the earliest
+    // nudge takes the base ID.
+    final pending = <({CoffeeBeansModel bean, DateTime fireAt})>[];
+    for (final bean in candidates) {
+      final decidedAt = bean.reviewNudgeScheduledAt;
+      if (decidedAt == null) continue;
+      final fireAt = _atTime(decidedAt.add(const Duration(days: 1)), 10, 0);
+      if (!fireAt.isAfter(current)) continue;
+      pending.add((bean: bean, fireAt: fireAt));
+    }
+    pending.sort((a, b) => a.fireAt.compareTo(b.fireAt));
+    return pending;
   }
 
   /// Cancels every notification in the bean-review ID band.
   Future<void> _cancelBeanReviewNudges() async {
-    if (testMode) return;
     for (final id in _beanReviewNudgeIds) {
-      await NotificationService.instance.cancelNotification(id);
+      await _cancelNotification(id);
     }
   }
 

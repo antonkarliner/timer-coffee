@@ -1010,6 +1010,7 @@ void main() {
       expect(entry['t'], equals('depletion'));
       expect(entry['f'] as int,
           greaterThan(DateTime.now().millisecondsSinceEpoch));
+      expect(entry['i'] as int, inInclusiveRange(1601, 1610));
     });
 
     test('rescheduleAll flushes past-due in-flight nudges, keeps future ones',
@@ -1052,7 +1053,38 @@ void main() {
       }
     }
 
-    test('drops a pending nudge and prevents re-materialize', () async {
+    List<({int id, String? payload})> pendingFor(String beansUuid) =>
+        LocalNotificationSchedulerService.testScheduled
+            .where((call) =>
+                call.payload?.startsWith(
+                    '/beans/$beansUuid?focus=review') ??
+                false)
+            .toList();
+
+    Future<void> scheduleTwoBeans() async {
+      await db.coffeeBeansDao
+          .insertCoffeeBeans(_makeBean(uuid: 'bean-x', name: 'X'));
+      await db.coffeeBeansDao
+          .insertCoffeeBeans(_makeBean(uuid: 'bean-y', name: 'Y'));
+      await seedBrews('bean-x', 2);
+      await seedBrews('bean-y', 2);
+      await LocalNotificationSchedulerService.instance
+          .maybeScheduleBeanReviewNudgeOnDepletion(
+              database: db, beansUuid: 'bean-x', locale: 'en');
+      await LocalNotificationSchedulerService.instance
+          .maybeScheduleBeanReviewNudgeOnDepletion(
+              database: db, beansUuid: 'bean-y', locale: 'en');
+
+      // Make assignment order explicit: X fires first, Y one day later.
+      await db.coffeeBeansDao.updateReviewNudgeScheduledAt(
+          'bean-x', DateTime.now());
+      await db.coffeeBeansDao.updateReviewNudgeScheduledAt(
+          'bean-y', DateTime.now().add(const Duration(days: 1)));
+      await runScheduler();
+    }
+
+    test('immediately removes a pending nudge and prevents re-materialize',
+        () async {
       await db.coffeeBeansDao
           .insertCoffeeBeans(_makeBean(uuid: 'bean-x', name: 'X'));
       await seedBrews('bean-x', 2);
@@ -1064,6 +1096,9 @@ void main() {
       await LocalNotificationSchedulerService.instance
           .cancelPendingNudgeOnReview(database: db, beansUuid: 'bean-x');
 
+      expect(pendingFor('bean-x'), isEmpty,
+          reason: 'reviewed bean is removed from the pending OS queue');
+
       final p = await SharedPreferences.getInstance();
       final raw = p.getString('notif_bean_review_inflight_v1');
       final map = raw == null ? {} : jsonDecode(raw) as Map;
@@ -1074,6 +1109,61 @@ void main() {
       LocalNotificationSchedulerService.resetTestState();
       await runScheduler();
       expect(scheduled(1601), isFalse);
+    });
+
+    test('cancelling one bean preserves another bean and its assigned ID',
+        () async {
+      await scheduleTwoBeans();
+      final yBefore = pendingFor('bean-y').single;
+
+      await LocalNotificationSchedulerService.instance
+          .cancelPendingNudgeOnReview(database: db, beansUuid: 'bean-x');
+
+      expect(pendingFor('bean-x'), isEmpty);
+      expect(pendingFor('bean-y'), [yBefore]);
+    });
+
+    test('scheduling followed immediately by review cancellation is ordered',
+        () async {
+      await db.coffeeBeansDao
+          .insertCoffeeBeans(_makeBean(uuid: 'bean-x', name: 'X'));
+      await seedBrews('bean-x', 2);
+
+      final scheduling = LocalNotificationSchedulerService.instance
+          .maybeScheduleBeanReviewNudgeOnDepletion(
+              database: db, beansUuid: 'bean-x', locale: 'en');
+      final cancellation = LocalNotificationSchedulerService.instance
+          .cancelPendingNudgeOnReview(database: db, beansUuid: 'bean-x');
+      await Future.wait([scheduling, cancellation]);
+
+      expect(pendingFor('bean-x'), isEmpty);
+      final raw = prefs.getString('notif_bean_review_inflight_v1');
+      final map = raw == null ? <String, dynamic>{} : jsonDecode(raw) as Map;
+      expect(map.containsKey('bean-x'), isFalse);
+      final bean = await db.coffeeBeansDao.fetchCoffeeBeansByUuid('bean-x');
+      expect(bean?.reviewNudgeScheduledAt, isNotNull,
+          reason: 'review keeps the one-time guard terminal');
+    });
+
+    test('legacy in-flight entry without an ID cancels the exact bean',
+        () async {
+      await scheduleTwoBeans();
+      final yBefore = pendingFor('bean-y').single;
+      final raw = prefs.getString('notif_bean_review_inflight_v1')!;
+      final map = jsonDecode(raw) as Map<String, dynamic>;
+      final xEntry = (map['bean-x'] as Map).cast<String, dynamic>()..remove('i');
+      map['bean-x'] = xEntry;
+      await prefs.setString('notif_bean_review_inflight_v1', jsonEncode(map));
+
+      await LocalNotificationSchedulerService.instance
+          .cancelPendingNudgeOnReview(database: db, beansUuid: 'bean-x');
+
+      expect(pendingFor('bean-x'), isEmpty);
+      expect(pendingFor('bean-y'), [yBefore]);
+      expect(
+        LocalNotificationSchedulerService.testCancelledIds,
+        contains(yBefore.id - 1),
+      );
     });
 
     test('is a no-op when no nudge is pending', () async {
