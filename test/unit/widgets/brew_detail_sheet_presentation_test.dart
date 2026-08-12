@@ -15,7 +15,7 @@ import 'package:coffee_timer/widgets/add_coffee_beans_widget.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:coffee_timer/widgets/brew_diary/brew_detail_sheet.dart';
 import 'package:coffee_timer/widgets/roaster_logo.dart';
-import 'package:coffeico/coffeico.dart';
+import 'package:coffeico_plus/coffeico_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';

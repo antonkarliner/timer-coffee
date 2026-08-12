@@ -35,7 +35,7 @@ dependencies:
   share_plus: ^11.0.0
   flutter_native_splash: ^2.4.6
   introduction_screen: ^3.1.11
-  coffeico: ^0.6.0
+  coffeico_plus: ^1.0.1
   in_app_purchase: ^3.1.11
   supabase_flutter: ^2.8.2
   drift: ^2.28.1
@@ -96,11 +96,6 @@ dependency_overrides:
       url: https://github.com/EchoEllet/flutter_keyboard_visibility_temp_fork.git
       ref: master
       path: flutter_keyboard_visibility_web
-  coffeico:
-    git:
-      url: https://github.com/antonkarliner/coffeico.git
-      ref: 816e21748606986ab4db290eb99081a88e850767
-      path: flutter
   live_activities:
     git:
       url: https://github.com/antonkarliner/flutter_live_activities.git

@@ -23,7 +23,7 @@ import '../providers/recipe_provider.dart';
 import '../providers/database_provider.dart'; // Import DatabaseProvider
 import '../utils/icon_utils.dart'; // Import the icon utility
 import 'package:flutter/cupertino.dart' show CupertinoIcons;
-import 'package:coffeico/coffeico.dart';
+import 'package:coffeico_plus/coffeico_plus.dart';
 
 // Moved helper classes to top-level
 

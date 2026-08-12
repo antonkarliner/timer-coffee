@@ -1,4 +1,4 @@
-import 'package:coffeico/coffeico.dart';
+import 'package:coffeico_plus/coffeico_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee_timer/widgets/new_beans/optional_details/sections/basic_details_section.dart';
 import 'package:coffee_timer/widgets/new_beans/optional_details/sections/processing_section.dart';

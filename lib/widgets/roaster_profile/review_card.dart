@@ -1,6 +1,6 @@
 // lib/widgets/roaster_profile/review_card.dart
 
-import 'package:coffeico/coffeico.dart';
+import 'package:coffeico_plus/coffeico_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';

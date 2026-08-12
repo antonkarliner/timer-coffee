@@ -18,7 +18,7 @@ import 'package:coffee_timer/widgets/brew_diary/directional_value_text.dart';
 import 'package:coffee_timer/widgets/brew_diary/journey_progress.dart';
 import 'package:coffee_timer/widgets/roaster_logo.dart';
 import 'package:coffee_timer/widgets/smart_back_button.dart';
-import 'package:coffeico/coffeico.dart';
+import 'package:coffeico_plus/coffeico_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:coffeico/coffeico.dart';
+import 'package:coffeico_plus/coffeico_plus.dart';
 
 Icon getIconByBrewingMethod(String? brewingMethodId) {
   const Map<String, Icon> icons = {

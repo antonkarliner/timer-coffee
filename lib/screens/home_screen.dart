@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:coffee_timer/env/env.dart';
-import 'package:coffeico/coffeico.dart';
+import 'package:coffeico_plus/coffeico_plus.dart';
 import 'package:auto_size_text_plus/auto_size_text_plus.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';

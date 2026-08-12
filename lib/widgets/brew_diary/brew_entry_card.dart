@@ -8,7 +8,7 @@ import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:coffee_timer/widgets/brew_diary/brew_note_text.dart';
 import 'package:coffee_timer/widgets/brew_diary/directional_value_text.dart';
 import 'package:coffee_timer/widgets/roaster_logo.dart';
-import 'package:coffeico/coffeico.dart';
+import 'package:coffeico_plus/coffeico_plus.dart';
 import 'package:flutter/material.dart';
 
 class BrewEntryCard extends StatelessWidget {

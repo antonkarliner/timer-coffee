@@ -12,7 +12,7 @@ import 'package:coffee_timer/utils/extraction_math.dart';
 import 'package:coffee_timer/widgets/brew_diary/brew_detail_sheet.dart';
 import 'package:coffee_timer/widgets/brew_diary/brew_entry_card.dart';
 import 'package:coffee_timer/widgets/brew_diary/journey_view.dart';
-import 'package:coffeico/coffeico.dart';
+import 'package:coffeico_plus/coffeico_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';

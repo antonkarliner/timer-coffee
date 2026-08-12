@@ -10,7 +10,7 @@ import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/utils/extraction_math.dart';
 import 'package:coffee_timer/widgets/brew_diary/brew_entry_card.dart';
 import 'package:coffee_timer/widgets/roaster_logo.dart';
-import 'package:coffeico/coffeico.dart';
+import 'package:coffeico_plus/coffeico_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
-import 'package:coffeico/coffeico.dart';
+import 'package:coffeico_plus/coffeico_plus.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/widgets/roaster_logo.dart';
 import 'package:shared_preferences/shared_preferences.dart';

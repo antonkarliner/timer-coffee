@@ -11,7 +11,7 @@ import 'package:coffee_timer/providers/user_stat_provider.dart';
 import 'package:coffee_timer/services/stats_realtime_service.dart';
 import 'package:coffee_timer/utils/icon_utils.dart';
 import 'package:coffee_timer/widgets/account_avatar_inline.dart';
-import 'package:coffeico/coffeico.dart';
+import 'package:coffeico_plus/coffeico_plus.dart';
 import 'package:coffee_timer/widgets/stats/time_period_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

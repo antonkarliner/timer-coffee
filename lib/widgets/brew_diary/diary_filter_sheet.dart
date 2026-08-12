@@ -5,7 +5,7 @@ import 'package:coffee_timer/widgets/app_switch_list_tile.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:coffee_timer/widgets/containers/section_card.dart';
 import 'package:coffee_timer/widgets/fields/labeled_field.dart';
-import 'package:coffeico/coffeico.dart';
+import 'package:coffeico_plus/coffeico_plus.dart';
 import 'package:flutter/material.dart';
 
 enum _FilterSheetView { overview, roasters, beans }
