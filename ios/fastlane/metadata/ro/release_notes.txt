@@ -1,16 +1,16 @@
 Noutăți:
-• Exportă jurnalul de preparare ca Markdown — întregul jurnal, istoricul unui singur bob sau o singură preparare — astfel încât notele tale să îți aparțină mereu.
+• Exportă jurnalul de preparare în format Markdown — întregul jurnal, istoricul unei singure cafele sau o singură preparare — astfel încât notele tale să îți aparțină mereu.
 • Evaluează o preparare imediat după ce o finalizezi: stele, gust, note și etichete într-un singur panou rapid.
-• Descoperă Centrul de ajutor: ghiduri și răspunsuri despre aplicație, disponibile în fiecare limbă acceptată.
-• Exportă toate datele din Setări → Confidențialitate și statistici: confirmă prin e-mail și primește o arhivă descărcabilă.
-• Accesează direct parcursul cafelei din istoricul său de preparare.
+• Descoperă Centrul de ajutor: ghiduri și răspunsuri despre aplicație, disponibile în toate limbile acceptate.
+• Exportă toate datele tale din Setări → Confidențialitate și statistici: confirmă prin e-mail și primește o arhivă descărcabilă.
+• Accesează direct parcursul unei cafele din istoricul preparărilor sale.
 
 Îmbunătățiri:
 • Notele de preparare fac acum parte integrantă din fiecare înregistrare — ai mai mult spațiu pentru a le citi, iar linkurile pe care le lipești rămân accesibile prin atingere.
-• Sugestiile pentru măcinătură se bazează acum pe istoricul tău de preparare, nu doar pe înregistrările boabelor.
+• Sugestiile pentru mărimea măcinăturii se bazează acum pe istoricul tău de preparare, nu doar pe înregistrările cafelelor.
 • Traduceri îmbunătățite în toate limbile acceptate.
 
 Remedieri de erori:
-• S-a remediat problema prin care temperatura apei și alte câmpuri numerice se resetau sau refuzau să fie șterse în timp ce tastai.
-• S-a remediat problema prin care listele derulante cu sugestii rămâneau pe loc în loc să urmeze câmpul atunci când pagina era derulată.
-• S-a remediat problema etichetelor lungi ale câmpurilor care depășeau spațiul disponibil în vizualizarea detaliilor preparării.
+• S-a remediat problema prin care temperatura apei și alte câmpuri numerice se resetau sau nu puteau fi șterse în timpul introducerii datelor.
+• S-a remediat problema prin care meniurile derulante cu sugestii rămâneau pe loc în loc să urmeze câmpul corespunzător când pagina era derulată.
+• S-a remediat problema prin care etichetele lungi ale câmpurilor depășeau spațiul disponibil în vizualizarea detaliilor preparării.

@@ -1,0 +1,10 @@
+Nou:
+• Trei metode de preparare: Weber Workshops BIRD, Cafec Flower Dripper, Cupping.
+
+Îmbunătățit:
+• Evaluarea unei cafele după preparare se face acum printr-un singur buton — stelele sunt în formularul de recenzie.
+
+Remediat:
+• Preparările de azi sunt incluse în totalul comunității din Statistici.
+• Mementourile pentru recenzia boabelor se anulează după recenzie.
+• Dispariția pictogramei Blog din Hub și Despre.

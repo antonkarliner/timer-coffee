@@ -1,0 +1,10 @@
+Nieuw:
+• Drie zetmethoden: Weber Workshops BIRD, Cafec Flower Dripper, cupping.
+
+Verbeterd:
+• Een koffie beoordelen na een zetbeurt kan nu met één knop — sterren staan in het reviewformulier.
+
+Opgelost:
+• Zetbeurten van vandaag tellen nu mee voor het communitytotaal op het statistiekenscherm.
+• Herinneringen voor boonreviews worden geannuleerd zodra je die boon beoordeelt.
+• Het blogpictogram verdween in Hub en Over.

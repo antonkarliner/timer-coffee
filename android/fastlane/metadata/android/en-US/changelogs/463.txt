@@ -1,0 +1,10 @@
+New:
+• Three brewing methods: Weber Workshops BIRD, Cafec Flower Dripper, Cupping.
+
+Improved:
+• Rating a coffee after a brew is now one button — stars live in the review form.
+
+Fixed:
+• Today's brews now count toward the community total on the Stats screen.
+• Bean review reminders cancel as soon as you review that bean.
+• The blog icon disappearing in Hub and About.

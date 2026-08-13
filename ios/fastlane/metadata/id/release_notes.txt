@@ -1,16 +1,16 @@
 Yang Baru:
-• Ekspor diari seduhan Anda sebagai Markdown — seluruh diari, riwayat satu biji kopi, atau satu seduhan — agar catatan Anda selalu menjadi milik Anda.
-• Nilai seduhan tepat setelah selesai: bintang, rasa, catatan, dan tag dalam satu lembar ringkas.
+• Ekspor diari seduhan Anda sebagai Markdown — seluruh diari, riwayat satu biji kopi, atau satu seduhan — agar catatan Anda selalu dapat Anda simpan.
+• Nilai seduhan segera setelah Anda menyelesaikannya: bintang, rasa, catatan, dan tag dalam satu panel cepat.
 • Kenalkan Pusat Bantuan: panduan dan jawaban tentang aplikasi, tersedia dalam setiap bahasa yang didukung.
 • Ekspor semua data Anda dari Pengaturan → Privasi & analitik: konfirmasikan melalui email dan terima arsip yang dapat diunduh.
 • Langsung buka perjalanan biji kopi dari riwayat seduhannya.
 
 Peningkatan:
-• Catatan seduhan kini menjadi bagian utuh dari setiap entri — lebih banyak ruang untuk membacanya, dan tautan yang Anda tempel tetap dapat diketuk.
-• Saran tingkat kehalusan gilingan kini menggunakan riwayat seduhan Anda, bukan hanya catatan biji kopi Anda.
-• Terjemahan ditingkatkan di semua bahasa yang didukung.
+• Catatan seduhan kini menjadi bagian lengkap dari setiap catatan — lebih banyak ruang untuk membacanya, dan tautan yang Anda tempel tetap dapat diketuk.
+• Saran tingkat kehalusan gilingan kini didasarkan pada riwayat seduhan Anda, bukan hanya catatan biji kopi.
+• Terjemahan yang ditingkatkan di semua bahasa yang didukung.
 
 Perbaikan Bug:
-• Memperbaiki suhu air dan kolom angka lainnya yang diatur ulang atau tidak dapat dihapus saat Anda mengetik.
-• Memperbaiki menu tarik-turun saran yang tetap di tempat alih-alih mengikuti kolomnya saat halaman digulir.
-• Memperbaiki label kolom panjang yang meluap di tampilan detail seduhan.
+• Memperbaiki suhu air dan kolom angka lainnya yang terreset atau tidak dapat dihapus saat Anda mengetik.
+• Memperbaiki dropdown saran yang tetap di tempat alih-alih mengikuti kolomnya saat halaman digulir.
+• Memperbaiki label kolom yang panjang agar tidak meluap di tampilan detail seduhan.

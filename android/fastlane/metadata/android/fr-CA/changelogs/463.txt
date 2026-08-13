@@ -1,0 +1,10 @@
+Nouveautés :
+• Trois méthodes d'extraction : Weber Workshops BIRD, Cafec Flower Dripper, cupping.
+
+Améliorations :
+• Évaluer un café après une préparation ne nécessite plus qu’un bouton — les étoiles sont dans le formulaire d’avis.
+
+Correctifs :
+• Les préparations d’aujourd’hui comptent maintenant dans le total de la communauté à l’écran Statistiques.
+• Les rappels d’avis sur les grains s’annulent dès que vous donnez un avis sur ce grain.
+• L’icône du blog qui disparaissait dans Hub et À propos.

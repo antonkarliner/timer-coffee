@@ -1,16 +1,16 @@
 Novidades:
-• Exporte seu diário de preparo como Markdown — o diário inteiro, o histórico de um único grão ou um preparo — para que suas notas estejam sempre com você.
-• Avalie um preparo assim que finalizá-lo: estrelas, sabor, notas e tags em um único painel rápido.
+• Exporte seu diário de preparo como Markdown — o diário inteiro, o histórico de um único grão ou um preparo — para que suas notas sejam sempre suas.
+• Avalie um preparo assim que terminá-lo: estrelas, sabor, notas e tags em um único painel rápido.
 • Conheça a Central de Ajuda: guias e respostas sobre o app, disponíveis em todos os idiomas compatíveis.
 • Exporte todos os seus dados em Configurações → Privacidade e análises: confirme por e-mail e receba um arquivo para download.
 • Acesse diretamente o percurso de um café a partir do histórico de preparo.
 
 Melhorias:
-• As notas de preparo agora são uma parte adequada de cada registro — com mais espaço para lê-las, e os links que você colar permanecem clicáveis.
-• As sugestões de tamanho da moagem agora usam seu histórico de preparo, não apenas os registros de grãos.
+• As notas de preparo agora são uma parte integral de cada registro — mais espaço para lê-las, e os links colados continuam tocáveis.
+• As sugestões de tamanho da moagem agora se baseiam no seu histórico de preparo, não apenas nos registros de grãos.
 • Traduções aprimoradas em todos os idiomas compatíveis.
 
 Correções de bugs:
-• Corrigido um problema em que a temperatura da água e outros campos numéricos eram redefinidos ou não podiam ser limpos durante a digitação.
-• Corrigido um problema em que os menus suspensos de sugestões permaneciam no lugar em vez de acompanhar o campo quando a página era rolada.
+• Corrigido um problema que fazia a temperatura da água e outros campos numéricos serem redefinidos ou não permitirem ser limpos durante a digitação.
+• Corrigido um problema que fazia os menus suspensos de sugestões permanecerem no lugar em vez de acompanharem o campo ao rolar a página.
 • Corrigido o transbordamento de rótulos longos de campos na visualização de detalhes do preparo.

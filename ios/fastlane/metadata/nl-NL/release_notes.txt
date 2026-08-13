@@ -1,16 +1,16 @@
 Wat is er nieuw:
 • Exporteer je brouwdagboek als Markdown — het hele dagboek, de geschiedenis van één boon of één zetbeurt — zodat je notities altijd van jou blijven.
-• Beoordeel een zetbeurt direct nadat je deze hebt afgerond: sterren, smaak, notities en tags in één handig scherm.
+• Beoordeel een zetbeurt meteen nadat je hem hebt afgerond: sterren, smaak, notities en tags in één snel formulier.
 • Maak kennis met het Helpcentrum: handleidingen en antwoorden over de app, beschikbaar in elke ondersteunde taal.
 • Exporteer al je gegevens via Instellingen → Privacy en analyses: bevestig via e-mail en ontvang een downloadbaar archief.
 • Ga rechtstreeks naar de bonenreis vanuit de brouwgeschiedenis.
 
 Verbeteringen:
-• Zetnotities zijn nu een volwaardig onderdeel van elke vermelding — met meer ruimte om ze te lezen, en geplakte links blijven aanklikbaar.
-• Suggesties voor de maalgraad zijn nu gebaseerd op je brouwgeschiedenis, niet alleen op je boonrecords.
-• Vertalingen in alle ondersteunde talen verbeterd.
+• Zetnotities zijn nu een volwaardig onderdeel van elke vermelding — met meer ruimte om ze te lezen, en links die je plakt blijven aantikbaar.
+• Suggesties voor maalgraad zijn nu gebaseerd op je brouwgeschiedenis, niet alleen op je bonenvermeldingen.
+• Vertalingen verbeterd in alle ondersteunde talen.
 
-Opgeloste problemen:
+Bugfixes:
 • Opgelost: watertemperatuur en andere numerieke velden werden tijdens het typen opnieuw ingesteld of konden niet worden gewist.
-• Opgelost: vervolgkeuzelijsten met suggesties bleven op hun plaats staan in plaats van met hun veld mee te bewegen wanneer de pagina scrolde.
+• Opgelost: suggestiekeuzelijsten bleven op hun plek staan in plaats van hun veld te volgen wanneer de pagina werd gescrold.
 • Opgelost: lange veldlabels liepen over in de weergave met zetdetails.

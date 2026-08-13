@@ -1,0 +1,10 @@
+Nuevo:
+• Tres métodos de preparación: Weber Workshops BIRD, Cafec Flower Dripper y cata.
+
+Mejorado:
+• Calificar un café tras prepararlo ahora requiere un botón; las estrellas están en el formulario de reseña.
+
+Corregido:
+• Las preparaciones de hoy cuentan en el total de la comunidad en Estadísticas.
+• Los recordatorios de reseñas de granos se cancelan al reseñar ese grano.
+• El icono del blog desaparecía en Hub y Acerca de.

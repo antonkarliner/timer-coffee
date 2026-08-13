@@ -1,16 +1,16 @@
 Yenilikler:
-• Demleme günlüğünüzü Markdown olarak dışa aktarın — günlüğün tamamını, tek bir çekirdeğin geçmişini veya tek bir demlemeyi — böylece notlarınız her zaman sizin olur.
+• Demleme günlüğünüzü Markdown olarak dışa aktarın — günlüğün tamamını, tek bir çekirdeğin geçmişini veya tek bir demlemeyi — böylece notlarınız her zaman saklamak üzere sizin olur.
 • Bir demlemeyi bitirir bitirmez değerlendirin: yıldızlar, tat, notlar ve etiketler tek bir hızlı formda.
-• Yardım Merkeziyle tanışın: uygulama hakkında kılavuzlar ve yanıtlar, desteklenen tüm dillerde kullanılabilir.
+• Yardım Merkezi ile tanışın: uygulama hakkında kılavuzlar ve yanıtlar, desteklenen tüm dillerde kullanılabilir.
 • Ayarlar → Gizlilik ve analizler bölümünden tüm verilerinizi dışa aktarın: e-postayla onaylayın ve indirilebilir bir arşiv alın.
 • Demleme geçmişinden doğrudan bir çekirdeğin yolculuğuna gidin.
 
 İyileştirmeler:
-• Demleme notları artık her kaydın gerçek bir parçası — okumak için daha fazla alan var ve yapıştırdığınız bağlantılar dokunulabilir kalıyor.
+• Demleme notları artık her kaydın ayrılmaz bir parçası — okumak için daha fazla alan var ve yapıştırdığınız bağlantılar dokunulabilir kalıyor.
 • Öğütme boyutu önerileri artık yalnızca çekirdek kayıtlarınıza değil, demleme geçmişinize de dayanıyor.
 • Desteklenen tüm dillerde çeviriler iyileştirildi.
 
 Hata Düzeltmeleri:
-• Yazarken sıfırlanan veya temizlenmeyi reddeden su sıcaklığı ve diğer sayısal alanlar düzeltildi.
-• Sayfa kaydırıldığında alanlarını takip etmek yerine yerinde kalan öneri açılır menüleri düzeltildi.
+• Yazarken su sıcaklığı ve diğer sayısal alanların sıfırlanması veya silinmemesi düzeltildi.
+• Sayfa kaydırıldığında öneri açılır menülerinin alanlarıyla birlikte hareket etmek yerine yerinde kalması düzeltildi.
 • Demleme ayrıntıları görünümünde uzun alan etiketlerinin taşması düzeltildi.

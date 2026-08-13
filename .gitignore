@@ -111,6 +111,15 @@ viewing_diagram_instructions.md
 .kilocode
 ios/build/
 ios/build/.last_build_id
+
+# Local Maestro screenshot automation and generated benchmark artifacts
+.maestro/
+scripts/capture_app_store_screenshots_maestro.sh
+artifacts/app-store-screenshots-maestro-pilot/
+artifacts/app-store-screenshot-token-benchmark-2026-08-10/
+APP_STORE_SCREENSHOT_WORKFLOW.md
+APP_STORE_SCREENSHOT_TOKEN_BENCHMARK_2026-08-10.md
+
 CLAUDE.md
 lib/services/CLAUDE_ANALYTICS.md
 grafana/sync.sh

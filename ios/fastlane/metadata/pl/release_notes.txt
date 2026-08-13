@@ -1,16 +1,16 @@
 Co nowego:
 • Eksportuj dziennik parzeń jako Markdown — cały dziennik, historię pojedynczego ziarna lub jedno parzenie — aby Twoje notatki zawsze należały do Ciebie.
-• Oceń parzenie od razu po jego zakończeniu: gwiazdki, smak, notatki i tagi w jednym szybkim panelu.
+• Oceń parzenie od razu po jego zakończeniu: gwiazdki, smak, notatki i tagi w jednym szybkim formularzu.
 • Poznaj Centrum pomocy: przewodniki i odpowiedzi dotyczące aplikacji, dostępne w każdym obsługiwanym języku.
 • Eksportuj wszystkie swoje dane z Ustawienia → Prywatność i analityka: potwierdź przez e-mail i otrzymaj archiwum do pobrania.
-• Przejdź bezpośrednio do historii ziarna z jego historii parzeń.
+• Przejdź bezpośrednio do historii ziarna z historii jego parzeń.
 
 Ulepszenia:
-• Notatki z parzenia są teraz pełnoprawną częścią każdego wpisu — więcej miejsca na ich czytanie, a wklejone linki pozostają klikalne.
-• Sugestie dotyczące stopnia mielenia uwzględniają teraz historię parzeń, a nie tylko rekordy ziaren.
+• Notatki z parzenia są teraz pełnoprawną częścią każdego wpisu — jest więcej miejsca na ich czytanie, a wklejone linki pozostają klikalne.
+• Sugestie dotyczące stopnia mielenia uwzględniają teraz historię parzeń, a nie tylko dane o ziarnach.
 • Ulepszone tłumaczenia we wszystkich obsługiwanych językach.
 
 Poprawki błędów:
-• Naprawiono resetowanie się temperatury wody i innych pól numerycznych lub brak możliwości ich wyczyszczenia podczas wpisywania.
-• Naprawiono rozwijane listy sugestii, które pozostawały w miejscu zamiast podążać za swoim polem podczas przewijania strony.
-• Naprawiono przepełnianie długich etykiet pól w widoku szczegółów parzenia.
+• Naprawiono problem z resetowaniem się pól temperatury wody i innych pól numerycznych lub brakiem możliwości ich wyczyszczenia podczas wpisywania.
+• Naprawiono problem z listami rozwijanymi sugestii, które pozostawały w miejscu zamiast podążać za swoim polem podczas przewijania strony.
+• Naprawiono problem z wychodzeniem długich etykiet pól poza widok w szczegółach parzenia.

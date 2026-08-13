@@ -1,16 +1,16 @@
 Novedades:
 • Exporta tu diario de preparaciones como Markdown — el diario completo, el historial de un solo grano o una preparación — para que tus notas siempre sean tuyas.
-• Valora una preparación justo después de finalizarla: estrellas, sabor, notas y etiquetas en una sola ficha rápida.
+• Valora una preparación justo después de finalizarla: estrellas, sabor, notas y etiquetas en un solo panel rápido.
 • Conoce el Centro de ayuda: guías y respuestas sobre la app, disponible en todos los idiomas compatibles.
 • Exporta todos tus datos desde Configuración → Privacidad y análisis: confirma por correo electrónico y recibe un archivo descargable.
-• Ve directamente al recorrido de un café desde su historial de preparaciones.
+• Ve directamente al recorrido de un grano desde su historial de preparaciones.
 
 Mejoras:
-• Las notas de preparación ahora son una parte integral de cada registro — más espacio para leerlas, y los enlaces que pegues seguirán siendo seleccionables.
+• Las notas de preparación ahora forman parte de cada registro — más espacio para leerlas y los enlaces que pegues seguirán siendo seleccionables.
 • Las sugerencias de tamaño de molienda ahora se basan en tu historial de preparaciones, no solo en tus registros de granos.
 • Se mejoraron las traducciones en todos los idiomas compatibles.
 
 Correcciones de errores:
-• Se corrigió un problema por el que la temperatura del agua y otros campos numéricos se restablecían o no se podían borrar mientras escribías.
-• Se corrigió un problema por el que los menús desplegables de sugerencias permanecían en su lugar en vez de seguir su campo al desplazarse por la página.
-• Se corrigió el desbordamiento de etiquetas de campo largas en la vista de detalles de la preparación.
+• Se corrigió el restablecimiento de la temperatura del agua y otros campos numéricos, así como el problema que impedía borrarlos mientras escribías.
+• Se corrigió el problema por el que los menús desplegables de sugerencias permanecían en su lugar en vez de seguir su campo al desplazarse por la página.
+• Se corrigió el desbordamiento de etiquetas de campo largas en la vista de detalles de preparación.

@@ -1,0 +1,10 @@
+Nytt:
+• Tre bryggemetoder: Weber Workshops BIRD, Cafec Flower Dripper, Cupping.
+
+Forbedret:
+• Å vurdere en kaffe etter et brygg krever nå bare én knapp – stjernene ligger i anmeldelsesskjemaet.
+
+Fikset:
+• Dagens brygg teller nå med i fellesskapets total på statistikkskjermen.
+• Påminnelser om bønneanmeldelser avbrytes når du anmelder bønnen.
+• Bloggikonet forsvinner ikke lenger i Hub og Om.

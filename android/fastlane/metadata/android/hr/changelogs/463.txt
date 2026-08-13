@@ -1,0 +1,10 @@
+Novo:
+• Tri metode pripreme: Weber Workshops BIRD, Cafec Flower Dripper, Cupping.
+
+Poboljšano:
+• Ocjenjivanje kave nakon pripreme sada je jednim gumbom — zvjezdice su u obrascu za recenziju.
+
+Ispravljeno:
+• Današnje se pripreme sada računaju u ukupni broj zajednice na zaslonu Statistike.
+• Podsjetnici za recenziju zrna otkazuju se čim recenziraš to zrno.
+• Nestajanje ikone bloga u Hubu i odjeljku O aplikaciji.

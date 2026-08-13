@@ -1,0 +1,10 @@
+Novidades:
+• Três métodos de preparação: Weber Workshops BIRD, Cafec Flower Dripper e prova de chávena.
+
+Melhorias:
+• Avaliar um café após uma preparação requer agora apenas um botão — as estrelas estão no formulário de avaliação.
+
+Correções:
+• As preparações de hoje contam agora para o total da comunidade no ecrã Estatísticas.
+• Os lembretes de avaliação dos grãos são cancelados assim que avaliar esse grão.
+• Corrigido o desaparecimento do ícone do blogue no Hub e em Sobre.

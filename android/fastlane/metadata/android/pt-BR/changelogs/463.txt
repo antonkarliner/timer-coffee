@@ -1,0 +1,10 @@
+Novo:
+• Três métodos de preparo: Weber Workshops BIRD, Cafec Flower Dripper e Cupping.
+
+Melhorado:
+• Classificar um café após o preparo agora é feito com um botão — as estrelas ficam no formulário de avaliação.
+
+Corrigido:
+• Os preparos de hoje agora contam para o total da comunidade na tela de Estatísticas.
+• Lembretes de avaliação de grãos são cancelados ao avaliar o grão.
+• O ícone do blog desaparecia no Hub e em Sobre.

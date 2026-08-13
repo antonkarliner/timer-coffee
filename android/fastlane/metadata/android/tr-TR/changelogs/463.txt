@@ -1,0 +1,10 @@
+Yeni:
+• Üç demleme yöntemi: Weber Workshops BIRD, Cafec Flower Dripper, Cupping.
+
+İyileştirildi:
+• Demleme sonrası kahve puanlama artık tek düğmeyle yapılır; yıldızlar yorum formunda.
+
+Düzeltildi:
+• Bugünkü demlemeler artık İstatistikler ekranındaki topluluk toplamına eklenir.
+• Çekirdek yorumu hatırlatıcıları, çekirdeği yorumladığınızda iptal edilir.
+• Hub ve Hakkında'da blog simgesinin kaybolması.

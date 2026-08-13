@@ -1,16 +1,16 @@
 Što je novo:
-• Izvezi svoj Dnevnik pripreme kao Markdown — cijeli dnevnik, povijest jednog zrna ili jednu pripremu — kako bi tvoje bilješke uvijek ostale tvoje.
-• Ocijeni pripremu odmah nakon što je završiš: zvjezdice, okus, bilješke i oznake na jednom brzom zaslonu.
-• Upoznaj Centar za pomoć: vodiče i odgovore o aplikaciji, dostupne na svim podržanim jezicima.
+• Izvezi svoj dnevnik pripreme kao Markdown — cijeli dnevnik, povijest jednog zrna ili jednu pripremu — tako da tvoje bilješke uvijek ostanu tvoje.
+• Ocijeni pripremu odmah nakon što je završiš: zvjezdice, okus, bilješke i oznake na jednom brzom obrascu.
+• Upoznaj Centar za pomoć: vodiči i odgovori o aplikaciji, dostupni na svim podržanim jezicima.
 • Izvezi sve svoje podatke iz Postavke → Privatnost i analitika: potvrdi e‑mailom i primi arhivu za preuzimanje.
 • Prijeđi izravno na putovanje zrna kave iz njegove povijesti pripreme.
 
 Poboljšanja:
-• Bilješke o pripremi sada su pravi dio svakog zapisa — više prostora za čitanje, a poveznice koje zalijepiš ostaju dodirljive.
+• Bilješke o pripremi sada su pravi dio svakog zapisa — više prostora za čitanje, a poveznice koje zalijepiš ostaju dostupne dodirom.
 • Prijedlozi za finoću mljevenja sada se temelje na tvojoj povijesti pripreme, a ne samo na zapisima o zrnu.
 • Poboljšani prijevodi na svim podržanim jezicima.
 
-Ispravci grešaka:
-• Ispravljeno ponovno postavljanje temperature vode i drugih brojčanih polja ili nemogućnost njihova brisanja tijekom unosa.
-• Ispravljeno zadržavanje padajućih izbornika s prijedlozima na mjestu umjesto praćenja pripadajućeg polja pri pomicanju stranice.
-• Ispravljeno prelaženje dugih oznaka polja preko ruba u prikazu detalja pripreme.
+Ispravci pogrešaka:
+• Ispravljeno vraćanje na početne vrijednosti ili nemogućnost brisanja temperature vode i drugih numeričkih polja tijekom unosa.
+• Ispravljeno zadržavanje padajućih izbornika s prijedlozima na mjestu umjesto praćenja njihova polja pri pomicanju stranice.
+• Ispravljeno preljevanje dugih oznaka polja u prikazu detalja pripreme.

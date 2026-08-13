@@ -1,16 +1,10 @@
-What’s New:
-• Export your brew diary as Markdown — the whole diary, a single bean’s history, or one brew — so your notes are always yours to keep.
-• Rate a brew right after you finish it: stars, taste, notes and tags in one quick sheet.
-• Meet the Help Center: guides and answers about the app, available in every supported language.
-• Export all your data from Settings → Privacy & Analytics: confirm by email and receive a downloadable archive.
-• Jump straight to a bean’s journey from its brew history.
+What's New:
+• Three new brewing methods: Weber Workshops BIRD, Cafec Flower Dripper and Cupping.
 
 Improvements:
-• Brew notes are now a proper part of each entry — more room to read them, and links you paste stay tappable.
-• Grind size suggestions now draw on your brew history, not just your bean records.
-• Improved translations across all supported languages.
+• Rating a coffee after you brew it is now a single clear button — pick your stars inside the review form itself.
 
 Bug Fixes:
-• Fixed water temperature and other numeric fields resetting or refusing to clear while you typed.
-• Fixed suggestion dropdowns staying in place instead of following their field when the page scrolled.
-• Fixed long field labels overflowing in the brew details view.
+• Today's brews now count toward the community total on the Stats screen, instead of appearing only the next day.
+• Bean review reminders are now cancelled the moment you review that bean — and reminders for your other beans are left untouched.
+• Fixed the blog icon disappearing in the Hub and About screens.

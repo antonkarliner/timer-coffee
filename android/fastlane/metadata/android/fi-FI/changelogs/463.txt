@@ -1,0 +1,10 @@
+Uutta:
+• Kolme valmistusmenetelmää: Weber Workshops BIRD, Cafec Flower Dripper ja kupitus.
+
+Parannettu:
+• Kahvin arvostelu uuton jälkeen onnistuu nyt yhdellä painikkeella — tähdet ovat arvostelulomakkeessa.
+
+Korjattu:
+• Tämän päivän uutot lasketaan nyt yhteisön kokonaismäärään Tilastot-näytössä.
+• Papuarvostelumuistutukset peruuntuvat heti, kun arvostelet kyseisen kahvin.
+• Blogikuvakkeen katoaminen Hubissa ja Tietoja-sivulla.

@@ -1,0 +1,10 @@
+Neu:
+• Drei Brühmethoden: Weber Workshops BIRD, Cafec Flower Dripper, Cupping.
+
+Verbessert:
+• Kaffee nach dem Brühen mit nur einer Schaltfläche bewerten – Sterne sind im Rezensionsformular.
+
+Behoben:
+• Heutige Brühvorgänge zählen jetzt zur Community-Gesamtzahl in den Statistiken.
+• Erinnerungen für Bohnenbewertungen werden nach der Bewertung abgebrochen.
+• Das Verschwinden des Blog-Symbols in Hub und Über.

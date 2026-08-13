@@ -1,16 +1,16 @@
 Novedades:
-• Exporta tu diario de preparaciones como Markdown — el diario completo, el historial de un solo grano o una preparación — para que tus notas siempre sean tuyas.
-• Valora una preparación justo después de finalizarla: estrellas, sabor, notas y etiquetas en una sola ficha rápida.
-• Te presentamos el Centro de ayuda: guías y respuestas sobre la app, disponibles en todos los idiomas compatibles.
+• Exporta tu diario de preparaciones como Markdown — el diario completo, el historial de un solo grano o una preparación — para que tus notas sean siempre tuyas.
+• Valora una preparación justo después de terminarla: estrellas, sabor, notas y etiquetas en un único panel rápido.
+• Descubre el Centro de ayuda: guías y respuestas sobre la app, disponibles en todos los idiomas compatibles.
 • Exporta todos tus datos desde Configuración → Privacidad y análisis: confirma por correo electrónico y recibe un archivo descargable.
-• Accede directamente al recorrido de un grano desde su historial de preparaciones.
+• Ve directamente al recorrido de un café desde su historial de preparaciones.
 
 Mejoras:
-• Las notas de preparación ahora forman parte de cada registro — más espacio para leerlas y los enlaces que pegues seguirán siendo pulsables.
+• Las notas de preparación ahora forman parte integral de cada registro: más espacio para leerlas y los enlaces que pegues seguirán siendo pulsables.
 • Las sugerencias de tamaño de molienda ahora se basan en tu historial de preparaciones, no solo en tus registros de granos.
 • Traducciones mejoradas en todos los idiomas compatibles.
 
 Correcciones de errores:
-• Se corrigió el restablecimiento de la temperatura del agua y otros campos numéricos, así como la imposibilidad de borrarlos mientras escribías.
-• Se corrigió que los menús desplegables de sugerencias se quedaran en su sitio en lugar de seguir su campo al desplazarse por la página.
-• Se corrigió el desbordamiento de etiquetas de campo largas en la vista de detalles de la preparación.
+• Se corrigió el problema por el que la temperatura del agua y otros campos numéricos se restablecían o no se podían borrar mientras escribías.
+• Se corrigió el problema por el que los menús desplegables de sugerencias permanecían en su lugar en vez de seguir su campo al desplazarse por la página.
+• Se corrigió el desbordamiento de etiquetas de campo largas en la vista de detalles de preparación.

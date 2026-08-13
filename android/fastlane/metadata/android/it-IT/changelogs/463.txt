@@ -1,0 +1,10 @@
+Novità:
+• Tre metodi di preparazione: Weber Workshops BIRD, Cafec Flower Dripper, cupping.
+
+Migliorato:
+• Valutare un caffè dopo una preparazione ora richiede un solo pulsante: le stelle sono nel modulo della recensione.
+
+Corretto:
+• Le preparazioni di oggi ora contano nel totale della community nella schermata Statistiche.
+• I promemoria recensioni dei chicchi si annullano dopo la recensione.
+• La scomparsa dell’icona del blog in Hub e Informazioni.

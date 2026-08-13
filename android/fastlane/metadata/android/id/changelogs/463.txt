@@ -1,0 +1,10 @@
+Baru:
+• Tiga metode seduh: Weber Workshops BIRD, Cafec Flower Dripper, Cupping.
+
+Ditingkatkan:
+• Memberi peringkat kopi setelah seduh kini cukup satu tombol—bintang ada di formulir ulasan.
+
+Diperbaiki:
+• Seduhan hari ini kini dihitung dalam total komunitas di layar Statistik.
+• Pengingat ulasan biji kopi dibatalkan setelah Anda mengulas biji tersebut.
+• Ikon blog yang menghilang di Hub dan Tentang.

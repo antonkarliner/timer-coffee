@@ -1,0 +1,10 @@
+Nowe:
+• Trzy metody parzenia: Weber Workshops BIRD, Cafec Flower Dripper, cupping.
+
+Ulepszone:
+• Ocena kawy po parzeniu to teraz jeden przycisk — gwiazdki są w formularzu recenzji.
+
+Naprawione:
+• Dzisiejsze parzenia są teraz uwzględniane w łącznej liczbie społeczności na ekranie Statystyk.
+• Przypomnienia o recenzji ziaren znikają po ich zrecenzowaniu.
+• Znikanie ikony bloga w Hubie i O aplikacji.

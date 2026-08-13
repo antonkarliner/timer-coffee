@@ -1,16 +1,16 @@
 Neu:
-• Exportiere dein Brühtagebuch als Markdown – das gesamte Tagebuch, die Historie einer einzelnen Bohne oder einen einzelnen Brühvorgang –, damit deine Notizen immer dir gehören.
-• Bewerte einen Brühvorgang direkt nach dem Fertigstellen: Sterne, Geschmack, Notizen und Tags in einem kompakten Formular.
-• Lerne das Hilfezentrum kennen: Anleitungen und Antworten zur App, verfügbar in jeder unterstützten Sprache.
+• Exportiere dein Brühtagebuch als Markdown — das gesamte Tagebuch, die Historie einer einzelnen Bohne oder einen einzelnen Brühvorgang — damit deine Notizen immer dir gehören.
+• Bewerte einen Brühvorgang direkt nach dem Fertigstellen: Sterne, Geschmack, Notizen und Tags in einer schnellen Übersicht.
+• Lerne das Hilfe-Center kennen: Anleitungen und Antworten zur App, verfügbar in jeder unterstützten Sprache.
 • Exportiere alle deine Daten über Einstellungen → Datenschutz & Analysen: Bestätige per E-Mail und erhalte ein herunterladbares Archiv.
-• Springe direkt aus der Brühhistorie einer Bohne zu ihrer Bohnenreise.
+• Springe direkt zur Bohnenreise einer Bohne aus ihrer Brühhistorie.
 
 Verbesserungen:
-• Brühnotizen sind jetzt ein fester Bestandteil jedes Eintrags – mit mehr Platz zum Lesen, und eingefügte Links bleiben antippbar.
-• Mahlgradvorschläge basieren jetzt auf deiner Brühhistorie, nicht nur auf deinen Bohneneinträgen.
+• Brühnotizen sind jetzt ein fester Bestandteil jedes Eintrags — mit mehr Platz zum Lesen, und eingefügte Links bleiben antippbar.
+• Mahlgrad-Empfehlungen basieren jetzt auf deiner Brühhistorie, nicht nur auf deinen Bohnenaufzeichnungen.
 • Verbesserte Übersetzungen in allen unterstützten Sprachen.
 
 Fehlerbehebungen:
-• Ein Problem wurde behoben, durch das die Wassertemperatur und andere numerische Felder während der Eingabe zurückgesetzt wurden oder sich nicht löschen ließen.
-• Ein Problem wurde behoben, durch das Vorschlags-Dropdowns beim Scrollen der Seite an ihrer Position blieben, anstatt ihrem Feld zu folgen.
+• Ein Problem wurde behoben, durch das Wassertemperatur und andere numerische Felder beim Eingeben zurückgesetzt wurden oder sich nicht löschen ließen.
+• Ein Problem wurde behoben, durch das Vorschlags-Dropdowns an ihrer Position blieben, statt ihrem Feld zu folgen, wenn die Seite gescrollt wurde.
 • Ein Problem wurde behoben, durch das lange Feldbezeichnungen in der Detailansicht des Brühvorgangs überliefen.
