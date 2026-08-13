@@ -1491,8 +1491,9 @@ class DatabaseProvider {
     );
   }
 
-  /// Preferred aggregated query that avoids row-limit truncation.
-  /// Uses global_stats_daily; returns 0 on failure (do not fall back to global_stats).
+  /// Preferred aggregate query that avoids row-limit truncation.
+  /// Combines daily aggregates with raw rows for dates not yet aggregated, such
+  /// as today. Returns 0 on failure (do not fall back to global_stats).
   Future<double> fetchGlobalBrewedCoffeeAmountAggregated(
     DateTime start,
     DateTime end,
@@ -1504,7 +1505,7 @@ class DatabaseProvider {
     try {
       final response = await client
           .rpc(
-            'global_stats_daily_range_sum',
+            'global_stats_range_sum',
             params: {
               // Function arguments are p_start_date, p_end_date (dates)
               'p_start_date': startDate,
@@ -1517,7 +1518,7 @@ class DatabaseProvider {
       return 0.0;
     } catch (e) {
       AppLogger.error(
-        'global_stats_daily_range_sum failed',
+        'global_stats_range_sum failed',
         errorObject: AppLogger.sanitize(e),
       );
       // Intentionally swallow and return 0.
@@ -1660,10 +1661,10 @@ class DatabaseProvider {
       final first = response.first;
       if (first is Map) {
         final map = first;
+        if (map['total'] != null) return (map['total'] as num).toDouble();
         if (map['total_liters'] != null) {
           return (map['total_liters'] as num).toDouble();
         }
-        if (map['total'] != null) return (map['total'] as num).toDouble();
         if (map['sum_liters'] != null)
           return (map['sum_liters'] as num).toDouble();
         if (map.values.isNotEmpty && map.values.first is num) {
@@ -1671,11 +1672,11 @@ class DatabaseProvider {
         }
       }
     } else if (response is Map) {
+      if (response['total'] != null)
+        return (response['total'] as num).toDouble();
       if (response['total_liters'] != null) {
         return (response['total_liters'] as num).toDouble();
       }
-      if (response['total'] != null)
-        return (response['total'] as num).toDouble();
       if (response['sum_liters'] != null)
         return (response['sum_liters'] as num).toDouble();
     }

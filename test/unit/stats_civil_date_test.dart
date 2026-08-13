@@ -73,6 +73,30 @@ void main() {
       expect(methodSource, contains('end.toUtc()'));
     }
   });
+
+  test('global liters RPC includes raw rows for an unaggregated end date', () {
+    final source = File(
+      'lib/providers/database_provider.dart',
+    ).readAsStringSync();
+    final brewedAggregate = _sourceBetween(
+      source,
+      'fetchGlobalBrewedCoffeeAmountAggregated(',
+      'fetchGlobalBrewsCountAggregated(',
+    );
+    final extractor = _sourceBetween(
+      source,
+      'double? _extractTotalLiters(',
+      'List<String>? _extractRecipeIds(',
+    );
+
+    expect(brewedAggregate, contains("'global_stats_range_sum'"));
+    expect(brewedAggregate, isNot(contains("'global_stats_daily_range_sum'")));
+    expect(
+      extractor.indexOf("map['total']"),
+      lessThan(extractor.indexOf("map['total_liters']")),
+      reason: 'The combined total must win over the aggregate-only subtotal.',
+    );
+  });
 }
 
 String _sourceBetween(String source, String startMarker, String endMarker) {
