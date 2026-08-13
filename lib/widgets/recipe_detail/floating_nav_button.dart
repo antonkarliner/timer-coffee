@@ -12,9 +12,16 @@ class FloatingNavButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: onPressed,
-      child: icon ?? const Icon(Icons.arrow_forward),
+    return Semantics(
+      identifier: 'recipeDetailNextButton',
+      button: true,
+      onTap: onPressed,
+      child: ExcludeSemantics(
+        child: FloatingActionButton(
+          onPressed: onPressed,
+          child: icon ?? const Icon(Icons.arrow_forward),
+        ),
+      ),
     );
   }
 }

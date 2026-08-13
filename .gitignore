@@ -120,4 +120,7 @@ grafana/sync.sh
 AGENTS.md
 PROJECT_OVERVIEW.md
 memory-bank/
-plans/
+# `plans` is a symlink to the private timer-coffee-plans repo. No trailing
+# slash: that pattern matches directories only, and git treats a symlink as a
+# file, so `plans/` would fail to ignore it.
+plans

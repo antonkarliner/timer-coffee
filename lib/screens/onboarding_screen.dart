@@ -87,14 +87,21 @@ class OnboardingScreen extends StatelessWidget {
               // "Show All" button
               Padding(
                 padding: const EdgeInsets.only(bottom: AppSpacing.lg),
-                child: AppTextButton(
-                  label: l10n.onboardingShowAll,
-                  onPressed: () => _showAll(context),
-                  isFullWidth: false,
-                  foregroundColor: theme.colorScheme.primary,
-                  textStyle: theme.textTheme.bodyLarge?.copyWith(
-                    color: theme.colorScheme.primary,
-                    fontWeight: FontWeight.w600,
+                child: Semantics(
+                  identifier: 'onboardingShowAllButton',
+                  button: true,
+                  onTap: () => _showAll(context),
+                  child: ExcludeSemantics(
+                    child: AppTextButton(
+                      label: l10n.onboardingShowAll,
+                      onPressed: () => _showAll(context),
+                      isFullWidth: false,
+                      foregroundColor: theme.colorScheme.primary,
+                      textStyle: theme.textTheme.bodyLarge?.copyWith(
+                        color: theme.colorScheme.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
               ),
