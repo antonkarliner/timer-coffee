@@ -24,11 +24,11 @@ import '../services/finish_slot_resolver.dart' show kBeanReviewNudgeAskId;
 import '../theme/design_tokens.dart';
 import 'base_buttons.dart';
 import 'roaster_profile/review_form.dart';
-import 'roaster_profile/star_rating.dart';
 
-/// Signature for opening the review form from the card. [rating] is the
-/// tapped star value (1-5), or null when opened via the "Write a review"
-/// button. Returns true if a review was submitted. Overridable for tests.
+/// Signature shared by the finish-screen review entry points. [rating] may
+/// preselect a 1–5 value; this card's CTA deliberately passes null so the
+/// review form owns the rating interaction. Returns true if a review was
+/// submitted. Overridable for tests.
 typedef ReviewFormOpener =
     Future<bool> Function(BuildContext context, double? rating);
 
@@ -140,13 +140,10 @@ class _BeanReviewNudgeCardState extends State<BeanReviewNudgeCard> {
   ) async {
     String? roasterProfileId;
     try {
-      roasterProfileId = await Provider.of<RoasterProfileProvider>(
-        context,
-        listen: false,
-      ).fetchRoasterProfileIdByName(widget.bean.roaster).timeout(
-        const Duration(seconds: 2),
-        onTimeout: () => null,
-      );
+      roasterProfileId =
+          await Provider.of<RoasterProfileProvider>(context, listen: false)
+              .fetchRoasterProfileIdByName(widget.bean.roaster)
+              .timeout(const Duration(seconds: 2), onTimeout: () => null);
     } catch (_) {
       // Null is fine — the review-submit DB trigger auto-links the profile
       // later. Never let a lookup failure block the review form.
@@ -227,23 +224,16 @@ class _BeanReviewNudgeCardState extends State<BeanReviewNudgeCard> {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: AppSpacing.sm),
-        IgnorePointer(
-          ignoring: _opening,
-          child: Opacity(
-            opacity: _opening ? 0.6 : 1.0,
-            child: StarRating(
-              value: 0,
-              interactive: true,
-              starSize: AppIconSize.large,
-              onChanged: (rating) => _handleTap(rating),
-            ),
-          ),
-        ),
-        const SizedBox(height: AppSpacing.sm),
-        AppTextButton(
-          label: l10n.finishReviewNudgeWriteButton,
+        AppElevatedButton(
+          key: const Key('beanReviewRateButton'),
+          label: l10n.finishEvalSheetRateBeansSection,
+          icon: Icons.star_outline_rounded,
           onPressed: _opening ? null : () => _handleTap(null),
+          isLoading: _opening,
           isFullWidth: false,
+          backgroundColor: theme.colorScheme.primaryContainer,
+          foregroundColor: theme.colorScheme.onPrimaryContainer,
+          elevation: 0,
         ),
       ],
     );

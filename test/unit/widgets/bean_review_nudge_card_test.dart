@@ -58,9 +58,7 @@ void main() {
     expect(find.text('by Blue Bottle'), findsOneWidget);
   });
 
-  testWidgets('depletion trigger shows the depleted subtitle', (
-    tester,
-  ) async {
+  testWidgets('depletion trigger shows the depleted subtitle', (tester) async {
     SharedPreferences.setMockInitialValues({});
     final prefs = await SharedPreferences.getInstance();
     final service = BeanReviewPromptService(prefs: prefs);
@@ -117,7 +115,7 @@ void main() {
     expect(prefs.getInt('review_card_imp_bean-impression'), 1);
   });
 
-  testWidgets('tapping a star opens the review form with that rating', (
+  testWidgets('renders one inviting rate-beans CTA instead of five stars', (
     tester,
   ) async {
     SharedPreferences.setMockInitialValues({});
@@ -125,7 +123,38 @@ void main() {
     final service = BeanReviewPromptService(prefs: prefs);
     final bean = _makeBean();
 
-    double? capturedRating;
+    await tester.pumpWidget(
+      host(
+        BeanReviewNudgeCard(
+          bean: bean,
+          trigger: 'brew_count',
+          promptService: service,
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump();
+
+    expect(find.byKey(const Key('beanReviewRateButton')), findsOneWidget);
+    expect(find.text('Rate the beans'), findsOneWidget);
+    expect(find.byIcon(Icons.star_outline_rounded), findsOneWidget);
+    expect(find.text('Write a review'), findsNothing);
+    final buttonWidth = tester
+        .getSize(find.byKey(const Key('beanReviewRateButton')))
+        .width;
+    final cardWidth = tester.getSize(find.byType(Card)).width;
+    expect(buttonWidth, lessThan(cardWidth * 0.75));
+  });
+
+  testWidgets('the rate-beans CTA opens the form with no preselected rating', (
+    tester,
+  ) async {
+    SharedPreferences.setMockInitialValues({});
+    final prefs = await SharedPreferences.getInstance();
+    final service = BeanReviewPromptService(prefs: prefs);
+    final bean = _makeBean();
+
+    double? capturedRating = -1;
     var callCount = 0;
 
     await tester.pumpWidget(
@@ -137,7 +166,7 @@ void main() {
           openReviewForm: (context, rating) async {
             callCount++;
             capturedRating = rating;
-            return false;
+            return true;
           },
         ),
       ),
@@ -145,57 +174,18 @@ void main() {
     await tester.pump();
     await tester.pump();
 
-    // Stars are laid out left-to-right 1..5 — tap the 4th icon.
-    final stars = find.byIcon(Icons.star_outline_rounded);
-    expect(stars, findsNWidgets(5));
-    await tester.tap(stars.at(3));
+    await tester.tap(find.byKey(const Key('beanReviewRateButton')));
     await tester.pumpAndSettle();
 
     expect(callCount, 1);
-    expect(capturedRating, 4.0);
+    expect(capturedRating, isNull);
+
+    // A `true` result swaps the card into its thank-you state.
+    expect(
+      find.text('Thanks! Your review helps other coffee lovers.'),
+      findsOneWidget,
+    );
   });
-
-  testWidgets(
-    'the write-a-review button opens the form with no preselected rating',
-    (tester) async {
-      SharedPreferences.setMockInitialValues({});
-      final prefs = await SharedPreferences.getInstance();
-      final service = BeanReviewPromptService(prefs: prefs);
-      final bean = _makeBean();
-
-      double? capturedRating = -1;
-      var callCount = 0;
-
-      await tester.pumpWidget(
-        host(
-          BeanReviewNudgeCard(
-            bean: bean,
-            trigger: 'brew_count',
-            promptService: service,
-            openReviewForm: (context, rating) async {
-              callCount++;
-              capturedRating = rating;
-              return true;
-            },
-          ),
-        ),
-      );
-      await tester.pump();
-      await tester.pump();
-
-      await tester.tap(find.text('Write a review'));
-      await tester.pumpAndSettle();
-
-      expect(callCount, 1);
-      expect(capturedRating, isNull);
-
-      // A `true` result swaps the card into its thank-you state.
-      expect(
-        find.text('Thanks! Your review helps other coffee lovers.'),
-        findsOneWidget,
-      );
-    },
-  );
 
   // ─────────────────────────────────────────────────────────────────────────
   // Plan 039 triage item 1 — recordAsk wiring for the finish_slot surface.
@@ -238,7 +228,8 @@ void main() {
               e['askId'] == kBeanReviewNudgeAskId,
         ),
         isTrue,
-        reason: 'expected a finish_slot/$kBeanReviewNudgeAskId entry, got '
+        reason:
+            'expected a finish_slot/$kBeanReviewNudgeAskId entry, got '
             '$entries',
       );
     },
