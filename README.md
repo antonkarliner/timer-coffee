@@ -13,7 +13,7 @@
 
 > Free & open‑source coffee brewing timer and calculator for iOS, Android, and the Web.
 
-**Timer.Coffee** helps you brew consistently great coffee. Explore **40+ recipes** across **20+ brewing methods**, follow clear step‑by‑step timers, log your beans and brews, and fine‑tune every cup. Completely free—optional donations keep development going, but never gate features.
+**Timer.Coffee** helps you brew consistently great coffee. Explore **40+ recipes** across **30 brewing methods**, follow clear step‑by‑step timers, log your beans and brews, and fine‑tune every cup. Completely free—optional donations keep development going, but never gate features.
 
 ---
 
@@ -52,9 +52,9 @@
 
 ## Brewing Methods
 
-More than 20 methods and variations are supported, including:
+Timer.Coffee supports 30 brewing methods and variations:
 
-Aeropress · April Brewer · Batch Brew · Bee House Dripper · Ceado Hoop Brewer · Cezve · Chemex · Clever Dripper · Espresso · French Press · Kalita Wave · **Melitta** Cone · Moka Pot · **Neapolitan** Flip Pot · Orea Brewer · Origami Dripper · Oxo Rapid Brewer · Phin Filter · Pulsar · Siphon Brewer · Hario Switch · Tricolate · UFO Dripper · Hario V60 · Wilfa Svart Pour Over.
+Aeropress · April Brewer · Batch Brew · Bee House Dripper · Cafec Flower Dripper · Ceado Hoop Brewer · Cezve · Chemex · Clever Dripper · Cupping · Espro Bloom Brewer · Espresso · French Press · Kalita Wave · **Melitta** Cone · Moka Pot · **Neapolitan** Flip Pot · Orea Brewer · Origami Dripper · Oxo Rapid Brewer · Phin Filter · Pulsar · Siphon Brewer · Hario Switch · Timemore B75 · Tricolate · UFO Dripper · Hario V60 · Weber Workshops BIRD · Wilfa Svart Pour Over.
 
 > Have a favorite method that’s missing? Open an issue with the details and we’ll add it.
 
