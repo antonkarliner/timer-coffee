@@ -21,6 +21,20 @@ class _StopwatchX {
   }
 }
 
+/// Real, work-driven stages of the AI label scan.
+///
+/// Each value is reported at the moment its corresponding work actually
+/// begins — never on a timer and never implying a duration or percentage.
+enum BeanScanStage {
+  /// Resizing and base64-encoding the selected photos on-device. Local,
+  /// usually fast.
+  preparingImages,
+
+  /// Waiting on the `parse-coffee-label` Edge Function. This is the long
+  /// pole and can take considerably longer on a slow connection.
+  readingLabel,
+}
+
 /// A controller that orchestrates the "image flow" for New Beans:
 /// - first-time popup logic (delegated to caller)
 /// - image selection (camera/gallery), optional multi-shot camera loop
@@ -75,6 +89,7 @@ class NewBeansImageController {
     ) onShowPreview,
     String? userId,
     bool isFirstTime = false,
+    void Function(BeanScanStage stage)? onStage,
   }) async {
     // Ask user for source (camera/gallery)
     final source = await onChooseSource();
@@ -102,6 +117,7 @@ class NewBeansImageController {
             onData: onData,
             onError: onError,
             isFirstTime: isFirstTime,
+            onStage: onStage,
           );
         },
         () async {
@@ -116,6 +132,7 @@ class NewBeansImageController {
             onShowPreview: onShowPreview,
             userId: userId,
             isFirstTime: isFirstTime,
+            onStage: onStage,
           );
         },
       );
@@ -312,9 +329,11 @@ class NewBeansImageController {
     required void Function(Map<String, dynamic>) onData,
     required void Function(String) onError,
     bool isFirstTime = false,
+    void Function(BeanScanStage stage)? onStage,
   }) async {
     final swTotal = _StopwatchX();
     onLoading(true);
+    onStage?.call(BeanScanStage.preparingImages);
     try {
       _log(
           'Starting prepare. Images: ${images.length}, locale: $locale, userId: ${userId ?? 'anon'}, isFirstTime: $isFirstTime');
@@ -375,6 +394,10 @@ class NewBeansImageController {
 
       // Explicitly log what we are sending to the Edge Function
       _log('Sending to Edge: images=${base64Images.length}, locale=$locale');
+
+      // Real boundary: local prep is done, the long-pole network call is
+      // starting now.
+      onStage?.call(BeanScanStage.readingLabel);
 
       final swEdge = _StopwatchX();
       final parsed = await _client.parseLabel(

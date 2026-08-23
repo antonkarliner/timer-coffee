@@ -143,45 +143,21 @@ class _SelectedImagesSheetState extends State<SelectedImagesSheet> {
                 AppElevatedButton(
                   label: loc.next,
                   onPressed: () async {
-                    // Show immediate feedback before the scan/parse request starts
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (_) {
-                        final loc = AppLocalizations.of(context)!;
-                        return AlertDialog(
-                          content: Row(
-                            children: [
-                              const SizedBox(
-                                height: 20,
-                                width: 20,
-                                child:
-                                    CircularProgressIndicator(strokeWidth: 2),
-                              ),
-                              const SizedBox(width: 12),
-                              Text(loc.analyzing),
-                            ],
-                          ),
-                        );
-                      },
-                    );
-
-                    // Ensure dialog paints this frame
+                    // Let the tap's visual feedback register for a frame
+                    // before we hand off — mirrors the pattern used
+                    // elsewhere for async work kicked off from a button.
                     await Future.delayed(const Duration(milliseconds: 10));
                     if (!context.mounted) return;
 
-                    // Close the selection sheet first so the scan can proceed
+                    // Close the selection sheet itself so nothing is left
+                    // showing (and tappable) above the full-screen loading
+                    // overlay that the scan is about to display.
                     Navigator.pop(context);
 
-                    // Run the confirmation which triggers the scan/parse flow in controller
+                    // Run the confirmation which triggers the scan/parse
+                    // flow in the controller. The loading overlay is owned
+                    // by the caller (NewBeansScreen) from this point on.
                     await widget.onConfirm(_images);
-                    if (!context.mounted) return;
-
-                    // Dismiss the analyzing dialog once controller toggles loading off,
-                    // but as a safety, close it here after confirm returns in case it remains.
-                    if (Navigator.of(context).canPop()) {
-                      Navigator.of(context).pop();
-                    }
                   },
                   isFullWidth: false,
                   height: AppButton.heightMedium,

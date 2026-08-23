@@ -93,6 +93,13 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   bool hasShownPopup = false;
   bool hasCompletedFirstImageRecognition = false;
 
+  // Real, work-driven stage of the current AI label scan (null when no
+  // scan is running or before the first stage boundary fires). Drives the
+  // loading overlay's secondary text — never a fabricated progress value.
+  BeanScanStage? _scanStage;
+  /// Whether the scan's loading overlay should currently be visible.
+  bool get _showScanOverlay => isLoading;
+
   // New: image flow controller
   late final NewBeansImageController _imageController;
 
@@ -567,6 +574,20 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     }
   }
 
+
+  /// Human-readable text for the real stage the scan is currently in.
+  /// Returns null when no stage boundary has fired yet.
+  String? _scanStageDetail(AppLocalizations loc) {
+    switch (_scanStage) {
+      case BeanScanStage.preparingImages:
+        return loc.aiScanPreparingImages;
+      case BeanScanStage.readingLabel:
+        return loc.aiScanReadingLabel;
+      case null:
+        return null;
+    }
+  }
+
   Future<void> _checkFirstTimePopup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     hasShownPopup = prefs.getBool('hasShownPopup') ?? false;
@@ -582,12 +603,22 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     // Determine if this is first-time image recognition
     final bool isFirstTime = !hasCompletedFirstImageRecognition;
 
+    // Fresh state for this attempt — any earlier cancellation must not
+    // suppress results from a scan the user is starting now.
+    setState(() {
+      _scanStage = null;
+    });
+
     await _imageController.start(
       context: context,
       locale: locale,
       userId: user?.id,
       isFirstTime: isFirstTime,
       onLoading: (v) => setState(() => isLoading = v),
+      onStage: (stage) {
+        if (!mounted) return;
+        setState(() => _scanStage = stage);
+      },
       onData: (data) async {
         // If server accidentally returns a wrapped payload like { "0": { ... } }, unwrap it.
         Map<String, dynamic> normalized = data;
@@ -1014,10 +1045,16 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       coffeeBeansProvider.printCacheStats();
     }
 
+    final bool workInFlight = _showScanOverlay || _isSaving;
+
     return PopScope(
-      canPop: !_hasUnsavedChanges,
+      // Back is blocked outright while a scan or save is in flight: the
+      // overlay covers the whole screen precisely so nothing underneath —
+      // including the app bar — can be driven mid-operation.
+      canPop: !_hasUnsavedChanges && !workInFlight,
       onPopInvoked: (didPop) async {
         if (didPop) return;
+        if (workInFlight) return;
 
         if (_hasUnsavedChanges) {
           final shouldDiscard = await showDialog<bool>(
@@ -1037,7 +1074,9 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
           }
         }
       },
-      child: Scaffold(
+      child: Stack(
+        children: [
+          Scaffold(
         appBar: AppBar(
           title: Semantics(
             identifier: 'newBeansAppBar',
@@ -1105,18 +1144,6 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                 },
               ),
             ),
-            if (isLoading)
-              Semantics(
-                identifier: 'analyzingOverlay',
-                label: loc.analyzing,
-                child: LoadingOverlay(label: loc.analyzing),
-              ),
-            if (_isSaving)
-              Semantics(
-                identifier: 'savingOverlay',
-                label: loc.saving,
-                child: LoadingOverlay(label: loc.saving),
-              ),
           ],
         ),
         bottomNavigationBar: KeyboardAwareStickyActionBar(
@@ -1146,6 +1173,37 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
             semanticIdentifier: 'saveButton',
           ),
         ),
+          ),
+          // Both overlays sit ABOVE the Scaffold, not inside its body, so the
+          // scrim covers the app bar and the sticky action bar too. Nothing
+          // underneath stays tappable while work is in flight.
+          if (_showScanOverlay)
+            Positioned.fill(
+              child: Semantics(
+                identifier: 'analyzingOverlay',
+                // liveRegion + the current stage in the label so the change
+                // from one stage to the next is actually announced.
+                liveRegion: true,
+                label: [loc.analyzing, _scanStageDetail(loc)]
+                    .whereType<String>()
+                    .join('. '),
+                child: LoadingOverlay(
+                  label: loc.analyzing,
+                  detail: _scanStageDetail(loc),
+                  reassurance: loc.aiScanSlowConnectionHint,
+                ),
+              ),
+            ),
+          if (_isSaving)
+            Positioned.fill(
+              child: Semantics(
+                identifier: 'savingOverlay',
+                liveRegion: true,
+                label: loc.saving,
+                child: LoadingOverlay(label: loc.saving),
+              ),
+            ),
+        ],
       ),
     );
   }
