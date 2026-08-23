@@ -59,15 +59,18 @@ class CoffeeBeansEmptyState extends StatelessWidget {
         children: [
           Icon(
             _getIcon(),
-            size: 64,
-            color: Colors.grey[400],
+            size: AppIconSize.emptyState,
+            color: Theme.of(context)
+                .colorScheme
+                .onSurface
+                .withValues(alpha: 0.35),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSpacing.base),
           Text(
             _getMessage(loc),
             style: Theme.of(context).textTheme.titleMedium,
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppSpacing.lg),
           _buildActionButton(context, loc),
         ],
       ),
@@ -100,7 +103,8 @@ class CoffeeBeansEmptyState extends StatelessWidget {
           onPressed: onAddBeans,
           icon: Icons.add,
           isFullWidth: false,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          height: AppButton.heightMedium,
+          padding: AppButton.paddingMedium,
         );
       case EmptyStateType.noSearchResults:
         return AppTextButton(

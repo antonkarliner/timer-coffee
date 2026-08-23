@@ -108,13 +108,20 @@ class CoffeeBeansContent extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.search_off, size: 64, color: Colors.grey[400]),
-          const SizedBox(height: 16),
+          Icon(
+            Icons.search_off,
+            size: AppIconSize.emptyState,
+            color: Theme.of(context)
+                .colorScheme
+                .onSurface
+                .withValues(alpha: 0.35),
+          ),
+          const SizedBox(height: AppSpacing.base),
           Text(
             loc.noBeansMatchSearch,
             style: Theme.of(context).textTheme.titleMedium,
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.sm),
           AppTextButton(
             label: loc.clearFilters,
             onPressed: onClearFilters,
@@ -133,13 +140,20 @@ class CoffeeBeansContent extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Coffeico.bag_with_bean, size: 64, color: Colors.grey[400]),
-          const SizedBox(height: 16),
+          Icon(
+            Coffeico.bag_with_bean,
+            size: AppIconSize.emptyState,
+            color: Theme.of(context)
+                .colorScheme
+                .onSurface
+                .withValues(alpha: 0.35),
+          ),
+          const SizedBox(height: AppSpacing.base),
           Text(
             loc.nocoffeebeans,
             style: Theme.of(context).textTheme.titleMedium,
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.sm),
           AppElevatedButton(
             label: loc.addBeans,
             onPressed: () async {

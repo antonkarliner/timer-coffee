@@ -133,14 +133,21 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.error_outline, size: 64, color: Colors.grey[400]),
-            const SizedBox(height: 16),
+            Icon(
+            Icons.error_outline,
+            size: AppIconSize.emptyState,
+            color: Theme.of(context)
+                .colorScheme
+                .onSurface
+                .withValues(alpha: 0.35),
+          ),
+            const SizedBox(height: AppSpacing.base),
             Text(
               loc.error(controller.error.toString()),
               style: Theme.of(context).textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.sm),
             AppElevatedButton(
               label: loc.retry,
               onPressed: () => controller.refreshData(context),

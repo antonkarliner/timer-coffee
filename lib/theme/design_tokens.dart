@@ -118,6 +118,12 @@ class AppTokens {
   static const double iconSmall = 16.0;
   static const double iconMedium = 24.0;
   static const double iconLarge = 32.0;
+
+  /// Illustration-sized icon for empty/error states. Not a UI icon — this is
+  /// the graphic that anchors an empty state, so it sits well above
+  /// [iconLarge]. 64 was already the de-facto value across the empty states
+  /// in this app; this names it so it stops being copied as a magic number.
+  static const double iconEmptyState = 64.0;
 }
 
 /// App spacing constants
@@ -195,6 +201,9 @@ class AppIconSize {
 
   /// Large icon size (32dp)
   static const double large = AppTokens.iconLarge;
+
+  /// Illustration-sized icon for empty and error states (64dp).
+  static const double emptyState = AppTokens.iconEmptyState;
 }
 
 /// Button design tokens
