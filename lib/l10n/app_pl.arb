@@ -104,6 +104,8 @@
   "seasonspecials": "Oferty sezonowe",
   "snow": "Śnieg",
   "noFavoriteRecipesMessage": "Twoja lista ulubionych przepisów jest obecnie pusta. Zacznij eksplorować i warzyć, aby odkryć swoje ulubione!",
+  "noFavoriteRecipesTitle": "Brak ulubionych na razie",
+  "noFavoriteRecipesCta": "Przeglądaj przepisy",
   "explore": "Odkrywaj",
   "dateFormat": "d MMM, yyyy",
   "timeFormat": "HH:mm",

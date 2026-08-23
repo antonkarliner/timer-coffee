@@ -57,6 +57,8 @@
   "seasonspecials": "Kauden erikoisuudet",
   "snow": "Lumi",
   "noFavoriteRecipesMessage": "Suosikkireseptilistasi on vielä tyhjä. Tutustu resepteihin ja löydä omat suosikkisi!",
+  "noFavoriteRecipesTitle": "Ei vielä suosikkeja",
+  "noFavoriteRecipesCta": "Selaa reseptejä",
   "explore": "Tutustu",
   "dateFormat": "d. MMM yyyy",
   "timeFormat": "HH:mm",

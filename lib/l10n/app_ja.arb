@@ -104,6 +104,8 @@
   "seasonspecials": "シーズンスペシャル",
   "snow": "雪",
   "noFavoriteRecipesMessage": "お気に入りのレシピはまだありません。いろいろなレシピを試して、お気に入りを見つけましょう！",
+  "noFavoriteRecipesTitle": "まだお気に入りはありません",
+  "noFavoriteRecipesCta": "レシピを見る",
   "explore": "探索する",
   "dateFormat": "yyyy年MMMd日",
   "timeFormat": "HH:mm",

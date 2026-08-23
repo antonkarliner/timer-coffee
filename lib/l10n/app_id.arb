@@ -113,6 +113,8 @@
   "seasonspecials": "Spesial Musim",
   "snow": "Salju",
   "noFavoriteRecipesMessage": "Daftar resep favorit Anda saat ini kosong. Mulailah menjelajah dan menyeduh untuk menemukan favorit Anda!",
+  "noFavoriteRecipesTitle": "Belum ada favorit",
+  "noFavoriteRecipesCta": "Jelajahi resep",
   "explore": "Jelajahi",
   "dateFormat": "d MMM, yyyy",
   "timeFormat": "HH:mm",

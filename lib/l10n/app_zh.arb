@@ -104,6 +104,8 @@
   "seasonspecials": "季节特惠",
   "snow": "雪",
   "noFavoriteRecipesMessage": "您最爱的配方列表当前为空。开始探索和冲煮，发现您最爱的配方！",
+  "noFavoriteRecipesTitle": "还没有收藏",
+  "noFavoriteRecipesCta": "浏览配方",
   "explore": "探索",
   "dateFormat": "yyyy年MMMd日",
   "timeFormat": "HH:mm",

@@ -104,6 +104,8 @@
   "seasonspecials": "Mevsim Özel",
   "snow": "Kar",
   "noFavoriteRecipesMessage": "Favori tarifler listen şu anda boş. Keşfetmeye ve demlemeye başlayarak favorilerini keşfet!",
+  "noFavoriteRecipesTitle": "Henüz favori yok",
+  "noFavoriteRecipesCta": "Tariflere göz at",
   "explore": "Keşfet",
   "dateFormat": "d MMM yyyy",
   "timeFormat": "HH:mm",

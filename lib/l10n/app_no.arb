@@ -119,6 +119,8 @@
   "seasonspecials": "Sesongspesialiteter",
   "snow": "Snø",
   "noFavoriteRecipesMessage": "Listen over favorittoppskrifter er for øyeblikket tom. Begynn å utforske og brygge for å oppdage favorittene dine!",
+  "noFavoriteRecipesTitle": "Ingen favoritter ennå",
+  "noFavoriteRecipesCta": "Bla gjennom oppskrifter",
   "explore": "Utforsk",
   "dateFormat": "d. MMM yyyy",
   "timeFormat": "HH:mm",

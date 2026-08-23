@@ -104,6 +104,8 @@
   "seasonspecials": "Сезонные эффекты",
   "snow": "Снег",
   "noFavoriteRecipesMessage": "Ваш список любимых рецептов пока что пуст. Начните заваривать, чтобы узнать, что вам нравится больше всего!",
+  "noFavoriteRecipesTitle": "Избранного пока нет",
+  "noFavoriteRecipesCta": "Посмотреть рецепты",
   "explore": "Открытия",
   "dateFormat": "d MMM yyyy",
   "timeFormat": "HH:mm",

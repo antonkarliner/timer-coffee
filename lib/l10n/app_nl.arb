@@ -104,6 +104,8 @@
   "seasonspecials": "Seizoensspecials",
   "snow": "Sneeuw",
   "noFavoriteRecipesMessage": "Je lijst met favoriete recepten is momenteel leeg. Begin met verkennen en brouwen om je favorieten te ontdekken!",
+  "noFavoriteRecipesTitle": "Nog geen favorieten",
+  "noFavoriteRecipesCta": "Recepten bekijken",
   "explore": "Verken",
   "dateFormat": "d MMM yyyy",
   "timeFormat": "HH:mm",

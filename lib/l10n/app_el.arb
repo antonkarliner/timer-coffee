@@ -119,6 +119,8 @@
   "seasonspecials": "Εποχιακές επιλογές",
   "snow": "Χιόνι",
   "noFavoriteRecipesMessage": "Η λίστα με τις αγαπημένες σας συνταγές είναι προς το παρόν κενή. Ξεκινήστε να εξερευνάτε και να παρασκευάζετε για να ανακαλύψετε τις αγαπημένες σας!",
+  "noFavoriteRecipesTitle": "Δεν υπάρχουν αγαπημένα ακόμα",
+  "noFavoriteRecipesCta": "Περιήγηση στις συνταγές",
   "explore": "Εξερεύνηση",
   "dateFormat": "d MMM yyyy",
   "timeFormat": "HH:mm",

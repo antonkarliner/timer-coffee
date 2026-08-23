@@ -9,10 +9,14 @@ import '../widgets/smart_back_button.dart';
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import '../theme/design_tokens.dart';
 import '../utils/icon_utils.dart';
+import '../widgets/base_buttons.dart';
 
 @RoutePage()
 class FavoriteRecipesScreen extends StatelessWidget {
+  const FavoriteRecipesScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,13 +58,7 @@ class FavoriteRecipesScreen extends StatelessWidget {
           } else if (snapshot.hasData && snapshot.data!.isEmpty) {
             return Semantics(
               identifier: 'noFavoriteRecipesMessage',
-              child: Center(
-                child: Text(
-                  AppLocalizations.of(context)!.noFavoriteRecipesMessage,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 16.0, color: Colors.grey),
-                ),
-              ),
+              child: _buildEmptyState(context),
             );
           } else {
             List<RecipeModel> favoriteRecipes = snapshot.data!;
@@ -99,6 +97,61 @@ class FavoriteRecipesScreen extends StatelessWidget {
             );
           }
         },
+      ),
+    );
+  }
+
+  /// Empty state shown when the user has no favorite recipes yet.
+  ///
+  /// Follows the app's standard empty-state layout (icon, title, supporting
+  /// text, action) using theme-derived colors so it reads in both light and
+  /// dark mode.
+  Widget _buildEmptyState(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.favorite_border_rounded,
+              size: AppIconSize.emptyState,
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.35),
+            ),
+            const SizedBox(height: AppSpacing.base),
+            Text(
+              loc.noFavoriteRecipesTitle,
+              style: theme.textTheme.titleMedium,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            Text(
+              loc.noFavoriteRecipesMessage,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            AppElevatedButton(
+              label: loc.noFavoriteRecipesCta,
+              // Mirrors SmartBackButton: pop back to the brewing methods
+              // list, or land there directly when opened via a deep link.
+              onPressed: () {
+                if (context.router.canPop()) {
+                  context.router.maybePop();
+                } else {
+                  context.router.replaceAll([const HomeRoute()]);
+                }
+              },
+              isFullWidth: false,
+              height: AppButton.heightMedium,
+              padding: AppButton.paddingMedium,
+            ),
+          ],
+        ),
       ),
     );
   }

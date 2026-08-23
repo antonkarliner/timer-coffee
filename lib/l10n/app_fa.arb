@@ -112,6 +112,8 @@
   "seasonspecials": "ویژه‌های فصل",
   "snow": "برف",
   "noFavoriteRecipesMessage": "فهرست دستورهای موردعلاقه‌تان فعلاً خالی است. با کاوش و دم‌آوری، محبوب‌های خودتان را پیدا کنید!",
+  "noFavoriteRecipesTitle": "هنوز موردعلاقه‌ای ندارید",
+  "noFavoriteRecipesCta": "مرور دستورها",
   "explore": "کاوش",
   "dateFormat": "yyyy/MM/dd",
   "timeFormat": "HH:mm",

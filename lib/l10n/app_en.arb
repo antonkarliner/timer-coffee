@@ -111,6 +111,8 @@
   "seasonspecials": "Season Specials",
   "snow": "Snow",
   "noFavoriteRecipesMessage": "Your list of favorite recipes is currently empty. Start exploring and brewing to discover your favorites!",
+  "noFavoriteRecipesTitle": "No favorites yet",
+  "noFavoriteRecipesCta": "Browse recipes",
   "explore": "Explore",
   "dateFormat": "MMM d, yyyy",
   "timeFormat": "hh:mm a",

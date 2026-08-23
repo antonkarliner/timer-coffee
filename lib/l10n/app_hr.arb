@@ -119,6 +119,8 @@
   "seasonspecials": "Sezonska specijalna ponuda",
   "snow": "Snijeg",
   "noFavoriteRecipesMessage": "Tvoj popis omiljenih recepata je trenutno prazan. Počni istraživati i pripremati kako bi otkrio/la svoje favorite!",
+  "noFavoriteRecipesTitle": "Još nema favorita",
+  "noFavoriteRecipesCta": "Pregledaj recepte",
   "explore": "Istraži",
   "dateFormat": "MMM d, yyyy",
   "timeFormat": "hh:mm a",

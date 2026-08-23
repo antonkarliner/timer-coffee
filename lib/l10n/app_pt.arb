@@ -104,6 +104,8 @@
   "seasonspecials": "Especiais de Temporada",
   "snow": "Neve",
   "noFavoriteRecipesMessage": "Sua lista de receitas favoritas está atualmente vazia. Comece a explorar e a preparar para descobrir seus favoritos!",
+  "noFavoriteRecipesTitle": "Ainda não há favoritos",
+  "noFavoriteRecipesCta": "Explorar receitas",
   "explore": "Descobrir",
   "dateFormat": "d 'de' MMM 'de' yyyy",
   "timeFormat": "HH:mm",

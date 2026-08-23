@@ -104,6 +104,8 @@
   "seasonspecials": "Спеціальні пропозиції сезону",
   "snow": "Сніг",
   "noFavoriteRecipesMessage": "Ваш список улюблених рецептів наразі порожній. Почніть досліджувати й заварювати, щоб знайти свої найкращі!",
+  "noFavoriteRecipesTitle": "Обраних поки немає",
+  "noFavoriteRecipesCta": "Переглянути рецепти",
   "explore": "Досліджувати",
   "dateFormat": "d MMM yyyy",
   "timeFormat": "HH:mm",

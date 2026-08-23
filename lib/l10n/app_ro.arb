@@ -104,6 +104,8 @@
   "seasonspecials": "Specialități de Sezon",
   "snow": "Zăpadă",
   "noFavoriteRecipesMessage": "Lista ta de rețete favorite este momentan goală. Începe să explorezi și să prepari pentru a descoperi favoritele tale!",
+  "noFavoriteRecipesTitle": "Încă nu există favorite",
+  "noFavoriteRecipesCta": "Răsfoiește rețetele",
   "explore": "Explorează",
   "dateFormat": "d MMM yyyy",
   "timeFormat": "HH:mm",
