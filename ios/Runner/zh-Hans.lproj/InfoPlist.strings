@@ -1,2 +1,3 @@
 "NSPhotoLibraryUsageDescription" = "我们需要访问您的照片库，以便您选择咖啡袋标签图像。";
 "NSCameraUsageDescription" = "我们需要访问您的相机，以便您拍摄咖啡袋标签的照片。";
+"NSPhotoLibraryAddUsageDescription" = "允许 Timer.Coffee 保存您选择保留的咖啡袋照片。";
