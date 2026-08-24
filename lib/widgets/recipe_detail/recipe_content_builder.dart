@@ -210,6 +210,7 @@ class _RecipeContentBuilderState extends State<RecipeContentBuilder> {
         // Grind size: read-only by default, editable on tap of edit icon
         if (_isEditingGrindSize)
           Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Expanded(
                 child: DropdownSearchField(

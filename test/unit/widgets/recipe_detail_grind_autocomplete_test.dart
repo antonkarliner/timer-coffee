@@ -115,6 +115,23 @@ void main() {
   );
 
   testWidgets(
+    'edit checkmark is vertically aligned with the grind size field',
+    (tester) async {
+      await tester.pumpWidget(buildSubject());
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 4));
+
+      await tester.tap(find.byIcon(Icons.edit).first);
+      await tester.pump();
+
+      final fieldCenter = tester.getCenter(find.byType(TextFormField));
+      final checkmarkCenter = tester.getCenter(find.byIcon(Icons.check));
+
+      expect(checkmarkCenter.dy, closeTo(fieldCenter.dy, 0.5));
+    },
+  );
+
+  testWidgets(
     'selecting a suggestion updates the controller and clears grindSizeFromBean',
     (tester) async {
       controller.applyBeanGrindSize('Coarse');
