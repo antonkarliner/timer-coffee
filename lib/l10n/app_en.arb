@@ -332,6 +332,32 @@
   "@aiScanAnalyzePhoto": {"description": "Primary action when one photo will be analyzed."},
   "aiScanAnalyzeTwoPhotos": "Analyze 2 photos",
   "@aiScanAnalyzeTwoPhotos": {"description": "Primary action when two photos will be analyzed."},
+  "aiScanKeepPhotosTitle": "Keep these photos in Photos",
+  "aiScanKeepPhotosSubtitle": "Only camera photos from this scan will be copied.",
+  "aiScanPhotosSaved": "{count, plural, =1{Photo saved to Photos.} other{{count} photos saved to Photos.}}",
+  "@aiScanPhotosSaved": {
+    "description": "Feedback shown after opted-in camera photos from an AI scan are saved to the device photo library.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "aiScanPhotosPartiallySaved": "Saved {savedCount} of {totalCount} photos to Photos. Your scan will continue.",
+  "@aiScanPhotosPartiallySaved": {
+    "description": "Feedback shown when only some opted-in camera photos are saved; the AI scan continues regardless.",
+    "placeholders": {
+      "savedCount": {
+        "type": "int"
+      },
+      "totalCount": {
+        "type": "int"
+      }
+    }
+  },
+  "aiScanPhotosSaveDenied": "Photos access was denied. Your scan will continue.",
+  "aiScanPhotosSaveFailed": "Couldn't save the photos. Your scan will continue.",
+  "aiScanSavingPhotos": "Saving photos…",
   "selectedImage": "Selected Image",
   "backToSelection": "Back to Selection",
   "next": "Next",
