@@ -1,6 +1,6 @@
 # Privacy Policy for Timer.Coffee (Web Version)
 
-Last Updated: 01.08.2026
+Last Updated: 25.08.2026
 
 1. INTRODUCTION
 
@@ -60,6 +60,7 @@ We use AI tools mainly to save you manual work, such as reading a coffee bag lab
 - Timer.Coffee uses third-party AI providers, which may include Groq, Google Gemini or Vertex AI, and OpenAI, to support coffee label or bean recognition, content moderation, and certain translation or notification-processing features.
 - For coffee label or bean recognition, submitted images are sent to these providers so they can extract bean information for you.
 - We currently do not write the submitted recognition images to our main application tables as part of normal operation.
+- In the mobile app, during a camera-based AI scan, you can explicitly choose to keep the photos. If you opt in, only the final camera photos you confirm are copied locally into your device's Photos or Gallery. This local copy is separate from the temporary image processing used for AI recognition and from the optional bean cover photo upload to Supabase Storage available to signed-in users. Timer.Coffee does not gain permission to later read or browse the copies saved to your photo library. This option is not offered, and no Photos or Gallery copy is initiated, in the web application.
 - We do store recognition usage metadata, such as the user ID, invocation timestamp, and token or usage counters, so we can operate the feature, enforce limits, and understand usage.
 - Diagnostic or platform logs may include limited processing information, such as response-format summaries, truncated text where needed, errors, and operational metadata, so we can debug failures and investigate abuse without storing raw recognition results in routine logs.
 - If you upload a profile picture, that image is intentionally stored as part of the profile feature and is separate from temporary recognition input.
