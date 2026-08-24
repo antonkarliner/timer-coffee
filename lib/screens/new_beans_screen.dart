@@ -720,6 +720,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       onShowPreview:
           (images, source, onConfirm, onBackToSelection, onAddPhoto) async {
             if (!mounted) return;
+            var saveToLibrary = false;
             await showModalBottomSheet<void>(
               context: context,
               isScrollControlled: true,
@@ -731,11 +732,14 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
               ),
               builder: (_) => SelectedImagesSheet(
                 initialImages: images,
+                showSaveToLibraryOption:
+                    !kIsWeb && source == ImageSource.camera,
+                onSaveToLibraryChanged: (value) => saveToLibrary = value,
                 onConfirm: (confirmed) async {
                   // Retain exactly the reviewed images for the later cover-photo
                   // prompt and analytics, including additions and removals.
                   _lastOcrImages = List<XFile>.from(confirmed);
-                  await onConfirm(confirmed, false);
+                  await onConfirm(confirmed, saveToLibrary);
                 },
                 onBackToSelection: onBackToSelection,
                 onAddPhoto: onAddPhoto,

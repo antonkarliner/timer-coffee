@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/widgets/app_switch_list_tile.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
@@ -14,12 +15,16 @@ class SelectedImagesSheet extends StatefulWidget {
     required this.onConfirm,
     required this.onBackToSelection,
     this.onAddPhoto,
+    this.showSaveToLibraryOption = false,
+    this.onSaveToLibraryChanged,
   });
 
   final List<XFile> initialImages;
   final Future<void> Function(List<XFile> confirmed) onConfirm;
   final Future<void> Function() onBackToSelection;
   final Future<XFile?> Function()? onAddPhoto;
+  final bool showSaveToLibraryOption;
+  final ValueChanged<bool>? onSaveToLibraryChanged;
 
   @override
   State<SelectedImagesSheet> createState() => _SelectedImagesSheetState();
@@ -31,6 +36,8 @@ class _SelectedImagesSheetState extends State<SelectedImagesSheet> {
 
   late List<XFile> _images;
   bool _isAddingPhoto = false;
+  bool _isConfirming = false;
+  bool _saveToLibrary = false;
 
   @override
   void initState() {
@@ -57,7 +64,9 @@ class _SelectedImagesSheetState extends State<SelectedImagesSheet> {
   }
 
   Future<void> _confirm() async {
-    if (_images.isEmpty) return;
+    if (_images.isEmpty || _isConfirming) return;
+
+    setState(() => _isConfirming = true);
 
     // Let the tap feedback render before replacing the sheet with the loading
     // overlay owned by NewBeansScreen.
@@ -66,6 +75,11 @@ class _SelectedImagesSheetState extends State<SelectedImagesSheet> {
 
     Navigator.pop(context);
     await widget.onConfirm(List<XFile>.unmodifiable(_images));
+  }
+
+  void _setSaveToLibrary(bool value) {
+    setState(() => _saveToLibrary = value);
+    widget.onSaveToLibraryChanged?.call(value);
   }
 
   Future<void> _backToSelection() async {
@@ -173,12 +187,24 @@ class _SelectedImagesSheetState extends State<SelectedImagesSheet> {
                 ),
               ],
             ),
+            if (widget.showSaveToLibraryOption && !kIsWeb) ...[
+              const SizedBox(height: AppSpacing.base),
+              Semantics(
+                identifier: 'keepAiScanPhotosSwitch',
+                child: AppSwitchListTile(
+                  title: loc.aiScanKeepPhotosTitle,
+                  subtitle: loc.aiScanKeepPhotosSubtitle,
+                  value: _saveToLibrary,
+                  onChanged: _setSaveToLibrary,
+                ),
+              ),
+            ],
             const SizedBox(height: AppSpacing.lg),
             Semantics(
               identifier: 'analyzeSelectedPhotosButton',
               child: AppElevatedButton(
                 label: analyzeLabel,
-                onPressed: _images.isEmpty ? null : _confirm,
+                onPressed: _images.isEmpty || _isConfirming ? null : _confirm,
               ),
             ),
             const SizedBox(height: AppSpacing.sm),
