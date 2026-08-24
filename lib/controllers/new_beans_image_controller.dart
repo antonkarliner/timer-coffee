@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:flutter/foundation.dart'
-    show TargetPlatform, defaultTargetPlatform, kIsWeb;
+    show TargetPlatform, defaultTargetPlatform, kIsWeb, visibleForTesting;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,6 +13,9 @@ import 'package:coffee_timer/services/clients/beans_label_parser_client.dart';
 import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/utils/device_profiler.dart';
 import 'package:coffee_timer/models/image_processing_result.dart';
+
+typedef ImageResizeCallback = Future<File> Function(File image, int maxSize);
+typedef ImageEncodeCallback = Future<String> Function(File image);
 
 // Simple timing helper for console instrumentation
 class _StopwatchX {
@@ -55,6 +58,8 @@ class NewBeansImageController {
 
   final ImagePicker _picker;
   final BeansLabelParserClient _client;
+  final ImageResizeCallback _imageResizer;
+  final ImageEncodeCallback? _imageEncoder;
 
   // Thresholds (ms)
   static const int _maxFileSizeBytes = 5 * 1024 * 1024; // 5MB threshold
@@ -69,8 +74,12 @@ class NewBeansImageController {
   NewBeansImageController({
     required SupabaseClient supabaseClient,
     ImagePicker? imagePicker,
+    @visibleForTesting ImageResizeCallback? imageResizer,
+    @visibleForTesting ImageEncodeCallback? imageEncoder,
   }) : _picker = imagePicker ?? ImagePicker(),
-       _client = BeansLabelParserClient(supabaseClient);
+       _client = BeansLabelParserClient(supabaseClient),
+       _imageResizer = imageResizer ?? ImageResizer.resizeToMaxSize,
+       _imageEncoder = imageEncoder;
 
   /// Starts the flow for selecting images (camera or gallery) and parsing them.
   /// The controller does not present UI itself. Instead, it relies on the caller to:
@@ -256,19 +265,33 @@ class NewBeansImageController {
 
         // Downscale before sending to reduce bandwidth while keeping label legibility
         final swResize = _StopwatchX();
-        final resized = await ImageResizer.resizeToMaxSize(file, maxImageSize);
+        final resized = await _imageResizer(file, maxImageSize);
         final resizeMs = swResize.stopMs();
         performanceMetrics['resizeMs'] = resizeMs;
 
-        // Optimized base64 encoding with memory management
-        final swEncode = _StopwatchX();
-        base64Image = await _encodeToBase64Optimized(resized);
-        final encodeMs = swEncode.stopMs();
-        performanceMetrics['encodeMs'] = encodeMs;
+        try {
+          // Optimized base64 encoding with memory management
+          final swEncode = _StopwatchX();
+          base64Image = _imageEncoder == null
+              ? await _encodeToBase64Optimized(resized)
+              : await _imageEncoder(resized);
+          final encodeMs = swEncode.stopMs();
+          performanceMetrics['encodeMs'] = encodeMs;
 
-        _log(
-          'Resize+encode done in ${resizeMs}ms+${encodeMs}ms for $fileName (max_size=${maxImageSize}px)',
-        );
+          _log(
+            'Resize+encode done in ${resizeMs}ms+${encodeMs}ms for $fileName (max_size=${maxImageSize}px)',
+          );
+        } finally {
+          if (resized.path != file.path) {
+            try {
+              if (await resized.exists()) {
+                await resized.delete();
+              }
+            } catch (e) {
+              _log('Could not delete scan derivative ${resized.path}: $e');
+            }
+          }
+        }
 
         // Force garbage collection after image processing
         _forceGarbageCollection();
@@ -322,6 +345,15 @@ class NewBeansImageController {
         },
       );
     }
+  }
+
+  @visibleForTesting
+  Future<ImageProcessingResult> prepareImageForTesting(
+    XFile image,
+    int maxImageSize,
+    int imageIndex,
+  ) {
+    return _processSingleImageParallel(image, maxImageSize, imageIndex);
   }
 
   /// Determine the maximum number of concurrent operations based on device capabilities

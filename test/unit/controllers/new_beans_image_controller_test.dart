@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:coffee_timer/controllers/new_beans_image_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -175,6 +177,86 @@ void main() {
       expect(await addPhoto!(), isNull);
       expect(picker.cameraCalls, 2);
     },
+  );
+
+  test('deletes a derivative after successful image preparation', () async {
+    final testDirectory = await Directory.systemTemp.createTemp(
+      'new_beans_image_controller_test_',
+    );
+    try {
+      final original = File('${testDirectory.path}/original.jpg');
+      final derivative = File('${testDirectory.path}/derivative.jpg');
+      await original.writeAsString('original');
+
+      final controller = NewBeansImageController(
+        supabaseClient: _testSupabaseClient(),
+        imageResizer: (image, maxSize) async {
+          expect(image.path, original.path);
+          expect(maxSize, 800);
+          await derivative.writeAsString('derivative');
+          return derivative;
+        },
+        imageEncoder: (image) async {
+          expect(image.path, derivative.path);
+          expect(await image.exists(), isTrue);
+          return 'encoded-image';
+        },
+      );
+
+      final result = await controller.prepareImageForTesting(
+        XFile(original.path),
+        800,
+        0,
+      );
+
+      expect(result.success, isTrue);
+      expect(result.base64Image, 'encoded-image');
+      expect(await derivative.exists(), isFalse);
+      expect(await original.readAsString(), 'original');
+    } finally {
+      await testDirectory.delete(recursive: true);
+    }
+  });
+
+  test('deletes a derivative when encoding fails', () async {
+    final testDirectory = await Directory.systemTemp.createTemp(
+      'new_beans_image_controller_test_',
+    );
+    try {
+      final original = File('${testDirectory.path}/original.jpg');
+      final derivative = File('${testDirectory.path}/derivative.jpg');
+      await original.writeAsString('original');
+
+      final controller = NewBeansImageController(
+        supabaseClient: _testSupabaseClient(),
+        imageResizer: (image, maxSize) async {
+          await derivative.writeAsString('derivative');
+          return derivative;
+        },
+        imageEncoder: (_) async => throw StateError('encode failed'),
+      );
+
+      final result = await controller.prepareImageForTesting(
+        XFile(original.path),
+        800,
+        0,
+      );
+
+      expect(result.success, isFalse);
+      expect(result.error, contains('encode failed'));
+      expect(await derivative.exists(), isFalse);
+      expect(await original.readAsString(), 'original');
+    } finally {
+      await testDirectory.delete(recursive: true);
+    }
+  });
+}
+
+SupabaseClient _testSupabaseClient() {
+  return SupabaseClient(
+    'https://example.supabase.co',
+    'anon-key',
+    authOptions: const AuthClientOptions(autoRefreshToken: false),
   );
 }
 
