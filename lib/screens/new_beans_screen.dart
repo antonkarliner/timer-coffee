@@ -22,7 +22,8 @@ import 'package:coffee_timer/widgets/new_beans/dates_card.dart';
 import 'package:coffee_timer/widgets/new_beans/additional_notes_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
-import 'package:flutter/foundation.dart' show kIsWeb, kReleaseMode;
+import 'package:flutter/foundation.dart'
+    show kIsWeb, kReleaseMode, visibleForTesting;
 import 'package:uuid/uuid.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
@@ -31,6 +32,7 @@ import '../services/onboarding_service.dart';
 import '../services/bean_photo_service.dart';
 import '../services/analytics_service.dart';
 import '../services/authentication_service.dart';
+import '../services/photo_library_service.dart';
 
 // Image flow controller and widgets
 import 'package:coffee_timer/controllers/new_beans_image_controller.dart';
@@ -42,8 +44,10 @@ import 'package:coffee_timer/widgets/new_beans/image_flow/collected_data_dialog.
 @RoutePage()
 class NewBeansScreen extends StatefulWidget {
   final String? uuid;
+  @visibleForTesting
+  final NewBeansImageController? imageController;
 
-  const NewBeansScreen({super.key, this.uuid});
+  const NewBeansScreen({super.key, this.uuid, this.imageController});
 
   @override
   State<NewBeansScreen> createState() => _NewBeansScreenState();
@@ -268,9 +272,9 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
 
     // Init image controller. The photo-review sheet owns the optional second
     // camera capture so the entire decision stays in one surface.
-    _imageController = NewBeansImageController(
-      supabaseClient: Supabase.instance.client,
-    );
+    _imageController =
+        widget.imageController ??
+        NewBeansImageController(supabaseClient: Supabase.instance.client);
 
     _checkFirstTimePopup();
 
@@ -572,6 +576,8 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   /// Returns null when no stage boundary has fired yet.
   String? _scanStageDetail(AppLocalizations loc) {
     switch (_scanStage) {
+      case BeanScanStage.savingPhotos:
+        return loc.aiScanSavingPhotos;
       case BeanScanStage.preparingImages:
         return loc.aiScanPreparingImages;
       case BeanScanStage.readingLabel:
@@ -607,12 +613,17 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       locale: locale,
       userId: user?.id,
       isFirstTime: isFirstTime,
-      onLoading: (v) => setState(() => isLoading = v),
+      onLoading: (v) {
+        if (!mounted) return;
+        setState(() => isLoading = v);
+      },
       onStage: (stage) {
         if (!mounted) return;
         setState(() => _scanStage = stage);
       },
       onData: (data) async {
+        if (!mounted) return;
+
         // If server accidentally returns a wrapped payload like { "0": { ... } }, unwrap it.
         Map<String, dynamic> normalized = data;
         if (data.length == 1 && data.values.first is Map) {
@@ -632,6 +643,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         if (isFirstTime) {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setBool('hasCompletedFirstImageRecognition', true);
+          if (!mounted) return;
           setState(() {
             hasCompletedFirstImageRecognition = true;
           });
@@ -660,6 +672,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         });
       },
       onError: (msg) {
+        if (!mounted) return;
         final loc = AppLocalizations.of(context)!;
         String errorMessage;
         if (msg.contains('Invocation limit reached')) {
@@ -670,6 +683,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
           errorMessage = '${loc.unexpectedErrorOccurred}: $msg';
         }
         WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) return;
           showDialog(
             context: context,
             builder: (_) => ErrorDialog(message: errorMessage),
@@ -677,35 +691,57 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         });
       },
       onChooseSource: () async {
+        if (!mounted) return null;
         return await showModalBottomSheet<ImageSource>(
           context: context,
           builder: (_) =>
               ImagePickerSheet(onPick: (src) => Navigator.pop(context, src)),
         );
       },
-      onShowPreview: (images, onConfirm, onBackToSelection, onAddPhoto) async {
-        await showModalBottomSheet<void>(
-          context: context,
-          isScrollControlled: true,
-          showDragHandle: true,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(AppRadius.card),
-            ),
+      onPhotoSaveResult: (result) {
+        if (!mounted) return;
+        final loc = AppLocalizations.of(context)!;
+        final message = switch (result.status) {
+          PhotoLibrarySaveStatus.saved => loc.aiScanPhotosSaved(
+            result.savedCount,
           ),
-          builder: (_) => SelectedImagesSheet(
-            initialImages: images,
-            onConfirm: (confirmed) async {
-              // Retain exactly the reviewed images for the later cover-photo
-              // prompt and analytics, including additions and removals.
-              _lastOcrImages = List<XFile>.from(confirmed);
-              await onConfirm(confirmed);
-            },
-            onBackToSelection: onBackToSelection,
-            onAddPhoto: onAddPhoto,
+          PhotoLibrarySaveStatus.partial => loc.aiScanPhotosPartiallySaved(
+            result.savedCount,
+            result.savedCount + result.failedCount,
           ),
-        );
+          PhotoLibrarySaveStatus.denied => loc.aiScanPhotosSaveDenied,
+          PhotoLibrarySaveStatus.failed ||
+          PhotoLibrarySaveStatus.unsupported => loc.aiScanPhotosSaveFailed,
+        };
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(message)));
       },
+      onShowPreview:
+          (images, source, onConfirm, onBackToSelection, onAddPhoto) async {
+            if (!mounted) return;
+            await showModalBottomSheet<void>(
+              context: context,
+              isScrollControlled: true,
+              showDragHandle: true,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(AppRadius.card),
+                ),
+              ),
+              builder: (_) => SelectedImagesSheet(
+                initialImages: images,
+                onConfirm: (confirmed) async {
+                  // Retain exactly the reviewed images for the later cover-photo
+                  // prompt and analytics, including additions and removals.
+                  _lastOcrImages = List<XFile>.from(confirmed);
+                  await onConfirm(confirmed, false);
+                },
+                onBackToSelection: onBackToSelection,
+                onAddPhoto: onAddPhoto,
+              ),
+            );
+          },
     );
   }
 

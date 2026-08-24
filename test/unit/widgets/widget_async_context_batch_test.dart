@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:coffee_timer/controllers/coffee_beans_detail_controller.dart';
+import 'package:coffee_timer/controllers/new_beans_image_controller.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/coffee_beans_model.dart';
 import 'package:coffee_timer/models/launch_popup_model.dart';
@@ -8,11 +9,14 @@ import 'package:coffee_timer/models/recipe_model.dart';
 import 'package:coffee_timer/providers/coffee_beans_provider.dart';
 import 'package:coffee_timer/providers/database_provider.dart';
 import 'package:coffee_timer/providers/recipe_provider.dart';
+import 'package:coffee_timer/providers/user_stat_provider.dart';
 import 'package:coffee_timer/screens/coffee_beans_screen.dart';
 import 'package:coffee_timer/screens/donation_screen.dart';
+import 'package:coffee_timer/screens/new_beans_screen.dart';
 import 'package:coffee_timer/purchase_manager.dart';
 import 'package:coffee_timer/services/bean_selection_service.dart';
 import 'package:coffee_timer/services/date_time_format_service.dart';
+import 'package:coffee_timer/services/photo_library_service.dart';
 import 'package:coffee_timer/widgets/add_coffee_beans_widget.dart';
 import 'package:coffee_timer/widgets/autocomplete_tag_input_field.dart';
 import 'package:coffee_timer/widgets/coffee_bean_details/coffee_beans_hero_header.dart';
@@ -31,9 +35,11 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../controllers/coffee_beans_controller_async_context_test.mocks.dart';
 import 'recipe_screen_async_context_test.mocks.dart';
+import 'brew_flow_async_context_test.mocks.dart' as brew_mocks;
 import 'widget_async_context_batch_test.mocks.dart';
 
 @GenerateNiceMocks([
@@ -42,6 +48,14 @@ import 'widget_async_context_batch_test.mocks.dart';
 ])
 void main() {
   late CoffeeBeansModel bean;
+
+  setUpAll(() async {
+    SharedPreferences.setMockInitialValues({});
+    await Supabase.initialize(
+      url: 'http://localhost:54321',
+      anonKey: 'test-anon-key',
+    );
+  });
 
   setUp(() {
     SharedPreferences.setMockInitialValues({'coffeeBeansGridView': false});
@@ -252,6 +266,78 @@ void main() {
 
     await tester.pumpWidget(const SizedBox.shrink());
     confirmation.complete();
+    await tester.pump();
+
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('new-beans scan callbacks stop safely after screen disposal', (
+    tester,
+  ) async {
+    SharedPreferences.setMockInitialValues({'hasShownPopup': true});
+    final coffeeBeansProvider = MockCoffeeBeansProvider();
+    when(
+      coffeeBeansProvider.fetchAllDistinctGrindSizes(),
+    ).thenAnswer((_) async => <String>[]);
+    final userStatProvider = brew_mocks.MockUserStatProvider();
+    when(
+      userStatProvider.fetchAllDistinctGrindSizes(),
+    ).thenAnswer((_) async => <String>[]);
+    final imageController = _LateResultImageController();
+
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider<CoffeeBeansProvider>.value(
+            value: coffeeBeansProvider,
+          ),
+          ChangeNotifierProvider<UserStatProvider>.value(
+            value: userStatProvider,
+          ),
+        ],
+        child: localizedApp(NewBeansScreen(imageController: imageController)),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final l10n = AppLocalizations.of(
+      tester.element(find.byType(NewBeansScreen)),
+    )!;
+    await tester.tap(find.text(l10n.aiScanLabel));
+    await tester.pump();
+    expect(imageController.started, isTrue);
+
+    imageController.photoResult(
+      const PhotoLibrarySaveResult(
+        status: PhotoLibrarySaveStatus.saved,
+        savedCount: 1,
+        failedCount: 0,
+      ),
+    );
+    await tester.pump();
+    expect(find.text(l10n.aiScanPhotosSaved(1)), findsOneWidget);
+
+    await tester.pumpWidget(const SizedBox.shrink());
+    imageController.loading(true);
+    imageController.stage(BeanScanStage.savingPhotos);
+    imageController.photoResult(
+      const PhotoLibrarySaveResult(
+        status: PhotoLibrarySaveStatus.failed,
+        savedCount: 0,
+        failedCount: 1,
+      ),
+    );
+    imageController.data(<String, dynamic>{'name': 'late'});
+    imageController.error('late error');
+    expect(await imageController.chooseSource(), isNull);
+    await imageController.showPreview(
+      [XFile('/tmp/late.jpg')],
+      ImageSource.camera,
+      (_, _) async {},
+      () async {},
+      null,
+    );
+    imageController.complete();
     await tester.pump();
 
     expect(tester.takeException(), isNull);
@@ -713,4 +799,61 @@ void main() {
     expect(find.byType(AlertDialog), findsNothing);
     expect(tester.takeException(), isNull);
   });
+}
+
+typedef _ShowPreviewCallback =
+    Future<void> Function(
+      List<XFile> images,
+      ImageSource source,
+      Future<void> Function(List<XFile>, bool) onConfirm,
+      Future<void> Function() onBackToSelection,
+      Future<XFile?> Function()? onAddPhoto,
+    );
+
+class _LateResultImageController extends NewBeansImageController {
+  _LateResultImageController()
+    : super(
+        supabaseClient: SupabaseClient(
+          'https://example.supabase.co',
+          'anon-key',
+          authOptions: const AuthClientOptions(autoRefreshToken: false),
+        ),
+      );
+
+  final Completer<void> _completion = Completer<void>();
+  bool started = false;
+  late void Function(bool) loading;
+  late void Function(BeanScanStage) stage;
+  late void Function(PhotoLibrarySaveResult) photoResult;
+  late void Function(Map<String, dynamic>) data;
+  late void Function(String) error;
+  late Future<ImageSource?> Function() chooseSource;
+  late _ShowPreviewCallback showPreview;
+
+  void complete() => _completion.complete();
+
+  @override
+  Future<void> start({
+    required BuildContext context,
+    required String locale,
+    required void Function(bool) onLoading,
+    required void Function(Map<String, dynamic>) onData,
+    required void Function(String) onError,
+    required Future<ImageSource?> Function() onChooseSource,
+    required _ShowPreviewCallback onShowPreview,
+    String? userId,
+    bool isFirstTime = false,
+    void Function(BeanScanStage stage)? onStage,
+    required void Function(PhotoLibrarySaveResult result) onPhotoSaveResult,
+  }) {
+    started = true;
+    loading = onLoading;
+    stage = onStage!;
+    photoResult = onPhotoSaveResult;
+    data = onData;
+    error = onError;
+    chooseSource = onChooseSource;
+    showPreview = onShowPreview;
+    return _completion.future;
+  }
 }

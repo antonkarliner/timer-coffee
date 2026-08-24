@@ -26,6 +26,18 @@ class PhotoLibraryService {
   final MethodChannel _channel;
 
   Future<PhotoLibrarySaveResult> saveImages(List<String> paths) async {
+    try {
+      return await _saveImages(paths);
+    } catch (_) {
+      return PhotoLibrarySaveResult(
+        status: PhotoLibrarySaveStatus.failed,
+        savedCount: 0,
+        failedCount: paths.length,
+      );
+    }
+  }
+
+  Future<PhotoLibrarySaveResult> _saveImages(List<String> paths) async {
     if (paths.isEmpty) {
       return const PhotoLibrarySaveResult(
         status: PhotoLibrarySaveStatus.failed,

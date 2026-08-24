@@ -11,6 +11,7 @@ import 'package:coffee_timer/utils/images/chunked_base64.dart';
 import 'package:coffee_timer/utils/images/image_resizer.dart';
 import 'package:coffee_timer/services/clients/beans_label_parser_client.dart';
 import 'package:coffee_timer/services/analytics_service.dart';
+import 'package:coffee_timer/services/photo_library_service.dart';
 import 'package:coffee_timer/utils/device_profiler.dart';
 import 'package:coffee_timer/models/image_processing_result.dart';
 
@@ -31,6 +32,9 @@ class _StopwatchX {
 /// Each value is reported at the moment its corresponding work actually
 /// begins — never on a timer and never implying a duration or percentage.
 enum BeanScanStage {
+  /// Copying the final reviewed camera photos into the user's photo library.
+  savingPhotos,
+
   /// Resizing and base64-encoding the selected photos on-device. Local,
   /// usually fast.
   preparingImages,
@@ -58,6 +62,7 @@ class NewBeansImageController {
 
   final ImagePicker _picker;
   final BeansLabelParserClient _client;
+  final PhotoLibraryService _photoLibraryService;
   final ImageResizeCallback _imageResizer;
   final ImageEncodeCallback? _imageEncoder;
 
@@ -74,10 +79,13 @@ class NewBeansImageController {
   NewBeansImageController({
     required SupabaseClient supabaseClient,
     ImagePicker? imagePicker,
+    PhotoLibraryService? photoLibraryService,
+    @visibleForTesting BeansLabelParserClient? parserClient,
     @visibleForTesting ImageResizeCallback? imageResizer,
     @visibleForTesting ImageEncodeCallback? imageEncoder,
   }) : _picker = imagePicker ?? ImagePicker(),
-       _client = BeansLabelParserClient(supabaseClient),
+       _client = parserClient ?? BeansLabelParserClient(supabaseClient),
+       _photoLibraryService = photoLibraryService ?? PhotoLibraryService(),
        _imageResizer = imageResizer ?? ImageResizer.resizeToMaxSize,
        _imageEncoder = imageEncoder;
 
@@ -103,7 +111,8 @@ class NewBeansImageController {
     required Future<ImageSource?> Function() onChooseSource,
     required Future<void> Function(
       List<XFile> images,
-      Future<void> Function(List<XFile>) onConfirm,
+      ImageSource source,
+      Future<void> Function(List<XFile>, bool) onConfirm,
       Future<void> Function() onBackToSelection,
       Future<XFile?> Function()? onAddPhoto,
     )
@@ -111,6 +120,7 @@ class NewBeansImageController {
     String? userId,
     bool isFirstTime = false,
     void Function(BeanScanStage stage)? onStage,
+    required void Function(PhotoLibrarySaveResult result) onPhotoSaveResult,
   }) async {
     // Ask user for source (camera/gallery)
     final source = await onChooseSource();
@@ -127,10 +137,35 @@ class NewBeansImageController {
       // Present preview UI to allow removing/reselecting
       await onShowPreview(
         limited,
-        (confirmed) async {
+        source,
+        (confirmed, saveToLibrary) async {
+          if (source == ImageSource.camera && saveToLibrary) {
+            onLoading(true);
+            onStage?.call(BeanScanStage.savingPhotos);
+
+            PhotoLibrarySaveResult saveResult;
+            try {
+              saveResult = await _photoLibraryService.saveImages(
+                confirmed.map((image) => image.path).toList(),
+              );
+            } catch (e) {
+              _log('Unexpected photo-library save failure: $e');
+              saveResult = PhotoLibrarySaveResult(
+                status: PhotoLibrarySaveStatus.failed,
+                savedCount: 0,
+                failedCount: confirmed.length,
+              );
+            }
+
+            try {
+              onPhotoSaveResult(saveResult);
+            } catch (e) {
+              _log('Photo-library result callback failed: $e');
+            }
+          }
+
           // Process confirmed images
           await _processAndParse(
-            context: context,
             images: confirmed,
             locale: locale,
             userId: userId,
@@ -151,6 +186,7 @@ class NewBeansImageController {
             onError: onError,
             onChooseSource: onChooseSource,
             onShowPreview: onShowPreview,
+            onPhotoSaveResult: onPhotoSaveResult,
             userId: userId,
             isFirstTime: isFirstTime,
             onStage: onStage,
@@ -369,7 +405,6 @@ class NewBeansImageController {
   }
 
   Future<void> _processAndParse({
-    required BuildContext context,
     required List<XFile> images,
     required String locale,
     required String? userId,
@@ -454,7 +489,7 @@ class NewBeansImageController {
       );
       final edgeMs = swEdge.stopMs();
 
-      AnalyticsService.instance.track(
+      AnalyticsService.maybeInstance?.track(
         'beans_scan_used',
         properties: {'success': true, 'mode': 'auto'},
       );
@@ -486,7 +521,7 @@ class NewBeansImageController {
       _log('Total client flow time: ${swTotal.stopMs()}ms');
       onData(parsed);
     } catch (e, st) {
-      AnalyticsService.instance.track(
+      AnalyticsService.maybeInstance?.track(
         'beans_scan_used',
         properties: {'success': false, 'mode': 'auto'},
       );
