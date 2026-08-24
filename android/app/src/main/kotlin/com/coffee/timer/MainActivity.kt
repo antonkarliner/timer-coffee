@@ -1,22 +1,38 @@
 package com.coffee.timer
 
+import android.Manifest
 import android.app.AlarmManager
 import android.content.ComponentName
+import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
 import android.provider.Settings
+import android.webkit.MimeTypeMap
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
+import java.io.File
+import java.io.IOException
 
 class MainActivity: FlutterActivity() {
     private val ICON_CHANNEL = "com.coffee.timer/icon"
     private val EXACT_ALARM_CHANNEL = "com.coffee.timer/exact_alarm"
     private val LIVE_UPDATES_CHANNEL = "com.coffee.timer/live_updates"
+    private val PHOTO_LIBRARY_CHANNEL = "com.coffee.timer/photo_library"
+    private val PHOTO_LIBRARY_PERMISSION_REQUEST = 7042
 
     private lateinit var brewingLiveUpdateService: BrewingLiveUpdateService
+    private var pendingPhotoSaveRequest: PendingPhotoSaveRequest? = null
+
+    private data class PendingPhotoSaveRequest(
+        val paths: List<String>,
+        val result: MethodChannel.Result
+    )
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -84,6 +100,198 @@ class MainActivity: FlutterActivity() {
                 else -> result.notImplemented()
             }
         }
+
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, PHOTO_LIBRARY_CHANNEL).setMethodCallHandler { call, result ->
+            if (call.method != "saveImages") {
+                result.notImplemented()
+                return@setMethodCallHandler
+            }
+
+            val rawPaths = call.argument<List<*>>("paths")
+            val paths = rawPaths?.filterIsInstance<String>()
+            if (
+                rawPaths == null ||
+                paths == null ||
+                paths.isEmpty() ||
+                paths.size != rawPaths.size
+            ) {
+                result.success(photoLibraryResult("failed", 0, rawPaths?.size ?: 0))
+                return@setMethodCallHandler
+            }
+
+            handlePhotoLibrarySave(paths, result)
+        }
+    }
+
+    private fun handlePhotoLibrarySave(paths: List<String>, result: MethodChannel.Result) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            result.success(photoLibraryResult("unsupported", 0, paths.size))
+            return
+        }
+
+        if (
+            Build.VERSION.SDK_INT <= Build.VERSION_CODES.P &&
+            checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+        ) {
+            if (pendingPhotoSaveRequest != null) {
+                result.error("ALREADY_ACTIVE", "A photo save request is already pending", null)
+                return
+            }
+            pendingPhotoSaveRequest = PendingPhotoSaveRequest(paths, result)
+            requestPermissions(
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                PHOTO_LIBRARY_PERMISSION_REQUEST
+            )
+            return
+        }
+
+        saveImagesToPhotoLibrary(paths, result)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode != PHOTO_LIBRARY_PERMISSION_REQUEST) return
+
+        val pendingRequest = pendingPhotoSaveRequest ?: return
+        pendingPhotoSaveRequest = null
+        if (
+            grantResults.isNotEmpty() &&
+            grantResults[0] == PackageManager.PERMISSION_GRANTED
+        ) {
+            saveImagesToPhotoLibrary(pendingRequest.paths, pendingRequest.result)
+        } else {
+            pendingRequest.result.success(
+                photoLibraryResult("denied", 0, pendingRequest.paths.size)
+            )
+        }
+    }
+
+    private fun saveImagesToPhotoLibrary(paths: List<String>, result: MethodChannel.Result) {
+        Thread {
+            var savedCount = 0
+            for (path in paths) {
+                val source = File(path)
+                if (!source.isFile) continue
+
+                val saved = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    saveImageWithMediaStore(source)
+                } else {
+                    saveLegacyImage(source)
+                }
+                if (saved) savedCount++
+            }
+
+            val failedCount = paths.size - savedCount
+            val status = when {
+                failedCount == 0 -> "saved"
+                savedCount == 0 -> "failed"
+                else -> "partial"
+            }
+            val response = photoLibraryResult(status, savedCount, failedCount)
+            runOnUiThread { result.success(response) }
+        }.start()
+    }
+
+    @android.annotation.TargetApi(Build.VERSION_CODES.Q)
+    private fun saveImageWithMediaStore(source: File): Boolean {
+        val values = ContentValues().apply {
+            put(MediaStore.Images.Media.DISPLAY_NAME, source.name)
+            put(MediaStore.Images.Media.MIME_TYPE, imageMimeType(source))
+            put(
+                MediaStore.Images.Media.RELATIVE_PATH,
+                "${Environment.DIRECTORY_PICTURES}/Timer.Coffee"
+            )
+            put(MediaStore.Images.Media.IS_PENDING, 1)
+        }
+        val resolver = contentResolver
+        val uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+            ?: return false
+
+        return try {
+            resolver.openOutputStream(uri, "w")?.use { output ->
+                source.inputStream().use { input -> input.copyTo(output) }
+            } ?: throw IOException("Could not open photo destination")
+
+            values.clear()
+            values.put(MediaStore.Images.Media.IS_PENDING, 0)
+            if (resolver.update(uri, values, null, null) <= 0) {
+                throw IOException("Could not publish photo")
+            }
+            true
+        } catch (_: Exception) {
+            resolver.delete(uri, null, null)
+            false
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun saveLegacyImage(source: File): Boolean {
+        val picturesDirectory = File(
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+            "Timer.Coffee"
+        )
+        if (!picturesDirectory.exists() && !picturesDirectory.mkdirs()) return false
+
+        val destination = uniqueDestinationFile(picturesDirectory, source)
+        return try {
+            source.inputStream().use { input ->
+                destination.outputStream().use { output -> input.copyTo(output) }
+            }
+            MediaScannerConnection.scanFile(
+                this,
+                arrayOf(destination.absolutePath),
+                arrayOf(imageMimeType(source)),
+                null
+            )
+            true
+        } catch (_: Exception) {
+            if (destination.exists()) destination.delete()
+            false
+        }
+    }
+
+    private fun uniqueDestinationFile(directory: File, source: File): File {
+        val requestedName = source.name.ifBlank { "scan_${System.currentTimeMillis()}.jpg" }
+        val extensionIndex = requestedName.lastIndexOf('.')
+        val baseName = if (extensionIndex > 0) {
+            requestedName.substring(0, extensionIndex)
+        } else {
+            requestedName
+        }
+        val extension = if (extensionIndex > 0) {
+            requestedName.substring(extensionIndex)
+        } else {
+            ""
+        }
+
+        var destination = File(directory, requestedName)
+        var suffix = 1
+        while (destination.exists()) {
+            destination = File(directory, "${baseName}_$suffix$extension")
+            suffix++
+        }
+        return destination
+    }
+
+    private fun imageMimeType(file: File): String {
+        return MimeTypeMap.getSingleton()
+            .getMimeTypeFromExtension(file.extension.lowercase()) ?: "image/jpeg"
+    }
+
+    private fun photoLibraryResult(
+        status: String,
+        savedCount: Int,
+        failedCount: Int
+    ): Map<String, Any> {
+        return mapOf(
+            "status" to status,
+            "savedCount" to savedCount,
+            "failedCount" to failedCount
+        )
     }
 
     private fun getCurrentActiveIcon(): String {

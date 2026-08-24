@@ -1,5 +1,6 @@
 import UIKit
 import Flutter
+import Photos
 import flutter_local_notifications
 
 @main
@@ -83,6 +84,29 @@ import flutter_local_notifications
       }
     }
 
+    let photoLibraryChannel = FlutterMethodChannel(
+      name: "com.coffee.timer/photo_library",
+      binaryMessenger: controller.binaryMessenger
+    )
+
+    photoLibraryChannel.setMethodCallHandler { [weak self] call, result in
+      guard call.method == "saveImages" else {
+        result(FlutterMethodNotImplemented)
+        return
+      }
+      guard let self = self else {
+        result(FlutterError(code: "UNAVAILABLE", message: "Photo library unavailable", details: nil))
+        return
+      }
+      let arguments = call.arguments as? [String: Any]
+      guard let paths = arguments?["paths"] as? [String], !paths.isEmpty else {
+        result(["status": "failed", "savedCount": 0, "failedCount": 0])
+        return
+      }
+
+      self.saveImagesToPhotoLibrary(paths: paths, result: result)
+    }
+
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
@@ -115,6 +139,93 @@ import flutter_local_notifications
     print("[BackgroundTask] Ending brewing background task (id=\(brewingBackgroundTaskId.rawValue))")
     UIApplication.shared.endBackgroundTask(brewingBackgroundTaskId)
     brewingBackgroundTaskId = .invalid
+  }
+
+  // MARK: - Add-only photo library writes
+
+  private func saveImagesToPhotoLibrary(paths: [String], result: @escaping FlutterResult) {
+    PHPhotoLibrary.requestAuthorization(for: .addOnly) { status in
+      switch status {
+      case .authorized, .limited:
+        self.savePhotoLibraryImages(paths, index: 0, savedCount: 0, result: result)
+      case .denied, .restricted, .notDetermined:
+        self.finishPhotoLibrarySave(
+          status: "denied",
+          savedCount: 0,
+          failedCount: paths.count,
+          result: result
+        )
+      @unknown default:
+        self.finishPhotoLibrarySave(
+          status: "unsupported",
+          savedCount: 0,
+          failedCount: paths.count,
+          result: result
+        )
+      }
+    }
+  }
+
+  private func savePhotoLibraryImages(
+    _ paths: [String],
+    index: Int,
+    savedCount: Int,
+    result: @escaping FlutterResult
+  ) {
+    guard index < paths.count else {
+      let failedCount = paths.count - savedCount
+      let status: String
+      if failedCount == 0 {
+        status = "saved"
+      } else if savedCount == 0 {
+        status = "failed"
+      } else {
+        status = "partial"
+      }
+      finishPhotoLibrarySave(
+        status: status,
+        savedCount: savedCount,
+        failedCount: failedCount,
+        result: result
+      )
+      return
+    }
+
+    let fileURL = URL(fileURLWithPath: paths[index])
+    guard FileManager.default.isReadableFile(atPath: fileURL.path) else {
+      savePhotoLibraryImages(paths, index: index + 1, savedCount: savedCount, result: result)
+      return
+    }
+
+    PHPhotoLibrary.shared().performChanges({
+      let request = PHAssetCreationRequest.forAsset()
+      let options = PHAssetResourceCreationOptions()
+      options.originalFilename = fileURL.lastPathComponent
+      options.shouldMoveFile = false
+      request.addResource(with: .photo, fileURL: fileURL, options: options)
+    }) { success, _ in
+      self.savePhotoLibraryImages(
+        paths,
+        index: index + 1,
+        savedCount: savedCount + (success ? 1 : 0),
+        result: result
+      )
+    }
+  }
+
+  private func finishPhotoLibrarySave(
+    status: String,
+    savedCount: Int,
+    failedCount: Int,
+    result: @escaping FlutterResult
+  ) {
+    DispatchQueue.main.async {
+      result([
+        "status": status,
+        "savedCount": savedCount,
+        "failedCount": failedCount
+      ])
+    }
   }
 
   // MARK: - Push notification tap handling (FCM/APNs)
