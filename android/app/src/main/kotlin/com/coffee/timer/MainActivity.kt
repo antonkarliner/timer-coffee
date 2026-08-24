@@ -233,6 +233,7 @@ class MainActivity: FlutterActivity() {
         val picturesDirectory = Environment.getExternalStoragePublicDirectory(
             Environment.DIRECTORY_PICTURES
         )
+        if (!picturesDirectory.exists() && !picturesDirectory.mkdirs()) return false
 
         val destination = uniqueDestinationFile(picturesDirectory, source)
         return try {
