@@ -203,7 +203,7 @@ class MainActivity: FlutterActivity() {
             put(MediaStore.Images.Media.MIME_TYPE, imageMimeType(source))
             put(
                 MediaStore.Images.Media.RELATIVE_PATH,
-                "${Environment.DIRECTORY_PICTURES}/Timer.Coffee"
+                Environment.DIRECTORY_PICTURES
             )
             put(MediaStore.Images.Media.IS_PENDING, 1)
         }
@@ -230,11 +230,9 @@ class MainActivity: FlutterActivity() {
 
     @Suppress("DEPRECATION")
     private fun saveLegacyImage(source: File): Boolean {
-        val picturesDirectory = File(
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-            "Timer.Coffee"
+        val picturesDirectory = Environment.getExternalStoragePublicDirectory(
+            Environment.DIRECTORY_PICTURES
         )
-        if (!picturesDirectory.exists() && !picturesDirectory.mkdirs()) return false
 
         val destination = uniqueDestinationFile(picturesDirectory, source)
         return try {
