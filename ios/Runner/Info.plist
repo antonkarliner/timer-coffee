@@ -101,6 +101,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>$(NSCameraUsageDescription)</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>$(NSPhotoLibraryAddUsageDescription)</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(NSPhotoLibraryUsageDescription)</string>
 	<key>NSSupportsLiveActivities</key>

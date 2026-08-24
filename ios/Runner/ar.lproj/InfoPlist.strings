@@ -1,2 +1,3 @@
 "NSPhotoLibraryUsageDescription" = "نحتاج إلى الوصول إلى مكتبة الصور الخاصة بك للسماح لك بتحديد صورة ملصق كيس القهوة.";
 "NSCameraUsageDescription" = "نحتاج إلى الوصول إلى الكاميرا الخاصة بك للسماح لك بالتقاط صورة لملصق كيس القهوة.";
+"NSPhotoLibraryAddUsageDescription" = "اسمح لـ Timer.Coffee بحفظ صور عبوات القهوة التي تختار الاحتفاظ بها.";

@@ -1,2 +1,3 @@
 "NSPhotoLibraryUsageDescription" = "We need access to your photo library to let you select a coffee bag label image.";
 "NSCameraUsageDescription" = "We need access to your camera to let you take a photo of the coffee bag label.";
+"NSPhotoLibraryAddUsageDescription" = "Allow Timer.Coffee to save coffee bag photos you choose to keep.";
