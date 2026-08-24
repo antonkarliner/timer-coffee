@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:coffee_timer/utils/app_logger.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart'
+    show TargetPlatform, defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:coffee_timer/utils/images/chunked_base64.dart';
@@ -37,7 +39,8 @@ enum BeanScanStage {
 
 /// A controller that orchestrates the "image flow" for New Beans:
 /// - first-time popup logic (delegated to caller)
-/// - image selection (camera/gallery), optional multi-shot camera loop
+/// - image selection (camera/gallery), with an optional second photo
+///   launched from the review UI
 /// - preview/selection removal (delegated to caller UI)
 /// - resize + base64 encode
 /// - invoke Edge Function through BeansLabelParserClient
@@ -46,7 +49,11 @@ enum BeanScanStage {
 /// The UI (dialogs/sheets) should be implemented by the caller and wired via the
 /// provided callbacks.
 class NewBeansImageController {
-  final ImagePicker _picker = ImagePicker();
+  static const MethodChannel _iosPhotoPickerChannel = MethodChannel(
+    'com.coffee.timer/inline_photo_picker',
+  );
+
+  final ImagePicker _picker;
   final BeansLabelParserClient _client;
 
   // Thresholds (ms)
@@ -61,7 +68,9 @@ class NewBeansImageController {
 
   NewBeansImageController({
     required SupabaseClient supabaseClient,
-  }) : _client = BeansLabelParserClient(supabaseClient);
+    ImagePicker? imagePicker,
+  }) : _picker = imagePicker ?? ImagePicker(),
+       _client = BeansLabelParserClient(supabaseClient);
 
   /// Starts the flow for selecting images (camera or gallery) and parsing them.
   /// The controller does not present UI itself. Instead, it relies on the caller to:
@@ -73,7 +82,8 @@ class NewBeansImageController {
   /// - `onLoading(bool isLoading)`
   /// - `onData(Map<String, dynamic> parsed)`
   /// - `onError(String message)`
-  /// - `onShowPreview(List<XFile> images, void Function(List<XFile>) onConfirm, void Function() onBackToSelection)`
+  /// - `onShowPreview` receives the selected images, confirm/back callbacks,
+  ///   and a callback for adding one more photo from the chosen source.
   /// - `onChooseSource(Future<ImageSource?> Function() chooser)` - see defaultChooser example below.
   Future<void> start({
     required BuildContext context,
@@ -86,7 +96,9 @@ class NewBeansImageController {
       List<XFile> images,
       Future<void> Function(List<XFile>) onConfirm,
       Future<void> Function() onBackToSelection,
-    ) onShowPreview,
+      Future<XFile?> Function()? onAddPhoto,
+    )
+    onShowPreview,
     String? userId,
     bool isFirstTime = false,
     void Function(BeanScanStage stage)? onStage,
@@ -135,63 +147,63 @@ class NewBeansImageController {
             onStage: onStage,
           );
         },
+        source == ImageSource.camera ? _takeCameraPhoto : _takeGalleryPhoto,
       );
     } catch (e) {
       onError(e.toString());
     }
   }
 
-  /// Pick up to 2 images. For camera, supports a multi-shot loop (ask user whether to take another),
-  /// mirroring original behavior from NewBeansScreen.
+  /// Picks the initial images. Camera starts with one photo; the unified review
+  /// sheet owns the optional second capture so cancelling it leaves the review
+  /// sheet open instead of relaunching the camera.
   Future<List<XFile>> _pickImages(ImageSource source) async {
     if (source == ImageSource.camera) {
-      final List<XFile> shots = [];
-      while (shots.length < 2) {
-        final XFile? image =
-            await _picker.pickImage(source: ImageSource.camera);
-        if (image != null) {
-          shots.add(image);
-        }
-        if (shots.length < 2) {
-          // If the user cancelled the first capture, there's nothing to preview — exit.
-          if (shots.isEmpty) break;
-          // Ask user if they'd like to take another photo. The controller itself doesn't own UI,
-          // so callers must provide a dialog in onChooseMoreCameraShots.
-          final bool takeAnother =
-              await _onAskTakeAnotherPhoto?.call(shots.last) ?? false;
-          if (!takeAnother) break;
-
-          // If user wants to take another photo, capture it
-          if (takeAnother) {
-            final XFile? secondImage =
-                await _picker.pickImage(source: ImageSource.camera);
-            if (secondImage != null) {
-              shots.add(secondImage);
-            }
-          }
-        }
-      }
-      return shots;
-    } else {
-      if (kIsWeb) {
-        final XFile? image =
-            await _picker.pickImage(source: ImageSource.gallery);
-        return image != null ? [image] : [];
-      } else {
-        final images = await _picker.pickMultiImage(imageQuality: 50);
-        return images;
-      }
+      final image = await _takeCameraPhoto();
+      return image == null ? const <XFile>[] : <XFile>[image];
     }
+
+    return _pickGalleryImages(selectionLimit: 2);
   }
 
-  /// Callback used internally to ask the user if they want to take another camera shot (for multi-shot loop).
-  /// Must be wired by the caller via [setAskTakeAnotherPhotoCallback]. Receives the just-captured photo
-  /// so the UI can show a preview thumbnail.
-  Future<bool> Function(XFile lastPhoto)? _onAskTakeAnotherPhoto;
+  Future<XFile?> _takeCameraPhoto() {
+    return _picker.pickImage(source: ImageSource.camera);
+  }
 
-  /// Set the callback used to ask the user to take another photo when using the camera.
-  void setAskTakeAnotherPhotoCallback(Future<bool> Function(XFile lastPhoto) cb) {
-    _onAskTakeAnotherPhoto = cb;
+  Future<XFile?> _takeGalleryPhoto() async {
+    final images = await _pickGalleryImages(selectionLimit: 1);
+    return images.isEmpty ? null : images.first;
+  }
+
+  Future<List<XFile>> _pickGalleryImages({required int selectionLimit}) async {
+    if (kIsWeb) {
+      final image = await _picker.pickImage(source: ImageSource.gallery);
+      return image == null ? const <XFile>[] : <XFile>[image];
+    }
+
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
+      try {
+        final paths = await _iosPhotoPickerChannel.invokeListMethod<String>(
+          'pickImages',
+          {'selectionLimit': selectionLimit},
+        );
+        return (paths ?? const <String>[]).map(XFile.new).toList();
+      } on MissingPluginException {
+        // Keep add-beans usable in tests and in any build where the native
+        // bridge has not yet been registered.
+        _log('Inline iOS photo picker unavailable; using image_picker.');
+      }
+    }
+
+    if (selectionLimit == 1) {
+      final image = await _picker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 50,
+      );
+      return image == null ? const <XFile>[] : <XFile>[image];
+    }
+
+    return _picker.pickMultiImage(imageQuality: 50, limit: selectionLimit);
   }
 
   /// Determines the appropriate max image size based on device capabilities
@@ -220,7 +232,8 @@ class NewBeansImageController {
 
     try {
       _logMemoryUsage(
-          'Starting parallel image processing for image ${imageIndex + 1}');
+        'Starting parallel image processing for image ${imageIndex + 1}',
+      );
 
       String base64Image;
 
@@ -231,7 +244,8 @@ class NewBeansImageController {
         final fileSize = await file.length();
         if (fileSize > _maxFileSizeBytes) {
           _log(
-              'Skipping large image: ${(fileSize / 1024 / 1024).toStringAsFixed(2)}MB exceeds threshold of ${(_maxFileSizeBytes / 1024 / 1024).toStringAsFixed(2)}MB');
+            'Skipping large image: ${(fileSize / 1024 / 1024).toStringAsFixed(2)}MB exceeds threshold of ${(_maxFileSizeBytes / 1024 / 1024).toStringAsFixed(2)}MB',
+          );
           return ImageProcessingResult.failure(
             fileName: fileName,
             imageIndex: imageIndex,
@@ -253,7 +267,8 @@ class NewBeansImageController {
         performanceMetrics['encodeMs'] = encodeMs;
 
         _log(
-            'Resize+encode done in ${resizeMs}ms+${encodeMs}ms for $fileName (max_size=${maxImageSize}px)');
+          'Resize+encode done in ${resizeMs}ms+${encodeMs}ms for $fileName (max_size=${maxImageSize}px)',
+        );
 
         // Force garbage collection after image processing
         _forceGarbageCollection();
@@ -265,7 +280,8 @@ class NewBeansImageController {
         final fileSize = await image.length();
         if (fileSize > _maxFileSizeBytes) {
           _log(
-              'Skipping large web image: ${(fileSize / 1024 / 1024).toStringAsFixed(2)}MB exceeds threshold of ${(_maxFileSizeBytes / 1024 / 1024).toStringAsFixed(2)}MB');
+            'Skipping large web image: ${(fileSize / 1024 / 1024).toStringAsFixed(2)}MB exceeds threshold of ${(_maxFileSizeBytes / 1024 / 1024).toStringAsFixed(2)}MB',
+          );
           return ImageProcessingResult.failure(
             fileName: fileName,
             imageIndex: imageIndex,
@@ -336,7 +352,8 @@ class NewBeansImageController {
     onStage?.call(BeanScanStage.preparingImages);
     try {
       _log(
-          'Starting prepare. Images: ${images.length}, locale: $locale, userId: ${userId ?? 'anon'}, isFirstTime: $isFirstTime');
+        'Starting prepare. Images: ${images.length}, locale: $locale, userId: ${userId ?? 'anon'}, isFirstTime: $isFirstTime',
+      );
 
       // Determine device-aware image size
       final int maxImageSize = await _getDeviceAwareMaxImageSize();
@@ -369,18 +386,16 @@ class NewBeansImageController {
         // Create processing futures for all images
         final futures = images.map((image) {
           final index = images.indexOf(image);
-          return _processSingleImageParallel(
-            image,
-            maxImageSize,
-            index,
-          );
+          return _processSingleImageParallel(image, maxImageSize, index);
         }).toList();
 
         // Wait for all processing to complete
         results.addAll(await Future.wait(futures));
       }
 
-      _log('Prep complete in ${prepSw.stopMs()}ms. Processed ${results.length} images');
+      _log(
+        'Prep complete in ${prepSw.stopMs()}ms. Processed ${results.length} images',
+      );
 
       // Filter successful results and extract data
       final successfulResults = results.where((r) => r.success).toList();
@@ -407,10 +422,10 @@ class NewBeansImageController {
       );
       final edgeMs = swEdge.stopMs();
 
-      AnalyticsService.instance.track('beans_scan_used', properties: {
-        'success': true,
-        'mode': 'auto',
-      });
+      AnalyticsService.instance.track(
+        'beans_scan_used',
+        properties: {'success': true, 'mode': 'auto'},
+      );
 
       // Log meta if server returned it
       Map<String, dynamic>? serverMeta;
@@ -418,28 +433,31 @@ class NewBeansImageController {
         serverMeta = parsed['meta'] as Map<String, dynamic>?;
         if (serverMeta is Map<String, dynamic>) {
           _log(
-              'Server meta: decided_mode=${serverMeta['decided_mode']}, tokens_used=${serverMeta['tokens_used']}, '
-              'limit=${serverMeta['token_limit']}, used_this_month=${serverMeta['tokens_used_this_month']}, '
-              'model=${serverMeta['model_used']}, edge_total_ms=${serverMeta['execution_time_ms_total']}, '
-              'edge_gemini_ms=${serverMeta['execution_time_ms_gemini']}, '
-              'images_count_sent=${serverMeta['images_count']}');
+            'Server meta: decided_mode=${serverMeta['decided_mode']}, tokens_used=${serverMeta['tokens_used']}, '
+            'limit=${serverMeta['token_limit']}, used_this_month=${serverMeta['tokens_used_this_month']}, '
+            'model=${serverMeta['model_used']}, edge_total_ms=${serverMeta['execution_time_ms_total']}, '
+            'edge_gemini_ms=${serverMeta['execution_time_ms_gemini']}, '
+            'images_count_sent=${serverMeta['images_count']}',
+          );
         } else {
           _log(
-              'No meta in response. Edge call time (client observed) = ${edgeMs}ms');
+            'No meta in response. Edge call time (client observed) = ${edgeMs}ms',
+          );
         }
       } catch (_) {
         _log(
-            'Meta parse failed; Edge call time (client observed) = ${edgeMs}ms');
+          'Meta parse failed; Edge call time (client observed) = ${edgeMs}ms',
+        );
       }
 
       onLoading(false);
       _log('Total client flow time: ${swTotal.stopMs()}ms');
       onData(parsed);
     } catch (e, st) {
-      AnalyticsService.instance.track('beans_scan_used', properties: {
-        'success': false,
-        'mode': 'auto',
-      });
+      AnalyticsService.instance.track(
+        'beans_scan_used',
+        properties: {'success': false, 'mode': 'auto'},
+      );
       onLoading(false);
       _log('Error during prepare/parse: $e\n$st');
       onError(e.toString());

@@ -25,6 +25,7 @@ import 'package:coffee_timer/widgets/launch_popup.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -210,14 +211,14 @@ void main() {
     await tester.pumpWidget(
       localizedApp(
         SelectedImagesSheet(
-          initialImages: const [],
+          initialImages: [XFile('/tmp/scan-photo.jpg')],
           onConfirm: (_) async => confirmed = true,
           onBackToSelection: () async {},
         ),
       ),
     );
 
-    await tester.tap(find.text('Next'));
+    await tester.tap(find.text('Analyze photo'));
     await tester.pump();
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pump(const Duration(milliseconds: 20));
@@ -234,7 +235,7 @@ void main() {
     await tester.pumpWidget(
       localizedApp(
         SelectedImagesSheet(
-          initialImages: const [],
+          initialImages: [XFile('/tmp/scan-photo.jpg')],
           onConfirm: (_) {
             confirmCalled = true;
             return confirmation.future;
@@ -244,7 +245,7 @@ void main() {
       ),
     );
 
-    await tester.tap(find.text('Next'));
+    await tester.tap(find.text('Analyze photo'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 11));
     expect(confirmCalled, isTrue);

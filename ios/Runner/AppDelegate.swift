@@ -9,6 +9,7 @@ import flutter_local_notifications
 
   // MARK: - Background task for keeping Flutter alive during brewing
   private var brewingBackgroundTaskId: UIBackgroundTaskIdentifier = .invalid
+  private var inlinePhotoPickerCoordinator: InlinePhotoPickerCoordinator?
 
   override func application(
     _ application: UIApplication,
@@ -44,6 +45,41 @@ import flutter_local_notifications
         result(true)
       default:
         result(FlutterMethodNotImplemented)
+      }
+    }
+
+    let photoPickerChannel = FlutterMethodChannel(
+      name: "com.coffee.timer/inline_photo_picker",
+      binaryMessenger: controller.binaryMessenger
+    )
+
+    photoPickerChannel.setMethodCallHandler { [weak self, weak controller] call, result in
+      guard let self = self, let controller = controller else {
+        result(FlutterError(code: "UNAVAILABLE", message: "Photo picker unavailable", details: nil))
+        return
+      }
+      guard call.method == "pickImages" else {
+        result(FlutterMethodNotImplemented)
+        return
+      }
+      guard self.inlinePhotoPickerCoordinator == nil else {
+        result(FlutterError(code: "ALREADY_ACTIVE", message: "Photo picker is already open", details: nil))
+        return
+      }
+
+      let arguments = call.arguments as? [String: Any]
+      let selectionLimit = arguments?["selectionLimit"] as? Int ?? 2
+      let coordinator = InlinePhotoPickerCoordinator()
+      self.inlinePhotoPickerCoordinator = coordinator
+
+      coordinator.present(from: controller, selectionLimit: selectionLimit) { [weak self] pickerResult in
+        self?.inlinePhotoPickerCoordinator = nil
+        switch pickerResult {
+        case .success(let paths):
+          result(paths)
+        case .failure(let error):
+          result(FlutterError(code: "PHOTO_LOAD_FAILED", message: error.localizedDescription, details: nil))
+        }
       }
     }
 

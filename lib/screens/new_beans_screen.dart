@@ -36,7 +36,6 @@ import '../services/authentication_service.dart';
 import 'package:coffee_timer/controllers/new_beans_image_controller.dart';
 import 'package:coffee_timer/widgets/new_beans/image_flow/image_picker_sheet.dart';
 import 'package:coffee_timer/widgets/new_beans/image_flow/selected_images_sheet.dart';
-import 'package:coffee_timer/widgets/new_beans/image_flow/continue_camera_dialog.dart';
 import 'package:coffee_timer/widgets/new_beans/image_flow/error_dialog.dart';
 import 'package:coffee_timer/widgets/new_beans/image_flow/collected_data_dialog.dart';
 
@@ -97,6 +96,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   // scan is running or before the first stage boundary fires). Drives the
   // loading overlay's secondary text — never a fabricated progress value.
   BeanScanStage? _scanStage;
+
   /// Whether the scan's loading overlay should currently be visible.
   bool get _showScanOverlay => isLoading;
 
@@ -266,17 +266,11 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       _loadBeanDetails(widget.uuid!);
     }
 
-    // Init image controller and multi-shot callback
+    // Init image controller. The photo-review sheet owns the optional second
+    // camera capture so the entire decision stays in one surface.
     _imageController = NewBeansImageController(
       supabaseClient: Supabase.instance.client,
     );
-    _imageController.setAskTakeAnotherPhotoCallback((lastPhoto) async {
-      final res = await showDialog<bool>(
-        context: context,
-        builder: (_) => ContinueCameraDialog(lastPhoto: lastPhoto),
-      );
-      return res ?? false;
-    });
 
     _checkFirstTimePopup();
 
@@ -574,7 +568,6 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     }
   }
 
-
   /// Human-readable text for the real stage the scan is currently in.
   /// Returns null when no stage boundary has fired yet.
   String? _scanStageDetail(AppLocalizations loc) {
@@ -690,11 +683,11 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
               ImagePickerSheet(onPick: (src) => Navigator.pop(context, src)),
         );
       },
-      onShowPreview: (images, onConfirm, onBackToSelection) async {
-        // Capture images for the cover photo prompt shown after OCR
-        _lastOcrImages = images;
-        await showModalBottomSheet(
+      onShowPreview: (images, onConfirm, onBackToSelection, onAddPhoto) async {
+        await showModalBottomSheet<void>(
           context: context,
+          isScrollControlled: true,
+          showDragHandle: true,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
               top: Radius.circular(AppRadius.card),
@@ -702,8 +695,14 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
           ),
           builder: (_) => SelectedImagesSheet(
             initialImages: images,
-            onConfirm: onConfirm,
+            onConfirm: (confirmed) async {
+              // Retain exactly the reviewed images for the later cover-photo
+              // prompt and analytics, including additions and removals.
+              _lastOcrImages = List<XFile>.from(confirmed);
+              await onConfirm(confirmed);
+            },
             onBackToSelection: onBackToSelection,
+            onAddPhoto: onAddPhoto,
           ),
         );
       },
@@ -1077,102 +1076,104 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       child: Stack(
         children: [
           Scaffold(
-        appBar: AppBar(
-          title: Semantics(
-            identifier: 'newBeansAppBar',
-            label: isEditMode ? loc.editCoffeeBeans : loc.addCoffeeBeans,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
+            appBar: AppBar(
+              title: Semantics(
+                identifier: 'newBeansAppBar',
+                label: isEditMode ? loc.editCoffeeBeans : loc.addCoffeeBeans,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Coffeico.bean), // Add your desired icon here
+                    const SizedBox(width: 8), // Adjust spacing as needed
+                    Text(isEditMode ? loc.editCoffeeBeans : loc.addCoffeeBeans),
+                  ],
+                ),
+              ),
+              actions: const [],
+            ),
+            body: Stack(
               children: [
-                const Icon(Coffeico.bean), // Add your desired icon here
-                const SizedBox(width: 8), // Adjust spacing as needed
-                Text(isEditMode ? loc.editCoffeeBeans : loc.addCoffeeBeans),
+                // Tap outside to dismiss keyboard and any autocomplete overlays.
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTapDown: (details) {
+                    // Only unfocus if tap is outside the currently focused render box.
+                    final currentFocus = FocusManager.instance.primaryFocus;
+                    if (currentFocus == null) return;
+                    final renderObject = currentFocus.context
+                        ?.findRenderObject();
+                    if (renderObject is RenderBox) {
+                      final tapPos = details.globalPosition;
+                      final boxRect = renderObject.paintBounds.shift(
+                        renderObject.localToGlobal(Offset.zero),
+                      );
+                      final tappedInsideFocused = boxRect.contains(tapPos);
+                      if (!tappedInsideFocused) {
+                        currentFocus.unfocus();
+                      }
+                    } else {
+                      // Fallback to safe unfocus check
+                      final scope = FocusScope.of(context);
+                      if (!scope.hasPrimaryFocus &&
+                          scope.focusedChild != null) {
+                        scope.unfocus();
+                      }
+                    }
+                  },
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      // Use responsive layout for wider screens
+                      final isWideScreen = constraints.maxWidth > 800;
+                      final cardSpacing = isWideScreen ? 24.0 : 16.0;
+
+                      return SingleChildScrollView(
+                        padding: EdgeInsets.all(isWideScreen ? 24.0 : 16.0),
+                        child: isWideScreen
+                            ? _buildWideLayout(
+                                coffeeBeansProvider,
+                                locale,
+                                loc,
+                                cardSpacing,
+                              )
+                            : _buildNarrowLayout(
+                                coffeeBeansProvider,
+                                locale,
+                                loc,
+                                cardSpacing,
+                              ),
+                      );
+                    },
+                  ),
+                ),
               ],
             ),
-          ),
-          actions: const [],
-        ),
-        body: Stack(
-          children: [
-            // Tap outside to dismiss keyboard and any autocomplete overlays.
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTapDown: (details) {
-                // Only unfocus if tap is outside the currently focused render box.
-                final currentFocus = FocusManager.instance.primaryFocus;
-                if (currentFocus == null) return;
-                final renderObject = currentFocus.context?.findRenderObject();
-                if (renderObject is RenderBox) {
-                  final tapPos = details.globalPosition;
-                  final boxRect = renderObject.paintBounds.shift(
-                    renderObject.localToGlobal(Offset.zero),
-                  );
-                  final tappedInsideFocused = boxRect.contains(tapPos);
-                  if (!tappedInsideFocused) {
-                    currentFocus.unfocus();
-                  }
-                } else {
-                  // Fallback to safe unfocus check
-                  final scope = FocusScope.of(context);
-                  if (!scope.hasPrimaryFocus && scope.focusedChild != null) {
-                    scope.unfocus();
-                  }
-                }
-              },
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  // Use responsive layout for wider screens
-                  final isWideScreen = constraints.maxWidth > 800;
-                  final cardSpacing = isWideScreen ? 24.0 : 16.0;
+            bottomNavigationBar: KeyboardAwareStickyActionBar(
+              child: StickyActionBar(
+                primaryLabel: isEditMode ? loc.save : loc.addCoffeeBeans,
+                primaryDisabled: !_isFormValid,
+                isLoading: isLoading || _isSaving,
+                onPrimaryPressed: _isFormValid
+                    ? () {
+                        // Double-check validation before saving
+                        if (!_isFormValid) {
+                          // Show specific error for the first invalid field
+                          if (_fieldErrors.containsKey('roaster')) {
+                            _showFieldError('roaster');
+                          } else if (_fieldErrors.containsKey('name')) {
+                            _showFieldError('name');
+                          } else if (_fieldErrors.containsKey('origin')) {
+                            _showFieldError('origin');
+                          }
+                          return;
+                        }
 
-                  return SingleChildScrollView(
-                    padding: EdgeInsets.all(isWideScreen ? 24.0 : 16.0),
-                    child: isWideScreen
-                        ? _buildWideLayout(
-                            coffeeBeansProvider,
-                            locale,
-                            loc,
-                            cardSpacing,
-                          )
-                        : _buildNarrowLayout(
-                            coffeeBeansProvider,
-                            locale,
-                            loc,
-                            cardSpacing,
-                          ),
-                  );
-                },
+                        setState(() => _isSaving = true);
+                        _saveCoffeeBeans();
+                      }
+                    : null,
+                semanticIdentifier: 'saveButton',
               ),
             ),
-          ],
-        ),
-        bottomNavigationBar: KeyboardAwareStickyActionBar(
-          child: StickyActionBar(
-            primaryLabel: isEditMode ? loc.save : loc.addCoffeeBeans,
-            primaryDisabled: !_isFormValid,
-            isLoading: isLoading || _isSaving,
-            onPrimaryPressed: _isFormValid
-                ? () {
-                    // Double-check validation before saving
-                    if (!_isFormValid) {
-                      // Show specific error for the first invalid field
-                      if (_fieldErrors.containsKey('roaster')) {
-                        _showFieldError('roaster');
-                      } else if (_fieldErrors.containsKey('name')) {
-                        _showFieldError('name');
-                      } else if (_fieldErrors.containsKey('origin')) {
-                        _showFieldError('origin');
-                      }
-                      return;
-                    }
-
-                    setState(() => _isSaving = true);
-                    _saveCoffeeBeans();
-                  }
-                : null,
-            semanticIdentifier: 'saveButton',
-          ),
-        ),
           ),
           // Both overlays sit ABOVE the Scaffold, not inside its body, so the
           // scrim covers the app bar and the sticky action bar too. Nothing
@@ -1184,9 +1185,10 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                 // liveRegion + the current stage in the label so the change
                 // from one stage to the next is actually announced.
                 liveRegion: true,
-                label: [loc.analyzing, _scanStageDetail(loc)]
-                    .whereType<String>()
-                    .join('. '),
+                label: [
+                  loc.analyzing,
+                  _scanStageDetail(loc),
+                ].whereType<String>().join('. '),
                 child: LoadingOverlay(
                   label: loc.analyzing,
                   detail: _scanStageDetail(loc),

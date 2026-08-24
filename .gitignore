@@ -93,6 +93,7 @@ project_docs.txt
 .goosehints
 *.json
 !/ios-universal-links-aasa-config.json
+!/ios/Runner/Assets.xcassets/Legacy.appiconset/Contents.json
 android/app/.cxx
 untranslated.txt
 memory-bank/activeContext.md
