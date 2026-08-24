@@ -1,2 +1,3 @@
 "NSPhotoLibraryUsageDescription" = "برای انتخاب تصویر برچسبِ کیسهٔ قهوه، به دسترسی به کتابخانهٔ عکس‌های شما نیاز داریم.";
 "NSCameraUsageDescription" = "برای گرفتن عکس از برچسبِ کیسهٔ قهوه، به دسترسی به دوربین شما نیاز داریم.";
+"NSPhotoLibraryAddUsageDescription" = "به Timer.Coffee اجازه دهید عکس‌های بسته‌های قهوه را که می‌خواهید نگه دارید، ذخیره کند.";

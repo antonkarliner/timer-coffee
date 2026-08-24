@@ -1,2 +1,3 @@
 "NSPhotoLibraryUsageDescription" = "Necesitamos acceso a su biblioteca de fotos para permitirle seleccionar una imagen de la etiqueta de la bolsa de café.";
 "NSCameraUsageDescription" = "Necesitamos acceso a su cámara para permitirle tomar una foto de la etiqueta de la bolsa de café.";
+"NSPhotoLibraryAddUsageDescription" = "Permita que Timer.Coffee guarde las fotos de bolsas de café que elija conservar.";

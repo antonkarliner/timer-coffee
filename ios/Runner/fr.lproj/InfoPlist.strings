@@ -1,2 +1,3 @@
 "NSPhotoLibraryUsageDescription" = "Nous avons besoin d'accéder à votre bibliothèque de photos pour vous permettre de sélectionner une image d'étiquette de sac de café.";
 "NSCameraUsageDescription" = "Nous avons besoin d'accéder à votre appareil photo pour vous permettre de prendre une photo de l'étiquette du sac de café.";
+"NSPhotoLibraryAddUsageDescription" = "Autorisez Timer.Coffee à enregistrer les photos de paquets de café que vous choisissez de conserver.";
