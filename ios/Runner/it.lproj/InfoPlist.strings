@@ -1,2 +1,3 @@
 "NSPhotoLibraryUsageDescription" = "Abbiamo bisogno di accedere alla tua libreria di foto per permetterti di selezionare un'immagine dell'etichetta del sacchetto del caffè.";
 "NSCameraUsageDescription" = "Abbiamo bisogno di accedere alla tua fotocamera per permetterti di scattare una foto dell'etichetta del sacchetto del caffè.";
+"NSPhotoLibraryAddUsageDescription" = "Consenti a Timer.Coffee di salvare le foto delle confezioni di caffè che scegli di conservare.";

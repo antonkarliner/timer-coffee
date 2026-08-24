@@ -1,2 +1,3 @@
 "NSPhotoLibraryUsageDescription" = "コーヒーバッグのラベル画像を選択できるように、写真ライブラリへのアクセスが必要です。";
 "NSCameraUsageDescription" = "コーヒーバッグのラベルの写真を撮るために、カメラへのアクセスが必要です。";
+"NSPhotoLibraryAddUsageDescription" = "Timer.Coffeeが、残しておきたいコーヒー袋の写真を保存できるようにします。";
