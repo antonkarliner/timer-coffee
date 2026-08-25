@@ -1,16 +1,12 @@
 Noutăți:
-• Exportă jurnalul de preparare în format Markdown — întregul jurnal, istoricul unei singure cafele sau o singură preparare — astfel încât notele tale să îți aparțină mereu.
-• Evaluează o preparare imediat după ce o finalizezi: stele, gust, note și etichete într-un singur panou rapid.
-• Descoperă Centrul de ajutor: ghiduri și răspunsuri despre aplicație, disponibile în toate limbile acceptate.
-• Exportă toate datele tale din Setări → Confidențialitate și statistici: confirmă prin e-mail și primește o arhivă descărcabilă.
-• Accesează direct parcursul unei cafele din istoricul preparărilor sale.
+• Păstrează fotografiile din scanarea unei pungi de cafea. Activează această opțiune în timpul scanării, iar fotografiile făcute cu camera vor fi copiate în galerie la calitate maximă — aplicația îți reține alegerea pentru data viitoare.
 
 Îmbunătățiri:
-• Notele de preparare fac acum parte integrantă din fiecare înregistrare — ai mai mult spațiu pentru a le citi, iar linkurile pe care le lipești rămân accesibile prin atingere.
-• Sugestiile pentru mărimea măcinăturii se bazează acum pe istoricul tău de preparare, nu doar pe înregistrările cafelelor.
-• Traduceri îmbunătățite în toate limbile acceptate.
+• Scanarea unei pungi are acum un singur ecran clar: verifică fotografiile, adaugă o a doua doar dacă punga necesită acest lucru, vezi dinainte costul scanării și atinge un singur buton Analizează.
+• În timp ce rulează o scanare, aplicația îți spune ce face — pregătește fotografiile, citește eticheta — și te anunță când o conexiune lentă o face să dureze mai mult.
+• Ecranul Favorite are acum o stare goală adecvată, cu o comandă rapidă direct către lista de rețete.
 
 Remedieri de erori:
-• S-a remediat problema prin care temperatura apei și alte câmpuri numerice se resetau sau nu puteau fi șterse în timpul introducerii datelor.
-• S-a remediat problema prin care meniurile derulante cu sugestii rămâneau pe loc în loc să urmeze câmpul corespunzător când pagina era derulată.
-• S-a remediat problema prin care etichetele lungi ale câmpurilor depășeau spațiul disponibil în vizualizarea detaliilor preparării.
+• S-a remediat aspectul blocat al ecranului de scanare: foaia cu fotografii rămânea deasupra suprapunerii de încărcare și era poziționată decalat față de centru.
+• S-a remediat bifa de confirmare care nu era aliniată când editai măcinătura unei rețete.
+• S-au remediat pictogramele cu contrast redus de pe ecranele goale și de eroare pentru boabele de cafea în modul întunecat.

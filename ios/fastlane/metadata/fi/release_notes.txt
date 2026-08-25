@@ -1,16 +1,12 @@
 Uutta:
-• Vie uuttopäiväkirjasi Markdown-muodossa — koko päiväkirja, yhden kahvipavun historia tai yksi valmistus — jotta muistiinpanosi säilyvät aina ominasi.
-• Arvioi valmistus heti sen valmistuttua: tähdet, maku, muistiinpanot ja tunnisteet yhdessä kätevässä näkymässä.
-• Tutustu Ohjekeskukseen: oppaita ja vastauksia sovelluksesta, saatavilla kaikilla tuetuilla kielillä.
-• Vie kaikki tietosi kohdasta Asetukset → Tietosuoja ja analytiikka: vahvista sähköpostitse ja vastaanota ladattava arkisto.
-• Siirry suoraan kahvipavun matkalle sen valmistushistoriasta.
+• Säilytä kahvipussin skannauksen kuvat. Voit valita tämän skannauksen aikana, jolloin kameralla otetut kuvat kopioidaan Kuviin täydellä laadulla – sovellus muistaa valintasi seuraavaa kertaa varten.
 
 Parannukset:
-• Valmistusmuistiinpanot ovat nyt olennainen osa jokaista merkintää — enemmän tilaa niiden lukemiseen, ja liittämäsi linkit pysyvät napautettavina.
-• Jauhatuskarkeussuositukset perustuvat nyt uuttohistoriaasi, eivät pelkästään kahvipaputietoihisi.
-• Parannettu käännöksiä kaikilla tuetuilla kielillä.
+• Kahvipussin skannaus on nyt yhdellä selkeällä näytöllä: tarkista kuvasi, lisää toinen kuva vain tarvittaessa, näe skannauksen hinta etukäteen ja napauta yhtä Analysoi-painiketta.
+• Skannauksen aikana sovellus kertoo, mitä se tekee – valmistelee kuviasi, lukee etikettiä – ja ilmoittaa, jos hidas yhteys pidentää kestoa.
+• Suosikit-näytöllä on nyt kunnollinen tyhjä tila ja pikavalinta suoraan reseptiluetteloon.
 
 Virheenkorjaukset:
-• Korjattu ongelma, jossa veden lämpötila ja muut numerokentät nollautuivat tai eivät tyhjentyneet kirjoittaessasi.
-• Korjattu ongelma, jossa ehdotusvalikot jäivät paikoilleen eivätkä seuranneet kenttäänsä sivua vieritettäessä.
-• Korjattu pitkien kenttäotsikoiden ylivuoto valmistuksen tietonäkymässä.
+• Korjattu skannausnäytön jumiutuneelta näyttäminen: kuvavalikko jäi latauspeitteen päälle ja oli epäkeskeisesti.
+• Korjattu vahvistusvalintamerkin kohdistus reseptin jauhatuskarkeutta muokattaessa.
+• Korjattu tumman tilan heikkokontrastiset kuvakkeet kahvipapujen tyhjillä ja virhenäytöillä.

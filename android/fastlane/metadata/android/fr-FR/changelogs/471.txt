@@ -1,0 +1,11 @@
+Nouveau :
+• Conservez les photos d’un scan de paquet : activez l’option pour les enregistrer dans votre galerie.
+
+Améliorations :
+• Le scan d’un paquet s’affiche désormais sur un seul écran avec une progression visible.
+• Les favoris ont désormais un état vide adapté.
+
+Correctifs :
+• L’écran de scan qui semblait figé.
+• Le coche de taille de mouture mal aligné.
+• Les icônes de grains peu contrastées en mode sombre.

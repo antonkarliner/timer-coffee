@@ -1,16 +1,12 @@
 Što je novo:
-• Izvezi svoj dnevnik pripreme kao Markdown — cijeli dnevnik, povijest jednog zrna ili jednu pripremu — tako da tvoje bilješke uvijek ostanu tvoje.
-• Ocijeni pripremu odmah nakon što je završiš: zvjezdice, okus, bilješke i oznake na jednom brzom obrascu.
-• Upoznaj Centar za pomoć: vodiči i odgovori o aplikaciji, dostupni na svim podržanim jezicima.
-• Izvezi sve svoje podatke iz Postavke → Privatnost i analitika: potvrdi e‑mailom i primi arhivu za preuzimanje.
-• Prijeđi izravno na putovanje zrna kave iz njegove povijesti pripreme.
+• Zadržite fotografije sa skeniranja pakiranja kave. Tijekom skeniranja odaberite tu opciju, a fotografije snimljene kamerom kopirat će se u vašu galeriju u punoj kvaliteti — aplikacija će zapamtiti vaš odabir za sljedeći put.
 
 Poboljšanja:
-• Bilješke o pripremi sada su pravi dio svakog zapisa — više prostora za čitanje, a poveznice koje zalijepiš ostaju dostupne dodirom.
-• Prijedlozi za finoću mljevenja sada se temelje na tvojoj povijesti pripreme, a ne samo na zapisima o zrnu.
-• Poboljšani prijevodi na svim podržanim jezicima.
+• Skeniranje pakiranja sada se odvija na jednom jasnom zaslonu: pregledajte fotografije, dodajte drugu samo ako je potrebna za pakiranje, unaprijed vidite cijenu skeniranja i dodirnite jedan gumb Analiziraj.
+• Tijekom skeniranja aplikacija prikazuje što radi — priprema fotografije, čita etiketu — i obavještava vas kada spora veza uzrokuje dulje trajanje.
+• Zaslon Favoriti sada ima odgovarajuće prazno stanje s prečacem izravno na popis recepata.
 
 Ispravci pogrešaka:
-• Ispravljeno vraćanje na početne vrijednosti ili nemogućnost brisanja temperature vode i drugih numeričkih polja tijekom unosa.
-• Ispravljeno zadržavanje padajućih izbornika s prijedlozima na mjestu umjesto praćenja njihova polja pri pomicanju stranice.
-• Ispravljeno preljevanje dugih oznaka polja u prikazu detalja pripreme.
+• Ispravljen je problem zbog kojeg je zaslon za skeniranje izgledao zamrznuto: list s fotografijama ostajao je iznad sloja učitavanja i bio je pomaknut od sredine.
+• Ispravljen je problem s kvačicom za potvrdu koja nije bila poravnata pri uređivanju stupnja mljevenja u receptu.
+• Ispravljene su ikone niskog kontrasta na praznim zaslonima i zaslonima s pogreškom za zrna kave u tamnom načinu rada.

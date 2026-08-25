@@ -1,0 +1,11 @@
+Uutta:
+• Säilytä pussiskannauksen kuvat – ota käyttöön, niin ne tallennetaan Kuviin.
+
+Parannettu:
+• Pussin skannaus on nyt yhdellä selkeällä näytöllä, jossa edistyminen näkyy.
+• Suosikeilla on nyt kunnollinen tyhjä näkymä.
+
+Korjattu:
+• Skannausnäyttö näytti jumiutuneelta.
+• Jauhatuksen karkeuden valintamerkki kohdistui väärin.
+• Papukuvakkeiden heikko kontrasti tummassa tilassa.

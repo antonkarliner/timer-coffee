@@ -1,10 +1,12 @@
-What's New:
-• Three new brewing methods: Weber Workshops BIRD, Cafec Flower Dripper and Cupping.
+What’s New:
+• Keep the photos from a coffee bag scan. Opt in while you scan and the camera shots are copied to your Photos at full quality — the app remembers your choice for next time.
 
 Improvements:
-• Rating a coffee after you brew it is now a single clear button — pick your stars inside the review form itself.
+• Scanning a bag is now one clear screen: review your photos, add a second one only if the bag needs it, see what the scan costs up front, and tap a single Analyze button.
+• While a scan runs, the app says what it is doing — preparing your photos, reading the label — and lets you know when a slow connection is making it take longer.
+• The Favorites screen now has a proper empty state, with a shortcut straight to the recipe list.
 
 Bug Fixes:
-• Today's brews now count toward the community total on the Stats screen, instead of appearing only the next day.
-• Bean review reminders are now cancelled the moment you review that bean — and reminders for your other beans are left untouched.
-• Fixed the blog icon disappearing in the Hub and About screens.
+• Fixed the scan screen looking frozen: the photo sheet stayed on top of the loading overlay and sat off-centre.
+• Fixed the confirm checkmark sitting out of line when editing grind size on a recipe.
+• Fixed low-contrast icons on the coffee beans empty and error screens in dark mode.

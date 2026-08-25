@@ -1,0 +1,11 @@
+Novo:
+• Zadrži fotografije skeniranja vrećice — uključi opciju i spremaju se u galeriju.
+
+Poboljšano:
+• Skeniranje vrećice sada je na jednom zaslonu s vidljivim napretkom.
+• Favoriti sada imaju odgovarajuće prazno stanje.
+
+Ispravljeno:
+• Zaslon za skeniranje koji je izgledao zamrznuto.
+• Nepravilno poravnata kvačica za finoću mljevenja.
+• Ikone zrna slabog kontrasta u tamnom načinu rada.

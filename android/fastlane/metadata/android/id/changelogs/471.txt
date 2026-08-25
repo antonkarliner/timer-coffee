@@ -1,0 +1,11 @@
+Baru:
+• Simpan foto dari pemindaian kemasan—aktifkan, lalu foto disimpan ke galeri.
+
+Ditingkatkan:
+• Pemindaian kemasan kini di satu layar dengan progres terlihat.
+• Favorit kini memiliki tampilan kosong yang sesuai.
+
+Diperbaiki:
+• Layar pemindaian yang tampak macet.
+• Tanda centang tingkat gilingan yang tidak sejajar.
+• Ikon biji kopi berkontras rendah dalam mode gelap.

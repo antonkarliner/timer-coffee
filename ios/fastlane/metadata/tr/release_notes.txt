@@ -1,16 +1,12 @@
 Yenilikler:
-• Demleme günlüğünüzü Markdown olarak dışa aktarın — günlüğün tamamını, tek bir çekirdeğin geçmişini veya tek bir demlemeyi — böylece notlarınız her zaman saklamak üzere sizin olur.
-• Bir demlemeyi bitirir bitirmez değerlendirin: yıldızlar, tat, notlar ve etiketler tek bir hızlı formda.
-• Yardım Merkezi ile tanışın: uygulama hakkında kılavuzlar ve yanıtlar, desteklenen tüm dillerde kullanılabilir.
-• Ayarlar → Gizlilik ve analizler bölümünden tüm verilerinizi dışa aktarın: e-postayla onaylayın ve indirilebilir bir arşiv alın.
-• Demleme geçmişinden doğrudan bir çekirdeğin yolculuğuna gidin.
+• Kahve paketi taramasındaki fotoğrafları saklayın. Tarama sırasında bu seçeneği etkinleştirin; kamera çekimleri tam kalitede Galeri'nize kopyalanır — uygulama bir sonraki sefer için seçiminizi hatırlar.
 
 İyileştirmeler:
-• Demleme notları artık her kaydın ayrılmaz bir parçası — okumak için daha fazla alan var ve yapıştırdığınız bağlantılar dokunulabilir kalıyor.
-• Öğütme boyutu önerileri artık yalnızca çekirdek kayıtlarınıza değil, demleme geçmişinize de dayanıyor.
-• Desteklenen tüm dillerde çeviriler iyileştirildi.
+• Paket taraması artık tek ve anlaşılır bir ekranda: fotoğraflarınızı inceleyin, paket gerektiriyorsa yalnızca ikinci bir fotoğraf ekleyin, taramanın maliyetini önceden görün ve tek bir Analiz Et düğmesine dokunun.
+• Tarama çalışırken uygulama ne yaptığını — fotoğraflarınızı hazırladığını, etiketi okuduğunu — belirtir ve yavaş bir bağlantının işlemi uzattığını size bildirir.
+• Favoriler ekranında artık düzgün bir boş durum ekranı ve doğrudan tarif listesine giden bir kısayol var.
 
 Hata Düzeltmeleri:
-• Yazarken su sıcaklığı ve diğer sayısal alanların sıfırlanması veya silinmemesi düzeltildi.
-• Sayfa kaydırıldığında öneri açılır menülerinin alanlarıyla birlikte hareket etmek yerine yerinde kalması düzeltildi.
-• Demleme ayrıntıları görünümünde uzun alan etiketlerinin taşması düzeltildi.
+• Tarama ekranının donmuş gibi görünmesine neden olan sorun düzeltildi: fotoğraf sayfası yükleme katmanının üstünde kalıyor ve merkezden kaymış duruyordu.
+• Bir tarifte öğütme boyutunu düzenlerken onay işaretinin hizasız görünmesine neden olan sorun düzeltildi.
+• Koyu modda kahve çekirdekleri boş ve hata ekranlarındaki düşük kontrastlı simgeler düzeltildi.

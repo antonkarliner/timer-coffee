@@ -1,16 +1,12 @@
-Neu:
-• Exportiere dein Brühtagebuch als Markdown — das gesamte Tagebuch, die Historie einer einzelnen Bohne oder einen einzelnen Brühvorgang — damit deine Notizen immer dir gehören.
-• Bewerte einen Brühvorgang direkt nach dem Fertigstellen: Sterne, Geschmack, Notizen und Tags in einer schnellen Übersicht.
-• Lerne das Hilfe-Center kennen: Anleitungen und Antworten zur App, verfügbar in jeder unterstützten Sprache.
-• Exportiere alle deine Daten über Einstellungen → Datenschutz & Analysen: Bestätige per E-Mail und erhalte ein herunterladbares Archiv.
-• Springe direkt zur Bohnenreise einer Bohne aus ihrer Brühhistorie.
+Neuigkeiten:
+• Behalte die Fotos aus einem Scan einer Kaffeetüte. Entscheide dich während des Scans dafür, und die Kamerafotos werden in voller Qualität in „Fotos“ kopiert — die App merkt sich deine Auswahl für das nächste Mal.
 
 Verbesserungen:
-• Brühnotizen sind jetzt ein fester Bestandteil jedes Eintrags — mit mehr Platz zum Lesen, und eingefügte Links bleiben antippbar.
-• Mahlgrad-Empfehlungen basieren jetzt auf deiner Brühhistorie, nicht nur auf deinen Bohnenaufzeichnungen.
-• Verbesserte Übersetzungen in allen unterstützten Sprachen.
+• Das Scannen einer Tüte erfolgt jetzt auf einem übersichtlichen Bildschirm: Überprüfe deine Fotos, füge nur dann ein zweites hinzu, wenn die Tüte es erfordert, sieh vorab, was der Scan kostet, und tippe auf eine einzige Schaltfläche zum Analysieren.
+• Während ein Scan läuft, teilt die App mit, was sie gerade macht — deine Fotos vorbereiten, das Etikett lesen — und informiert dich, wenn eine langsame Verbindung länger dauert.
+• Der Bildschirm „Favoriten“ verfügt jetzt über einen passenden Leerzustand mit einer Verknüpfung direkt zur Rezeptliste.
 
 Fehlerbehebungen:
-• Ein Problem wurde behoben, durch das Wassertemperatur und andere numerische Felder beim Eingeben zurückgesetzt wurden oder sich nicht löschen ließen.
-• Ein Problem wurde behoben, durch das Vorschlags-Dropdowns an ihrer Position blieben, statt ihrem Feld zu folgen, wenn die Seite gescrollt wurde.
-• Ein Problem wurde behoben, durch das lange Feldbezeichnungen in der Detailansicht des Brühvorgangs überliefen.
+• Es wurde behoben, dass der Scan-Bildschirm eingefroren wirkte: Das Foto-Blatt blieb über der Ladeanzeige und war nicht zentriert.
+• Es wurde behoben, dass das Bestätigungs-Häkchen beim Bearbeiten des Mahlgrads in einem Rezept nicht korrekt ausgerichtet war.
+• Es wurde behoben, dass die Symbole auf den leeren Kaffeebohnen- und Fehlerbildschirmen im Dunkelmodus einen zu geringen Kontrast hatten.

@@ -1,16 +1,12 @@
 Novidades:
-• Exporte seu diário de preparo como Markdown — o diário inteiro, o histórico de um único grão ou um preparo — para que suas notas sejam sempre suas.
-• Avalie um preparo assim que terminá-lo: estrelas, sabor, notas e tags em um único painel rápido.
-• Conheça a Central de Ajuda: guias e respostas sobre o app, disponíveis em todos os idiomas compatíveis.
-• Exporte todos os seus dados em Configurações → Privacidade e análises: confirme por e-mail e receba um arquivo para download.
-• Acesse diretamente o percurso de um café a partir do histórico de preparo.
+• Salve as fotos de um escaneamento de embalagem de café. Escolha salvá-las durante o escaneamento, e as fotos tiradas com a câmera serão copiadas para a galeria em qualidade total — o app lembrará sua escolha na próxima vez.
 
 Melhorias:
-• As notas de preparo agora são uma parte integral de cada registro — mais espaço para lê-las, e os links colados continuam tocáveis.
-• As sugestões de tamanho da moagem agora se baseiam no seu histórico de preparo, não apenas nos registros de grãos.
-• Traduções aprimoradas em todos os idiomas compatíveis.
+• O escaneamento de uma embalagem agora acontece em uma única tela clara: revise suas fotos, adicione uma segunda apenas se a embalagem precisar, veja antecipadamente o custo do escaneamento e toque em um único botão Analisar.
+• Enquanto um escaneamento é executado, o app informa o que está fazendo — preparando suas fotos, lendo o rótulo — e avisa quando uma conexão lenta está fazendo o processo demorar mais.
+• A tela de Favoritos agora tem um estado vazio adequado, com um atalho direto para a lista de receitas.
 
 Correções de bugs:
-• Corrigido um problema que fazia a temperatura da água e outros campos numéricos serem redefinidos ou não permitirem ser limpos durante a digitação.
-• Corrigido um problema que fazia os menus suspensos de sugestões permanecerem no lugar em vez de acompanharem o campo ao rolar a página.
-• Corrigido o transbordamento de rótulos longos de campos na visualização de detalhes do preparo.
+• Corrigido o problema em que a tela de escaneamento parecia travada: a folha de fotos ficava sobre a sobreposição de carregamento e descentralizada.
+• Corrigida a marca de confirmação desalinhada ao editar o tamanho da moagem em uma receita.
+• Corrigidos os ícones de baixo contraste nas telas de vazio e erro dos grãos de café no modo escuro.

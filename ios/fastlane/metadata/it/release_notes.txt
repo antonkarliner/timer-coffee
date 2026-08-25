@@ -1,16 +1,12 @@
 Novità:
-• Esporta il tuo diario del caffè in formato Markdown — l'intero diario, la cronologia di un singolo chicco o una preparazione — così le tue note saranno sempre tue da conservare.
-• Valuta una preparazione subito dopo averla terminata: stelle, gusto, note e tag in un unico pratico pannello.
-• Scopri il Centro assistenza: guide e risposte sull'app, disponibili in tutte le lingue supportate.
-• Esporta tutti i tuoi dati da Impostazioni → Privacy e analisi: conferma via email e ricevi un archivio scaricabile.
-• Vai direttamente al Percorso del caffè di un chicco dalla relativa cronologia delle preparazioni.
+• Conserva le foto di una scansione di un sacchetto di caffè. Scegli di farlo durante la scansione e gli scatti della fotocamera verranno copiati in Foto alla massima qualità: l’app ricorderà la tua scelta per la prossima volta.
 
 Miglioramenti:
-• Le note della preparazione ora sono parte integrante di ogni voce — più spazio per leggerle e i link incollati restano selezionabili.
-• I suggerimenti sul grado di macinatura ora si basano sulla cronologia delle tue preparazioni, non solo sui dati dei chicchi.
-• Traduzioni migliorate in tutte le lingue supportate.
+• La scansione di un sacchetto ora è una schermata chiara e unica: rivedi le foto, aggiungine una seconda solo se il sacchetto ne ha bisogno, visualizza in anticipo il costo della scansione e tocca un unico pulsante Analizza.
+• Durante una scansione, l’app indica cosa sta facendo — preparando le foto, leggendo l’etichetta — e ti avvisa quando una connessione lenta la sta facendo durare più a lungo.
+• La schermata Preferiti ora presenta uno stato vuoto appropriato, con una scorciatoia diretta all’elenco delle ricette.
 
 Correzioni di bug:
-• Corretto un problema per cui la temperatura dell'acqua e altri campi numerici si reimpostavano o non potevano essere cancellati durante la digitazione.
-• Corretto un problema per cui i menu a discesa dei suggerimenti rimanevano fermi invece di seguire il relativo campo durante lo scorrimento della pagina.
-• Corretto un problema per cui le etichette dei campi lunghi fuoriuscivano nella vista dei dettagli della preparazione.
+• Risolto un problema per cui la schermata di scansione sembrava bloccata: il pannello delle foto rimaneva sopra la sovrapposizione di caricamento ed era decentrato.
+• Risolto un problema per cui il segno di spunta di conferma non era allineato durante la modifica della macinatura in una ricetta.
+• Risolto un problema con icone a basso contrasto nelle schermate vuote e di errore dei chicchi di caffè in modalità scura.

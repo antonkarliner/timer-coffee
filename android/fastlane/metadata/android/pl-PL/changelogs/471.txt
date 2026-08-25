@@ -1,0 +1,11 @@
+Nowości:
+• Zachowaj zdjęcia ze skanowania opakowania — włącz opcję, a zapiszą się w galerii.
+
+Ulepszenia:
+• Skanowanie opakowania to teraz jeden przejrzysty ekran z widocznym postępem.
+• Ulubione mają odpowiedni pusty stan.
+
+Poprawki:
+• Ekran skanowania wyglądał na zawieszony.
+• Znacznik wyboru stopnia mielenia był źle wyrównany.
+• Ikony ziaren miały niski kontrast w ciemnym trybie.

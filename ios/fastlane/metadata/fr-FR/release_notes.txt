@@ -1,16 +1,12 @@
-Nouveautés :
-• Exportez votre journal de préparation au format Markdown — l’intégralité du journal, l’historique d’un seul grain ou une préparation — pour que vos notes vous appartiennent toujours.
-• Notez une préparation juste après l’avoir terminée : étoiles, goût, notes et étiquettes réunis dans un seul volet rapide.
-• Découvrez le Centre d’aide : des guides et des réponses sur l’application, disponibles dans toutes les langues prises en charge.
-• Exportez toutes vos données depuis Paramètres → Confidentialité et analyses : confirmez par e-mail et recevez une archive téléchargeable.
-• Accédez directement au parcours d’un grain depuis son historique de préparation.
+Nouveautés :
+• Conservez les photos d’un scan de sac de café. Activez cette option pendant le scan et les photos prises avec l’appareil sont copiées dans Photos en pleine qualité — l’app mémorise votre choix pour la prochaine fois.
 
-Améliorations :
-• Les notes de préparation font désormais pleinement partie de chaque entrée : davantage d’espace pour les lire, et les liens que vous collez restent cliquables.
-• Les suggestions de taille de mouture s’appuient désormais sur votre historique de préparation, et pas seulement sur les informations de vos grains.
-• Traductions améliorées dans toutes les langues prises en charge.
+Améliorations :
+• Le scan d’un sac se fait désormais sur un seul écran clair : examinez vos photos, ajoutez-en une deuxième uniquement si le sac en a besoin, voyez le coût du scan à l’avance et appuyez sur un unique bouton Analyser.
+• Pendant un scan, l’app indique ce qu’elle fait — préparation de vos photos, lecture de l’étiquette — et vous prévient lorsqu’une connexion lente rallonge l’opération.
+• L’écran Favoris dispose désormais d’un véritable état vide, avec un raccourci direct vers la liste des recettes.
 
-Corrections de bugs :
-• Correction d’un problème où la température de l’eau et d’autres champs numériques se réinitialisaient ou refusaient de s’effacer pendant la saisie.
-• Correction d’un problème où les listes déroulantes de suggestions restaient en place au lieu de suivre leur champ lors du défilement de la page.
-• Correction du débordement des libellés de champs longs dans la vue des détails de préparation.
+Corrections de bugs :
+• Correction de l’écran de scan qui semblait figé : la feuille de photos restait au-dessus de la surcouche de chargement et était décentrée.
+• Correction de la coche de confirmation mal alignée lors de la modification de la mouture d’une recette.
+• Correction des icônes à faible contraste sur les écrans vides et d’erreur des grains de café en mode sombre.

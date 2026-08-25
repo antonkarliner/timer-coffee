@@ -1,0 +1,11 @@
+New:
+• Keep the photos from a bag scan — opt in and they're saved to your Gallery.
+
+Improved:
+• Scanning a bag is now one clear screen with visible progress.
+• Favorites has a proper empty state.
+
+Fixed:
+• The scan screen looking frozen.
+• The grind size checkmark misaligning.
+• Low-contrast beans icons in dark mode.

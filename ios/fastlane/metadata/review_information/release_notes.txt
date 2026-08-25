@@ -1,16 +1,12 @@
 What’s New:
-• Export your brew diary as Markdown — the whole diary, a single bean’s history, or one brew — so your notes are always yours to keep.
-• Rate a brew right after you finish it: stars, taste, notes and tags in one quick sheet.
-• Meet the Help Center: guides and answers about the app, available in every supported language.
-• Export all your data from Settings → Privacy & Analytics: confirm by email and receive a downloadable archive.
-• Jump straight to a bean’s journey from its brew history.
+• Keep the photos from a coffee bag scan. Opt in while you scan and the camera shots are copied to your Photos at full quality — the app remembers your choice for next time.
 
 Improvements:
-• Brew notes are now a proper part of each entry — more room to read them, and links you paste stay tappable.
-• Grind size suggestions now draw on your brew history, not just your bean records.
-• Improved translations across all supported languages.
+• Scanning a bag is now one clear screen: review your photos, add a second one only if the bag needs it, see what the scan costs up front, and tap a single Analyze button.
+• While a scan runs, the app says what it is doing — preparing your photos, reading the label — and lets you know when a slow connection is making it take longer.
+• The Favorites screen now has a proper empty state, with a shortcut straight to the recipe list.
 
 Bug Fixes:
-• Fixed water temperature and other numeric fields resetting or refusing to clear while you typed.
-• Fixed suggestion dropdowns staying in place instead of following their field when the page scrolled.
-• Fixed long field labels overflowing in the brew details view.
+• Fixed the scan screen looking frozen: the photo sheet stayed on top of the loading overlay and sat off-centre.
+• Fixed the confirm checkmark sitting out of line when editing grind size on a recipe.
+• Fixed low-contrast icons on the coffee beans empty and error screens in dark mode.

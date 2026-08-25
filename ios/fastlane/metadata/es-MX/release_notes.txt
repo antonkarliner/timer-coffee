@@ -1,16 +1,12 @@
 Novedades:
-• Exporta tu diario de preparaciones como Markdown — el diario completo, el historial de un solo grano o una preparación — para que tus notas siempre sean tuyas.
-• Valora una preparación justo después de finalizarla: estrellas, sabor, notas y etiquetas en un solo panel rápido.
-• Conoce el Centro de ayuda: guías y respuestas sobre la app, disponible en todos los idiomas compatibles.
-• Exporta todos tus datos desde Configuración → Privacidad y análisis: confirma por correo electrónico y recibe un archivo descargable.
-• Ve directamente al recorrido de un grano desde su historial de preparaciones.
+• Conserva las fotos de un escaneo de bolsa de café. Elige hacerlo durante el escaneo y las fotos de la cámara se copiarán a Fotos con calidad completa; la app recordará tu elección para la próxima vez.
 
 Mejoras:
-• Las notas de preparación ahora forman parte de cada registro — más espacio para leerlas y los enlaces que pegues seguirán siendo seleccionables.
-• Las sugerencias de tamaño de molienda ahora se basan en tu historial de preparaciones, no solo en tus registros de granos.
-• Se mejoraron las traducciones en todos los idiomas compatibles.
+• Escanear una bolsa ahora se realiza en una sola pantalla clara: revisa tus fotos, añade una segunda solo si la bolsa lo necesita, consulta el costo del escaneo desde el principio y toca un único botón de Analizar.
+• Mientras se realiza un escaneo, la app indica lo que está haciendo —preparando tus fotos, leyendo la etiqueta— y te avisa cuando una conexión lenta hace que tarde más.
+• La pantalla de Favoritos ahora tiene un estado vacío adecuado, con un acceso directo a la lista de recetas.
 
 Correcciones de errores:
-• Se corrigió el restablecimiento de la temperatura del agua y otros campos numéricos, así como el problema que impedía borrarlos mientras escribías.
-• Se corrigió el problema por el que los menús desplegables de sugerencias permanecían en su lugar en vez de seguir su campo al desplazarse por la página.
-• Se corrigió el desbordamiento de etiquetas de campo largas en la vista de detalles de preparación.
+• Se corrigió que la pantalla de escaneo pareciera congelada: el panel de fotos permanecía encima de la superposición de carga y estaba descentrado.
+• Se corrigió que la marca de verificación de confirmación quedara desalineada al editar el tamaño de molienda en una receta.
+• Se corrigieron los iconos de bajo contraste en las pantallas vacía y de error de granos de café en modo oscuro.

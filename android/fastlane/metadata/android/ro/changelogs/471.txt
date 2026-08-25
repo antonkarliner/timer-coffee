@@ -1,0 +1,11 @@
+Nou:
+• Păstrează fotografiile unei scanări de pungă — activează opțiunea și sunt salvate în galerie.
+
+Îmbunătățit:
+• Scanarea unei pungi este acum pe un singur ecran clar, cu progres vizibil.
+• Favorite are acum o stare goală corespunzătoare.
+
+Remediat:
+• Ecranul de scanare părea blocat.
+• Bifa pentru măcinătură era aliniată greșit.
+• Pictogramele boabelor cu contrast redus în modul întunecat.

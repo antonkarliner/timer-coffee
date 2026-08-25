@@ -1,0 +1,11 @@
+Nouveau :
+• Conservez les photos d’un scan de sac — acceptez et elles seront enregistrées dans votre galerie.
+
+Améliorations :
+• Le scan d’un sac se fait maintenant sur un seul écran avec progression visible.
+• Les favoris ont un véritable état vide.
+
+Corrections :
+• L’écran de scan qui semblait figé.
+• La coche de taille de mouture mal alignée.
+• Les icônes de grains peu contrastées en mode sombre.

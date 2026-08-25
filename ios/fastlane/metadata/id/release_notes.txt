@@ -1,16 +1,12 @@
 Yang Baru:
-• Ekspor diari seduhan Anda sebagai Markdown — seluruh diari, riwayat satu biji kopi, atau satu seduhan — agar catatan Anda selalu dapat Anda simpan.
-• Nilai seduhan segera setelah Anda menyelesaikannya: bintang, rasa, catatan, dan tag dalam satu panel cepat.
-• Kenalkan Pusat Bantuan: panduan dan jawaban tentang aplikasi, tersedia dalam setiap bahasa yang didukung.
-• Ekspor semua data Anda dari Pengaturan → Privasi & analitik: konfirmasikan melalui email dan terima arsip yang dapat diunduh.
-• Langsung buka perjalanan biji kopi dari riwayat seduhannya.
+• Simpan foto dari pemindaian kemasan kopi. Pilih opsi ini saat memindai dan foto kamera akan disalin ke galeri Anda dalam kualitas penuh — aplikasi akan mengingat pilihan Anda untuk lain kali.
 
 Peningkatan:
-• Catatan seduhan kini menjadi bagian lengkap dari setiap catatan — lebih banyak ruang untuk membacanya, dan tautan yang Anda tempel tetap dapat diketuk.
-• Saran tingkat kehalusan gilingan kini didasarkan pada riwayat seduhan Anda, bukan hanya catatan biji kopi.
-• Terjemahan yang ditingkatkan di semua bahasa yang didukung.
+• Pemindaian kemasan kini tersedia dalam satu layar yang jelas: tinjau foto Anda, tambahkan foto kedua hanya jika kemasan memerlukannya, lihat biaya pemindaian di awal, lalu ketuk satu tombol Analisis.
+• Selama pemindaian berlangsung, aplikasi memberi tahu apa yang sedang dilakukan — menyiapkan foto Anda, membaca label — serta memberi tahu Anda saat koneksi lambat membuatnya memakan waktu lebih lama.
+• Layar Favorit kini memiliki tampilan kosong yang tepat, dengan pintasan langsung ke daftar resep.
 
 Perbaikan Bug:
-• Memperbaiki suhu air dan kolom angka lainnya yang terreset atau tidak dapat dihapus saat Anda mengetik.
-• Memperbaiki dropdown saran yang tetap di tempat alih-alih mengikuti kolomnya saat halaman digulir.
-• Memperbaiki label kolom yang panjang agar tidak meluap di tampilan detail seduhan.
+• Memperbaiki tampilan layar pemindaian yang terlihat macet: lembar foto tetap berada di atas hamparan pemuatan dan posisinya tidak di tengah.
+• Memperbaiki tanda centang konfirmasi yang tidak sejajar saat mengedit tingkat gilingan pada resep.
+• Memperbaiki ikon berkontras rendah pada layar kosong dan error kopi dalam mode gelap.

@@ -1,0 +1,11 @@
+Neu:
+• Fotos eines Beutel-Scans behalten – nach Zustimmung werden sie in deiner Galerie gespeichert.
+
+Verbessert:
+• Das Scannen eines Beutels erfolgt jetzt auf einer klaren Ansicht mit sichtbarem Fortschritt.
+• Favoriten haben jetzt einen passenden Leerzustand.
+
+Behoben:
+• Der Scan-Bildschirm wirkte eingefroren.
+• Das Häkchen für den Mahlgrad war falsch ausgerichtet.
+• Kontrastarme Bohnen-Symbole im Dunkelmodus.

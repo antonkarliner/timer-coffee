@@ -1,0 +1,11 @@
+Nuevo:
+• Conserva las fotos de un escaneo de bolsa: actívalo y se guardarán en Fotos.
+
+Mejoras:
+• El escaneo de bolsa ahora tiene una pantalla clara con progreso visible.
+• Favoritos tiene un estado vacío adecuado.
+
+Corregido:
+• La pantalla de escaneo parecía congelada.
+• La marca de molienda se desalineaba.
+• Iconos de granos con poco contraste en modo oscuro.

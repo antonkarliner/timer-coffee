@@ -1,16 +1,12 @@
-Nyheter:
-• Eksporter bryggedagboken din som Markdown — hele dagboken, historikken til én enkelt bønne eller ett brygg — slik at notatene dine alltid er dine å beholde.
-• Vurder et brygg rett etter at du har fullført det: stjerner, smak, notater og tagger i ett raskt skjema.
-• Møt Hjelpesenteret: veiledninger og svar om appen, tilgjengelig på alle støttede språk.
-• Eksporter alle dataene dine fra Innstillinger → Personvern og analyse: bekreft via e-post og motta et nedlastbart arkiv.
-• Gå rett til en bønnes bønnereise fra bryggehistorikken.
+Hva er nytt:
+• Behold bildene fra en skanning av en kaffepose. Velg dette mens du skanner, så kopieres kamerabildene til Bilder i full kvalitet — appen husker valget ditt til neste gang.
 
 Forbedringer:
-• Bryggenotater er nå en ordentlig del av hver oppføring — mer plass til å lese dem, og lenker du limer inn, forblir trykkbare.
-• Forslag til malingsgrad bygger nå på bryggehistorikken din, ikke bare bønneoppføringene dine.
-• Forbedrede oversettelser på tvers av alle støttede språk.
+• Skanning av en pose foregår nå på én tydelig skjerm: se gjennom bildene dine, legg til et til bare hvis posen trenger det, se hva skanningen koster på forhånd, og trykk på én Analyser-knapp.
+• Mens en skanning pågår, forteller appen hva den gjør — forbereder bildene dine, leser etiketten — og gir deg beskjed når en treg tilkobling gjør at det tar lengre tid.
+• Favoritter-skjermen har nå en ordentlig tomtilstand, med en snarvei direkte til oppskriftslisten.
 
 Feilrettinger:
-• Rettet en feil som gjorde at vanntemperatur og andre numeriske felt ble tilbakestilt eller ikke lot seg tømme mens du skrev.
-• Rettet en feil som gjorde at rullegardinmenyer med forslag ble stående i stedet for å følge feltet når siden ble rullet.
-• Rettet en feil som gjorde at lange feltetiketter fløt over i detaljvisningen for brygget.
+• Rettet et problem der skanningsskjermen så fastlåst ut: bildedialogen lå over lasteoverlegget og var forskjøvet fra midten.
+• Rettet et problem der bekreftelsesavkryssingen var ute av linje ved redigering av kverningsgrad i en oppskrift.
+• Rettet ikoner med lav kontrast på tomme kaffe-bønne- og feilskjermer i mørk modus.

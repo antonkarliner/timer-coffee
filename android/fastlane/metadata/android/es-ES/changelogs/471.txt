@@ -1,0 +1,11 @@
+Novedad:
+• Conserva las fotos de un escaneo de bolsa: activa la opción y se guardarán en tu Galería.
+
+Mejoras:
+• El escaneo de bolsas ahora se muestra en una sola pantalla clara con progreso visible.
+• Favoritos tiene un estado vacío adecuado.
+
+Correcciones:
+• La pantalla de escaneo parecía bloqueada.
+• La marca de verificación del tamaño de molienda se desalineaba.
+• Iconos de granos con poco contraste en modo oscuro.

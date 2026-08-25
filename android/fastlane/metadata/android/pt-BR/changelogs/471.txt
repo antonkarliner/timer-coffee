@@ -1,0 +1,11 @@
+Novo:
+• Salve fotos do escaneamento de uma embalagem na galeria.
+
+Melhorias:
+• O escaneamento agora tem uma tela clara com progresso visível.
+• Favoritos agora tem um estado vazio adequado.
+
+Correções:
+• Tela de escaneamento parecendo travada.
+• Marca do tamanho da moagem desalinhada.
+• Ícones de grãos com baixo contraste no modo escuro.

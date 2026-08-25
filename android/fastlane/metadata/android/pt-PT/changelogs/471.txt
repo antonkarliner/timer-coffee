@@ -1,0 +1,11 @@
+Novidades:
+• Guarde as fotos de um escaneamento de embalagem — ative a opção para as salvar na Galeria.
+
+Melhorias:
+• O escaneamento de embalagens está agora num único ecrã, com progresso visível.
+• Os Favoritos têm agora um estado vazio adequado.
+
+Correções:
+• O ecrã de escaneamento parecia bloqueado.
+• O visto do tamanho da moagem estava desalinhado.
+• Ícones de grãos com pouco contraste no modo escuro.

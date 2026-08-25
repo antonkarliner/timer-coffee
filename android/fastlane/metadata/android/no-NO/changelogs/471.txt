@@ -1,0 +1,11 @@
+Nytt:
+• Behold bildene fra en pose-skann – velg det, så lagres de i galleriet ditt.
+
+Forbedret:
+• Skanning av en pose har nå én tydelig skjerm med synlig fremdrift.
+• Favoritter har nå en ordentlig tomtilstand.
+
+Fikset:
+• Skjermen for skanning som så frosset ut.
+• Avkrysningsmerket for malingsgrad som var feilplassert.
+• Bønneikoner med lav kontrast i mørk modus.

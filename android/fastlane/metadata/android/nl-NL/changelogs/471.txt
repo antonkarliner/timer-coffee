@@ -1,0 +1,11 @@
+Nieuw:
+• Bewaar foto's van een zakscan — schakel dit in om ze in je Galerij op te slaan.
+
+Verbeterd:
+• Zakscannen is nu één duidelijk scherm met zichtbare voortgang.
+• Favorieten heeft een goede lege status.
+
+Opgelost:
+• Het scanscherm leek vastgelopen.
+• Het vinkje voor de maalgraad stond niet goed.
+• Bonenpictogrammen met weinig contrast in de donkere modus.

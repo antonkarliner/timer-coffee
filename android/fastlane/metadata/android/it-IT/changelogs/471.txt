@@ -1,0 +1,11 @@
+Novità:
+• Conserva le foto della scansione di una confezione: attiva l'opzione e verranno salvate nella Galleria.
+
+Miglioramenti:
+• La scansione di una confezione è ora in un'unica schermata con avanzamento visibile.
+• Preferiti ora ha un adeguato stato vuoto.
+
+Correzioni:
+• La schermata di scansione che sembrava bloccata.
+• Il segno di spunta del grado di macinatura disallineato.
+• Icone dei chicchi a basso contrasto in modalità scura.

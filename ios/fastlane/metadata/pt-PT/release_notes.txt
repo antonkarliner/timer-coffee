@@ -1,16 +1,12 @@
 Novidades:
-• Exporte o seu diário de preparações em Markdown — o diário completo, o histórico de um único grão ou uma preparação — para que as suas notas sejam sempre suas.
-• Avalie uma preparação logo após a terminar: estrelas, sabor, notas e etiquetas num único painel rápido.
-• Conheça o Centro de Ajuda: guias e respostas sobre a app, disponíveis em todos os idiomas suportados.
-• Exporte todos os seus dados em Definições → Privacidade e análises: confirme por e-mail e receba um arquivo para transferência.
-• Aceda diretamente ao percurso de um grão a partir do respetivo histórico de preparações.
+• Guarde as fotografias de uma digitalização de uma embalagem de café. Ative esta opção durante a digitalização e as fotografias tiradas com a câmara são copiadas para as suas Fotografias com qualidade total — a aplicação memoriza a sua escolha para a próxima vez.
 
 Melhorias:
-• As notas de preparação passam agora a fazer parte integrante de cada registo — com mais espaço para as ler, e as ligações que colar mantêm-se selecionáveis.
-• As sugestões de tamanho da moagem baseiam-se agora no seu histórico de preparações, e não apenas nos registos dos seus grãos.
-• Traduções melhoradas em todos os idiomas suportados.
+• A digitalização de uma embalagem passa agora a ser feita num único ecrã simples: reveja as suas fotografias, adicione uma segunda apenas se a embalagem precisar, veja antecipadamente o custo da digitalização e toque num único botão Analisar.
+• Durante uma digitalização, a aplicação indica o que está a fazer — a preparar as suas fotografias, a ler o rótulo — e avisa quando uma ligação lenta está a fazê-la demorar mais.
+• O ecrã Favoritos passa agora a ter um estado vazio adequado, com um atalho direto para a lista de receitas.
 
 Correções de erros:
-• Corrigido um problema em que a temperatura da água e outros campos numéricos eram repostos ou não permitiam ser limpos durante a introdução de dados.
-• Corrigido um problema em que os menus pendentes de sugestões permaneciam no mesmo sítio, em vez de acompanhar o respetivo campo ao deslocar a página.
-• Corrigido o transbordamento de etiquetas de campos longas na vista de detalhes da preparação.
+• Corrigido o aspeto bloqueado do ecrã de digitalização: o painel de fotografias permanecia sobre a sobreposição de carregamento e ficava descentrado.
+• Corrigido o visto de confirmação desalinhado ao editar o tamanho da moagem numa receita.
+• Corrigidos os ícones de baixo contraste nos ecrãs vazios e de erro de grãos de café no modo escuro.

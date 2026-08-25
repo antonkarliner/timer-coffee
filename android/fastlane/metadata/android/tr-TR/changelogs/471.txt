@@ -1,0 +1,11 @@
+Yeni:
+• Kahve paketi taramasındaki fotoğrafları saklayın — onay verirseniz Galeri'nize kaydedilir.
+
+İyileştirildi:
+• Paket taraması artık ilerlemenin görünür olduğu tek ve anlaşılır bir ekranda.
+• Favoriler için uygun bir boş durum eklendi.
+
+Düzeltildi:
+• Tarama ekranının donmuş görünmesi.
+• Öğütme boyutu onay işaretinin hizası.
+• Koyu modda düşük kontrastlı çekirdek simgeleri.
