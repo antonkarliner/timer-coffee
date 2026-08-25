@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:coffee_timer/l10n/app_localizations.dart';
-import 'package:coffee_timer/widgets/app_switch_list_tile.dart';
 import 'package:coffee_timer/widgets/new_beans/image_flow/selected_images_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -36,6 +35,7 @@ void main() {
     expect(find.text('1/2'), findsOneWidget);
     expect(find.text('Analyze photo'), findsOneWidget);
     expect(find.text('Add another photo'), findsOneWidget);
+    expect(find.text('Each photo uses 1 scan token.'), findsNothing);
 
     await tester.tap(find.text('Add another photo'));
     await tester.pump();
@@ -57,7 +57,7 @@ void main() {
   });
 
   testWidgets(
-    'camera save switch defaults off and confirms the changed value',
+    'camera save checkbox is compact, defaults off, and confirms its value',
     (tester) async {
       final images = _createTestImages();
       addTearDown(images.dispose);
@@ -85,25 +85,22 @@ void main() {
       expect(find.text('Keep these photos in Photos'), findsOneWidget);
       expect(
         find.text('Only camera photos from this scan will be copied.'),
-        findsOneWidget,
+        findsNothing,
       );
       expect(
-        find.bySemanticsIdentifier('keepAiScanPhotosSwitch'),
+        find.bySemanticsIdentifier('keepAiScanPhotosCheckbox'),
         findsOneWidget,
       );
-      expect(
-        tester.widget<AppSwitchListTile>(find.byType(AppSwitchListTile)).value,
-        isFalse,
-      );
+      final checkbox = tester.widget<Checkbox>(find.byType(Checkbox));
+      expect(checkbox.value, isFalse);
+      expect(checkbox.materialTapTargetSize, MaterialTapTargetSize.shrinkWrap);
+      expect(checkbox.visualDensity, VisualDensity.compact);
 
       await tester.tap(find.text('Keep these photos in Photos'));
       await tester.pump();
 
       expect(changes, [true]);
-      expect(
-        tester.widget<AppSwitchListTile>(find.byType(AppSwitchListTile)).value,
-        isTrue,
-      );
+      expect(tester.widget<Checkbox>(find.byType(Checkbox)).value, isTrue);
 
       await tester.tap(find.text('Analyze photo'));
       await tester.pump(const Duration(milliseconds: 11));
@@ -112,6 +109,38 @@ void main() {
       expect(tester.takeException(), isNull);
     },
   );
+
+  testWidgets('camera save checkbox restores a persisted checked value', (
+    tester,
+  ) async {
+    final images = _createTestImages();
+    addTearDown(images.dispose);
+    final changes = <bool>[];
+
+    await tester.pumpWidget(
+      _testApp(
+        SelectedImagesSheet(
+          initialImages: [images.first],
+          showSaveToLibraryOption: true,
+          initialSaveToLibrary: true,
+          onSaveToLibraryChanged: changes.add,
+          onConfirm: (_) async {},
+          onBackToSelection: () async {},
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+
+    expect(tester.widget<Checkbox>(find.byType(Checkbox)).value, isTrue);
+
+    await tester.tap(find.text('Keep these photos in Photos'));
+    await tester.pump();
+
+    expect(changes, [false]);
+    expect(tester.widget<Checkbox>(find.byType(Checkbox)).value, isFalse);
+    expect(tester.takeException(), isNull);
+  });
 
   testWidgets('removing a photo keeps the opted-in final selection exact', (
     tester,
@@ -151,7 +180,7 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('default gallery configuration hides the save switch', (
+  testWidgets('default gallery configuration hides the save checkbox', (
     tester,
   ) async {
     final images = _createTestImages();
@@ -169,8 +198,11 @@ void main() {
     await tester.pump();
 
     expect(find.text('Keep these photos in Photos'), findsNothing);
-    expect(find.byType(AppSwitchListTile), findsNothing);
-    expect(find.bySemanticsIdentifier('keepAiScanPhotosSwitch'), findsNothing);
+    expect(find.byType(Checkbox), findsNothing);
+    expect(
+      find.bySemanticsIdentifier('keepAiScanPhotosCheckbox'),
+      findsNothing,
+    );
   });
 
   testWidgets('double analyze tap invokes confirmation exactly once', (

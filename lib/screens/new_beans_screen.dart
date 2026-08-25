@@ -54,6 +54,9 @@ class NewBeansScreen extends StatefulWidget {
 }
 
 class _NewBeansScreenState extends State<NewBeansScreen> {
+  static const String _saveAiScanPhotosPreferenceKey =
+      'saveAiScanPhotosToLibrary';
+
   final TextEditingController _roasterController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _originController = TextEditingController();
@@ -720,7 +723,14 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       onShowPreview:
           (images, source, onConfirm, onBackToSelection, onAddPhoto) async {
             if (!mounted) return;
-            var saveToLibrary = false;
+            final showSaveToLibraryOption =
+                !kIsWeb && source == ImageSource.camera;
+            final preferences = showSaveToLibraryOption
+                ? await SharedPreferences.getInstance()
+                : null;
+            if (!mounted) return;
+            var saveToLibrary =
+                preferences?.getBool(_saveAiScanPhotosPreferenceKey) ?? false;
             await showModalBottomSheet<void>(
               context: context,
               isScrollControlled: true,
@@ -732,9 +742,19 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
               ),
               builder: (_) => SelectedImagesSheet(
                 initialImages: images,
-                showSaveToLibraryOption:
-                    !kIsWeb && source == ImageSource.camera,
-                onSaveToLibraryChanged: (value) => saveToLibrary = value,
+                showSaveToLibraryOption: showSaveToLibraryOption,
+                initialSaveToLibrary: saveToLibrary,
+                onSaveToLibraryChanged: (value) {
+                  saveToLibrary = value;
+                  if (preferences != null) {
+                    unawaited(
+                      preferences.setBool(
+                        _saveAiScanPhotosPreferenceKey,
+                        value,
+                      ),
+                    );
+                  }
+                },
                 onConfirm: (confirmed) async {
                   // Retain exactly the reviewed images for the later cover-photo
                   // prompt and analytics, including additions and removals.

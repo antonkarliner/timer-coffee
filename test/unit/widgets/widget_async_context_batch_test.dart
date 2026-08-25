@@ -343,6 +343,85 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('camera scan photo choice persists across review sheets', (
+    tester,
+  ) async {
+    SharedPreferences.setMockInitialValues({'hasShownPopup': true});
+    final coffeeBeansProvider = MockCoffeeBeansProvider();
+    when(
+      coffeeBeansProvider.fetchAllDistinctGrindSizes(),
+    ).thenAnswer((_) async => <String>[]);
+    final userStatProvider = brew_mocks.MockUserStatProvider();
+    when(
+      userStatProvider.fetchAllDistinctGrindSizes(),
+    ).thenAnswer((_) async => <String>[]);
+    final imageController = _LateResultImageController();
+
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider<CoffeeBeansProvider>.value(
+            value: coffeeBeansProvider,
+          ),
+          ChangeNotifierProvider<UserStatProvider>.value(
+            value: userStatProvider,
+          ),
+        ],
+        child: localizedApp(NewBeansScreen(imageController: imageController)),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final l10n = AppLocalizations.of(
+      tester.element(find.byType(NewBeansScreen)),
+    )!;
+    await tester.tap(find.text(l10n.aiScanLabel));
+    await tester.pump();
+
+    final firstPreview = imageController.showPreview(
+      [XFile('assets/icons/app_icon_1024.png')],
+      ImageSource.camera,
+      (_, _) async {},
+      () async {},
+      null,
+    );
+    await tester.pumpAndSettle();
+
+    expect(tester.widget<Checkbox>(find.byType(Checkbox)).value, isFalse);
+    await tester.tap(find.text(l10n.aiScanKeepPhotosTitle));
+    await tester.pump();
+    expect(tester.widget<Checkbox>(find.byType(Checkbox)).value, isTrue);
+
+    final preferences = await SharedPreferences.getInstance();
+    expect(preferences.getBool('saveAiScanPhotosToLibrary'), isTrue);
+
+    await tester.tap(find.text(l10n.aiScanAnalyzePhoto));
+    await tester.pumpAndSettle();
+    await firstPreview;
+
+    final secondPreview = imageController.showPreview(
+      [XFile('assets/icons/app_icon_1024.png')],
+      ImageSource.camera,
+      (_, _) async {},
+      () async {},
+      null,
+    );
+    await tester.pumpAndSettle();
+
+    expect(tester.widget<Checkbox>(find.byType(Checkbox)).value, isTrue);
+    await tester.tap(find.text(l10n.aiScanKeepPhotosTitle));
+    await tester.pump();
+    expect(preferences.getBool('saveAiScanPhotosToLibrary'), isFalse);
+
+    await tester.tap(find.text(l10n.aiScanAnalyzePhoto));
+    await tester.pumpAndSettle();
+    await secondPreview;
+    imageController.complete();
+    await tester.pump();
+
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('bean deletion finishes safely after screen disposal', (
     tester,
   ) async {

@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
-import 'package:coffee_timer/widgets/app_switch_list_tile.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
@@ -16,6 +15,7 @@ class SelectedImagesSheet extends StatefulWidget {
     required this.onBackToSelection,
     this.onAddPhoto,
     this.showSaveToLibraryOption = false,
+    this.initialSaveToLibrary = false,
     this.onSaveToLibraryChanged,
   });
 
@@ -24,6 +24,7 @@ class SelectedImagesSheet extends StatefulWidget {
   final Future<void> Function() onBackToSelection;
   final Future<XFile?> Function()? onAddPhoto;
   final bool showSaveToLibraryOption;
+  final bool initialSaveToLibrary;
   final ValueChanged<bool>? onSaveToLibraryChanged;
 
   @override
@@ -35,14 +36,15 @@ class _SelectedImagesSheetState extends State<SelectedImagesSheet> {
   static const double _previewHeight = 220;
 
   late List<XFile> _images;
+  late bool _saveToLibrary;
   bool _isAddingPhoto = false;
   bool _isConfirming = false;
-  bool _saveToLibrary = false;
 
   @override
   void initState() {
     super.initState();
     _images = List<XFile>.from(widget.initialImages.take(_maxImages));
+    _saveToLibrary = widget.initialSaveToLibrary;
   }
 
   Future<void> _addPhoto() async {
@@ -167,6 +169,9 @@ class _SelectedImagesSheetState extends State<SelectedImagesSheet> {
                 color: theme.colorScheme.onSurfaceVariant,
               ),
             ),
+            // Token messaging is intentionally hidden while the review sheet
+            // is being simplified.
+            /*
             const SizedBox(height: AppSpacing.sm),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -187,15 +192,45 @@ class _SelectedImagesSheetState extends State<SelectedImagesSheet> {
                 ),
               ],
             ),
+            */
             if (widget.showSaveToLibraryOption && !kIsWeb) ...[
-              const SizedBox(height: AppSpacing.base),
+              const SizedBox(height: AppSpacing.sm),
               Semantics(
-                identifier: 'keepAiScanPhotosSwitch',
-                child: AppSwitchListTile(
-                  title: loc.aiScanKeepPhotosTitle,
-                  subtitle: loc.aiScanKeepPhotosSubtitle,
-                  value: _saveToLibrary,
-                  onChanged: _setSaveToLibrary,
+                identifier: 'keepAiScanPhotosCheckbox',
+                label: loc.aiScanKeepPhotosTitle,
+                checked: _saveToLibrary,
+                onTap: () => _setSaveToLibrary(!_saveToLibrary),
+                child: ExcludeSemantics(
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(AppRadius.small),
+                    onTap: () => _setSaveToLibrary(!_saveToLibrary),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: AppSpacing.xs,
+                      ),
+                      child: Row(
+                        children: [
+                          Checkbox(
+                            value: _saveToLibrary,
+                            onChanged: (value) =>
+                                _setSaveToLibrary(value ?? false),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            visualDensity: VisualDensity.compact,
+                          ),
+                          const SizedBox(width: AppSpacing.xs),
+                          Expanded(
+                            child: Text(
+                              loc.aiScanKeepPhotosTitle,
+                              style: AppTextStyles.caption.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],
