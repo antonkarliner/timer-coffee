@@ -85,14 +85,28 @@ class _DateFieldState extends State<DateField> {
   void initState() {
     super.initState();
     _controller = TextEditingController();
-    _initializeDate();
+    // Only parse `initialValue` here. Formatting the display string needs
+    // AppLocalizations, which cannot be looked up during initState (Flutter
+    // forbids establishing a new InheritedWidget dependency before the first
+    // didChangeDependencies call) — that lookup is deferred to
+    // didChangeDependencies below.
+    _parseInitialValue();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Safe to read AppLocalizations here (first call happens right after
+    // initState, and on every subsequent dependency change, e.g. locale).
+    _updateDisplayValue();
   }
 
   @override
   void didUpdateWidget(DateField oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.initialValue != widget.initialValue) {
-      _initializeDate();
+      _parseInitialValue();
+      _updateDisplayValue();
     }
   }
 
@@ -102,21 +116,20 @@ class _DateFieldState extends State<DateField> {
     super.dispose();
   }
 
-  void _initializeDate() {
+  /// Parses `widget.initialValue` into `_selectedDate`. Does not touch
+  /// `_displayValue`/`_controller` — those are formatted separately in
+  /// `_updateDisplayValue`, which needs a BuildContext dependency
+  /// (AppLocalizations) not available while this may run in initState.
+  void _parseInitialValue() {
     if (widget.initialValue != null) {
       try {
         _selectedDate = DateTime.parse(widget.initialValue!);
-        _updateDisplayValue();
       } catch (e) {
         // Handle invalid date format
         _selectedDate = null;
-        _displayValue = null;
-        _controller.clear();
       }
     } else {
       _selectedDate = null;
-      _displayValue = null;
-      _controller.clear();
     }
   }
 
