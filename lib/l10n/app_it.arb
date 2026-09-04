@@ -180,6 +180,16 @@
   "processing": "Lavorazione",
   "processingMethod": "Metodo di lavorazione",
   "roastDate": "Data di tostatura",
+  "roastDateConfirmPrompt": "L’etichetta indica «{rawText}» — conferma, per favore",
+  "@roastDateConfirmPrompt": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateNotFound": "Nessuna data di tostatura trovata sull’etichetta — aggiungila",
+  "roastDateFromLabel": "Dall’etichetta: {rawText}",
+  "@roastDateFromLabel": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateConfirmAction": "Conferma",
   "roastLevel": "Livello di tostatura",
   "cuppingScore": "Punteggio di degustazione",
   "flavorProfile": "Profilo aromatico",

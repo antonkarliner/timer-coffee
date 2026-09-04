@@ -180,6 +180,16 @@
   "processing": "精製方法",
   "processingMethod": "精製方法",
   "roastDate": "焙煎日",
+  "roastDateConfirmPrompt": "ラベルには「{rawText}」と表示されています — ご確認ください",
+  "@roastDateConfirmPrompt": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateNotFound": "ラベルに焙煎日が見つかりませんでした — 追加してください",
+  "roastDateFromLabel": "ラベルの表示: {rawText}",
+  "@roastDateFromLabel": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateConfirmAction": "確認",
   "roastLevel": "焙煎度",
   "cuppingScore": "カッピングスコア",
   "flavorProfile": "フレーバープロファイル",

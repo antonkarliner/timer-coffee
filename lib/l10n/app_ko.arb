@@ -193,6 +193,16 @@
   "processing": "가공",
   "processingMethod": "가공 방법",
   "roastDate": "로스팅 날짜",
+  "roastDateConfirmPrompt": "라벨에 “{rawText}”라고 표시되어 있습니다 — 확인해 주세요",
+  "@roastDateConfirmPrompt": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateNotFound": "라벨에서 로스팅 날짜를 찾을 수 없습니다 — 직접 추가해 주세요",
+  "roastDateFromLabel": "라벨 표시: {rawText}",
+  "@roastDateFromLabel": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateConfirmAction": "확인",
   "roastLevel": "로스팅 레벨",
   "cuppingScore": "컵핑 점수",
   "flavorProfile": "풍미 프로필",

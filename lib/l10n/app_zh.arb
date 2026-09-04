@@ -171,6 +171,16 @@
   "processing": "处理法",
   "processingMethod": "处理方式",
   "roastDate": "烘焙日期",
+  "roastDateConfirmPrompt": "标签显示为“{rawText}”——请确认",
+  "@roastDateConfirmPrompt": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateNotFound": "未在标签上找到烘焙日期——请手动添加",
+  "roastDateFromLabel": "标签显示：{rawText}",
+  "@roastDateFromLabel": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateConfirmAction": "确认",
   "roastLevel": "烘焙程度",
   "cuppingScore": "杯测评分",
   "flavorProfile": "风味特征",

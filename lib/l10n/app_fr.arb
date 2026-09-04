@@ -180,6 +180,16 @@
   "processing": "Traitement",
   "processingMethod": "Méthode de traitement",
   "roastDate": "Date de torréfaction",
+  "roastDateConfirmPrompt": "L’étiquette indique « {rawText} » — merci de confirmer",
+  "@roastDateConfirmPrompt": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateNotFound": "Aucune date de torréfaction trouvée sur l’étiquette — merci de l’ajouter",
+  "roastDateFromLabel": "Selon l’étiquette : {rawText}",
+  "@roastDateFromLabel": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateConfirmAction": "Confirmer",
   "roastLevel": "Niveau de torréfaction",
   "cuppingScore": "Score de dégustation",
   "flavorProfile": "Profil aromatique",

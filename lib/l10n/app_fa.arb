@@ -204,6 +204,16 @@
   "processing": "فرآوری",
   "processingMethod": "روش فرآوری",
   "roastDate": "تاریخ رُست",
+  "roastDateConfirmPrompt": "روی برچسب نوشته شده «{rawText}» — لطفاً تأیید کنید",
+  "@roastDateConfirmPrompt": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateNotFound": "تاریخ رُست روی برچسب پیدا نشد — لطفاً آن را اضافه کنید",
+  "roastDateFromLabel": "طبق برچسب: {rawText}",
+  "@roastDateFromLabel": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateConfirmAction": "تأیید",
   "roastLevel": "درجه رُست",
   "cuppingScore": "امتیاز کاپینگ",
   "flavorProfile": "پروفایل طعمی",

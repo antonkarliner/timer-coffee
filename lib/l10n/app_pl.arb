@@ -180,6 +180,16 @@
   "processing": "Obróbka",
   "processingMethod": "Metoda obróbki",
   "roastDate": "Data palenia",
+  "roastDateConfirmPrompt": "Etykieta pokazuje „{rawText}” — potwierdź",
+  "@roastDateConfirmPrompt": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateNotFound": "Nie znaleziono daty palenia na etykiecie — dodaj ją",
+  "roastDateFromLabel": "Z etykiety: {rawText}",
+  "@roastDateFromLabel": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateConfirmAction": "Potwierdź",
   "roastLevel": "Stopień palenia",
   "cuppingScore": "Ocena sensoryczna",
   "flavorProfile": "Profil smakowy",

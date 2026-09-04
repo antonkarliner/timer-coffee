@@ -171,6 +171,16 @@
   "processing": "İşleme",
   "processingMethod": "İşleme Yöntemi",
   "roastDate": "Kavurma Tarihi",
+  "roastDateConfirmPrompt": "Etikette “{rawText}” yazıyor — lütfen onaylayın",
+  "@roastDateConfirmPrompt": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateNotFound": "Etikette kavurma tarihi bulunamadı — lütfen ekleyin",
+  "roastDateFromLabel": "Etikete göre: {rawText}",
+  "@roastDateFromLabel": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateConfirmAction": "Onayla",
   "roastLevel": "Kavurma Derecesi",
   "cuppingScore": "Cupping Puanı",
   "flavorProfile": "Lezzet Profili",

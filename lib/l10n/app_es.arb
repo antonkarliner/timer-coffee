@@ -180,6 +180,16 @@
   "processing": "Procesamiento",
   "processingMethod": "Método de procesamiento",
   "roastDate": "Fecha de tueste",
+  "roastDateConfirmPrompt": "La etiqueta muestra «{rawText}» — confirma, por favor",
+  "@roastDateConfirmPrompt": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateNotFound": "No se encontró la fecha de tueste en la etiqueta — añádela, por favor",
+  "roastDateFromLabel": "Según la etiqueta: {rawText}",
+  "@roastDateFromLabel": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateConfirmAction": "Confirmar",
   "roastLevel": "Nivel de tueste",
   "cuppingScore": "Puntuación de cata",
   "flavorProfile": "Perfil de sabor",

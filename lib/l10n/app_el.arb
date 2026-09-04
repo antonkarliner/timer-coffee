@@ -302,6 +302,16 @@
   "processing": "Επεξεργασία",
   "processingMethod": "Μέθοδος επεξεργασίας",
   "roastDate": "Ημερομηνία καβουρδίσματος",
+  "roastDateConfirmPrompt": "Η ετικέτα δείχνει «{rawText}» — παρακαλώ επιβεβαιώστε",
+  "@roastDateConfirmPrompt": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateNotFound": "Δεν βρέθηκε ημερομηνία καβουρδίσματος στην ετικέτα — προσθέστε την",
+  "roastDateFromLabel": "Από την ετικέτα: {rawText}",
+  "@roastDateFromLabel": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateConfirmAction": "Επιβεβαίωση",
   "roastLevel": "Βαθμός καβουρδίσματος",
   "cuppingScore": "Βαθμολογία cupping",
   "flavorProfile": "Γευστικό προφίλ",

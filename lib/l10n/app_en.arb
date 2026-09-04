@@ -300,6 +300,24 @@
   "processing": "Processing",
   "processingMethod": "Processing Method",
   "roastDate": "Roast Date",
+  "roastDateConfirmPrompt": "Label shows “{rawText}” — please confirm",
+  "@roastDateConfirmPrompt": {
+    "description": "Inline hint under the roast date field when the scanned label printed an ambiguous date (e.g. no year). rawText is the date exactly as printed on the bag.",
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateNotFound": "No roast date found on the label — please add it",
+  "@roastDateNotFound": {
+    "description": "Inline hint under the roast date field when the scanned photo did not show a roast date at all"
+  },
+  "roastDateFromLabel": "From label: {rawText}",
+  "@roastDateFromLabel": {
+    "description": "Quiet caption under the roast date field showing the date exactly as printed on the scanned label",
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateConfirmAction": "Confirm",
+  "@roastDateConfirmAction": {
+    "description": "Button that dismisses the roast date confirmation hint, accepting the parsed date as-is"
+  },
   "roastLevel": "Roast Level",
   "cuppingScore": "Cupping Score",
   "flavorProfile": "Flavor Profile",

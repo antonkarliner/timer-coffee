@@ -202,6 +202,16 @@
   "processing": "Prosessering",
   "processingMethod": "Prosess",
   "roastDate": "Brenningsdato",
+  "roastDateConfirmPrompt": "Etiketten viser «{rawText}» — bekreft",
+  "@roastDateConfirmPrompt": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateNotFound": "Fant ingen brenningsdato på etiketten — legg den til",
+  "roastDateFromLabel": "Ifølge etiketten: {rawText}",
+  "@roastDateFromLabel": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateConfirmAction": "Bekreft",
   "roastLevel": "Brenningsgrad",
   "cuppingScore": "Cuppingscore",
   "flavorProfile": "Smaksprofil",

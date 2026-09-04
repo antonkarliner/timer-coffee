@@ -180,6 +180,16 @@
   "processing": "Processamento",
   "processingMethod": "Método de Processamento",
   "roastDate": "Data de Torrefação",
+  "roastDateConfirmPrompt": "O rótulo mostra “{rawText}” — confirme, por favor",
+  "@roastDateConfirmPrompt": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateNotFound": "Não foi encontrada data de torrefação no rótulo — adicione-a",
+  "roastDateFromLabel": "Segundo o rótulo: {rawText}",
+  "@roastDateFromLabel": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateConfirmAction": "Confirmar",
   "roastLevel": "Nível de Torrefação",
   "cuppingScore": "Pontuação da Prova",
   "flavorProfile": "Perfil de Sabor",

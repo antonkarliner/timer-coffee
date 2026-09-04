@@ -114,6 +114,16 @@
   "processing": "Prosessointi",
   "processingMethod": "Prosessointimenetelmä",
   "roastDate": "Paahtopäivä",
+  "roastDateConfirmPrompt": "Etiketissä lukee ”{rawText}” — vahvista",
+  "@roastDateConfirmPrompt": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateNotFound": "Etiketistä ei löytynyt paahtopäivää — lisää se",
+  "roastDateFromLabel": "Etiketin mukaan: {rawText}",
+  "@roastDateFromLabel": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateConfirmAction": "Vahvista",
   "roastLevel": "Paahtoaste",
   "cuppingScore": "Cupping-pisteet",
   "flavorProfile": "Makuprofiili",

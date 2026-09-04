@@ -180,6 +180,16 @@
   "processing": "Pemrosesan",
   "processingMethod": "Metode pemrosesan",
   "roastDate": "Tanggal sangrai",
+  "roastDateConfirmPrompt": "Label menunjukkan “{rawText}” — mohon konfirmasi",
+  "@roastDateConfirmPrompt": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateNotFound": "Tanggal sangrai tidak ditemukan pada label — silakan tambahkan",
+  "roastDateFromLabel": "Dari label: {rawText}",
+  "@roastDateFromLabel": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateConfirmAction": "Konfirmasi",
   "roastLevel": "Tingkat sangrai",
   "cuppingScore": "Skor cupping",
   "flavorProfile": "Profil rasa",

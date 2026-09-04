@@ -180,6 +180,16 @@
   "processing": "Procesare",
   "processingMethod": "Metoda de procesare",
   "roastDate": "Data prăjirii",
+  "roastDateConfirmPrompt": "Eticheta arată „{rawText}” — te rugăm să confirmi",
+  "@roastDateConfirmPrompt": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateNotFound": "Nu am găsit data prăjirii pe etichetă — te rugăm să o adaugi",
+  "roastDateFromLabel": "Conform etichetei: {rawText}",
+  "@roastDateFromLabel": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateConfirmAction": "Confirmă",
   "roastLevel": "Nivel de prăjire",
   "cuppingScore": "Scor de degustare",
   "flavorProfile": "Profil aromatic",

@@ -93,6 +93,8 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   String? region;
   DateTime? harvestDate;
   DateTime? roastDate;
+  String? _roastDateRawText;
+  bool _roastDateNeedsConfirmation = false;
   bool isEditMode = false;
   bool isLoading = false;
   Map<String, dynamic>? collectedData;
@@ -156,6 +158,15 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     if (hadUnsavedChanges != _hasUnsavedChanges) {
       setState(() {});
     }
+  }
+
+  /// Dismisses the roast date confirmation hint. Wrapped in an explicit
+  /// setState because the callers that mutate `roastDate` directly
+  /// (`_updateUnsavedChanges`/`_validateForm`) don't reliably trigger a
+  /// rebuild on their own.
+  void _clearRoastDateConfirmation() {
+    if (!_roastDateNeedsConfirmation) return;
+    setState(() => _roastDateNeedsConfirmation = false);
   }
 
   /// Validates the form and updates the validation state
@@ -1009,6 +1020,11 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
 
         harvestDate = toDate(d['harvestDate']);
         roastDate = toDate(d['roastDate']);
+        final rawRoastText = nullableString(d['roastDateRawText']);
+        _roastDateRawText = (rawRoastText == null || rawRoastText.trim().isEmpty)
+            ? null
+            : rawRoastText.trim();
+        _roastDateNeedsConfirmation = d['roastDateNeedsConfirmation'] == true;
         packageWeightGrams = toDouble(d['packageWeightGrams']);
 
         // Trigger validation after filling fields from image flow
@@ -1643,6 +1659,9 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         DatesCard(
           harvestDate: harvestDate,
           roastDate: roastDate,
+          roastDateRawText: _roastDateRawText,
+          needsConfirmation: _roastDateNeedsConfirmation,
+          onRoastDateConfirmed: _clearRoastDateConfirmation,
           onHarvestDateChanged: (d) {
             harvestDate = d;
             _updateUnsavedChanges();
@@ -1650,6 +1669,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
           },
           onRoastDateChanged: (d) {
             roastDate = d;
+            _clearRoastDateConfirmation();
             _updateUnsavedChanges();
             _validateForm();
           },
@@ -1892,6 +1912,9 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                   DatesCard(
                     harvestDate: harvestDate,
                     roastDate: roastDate,
+                    roastDateRawText: _roastDateRawText,
+                    needsConfirmation: _roastDateNeedsConfirmation,
+                    onRoastDateConfirmed: _clearRoastDateConfirmation,
                     onHarvestDateChanged: (d) {
                       harvestDate = d;
                       _updateUnsavedChanges();
@@ -1899,6 +1922,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                     },
                     onRoastDateChanged: (d) {
                       roastDate = d;
+                      _clearRoastDateConfirmation();
                       _updateUnsavedChanges();
                       _validateForm();
                     },

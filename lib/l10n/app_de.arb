@@ -180,6 +180,16 @@
   "processing": "Aufbereitung & Röstung",
   "processingMethod": "Aufbereitungsart",
   "roastDate": "Röstdatum",
+  "roastDateConfirmPrompt": "Etikett zeigt „{rawText}“ – bitte bestätigen",
+  "@roastDateConfirmPrompt": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateNotFound": "Kein Röstdatum auf dem Etikett gefunden – bitte ergänzen",
+  "roastDateFromLabel": "Laut Etikett: {rawText}",
+  "@roastDateFromLabel": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateConfirmAction": "Bestätigen",
   "roastLevel": "Röstgrad",
   "cuppingScore": "Cupping-Score",
   "flavorProfile": "Geschmacksprofil",

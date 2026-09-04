@@ -180,6 +180,16 @@
   "processing": "Verwerking",
   "processingMethod": "Verwerkingsmethode",
   "roastDate": "Branddatum",
+  "roastDateConfirmPrompt": "Op het etiket staat “{rawText}” — bevestig dit",
+  "@roastDateConfirmPrompt": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateNotFound": "Geen branddatum gevonden op het etiket — voeg deze toe",
+  "roastDateFromLabel": "Volgens etiket: {rawText}",
+  "@roastDateFromLabel": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateConfirmAction": "Bevestigen",
   "roastLevel": "Branding",
   "cuppingScore": "Cuppingscore",
   "flavorProfile": "Smaakprofiel",

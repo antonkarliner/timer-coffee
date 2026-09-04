@@ -180,6 +180,16 @@
   "processing": "Обработка и обжарка",
   "processingMethod": "Способ обработки",
   "roastDate": "Дата обжарки",
+  "roastDateConfirmPrompt": "На этикетке указано «{rawText}» — пожалуйста, подтвердите",
+  "@roastDateConfirmPrompt": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateNotFound": "На этикетке не найдена дата обжарки — добавьте её",
+  "roastDateFromLabel": "По этикетке: {rawText}",
+  "@roastDateFromLabel": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateConfirmAction": "Подтвердить",
   "roastLevel": "Степень обжарки",
   "cuppingScore": "Оценка каппинга",
   "flavorProfile": "Вкусовой профиль",

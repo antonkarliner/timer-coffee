@@ -193,6 +193,16 @@
   "processing": "Obrada",
   "processingMethod": "Način obrade",
   "roastDate": "Datum prženja",
+  "roastDateConfirmPrompt": "Naljepnica pokazuje „{rawText}” — potvrdite, molimo",
+  "@roastDateConfirmPrompt": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateNotFound": "Na naljepnici nije pronađen datum prženja — dodajte ga",
+  "roastDateFromLabel": "Prema naljepnici: {rawText}",
+  "@roastDateFromLabel": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateConfirmAction": "Potvrdi",
   "roastLevel": "Stupanj prženja",
   "cuppingScore": "Cupping ocjena",
   "flavorProfile": "Profil okusa",

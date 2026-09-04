@@ -171,6 +171,16 @@
   "processing": "Обробка",
   "processingMethod": "Спосіб обробки",
   "roastDate": "Дата обсмажування",
+  "roastDateConfirmPrompt": "На етикетці вказано «{rawText}» — будь ласка, підтвердьте",
+  "@roastDateConfirmPrompt": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateNotFound": "На етикетці не знайдено дату обсмажування — додайте її",
+  "roastDateFromLabel": "За етикеткою: {rawText}",
+  "@roastDateFromLabel": {
+    "placeholders": { "rawText": { "type": "String" } }
+  },
+  "roastDateConfirmAction": "Підтвердити",
   "roastLevel": "Ступінь обсмажування",
   "cuppingScore": "Капінг-оцінка",
   "flavorProfile": "Смаковий профіль",
