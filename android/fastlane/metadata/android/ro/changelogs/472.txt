@@ -1,0 +1,6 @@
+Îmbunătățit:
+• Datele prăjirii fără an, precum „02/08”, pot fi ambigue. Când eticheta e neclară sau nu are dată, scanarea arată textul și cere confirmare, fără presupuneri. Data citită e precompletată, deci confirmi cu o atingere.
+• Rezumatul scanării semnalează și datele prăjirii neclare.
+
+Remediat:
+• Data preparării lipsea la adăugarea manuală a unei preparări.

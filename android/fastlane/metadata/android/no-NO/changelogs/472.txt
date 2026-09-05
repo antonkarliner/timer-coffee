@@ -1,0 +1,6 @@
+Forbedret:
+• Kaffeposer har ofte brenningsdato uten årstall – «02/08» kan være 8. februar eller 2. august. Når etiketten er uklar, eller bildet ikke viser noen dato, viser en skanning nå hva som sto på etiketten og ber deg bekrefte i stedet for å gjette. Datoen den fant, er forhåndsutfylt, så du kan bekrefte med ett trykk.
+• Skannesammendraget markerer også uklar brenningsdato.
+
+Rettet:
+• Bryggedatoen var tom når du la til et brygg manuelt.

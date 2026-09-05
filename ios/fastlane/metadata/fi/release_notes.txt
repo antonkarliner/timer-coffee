@@ -1,12 +1,6 @@
-Uutta:
-• Säilytä kahvipussin skannauksen kuvat. Voit valita tämän skannauksen aikana, jolloin kameralla otetut kuvat kopioidaan Kuviin täydellä laadulla – sovellus muistaa valintasi seuraavaa kertaa varten.
-
 Parannukset:
-• Kahvipussin skannaus on nyt yhdellä selkeällä näytöllä: tarkista kuvasi, lisää toinen kuva vain tarvittaessa, näe skannauksen hinta etukäteen ja napauta yhtä Analysoi-painiketta.
-• Skannauksen aikana sovellus kertoo, mitä se tekee – valmistelee kuviasi, lukee etikettiä – ja ilmoittaa, jos hidas yhteys pidentää kestoa.
-• Suosikit-näytöllä on nyt kunnollinen tyhjä tila ja pikavalinta suoraan reseptiluetteloon.
+• Kahvipakkauksissa paahtopäivä ilmoitetaan usein ilman vuotta — ”02/08” voi tarkoittaa 8. helmikuuta tai 2. elokuuta. Kun etiketti on epäselvä tai kuvassasi ei näy päivämäärää lainkaan, skannaus näyttää nyt tarkalleen, mitä etiketissä lukee, ja pyytää sinua vahvistamaan sen sen sijaan, että valitsisi tulkinnan huomaamatta. Luettu päivämäärä on jo täytetty, joten vahvistaminen onnistuu yhdellä napautuksella ja sen korjaaminen avaa tavallisen päivämäärävalitsimen.
+• Skannauksen yhteenveto ilmoittaa nyt myös epäselvästä paahtopäivästä, joten huomaat sen ilman lomakkeen selaamista alaspäin.
 
 Virheenkorjaukset:
-• Korjattu skannausnäytön jumiutuneelta näyttäminen: kuvavalikko jäi latauspeitteen päälle ja oli epäkeskeisesti.
-• Korjattu vahvistusvalintamerkin kohdistus reseptin jauhatuskarkeutta muokattaessa.
-• Korjattu tumman tilan heikkokontrastiset kuvakkeet kahvipapujen tyhjillä ja virhenäytöillä.
+• Korjattu ongelma, jossa valmistuspäivä jäi tyhjäksi, kun lisäsit valmistuksen Uuttopäiväkirjaan käsin.

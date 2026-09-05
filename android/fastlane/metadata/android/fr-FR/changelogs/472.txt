@@ -1,0 +1,6 @@
+Améliorations :
+• Les sacs de café indiquent souvent une date de torréfaction sans année : « 02/08 » peut désigner le 8 février ou le 2 août. Si l’étiquette est ambiguë ou qu’aucune date n’apparaît, le scan affiche désormais le texte lu et demande confirmation au lieu de deviner. La date lue est préremplie : confirmez d’un geste.
+• Le résumé du scan signale aussi les dates de torréfaction ambiguës.
+
+Correction :
+• La date de préparation était vide lors de l’ajout manuel.

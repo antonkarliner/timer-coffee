@@ -1,12 +1,6 @@
-Što je novo:
-• Zadržite fotografije sa skeniranja pakiranja kave. Tijekom skeniranja odaberite tu opciju, a fotografije snimljene kamerom kopirat će se u vašu galeriju u punoj kvaliteti — aplikacija će zapamtiti vaš odabir za sljedeći put.
-
 Poboljšanja:
-• Skeniranje pakiranja sada se odvija na jednom jasnom zaslonu: pregledajte fotografije, dodajte drugu samo ako je potrebna za pakiranje, unaprijed vidite cijenu skeniranja i dodirnite jedan gumb Analiziraj.
-• Tijekom skeniranja aplikacija prikazuje što radi — priprema fotografije, čita etiketu — i obavještava vas kada spora veza uzrokuje dulje trajanje.
-• Zaslon Favoriti sada ima odgovarajuće prazno stanje s prečacem izravno na popis recepata.
+• Vrećice kave često navode datum prženja bez godine — „02/08” može značiti 8. veljače ili 2. kolovoza. Kada naljepnica nije jasna ili fotografija uopće ne prikazuje datum, skeniranje sada pokazuje točno što je ispisano i traži da to potvrdite, umjesto da neprimjetno odabere jedno tumačenje. Pročitani datum već je popunjen, pa je za potvrdu dovoljan jedan dodir, a ispravljanje otvara uobičajeni birač datuma.
+• Sažetak skeniranja sada također označava nejasan datum prženja, tako da ga možete uočiti bez pomicanja prema dolje po obrascu.
 
-Ispravci pogrešaka:
-• Ispravljen je problem zbog kojeg je zaslon za skeniranje izgledao zamrznuto: list s fotografijama ostajao je iznad sloja učitavanja i bio je pomaknut od sredine.
-• Ispravljen je problem s kvačicom za potvrdu koja nije bila poravnata pri uređivanju stupnja mljevenja u receptu.
-• Ispravljene su ikone niskog kontrasta na praznim zaslonima i zaslonima s pogreškom za zrna kave u tamnom načinu rada.
+Ispravci grešaka:
+• Ispravljena je greška zbog koje je datum pripreme ostajao prazan kada ručno dodate pripremu u svoj dnevnik.

@@ -1,12 +1,6 @@
-Hva er nytt:
-• Behold bildene fra en skanning av en kaffepose. Velg dette mens du skanner, så kopieres kamerabildene til Bilder i full kvalitet — appen husker valget ditt til neste gang.
-
 Forbedringer:
-• Skanning av en pose foregår nå på én tydelig skjerm: se gjennom bildene dine, legg til et til bare hvis posen trenger det, se hva skanningen koster på forhånd, og trykk på én Analyser-knapp.
-• Mens en skanning pågår, forteller appen hva den gjør — forbereder bildene dine, leser etiketten — og gir deg beskjed når en treg tilkobling gjør at det tar lengre tid.
-• Favoritter-skjermen har nå en ordentlig tomtilstand, med en snarvei direkte til oppskriftslisten.
+• Kaffeposer oppgir ofte en brenningsdato uten årstall – «02/08» kan bety 8. februar eller 2. august. Når etiketten er uklar, eller bildet ditt ikke viser noen dato i det hele tatt, viser en skanning nå nøyaktig hva som sto på etiketten og ber deg bekrefte det, i stedet for å velge én tolkning uten videre. Datoen den leste er allerede fylt ut, så det holder med ett trykk å bekrefte, og hvis du vil rette den åpnes den vanlige datovelgeren.
+• Skanningsoppsummeringen markerer nå også en uklar brenningsdato, slik at du kan oppdage den uten å måtte bla nedover i skjemaet.
 
 Feilrettinger:
-• Rettet et problem der skanningsskjermen så fastlåst ut: bildedialogen lå over lasteoverlegget og var forskjøvet fra midten.
-• Rettet et problem der bekreftelsesavkryssingen var ute av linje ved redigering av kverningsgrad i en oppskrift.
-• Rettet ikoner med lav kontrast på tomme kaffe-bønne- og feilskjermer i mørk modus.
+• Rettet en feil der bryggedatoen ble tom når du la til en trakting manuelt i bryggedagboken.

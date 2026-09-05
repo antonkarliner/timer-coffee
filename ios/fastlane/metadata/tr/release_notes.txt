@@ -1,12 +1,6 @@
-Yenilikler:
-• Kahve paketi taramasındaki fotoğrafları saklayın. Tarama sırasında bu seçeneği etkinleştirin; kamera çekimleri tam kalitede Galeri'nize kopyalanır — uygulama bir sonraki sefer için seçiminizi hatırlar.
-
 İyileştirmeler:
-• Paket taraması artık tek ve anlaşılır bir ekranda: fotoğraflarınızı inceleyin, paket gerektiriyorsa yalnızca ikinci bir fotoğraf ekleyin, taramanın maliyetini önceden görün ve tek bir Analiz Et düğmesine dokunun.
-• Tarama çalışırken uygulama ne yaptığını — fotoğraflarınızı hazırladığını, etiketi okuduğunu — belirtir ve yavaş bir bağlantının işlemi uzattığını size bildirir.
-• Favoriler ekranında artık düzgün bir boş durum ekranı ve doğrudan tarif listesine giden bir kısayol var.
+• Kahve paketlerinde genellikle yıl bilgisi olmadan bir kavurma tarihi yazılır — “02/08”, 8 Şubat veya 2 Ağustos anlamına gelebilir. Etiket net olmadığında ya da fotoğrafınızda hiç tarih görünmediğinde, tarama artık sessizce bir yorumu seçmek yerine size tam olarak ne yazdığını gösteriyor ve onaylamanızı istiyor. Okuduğu tarih zaten doldurulmuş olur; böylece onaylamak tek dokunuşla yapılır, düzeltmek ise her zamanki tarih seçiciyi açar.
+• Tarama özeti artık belirsiz bir kavurma tarihini de işaretliyor; böylece formu aşağı kaydırmadan fark edebilirsiniz.
 
 Hata Düzeltmeleri:
-• Tarama ekranının donmuş gibi görünmesine neden olan sorun düzeltildi: fotoğraf sayfası yükleme katmanının üstünde kalıyor ve merkezden kaymış duruyordu.
-• Bir tarifte öğütme boyutunu düzenlerken onay işaretinin hizasız görünmesine neden olan sorun düzeltildi.
-• Koyu modda kahve çekirdekleri boş ve hata ekranlarındaki düşük kontrastlı simgeler düzeltildi.
+• Demleme günlüğünüze elle bir demleme eklediğinizde demleme tarihinin boş görünmesine neden olan sorun düzeltildi.

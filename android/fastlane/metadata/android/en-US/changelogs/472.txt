@@ -1,0 +1,6 @@
+Improved:
+• Coffee bags often print a roast date with no year — “02/08” could be 8 February or 2 August. When the label is unclear, or the photo shows no date, a scan now shows what was printed and asks you to confirm instead of guessing. The date it read is pre-filled, so confirming is one tap.
+• The scan summary flags an unclear roast date too.
+
+Fixed:
+• The brew date was empty when adding a brew by hand.

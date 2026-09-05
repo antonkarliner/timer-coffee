@@ -1,12 +1,6 @@
-Novità:
-• Conserva le foto di una scansione di un sacchetto di caffè. Scegli di farlo durante la scansione e gli scatti della fotocamera verranno copiati in Foto alla massima qualità: l’app ricorderà la tua scelta per la prossima volta.
-
 Miglioramenti:
-• La scansione di un sacchetto ora è una schermata chiara e unica: rivedi le foto, aggiungine una seconda solo se il sacchetto ne ha bisogno, visualizza in anticipo il costo della scansione e tocca un unico pulsante Analizza.
-• Durante una scansione, l’app indica cosa sta facendo — preparando le foto, leggendo l’etichetta — e ti avvisa quando una connessione lenta la sta facendo durare più a lungo.
-• La schermata Preferiti ora presenta uno stato vuoto appropriato, con una scorciatoia diretta all’elenco delle ricette.
+• Le confezioni di caffè spesso riportano una data di tostatura senza l’anno — “02/08” potrebbe significare l’8 febbraio o il 2 agosto. Quando l’etichetta non è chiara, o la foto non mostra alcuna data, una scansione ora ti mostra esattamente ciò che è stampato e ti chiede di confermarlo, invece di scegliere silenziosamente un’interpretazione. La data rilevata è già compilata, quindi per confermarla basta un tocco; per correggerla si apre il consueto selettore della data.
+• Il riepilogo della scansione ora segnala anche una data di tostatura non chiara, così puoi individuarla senza scorrere il modulo.
 
 Correzioni di bug:
-• Risolto un problema per cui la schermata di scansione sembrava bloccata: il pannello delle foto rimaneva sopra la sovrapposizione di caricamento ed era decentrato.
-• Risolto un problema per cui il segno di spunta di conferma non era allineato durante la modifica della macinatura in una ricetta.
-• Risolto un problema con icone a basso contrasto nelle schermate vuote e di errore dei chicchi di caffè in modalità scura.
+• Risolto un problema per cui la data di preparazione risultava vuota quando aggiungevi manualmente una preparazione al tuo diario.

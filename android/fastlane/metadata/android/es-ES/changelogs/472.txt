@@ -1,0 +1,6 @@
+Mejorado:
+• Las bolsas de café suelen mostrar la fecha de tueste sin año: «02/08» puede ser 8 de febrero o 2 de agosto. Si la etiqueta no es clara o la foto no muestra fecha, el escaneo muestra lo impreso y pide confirmación en vez de adivinar. La fecha se rellena automáticamente para confirmar con un toque.
+• El resumen del escaneo también indica una fecha de tueste poco clara.
+
+Corregido:
+• La fecha de preparación estaba vacía al añadir una preparación manualmente.

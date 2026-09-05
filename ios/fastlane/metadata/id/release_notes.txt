@@ -1,12 +1,6 @@
-Yang Baru:
-• Simpan foto dari pemindaian kemasan kopi. Pilih opsi ini saat memindai dan foto kamera akan disalin ke galeri Anda dalam kualitas penuh — aplikasi akan mengingat pilihan Anda untuk lain kali.
-
 Peningkatan:
-• Pemindaian kemasan kini tersedia dalam satu layar yang jelas: tinjau foto Anda, tambahkan foto kedua hanya jika kemasan memerlukannya, lihat biaya pemindaian di awal, lalu ketuk satu tombol Analisis.
-• Selama pemindaian berlangsung, aplikasi memberi tahu apa yang sedang dilakukan — menyiapkan foto Anda, membaca label — serta memberi tahu Anda saat koneksi lambat membuatnya memakan waktu lebih lama.
-• Layar Favorit kini memiliki tampilan kosong yang tepat, dengan pintasan langsung ke daftar resep.
+• Kemasan kopi sering mencantumkan tanggal sangrai tanpa tahun — “02/08” bisa berarti 8 Februari atau 2 Agustus. Saat label tidak jelas, atau foto Anda sama sekali tidak menampilkan tanggal, pemindaian kini menunjukkan dengan tepat apa yang tercetak dan meminta Anda untuk mengonfirmasinya, alih-alih diam-diam memilih salah satu interpretasi. Tanggal yang terbaca sudah diisi, jadi konfirmasi hanya memerlukan satu ketukan dan memperbaikinya akan membuka pemilih tanggal seperti biasa.
+• Ringkasan pemindaian kini juga menandai tanggal sangrai yang tidak jelas, sehingga Anda dapat mengetahuinya tanpa menggulir ke bawah formulir.
 
 Perbaikan Bug:
-• Memperbaiki tampilan layar pemindaian yang terlihat macet: lembar foto tetap berada di atas hamparan pemuatan dan posisinya tidak di tengah.
-• Memperbaiki tanda centang konfirmasi yang tidak sejajar saat mengedit tingkat gilingan pada resep.
-• Memperbaiki ikon berkontras rendah pada layar kosong dan error kopi dalam mode gelap.
+• Memperbaiki tanggal seduhan yang kosong saat Anda menambahkan seduhan ke diari secara manual.

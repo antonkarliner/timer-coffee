@@ -1,12 +1,6 @@
-Nouveautés :
-• Conservez les photos d’un scan de sac de café. Activez cette option pendant le scan et les photos prises avec l’appareil sont copiées dans Photos en pleine qualité — l’app mémorise votre choix pour la prochaine fois.
-
 Améliorations :
-• Le scan d’un sac se fait désormais sur un seul écran clair : examinez vos photos, ajoutez-en une deuxième uniquement si le sac en a besoin, voyez le coût du scan à l’avance et appuyez sur un unique bouton Analyser.
-• Pendant un scan, l’app indique ce qu’elle fait — préparation de vos photos, lecture de l’étiquette — et vous prévient lorsqu’une connexion lente rallonge l’opération.
-• L’écran Favoris dispose désormais d’un véritable état vide, avec un raccourci direct vers la liste des recettes.
+• Les sacs de café indiquent souvent une date de torréfaction sans année — « 02/08 » peut signifier le 8 février ou le 2 août. Lorsque l’étiquette n’est pas claire, ou que votre photo ne montre aucune date, un scan vous indique désormais exactement ce qui est imprimé et vous demande de le confirmer, au lieu de choisir discrètement une interprétation. La date lue est déjà renseignée, donc la confirmation ne prend qu’une pression, et sa correction ouvre le sélecteur de date habituel.
+• Le résumé du scan signale désormais aussi une date de torréfaction ambiguë, afin que vous puissiez la repérer sans faire défiler le formulaire.
 
 Corrections de bugs :
-• Correction de l’écran de scan qui semblait figé : la feuille de photos restait au-dessus de la surcouche de chargement et était décentrée.
-• Correction de la coche de confirmation mal alignée lors de la modification de la mouture d’une recette.
-• Correction des icônes à faible contraste sur les écrans vides et d’erreur des grains de café en mode sombre.
+• Correction d’un problème où la date de préparation était vide lorsque vous ajoutiez manuellement une préparation à votre journal.

@@ -1,0 +1,6 @@
+Melhorias:
+• Sacos de café costumam mostrar a data de torrefação sem ano. Se o rótulo for ambíguo ou não tiver data, o escaneamento mostra o texto e pede confirmação, em vez de adivinhar. A data lida já vem preenchida.
+• O resumo do escaneamento também sinaliza datas de torrefação ambíguas.
+
+Correção:
+• A data do preparo ficava vazia ao adicionar um preparo manualmente.

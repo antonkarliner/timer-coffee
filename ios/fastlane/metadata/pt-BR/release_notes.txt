@@ -1,12 +1,6 @@
-Novidades:
-• Salve as fotos de um escaneamento de embalagem de café. Escolha salvá-las durante o escaneamento, e as fotos tiradas com a câmera serão copiadas para a galeria em qualidade total — o app lembrará sua escolha na próxima vez.
-
 Melhorias:
-• O escaneamento de uma embalagem agora acontece em uma única tela clara: revise suas fotos, adicione uma segunda apenas se a embalagem precisar, veja antecipadamente o custo do escaneamento e toque em um único botão Analisar.
-• Enquanto um escaneamento é executado, o app informa o que está fazendo — preparando suas fotos, lendo o rótulo — e avisa quando uma conexão lenta está fazendo o processo demorar mais.
-• A tela de Favoritos agora tem um estado vazio adequado, com um atalho direto para a lista de receitas.
+• As embalagens de café geralmente exibem uma data de torrefação sem o ano — “02/08” pode significar 8 de fevereiro ou 2 de agosto. Quando o rótulo não estiver claro, ou quando sua foto não mostrar uma data, o escaneamento agora mostra exatamente o que foi impresso e pede que você confirme, em vez de escolher silenciosamente uma interpretação. A data lida já vem preenchida, então basta um toque para confirmar, e corrigi-la abre o seletor de data usual.
+• O resumo do escaneamento agora também sinaliza uma data de torrefação pouco clara, para que você possa identificá-la sem rolar o formulário para baixo.
 
 Correções de bugs:
-• Corrigido o problema em que a tela de escaneamento parecia travada: a folha de fotos ficava sobre a sobreposição de carregamento e descentralizada.
-• Corrigida a marca de confirmação desalinhada ao editar o tamanho da moagem em uma receita.
-• Corrigidos os ícones de baixo contraste nas telas de vazio e erro dos grãos de café no modo escuro.
+• Corrigido o problema em que a data de preparo ficava em branco ao adicionar manualmente um preparo ao seu diário.

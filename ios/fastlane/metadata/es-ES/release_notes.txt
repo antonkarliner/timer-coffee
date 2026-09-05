@@ -1,12 +1,6 @@
-Novedades:
-• Conserva las fotos de un escaneo de bolsa de café. Elige hacerlo durante el escaneo y las fotos de la cámara se copiarán a Fotos con calidad completa; la app recordará tu elección para la próxima vez.
-
 Mejoras:
-• El escaneo de una bolsa ahora se realiza en una sola pantalla clara: revisa tus fotos, añade una segunda solo si la bolsa lo necesita, consulta de antemano el coste del escaneo y toca un único botón de Analizar.
-• Mientras se realiza un escaneo, la app indica lo que está haciendo —preparar tus fotos, leer la etiqueta— y te avisa cuando una conexión lenta hace que tarde más.
-• La pantalla de Favoritos ahora tiene un estado vacío adecuado, con un acceso directo a la lista de recetas.
+• Las bolsas de café suelen indicar una fecha de tueste sin año — «02/08» podría significar el 8 de febrero o el 2 de agosto. Cuando la etiqueta no está clara o tu foto no muestra ninguna fecha, un escaneo ahora te muestra exactamente lo que se imprimió y te pide que lo confirmes, en lugar de elegir una interpretación sin avisar. La fecha que leyó ya aparece rellenada, así que confirmarla requiere un solo toque y corregirla abre el selector de fecha habitual.
+• El resumen del escaneo ahora también señala una fecha de tueste poco clara, para que puedas detectarla sin tener que desplazarte hacia abajo en el formulario.
 
 Correcciones de errores:
-• Se corrigió que la pantalla de escaneo pareciera bloqueada: el panel de fotos permanecía sobre la capa de carga y aparecía descentrado.
-• Se corrigió que la marca de verificación de confirmación quedara desalineada al editar el tamaño de molienda de una receta.
-• Se corrigieron los iconos de bajo contraste en las pantallas vacía y de error de granos de café en modo oscuro.
+• Se corrigió que la fecha de preparación apareciera vacía al añadir manualmente una preparación a tu diario.

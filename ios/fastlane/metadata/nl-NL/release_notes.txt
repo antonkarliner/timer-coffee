@@ -1,12 +1,6 @@
-Wat is er nieuw:
-• Bewaar de foto's van een koffiezakscan. Kies hiervoor tijdens het scannen en de camerafoto's worden op volledige kwaliteit gekopieerd naar je Foto's — de app onthoudt je keuze voor de volgende keer.
-
 Verbeteringen:
-• Het scannen van een zak gebeurt nu op één duidelijk scherm: bekijk je foto's, voeg alleen een tweede toe als de zak dat nodig heeft, zie vooraf wat de scan kost en tik op één enkele knop Analyseren.
-• Tijdens een scan vertelt de app wat deze doet — je foto's voorbereiden, het etiket lezen — en laat de app weten wanneer een trage verbinding ervoor zorgt dat het langer duurt.
-• Het scherm Favorieten heeft nu een volwaardige lege status, met een snelkoppeling rechtstreeks naar de receptenlijst.
+• Op koffiezakken staat vaak een branddatum zonder jaartal — “02/08” kan 8 februari of 2 augustus betekenen. Wanneer het etiket onduidelijk is of je foto helemaal geen datum toont, laat een scan nu precies zien wat er gedrukt staat en vraagt deze je om bevestiging, in plaats van stilletjes één interpretatie te kiezen. De gelezen datum is al ingevuld, dus bevestigen kost één tik en corrigeren opent de gebruikelijke datumkiezer.
+• De scansamenvatting markeert nu ook een onduidelijke branddatum, zodat je deze kunt zien zonder door het formulier te scrollen.
 
 Bugfixes:
-• Opgelost dat het scanscherm vastgelopen leek: het fotovenster bleef boven de laad-overlay staan en stond niet gecentreerd.
-• Opgelost dat het bevestigingsvinkje niet uitgelijnd stond bij het bewerken van de maalgraad in een recept.
-• Opgelost dat pictogrammen weinig contrast hadden op de lege en foutschermen voor koffiebonen in de donkere modus.
+• Opgelost dat de zetdatum leeg was wanneer je handmatig een zetting aan je brouwdagboek toevoegt.

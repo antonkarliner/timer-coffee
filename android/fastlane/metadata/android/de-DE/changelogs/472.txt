@@ -1,0 +1,6 @@
+Verbessert:
+• Auf Kaffeebeuteln steht das Röstdatum oft ohne Jahr – „02/08“ kann 8. Februar oder 2. August bedeuten. Bei unklarem Etikett oder fehlendem Datum zeigt ein Scan jetzt den Aufdruck und bittet um Bestätigung, statt zu raten. Das erkannte Datum ist vorausgefüllt.
+• Die Scan-Zusammenfassung markiert auch unklare Röstdaten.
+
+Behoben:
+• Beim manuellen Hinzufügen eines Brühvorgangs war das Brühdatum leer.

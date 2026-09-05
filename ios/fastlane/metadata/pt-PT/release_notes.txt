@@ -1,12 +1,6 @@
-Novidades:
-• Guarde as fotografias de uma digitalização de uma embalagem de café. Ative esta opção durante a digitalização e as fotografias tiradas com a câmara são copiadas para as suas Fotografias com qualidade total — a aplicação memoriza a sua escolha para a próxima vez.
-
 Melhorias:
-• A digitalização de uma embalagem passa agora a ser feita num único ecrã simples: reveja as suas fotografias, adicione uma segunda apenas se a embalagem precisar, veja antecipadamente o custo da digitalização e toque num único botão Analisar.
-• Durante uma digitalização, a aplicação indica o que está a fazer — a preparar as suas fotografias, a ler o rótulo — e avisa quando uma ligação lenta está a fazê-la demorar mais.
-• O ecrã Favoritos passa agora a ter um estado vazio adequado, com um atalho direto para a lista de receitas.
+• Os sacos de café apresentam frequentemente uma data de torrefação sem ano — “02/08” pode significar 8 de fevereiro ou 2 de agosto. Quando o rótulo não é claro, ou a sua fotografia não mostra qualquer data, uma leitura mostra agora exatamente o que foi impresso e pede-lhe que o confirme, em vez de escolher discretamente uma interpretação. A data lida já está preenchida, pelo que basta um toque para a confirmar, e corrigi-la abre o seletor de data habitual.
+• O resumo da leitura passa também a assinalar uma data de torrefação pouco clara, para que possa identificá-la sem ter de percorrer o formulário para baixo.
 
 Correções de erros:
-• Corrigido o aspeto bloqueado do ecrã de digitalização: o painel de fotografias permanecia sobre a sobreposição de carregamento e ficava descentrado.
-• Corrigido o visto de confirmação desalinhado ao editar o tamanho da moagem numa receita.
-• Corrigidos os ícones de baixo contraste nos ecrãs vazios e de erro de grãos de café no modo escuro.
+• Corrigido um problema em que a data de preparo ficava em branco ao adicionar manualmente um preparo ao seu diário.

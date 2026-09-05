@@ -1,0 +1,6 @@
+Ditingkatkan:
+• Tanggal sangrai pada kemasan sering tanpa tahun—“02/08” bisa 8 Februari atau 2 Agustus. Jika label tidak jelas atau foto tanpa tanggal, pemindaian kini menampilkan teks tercetak dan meminta konfirmasi, bukan menebak. Tanggal terbaca terisi otomatis, jadi cukup satu ketukan.
+• Ringkasan pemindaian juga menandai tanggal sangrai yang tidak jelas.
+
+Diperbaiki:
+• Tanggal seduh kosong saat menambahkan seduhan secara manual.

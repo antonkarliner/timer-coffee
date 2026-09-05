@@ -1,0 +1,6 @@
+Mejoras:
+• Las bolsas de café suelen indicar la fecha de tueste sin año. Si la etiqueta no es clara o no muestra fecha, el escaneo muestra lo impreso y pide confirmación en vez de adivinar. La fecha detectada se completa automáticamente.
+• El resumen del escaneo también señala fechas de tueste poco claras.
+
+Correcciones:
+• La fecha de preparación aparecía vacía al añadir una preparación manualmente.

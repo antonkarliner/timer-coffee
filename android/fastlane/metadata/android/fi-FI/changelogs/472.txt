@@ -1,0 +1,6 @@
+Parannettu:
+• Kahvipusseissa paahtopäivä on usein ilman vuotta – ”02/08” voi olla 8. helmikuuta tai 2. elokuuta. Jos etiketti on epäselvä tai kuvassa ei näy päivämäärää, skannaus näyttää tekstin ja pyytää vahvistusta arvailun sijaan. Luettu päivämäärä on valmiiksi täytetty.
+• Skannauksen yhteenveto ilmoittaa myös epäselvästä paahtopäivästä.
+
+Korjattu:
+• Valmistuspäivä oli tyhjä, kun valmistus lisättiin käsin.

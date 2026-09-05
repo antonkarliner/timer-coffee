@@ -1,0 +1,6 @@
+İyileştirildi:
+• Kahve paketlerinde yıl olmadan kavurma tarihi sık görülür; “02/08”, 8 Şubat ya da 2 Ağustos olabilir. Etiket belirsizse veya fotoğrafta tarih yoksa, tarama artık tahmin etmek yerine yazanı gösterip onay ister. Okunan tarih önceden doldurulur; onaylamak tek dokunuş.
+• Tarama özeti belirsiz kavurma tarihini de işaretler.
+
+Düzeltildi:
+• Elle demleme eklenirken demleme tarihi boştu.

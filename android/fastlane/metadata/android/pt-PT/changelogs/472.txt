@@ -1,0 +1,6 @@
+Melhorado:
+• As embalagens de café indicam frequentemente a data de torrefação sem ano — “02/08” pode ser 8 de fevereiro ou 2 de agosto. Se o rótulo for pouco claro ou não tiver data, o escaneamento mostra o texto impresso e pede confirmação, em vez de adivinhar. A data lida é pré-preenchida para confirmar com um toque.
+• O resumo do escaneamento também assinala datas de torrefação pouco claras.
+
+Corrigido:
+• A data de preparo ficava vazia ao adicionar um preparo manualmente.

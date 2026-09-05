@@ -1,0 +1,6 @@
+Verbeterd:
+• Op koffiezakken staat vaak een branddatum zonder jaar — “02/08” kan 8 februari of 2 augustus zijn. Bij een onduidelijk etiket, of zonder datum op de foto, toont een scan nu de tekst en vraagt om bevestiging in plaats van te gokken. De gelezen datum is vooraf ingevuld; bevestigen kost één tik.
+• De scansamenvatting markeert ook een onduidelijke branddatum.
+
+Opgelost:
+• De zetdatum was leeg bij handmatig toevoegen van een zetbeurt.

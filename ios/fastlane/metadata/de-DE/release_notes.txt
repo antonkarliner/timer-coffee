@@ -1,12 +1,6 @@
-Neuigkeiten:
-• Behalte die Fotos aus einem Scan einer Kaffeetüte. Entscheide dich während des Scans dafür, und die Kamerafotos werden in voller Qualität in „Fotos“ kopiert — die App merkt sich deine Auswahl für das nächste Mal.
-
 Verbesserungen:
-• Das Scannen einer Tüte erfolgt jetzt auf einem übersichtlichen Bildschirm: Überprüfe deine Fotos, füge nur dann ein zweites hinzu, wenn die Tüte es erfordert, sieh vorab, was der Scan kostet, und tippe auf eine einzige Schaltfläche zum Analysieren.
-• Während ein Scan läuft, teilt die App mit, was sie gerade macht — deine Fotos vorbereiten, das Etikett lesen — und informiert dich, wenn eine langsame Verbindung länger dauert.
-• Der Bildschirm „Favoriten“ verfügt jetzt über einen passenden Leerzustand mit einer Verknüpfung direkt zur Rezeptliste.
+• Auf Kaffeetüten ist das Röstdatum oft ohne Jahresangabe aufgedruckt – „02/08“ könnte den 8. Februar oder den 2. August bedeuten. Wenn das Etikett unklar ist oder dein Foto gar kein Datum zeigt, zeigt dir ein Scan jetzt genau, was aufgedruckt war, und bittet dich um Bestätigung, statt stillschweigend eine Interpretation auszuwählen. Das erkannte Datum ist bereits eingetragen, sodass die Bestätigung nur einen Tipp erfordert und du über die übliche Datumsauswahl Korrekturen vornehmen kannst.
+• Die Scan-Zusammenfassung markiert jetzt auch ein unklares Röstdatum, damit du es siehst, ohne im Formular nach unten scrollen zu müssen.
 
 Fehlerbehebungen:
-• Es wurde behoben, dass der Scan-Bildschirm eingefroren wirkte: Das Foto-Blatt blieb über der Ladeanzeige und war nicht zentriert.
-• Es wurde behoben, dass das Bestätigungs-Häkchen beim Bearbeiten des Mahlgrads in einem Rezept nicht korrekt ausgerichtet war.
-• Es wurde behoben, dass die Symbole auf den leeren Kaffeebohnen- und Fehlerbildschirmen im Dunkelmodus einen zu geringen Kontrast hatten.
+• Es wurde behoben, dass das Brühdatum leer blieb, wenn du eine Zubereitung manuell zu deinem Brühtagebuch hinzufügst.

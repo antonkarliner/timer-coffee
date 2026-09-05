@@ -1,0 +1,6 @@
+Migliorato:
+• Le confezioni di caffè spesso riportano la data di tostatura senza anno: «02/08» può essere l’8 febbraio o il 2 agosto. Se l’etichetta è poco chiara o la foto non mostra date, la scansione mostra ora il testo stampato e chiede conferma anziché indovinare. La data letta è precompilata: conferma con un tocco.
+• Il riepilogo della scansione segnala anche date di tostatura poco chiare.
+
+Corretto:
+• La data di preparazione era vuota aggiungendo manualmente una preparazione.

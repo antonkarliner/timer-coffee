@@ -1,0 +1,6 @@
+Ulepszenia:
+• Na opakowaniach kawy data palenia często nie zawiera roku — „02/08” może oznaczać 8 lutego lub 2 sierpnia. Gdy etykieta jest niejasna albo na zdjęciu nie ma daty, skan pokazuje odczyt i prosi o potwierdzenie zamiast zgadywać. Odczytana data jest wstępnie uzupełniona.
+• Podsumowanie skanu także oznacza niejasną datę palenia.
+
+Poprawki:
+• Data parzenia była pusta przy ręcznym dodawaniu parzenia.

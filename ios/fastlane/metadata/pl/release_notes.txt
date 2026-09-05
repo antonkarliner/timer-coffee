@@ -1,12 +1,6 @@
-Co nowego:
-• Zachowuj zdjęcia ze skanowania opakowania kawy. Wybierz tę opcję podczas skanowania, a zdjęcia z aparatu zostaną skopiowane do galerii w pełnej jakości — aplikacja zapamięta Twój wybór na następny raz.
-
 Ulepszenia:
-• Skanowanie opakowania odbywa się teraz na jednym przejrzystym ekranie: przejrzyj zdjęcia, dodaj drugie tylko wtedy, gdy opakowanie tego wymaga, od razu sprawdź koszt skanowania i stuknij jeden przycisk Analizuj.
-• Podczas skanowania aplikacja informuje, co robi — przygotowuje zdjęcia, odczytuje etykietę — oraz daje znać, gdy wolne połączenie wydłuża ten proces.
-• Ekran Ulubione ma teraz odpowiedni pusty stan ze skrótem prowadzącym bezpośrednio do listy przepisów.
+• Na opakowaniach kawy często drukowana jest data palenia bez roku — „02/08” może oznaczać 8 lutego lub 2 sierpnia. Gdy etykieta jest niejednoznaczna albo na zdjęciu w ogóle nie widać daty, skan pokazuje teraz dokładnie to, co zostało wydrukowane, i prosi o potwierdzenie, zamiast po cichu wybierać jedną interpretację. Odczytana data jest już uzupełniona, więc potwierdzenie wymaga jednego stuknięcia, a jej poprawienie otwiera standardowy wybór daty.
+• Podsumowanie skanowania wskazuje teraz również niejednoznaczną datę palenia, dzięki czemu możesz ją zauważyć bez przewijania formularza w dół.
 
 Poprawki błędów:
-• Naprawiono problem z ekranem skanowania wyglądającym na zawieszony: panel zdjęć pozostawał nad nakładką ładowania i był przesunięty względem środka.
-• Naprawiono problem ze znacznikiem potwierdzenia, który nie był wyrównany podczas edycji stopnia mielenia w przepisie.
-• Naprawiono ikony o niskim kontraście na ekranach pustego stanu i błędów dla ziaren kawy w trybie ciemnym.
+• Naprawiono problem z pustą datą parzenia podczas ręcznego dodawania parzenia do dziennika.

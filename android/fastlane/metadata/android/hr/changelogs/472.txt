@@ -1,0 +1,6 @@
+Poboljšano:
+• Na vrećicama kave datum prženja često je bez godine — „02/08” može biti 8. veljače ili 2. kolovoza. Kad naljepnica nije jasna ili fotografija nema datum, skeniranje prikazuje ispisano i traži potvrdu umjesto nagađanja. Očitani datum je unaprijed ispunjen, pa potvrđujete jednim dodirom.
+• Sažetak skeniranja označava i nejasan datum prženja.
+
+Ispravljeno:
+• Datum pripreme bio je prazan pri ručnom dodavanju pripreme.
