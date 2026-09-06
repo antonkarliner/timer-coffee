@@ -15,7 +15,6 @@ import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/widgets/recipe_detail/rich_text_links.dart';
 import 'package:coffee_timer/widgets/recipe_detail/bean_selection_row.dart';
 import 'package:coffee_timer/widgets/recipe_detail/amount_fields.dart';
-import 'package:coffee_timer/widgets/recipe_detail/meta_info_section.dart';
 import 'package:coffee_timer/widgets/recipe_detail/slider_chronicler_1002.dart';
 import 'package:coffee_timer/widgets/recipe_detail/sliders_106.dart';
 import 'package:coffee_timer/widgets/recipe_detail/recipe_summary_tile.dart';
@@ -373,8 +372,6 @@ class _RecipeContentBuilderState extends State<RecipeContentBuilder> {
               ),
             ],
           ),
-        const SizedBox(height: AppSpacing.base),
-        MetaInfoSection(waterTempCelsius: null, brewTime: recipe.brewTime),
         const SizedBox(height: 16),
         // Use effective ID for slider logic
         if (effectiveRecipeId == '1002')

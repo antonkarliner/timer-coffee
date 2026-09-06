@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
-import 'package:coffee_timer/theme/design_tokens.dart';
-import 'package:coffee_timer/widgets/base_buttons.dart';
 
+/// Compact arrow action that advances from the recipe setup to the timer.
+///
+/// Icon-only by design: the accessible name ("Preparation") is provided via
+/// [Semantics.label], and the stable `recipeDetailNextButton` identifier keeps
+/// screenshot automation working.
 class FloatingNavButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Widget? icon;
@@ -18,20 +21,9 @@ class FloatingNavButton extends StatelessWidget {
       button: true,
       onTap: onPressed,
       child: ExcludeSemantics(
-        child: ConstrainedBox(
-          // The parent positions this action at the trailing edge of the screen.
-          // Bound long translations so they wrap rather than leave the viewport.
-          constraints: BoxConstraints(
-            maxWidth: MediaQuery.sizeOf(context).width - AppSpacing.xl,
-          ),
-          child: AppElevatedButton(
-            label: label,
-            onPressed: onPressed,
-            iconWidget: icon ?? const Icon(Icons.arrow_forward),
-            isFullWidth: false,
-            height: AppButton.heightLarge,
-            elevation: 0,
-          ),
+        child: FloatingActionButton(
+          onPressed: onPressed,
+          child: icon ?? const Icon(Icons.arrow_forward),
         ),
       ),
     );
