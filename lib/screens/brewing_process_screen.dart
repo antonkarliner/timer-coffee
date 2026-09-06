@@ -28,6 +28,7 @@ import '../services/analytics_service.dart';
 import '../services/advanced_features_service.dart';
 import '../services/recipe_expression_service.dart';
 import '../theme/design_tokens.dart';
+import '../widgets/brewing/next_step_preview.dart';
 
 class LocalizedNumberText extends StatelessWidget {
   final int currentNumber;
@@ -1292,6 +1293,12 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     );
   }
 
+  // Vertical room the next-step preview leaves below itself so it never
+  // overlaps the floating pause/skip button: FAB height (56) + the FAB's
+  // margin above the safe area (kFloatingActionButtonMargin) + a small gap.
+  static const double _bottomControlClearance =
+      56.0 + kFloatingActionButtonMargin + AppSpacing.sm;
+
   @override
   Widget build(BuildContext context) {
     final manualStepControlEnabled = context
@@ -1580,6 +1587,16 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                                   _buildManualStepArrow(isBack: false),
                               ],
                             ),
+                            // Explicit paused state text; the FAB only
+                            // changes its icon when the brew is paused.
+                            if (_isPaused && !_isEndBrewAnimating) ...[
+                              const SizedBox(height: AppSpacing.sm),
+                              BrewPausedLabel(
+                                label:
+                                    AppLocalizations.of(context)!
+                                        .liveActivityPaused,
+                              ),
+                            ],
                             SizedBox(
                               height:
                                   (MediaQuery.of(context).size.height * 0.05)
@@ -1626,42 +1643,21 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
               if (currentStepIndex < brewingSteps.length - 1 &&
                   !_isEndBrewAnimating)
                 Padding(
+                  // Full content width above the bottom control area. The
+                  // bottom inset clears the floating pause/skip button and
+                  // the safe area; height is intrinsic, so two lines of
+                  // larger text wrap instead of clipping.
                   padding: EdgeInsets.fromLTRB(
-                    16.0,
+                    AppSpacing.base,
                     0,
-                    88.0,
-                    MediaQuery.of(context).padding.bottom + 16.0,
+                    AppSpacing.base,
+                    MediaQuery.of(context).padding.bottom +
+                        _bottomControlClearance,
                   ),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '${AppLocalizations.of(context)!.next}:',
-                          style: TextStyle(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onSurface.withValues(alpha: 0.6),
-                            fontSize: 18,
-                          ),
-                        ),
-                        const SizedBox(height: 4.0),
-                        Text(
-                          brewingSteps[currentStepIndex + 1].description,
-                          style: TextStyle(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onSurface.withValues(alpha: 0.6),
-                            fontSize: 22,
-                            height: 1.3,
-                          ),
-                          textAlign: TextAlign.left,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                      ],
-                    ),
+                  child: NextStepPreview(
+                    label: '${AppLocalizations.of(context)!.next}:',
+                    description:
+                        brewingSteps[currentStepIndex + 1].description,
                   ),
                 ),
             ],
