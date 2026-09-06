@@ -1,4 +1,8 @@
 {
+  "scanReviewTitle": "Перевірити сканування",
+  "scanUseAsCover": "Зробити обкладинкою",
+  "scanNotNow": "Не зараз",
+
   "@@locale": "uk",
   "reviewRequiresOwnedBeans": "Додайте пачку цього обсмажувача, щоб написати відгук.",
   "@reviewRequiresOwnedBeans": {

@@ -199,8 +199,8 @@ void main() {
       expect(find.text('Unknown'), findsNothing);
       expect(find.text('N/A'), findsNothing);
 
-      // Inline review section is present; no sequential success dialogs.
-      expect(find.bySemanticsIdentifier('scanReviewSection'), findsOneWidget);
+      // No pending decisions: no empty card or sequential success dialogs.
+      expect(find.bySemanticsIdentifier('scanReviewSection'), findsNothing);
       expect(find.byType(CollectedDataDialog), findsNothing);
       expect(find.byType(AlertDialog), findsNothing);
 
@@ -234,7 +234,7 @@ void main() {
     expect(find.text('Wrapped Roaster'), findsOneWidget);
     expect(find.text('Wrapped Beans'), findsOneWidget);
     expect(find.text('Wrapped Origin'), findsOneWidget);
-    expect(find.bySemanticsIdentifier('scanReviewSection'), findsOneWidget);
+    expect(find.bySemanticsIdentifier('scanReviewSection'), findsNothing);
     expect(find.byType(CollectedDataDialog), findsNothing);
 
     controller.complete();
@@ -282,6 +282,7 @@ void main() {
       await tester.tap(find.text(loc.roastDateConfirmAction));
       await tester.pumpAndSettle();
       expect(find.text(loc.roastDateConfirmPrompt('3/2024')), findsNothing);
+      expect(find.bySemanticsIdentifier('scanReviewSection'), findsNothing);
       // The parsed date stays on the field after confirmation.
       expect(find.text(expectedDisplay), findsOneWidget);
 
@@ -315,10 +316,14 @@ void main() {
         findsNWidgets(2),
       );
 
-      // Tapping a thumbnail is the explicit choice — nothing was chosen
-      // or uploaded before it.
+      // Tapping a thumbnail only previews the choice; confirmation applies it.
       await tester.tap(find.bySemanticsIdentifier('scanCoverCandidate').at(1));
       await tester.pumpAndSettle();
+      expect(find.text(loc.beanCoverPhotoSavePromptBody), findsOneWidget);
+      expect(find.text(loc.beanCoverPhotoRemove), findsNothing);
+      await tester.tap(find.text(loc.scanUseAsCover));
+      await tester.pumpAndSettle();
+      expect(find.bySemanticsIdentifier('scanReviewSection'), findsNothing);
 
       // Chooser is gone; the pending cover comes from the chosen scan photo;
       // the existing upload-at-save and clear/change behavior is untouched.
@@ -357,15 +362,15 @@ void main() {
     expect(find.text(loc.beanCoverPhotoSavePromptBody), findsOneWidget);
 
     // Answering No declines only the optional cover choice.
-    await tester.tap(find.text(loc.no));
+    await tester.tap(find.text(loc.scanNotNow));
     await tester.pumpAndSettle();
 
     expect(find.text(loc.beanCoverPhotoSavePromptBody), findsNothing);
     // No cover was selected: the remove/change chips never appeared.
     expect(find.text(loc.beanCoverPhotoRemove), findsNothing);
     expect(find.text(loc.beanCoverPhotoChange), findsNothing);
-    // The review section itself stays.
-    expect(find.bySemanticsIdentifier('scanReviewSection'), findsOneWidget);
+    // No decisions remain, so the review section disappears.
+    expect(find.bySemanticsIdentifier('scanReviewSection'), findsNothing);
 
     controller.complete();
     await tester.pump();
@@ -406,7 +411,7 @@ void main() {
 
     // The form is still reviewed inline, but no cover chooser appears and
     // the existing cover stays in place.
-    expect(find.bySemanticsIdentifier('scanReviewSection'), findsOneWidget);
+    expect(find.bySemanticsIdentifier('scanReviewSection'), findsNothing);
     expect(find.text(loc.beanCoverPhotoSavePromptBody), findsNothing);
     expect(find.bySemanticsIdentifier('scanCoverCandidate'), findsNothing);
     expect(find.text(loc.beanCoverPhotoChange), findsOneWidget);

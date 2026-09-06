@@ -1,4 +1,8 @@
 {
+  "scanReviewTitle": "مراجعة المسح",
+  "scanUseAsCover": "استخدام كصورة غلاف",
+  "scanNotNow": "ليس الآن",
+
   "@@locale": "ar",
   "reviewRequiresOwnedBeans": "أضف كيسًا من هذا المحمّص لكتابة مراجعة.",
   "@reviewRequiresOwnedBeans": {

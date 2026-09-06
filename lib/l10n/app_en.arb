@@ -1,4 +1,8 @@
 {
+  "scanReviewTitle": "Review scan",
+  "scanUseAsCover": "Use as cover",
+  "scanNotNow": "Not now",
+
   "@@locale": "en",
   "beansStatsSectionTitle": "Beans stats",
   "totalBeansBrewedLabel": "Total beans brewed",

@@ -1,4 +1,8 @@
 {
+  "scanReviewTitle": "Se gjennom skanning",
+  "scanUseAsCover": "Bruk som forsidebilde",
+  "scanNotNow": "Ikke nå",
+
   "@@locale": "no",
   "reviewRequiresOwnedBeans": "Legg til en pose fra dette brenneriet for å skrive en anmeldelse.",
   "@reviewRequiresOwnedBeans": {

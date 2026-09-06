@@ -1,4 +1,8 @@
 {
+  "scanReviewTitle": "Έλεγχος σάρωσης",
+  "scanUseAsCover": "Χρήση ως εξώφυλλο",
+  "scanNotNow": "Όχι τώρα",
+
   "@@locale": "el",
   "reviewRequiresOwnedBeans": "Προσθέστε μια συσκευασία από αυτό το καβουρδιστήριο για να γράψετε αξιολόγηση.",
   "@reviewRequiresOwnedBeans": {

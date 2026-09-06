@@ -1,4 +1,8 @@
 {
+  "scanReviewTitle": "Проверить сканирование",
+  "scanUseAsCover": "Сделать обложкой",
+  "scanNotNow": "Не сейчас",
+
   "@@locale": "ru",
   "reviewRequiresOwnedBeans": "Добавьте пачку этого обжарщика, чтобы написать отзыв.",
   "@reviewRequiresOwnedBeans": {

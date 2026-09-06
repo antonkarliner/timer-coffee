@@ -21,7 +21,7 @@ import '../base_buttons.dart';
 ///
 /// Deliberately monochrome (onSurface/onSurfaceVariant/outlineVariant):
 /// this is a review aid, not a warning panel.
-class ScanReviewSection extends StatelessWidget {
+class ScanReviewSection extends StatefulWidget {
   /// Whether a scan result is present. When false the section renders as a
   /// zero-size placeholder so callers can keep it in a fixed layout slot —
   /// its appearance after a scan must never shift the form cards below it
@@ -44,7 +44,7 @@ class ScanReviewSection extends StatelessWidget {
   /// the choice for this scan, or no scan photos were kept).
   final List<XFile>? coverCandidates;
 
-  /// Called when the user taps a scan-photo thumbnail to use it as cover.
+  /// Called only after the user confirms the preview as their cover.
   final ValueChanged<XFile>? onCoverSelected;
 
   /// Called when the user explicitly declines the cover choice.
@@ -67,20 +67,39 @@ class ScanReviewSection extends StatelessWidget {
   });
 
   @override
+  State<ScanReviewSection> createState() => _ScanReviewSectionState();
+}
+
+class _ScanReviewSectionState extends State<ScanReviewSection> {
+  int _selectedIndex = 0;
+
+  @override
+  void didUpdateWidget(covariant ScanReviewSection oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!identical(oldWidget.coverCandidates, widget.coverCandidates)) {
+      _selectedIndex = 0;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (!visible) return const SizedBox.shrink();
+    if (!widget.visible) return const SizedBox.shrink();
 
     final loc = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
     final showRoastDateAttention =
-        roastDateNeedsConfirmation && onReviewRoastDate != null;
+        widget.roastDateNeedsConfirmation && widget.onReviewRoastDate != null;
     final showCoverChooser =
-        coverCandidates != null &&
-        coverCandidates!.isNotEmpty &&
-        onCoverSelected != null &&
-        onCoverChoiceDismissed != null;
+        widget.coverCandidates != null &&
+        widget.coverCandidates!.isNotEmpty &&
+        widget.onCoverSelected != null &&
+        widget.onCoverChoiceDismissed != null;
+
+    if (!showRoastDateAttention && !showCoverChooser) {
+      return const SizedBox.shrink();
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -108,7 +127,7 @@ class ScanReviewSection extends StatelessWidget {
                       const SizedBox(width: AppSpacing.sm),
                       Expanded(
                         child: Text(
-                          loc.collectedInformation,
+                          loc.scanReviewTitle,
                           style: theme.textTheme.titleSmall?.copyWith(
                             fontWeight: FontWeight.w600,
                             color: colorScheme.onSurface,
@@ -124,11 +143,12 @@ class ScanReviewSection extends StatelessWidget {
                   ],
                   if (showCoverChooser) ...[
                     const SizedBox(height: AppSpacing.base),
-                    Divider(
-                      height: 1,
-                      thickness: AppStroke.border,
-                      color: colorScheme.outlineVariant,
-                    ),
+                    if (showRoastDateAttention)
+                      Divider(
+                        height: 1,
+                        thickness: AppStroke.border,
+                        color: colorScheme.outlineVariant,
+                      ),
                     const SizedBox(height: AppSpacing.base),
                     _buildCoverChooser(context, loc, colorScheme),
                   ],
@@ -137,7 +157,7 @@ class ScanReviewSection extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: trailingSpacing),
+        SizedBox(height: widget.trailingSpacing),
       ],
     );
   }
@@ -151,7 +171,7 @@ class ScanReviewSection extends StatelessWidget {
     AppLocalizations loc,
     ColorScheme colorScheme,
   ) {
-    final rawText = roastDateRawText;
+    final rawText = widget.roastDateRawText;
     final hasRawText = rawText != null && rawText.trim().isNotEmpty;
 
     return Semantics(
@@ -178,7 +198,7 @@ class ScanReviewSection extends StatelessWidget {
           ),
           AppTextButton(
             label: loc.edit,
-            onPressed: onReviewRoastDate,
+            onPressed: widget.onReviewRoastDate,
             foregroundColor: colorScheme.onSurface,
             isFullWidth: false,
             height: AppButton.heightSmall,
@@ -189,85 +209,131 @@ class ScanReviewSection extends StatelessWidget {
     );
   }
 
-  /// Optional cover choice from the reviewed scan photos. Purely explicit:
-  /// nothing is selected or uploaded until the user taps a thumbnail, and
-  /// the choice can be declined.
+  /// Thumbnail taps only change the preview; the button applies the cover.
   Widget _buildCoverChooser(
     BuildContext context,
     AppLocalizations loc,
     ColorScheme colorScheme,
   ) {
-    final theme = Theme.of(context);
+    final candidates = widget.coverCandidates!;
     return Semantics(
       identifier: 'scanCoverChooser',
       container: true,
+      explicitChildNodes: true,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             loc.beanCoverPhotoSavePromptBody,
-            style: theme.textTheme.bodyMedium?.copyWith(
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: colorScheme.onSurfaceVariant,
             ),
-            softWrap: true,
           ),
           const SizedBox(height: AppSpacing.sm),
           Wrap(
             spacing: AppSpacing.sm,
             runSpacing: AppSpacing.sm,
             children: [
-              for (final image in coverCandidates!)
+              for (var index = 0; index < candidates.length; index++)
                 Semantics(
                   identifier: 'scanCoverCandidate',
-                  button: true,
-                  label: loc.beanCoverPhotoSavePromptTitle,
-                  onTap: () => onCoverSelected?.call(image),
+                  button: candidates.length > 1,
+                  selected: index == _selectedIndex,
+                  label: '${loc.scanUseAsCover} ${index + 1}',
+                  onTap: candidates.length > 1
+                      ? () => setState(() => _selectedIndex = index)
+                      : null,
                   excludeSemantics: true,
-                  child: _buildCoverThumbnail(context, image),
+                  child: GestureDetector(
+                    onTap: candidates.length > 1
+                        ? () => setState(() => _selectedIndex = index)
+                        : null,
+                    child: _buildCoverThumbnail(
+                      context,
+                      candidates[index],
+                      selected:
+                          candidates.length > 1 && index == _selectedIndex,
+                    ),
+                  ),
                 ),
             ],
           ),
-          AppTextButton(
-            label: loc.no,
-            onPressed: onCoverChoiceDismissed,
-            foregroundColor: colorScheme.onSurface,
-            isFullWidth: false,
-            height: AppButton.heightSmall,
-            padding: AppButton.paddingSmall,
+          const SizedBox(height: AppSpacing.base),
+          Wrap(
+            spacing: AppSpacing.sm,
+            runSpacing: AppSpacing.sm,
+            children: [
+              AppElevatedButton(
+                label: loc.scanUseAsCover,
+                onPressed: () =>
+                    widget.onCoverSelected?.call(candidates[_selectedIndex]),
+                backgroundColor: colorScheme.onSurface,
+                foregroundColor: colorScheme.surface,
+                isFullWidth: false,
+                height: AppButton.heightSmall,
+                padding: AppButton.paddingSmall,
+              ),
+              AppTextButton(
+                label: loc.scanNotNow,
+                onPressed: widget.onCoverChoiceDismissed,
+                foregroundColor: colorScheme.onSurface,
+                isFullWidth: false,
+                height: AppButton.heightSmall,
+                padding: AppButton.paddingSmall,
+              ),
+            ],
           ),
         ],
       ),
     );
   }
 
-  Widget _buildCoverThumbnail(BuildContext context, XFile image) {
+  Widget _buildCoverThumbnail(
+    BuildContext context,
+    XFile image, {
+    required bool selected,
+  }) {
     final colorScheme = Theme.of(context).colorScheme;
-    return GestureDetector(
-      onTap: () => onCoverSelected?.call(image),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: colorScheme.outlineVariant,
-            width: AppStroke.border,
-          ),
-          borderRadius: BorderRadius.circular(AppRadius.small),
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: selected ? colorScheme.onSurface : colorScheme.outlineVariant,
+          width: selected ? AppStroke.focus : AppStroke.border,
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(AppRadius.small),
-          child: Image.file(
-            File(image.path),
-            width: 64,
-            height: 64,
-            fit: BoxFit.cover,
-            errorBuilder: (_, _, _) => const SizedBox(
+        borderRadius: BorderRadius.circular(AppRadius.small),
+      ),
+      child: Stack(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(AppRadius.small),
+            child: Image.file(
+              File(image.path),
               width: 64,
               height: 64,
-              child: Center(
-                child: Icon(Icons.broken_image, size: AppIconSize.small),
+              fit: BoxFit.cover,
+              errorBuilder: (_, _, _) => const SizedBox(
+                width: 64,
+                height: 64,
+                child: Center(
+                  child: Icon(Icons.broken_image, size: AppIconSize.small),
+                ),
               ),
             ),
           ),
-        ),
+          if (selected)
+            PositionedDirectional(
+              end: 0,
+              top: 0,
+              child: Container(
+                color: colorScheme.onSurface,
+                child: Icon(
+                  Icons.check,
+                  size: AppIconSize.small,
+                  color: colorScheme.surface,
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }

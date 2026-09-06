@@ -1,4 +1,8 @@
 {
+  "scanReviewTitle": "Vérifier le scan",
+  "scanUseAsCover": "Utiliser comme couverture",
+  "scanNotNow": "Pas maintenant",
+
   "@@locale": "fr",
   "reviewRequiresOwnedBeans": "Ajoutez un paquet de ce torréfacteur pour écrire un avis.",
   "@reviewRequiresOwnedBeans": {

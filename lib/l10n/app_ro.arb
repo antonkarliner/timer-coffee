@@ -1,4 +1,8 @@
 {
+  "scanReviewTitle": "Verifică scanarea",
+  "scanUseAsCover": "Folosește drept copertă",
+  "scanNotNow": "Nu acum",
+
   "@@locale": "ro",
   "reviewRequiresOwnedBeans": "Adaugă un pachet de la acest prăjitor pentru a scrie o recenzie.",
   "@reviewRequiresOwnedBeans": {

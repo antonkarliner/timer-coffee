@@ -1,4 +1,8 @@
 {
+  "scanReviewTitle": "Tarkista skannaus",
+  "scanUseAsCover": "Käytä kansikuvana",
+  "scanNotNow": "Ei nyt",
+
   "@@locale": "fi",
   "reviewRequiresOwnedBeans": "Lisää tämän paahtimon pussi kirjoittaaksesi arvostelun.",
   "@reviewRequiresOwnedBeans": {

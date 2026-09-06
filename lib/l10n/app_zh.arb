@@ -1,4 +1,8 @@
 {
+  "scanReviewTitle": "检查扫描结果",
+  "scanUseAsCover": "用作封面",
+  "scanNotNow": "暂时不用",
+
   "@@locale": "zh",
   "reviewRequiresOwnedBeans": "添加该烘焙商的咖啡豆即可撰写评价。",
   "@reviewRequiresOwnedBeans": {

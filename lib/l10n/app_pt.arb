@@ -1,4 +1,8 @@
 {
+  "scanReviewTitle": "Rever digitalização",
+  "scanUseAsCover": "Usar como capa",
+  "scanNotNow": "Agora não",
+
   "@@locale": "pt",
   "reviewRequiresOwnedBeans": "Adicione um pacote deste torrefador para escrever uma avaliação.",
   "@reviewRequiresOwnedBeans": {

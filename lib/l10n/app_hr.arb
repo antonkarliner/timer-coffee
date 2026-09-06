@@ -1,4 +1,8 @@
 {
+  "scanReviewTitle": "Pregledaj skeniranje",
+  "scanUseAsCover": "Postavi kao naslovnu sliku",
+  "scanNotNow": "Ne sada",
+
   "@@locale": "hr",
   "reviewRequiresOwnedBeans": "Dodajte pakiranje ovog pržionika kako biste napisali recenziju.",
   "@reviewRequiresOwnedBeans": {

@@ -1,4 +1,8 @@
 {
+  "scanReviewTitle": "Scan controleren",
+  "scanUseAsCover": "Als omslag gebruiken",
+  "scanNotNow": "Niet nu",
+
   "@@locale": "nl",
   "reviewRequiresOwnedBeans": "Voeg een zak van deze brander toe om een review te schrijven.",
   "@reviewRequiresOwnedBeans": {

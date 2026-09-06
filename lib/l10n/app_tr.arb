@@ -1,4 +1,8 @@
 {
+  "scanReviewTitle": "Taramayı incele",
+  "scanUseAsCover": "Kapak olarak kullan",
+  "scanNotNow": "Şimdi değil",
+
   "@@locale": "tr",
   "reviewRequiresOwnedBeans": "Yorum yazmak için bu kavurucudan bir paket ekleyin.",
   "@reviewRequiresOwnedBeans": {

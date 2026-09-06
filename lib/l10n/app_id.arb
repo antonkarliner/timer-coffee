@@ -1,4 +1,8 @@
 {
+  "scanReviewTitle": "Tinjau hasil pemindaian",
+  "scanUseAsCover": "Gunakan sebagai sampul",
+  "scanNotNow": "Jangan sekarang",
+
   "@@locale": "id",
   "reviewRequiresOwnedBeans": "Tambahkan biji kopi dari roaster ini untuk menulis ulasan.",
   "@reviewRequiresOwnedBeans": {

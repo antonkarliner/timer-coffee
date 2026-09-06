@@ -1,4 +1,8 @@
 {
+  "scanReviewTitle": "Revisar escaneo",
+  "scanUseAsCover": "Usar como portada",
+  "scanNotNow": "Ahora no",
+
   "@@locale": "es",
   "reviewRequiresOwnedBeans": "Añade una bolsa de este tostador para escribir una reseña.",
   "@reviewRequiresOwnedBeans": {

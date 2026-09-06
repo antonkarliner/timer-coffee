@@ -1,4 +1,8 @@
 {
+  "scanReviewTitle": "スキャン結果を確認",
+  "scanUseAsCover": "カバーに設定",
+  "scanNotNow": "今はしない",
+
   "@@locale": "ja",
   "reviewRequiresOwnedBeans": "レビューを書くには、このロースターの豆を追加してください。",
   "@reviewRequiresOwnedBeans": {

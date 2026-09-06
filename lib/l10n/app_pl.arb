@@ -1,4 +1,8 @@
 {
+  "scanReviewTitle": "Sprawdź skan",
+  "scanUseAsCover": "Użyj jako okładki",
+  "scanNotNow": "Nie teraz",
+
   "@@locale": "pl",
   "reviewRequiresOwnedBeans": "Dodaj paczkę od tej palarni, aby napisać recenzję.",
   "@reviewRequiresOwnedBeans": {

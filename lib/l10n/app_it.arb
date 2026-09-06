@@ -1,4 +1,8 @@
 {
+  "scanReviewTitle": "Controlla scansione",
+  "scanUseAsCover": "Usa come copertina",
+  "scanNotNow": "Non ora",
+
   "@@locale": "it",
   "reviewRequiresOwnedBeans": "Aggiungi una confezione di questo torrefattore per scrivere una recensione.",
   "@reviewRequiresOwnedBeans": {

@@ -1,4 +1,8 @@
 {
+  "scanReviewTitle": "Scan prüfen",
+  "scanUseAsCover": "Als Titelbild verwenden",
+  "scanNotNow": "Nicht jetzt",
+
   "@@locale": "de",
   "reviewRequiresOwnedBeans": "Füge einen Beutel dieser Rösterei hinzu, um eine Bewertung zu schreiben.",
   "@reviewRequiresOwnedBeans": {
