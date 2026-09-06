@@ -39,7 +39,7 @@ import 'package:coffee_timer/controllers/new_beans_image_controller.dart';
 import 'package:coffee_timer/widgets/new_beans/image_flow/image_picker_sheet.dart';
 import 'package:coffee_timer/widgets/new_beans/image_flow/selected_images_sheet.dart';
 import 'package:coffee_timer/widgets/new_beans/image_flow/error_dialog.dart';
-import 'package:coffee_timer/widgets/new_beans/image_flow/collected_data_dialog.dart';
+import 'package:coffee_timer/widgets/new_beans/scan_review_section.dart';
 
 @RoutePage()
 class NewBeansScreen extends StatefulWidget {
@@ -109,6 +109,22 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   /// Whether the scan's loading overlay should currently be visible.
   bool get _showScanOverlay => isLoading;
 
+  /// Whether the inline scan review section has content to show.
+  bool get _scanReviewVisible => collectedData != null;
+
+  /// Whether the inline cover choice should be offered for the current
+  /// scan's photos. Mirrors the old cover dialog's gating exactly: never
+  /// while a cover is already selected, never after an explicit decline,
+  /// never on web (cover picking/uploading are native-only).
+  bool get _showScanCoverChooser =>
+      !kIsWeb &&
+      collectedData != null &&
+      !_coverPromptDismissed &&
+      _pendingPhotoFile == null &&
+      _photoUrl == null &&
+      _lastOcrImages != null &&
+      _lastOcrImages!.isNotEmpty;
+
   // New: image flow controller
   late final NewBeansImageController _imageController;
 
@@ -119,9 +135,17 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   File? _pendingPhotoFile; // local file awaiting upload on save
   String? _photoUrl; // stored URL (loaded in edit mode or set after upload)
   List<XFile>?
-  _lastOcrImages; // images from the last OCR scan (for cover prompt)
+  _lastOcrImages; // images from the last OCR scan (for the inline cover chooser)
   bool _isSaving =
       false; // true while bean save + optional photo upload is in progress
+
+  // Set when the user explicitly declines the inline cover choice for the
+  // current scan; re-armed when a new scan delivers data.
+  bool _coverPromptDismissed = false;
+
+  // Marks the DatesCard so the scan review's roast-date attention can
+  // scroll to the field-level confirmation.
+  final GlobalKey _datesCardKey = GlobalKey();
 
   // Validation state
   bool _isFormValid = false;
@@ -651,7 +675,15 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         normalized.remove('meta');
 
         _fillFields(normalized);
-        collectedData = normalized;
+
+        // The populated form itself is the review surface now — no success
+        // dialogs between the scan and the user's edits. Marking the result
+        // visible swaps the compact inline review section in above the form
+        // (and re-arms the optional cover choice for this scan's photos).
+        setState(() {
+          collectedData = normalized;
+          _coverPromptDismissed = false;
+        });
 
         // Mark first-time image recognition as completed
         if (isFirstTime) {
@@ -662,28 +694,6 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
             hasCompletedFirstImageRecognition = true;
           });
         }
-
-        WidgetsBinding.instance.addPostFrameCallback((_) async {
-          // Show the data confirmation dialog first
-          if (mounted) {
-            await showDialog(
-              context: context,
-              builder: (_) => CollectedDataDialog(
-                data: collectedData!,
-                humanizeKey: _humanReadableFieldName,
-              ),
-            );
-          }
-          // After user dismisses, offer to save one of the OCR images as cover photo
-          // (only if no cover photo already selected and we have images)
-          if (mounted &&
-              _pendingPhotoFile == null &&
-              _photoUrl == null &&
-              _lastOcrImages != null &&
-              _lastOcrImages!.isNotEmpty) {
-            await _showCoverPhotoPrompt(_lastOcrImages!);
-          }
-        });
       },
       onError: (msg) {
         if (!mounted) return;
@@ -767,8 +777,8 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                   }
                 },
                 onConfirm: (confirmed) async {
-                  // Retain exactly the reviewed images for the later cover-photo
-                  // prompt and analytics, including additions and removals.
+                  // Retain exactly the reviewed images for the inline cover
+                  // chooser and analytics, including additions and removals.
                   _lastOcrImages = List<XFile>.from(confirmed);
                   await onConfirm(confirmed, saveToLibrary);
                 },
@@ -780,92 +790,33 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     );
   }
 
-  /// Shows a dialog asking the user if they want to save one of the OCR images
-  /// as the bean's cover photo.
-  Future<void> _showCoverPhotoPrompt(List<XFile> images) async {
-    if (!mounted || images.isEmpty || kIsWeb) return;
-    final loc = AppLocalizations.of(context)!;
+  /// Chooses one of the reviewed scan photos as the bean's cover. Explicit
+  /// user action only — nothing is chosen or uploaded automatically, and an
+  /// existing cover is never replaced here (the chooser isn't shown while
+  /// one is set).
+  void _selectCoverFromScan(XFile image) {
+    setState(() {
+      _pendingPhotoFile = File(image.path);
+      _photoUrl = null; // clear any existing stored URL
+    });
+  }
 
-    final selected = await showDialog<XFile>(
-      context: context,
-      builder: (ctx) {
-        XFile? dialogSelected;
-        return StatefulBuilder(
-          builder: (ctx, setDialogState) => AlertDialog(
-            title: Text(loc.beanCoverPhotoSavePromptTitle),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(loc.beanCoverPhotoSavePromptBody),
-                const SizedBox(height: AppSpacing.base),
-                Wrap(
-                  spacing: AppSpacing.sm,
-                  runSpacing: AppSpacing.sm,
-                  children: images.map((xfile) {
-                    final isSelected = dialogSelected?.path == xfile.path;
-                    return GestureDetector(
-                      onTap: () => setDialogState(() => dialogSelected = xfile),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: isSelected
-                              ? Border.all(
-                                  color: Theme.of(ctx).colorScheme.primary,
-                                  width: AppStroke.focus,
-                                )
-                              : null,
-                          borderRadius: BorderRadius.circular(AppRadius.small),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(AppRadius.small),
-                          child: Image.file(
-                            File(xfile.path),
-                            width: 80,
-                            height: 80,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ],
-            ),
-            actions: [
-              AppTextButton(
-                label: loc.cancel,
-                onPressed: () => Navigator.pop(ctx),
-                isFullWidth: false,
-                height: AppButton.heightMedium,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.base,
-                  vertical: AppSpacing.sm,
-                ),
-              ),
-              AppElevatedButton(
-                label: loc.done,
-                onPressed: dialogSelected != null
-                    ? () => Navigator.pop(ctx, dialogSelected)
-                    : null,
-                isFullWidth: false,
-                height: AppButton.heightMedium,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.base,
-                  vertical: AppSpacing.sm,
-                ),
-              ),
-            ],
-          ),
-        );
-      },
+  /// Declines the inline cover choice for the current scan without
+  /// selecting a cover.
+  void _dismissScanCoverChooser() {
+    setState(() => _coverPromptDismissed = true);
+  }
+
+  /// Scrolls to the DatesCard so the field-level roast-date confirmation
+  /// — which the scan review's top attention links to — is on screen.
+  void _scrollToDatesCard() {
+    final datesContext = _datesCardKey.currentContext;
+    if (datesContext == null) return;
+    Scrollable.ensureVisible(
+      datesContext,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
     );
-
-    if (selected != null && mounted) {
-      setState(() {
-        _pendingPhotoFile = File(selected.path);
-        _photoUrl = null; // clear any existing stored URL
-      });
-    }
   }
 
   /// Picks a single photo from camera or gallery for the bean cover.
@@ -1063,47 +1014,6 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         );
         // Handle other exceptions as needed
       }
-    }
-  }
-
-  String _humanReadableFieldName(String fieldName) {
-    final loc = AppLocalizations.of(context)!;
-
-    switch (fieldName) {
-      case 'roaster':
-        return loc.roaster;
-      case 'name':
-        return loc.name;
-      case 'origin':
-        return loc.origin;
-      case 'variety':
-        return loc.variety;
-      case 'processingMethod':
-        return loc.processingMethod;
-      case 'elevation':
-        return loc.elevation;
-      case 'harvestDate':
-        return loc.harvestDate;
-      case 'roastDate':
-        return loc.roastDate;
-      case 'region':
-        return loc.region;
-      case 'roastLevel':
-        return loc.roastLevel;
-      case 'cuppingScore':
-        return loc.cuppingScore;
-      case 'tastingNotes':
-        return loc.tastingNotes;
-      case 'notes':
-        return loc.notes;
-      case 'farmer':
-        return loc.farmer;
-      case 'farm':
-        return loc.farm;
-      case 'packageWeightGrams':
-        return loc.amountLeft;
-      default:
-        return fieldName;
     }
   }
 
@@ -1496,6 +1406,20 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (!kIsWeb) ...[_buildAiScanButton(loc), SizedBox(height: spacing)],
+        // Inline scan review (post-scan notice + roast-date attention +
+        // optional cover choice). Always present in the tree so its
+        // appearance after a scan never shifts the form cards below it —
+        // a child-index change would remount them and re-run initState.
+        ScanReviewSection(
+          visible: _scanReviewVisible,
+          roastDateRawText: _roastDateRawText,
+          roastDateNeedsConfirmation: _roastDateNeedsConfirmation,
+          onReviewRoastDate: _scrollToDatesCard,
+          coverCandidates: _showScanCoverChooser ? _lastOcrImages : null,
+          onCoverSelected: _selectCoverFromScan,
+          onCoverChoiceDismissed: _dismissScanCoverChooser,
+          trailingSpacing: spacing,
+        ),
         // Required Fields Card
         RequiredInfoCard(
           roaster: _roasterController.text,
@@ -1657,6 +1581,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
 
         // Dates Card
         DatesCard(
+          key: _datesCardKey,
           harvestDate: harvestDate,
           roastDate: roastDate,
           roastDateRawText: _roastDateRawText,
@@ -1725,6 +1650,20 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (!kIsWeb) ...[_buildAiScanButton(loc), SizedBox(height: spacing)],
+        // Inline scan review (post-scan notice + roast-date attention +
+        // optional cover choice). Always present in the tree so its
+        // appearance after a scan never shifts the form cards below it —
+        // a child-index change would remount them and re-run initState.
+        ScanReviewSection(
+          visible: _scanReviewVisible,
+          roastDateRawText: _roastDateRawText,
+          roastDateNeedsConfirmation: _roastDateNeedsConfirmation,
+          onReviewRoastDate: _scrollToDatesCard,
+          coverCandidates: _showScanCoverChooser ? _lastOcrImages : null,
+          onCoverSelected: _selectCoverFromScan,
+          onCoverChoiceDismissed: _dismissScanCoverChooser,
+          trailingSpacing: spacing,
+        ),
         // Required Fields Card - always full width
         RequiredInfoCard(
           roaster: _roasterController.text,
@@ -1910,6 +1849,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                 children: [
                   // Dates Card
                   DatesCard(
+                    key: _datesCardKey,
                     harvestDate: harvestDate,
                     roastDate: roastDate,
                     roastDateRawText: _roastDateRawText,

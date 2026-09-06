@@ -729,11 +729,10 @@ void main() {
         await tester.pump();
         await tester.pump();
 
-        // The scan flow shows a "collected data" confirmation dialog before
-        // returning to the form; dismiss it to see the filled-in DatesCard.
-        expect(find.byType(AlertDialog), findsOneWidget);
-        await tester.tap(find.text(loc.ok));
-        await tester.pumpAndSettle();
+        // The scan now reviews inline: the populated form itself is the
+        // review surface, so no "collected data" dialog appears before the
+        // filled-in DatesCard.
+        expect(find.byType(AlertDialog), findsNothing);
 
         expect(find.byType(DatesCard), findsOneWidget);
         expect(
