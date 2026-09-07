@@ -227,6 +227,7 @@ void main() {
           'roaster': 'Wrapped Roaster',
           'name': 'Wrapped Beans',
           'origin': 'Wrapped Origin',
+          'roastDate': '2026-03-01T00:00:00.000',
         },
       },
     );
@@ -291,6 +292,150 @@ void main() {
     },
   );
 
+  testWidgets('missing roast date is a dismissible scan-only question', (
+    tester,
+  ) async {
+    final controller = _ScriptedImageController();
+    final loc = await pumpScreen(tester, controller: controller);
+
+    // Manual entry starts without scan-specific review.
+    expect(find.text(loc.roastDateNotFound), findsNothing);
+
+    await deliverScanData(
+      tester,
+      controller: controller,
+      loc: loc,
+      payload: <String, dynamic>{
+        'roaster': 'Roaster A',
+        'name': 'Beans A',
+        'origin': 'Origin A',
+      },
+    );
+
+    expect(find.text(loc.roastDateNotFound), findsOneWidget);
+    expect(find.text(loc.scanAddDate), findsOneWidget);
+    expect(find.text(loc.scanNotNow), findsOneWidget);
+    expect(
+      tester
+          .widget<StickyActionBar>(find.byType(StickyActionBar))
+          .primaryDisabled,
+      isFalse,
+    );
+
+    await tester.tap(find.text(loc.scanNotNow));
+    await tester.pumpAndSettle();
+    expect(find.text(loc.roastDateNotFound), findsNothing);
+    expect(find.bySemanticsIdentifier('scanReviewSection'), findsNothing);
+
+    controller.complete();
+    await tester.pump();
+  });
+
+  testWidgets(
+    'Add date cancel retains the question and selection resolves it',
+    (tester) async {
+      final controller = _ScriptedImageController();
+      final loc = await pumpScreen(tester, controller: controller);
+
+      await deliverScanData(
+        tester,
+        controller: controller,
+        loc: loc,
+        payload: <String, dynamic>{
+          'roaster': 'Roaster A',
+          'name': 'Beans A',
+          'origin': 'Origin A',
+        },
+      );
+
+      await tester.tap(find.text(loc.scanAddDate));
+      await tester.pumpAndSettle();
+      expect(find.text('CANCEL'), findsOneWidget);
+      await tester.tap(find.text('CANCEL'));
+      await tester.pumpAndSettle();
+      expect(find.text(loc.roastDateNotFound), findsOneWidget);
+
+      await tester.tap(find.text(loc.scanAddDate));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('15').last);
+      await tester.tap(find.text('OK'));
+      await tester.pumpAndSettle();
+
+      expect(find.text(loc.roastDateNotFound), findsNothing);
+      expect(find.bySemanticsIdentifier('scanReviewSection'), findsNothing);
+      expect(
+        find.text(
+          DateFormat.yMd('en').format(DateTime.now().copyWith(day: 15)),
+        ),
+        findsOneWidget,
+      );
+
+      controller.complete();
+      await tester.pump();
+    },
+  );
+
+  testWidgets('re-scan rearms a still-missing date question', (tester) async {
+    final controller = _ScriptedImageController();
+    final loc = await pumpScreen(tester, controller: controller);
+    final missingPayload = <String, dynamic>{
+      'roaster': 'Roaster A',
+      'name': 'Beans A',
+      'origin': 'Origin A',
+    };
+
+    await deliverScanData(
+      tester,
+      controller: controller,
+      loc: loc,
+      payload: Map<String, dynamic>.from(missingPayload),
+    );
+    await tester.tap(find.text(loc.scanNotNow));
+    await tester.pumpAndSettle();
+    expect(find.text(loc.roastDateNotFound), findsNothing);
+
+    controller.data(Map<String, dynamic>.from(missingPayload));
+    await tester.pumpAndSettle();
+    expect(find.text(loc.roastDateNotFound), findsOneWidget);
+
+    controller.complete();
+    await tester.pump();
+  });
+
+  testWidgets('re-scan without a date preserves an existing valid date', (
+    tester,
+  ) async {
+    final controller = _ScriptedImageController();
+    final loc = await pumpScreen(tester, controller: controller);
+
+    await deliverScanData(
+      tester,
+      controller: controller,
+      loc: loc,
+      payload: <String, dynamic>{
+        'roaster': 'Roaster A',
+        'name': 'Beans A',
+        'origin': 'Origin A',
+        'roastDate': '2026-03-01T00:00:00.000',
+      },
+    );
+    final expectedDisplay = DateFormat.yMd('en').format(DateTime(2026, 3, 1));
+    expect(find.text(expectedDisplay), findsOneWidget);
+
+    controller.data(<String, dynamic>{
+      'roaster': 'Roaster B',
+      'name': 'Beans B',
+      'origin': 'Origin B',
+    });
+    await tester.pumpAndSettle();
+
+    expect(find.text(expectedDisplay), findsOneWidget);
+    expect(find.text(loc.roastDateNotFound), findsNothing);
+
+    controller.complete();
+    await tester.pump();
+  });
+
   testWidgets(
     'scan photos can be chosen explicitly as cover (two-photo handling)',
     (tester) async {
@@ -306,6 +451,7 @@ void main() {
           'roaster': 'Cover Roaster',
           'name': 'Cover Beans',
           'origin': 'Cover Origin',
+          'roastDate': '2026-03-01T00:00:00.000',
         },
       );
 
@@ -356,6 +502,7 @@ void main() {
         'roaster': 'Roaster A',
         'name': 'Beans A',
         'origin': 'Origin A',
+        'roastDate': '2026-03-01T00:00:00.000',
       },
     );
 
@@ -406,6 +553,7 @@ void main() {
         'roaster': 'Scanned Roaster',
         'name': 'Scanned Beans',
         'origin': 'Scanned Origin',
+        'roastDate': '2026-03-01T00:00:00.000',
       },
     );
 
@@ -477,6 +625,7 @@ void main() {
         'roaster': 'Roaster A',
         'name': 'Beans A',
         'origin': 'Origin A',
+        'roastDate': '2026-03-01T00:00:00.000',
       },
     );
 

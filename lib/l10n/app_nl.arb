@@ -1,6 +1,7 @@
 {
   "scanReviewTitle": "Scan controleren",
   "scanUseAsCover": "Als omslag gebruiken",
+  "scanAddDate": "Datum toevoegen",
   "scanNotNow": "Niet nu",
 
   "@@locale": "nl",
@@ -188,7 +189,7 @@
   "@roastDateConfirmPrompt": {
     "placeholders": { "rawText": { "type": "String" } }
   },
-  "roastDateNotFound": "Geen branddatum gevonden op het etiket — voeg deze toe",
+  "roastDateNotFound": "Geen branddatum gevonden op het etiket. Wil je die toevoegen?",
   "roastDateFromLabel": "Volgens etiket: {rawText}",
   "@roastDateFromLabel": {
     "placeholders": { "rawText": { "type": "String" } }

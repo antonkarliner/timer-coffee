@@ -1,6 +1,7 @@
 {
   "scanReviewTitle": "Tarkista skannaus",
   "scanUseAsCover": "Käytä kansikuvana",
+  "scanAddDate": "Lisää päivämäärä",
   "scanNotNow": "Ei nyt",
 
   "@@locale": "fi",
@@ -122,7 +123,7 @@
   "@roastDateConfirmPrompt": {
     "placeholders": { "rawText": { "type": "String" } }
   },
-  "roastDateNotFound": "Etiketistä ei löytynyt paahtopäivää — lisää se",
+  "roastDateNotFound": "Etiketistä ei löytynyt paahtopäivää. Haluatko lisätä sen?",
   "roastDateFromLabel": "Etiketin mukaan: {rawText}",
   "@roastDateFromLabel": {
     "placeholders": { "rawText": { "type": "String" } }

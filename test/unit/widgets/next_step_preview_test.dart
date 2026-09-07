@@ -34,6 +34,19 @@ Widget _wrap(Widget child, {TextScaler textScaler = TextScaler.noScaling}) {
 }
 
 void main() {
+  group('brewTimerRingDiameterForWidth', () {
+    test('preserves instruction room on compact screens', () {
+      expect(brewTimerRingDiameterForWidth(320), 120);
+      expect(brewTimerRingDiameterForWidth(280), 120);
+    });
+
+    test('grows the timer ring by ten percent on typical phones', () {
+      expect(brewTimerRingDiameterForWidth(390), 132);
+      expect(brewTimerRingDiameterForWidth(430), 132);
+      expect(brewTimerRingDiameterForWidth(355), 126);
+    });
+  });
+
   group('NextStepPreview', () {
     testWidgets('renders the label and the next-step description', (
       tester,
@@ -66,11 +79,11 @@ void main() {
       expect(description.maxLines, 2);
       expect(description.overflow, TextOverflow.ellipsis);
 
-      // fontSize 22 * height 1.3 -> ~28.6 per line; the rendered paragraph
+      // fontSize 20 * height 1.3 -> 26 per line; the rendered paragraph
       // must actually stop at two lines rather than only carrying the hint.
       final size = tester.getSize(find.text(_veryLongDescription));
-      expect(size.height, greaterThan(22 * 1.3 * 1.5));
-      expect(size.height, lessThan(22 * 1.3 * 2.5));
+      expect(size.height, greaterThan(20 * 1.3 * 1.5));
+      expect(size.height, lessThan(20 * 1.3 * 2.5));
 
       // The truncated description uses the full available content width
       // (320 - 2 * 16), i.e. nothing is reserved on the trailing side.
@@ -93,8 +106,8 @@ void main() {
 
       // No fixed height anywhere: the two capped lines simply get taller.
       final size = tester.getSize(find.text(_veryLongDescription));
-      expect(size.height, greaterThan(44 * 1.3 * 1.5));
-      expect(size.height, lessThan(44 * 1.3 * 2.5));
+      expect(size.height, greaterThan(40 * 1.3 * 1.5));
+      expect(size.height, lessThan(40 * 1.3 * 2.5));
       expect(tester.takeException(), isNull);
     });
 

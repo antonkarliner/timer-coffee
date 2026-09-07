@@ -2,6 +2,22 @@ import 'package:flutter/material.dart';
 
 import '../../theme/design_tokens.dart';
 
+/// Scales the timer ring up on typical phones while retaining its original
+/// footprint on narrow screens, where the current-step instruction needs the
+/// vertical room most.
+double brewTimerRingDiameterForWidth(double screenWidth) {
+  const compactDiameter = 120.0;
+  const emphasizedDiameter = 132.0;
+  const compactScreenWidth = 320.0;
+  const emphasizedScreenWidth = 390.0;
+
+  final progress =
+      ((screenWidth - compactScreenWidth) /
+              (emphasizedScreenWidth - compactScreenWidth))
+          .clamp(0.0, 1.0);
+  return compactDiameter + (emphasizedDiameter - compactDiameter) * progress;
+}
+
 /// Full-width preview of the next brewing step, shown above the bottom
 /// control area of the timer screen.
 ///
@@ -23,18 +39,18 @@ class NextStepPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     final secondaryColor = Theme.of(
       context,
-    ).colorScheme.onSurface.withValues(alpha: 0.6);
+    ).colorScheme.onSurface.withValues(alpha: 0.55);
     return SizedBox(
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(label, style: TextStyle(color: secondaryColor, fontSize: 18)),
+          Text(label, style: TextStyle(color: secondaryColor, fontSize: 17)),
           const SizedBox(height: AppSpacing.xs),
           Text(
             description,
-            style: TextStyle(color: secondaryColor, fontSize: 22, height: 1.3),
+            style: TextStyle(color: secondaryColor, fontSize: 20, height: 1.3),
             textAlign: TextAlign.start,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,

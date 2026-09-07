@@ -1380,16 +1380,21 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                                                 beginColor)
                                           : beginColor);
 
+                                      final ringDiameter =
+                                          brewTimerRingDiameterForWidth(
+                                            MediaQuery.sizeOf(context).width,
+                                          );
+
                                       Widget
                                       progressIndicatorDisplay = SizedBox(
-                                        width: 120,
-                                        height: 120,
+                                        width: ringDiameter,
+                                        height: ringDiameter,
                                         child: Stack(
                                           alignment: Alignment.center,
                                           children: [
                                             SizedBox(
-                                              width: 120,
-                                              height: 120,
+                                              width: ringDiameter,
+                                              height: ringDiameter,
                                               child: CircularProgressIndicator(
                                                 value:
                                                     (_isEndBrewAnimating ||
@@ -1438,7 +1443,8 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                                                               .time
                                                               .inSeconds,
                                                       style: TextStyle(
-                                                        fontSize: 20,
+                                                        fontSize:
+                                                            ringDiameter / 6,
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         color: theme
@@ -1449,7 +1455,8 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                                                     Text(
                                                       ' ${AppLocalizations.of(context)!.secondsAbbreviation}',
                                                       style: TextStyle(
-                                                        fontSize: 16,
+                                                        fontSize:
+                                                            ringDiameter / 7.5,
                                                         color: theme
                                                             .colorScheme
                                                             .onSurface
@@ -1467,7 +1474,8 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                                         const int numDroplets = 10;
                                         final double dropletStartSize = 12.0;
                                         final Color dropletColor = endColor;
-                                        final double initialRingRadius = 60.0;
+                                        final double initialRingRadius =
+                                            ringDiameter / 2;
 
                                         List<Widget>
                                         dropletWidgets = List.generate(

@@ -13,9 +13,7 @@ import '../base_buttons.dart';
 /// popup followed by the automatic cover-photo prompt): the populated form
 /// itself is the review, so this section only
 /// - tells the user the scanned details are ready to review,
-/// - surfaces the ambiguous roast-date attention near the top, with an
-///   action that scrolls to the DatesCard where the field-level
-///   confirmation lives, and
+/// - surfaces missing or ambiguous roast-date attention near the top,
 /// - offers an optional, explicit cover-photo choice from the reviewed
 ///   scan photos.
 ///
@@ -39,6 +37,16 @@ class ScanReviewSection extends StatefulWidget {
   /// confirmation lives. The attention row is only rendered when non-null.
   final VoidCallback? onReviewRoastDate;
 
+  /// Whether the latest scan found no roast date while the form still has
+  /// none. This scan-scoped question is separate from ambiguous-date review.
+  final bool missingRoastDateQuestionPending;
+
+  /// Opens the roast-date picker for the missing-date question.
+  final VoidCallback? onAddMissingRoastDate;
+
+  /// Dismisses the missing-date question for the current scan.
+  final VoidCallback? onMissingRoastDateDismissed;
+
   /// Scanned photos offered for an explicit cover choice, or null when the
   /// chooser must not be shown (a cover already exists, the user dismissed
   /// the choice for this scan, or no scan photos were kept).
@@ -60,6 +68,9 @@ class ScanReviewSection extends StatefulWidget {
     required this.roastDateRawText,
     required this.roastDateNeedsConfirmation,
     required this.onReviewRoastDate,
+    this.missingRoastDateQuestionPending = false,
+    this.onAddMissingRoastDate,
+    this.onMissingRoastDateDismissed,
     required this.coverCandidates,
     required this.onCoverSelected,
     required this.onCoverChoiceDismissed,
@@ -89,8 +100,14 @@ class _ScanReviewSectionState extends State<ScanReviewSection> {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    final showRoastDateAttention =
+    final showAmbiguousRoastDateAttention =
         widget.roastDateNeedsConfirmation && widget.onReviewRoastDate != null;
+    final showMissingRoastDateAttention =
+        widget.missingRoastDateQuestionPending &&
+        widget.onAddMissingRoastDate != null &&
+        widget.onMissingRoastDateDismissed != null;
+    final showRoastDateAttention =
+        showAmbiguousRoastDateAttention || showMissingRoastDateAttention;
     final showCoverChooser =
         widget.coverCandidates != null &&
         widget.coverCandidates!.isNotEmpty &&
@@ -139,7 +156,17 @@ class _ScanReviewSectionState extends State<ScanReviewSection> {
                   ),
                   if (showRoastDateAttention) ...[
                     const SizedBox(height: AppSpacing.base),
-                    _buildRoastDateAttention(context, loc, colorScheme),
+                    showMissingRoastDateAttention
+                        ? _buildMissingRoastDateAttention(
+                            context,
+                            loc,
+                            colorScheme,
+                          )
+                        : _buildAmbiguousRoastDateAttention(
+                            context,
+                            loc,
+                            colorScheme,
+                          ),
                   ],
                   if (showCoverChooser) ...[
                     const SizedBox(height: AppSpacing.base),
@@ -166,7 +193,7 @@ class _ScanReviewSectionState extends State<ScanReviewSection> {
   /// printed date verbatim (or the not-found wording) and an action that
   /// scrolls to the existing DatesCard — the field-level confirmation and
   /// its date picker stay exactly where they are.
-  Widget _buildRoastDateAttention(
+  Widget _buildAmbiguousRoastDateAttention(
     BuildContext context,
     AppLocalizations loc,
     ColorScheme colorScheme,
@@ -203,6 +230,64 @@ class _ScanReviewSectionState extends State<ScanReviewSection> {
             isFullWidth: false,
             height: AppButton.heightSmall,
             padding: AppButton.paddingSmall,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMissingRoastDateAttention(
+    BuildContext context,
+    AppLocalizations loc,
+    ColorScheme colorScheme,
+  ) {
+    return Semantics(
+      identifier: 'scanReviewMissingRoastDate',
+      container: true,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.info_outline,
+                size: AppIconSize.small,
+                color: colorScheme.onSurfaceVariant,
+              ),
+              const SizedBox(width: AppSpacing.xs),
+              Expanded(
+                child: Text(
+                  loc.roastDateNotFound,
+                  style: AppTextStyles.caption.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                  softWrap: true,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.xs),
+          Wrap(
+            spacing: AppSpacing.sm,
+            runSpacing: AppSpacing.xs,
+            children: [
+              AppTextButton(
+                label: loc.scanAddDate,
+                onPressed: widget.onAddMissingRoastDate,
+                foregroundColor: colorScheme.onSurface,
+                isFullWidth: false,
+                height: AppButton.heightSmall,
+                padding: AppButton.paddingSmall,
+              ),
+              AppTextButton(
+                label: loc.scanNotNow,
+                onPressed: widget.onMissingRoastDateDismissed,
+                foregroundColor: colorScheme.onSurfaceVariant,
+                isFullWidth: false,
+                height: AppButton.heightSmall,
+                padding: AppButton.paddingSmall,
+              ),
+            ],
           ),
         ],
       ),

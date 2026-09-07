@@ -1,6 +1,7 @@
 {
   "scanReviewTitle": "Scan prüfen",
   "scanUseAsCover": "Als Titelbild verwenden",
+  "scanAddDate": "Datum hinzufügen",
   "scanNotNow": "Nicht jetzt",
 
   "@@locale": "de",
@@ -188,7 +189,7 @@
   "@roastDateConfirmPrompt": {
     "placeholders": { "rawText": { "type": "String" } }
   },
-  "roastDateNotFound": "Kein Röstdatum auf dem Etikett gefunden – bitte ergänzen",
+  "roastDateNotFound": "Auf dem Etikett wurde kein Röstdatum gefunden. Möchtest du es hinzufügen?",
   "roastDateFromLabel": "Laut Etikett: {rawText}",
   "@roastDateFromLabel": {
     "placeholders": { "rawText": { "type": "String" } }

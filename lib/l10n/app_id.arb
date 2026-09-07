@@ -1,6 +1,7 @@
 {
   "scanReviewTitle": "Tinjau hasil pemindaian",
   "scanUseAsCover": "Gunakan sebagai sampul",
+  "scanAddDate": "Tambahkan tanggal",
   "scanNotNow": "Jangan sekarang",
 
   "@@locale": "id",
@@ -188,7 +189,7 @@
   "@roastDateConfirmPrompt": {
     "placeholders": { "rawText": { "type": "String" } }
   },
-  "roastDateNotFound": "Tanggal sangrai tidak ditemukan pada label — silakan tambahkan",
+  "roastDateNotFound": "Tanggal sangrai tidak ditemukan pada label. Ingin menambahkannya?",
   "roastDateFromLabel": "Dari label: {rawText}",
   "@roastDateFromLabel": {
     "placeholders": { "rawText": { "type": "String" } }

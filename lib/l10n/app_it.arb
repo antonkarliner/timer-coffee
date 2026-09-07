@@ -1,6 +1,7 @@
 {
   "scanReviewTitle": "Controlla scansione",
   "scanUseAsCover": "Usa come copertina",
+  "scanAddDate": "Aggiungi data",
   "scanNotNow": "Non ora",
 
   "@@locale": "it",
@@ -188,7 +189,7 @@
   "@roastDateConfirmPrompt": {
     "placeholders": { "rawText": { "type": "String" } }
   },
-  "roastDateNotFound": "Nessuna data di tostatura trovata sull’etichetta — aggiungila",
+  "roastDateNotFound": "Nessuna data di tostatura trovata sull’etichetta. Vuoi aggiungerla?",
   "roastDateFromLabel": "Dall’etichetta: {rawText}",
   "@roastDateFromLabel": {
     "placeholders": { "rawText": { "type": "String" } }

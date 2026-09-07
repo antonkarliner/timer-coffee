@@ -1,6 +1,7 @@
 {
   "scanReviewTitle": "Revisar escaneo",
   "scanUseAsCover": "Usar como portada",
+  "scanAddDate": "Añadir fecha",
   "scanNotNow": "Ahora no",
 
   "@@locale": "es",
@@ -188,7 +189,7 @@
   "@roastDateConfirmPrompt": {
     "placeholders": { "rawText": { "type": "String" } }
   },
-  "roastDateNotFound": "No se encontró la fecha de tueste en la etiqueta — añádela, por favor",
+  "roastDateNotFound": "No se encontró la fecha de tueste en la etiqueta. ¿Quieres añadirla?",
   "roastDateFromLabel": "Según la etiqueta: {rawText}",
   "@roastDateFromLabel": {
     "placeholders": { "rawText": { "type": "String" } }

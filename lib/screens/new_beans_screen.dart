@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:coffee_timer/config/supabase_endpoint_resolver.dart';
 import 'package:coffee_timer/utils/version_vector.dart';
 import 'package:coffeico_plus/coffeico_plus.dart';
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:coffee_timer/widgets/new_beans/loading_overlay.dart';
@@ -95,6 +96,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   DateTime? roastDate;
   String? _roastDateRawText;
   bool _roastDateNeedsConfirmation = false;
+  bool _missingRoastDateQuestionPending = false;
   bool isEditMode = false;
   bool isLoading = false;
   Map<String, dynamic>? collectedData;
@@ -807,6 +809,37 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     setState(() => _coverPromptDismissed = true);
   }
 
+  void _dismissMissingRoastDateQuestion() {
+    setState(() => _missingRoastDateQuestionPending = false);
+  }
+
+  /// Opens the same calendar picker used by the roast-date field. Cancelling
+  /// leaves the scan question pending; choosing a date resolves it.
+  Future<void> _addMissingRoastDate() async {
+    final results = await showCalendarDatePicker2Dialog(
+      context: context,
+      config: CalendarDatePicker2WithActionButtonsConfig(
+        currentDate: roastDate,
+      ),
+      dialogSize: const Size(325, 400),
+      value: roastDate == null ? const <DateTime>[] : <DateTime>[roastDate!],
+      borderRadius: BorderRadius.circular(AppRadius.card),
+    );
+
+    if (!mounted || results == null || results.isEmpty) return;
+    final selectedDate = results.first;
+    if (selectedDate == null) return;
+
+    setState(() {
+      roastDate = selectedDate;
+      _missingRoastDateQuestionPending = false;
+      _roastDateNeedsConfirmation = false;
+      _roastDateRawText = null;
+    });
+    _updateUnsavedChanges();
+    _validateForm();
+  }
+
   /// Scrolls to the DatesCard so the field-level roast-date confirmation
   /// — which the scan review's top attention links to — is on screen.
   void _scrollToDatesCard() {
@@ -970,12 +1003,34 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         region = nullableString(d['region']);
 
         harvestDate = toDate(d['harvestDate']);
-        roastDate = toDate(d['roastDate']);
+        final scannedRoastDate = toDate(d['roastDate']);
         final rawRoastText = nullableString(d['roastDateRawText']);
-        _roastDateRawText = (rawRoastText == null || rawRoastText.trim().isEmpty)
+        final normalizedRawRoastText =
+            (rawRoastText == null || rawRoastText.trim().isEmpty)
             ? null
             : rawRoastText.trim();
-        _roastDateNeedsConfirmation = d['roastDateNeedsConfirmation'] == true;
+        final scanNeedsConfirmation = d['roastDateNeedsConfirmation'] == true;
+
+        if (scannedRoastDate != null) {
+          roastDate = scannedRoastDate;
+          _roastDateRawText = normalizedRawRoastText;
+          _roastDateNeedsConfirmation = scanNeedsConfirmation;
+          _missingRoastDateQuestionPending = false;
+        } else if (scanNeedsConfirmation && normalizedRawRoastText != null) {
+          // A real but ambiguous printed date keeps the existing Edit /
+          // Confirm flow even when the parser could not safely normalize it.
+          _roastDateRawText = normalizedRawRoastText;
+          _roastDateNeedsConfirmation = true;
+          _missingRoastDateQuestionPending = false;
+        } else if (roastDate == null) {
+          // Missing-date review is scan-only. A re-scan re-arms it while the
+          // field is still empty, but never clears a date already entered.
+          _roastDateRawText = null;
+          _roastDateNeedsConfirmation = false;
+          _missingRoastDateQuestionPending = true;
+        } else {
+          _missingRoastDateQuestionPending = false;
+        }
         packageWeightGrams = toDouble(d['packageWeightGrams']);
 
         // Trigger validation after filling fields from image flow
@@ -1415,6 +1470,9 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
           roastDateRawText: _roastDateRawText,
           roastDateNeedsConfirmation: _roastDateNeedsConfirmation,
           onReviewRoastDate: _scrollToDatesCard,
+          missingRoastDateQuestionPending: _missingRoastDateQuestionPending,
+          onAddMissingRoastDate: _addMissingRoastDate,
+          onMissingRoastDateDismissed: _dismissMissingRoastDateQuestion,
           coverCandidates: _showScanCoverChooser ? _lastOcrImages : null,
           onCoverSelected: _selectCoverFromScan,
           onCoverChoiceDismissed: _dismissScanCoverChooser,
@@ -1594,6 +1652,9 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
           },
           onRoastDateChanged: (d) {
             roastDate = d;
+            if (d != null) {
+              _missingRoastDateQuestionPending = false;
+            }
             _clearRoastDateConfirmation();
             _updateUnsavedChanges();
             _validateForm();
@@ -1659,6 +1720,9 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
           roastDateRawText: _roastDateRawText,
           roastDateNeedsConfirmation: _roastDateNeedsConfirmation,
           onReviewRoastDate: _scrollToDatesCard,
+          missingRoastDateQuestionPending: _missingRoastDateQuestionPending,
+          onAddMissingRoastDate: _addMissingRoastDate,
+          onMissingRoastDateDismissed: _dismissMissingRoastDateQuestion,
           coverCandidates: _showScanCoverChooser ? _lastOcrImages : null,
           onCoverSelected: _selectCoverFromScan,
           onCoverChoiceDismissed: _dismissScanCoverChooser,
@@ -1862,6 +1926,9 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                     },
                     onRoastDateChanged: (d) {
                       roastDate = d;
+                      if (d != null) {
+                        _missingRoastDateQuestionPending = false;
+                      }
                       _clearRoastDateConfirmation();
                       _updateUnsavedChanges();
                       _validateForm();
