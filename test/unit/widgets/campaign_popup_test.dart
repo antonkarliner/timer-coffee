@@ -72,10 +72,11 @@ Widget _host(Widget child, {_RecordingStackRouter? router}) {
   return app;
 }
 
-List<Map<String, dynamic>> _eventsNamed(String name) =>
-    AnalyticsService.instance.bufferedEventsForTesting
-        .where((e) => e['event_name'] == name)
-        .toList();
+List<Map<String, dynamic>> _eventsNamed(String name) => AnalyticsService
+    .instance
+    .bufferedEventsForTesting
+    .where((e) => e['event_name'] == name)
+    .toList();
 
 /// Every `SizedBox` inside the `CampaignSupportBlock` subtree, so the
 /// spacing tests can assert which spacers render (plan 054, Item D).
@@ -103,14 +104,42 @@ void main() {
     AnalyticsService.resetForTesting();
   });
 
+  group('LaunchPopupModel campaign hook parsing', () {
+    Map<String, dynamic> popupMap(String? hookType) => {
+      'id': 42,
+      'content': "What's new in this release.",
+      'locale': 'en',
+      'created_at': '2026-01-01T00:00:00Z',
+      'platform': 'all',
+      'hook_type': hookType,
+    };
+
+    test('an unrecognized hook type remains an ordinary popup', () {
+      final popup = LaunchPopupModel.fromMap(popupMap('coffe_day'));
+
+      expect(popup.hookType, isNull);
+      expect(popup.isCampaign, isFalse);
+    });
+
+    test('a recognized hook type is preserved', () {
+      final popup = LaunchPopupModel.fromMap(popupMap('coffee_day'));
+
+      expect(popup.hookType, 'coffee_day');
+    });
+  });
+
   group('home popup (launch_popup.dart)', () {
     testWidgets('a non-campaign popup renders no campaign block and emits no '
         'support_prompt_shown', (tester) async {
       final popup = _makePopup(id: 7, hookType: null);
 
-      await tester.pumpWidget(_host(
-        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
-      ));
+      await tester.pumpWidget(
+        _host(
+          LaunchPopupWidget(
+            fetchPopupOverride: (context, locale) async => popup,
+          ),
+        ),
+      );
       await tester.pumpAndSettle();
 
       // Dialog is up, but as an ordinary popup.
@@ -118,24 +147,31 @@ void main() {
       expect(find.byType(CampaignSupportBlock), findsNothing);
       expect(find.text('Support Timer.Coffee'), findsNothing);
       expect(find.byType(LinearProgressIndicator), findsNothing);
+      expect(find.textContaining('hook='), findsNothing);
       expect(_eventsNamed('support_prompt_shown'), isEmpty);
     });
 
     testWidgets('an active campaign renders the CTA and emits '
-        'support_prompt_shown exactly once with trigger_id and source_screen',
-        (tester) async {
+        'support_prompt_shown exactly once with trigger_id and source_screen', (
+      tester,
+    ) async {
       final popup = _makePopup(
         id: 7,
         hookType: 'coffee_day',
         campaignEndsAt: DateTime.utc(2100, 1, 1),
       );
 
-      await tester.pumpWidget(_host(
-        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
-      ));
+      await tester.pumpWidget(
+        _host(
+          LaunchPopupWidget(
+            fetchPopupOverride: (context, locale) async => popup,
+          ),
+        ),
+      );
       await tester.pumpAndSettle();
 
       expect(find.text('Support Timer.Coffee'), findsOneWidget);
+      expect(find.textContaining('hook=coffee_day'), findsOneWidget);
 
       final shown = _eventsNamed('support_prompt_shown');
       expect(shown, hasLength(1));
@@ -151,9 +187,13 @@ void main() {
         campaignEndsAt: DateTime.utc(2020, 1, 1),
       );
 
-      await tester.pumpWidget(_host(
-        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
-      ));
+      await tester.pumpWidget(
+        _host(
+          LaunchPopupWidget(
+            fetchPopupOverride: (context, locale) async => popup,
+          ),
+        ),
+      );
       await tester.pumpAndSettle();
 
       expect(find.text('Close'), findsOneWidget);
@@ -175,9 +215,13 @@ void main() {
         progressAmountUsd: 250,
       );
 
-      await tester.pumpWidget(_host(
-        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
-      ));
+      await tester.pumpWidget(
+        _host(
+          LaunchPopupWidget(
+            fetchPopupOverride: (context, locale) async => popup,
+          ),
+        ),
+      );
       await tester.pumpAndSettle();
 
       final bar = tester.widget<LinearProgressIndicator>(
@@ -186,8 +230,9 @@ void main() {
       expect(bar.value, 0.25);
     });
 
-    testWidgets('progress bar uses explicit monochrome theme colours',
-        (tester) async {
+    testWidgets('progress bar uses explicit monochrome theme colours', (
+      tester,
+    ) async {
       final popup = _makePopup(
         id: 7,
         hookType: 'coffee_day',
@@ -196,9 +241,13 @@ void main() {
         progressAmountUsd: 250,
       );
 
-      await tester.pumpWidget(_host(
-        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
-      ));
+      await tester.pumpWidget(
+        _host(
+          LaunchPopupWidget(
+            fetchPopupOverride: (context, locale) async => popup,
+          ),
+        ),
+      );
       await tester.pumpAndSettle();
 
       final finder = find.byType(LinearProgressIndicator);
@@ -208,8 +257,9 @@ void main() {
       expect(bar.backgroundColor, colorScheme.outlineVariant);
     });
 
-    testWidgets('progress present but goal null → no progress bar',
-        (tester) async {
+    testWidgets('progress present but goal null → no progress bar', (
+      tester,
+    ) async {
       final popup = _makePopup(
         id: 7,
         hookType: 'coffee_day',
@@ -217,17 +267,22 @@ void main() {
         progressAmountUsd: 250,
       );
 
-      await tester.pumpWidget(_host(
-        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
-      ));
+      await tester.pumpWidget(
+        _host(
+          LaunchPopupWidget(
+            fetchPopupOverride: (context, locale) async => popup,
+          ),
+        ),
+      );
       await tester.pumpAndSettle();
 
       expect(find.text('Support Timer.Coffee'), findsOneWidget);
       expect(find.byType(LinearProgressIndicator), findsNothing);
     });
 
-    testWidgets('goal present but progress null → no progress bar',
-        (tester) async {
+    testWidgets('goal present but progress null → no progress bar', (
+      tester,
+    ) async {
       final popup = _makePopup(
         id: 7,
         hookType: 'coffee_day',
@@ -235,9 +290,13 @@ void main() {
         goalAmountUsd: 1000,
       );
 
-      await tester.pumpWidget(_host(
-        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
-      ));
+      await tester.pumpWidget(
+        _host(
+          LaunchPopupWidget(
+            fetchPopupOverride: (context, locale) async => popup,
+          ),
+        ),
+      );
       await tester.pumpAndSettle();
 
       expect(find.text('Support Timer.Coffee'), findsOneWidget);
@@ -253,16 +312,19 @@ void main() {
         progressAmountUsd: 0,
       );
 
-      await tester.pumpWidget(_host(
-        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
-      ));
+      await tester.pumpWidget(
+        _host(
+          LaunchPopupWidget(
+            fetchPopupOverride: (context, locale) async => popup,
+          ),
+        ),
+      );
       await tester.pumpAndSettle();
 
       expect(find.byType(LinearProgressIndicator), findsNothing);
     });
 
-    testWidgets('progress above goal clamps the bar to 1.0',
-        (tester) async {
+    testWidgets('progress above goal clamps the bar to 1.0', (tester) async {
       final over = _makePopup(
         id: 7,
         hookType: 'coffee_day',
@@ -271,9 +333,13 @@ void main() {
         progressAmountUsd: 250,
       );
 
-      await tester.pumpWidget(_host(
-        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => over),
-      ));
+      await tester.pumpWidget(
+        _host(
+          LaunchPopupWidget(
+            fetchPopupOverride: (context, locale) async => over,
+          ),
+        ),
+      );
       await tester.pumpAndSettle();
 
       expect(
@@ -295,11 +361,13 @@ void main() {
         progressAmountUsd: -5,
       );
 
-      await tester.pumpWidget(_host(
-        LaunchPopupWidget(
-          fetchPopupOverride: (context, locale) async => negative,
+      await tester.pumpWidget(
+        _host(
+          LaunchPopupWidget(
+            fetchPopupOverride: (context, locale) async => negative,
+          ),
         ),
-      ));
+      );
       await tester.pumpAndSettle();
 
       expect(
@@ -322,9 +390,13 @@ void main() {
         progressAmountUsd: 250,
       );
 
-      await tester.pumpWidget(_host(
-        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
-      ));
+      await tester.pumpWidget(
+        _host(
+          LaunchPopupWidget(
+            fetchPopupOverride: (context, locale) async => popup,
+          ),
+        ),
+      );
       await tester.pumpAndSettle();
 
       expect(
@@ -339,8 +411,11 @@ void main() {
           .widget<Text>(find.textContaining(r'$250 raised'))
           .data!;
       expect(label, r'$250 raised — goal reached. Thank you!');
-      expect(label.contains(r'of $100'), isFalse,
-          reason: 'over-funded label must not read like a bug, got "$label"');
+      expect(
+        label.contains(r'of $100'),
+        isFalse,
+        reason: 'over-funded label must not read like a bug, got "$label"',
+      );
     });
 
     testWidgets('exactly at goal: full bar and the goal-reached label — '
@@ -353,9 +428,13 @@ void main() {
         progressAmountUsd: 100,
       );
 
-      await tester.pumpWidget(_host(
-        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
-      ));
+      await tester.pumpWidget(
+        _host(
+          LaunchPopupWidget(
+            fetchPopupOverride: (context, locale) async => popup,
+          ),
+        ),
+      );
       await tester.pumpAndSettle();
 
       expect(
@@ -373,8 +452,9 @@ void main() {
       expect(find.textContaining(r'of $100'), findsNothing);
     });
 
-    testWidgets('just below goal: 0.99 bar and the ordinary "of" label',
-        (tester) async {
+    testWidgets('just below goal: 0.99 bar and the ordinary "of" label', (
+      tester,
+    ) async {
       final popup = _makePopup(
         id: 22,
         hookType: 'coffee_day',
@@ -383,9 +463,13 @@ void main() {
         progressAmountUsd: 99,
       );
 
-      await tester.pumpWidget(_host(
-        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
-      ));
+      await tester.pumpWidget(
+        _host(
+          LaunchPopupWidget(
+            fetchPopupOverride: (context, locale) async => popup,
+          ),
+        ),
+      );
       await tester.pumpAndSettle();
 
       expect(
@@ -410,9 +494,13 @@ void main() {
         progressAmountUsd: -5,
       );
 
-      await tester.pumpWidget(_host(
-        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
-      ));
+      await tester.pumpWidget(
+        _host(
+          LaunchPopupWidget(
+            fetchPopupOverride: (context, locale) async => popup,
+          ),
+        ),
+      );
       await tester.pumpAndSettle();
 
       expect(
@@ -423,12 +511,13 @@ void main() {
             .value,
         0.0,
       );
-      final label = tester
-          .widget<Text>(find.textContaining(r'$0 of'))
-          .data!;
+      final label = tester.widget<Text>(find.textContaining(r'$0 of')).data!;
       expect(label, r'$0 of $100');
-      expect(label.contains('-'), isFalse,
-          reason: 'negative progress must be floored at zero, got "$label"');
+      expect(
+        label.contains('-'),
+        isFalse,
+        reason: 'negative progress must be floored at zero, got "$label"',
+      );
       expect(find.textContaining('goal reached'), findsNothing);
     });
 
@@ -440,9 +529,13 @@ void main() {
         campaignEndsAt: DateTime.utc(2100, 1, 1),
       );
 
-      await tester.pumpWidget(_host(
-        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
-      ));
+      await tester.pumpWidget(
+        _host(
+          LaunchPopupWidget(
+            fetchPopupOverride: (context, locale) async => popup,
+          ),
+        ),
+      );
       await tester.pumpAndSettle();
 
       expect(find.text('Support Timer.Coffee'), findsOneWidget);
@@ -471,9 +564,13 @@ void main() {
         progressAmountUsd: 50,
       );
 
-      await tester.pumpWidget(_host(
-        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
-      ));
+      await tester.pumpWidget(
+        _host(
+          LaunchPopupWidget(
+            fetchPopupOverride: (context, locale) async => popup,
+          ),
+        ),
+      );
       await tester.pumpAndSettle();
 
       expect(find.byType(LinearProgressIndicator), findsOneWidget);
@@ -501,16 +598,21 @@ void main() {
         progressAmountUsd: 0,
       );
 
-      await tester.pumpWidget(_host(
-        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
-      ));
+      await tester.pumpWidget(
+        _host(
+          LaunchPopupWidget(
+            fetchPopupOverride: (context, locale) async => popup,
+          ),
+        ),
+      );
       await tester.pumpAndSettle();
 
-      final label = tester
-          .widget<Text>(find.textContaining(r'$0 of'))
-          .data!;
-      expect(label.contains('.'), isFalse,
-          reason: 'goal label must show whole dollars, got "$label"');
+      final label = tester.widget<Text>(find.textContaining(r'$0 of')).data!;
+      expect(
+        label.contains('.'),
+        isFalse,
+        reason: 'goal label must show whole dollars, got "$label"',
+      );
       expect(label, r'$0 of $1,001');
     });
 
@@ -524,10 +626,14 @@ void main() {
       );
       final router = _RecordingStackRouter();
 
-      await tester.pumpWidget(_host(
-        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
-        router: router,
-      ));
+      await tester.pumpWidget(
+        _host(
+          LaunchPopupWidget(
+            fetchPopupOverride: (context, locale) async => popup,
+          ),
+          router: router,
+        ),
+      );
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('Support Timer.Coffee'));
@@ -553,9 +659,13 @@ void main() {
         campaignEndsAt: DateTime.utc(2100, 1, 1),
       );
 
-      await tester.pumpWidget(_host(
-        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
-      ));
+      await tester.pumpWidget(
+        _host(
+          LaunchPopupWidget(
+            fetchPopupOverride: (context, locale) async => popup,
+          ),
+        ),
+      );
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('Close'));
@@ -577,9 +687,13 @@ void main() {
         campaignEndsAt: DateTime.utc(2100, 1, 1),
       );
 
-      await tester.pumpWidget(_host(
-        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
-      ));
+      await tester.pumpWidget(
+        _host(
+          LaunchPopupWidget(
+            fetchPopupOverride: (context, locale) async => popup,
+          ),
+        ),
+      );
       await tester.pumpAndSettle();
 
       await tester.tapAt(Offset.zero);

@@ -1,3 +1,5 @@
+import '../utils/app_logger.dart';
+
 class LaunchPopupModel {
   final int id;
   final String content;
@@ -36,7 +38,8 @@ class LaunchPopupModel {
         ['ios', 'android', 'web', 'all'].contains(rawPlatform)
         ? rawPlatform
         : 'all';
-    final rawHookType = (map['hook_type'] as String?)?.toLowerCase();
+    final rawHookType = map['hook_type'] as String?;
+    final normalizedRawHookType = rawHookType?.toLowerCase();
     final normalizedHookType =
         [
           'license_renewal',
@@ -44,9 +47,15 @@ class LaunchPopupModel {
           'black_friday',
           'feature_object',
           'yearly_recap',
-        ].contains(rawHookType)
-        ? rawHookType
+        ].contains(normalizedRawHookType)
+        ? normalizedRawHookType
         : null;
+    if (rawHookType != null && normalizedHookType == null) {
+      AppLogger.warning(
+        'Launch popup ${map['id']}: unrecognized hook_type "$rawHookType" — '
+        'rendering as an ordinary popup',
+      );
+    }
 
     double? parseAmount(dynamic value) {
       if (value is num) return value.toDouble();

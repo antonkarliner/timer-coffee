@@ -15,6 +15,7 @@
 import 'dart:math' as math;
 
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -118,6 +119,19 @@ class _CampaignSupportBlockState extends State<CampaignSupportBlock> {
             router.pushPath(kDonateRoutePath);
           },
         ),
+        // Debug-only operator diagnostics: kDebugMode is false and tree-shaken
+        // in release builds. Hardcoded English is intentional; this is not UI.
+        if (kDebugMode) const SizedBox(height: AppSpacing.xs),
+        if (kDebugMode)
+          Text(
+            'campaign: hook=${widget.popup.hookType} '
+            'goal=${widget.popup.goalAmountUsd} '
+            'progress=${widget.popup.progressAmountUsd} '
+            'ends=${widget.popup.campaignEndsAt?.toIso8601String()}',
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+          ),
       ],
     );
   }
@@ -173,9 +187,7 @@ class _CampaignSupportBlockState extends State<CampaignSupportBlock> {
             ),
             child: Text(
               progress >= goal
-                  ? l10n.campaignGoalReached(
-                      currency.format(displayProgress),
-                    )
+                  ? l10n.campaignGoalReached(currency.format(displayProgress))
                   : l10n.campaignGoalProgress(
                       currency.format(displayProgress),
                       currency.format(goal),
