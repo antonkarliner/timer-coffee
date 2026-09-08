@@ -1326,7 +1326,7 @@ class DatabaseProvider {
           .from('launch_popup')
           .select(
             'id, content, locale, created_at, platform, hook_type, '
-            'goal_amount_usd, progress_amount_usd, campaign_ends_at',
+            'goal_amount_usd, progress_amount_usd, campaign_ends_at, title',
           )
           .eq('locale', locale)
           .or('platform.eq.$currentPlatform,platform.eq.all')

@@ -101,11 +101,14 @@ class _WhatsNewCardState extends State<WhatsNewCard> {
       askId: widget.popup.id.toString(),
     );
 
-    AnalyticsService.maybeInstance?.track('popup_shown', properties: {
-      'popup_id': widget.popup.id,
-      'source_screen': kWhatsNewCardSourceScreen,
-      'locale': widget.locale,
-    });
+    AnalyticsService.maybeInstance?.track(
+      'popup_shown',
+      properties: {
+        'popup_id': widget.popup.id,
+        'source_screen': kWhatsNewCardSourceScreen,
+        'locale': widget.locale,
+      },
+    );
   }
 
   Future<void> _openExpanded() async {
@@ -127,7 +130,9 @@ class _WhatsNewCardState extends State<WhatsNewCard> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.card),
           ),
-          title: Text(AppLocalizations.of(context)!.whatsnewtitle),
+          title: Text(
+            widget.popup.title ?? AppLocalizations.of(context)!.whatsnewtitle,
+          ),
           content: SingleChildScrollView(
             // Non-campaign popups keep the exact pre-campaign tree; only an
             // active campaign adds the support block below the markdown.
@@ -160,13 +165,16 @@ class _WhatsNewCardState extends State<WhatsNewCard> {
     );
 
     if (!mounted) return;
-    AnalyticsService.maybeInstance?.track('popup_dismissed', properties: {
-      'popup_id': widget.popup.id,
-      'source_screen': kWhatsNewCardSourceScreen,
-      'dismiss_method': campaignCtaTapped
-          ? 'cta'
-          : (closedExplicitly == true ? 'close' : 'barrier_or_back'),
-    });
+    AnalyticsService.maybeInstance?.track(
+      'popup_dismissed',
+      properties: {
+        'popup_id': widget.popup.id,
+        'source_screen': kWhatsNewCardSourceScreen,
+        'dismiss_method': campaignCtaTapped
+            ? 'cta'
+            : (closedExplicitly == true ? 'close' : 'barrier_or_back'),
+      },
+    );
 
     // Plan 052, Item A: the dialog showed an active campaign block and
     // closed without the CTA having been tapped — derived from the same
@@ -200,11 +208,14 @@ class _WhatsNewCardState extends State<WhatsNewCard> {
       onTapLink: (text, href, title) async {
         if (href == null) return;
         final hrefType = href.startsWith('app://') ? 'deep_link' : 'external';
-        AnalyticsService.maybeInstance?.track('popup_link_tapped', properties: {
-          'popup_id': widget.popup.id,
-          'source_screen': kWhatsNewCardSourceScreen,
-          'href_type': hrefType,
-        });
+        AnalyticsService.maybeInstance?.track(
+          'popup_link_tapped',
+          properties: {
+            'popup_id': widget.popup.id,
+            'source_screen': kWhatsNewCardSourceScreen,
+            'href_type': hrefType,
+          },
+        );
         if (href.startsWith('app://')) {
           final routePath = href.substring(6);
           if (context.mounted) {

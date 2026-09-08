@@ -45,6 +45,7 @@ LaunchPopupModel _makePopup({
   double? progressAmountUsd,
   DateTime? campaignEndsAt,
   String content = "What's new in this release.",
+  String? title,
 }) {
   return LaunchPopupModel(
     id: id,
@@ -56,6 +57,7 @@ LaunchPopupModel _makePopup({
     goalAmountUsd: goalAmountUsd,
     progressAmountUsd: progressAmountUsd,
     campaignEndsAt: campaignEndsAt,
+    title: title,
   );
 }
 
@@ -88,6 +90,13 @@ List<SizedBox> _spacersInsideBlock(WidgetTester tester) => tester
       ),
     )
     .toList();
+
+/// The rendered dialog's title string, whichever surface is under test
+/// (plan 054 Phase 7) — both call sites pass a bare `Text` as
+/// `AlertDialog.title`.
+String? _dialogTitleText(WidgetTester tester) =>
+    (tester.widget<AlertDialog>(find.byType(AlertDialog)).title! as Text)
+        .data;
 
 void main() {
   setUp(() async {
@@ -125,6 +134,44 @@ void main() {
       final popup = LaunchPopupModel.fromMap(popupMap('coffee_day'));
 
       expect(popup.hookType, 'coffee_day');
+    });
+  });
+
+  group('LaunchPopupModel title parsing (plan 054 Phase 7)', () {
+    Map<String, dynamic> titledPopupMap({
+      String? title,
+      bool includeTitleKey = true,
+    }) {
+      final map = <String, dynamic>{
+        'id': 42,
+        'content': "What's new in this release.",
+        'locale': 'en',
+        'created_at': '2026-01-01T00:00:00Z',
+        'platform': 'all',
+        'hook_type': null,
+      };
+      if (includeTitleKey) map['title'] = title;
+      return map;
+    }
+
+    test('fromMap maps a title value', () {
+      final popup =
+          LaunchPopupModel.fromMap(titledPopupMap(title: 'Happy Coffee Day'));
+
+      expect(popup.title, 'Happy Coffee Day');
+    });
+
+    test('fromMap maps an empty title to null', () {
+      final popup = LaunchPopupModel.fromMap(titledPopupMap(title: ''));
+
+      expect(popup.title, isNull);
+    });
+
+    test('fromMap maps a missing title key to null', () {
+      final popup =
+          LaunchPopupModel.fromMap(titledPopupMap(includeTitleKey: false));
+
+      expect(popup.title, isNull);
     });
   });
 
@@ -707,6 +754,87 @@ void main() {
         'barrier_or_back',
       );
     });
+
+    testWidgets('a popup with a null title keeps the "What\'s new" dialog '
+        'title on the home surface — the byte-identical fallback',
+        (tester) async {
+      final popup = _makePopup(id: 30, title: null);
+
+      await tester.pumpWidget(
+        _host(
+          LaunchPopupWidget(
+            fetchPopupOverride: (context, locale) async => popup,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(_dialogTitleText(tester), "What's new");
+    });
+
+    testWidgets('a campaign popup with a custom title shows that title in '
+        "the home dialog, not \"What's new\"", (tester) async {
+      final popup = _makePopup(
+        id: 31,
+        hookType: 'coffee_day',
+        campaignEndsAt: DateTime.utc(2100, 1, 1),
+        title: 'Happy Coffee Day',
+      );
+
+      await tester.pumpWidget(
+        _host(
+          LaunchPopupWidget(
+            fetchPopupOverride: (context, locale) async => popup,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(_dialogTitleText(tester), 'Happy Coffee Day');
+      expect(find.text("What's new"), findsNothing);
+    });
+
+    testWidgets('a non-campaign popup with a custom title still gets the '
+        'custom title — the title is not campaign-gated', (tester) async {
+      final popup =
+          _makePopup(id: 32, hookType: null, title: 'Happy Coffee Day');
+
+      await tester.pumpWidget(
+        _host(
+          LaunchPopupWidget(
+            fetchPopupOverride: (context, locale) async => popup,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(_dialogTitleText(tester), 'Happy Coffee Day');
+      expect(find.byType(CampaignSupportBlock), findsNothing);
+    });
+
+    testWidgets('a whitespace-only title falls back to "What\'s new" on the '
+        'home surface — fromMap normalizes it to null', (tester) async {
+      final popup = LaunchPopupModel.fromMap({
+        'id': 33,
+        'content': "What's new in this release.",
+        'locale': 'en',
+        'created_at': '2026-01-01T00:00:00Z',
+        'platform': 'all',
+        'hook_type': 'coffee_day',
+        'title': '   ',
+      });
+
+      await tester.pumpWidget(
+        _host(
+          LaunchPopupWidget(
+            fetchPopupOverride: (context, locale) async => popup,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(_dialogTitleText(tester), "What's new");
+    });
   });
 
   group('finish card (whats_new_card.dart)', () {
@@ -871,6 +999,73 @@ void main() {
         popupDismissed.single['properties']['dismiss_method'],
         'barrier_or_back',
       );
+    });
+
+    testWidgets('a popup with a null title keeps the "What\'s new" dialog '
+        'title when expanded on the finish surface — the byte-identical '
+        'fallback', (tester) async {
+      final popup = _makePopup(id: 34, title: null);
+      SharedPreferences.setMockInitialValues({});
+      final prefs = await SharedPreferences.getInstance();
+
+      await tester.pumpWidget(cardHost(popup, prefs));
+      await tester.pump();
+      await tester.pump();
+
+      await tester.tap(find.byType(WhatsNewCard));
+      await tester.pumpAndSettle();
+
+      expect(_dialogTitleText(tester), "What's new");
+    });
+
+    testWidgets('a campaign popup with a custom title shows that title in '
+        "the expanded finish dialog, not \"What's new\"", (tester) async {
+      final popup = _makePopup(
+        id: 35,
+        hookType: 'coffee_day',
+        campaignEndsAt: DateTime.utc(2100, 1, 1),
+        title: 'Happy Coffee Day',
+      );
+      SharedPreferences.setMockInitialValues({});
+      final prefs = await SharedPreferences.getInstance();
+
+      await tester.pumpWidget(cardHost(popup, prefs));
+      await tester.pump();
+      await tester.pump();
+
+      await tester.tap(find.byType(WhatsNewCard));
+      await tester.pumpAndSettle();
+
+      expect(_dialogTitleText(tester), 'Happy Coffee Day');
+      // The fallback string must not appear as the dialog title. (The
+      // collapsed card's own "What's new" heading is allowed to remain in
+      // the tree underneath the dialog route.)
+      expect(
+        find.descendant(
+          of: find.byType(AlertDialog),
+          matching: find.text("What's new"),
+        ),
+        findsNothing,
+      );
+    });
+
+    testWidgets('the collapsed finish card still shows "What\'s new" even '
+        'when the popup has a custom title', (tester) async {
+      final popup = _makePopup(
+        id: 36,
+        hookType: 'coffee_day',
+        campaignEndsAt: DateTime.utc(2100, 1, 1),
+        title: 'Happy Coffee Day',
+      );
+      SharedPreferences.setMockInitialValues({});
+      final prefs = await SharedPreferences.getInstance();
+
+      await tester.pumpWidget(cardHost(popup, prefs));
+      await tester.pump();
+      await tester.pump();
+
+      expect(find.text("What's new"), findsOneWidget);
+      expect(find.text('Happy Coffee Day'), findsNothing);
     });
   });
 }

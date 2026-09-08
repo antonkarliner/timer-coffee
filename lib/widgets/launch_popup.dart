@@ -32,13 +32,13 @@ class LaunchPopupWidget extends StatefulWidget {
   /// widget is testable in isolation. Defaults to the real
   /// `RecipeProvider.fetchLatestLaunchPopup` flow.
   final Future<LaunchPopupModel?> Function(BuildContext context, String locale)?
-      fetchPopupOverride;
+  fetchPopupOverride;
 
   /// Injectable builder for the engagement-budget service, so tests can
   /// supply a fake clock or intercept `recordAsk`. Defaults to
   /// `EngagementBudgetService(prefs: prefs)`.
   final EngagementBudgetService Function(SharedPreferences prefs)?
-      budgetServiceBuilder;
+  budgetServiceBuilder;
 
   /// Resets the session-only "already shown" guard. Test-only — production
   /// code relies on the guard persisting for the lifetime of the app process.
@@ -108,8 +108,10 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
     if (widget.fetchPopupOverride != null) {
       popupFuture = widget.fetchPopupOverride!(context, locale);
     } else {
-      final recipeProvider =
-          Provider.of<RecipeProvider>(context, listen: false);
+      final recipeProvider = Provider.of<RecipeProvider>(
+        context,
+        listen: false,
+      );
       popupFuture = recipeProvider.fetchLatestLaunchPopup(locale);
     }
     final popup = await popupFuture;
@@ -140,11 +142,14 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
     // Set session guard before showing to avoid racing rebuilds
     _shownThisSession = true;
 
-    AnalyticsService.maybeInstance?.track('popup_shown', properties: {
-      'popup_id': popup.id,
-      'source_screen': _kSourceScreen,
-      'locale': locale,
-    });
+    AnalyticsService.maybeInstance?.track(
+      'popup_shown',
+      properties: {
+        'popup_id': popup.id,
+        'source_screen': _kSourceScreen,
+        'locale': locale,
+      },
+    );
 
     // Record this exposure against the engagement budget (plan 039, Item C).
     // A later finish-screen exposure of the same popup_id (Phase C2) dedups
@@ -175,7 +180,9 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.whatsnewtitle),
+          title: Text(
+            popup.title ?? AppLocalizations.of(context)!.whatsnewtitle,
+          ),
           content: SingleChildScrollView(
             // Non-campaign popups keep the exact pre-campaign tree; only an
             // active campaign adds the support block below the markdown.
@@ -210,13 +217,16 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
       },
     );
 
-    AnalyticsService.maybeInstance?.track('popup_dismissed', properties: {
-      'popup_id': popup.id,
-      'source_screen': _kSourceScreen,
-      'dismiss_method': campaignCtaTapped
-          ? 'cta'
-          : (closedExplicitly == true ? 'close' : 'barrier_or_back'),
-    });
+    AnalyticsService.maybeInstance?.track(
+      'popup_dismissed',
+      properties: {
+        'popup_id': popup.id,
+        'source_screen': _kSourceScreen,
+        'dismiss_method': campaignCtaTapped
+            ? 'cta'
+            : (closedExplicitly == true ? 'close' : 'barrier_or_back'),
+      },
+    );
 
     // Plan 052, Item A: a dialog that showed an active campaign block and
     // closed without the CTA having been tapped is a support-prompt
@@ -250,11 +260,14 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
       onTapLink: (text, href, title) async {
         if (href == null) return;
         final hrefType = href.startsWith('app://') ? 'deep_link' : 'external';
-        AnalyticsService.maybeInstance?.track('popup_link_tapped', properties: {
-          'popup_id': popupId,
-          'source_screen': _kSourceScreen,
-          'href_type': hrefType,
-        });
+        AnalyticsService.maybeInstance?.track(
+          'popup_link_tapped',
+          properties: {
+            'popup_id': popupId,
+            'source_screen': _kSourceScreen,
+            'href_type': hrefType,
+          },
+        );
         if (href.startsWith('app://')) {
           final routePath = href.substring(6);
           if (context.mounted) {

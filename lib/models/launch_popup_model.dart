@@ -10,6 +10,7 @@ class LaunchPopupModel {
   final double? goalAmountUsd;
   final double? progressAmountUsd;
   final DateTime? campaignEndsAt;
+  final String? title;
 
   LaunchPopupModel({
     required this.id,
@@ -21,6 +22,7 @@ class LaunchPopupModel {
     this.goalAmountUsd,
     this.progressAmountUsd,
     this.campaignEndsAt,
+    this.title,
   });
 
   bool get isCampaign => hookType != null;
@@ -68,6 +70,10 @@ class LaunchPopupModel {
       return DateTime.tryParse(value)?.toUtc();
     }
 
+    final rawTitle = (map['title'] as String?)?.trim();
+    // an empty/whitespace title must behave exactly like no title
+    final title = (rawTitle == null || rawTitle.isEmpty) ? null : rawTitle;
+
     return LaunchPopupModel(
       id: map['id'] as int,
       content: map['content'] as String,
@@ -78,6 +84,7 @@ class LaunchPopupModel {
       goalAmountUsd: parseAmount(map['goal_amount_usd']),
       progressAmountUsd: parseAmount(map['progress_amount_usd']),
       campaignEndsAt: parseCampaignEnd(map['campaign_ends_at']),
+      title: title,
     );
   }
 }
