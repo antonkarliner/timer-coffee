@@ -1028,6 +1028,7 @@
   "manualStepControlDescription": "Показувати стрілки назад і пропустити під час заварювання.",
   "previousStep": "Попередній крок",
   "nextStep": "Наступний крок",
+  "brewingSkipStepLabel": "Пропустити",
   "done": "Готово",
   "saving": "Збереження…",
 

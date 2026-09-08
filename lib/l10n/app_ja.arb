@@ -1028,6 +1028,7 @@
   "manualStepControlDescription": "抽出中に戻る矢印とスキップ矢印を表示します。",
   "previousStep": "前のステップ",
   "nextStep": "次のステップ",
+  "brewingSkipStepLabel": "スキップ",
   "done": "完了",
   "saving": "保存中…",
 

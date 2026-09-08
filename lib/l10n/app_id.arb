@@ -1028,6 +1028,7 @@
   "manualStepControlDescription": "Tampilkan panah kembali dan lewati saat menyeduh.",
   "previousStep": "Langkah sebelumnya",
   "nextStep": "Langkah berikutnya",
+  "brewingSkipStepLabel": "Lewati",
   "done": "Selesai",
   "saving": "Menyimpan…",
 

@@ -1028,6 +1028,7 @@
   "manualStepControlDescription": "冲煮时显示上一步和跳过箭头。",
   "previousStep": "上一步",
   "nextStep": "下一步",
+  "brewingSkipStepLabel": "跳过",
   "done": "完成",
   "saving": "正在保存…",
 

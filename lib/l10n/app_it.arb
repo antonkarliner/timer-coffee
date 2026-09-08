@@ -1028,6 +1028,7 @@
   "manualStepControlDescription": "Mostra frecce indietro e salta durante la preparazione.",
   "previousStep": "Passaggio precedente",
   "nextStep": "Passaggio successivo",
+  "brewingSkipStepLabel": "Salta",
   "done": "Fatto",
   "saving": "Salvataggio…",
 

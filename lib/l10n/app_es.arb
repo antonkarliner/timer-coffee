@@ -1028,6 +1028,7 @@
   "manualStepControlDescription": "Muestra flechas para volver y saltar durante la preparación.",
   "previousStep": "Paso anterior",
   "nextStep": "Paso siguiente",
+  "brewingSkipStepLabel": "Omitir",
   "done": "Listo",
   "saving": "Guardando…",
 

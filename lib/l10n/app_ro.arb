@@ -1028,6 +1028,7 @@
   "manualStepControlDescription": "Afișează săgeți de înapoi și de sărire în timpul preparării.",
   "previousStep": "Pasul anterior",
   "nextStep": "Pasul următor",
+  "brewingSkipStepLabel": "Sari peste",
   "done": "Gata",
   "saving": "Se salvează…",
 

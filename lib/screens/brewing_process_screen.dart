@@ -1683,21 +1683,26 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                 transitionBuilder: (Widget child, Animation<double> animation) {
                   return ScaleTransition(scale: animation, child: child);
                 },
-                child: FloatingActionButton(
-                  key: ValueKey<bool>(_shouldShowSkipButton()),
-                  onPressed: _shouldShowSkipButton()
-                      ? () async => await _skipLastStep()
-                      : _togglePause,
-                  child: Icon(
-                    _shouldShowSkipButton()
-                        ? Icons.skip_next
-                        : (_isPaused
+                child: _shouldShowSkipButton()
+                    ? FloatingActionButton.extended(
+                        key: ValueKey<bool>(_shouldShowSkipButton()),
+                        onPressed: () async => await _skipLastStep(),
+                        icon: const Icon(Icons.skip_next),
+                        label: Text(
+                          AppLocalizations.of(context)!.brewingSkipStepLabel,
+                        ),
+                      )
+                    : FloatingActionButton(
+                        key: ValueKey<bool>(_shouldShowSkipButton()),
+                        onPressed: _togglePause,
+                        child: Icon(
+                          _isPaused
                               ? (Directionality.of(context) == TextDirection.rtl
                                     ? Icons.arrow_back_ios_new
                                     : Icons.play_arrow)
-                              : Icons.pause),
-                  ),
-                ),
+                              : Icons.pause,
+                        ),
+                      ),
               ),
             ),
     );

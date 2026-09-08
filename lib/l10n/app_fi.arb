@@ -880,6 +880,7 @@
   "manualStepControlDescription": "Näytä takaisin- ja ohitusnuolet uuton aikana.",
   "previousStep": "Edellinen vaihe",
   "nextStep": "Seuraava vaihe",
+  "brewingSkipStepLabel": "Ohita",
   "done": "Valmis",
   "saving": "Tallennetaan…",
 

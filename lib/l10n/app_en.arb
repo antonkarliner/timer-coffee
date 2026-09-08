@@ -1504,6 +1504,10 @@
   "manualStepControlDescription": "Show back and skip arrows during brewing.",
   "previousStep": "Previous step",
   "nextStep": "Next step",
+  "brewingSkipStepLabel": "Skip",
+  "@brewingSkipStepLabel": {
+    "description": "Label on the floating action button that skips the final brewing step; shown on the brewing screen once the last step has been running for five seconds"
+  },
   "done": "Done",
   "saving": "Saving…",
   "notifBrewReminderTitle": "Missing your coffee ritual?",

@@ -1028,6 +1028,7 @@
   "manualStepControlDescription": "Afficher les flèches retour et passer pendant la préparation.",
   "previousStep": "Étape précédente",
   "nextStep": "Étape suivante",
+  "brewingSkipStepLabel": "Passer",
   "done": "Terminé",
   "saving": "Enregistrement…",
 

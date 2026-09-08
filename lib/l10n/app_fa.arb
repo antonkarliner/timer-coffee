@@ -1201,6 +1201,7 @@
   "manualStepControlDescription": "نمایش فلش‌های برگشت و رد کردن هنگام دم‌آوری.",
   "previousStep": "مرحله قبلی",
   "nextStep": "مرحله بعدی",
+  "brewingSkipStepLabel": "رد کردن",
   "done": "تمام",
   "saving": "در حال ذخیره…",
 

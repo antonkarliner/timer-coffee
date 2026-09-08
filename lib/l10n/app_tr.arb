@@ -1028,6 +1028,7 @@
   "manualStepControlDescription": "Demleme sırasında geri ve atla oklarını göster.",
   "previousStep": "Önceki adım",
   "nextStep": "Sonraki adım",
+  "brewingSkipStepLabel": "Geç",
   "done": "Tamam",
   "saving": "Kaydediliyor…",
 

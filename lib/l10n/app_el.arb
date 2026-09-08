@@ -1423,6 +1423,7 @@
   "manualStepControlDescription": "Εμφάνιση βελών επιστροφής και παράλειψης κατά την παρασκευή.",
   "previousStep": "Προηγούμενο βήμα",
   "nextStep": "Επόμενο βήμα",
+  "brewingSkipStepLabel": "Παράλειψη",
   "done": "Τέλος",
   "saving": "Αποθήκευση…",
 

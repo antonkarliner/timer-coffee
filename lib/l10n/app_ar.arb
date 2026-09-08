@@ -1028,6 +1028,7 @@
   "manualStepControlDescription": "إظهار أسهم الرجوع والتخطي أثناء التحضير.",
   "previousStep": "الخطوة السابقة",
   "nextStep": "الخطوة التالية",
+  "brewingSkipStepLabel": "تخطي",
   "done": "تم",
   "saving": "جارٍ الحفظ…",
 

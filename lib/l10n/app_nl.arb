@@ -1028,6 +1028,7 @@
   "manualStepControlDescription": "Toon terug- en overslaanpijlen tijdens het zetten.",
   "previousStep": "Vorige stap",
   "nextStep": "Volgende stap",
+  "brewingSkipStepLabel": "Overslaan",
   "done": "Klaar",
   "saving": "Opslaan…",
 
