@@ -322,9 +322,9 @@ void main() {
       expect(label, r'$0 of $1,001');
     });
 
-    testWidgets('tapping the CTA emits support_prompt_tapped exactly once '
-        'and routes to /donate; closing afterwards emits no '
-        'support_prompt_dismissed', (tester) async {
+    testWidgets('tapping the CTA closes the dialog, emits '
+        'support_prompt_tapped exactly once, routes to /donate, and logs '
+        'the CTA dismissal without support_prompt_dismissed', (tester) async {
       final popup = _makePopup(
         id: 7,
         hookType: 'coffee_day',
@@ -339,19 +339,18 @@ void main() {
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('Support Timer.Coffee'));
-      await tester.pump();
+      await tester.pumpAndSettle();
 
+      expect(find.byType(AlertDialog), findsNothing);
       final tapped = _eventsNamed('support_prompt_tapped');
       expect(tapped, hasLength(1));
       expect(tapped.single['properties']['trigger_id'], 'campaign_7');
       expect(tapped.single['properties']['source_screen'], 'home');
       expect(router.pushedPath, '/donate');
-
-      // Closing the dialog after a tap is not a dismissal of the prompt.
-      await tester.tap(find.text('Close'));
-      await tester.pumpAndSettle();
       expect(_eventsNamed('support_prompt_dismissed'), isEmpty);
-      expect(_eventsNamed('popup_dismissed'), hasLength(1));
+      final popupDismissed = _eventsNamed('popup_dismissed');
+      expect(popupDismissed, hasLength(1));
+      expect(popupDismissed.single['properties']['dismiss_method'], 'cta');
     });
 
     testWidgets('closing an active-campaign dialog without tapping the CTA '
@@ -374,6 +373,33 @@ void main() {
       expect(dismissed, hasLength(1));
       expect(dismissed.single['properties']['trigger_id'], 'campaign_9');
       expect(dismissed.single['properties']['source_screen'], 'home');
+      final popupDismissed = _eventsNamed('popup_dismissed');
+      expect(popupDismissed, hasLength(1));
+      expect(popupDismissed.single['properties']['dismiss_method'], 'close');
+    });
+
+    testWidgets('barrier dismissal logs barrier_or_back', (tester) async {
+      final popup = _makePopup(
+        id: 10,
+        hookType: 'black_friday',
+        campaignEndsAt: DateTime.utc(2100, 1, 1),
+      );
+
+      await tester.pumpWidget(_host(
+        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
+      ));
+      await tester.pumpAndSettle();
+
+      await tester.tapAt(Offset.zero);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(AlertDialog), findsNothing);
+      final popupDismissed = _eventsNamed('popup_dismissed');
+      expect(popupDismissed, hasLength(1));
+      expect(
+        popupDismissed.single['properties']['dismiss_method'],
+        'barrier_or_back',
+      );
     });
   });
 
@@ -449,9 +475,9 @@ void main() {
       expect(_eventsNamed('support_prompt_dismissed'), isEmpty);
     });
 
-    testWidgets('tapping the CTA in the expanded dialog emits '
-        'support_prompt_tapped once, routes to /donate, and closing emits '
-        'no support_prompt_dismissed', (tester) async {
+    testWidgets('tapping the CTA in the expanded dialog closes it, emits '
+        'support_prompt_tapped once, routes to /donate, and logs the CTA '
+        'dismissal without support_prompt_dismissed', (tester) async {
       final popup = _makePopup(
         id: 7,
         hookType: 'coffee_day',
@@ -469,17 +495,18 @@ void main() {
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('Support Timer.Coffee'));
-      await tester.pump();
+      await tester.pumpAndSettle();
 
+      expect(find.byType(AlertDialog), findsNothing);
       final tapped = _eventsNamed('support_prompt_tapped');
       expect(tapped, hasLength(1));
       expect(tapped.single['properties']['trigger_id'], 'campaign_7');
       expect(tapped.single['properties']['source_screen'], 'finish');
       expect(router.pushedPath, '/donate');
-
-      await tester.tap(find.text('Close'));
-      await tester.pumpAndSettle();
       expect(_eventsNamed('support_prompt_dismissed'), isEmpty);
+      final popupDismissed = _eventsNamed('popup_dismissed');
+      expect(popupDismissed, hasLength(1));
+      expect(popupDismissed.single['properties']['dismiss_method'], 'cta');
     });
 
     testWidgets('closing the expanded dialog of an active campaign without '
@@ -507,6 +534,37 @@ void main() {
       expect(dismissed, hasLength(1));
       expect(dismissed.single['properties']['trigger_id'], 'campaign_11');
       expect(dismissed.single['properties']['source_screen'], 'finish');
+      final popupDismissed = _eventsNamed('popup_dismissed');
+      expect(popupDismissed, hasLength(1));
+      expect(popupDismissed.single['properties']['dismiss_method'], 'close');
+    });
+
+    testWidgets('barrier dismissal of the expanded dialog logs '
+        'barrier_or_back', (tester) async {
+      final popup = _makePopup(
+        id: 12,
+        hookType: 'yearly_recap',
+        campaignEndsAt: DateTime.utc(2100, 1, 1),
+      );
+      SharedPreferences.setMockInitialValues({});
+      final prefs = await SharedPreferences.getInstance();
+
+      await tester.pumpWidget(cardHost(popup, prefs));
+      await tester.pump();
+      await tester.pump();
+
+      await tester.tap(find.byType(WhatsNewCard));
+      await tester.pumpAndSettle();
+      await tester.tapAt(Offset.zero);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(AlertDialog), findsNothing);
+      final popupDismissed = _eventsNamed('popup_dismissed');
+      expect(popupDismissed, hasLength(1));
+      expect(
+        popupDismissed.single['properties']['dismiss_method'],
+        'barrier_or_back',
+      );
     });
   });
 }

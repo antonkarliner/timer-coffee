@@ -163,7 +163,9 @@ class _WhatsNewCardState extends State<WhatsNewCard> {
     AnalyticsService.maybeInstance?.track('popup_dismissed', properties: {
       'popup_id': widget.popup.id,
       'source_screen': kWhatsNewCardSourceScreen,
-      'dismiss_method': closedExplicitly == true ? 'close' : 'barrier_or_back',
+      'dismiss_method': campaignCtaTapped
+          ? 'cta'
+          : (closedExplicitly == true ? 'close' : 'barrier_or_back'),
     });
 
     // Plan 052, Item A: the dialog showed an active campaign block and

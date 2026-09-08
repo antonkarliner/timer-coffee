@@ -104,10 +104,12 @@ class _CampaignSupportBlockState extends State<CampaignSupportBlock> {
               },
             );
             widget.onCtaTapped?.call();
+            final router = context.router;
+            Navigator.of(context).pop();
             // In-app deep link, the same mechanism the popup markdown
             // uses for `app://` hrefs — not url_launcher, and `/donate`
             // is an in-app route so no flushNow().
-            context.router.pushPath(kDonateRoutePath);
+            router.pushPath(kDonateRoutePath);
           },
         ),
       ],

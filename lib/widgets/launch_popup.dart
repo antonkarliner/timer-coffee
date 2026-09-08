@@ -213,7 +213,9 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
     AnalyticsService.maybeInstance?.track('popup_dismissed', properties: {
       'popup_id': popup.id,
       'source_screen': _kSourceScreen,
-      'dismiss_method': closedExplicitly == true ? 'close' : 'barrier_or_back',
+      'dismiss_method': campaignCtaTapped
+          ? 'cta'
+          : (closedExplicitly == true ? 'close' : 'barrier_or_back'),
     });
 
     // Plan 052, Item A: a dialog that showed an active campaign block and
