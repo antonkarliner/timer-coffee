@@ -1,4 +1,9 @@
 {
+  "scanReviewTitle": "检查扫描结果",
+  "scanUseAsCover": "用作封面",
+  "scanAddDate": "添加日期",
+  "scanNotNow": "暂时不用",
+
   "@@locale": "zh",
   "reviewRequiresOwnedBeans": "添加该烘焙商的咖啡豆即可撰写评价。",
   "@reviewRequiresOwnedBeans": {
@@ -175,7 +180,7 @@
   "@roastDateConfirmPrompt": {
     "placeholders": { "rawText": { "type": "String" } }
   },
-  "roastDateNotFound": "未在标签上找到烘焙日期——请手动添加",
+  "roastDateNotFound": "未在标签上找到烘焙日期。要添加吗？",
   "roastDateFromLabel": "标签显示：{rawText}",
   "@roastDateFromLabel": {
     "placeholders": { "rawText": { "type": "String" } }

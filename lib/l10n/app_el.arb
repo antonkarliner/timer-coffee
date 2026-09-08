@@ -1,4 +1,9 @@
 {
+  "scanReviewTitle": "Έλεγχος σάρωσης",
+  "scanUseAsCover": "Χρήση ως εξώφυλλο",
+  "scanAddDate": "Προσθήκη ημερομηνίας",
+  "scanNotNow": "Όχι τώρα",
+
   "@@locale": "el",
   "reviewRequiresOwnedBeans": "Προσθέστε μια συσκευασία από αυτό το καβουρδιστήριο για να γράψετε αξιολόγηση.",
   "@reviewRequiresOwnedBeans": {
@@ -306,7 +311,7 @@
   "@roastDateConfirmPrompt": {
     "placeholders": { "rawText": { "type": "String" } }
   },
-  "roastDateNotFound": "Δεν βρέθηκε ημερομηνία καβουρδίσματος στην ετικέτα — προσθέστε την",
+  "roastDateNotFound": "Δεν βρέθηκε ημερομηνία καβουρδίσματος στην ετικέτα. Θέλετε να την προσθέσετε;",
   "roastDateFromLabel": "Από την ετικέτα: {rawText}",
   "@roastDateFromLabel": {
     "placeholders": { "rawText": { "type": "String" } }

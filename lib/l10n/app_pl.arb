@@ -1,4 +1,9 @@
 {
+  "scanReviewTitle": "Sprawdź skan",
+  "scanUseAsCover": "Użyj jako okładki",
+  "scanAddDate": "Dodaj datę",
+  "scanNotNow": "Nie teraz",
+
   "@@locale": "pl",
   "reviewRequiresOwnedBeans": "Dodaj paczkę od tej palarni, aby napisać recenzję.",
   "@reviewRequiresOwnedBeans": {
@@ -184,7 +189,7 @@
   "@roastDateConfirmPrompt": {
     "placeholders": { "rawText": { "type": "String" } }
   },
-  "roastDateNotFound": "Nie znaleziono daty palenia na etykiecie — dodaj ją",
+  "roastDateNotFound": "Nie znaleziono daty palenia na etykiecie. Chcesz ją dodać?",
   "roastDateFromLabel": "Z etykiety: {rawText}",
   "@roastDateFromLabel": {
     "placeholders": { "rawText": { "type": "String" } }

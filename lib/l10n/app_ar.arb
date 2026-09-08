@@ -1,4 +1,9 @@
 {
+  "scanReviewTitle": "مراجعة المسح",
+  "scanUseAsCover": "استخدام كصورة غلاف",
+  "scanAddDate": "إضافة تاريخ",
+  "scanNotNow": "ليس الآن",
+
   "@@locale": "ar",
   "reviewRequiresOwnedBeans": "أضف كيسًا من هذا المحمّص لكتابة مراجعة.",
   "@reviewRequiresOwnedBeans": {
@@ -178,7 +183,7 @@
   "@roastDateConfirmPrompt": {
     "placeholders": { "rawText": { "type": "String" } }
   },
-  "roastDateNotFound": "لم يتم العثور على تاريخ التحميص على الملصق — يرجى إضافته",
+  "roastDateNotFound": "لم يتم العثور على تاريخ التحميص على الملصق. هل تريد إضافته؟",
   "roastDateFromLabel": "من الملصق: {rawText}",
   "@roastDateFromLabel": {
     "placeholders": { "rawText": { "type": "String" } }

@@ -1,4 +1,9 @@
 {
+  "scanReviewTitle": "Rever digitalização",
+  "scanUseAsCover": "Usar como capa",
+  "scanAddDate": "Adicionar data",
+  "scanNotNow": "Agora não",
+
   "@@locale": "pt",
   "reviewRequiresOwnedBeans": "Adicione um pacote deste torrefador para escrever uma avaliação.",
   "@reviewRequiresOwnedBeans": {
@@ -184,7 +189,7 @@
   "@roastDateConfirmPrompt": {
     "placeholders": { "rawText": { "type": "String" } }
   },
-  "roastDateNotFound": "Não foi encontrada data de torrefação no rótulo — adicione-a",
+  "roastDateNotFound": "Não foi encontrada uma data de torrefação no rótulo. Quer adicioná-la?",
   "roastDateFromLabel": "Segundo o rótulo: {rawText}",
   "@roastDateFromLabel": {
     "placeholders": { "rawText": { "type": "String" } }

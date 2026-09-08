@@ -1,4 +1,9 @@
 {
+  "scanReviewTitle": "بررسی اسکن",
+  "scanUseAsCover": "استفاده به‌عنوان تصویر جلد",
+  "scanAddDate": "افزودن تاریخ",
+  "scanNotNow": "الان نه",
+
   "@@locale": "fa",
   "reviewRequiresOwnedBeans": "برای نوشتن نظر، یک بسته از این رستری اضافه کنید.",
   "@reviewRequiresOwnedBeans": {
@@ -208,7 +213,7 @@
   "@roastDateConfirmPrompt": {
     "placeholders": { "rawText": { "type": "String" } }
   },
-  "roastDateNotFound": "تاریخ رُست روی برچسب پیدا نشد — لطفاً آن را اضافه کنید",
+  "roastDateNotFound": "تاریخ رُست روی برچسب پیدا نشد. می‌خواهید آن را اضافه کنید؟",
   "roastDateFromLabel": "طبق برچسب: {rawText}",
   "@roastDateFromLabel": {
     "placeholders": { "rawText": { "type": "String" } }

@@ -1,4 +1,9 @@
 {
+  "scanReviewTitle": "Перевірити сканування",
+  "scanUseAsCover": "Зробити обкладинкою",
+  "scanAddDate": "Додати дату",
+  "scanNotNow": "Не зараз",
+
   "@@locale": "uk",
   "reviewRequiresOwnedBeans": "Додайте пачку цього обсмажувача, щоб написати відгук.",
   "@reviewRequiresOwnedBeans": {
@@ -175,7 +180,7 @@
   "@roastDateConfirmPrompt": {
     "placeholders": { "rawText": { "type": "String" } }
   },
-  "roastDateNotFound": "На етикетці не знайдено дату обсмажування — додайте її",
+  "roastDateNotFound": "На етикетці не знайдено дату обсмажування. Хочете її додати?",
   "roastDateFromLabel": "За етикеткою: {rawText}",
   "@roastDateFromLabel": {
     "placeholders": { "rawText": { "type": "String" } }

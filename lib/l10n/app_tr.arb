@@ -1,4 +1,9 @@
 {
+  "scanReviewTitle": "Taramayı incele",
+  "scanUseAsCover": "Kapak olarak kullan",
+  "scanAddDate": "Tarih ekle",
+  "scanNotNow": "Şimdi değil",
+
   "@@locale": "tr",
   "reviewRequiresOwnedBeans": "Yorum yazmak için bu kavurucudan bir paket ekleyin.",
   "@reviewRequiresOwnedBeans": {
@@ -175,7 +180,7 @@
   "@roastDateConfirmPrompt": {
     "placeholders": { "rawText": { "type": "String" } }
   },
-  "roastDateNotFound": "Etikette kavurma tarihi bulunamadı — lütfen ekleyin",
+  "roastDateNotFound": "Etikette kavurma tarihi bulunamadı. Eklemek ister misiniz?",
   "roastDateFromLabel": "Etikete göre: {rawText}",
   "@roastDateFromLabel": {
     "placeholders": { "rawText": { "type": "String" } }

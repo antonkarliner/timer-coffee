@@ -15,7 +15,6 @@ import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/widgets/recipe_detail/rich_text_links.dart';
 import 'package:coffee_timer/widgets/recipe_detail/bean_selection_row.dart';
 import 'package:coffee_timer/widgets/recipe_detail/amount_fields.dart';
-import 'package:coffee_timer/widgets/recipe_detail/meta_info_section.dart';
 import 'package:coffee_timer/widgets/recipe_detail/slider_chronicler_1002.dart';
 import 'package:coffee_timer/widgets/recipe_detail/sliders_106.dart';
 import 'package:coffee_timer/widgets/recipe_detail/recipe_summary_tile.dart';
@@ -206,8 +205,9 @@ class _RecipeContentBuilderState extends State<RecipeContentBuilder> {
           onCoffeeFocus: widget.onCoffeeFocus,
           onWaterFocus: widget.onWaterFocus,
         ),
-        const SizedBox(height: 16),
-        // Grind size: read-only by default, editable on tap of edit icon
+        const SizedBox(height: AppSpacing.base),
+        Divider(color: Theme.of(context).colorScheme.outlineVariant),
+        // Keep editable settings aligned, with full-size accessible edit targets.
         if (_isEditingGrindSize)
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -248,20 +248,34 @@ class _RecipeContentBuilderState extends State<RecipeContentBuilder> {
         else
           Row(
             children: [
-              Flexible(
-                child: Text(
-                  '${loc.grindsize}: ${controller.grindSizeController.text.isNotEmpty ? controller.grindSizeController.text : loc.notProvided}',
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(loc.grindsize, style: AppTextStyles.caption),
+                    Text(
+                      controller.grindSizeController.text.isNotEmpty
+                          ? controller.grindSizeController.text
+                          : loc.notProvided,
+                      style: AppTextStyles.fieldLabel,
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(width: 4),
-              GestureDetector(
-                onTap: () {
+              const SizedBox(width: AppSpacing.sm),
+              IconButton(
+                tooltip: '${loc.edit}: ${loc.grindsize}',
+                constraints: const BoxConstraints.tightFor(
+                  width: AppButton.heightMedium,
+                  height: AppButton.heightMedium,
+                ),
+                onPressed: () {
                   setState(() => _isEditingGrindSize = true);
                   WidgetsBinding.instance.addPostFrameCallback(
                     (_) => _grindSizeFocusNode.requestFocus(),
                   );
                 },
-                child: const Icon(Icons.edit, size: 18),
+                icon: const Icon(Icons.edit, size: AppIconSize.small),
               ),
             ],
           ),
@@ -297,7 +311,7 @@ class _RecipeContentBuilderState extends State<RecipeContentBuilder> {
               ),
             ],
           ),
-        const SizedBox(height: 16),
+        const SizedBox(height: AppSpacing.sm),
         if (_isEditingWaterTemperature)
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -329,22 +343,35 @@ class _RecipeContentBuilderState extends State<RecipeContentBuilder> {
         else
           Row(
             children: [
-              Flexible(
-                child: Text(
-                  '${loc.watertemp}: ${formatTemperatureDual(controller.effectiveWaterTemperature) ?? loc.notProvided}',
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(loc.watertemp, style: AppTextStyles.caption),
+                    Text(
+                      formatTemperatureDual(
+                            controller.effectiveWaterTemperature,
+                          ) ??
+                          loc.notProvided,
+                      style: AppTextStyles.fieldLabel,
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(width: AppSpacing.xs),
-              GestureDetector(
-                onTap: () {
+              const SizedBox(width: AppSpacing.sm),
+              IconButton(
+                tooltip: '${loc.edit}: ${loc.watertemp}',
+                constraints: const BoxConstraints.tightFor(
+                  width: AppButton.heightMedium,
+                  height: AppButton.heightMedium,
+                ),
+                onPressed: () {
                   setState(() => _isEditingWaterTemperature = true);
                 },
-                child: const Icon(Icons.edit, size: AppIconSize.small),
+                icon: const Icon(Icons.edit, size: AppIconSize.small),
               ),
             ],
           ),
-        const SizedBox(height: AppSpacing.base),
-        MetaInfoSection(waterTempCelsius: null, brewTime: recipe.brewTime),
         const SizedBox(height: 16),
         // Use effective ID for slider logic
         if (effectiveRecipeId == '1002')

@@ -1,4 +1,9 @@
 {
+  "scanReviewTitle": "Проверить сканирование",
+  "scanUseAsCover": "Сделать обложкой",
+  "scanAddDate": "Добавить дату",
+  "scanNotNow": "Не сейчас",
+
   "@@locale": "ru",
   "reviewRequiresOwnedBeans": "Добавьте пачку этого обжарщика, чтобы написать отзыв.",
   "@reviewRequiresOwnedBeans": {
@@ -184,7 +189,7 @@
   "@roastDateConfirmPrompt": {
     "placeholders": { "rawText": { "type": "String" } }
   },
-  "roastDateNotFound": "На этикетке не найдена дата обжарки — добавьте её",
+  "roastDateNotFound": "На этикетке не найдена дата обжарки. Хотите её добавить?",
   "roastDateFromLabel": "По этикетке: {rawText}",
   "@roastDateFromLabel": {
     "placeholders": { "rawText": { "type": "String" } }

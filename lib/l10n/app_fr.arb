@@ -1,4 +1,9 @@
 {
+  "scanReviewTitle": "Vérifier le scan",
+  "scanUseAsCover": "Utiliser comme couverture",
+  "scanAddDate": "Ajouter une date",
+  "scanNotNow": "Pas maintenant",
+
   "@@locale": "fr",
   "reviewRequiresOwnedBeans": "Ajoutez un paquet de ce torréfacteur pour écrire un avis.",
   "@reviewRequiresOwnedBeans": {
@@ -184,7 +189,7 @@
   "@roastDateConfirmPrompt": {
     "placeholders": { "rawText": { "type": "String" } }
   },
-  "roastDateNotFound": "Aucune date de torréfaction trouvée sur l’étiquette — merci de l’ajouter",
+  "roastDateNotFound": "Aucune date de torréfaction trouvée sur l’étiquette. Voulez-vous l’ajouter ?",
   "roastDateFromLabel": "Selon l’étiquette : {rawText}",
   "@roastDateFromLabel": {
     "placeholders": { "rawText": { "type": "String" } }

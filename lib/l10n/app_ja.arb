@@ -1,4 +1,9 @@
 {
+  "scanReviewTitle": "スキャン結果を確認",
+  "scanUseAsCover": "カバーに設定",
+  "scanAddDate": "日付を追加",
+  "scanNotNow": "今はしない",
+
   "@@locale": "ja",
   "reviewRequiresOwnedBeans": "レビューを書くには、このロースターの豆を追加してください。",
   "@reviewRequiresOwnedBeans": {
@@ -184,7 +189,7 @@
   "@roastDateConfirmPrompt": {
     "placeholders": { "rawText": { "type": "String" } }
   },
-  "roastDateNotFound": "ラベルに焙煎日が見つかりませんでした — 追加してください",
+  "roastDateNotFound": "ラベルに焙煎日が見つかりませんでした。追加しますか？",
   "roastDateFromLabel": "ラベルの表示: {rawText}",
   "@roastDateFromLabel": {
     "placeholders": { "rawText": { "type": "String" } }

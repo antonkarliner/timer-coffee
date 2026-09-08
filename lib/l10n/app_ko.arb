@@ -1,4 +1,9 @@
 {
+  "scanReviewTitle": "스캔 결과 확인",
+  "scanUseAsCover": "커버로 사용",
+  "scanAddDate": "날짜 추가",
+  "scanNotNow": "나중에",
+
   "@@locale": "ko",
   "reviewRequiresOwnedBeans": "리뷰를 작성하려면 이 로스터의 원두를 추가하세요.",
   "@reviewRequiresOwnedBeans": {
@@ -197,7 +202,7 @@
   "@roastDateConfirmPrompt": {
     "placeholders": { "rawText": { "type": "String" } }
   },
-  "roastDateNotFound": "라벨에서 로스팅 날짜를 찾을 수 없습니다 — 직접 추가해 주세요",
+  "roastDateNotFound": "라벨에서 로스팅 날짜를 찾을 수 없습니다. 추가하시겠어요?",
   "roastDateFromLabel": "라벨 표시: {rawText}",
   "@roastDateFromLabel": {
     "placeholders": { "rawText": { "type": "String" } }

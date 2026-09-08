@@ -1,4 +1,9 @@
 {
+  "scanReviewTitle": "Verifică scanarea",
+  "scanUseAsCover": "Folosește drept copertă",
+  "scanAddDate": "Adaugă data",
+  "scanNotNow": "Nu acum",
+
   "@@locale": "ro",
   "reviewRequiresOwnedBeans": "Adaugă un pachet de la acest prăjitor pentru a scrie o recenzie.",
   "@reviewRequiresOwnedBeans": {
@@ -184,7 +189,7 @@
   "@roastDateConfirmPrompt": {
     "placeholders": { "rawText": { "type": "String" } }
   },
-  "roastDateNotFound": "Nu am găsit data prăjirii pe etichetă — te rugăm să o adaugi",
+  "roastDateNotFound": "Nu am găsit data prăjirii pe etichetă. Vrei să o adaugi?",
   "roastDateFromLabel": "Conform etichetei: {rawText}",
   "@roastDateFromLabel": {
     "placeholders": { "rawText": { "type": "String" } }
