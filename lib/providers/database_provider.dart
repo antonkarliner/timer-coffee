@@ -1324,7 +1324,10 @@ class DatabaseProvider {
     try {
       final response = await Supabase.instance.client
           .from('launch_popup')
-          .select('id, content, locale, created_at, platform')
+          .select(
+            'id, content, locale, created_at, platform, hook_type, '
+            'goal_amount_usd, progress_amount_usd, campaign_ends_at',
+          )
           .eq('locale', locale)
           .or('platform.eq.$currentPlatform,platform.eq.all')
           .order('created_at', ascending: false)
