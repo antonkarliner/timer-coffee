@@ -30,6 +30,7 @@ class _DonationScreenState extends State<DonationScreen> {
   };
   List<ProductDetails> _products = const <ProductDetails>[];
   final PurchaseManager _purchaseManager = PurchaseManager();
+  String? _lastPurchaseProductId;
 
   @override
   void initState() {
@@ -45,6 +46,7 @@ class _DonationScreenState extends State<DonationScreen> {
     }
     _purchaseManager.setDeliverProductCallback(_deliverProduct);
     _purchaseManager.setPurchaseErrorCallback(_handleError);
+    _purchaseManager.setPurchaseCancelledCallback(_handleCancellation);
   }
 
   Future<void> _loadProducts() async {
@@ -72,6 +74,7 @@ class _DonationScreenState extends State<DonationScreen> {
     if (!_purchaseManager.isSupported) {
       return;
     }
+    _lastPurchaseProductId = productDetails.id;
     AnalyticsService.maybeInstance?.track(
       'donation_button_tapped',
       properties: {
@@ -116,7 +119,10 @@ class _DonationScreenState extends State<DonationScreen> {
   }
 
   void _handleError(IAPError error) {
-    AnalyticsService.maybeInstance?.track('donation_failed');
+    AnalyticsService.maybeInstance?.track(
+      'donation_failed',
+      properties: {'product_id': _lastPurchaseProductId ?? 'unknown'},
+    );
     Future.microtask(() {
       if (!mounted) return;
       showDialog(
@@ -142,6 +148,16 @@ class _DonationScreenState extends State<DonationScreen> {
     });
   }
 
+  void _handleCancellation(PurchaseDetails purchaseDetails) {
+    AnalyticsService.maybeInstance?.track(
+      'donation_cancelled',
+      properties: {
+        'product_id': purchaseDetails.productID,
+        'source_screen': 'donation_screen',
+      },
+    );
+  }
+
   Map<String, String> getProductTitles(BuildContext context) {
     return {
       'tip_small_coffee': AppLocalizations.of(context)!.tipsmall,
@@ -154,6 +170,7 @@ class _DonationScreenState extends State<DonationScreen> {
   void dispose() {
     PurchaseManager().setDeliverProductCallback(null);
     PurchaseManager().setPurchaseErrorCallback(null);
+    PurchaseManager().setPurchaseCancelledCallback(null);
     super.dispose();
   }
 

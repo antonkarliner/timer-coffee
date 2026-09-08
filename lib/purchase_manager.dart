@@ -6,12 +6,14 @@ import 'package:coffee_timer/utils/app_logger.dart';
 
 typedef DeliverProductCallback = void Function(PurchaseDetails details);
 typedef PurchaseErrorCallback = void Function(IAPError error);
+typedef PurchaseCancelledCallback = void Function(PurchaseDetails details);
 
 class PurchaseManager {
   static final PurchaseManager _singleton = PurchaseManager._internal();
   StreamSubscription<List<PurchaseDetails>>? _purchaseSubscription;
   DeliverProductCallback? onProductDelivered;
   PurchaseErrorCallback? onPurchaseError;
+  PurchaseCancelledCallback? onPurchaseCancelled;
 
   factory PurchaseManager() {
     return _singleton;
@@ -49,7 +51,16 @@ class PurchaseManager {
           purchaseDetails.status == PurchaseStatus.restored) {
         onProductDelivered?.call(purchaseDetails);
       } else if (purchaseDetails.status == PurchaseStatus.error) {
-        onPurchaseError?.call(purchaseDetails.error!);
+        onPurchaseError?.call(
+          purchaseDetails.error ??
+              IAPError(
+                source: 'unknown',
+                code: 'unknown_error',
+                message: 'An unknown purchase error occurred.',
+              ),
+        );
+      } else if (purchaseDetails.status == PurchaseStatus.canceled) {
+        onPurchaseCancelled?.call(purchaseDetails);
       }
 
       // Call completePurchase for every purchase
@@ -65,6 +76,15 @@ class PurchaseManager {
 
   void setPurchaseErrorCallback(PurchaseErrorCallback? callback) {
     onPurchaseError = callback;
+  }
+
+  void setPurchaseCancelledCallback(PurchaseCancelledCallback? callback) {
+    onPurchaseCancelled = callback;
+  }
+
+  @visibleForTesting
+  void processPurchaseUpdatesForTesting(List<PurchaseDetails> details) {
+    _listenToPurchaseUpdated(details);
   }
 
   void dispose() {

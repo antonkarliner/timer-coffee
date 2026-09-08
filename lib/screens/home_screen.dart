@@ -27,6 +27,7 @@ import 'package:coffee_timer/services/feature_flags/feature_flags_repository.dar
 // Import for RecipeCreationScreen
 // Import AppDatabase and Recipe
 import '../widgets/launch_popup.dart';
+import '../services/analytics_service.dart';
 import '../utils/app_logger.dart'; // Import AppLogger
 import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPreferences
 
@@ -61,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     // Set up PurchaseManager callbacks
     PurchaseManager().setDeliverProductCallback(_showThankYouPopup);
     PurchaseManager().setPurchaseErrorCallback(_showErrorDialog);
+    PurchaseManager().setPurchaseCancelledCallback(_handleDonationCancellation);
 
     // Correctly obtain initialLocale from the Provider
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -281,6 +283,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     WidgetsBinding.instance.removeObserver(this);
     PurchaseManager().setDeliverProductCallback(null);
     PurchaseManager().setPurchaseErrorCallback(null);
+    PurchaseManager().setPurchaseCancelledCallback(null);
     super.dispose();
   }
 
@@ -390,6 +393,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         },
       );
     }
+  }
+
+  void _handleDonationCancellation(PurchaseDetails purchaseDetails) {
+    AnalyticsService.maybeInstance?.track(
+      'donation_cancelled',
+      properties: {
+        'product_id': purchaseDetails.productID,
+        'source_screen': 'home',
+      },
+    );
   }
 
   @override

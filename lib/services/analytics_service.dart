@@ -25,6 +25,7 @@ import '../utils/app_logger.dart';
 /// - **general**: app_opened, screen_viewed, recipe_created, recipe_shared,
 ///   collection interactions and sharing, donation_screen_viewed,
 ///   donation_button_tapped, donation_completed, donation_failed,
+///   donation_cancelled,
 ///   roaster_profile_viewed, roaster_link_tapped, roaster_contribution_shown/
 ///   _submitted/_dismissed, the "moments" (surprise-and-delight) events
 ///   moment_shown, moment_interacted, moment_discovered, the finish-
@@ -116,6 +117,7 @@ class AnalyticsService extends ChangeNotifier {
     'donation_button_tapped': 'general',
     'donation_completed': 'general',
     'donation_failed': 'general',
+    'donation_cancelled': 'general',
     // Roaster profiles
     'roaster_profile_viewed': 'general',
     'roaster_link_tapped': 'general',
