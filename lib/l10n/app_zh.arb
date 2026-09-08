@@ -1498,5 +1498,6 @@
   "brewExportTdsLabel": "TDS",
   "brewExportNoBeanGroup": "其他冲煮",
   "campaignSupportCta": "支持 Timer.Coffee",
-  "campaignGoalProgress": "{raised} / {goal}"
+  "campaignGoalProgress": "{raised} / {goal}",
+  "campaignGoalReached": "已筹集 {raised} — 目标达成。谢谢！"
 }

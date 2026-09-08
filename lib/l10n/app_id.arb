@@ -1498,5 +1498,6 @@
   "brewExportTdsLabel": "TDS",
   "brewExportNoBeanGroup": "Seduhan lainnya",
   "campaignSupportCta": "Dukung Timer.Coffee",
-  "campaignGoalProgress": "{raised} dari {goal}"
+  "campaignGoalProgress": "{raised} dari {goal}",
+  "campaignGoalReached": "{raised} terkumpul — target tercapai. Terima kasih!"
 }

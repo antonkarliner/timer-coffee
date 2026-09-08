@@ -1498,5 +1498,6 @@
   "brewExportTdsLabel": "TDS",
   "brewExportNoBeanGroup": "Inne parzenia",
   "campaignSupportCta": "Wesprzyj Timer.Coffee",
-  "campaignGoalProgress": "{raised} z {goal}"
+  "campaignGoalProgress": "{raised} z {goal}",
+  "campaignGoalReached": "Zebrano {raised} — cel osiągnięty. Dziękujemy!"
 }

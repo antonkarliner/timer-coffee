@@ -1669,5 +1669,6 @@
   "brewExportTdsLabel": "TDS",
   "brewExportNoBeanGroup": "Ostale pripreme",
   "campaignSupportCta": "Podržite Timer.Coffee",
-  "campaignGoalProgress": "{raised} od {goal}"
+  "campaignGoalProgress": "{raised} od {goal}",
+  "campaignGoalReached": "{raised} prikupljeno — cilj je postignut. Hvala!"
 }

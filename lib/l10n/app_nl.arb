@@ -1498,5 +1498,6 @@
   "brewExportTdsLabel": "TDS",
   "brewExportNoBeanGroup": "Overige zetbeurten",
   "campaignSupportCta": "Steun Timer.Coffee",
-  "campaignGoalProgress": "{raised} van {goal}"
+  "campaignGoalProgress": "{raised} van {goal}",
+  "campaignGoalReached": "{raised} opgehaald — doel bereikt. Bedankt!"
 }

@@ -1498,5 +1498,6 @@
   "brewExportTdsLabel": "TDS",
   "brewExportNoBeanGroup": "تحضيرات أخرى",
   "campaignSupportCta": "ادعم Timer.Coffee",
-  "campaignGoalProgress": "{raised} من {goal}"
+  "campaignGoalProgress": "{raised} من {goal}",
+  "campaignGoalReached": "تم جمع {raised} — تم بلوغ الهدف. شكرًا لك!"
 }

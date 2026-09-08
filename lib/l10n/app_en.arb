@@ -2750,5 +2750,12 @@
       "raised": {"type": "String"},
       "goal": {"type": "String"}
     }
+  },
+  "campaignGoalReached": "{raised} raised — goal reached. Thank you!",
+  "@campaignGoalReached": {
+    "description": "Goal-reached label on a campaign support block, shown once the raised amount meets or passes the goal, e.g. \"$1,500 raised — goal reached. Thank you!\". {raised} is a whole-dollar formatted amount.",
+    "placeholders": {
+      "raised": {"type": "String"}
+    }
   }
 }

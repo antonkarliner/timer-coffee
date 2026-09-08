@@ -1498,5 +1498,6 @@
   "brewExportTdsLabel": "TDS",
   "brewExportNoBeanGroup": "Diğer demlemeler",
   "campaignSupportCta": "Timer.Coffee uygulamasını destekle",
-  "campaignGoalProgress": "{raised} / {goal}"
+  "campaignGoalProgress": "{raised} / {goal}",
+  "campaignGoalReached": "{raised} toplandı — hedefe ulaşıldı. Teşekkürler!"
 }

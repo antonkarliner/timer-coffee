@@ -1498,5 +1498,6 @@
   "brewExportTdsLabel": "TDS",
   "brewExportNoBeanGroup": "Alte preparări",
   "campaignSupportCta": "Susține Timer.Coffee",
-  "campaignGoalProgress": "{raised} din {goal}"
+  "campaignGoalProgress": "{raised} din {goal}",
+  "campaignGoalReached": "S-au strâns {raised} — obiectiv atins. Vă mulțumim!"
 }

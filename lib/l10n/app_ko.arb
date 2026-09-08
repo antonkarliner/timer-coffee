@@ -1669,5 +1669,6 @@
   "brewExportTdsLabel": "TDS",
   "brewExportNoBeanGroup": "기타 추출",
   "campaignSupportCta": "Timer.Coffee 후원하기",
-  "campaignGoalProgress": "{raised} / {goal}"
+  "campaignGoalProgress": "{raised} / {goal}",
+  "campaignGoalReached": "총 {raised} 모금 — 목표를 달성했습니다. 감사합니다!"
 }

@@ -1893,5 +1893,6 @@
   "brewExportTdsLabel": "TDS",
   "brewExportNoBeanGroup": "Άλλες παρασκευές",
   "campaignSupportCta": "Υποστηρίξτε το Timer.Coffee",
-  "campaignGoalProgress": "{raised} από {goal}"
+  "campaignGoalProgress": "{raised} από {goal}",
+  "campaignGoalReached": "Συγκεντρώθηκαν {raised} — ο στόχος επιτεύχθηκε. Ευχαριστούμε!"
 }

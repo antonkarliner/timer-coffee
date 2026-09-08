@@ -1498,5 +1498,6 @@
   "brewExportTdsLabel": "TDS",
   "brewExportNoBeanGroup": "Інші заварювання",
   "campaignSupportCta": "Підтримайте Timer.Coffee",
-  "campaignGoalProgress": "{raised} із {goal}"
+  "campaignGoalProgress": "{raised} із {goal}",
+  "campaignGoalReached": "Зібрано {raised} — ціль досягнуто. Дякуємо!"
 }

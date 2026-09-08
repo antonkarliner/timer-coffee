@@ -1671,5 +1671,6 @@
   "brewExportTdsLabel": "TDS",
   "brewExportNoBeanGroup": "دم‌آوری‌های دیگر",
   "campaignSupportCta": "از Timer.Coffee حمایت کنید",
-  "campaignGoalProgress": "{raised} از {goal}"
+  "campaignGoalProgress": "{raised} از {goal}",
+  "campaignGoalReached": "{raised} جمع‌آوری شد — به هدف رسیده‌ایم. متشکریم!"
 }

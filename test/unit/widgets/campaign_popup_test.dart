@@ -2,7 +2,9 @@
 // (plan 052, Item A, Phases A3+A4). Covers rendering gating on
 // `isCampaignActive` (non-campaign and expired popups must render as
 // ordinary popups), the optional goal progress bar (presence, clamping,
-// whole-dollar label), and the three support-prompt analytics events
+// whole-dollar label, goal-reached label at/past the goal, floored
+// negatives, and the bar-conditional spacers — plan 054 Items A+D), and
+// the three support-prompt analytics events
 // (support_prompt_shown / _tapped / _dismissed) on both the home modal
 // and the finish-screen expanded card dialog.
 
@@ -74,6 +76,17 @@ List<Map<String, dynamic>> _eventsNamed(String name) =>
     AnalyticsService.instance.bufferedEventsForTesting
         .where((e) => e['event_name'] == name)
         .toList();
+
+/// Every `SizedBox` inside the `CampaignSupportBlock` subtree, so the
+/// spacing tests can assert which spacers render (plan 054, Item D).
+List<SizedBox> _spacersInsideBlock(WidgetTester tester) => tester
+    .widgetList<SizedBox>(
+      find.descendant(
+        of: find.byType(CampaignSupportBlock),
+        matching: find.byType(SizedBox),
+      ),
+    )
+    .toList();
 
 void main() {
   setUp(() async {
@@ -296,6 +309,185 @@ void main() {
             )
             .value,
         0.0,
+      );
+    });
+
+    testWidgets('over-funded campaign: full bar and the goal-reached '
+        'label — the raw "of" label is gone', (tester) async {
+      final popup = _makePopup(
+        id: 20,
+        hookType: 'coffee_day',
+        campaignEndsAt: DateTime.utc(2100, 1, 1),
+        goalAmountUsd: 100,
+        progressAmountUsd: 250,
+      );
+
+      await tester.pumpWidget(_host(
+        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
+      ));
+      await tester.pumpAndSettle();
+
+      expect(
+        tester
+            .widget<LinearProgressIndicator>(
+              find.byType(LinearProgressIndicator),
+            )
+            .value,
+        1.0,
+      );
+      final label = tester
+          .widget<Text>(find.textContaining(r'$250 raised'))
+          .data!;
+      expect(label, r'$250 raised — goal reached. Thank you!');
+      expect(label.contains(r'of $100'), isFalse,
+          reason: 'over-funded label must not read like a bug, got "$label"');
+    });
+
+    testWidgets('exactly at goal: full bar and the goal-reached label — '
+        'the boundary is >=, not >', (tester) async {
+      final popup = _makePopup(
+        id: 21,
+        hookType: 'coffee_day',
+        campaignEndsAt: DateTime.utc(2100, 1, 1),
+        goalAmountUsd: 100,
+        progressAmountUsd: 100,
+      );
+
+      await tester.pumpWidget(_host(
+        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
+      ));
+      await tester.pumpAndSettle();
+
+      expect(
+        tester
+            .widget<LinearProgressIndicator>(
+              find.byType(LinearProgressIndicator),
+            )
+            .value,
+        1.0,
+      );
+      expect(
+        find.text(r'$100 raised — goal reached. Thank you!'),
+        findsOneWidget,
+      );
+      expect(find.textContaining(r'of $100'), findsNothing);
+    });
+
+    testWidgets('just below goal: 0.99 bar and the ordinary "of" label',
+        (tester) async {
+      final popup = _makePopup(
+        id: 22,
+        hookType: 'coffee_day',
+        campaignEndsAt: DateTime.utc(2100, 1, 1),
+        goalAmountUsd: 100,
+        progressAmountUsd: 99,
+      );
+
+      await tester.pumpWidget(_host(
+        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
+      ));
+      await tester.pumpAndSettle();
+
+      expect(
+        tester
+            .widget<LinearProgressIndicator>(
+              find.byType(LinearProgressIndicator),
+            )
+            .value,
+        0.99,
+      );
+      expect(find.text(r'$99 of $100'), findsOneWidget);
+      expect(find.textContaining('goal reached'), findsNothing);
+    });
+
+    testWidgets('negative progress: the label is floored at zero — no '
+        'minus sign', (tester) async {
+      final popup = _makePopup(
+        id: 23,
+        hookType: 'coffee_day',
+        campaignEndsAt: DateTime.utc(2100, 1, 1),
+        goalAmountUsd: 100,
+        progressAmountUsd: -5,
+      );
+
+      await tester.pumpWidget(_host(
+        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
+      ));
+      await tester.pumpAndSettle();
+
+      expect(
+        tester
+            .widget<LinearProgressIndicator>(
+              find.byType(LinearProgressIndicator),
+            )
+            .value,
+        0.0,
+      );
+      final label = tester
+          .widget<Text>(find.textContaining(r'$0 of'))
+          .data!;
+      expect(label, r'$0 of $100');
+      expect(label.contains('-'), isFalse,
+          reason: 'negative progress must be floored at zero, got "$label"');
+      expect(find.textContaining('goal reached'), findsNothing);
+    });
+
+    testWidgets('no goal bar: a single 16dp spacer before the CTA — no '
+        'stacked 16 + 8 whitespace', (tester) async {
+      final popup = _makePopup(
+        id: 24,
+        hookType: 'coffee_day',
+        campaignEndsAt: DateTime.utc(2100, 1, 1),
+      );
+
+      await tester.pumpWidget(_host(
+        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
+      ));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Support Timer.Coffee'), findsOneWidget);
+      expect(find.byType(LinearProgressIndicator), findsNothing);
+
+      final spacers = _spacersInsideBlock(tester);
+      expect(
+        spacers.where((box) => box.height == 16.0),
+        hasLength(1),
+        reason: 'exactly one 16dp spacer between the markdown and the CTA',
+      );
+      expect(
+        spacers.where((box) => box.height == 8.0),
+        isEmpty,
+        reason: 'the 8dp spacer must render only with a goal bar',
+      );
+    });
+
+    testWidgets('with a goal bar: both spacers render — 16dp before the '
+        'bar and 8dp before the CTA', (tester) async {
+      final popup = _makePopup(
+        id: 25,
+        hookType: 'coffee_day',
+        campaignEndsAt: DateTime.utc(2100, 1, 1),
+        goalAmountUsd: 100,
+        progressAmountUsd: 50,
+      );
+
+      await tester.pumpWidget(_host(
+        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
+      ));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(LinearProgressIndicator), findsOneWidget);
+
+      final spacers = _spacersInsideBlock(tester);
+      expect(
+        spacers.where((box) => box.height == 16.0),
+        hasLength(1),
+        reason: 'the 16dp spacer above the goal bar must render',
+      );
+      expect(
+        spacers.where((box) => box.height == 8.0),
+        hasLength(1),
+        reason: 'the 8dp spacer between the goal bar and the CTA must render',
       );
     });
 

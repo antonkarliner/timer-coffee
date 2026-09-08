@@ -1820,5 +1820,6 @@
   "brewExportTdsLabel": "TDS",
   "brewExportNoBeanGroup": "Andre brygg",
   "campaignSupportCta": "Støtt Timer.Coffee",
-  "campaignGoalProgress": "{raised} av {goal}"
+  "campaignGoalProgress": "{raised} av {goal}",
+  "campaignGoalReached": "{raised} samlet inn — målet er nådd. Takk!"
 }

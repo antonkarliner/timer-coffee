@@ -12,6 +12,8 @@
 // actual copy lives in the popup's markdown content; this block only
 // adds the optional goal progress bar and the donate CTA.
 
+import 'dart:math' as math;
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -92,7 +94,11 @@ class _CampaignSupportBlockState extends State<CampaignSupportBlock> {
       children: [
         const SizedBox(height: AppSpacing.base),
         _buildGoalProgress(context, l10n, Theme.of(context)),
-        const SizedBox(height: AppSpacing.sm),
+        // The trailing spacer belongs to the goal bar: render it only when
+        // the bar itself renders, so the no-goal configuration leaves a
+        // single 16dp gap between the markdown and the CTA instead of a
+        // stacked 16 + 8 (plan 054, Item D).
+        if (_showsGoalProgress) const SizedBox(height: AppSpacing.sm),
         AppElevatedButton(
           label: l10n.campaignSupportCta,
           onPressed: () {
@@ -116,10 +122,22 @@ class _CampaignSupportBlockState extends State<CampaignSupportBlock> {
     );
   }
 
-  /// Optional goal progress bar. Rendered only when both amounts are
-  /// present and the goal is positive; the fraction is clamped to
-  /// 0.0–1.0 so over-funding renders a full bar and negatives an empty
-  /// one, and the label always shows whole dollars (never a raw float).
+  /// Whether the goal progress bar renders: both amounts present and a
+  /// positive goal. Single source of truth for both the bar (in
+  /// [_buildGoalProgress]) and its trailing spacer (in [build]) so the
+  /// two can no longer drift apart (plan 054, Item D).
+  bool get _showsGoalProgress {
+    final goal = widget.popup.goalAmountUsd;
+    final progress = widget.popup.progressAmountUsd;
+    return goal != null && goal > 0 && progress != null;
+  }
+
+  /// Optional goal progress bar. Rendered only when [_showsGoalProgress]
+  /// is true; the fraction is clamped to 0.0–1.0 so over-funding renders
+  /// a full bar and negatives an empty one, and the label always shows
+  /// whole dollars (never a raw float). The displayed raised amount is
+  /// floored at zero, and once it meets or passes the goal the label
+  /// switches to the goal-reached message (plan 054, Item A).
   /// The bar is deliberately monochrome (primary fill on an
   /// outlineVariant track) because the block sits inside the launch popup,
   /// where the app's accent orange reads as a system colour.
@@ -128,13 +146,14 @@ class _CampaignSupportBlockState extends State<CampaignSupportBlock> {
     AppLocalizations l10n,
     ThemeData theme,
   ) {
-    final goal = widget.popup.goalAmountUsd;
-    final progress = widget.popup.progressAmountUsd;
-    if (goal == null || progress == null || goal <= 0) {
+    if (!_showsGoalProgress) {
       return const SizedBox.shrink();
     }
 
+    final goal = widget.popup.goalAmountUsd!;
+    final progress = widget.popup.progressAmountUsd!;
     final fraction = (progress / goal).clamp(0.0, 1.0).toDouble();
+    final displayProgress = math.max(progress, 0.0);
     final currency = NumberFormat.currency(symbol: '\$', decimalDigits: 0);
 
     return Column(
@@ -153,10 +172,14 @@ class _CampaignSupportBlockState extends State<CampaignSupportBlock> {
               borderRadius: BorderRadius.circular(AppRadius.chip),
             ),
             child: Text(
-              l10n.campaignGoalProgress(
-                currency.format(progress),
-                currency.format(goal),
-              ),
+              progress >= goal
+                  ? l10n.campaignGoalReached(
+                      currency.format(displayProgress),
+                    )
+                  : l10n.campaignGoalProgress(
+                      currency.format(displayProgress),
+                      currency.format(goal),
+                    ),
               style: theme.textTheme.labelMedium,
             ),
           ),

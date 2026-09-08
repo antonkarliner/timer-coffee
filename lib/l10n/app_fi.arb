@@ -1350,5 +1350,6 @@
   "brewExportTdsLabel": "TDS",
   "brewExportNoBeanGroup": "Muut valmistukset",
   "campaignSupportCta": "Tue Timer.Coffeea",
-  "campaignGoalProgress": "{raised} / {goal}"
+  "campaignGoalProgress": "{raised} / {goal}",
+  "campaignGoalReached": "{raised} kerätty — tavoite saavutettu. Kiitos!"
 }

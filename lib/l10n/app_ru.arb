@@ -1498,5 +1498,6 @@
   "brewExportTdsLabel": "TDS",
   "brewExportNoBeanGroup": "Другие заваривания",
   "campaignSupportCta": "Поддержите Timer.Coffee",
-  "campaignGoalProgress": "{raised} из {goal}"
+  "campaignGoalProgress": "{raised} из {goal}",
+  "campaignGoalReached": "Собрано {raised} — цель достигнута. Спасибо!"
 }

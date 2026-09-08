@@ -1498,5 +1498,6 @@
   "brewExportTdsLabel": "TDS",
   "brewExportNoBeanGroup": "その他の抽出",
   "campaignSupportCta": "Timer.Coffeeをサポート",
-  "campaignGoalProgress": "{raised} / {goal}"
+  "campaignGoalProgress": "{raised} / {goal}",
+  "campaignGoalReached": "{raised}が集まりました — 目標を達成しました。ありがとうございます！"
 }
