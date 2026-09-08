@@ -20,41 +20,20 @@
 // Notes are the one field that isn't a discrete tap/chip interaction, so a
 // short debounce coalesces keystrokes into a single write + analytics event
 // per pause, instead of one of each per character.
-//
-// Plan 039 Phase B2 adds an optional, conditional "Rate the beans" step
-// after the taste/notes/tags fields: a second door into the bean-review
-// flow, alongside the always-independent `BeanReviewNudgeCard` slot card
-// (decision D9 — both doors stay). This sheet never calls
-// `BeanReviewPromptService.evaluate()` itself — it receives an already
-// -computed `BeanReviewPromptDecision` from the finish screen (which
-// resolves it exactly once, via `FinishSlotResolver`) so a depletion-
-// triggered bean can't have both doors burn a separate impression in the
-// same visit. Whichever door actually renders records the impression,
-// gated by the shared `hasBeanReviewImpressionRecorded` /
-// `onBeanReviewImpressionRecorded` pair also threaded into
-// `BeanReviewNudgeCard` — see `finish_screen.dart`'s
-// `_beanReviewImpressionRecorded` field.
 
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../l10n/app_localizations.dart';
-import '../../providers/roaster_profile_provider.dart';
 import '../../providers/user_stat_provider.dart';
 import '../../services/analytics_service.dart';
-import '../../services/bean_review_prompt_service.dart';
 import '../../theme/design_tokens.dart';
 import '../../utils/diary_tags.dart';
-import '../base_buttons.dart';
-import '../bean_review_nudge_card.dart' show ReviewFormOpener;
 import '../brew_diary/diary_field_editors.dart';
 import '../fields/labeled_field.dart';
-import '../roaster_profile/review_form.dart';
-import '../roaster_profile/star_rating.dart';
 
 /// Signature used by [BrewEvalSheet] to report each successful field save.
 /// Defaults to `AnalyticsService.maybeInstance?.track`; overridable so tests
@@ -74,11 +53,6 @@ Future<void> showBrewEvalSheet(
   String? initialNotes,
   List<String> initialTags = const [],
   ValueChanged<double>? onRatingChanged,
-  BeanReviewPromptDecision? reviewDecision,
-  BeanReviewPromptService? reviewPromptService,
-  bool Function()? hasBeanReviewImpressionRecorded,
-  VoidCallback? onBeanReviewImpressionRecorded,
-  ReviewFormOpener? openBeanReviewForm,
 }) {
   return showModalBottomSheet<void>(
     context: context,
@@ -92,11 +66,6 @@ Future<void> showBrewEvalSheet(
       initialNotes: initialNotes,
       initialTags: initialTags,
       onRatingChanged: onRatingChanged,
-      reviewDecision: reviewDecision,
-      reviewPromptService: reviewPromptService,
-      hasBeanReviewImpressionRecorded: hasBeanReviewImpressionRecorded,
-      onBeanReviewImpressionRecorded: onBeanReviewImpressionRecorded,
-      openBeanReviewForm: openBeanReviewForm,
     ),
   );
 }
@@ -113,11 +82,6 @@ class BrewEvalSheet extends StatefulWidget {
     this.onRatingChanged,
     this.tagSuggestionsFuture,
     this.trackEvent,
-    this.reviewDecision,
-    this.reviewPromptService,
-    this.hasBeanReviewImpressionRecorded,
-    this.onBeanReviewImpressionRecorded,
-    this.openBeanReviewForm,
   });
 
   /// The `user_stats.stat_uuid` row this sheet writes to. Must already
@@ -140,33 +104,6 @@ class BrewEvalSheet extends StatefulWidget {
   final String? initialNotes;
   final List<String> initialTags;
 
-  /// The finish screen's once-per-visit bean-review decision (plan 039
-  /// Phase B2), hoisted from `FinishSlotResolver.lastReviewDecision`. This
-  /// sheet never calls `BeanReviewPromptService.evaluate()` itself — a
-  /// `null` or `show == false` decision simply means the "Rate the beans"
-  /// step is omitted.
-  final BeanReviewPromptDecision? reviewDecision;
-
-  /// The `BeanReviewPromptService` instance that produced [reviewDecision]
-  /// (`FinishSlotResolver.lastPromptService`), reused here so
-  /// `recordImpression` writes through the same prefs-backed service rather
-  /// than constructing a second instance.
-  final BeanReviewPromptService? reviewPromptService;
-
-  /// Shared per-visit impression guard — mirrors the same-named parameters
-  /// on `BeanReviewNudgeCard`. Checked before this sheet's own first-frame
-  /// recording so the card and the sheet never double-count the same bean
-  /// in the same visit.
-  final bool Function()? hasBeanReviewImpressionRecorded;
-
-  /// Called the instant this sheet's "Rate the beans" step wins the race to
-  /// record the impression.
-  final VoidCallback? onBeanReviewImpressionRecorded;
-
-  /// Injectable for tests; defaults to resolving the roaster profile id via
-  /// [RoasterProfileProvider] and opening [showReviewForm].
-  final ReviewFormOpener? openBeanReviewForm;
-
   /// Tag autocomplete source. Defaults to
   /// `UserStatProvider.fetchAllDistinctTags()`; overridable for tests.
   final Future<List<String>>? tagSuggestionsFuture;
@@ -188,14 +125,6 @@ class _BrewEvalSheetState extends State<BrewEvalSheet> {
   late Future<List<String>> _tagSuggestions;
   Timer? _notesDebounce;
 
-  // "Rate the beans" step (plan 039 Phase B2). Computed once in initState
-  // from the injected decision + the shared guard's value *at open time* —
-  // stable for the sheet's lifetime, matching the card's own render-once
-  // semantics (see class doc).
-  late final bool _showBeanReviewStep = _computeShowBeanReviewStep();
-  bool _beanReviewOpening = false;
-  bool _beanReviewSubmitted = false;
-
   @override
   void initState() {
     super.initState();
@@ -205,51 +134,12 @@ class _BrewEvalSheetState extends State<BrewEvalSheet> {
     _tagSuggestions =
         widget.tagSuggestionsFuture ??
         context.read<UserStatProvider>().fetchAllDistinctTags();
-    if (_showBeanReviewStep) {
-      // Render-gated, mirroring `BeanReviewNudgeCard._recordImpression`:
-      // only the step's own first frame burns the shared per-visit
-      // impression, never the eligibility decision upstream.
-      WidgetsBinding.instance.addPostFrameCallback(
-        (_) => _recordBeanReviewImpression(),
-      );
-    }
   }
 
   @override
   void dispose() {
     _notesDebounce?.cancel();
     super.dispose();
-  }
-
-  bool _computeShowBeanReviewStep() {
-    final decision = widget.reviewDecision;
-    if (decision == null ||
-        !decision.show ||
-        decision.bean == null ||
-        decision.trigger == null ||
-        widget.reviewPromptService == null) {
-      return false;
-    }
-    return !(widget.hasBeanReviewImpressionRecorded?.call() ?? false);
-  }
-
-  Future<void> _recordBeanReviewImpression() async {
-    // Re-check the shared guard: it may have flipped between initState and
-    // this post-frame callback if the slot card's own post-frame callback
-    // ran first in the same frame batch.
-    if (widget.hasBeanReviewImpressionRecorded?.call() ?? false) return;
-    widget.onBeanReviewImpressionRecorded?.call();
-    final decision = widget.reviewDecision;
-    final promptService = widget.reviewPromptService;
-    final bean = decision?.bean;
-    if (bean == null || promptService == null) return;
-    final count = await promptService.recordImpression(bean.beansUuid);
-    _trackEvent('review_nudge_card_shown', {
-      'bean_uuid': bean.beansUuid,
-      'trigger': decision!.trigger,
-      'impression_count': count,
-      'surface': 'finish_eval_sheet',
-    });
   }
 
   void _track(String field) {
@@ -313,149 +203,6 @@ class _BrewEvalSheetState extends State<BrewEvalSheet> {
     _track('tags');
   }
 
-  Future<bool> _defaultOpenBeanReviewForm(
-    BuildContext context,
-    double? rating,
-  ) async {
-    final bean = widget.reviewDecision?.bean;
-    if (bean == null) return false;
-    String? roasterProfileId;
-    try {
-      roasterProfileId = await Provider.of<RoasterProfileProvider>(
-        context,
-        listen: false,
-      ).fetchRoasterProfileIdByName(bean.roaster).timeout(
-        const Duration(seconds: 2),
-        onTimeout: () => null,
-      );
-    } catch (_) {
-      // Null is fine — the review-submit DB trigger auto-links the profile
-      // later. Never let a lookup failure block the review form.
-      roasterProfileId = null;
-    }
-    // This sheet is itself presented via `showModalBottomSheet`, so
-    // `showReviewForm` below nests a second modal route on top of it. Its
-    // context stays mounted for the inner sheet's whole lifetime — opening
-    // the inner sheet doesn't pop this one, it only pushes above it — so no
-    // `mounted` guard is dropping a write here, only avoiding stale-context
-    // errors if the outer sheet was independently dismissed mid-lookup.
-    if (!context.mounted) return false;
-    return showReviewForm(
-      context,
-      roasterProfileId: roasterProfileId,
-      roasterName: bean.roaster,
-      preselectedBean: bean,
-      initialRating: rating,
-      sourceScreen: 'finish_eval_sheet',
-    );
-  }
-
-  Future<void> _handleBeanReviewTap(double? rating) async {
-    if (_beanReviewOpening) return;
-    setState(() => _beanReviewOpening = true);
-    final opener = widget.openBeanReviewForm ?? _defaultOpenBeanReviewForm;
-    bool submitted = false;
-    try {
-      submitted = await opener(context, rating);
-    } finally {
-      if (mounted) setState(() => _beanReviewOpening = false);
-    }
-    if (!mounted) return;
-    if (submitted) setState(() => _beanReviewSubmitted = true);
-  }
-
-  Widget _buildBeanReviewStep(AppLocalizations loc, ThemeData theme) {
-    return Padding(
-      padding: const EdgeInsets.only(top: AppSpacing.base),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const Divider(),
-          const SizedBox(height: AppSpacing.sm),
-          Text(
-            loc.finishEvalSheetRateBeansSection,
-            style: AppTextStyles.sectionHeader,
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          _beanReviewSubmitted
-              ? _buildBeanReviewThanks(loc, theme)
-              : _buildBeanReviewPrompt(loc, theme),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildBeanReviewPrompt(AppLocalizations loc, ThemeData theme) {
-    final decision = widget.reviewDecision!;
-    final bean = decision.bean!;
-    final subtitle = decision.trigger == 'depletion'
-        ? loc.finishReviewNudgeDepletedSubtitle
-        : loc.finishReviewNudgeSubtitle(bean.roaster);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          loc.finishReviewNudgeTitle(bean.name),
-          style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w700,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: AppSpacing.xs),
-        Text(
-          subtitle,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: AppSpacing.sm),
-        Center(
-          child: IgnorePointer(
-            ignoring: _beanReviewOpening,
-            child: Opacity(
-              opacity: _beanReviewOpening ? 0.6 : 1.0,
-              child: StarRating(
-                value: 0,
-                interactive: true,
-                starSize: AppIconSize.large,
-                onChanged: (rating) => _handleBeanReviewTap(rating),
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(height: AppSpacing.sm),
-        AppTextButton(
-          label: loc.finishReviewNudgeWriteButton,
-          onPressed: _beanReviewOpening ? null : () => _handleBeanReviewTap(null),
-          isFullWidth: false,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildBeanReviewThanks(AppLocalizations loc, ThemeData theme) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(
-          Symbols.check_circle,
-          color: theme.colorScheme.primary,
-          size: AppIconSize.large + 8,
-        ),
-        const SizedBox(height: AppSpacing.sm),
-        Text(
-          loc.finishReviewNudgeThanks,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
@@ -484,9 +231,7 @@ class _BrewEvalSheetState extends State<BrewEvalSheet> {
                   ),
                   IconButton(
                     icon: const Icon(Icons.close),
-                    tooltip: MaterialLocalizations.of(
-                      context,
-                    ).closeButtonLabel,
+                    tooltip: MaterialLocalizations.of(context).closeButtonLabel,
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                 ],
@@ -536,11 +281,6 @@ class _BrewEvalSheetState extends State<BrewEvalSheet> {
                 suggestionsFuture: _tagSuggestions,
                 onChanged: _saveTags,
               ),
-              if (_showBeanReviewStep)
-                Semantics(
-                  identifier: 'evalSheetBeanReviewStep',
-                  child: _buildBeanReviewStep(loc, theme),
-                ),
               const SizedBox(height: AppSpacing.base),
             ],
           ),

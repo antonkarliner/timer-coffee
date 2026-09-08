@@ -26,7 +26,6 @@ import '../utils/app_logger.dart';
 import '../utils/country_names.dart';
 import '../widgets/notification_permission_dialog.dart';
 import '../widgets/base_buttons.dart';
-import '../services/bean_review_prompt_service.dart';
 import '../services/engagement_budget_service.dart';
 import '../services/finish_slot_resolver.dart';
 import '../services/onboarding_service.dart';
@@ -206,36 +205,6 @@ class _FinishScreenState extends State<FinishScreen> {
   // coffee fact. Created once here (not in build) so it isn't re-resolved on
   // every rebuild.
   late Future<FinishSlotContent> _slotContentFuture;
-
-  // Bean-review shared decision (plan 039, Phase B2 — "Bean review, second
-  // delivery surface"). `FinishSlotResolver.resolve` (called exactly once,
-  // from `_slotContentFuture`) already runs `BeanReviewPromptService
-  // .evaluate()` internally; these mirror the `reviewDecision` /
-  // `promptService` fields on the `FinishSlotResolution` it returns (plan
-  // 039 triage item 4 — the resolver returns this instead of mutating
-  // `last*` fields on itself), so both the slot card and `BrewEvalSheet`'s
-  // "Rate the beans" step read the exact same decision instead of each
-  // calling `evaluate()` a second time (which would double-count against
-  // the per-bean impression cap — see the plan's "How the shared cap
-  // actually works" for why a second `evaluate()` isn't safe even though
-  // `BeanReviewPromptService` itself is never modified). The resolution's
-  // `depletedThisBrew` isn't hoisted here — nothing downstream of
-  // `_resolveSlotDecision` reads it.
-  BeanReviewPromptDecision? _beanReviewDecision;
-  BeanReviewPromptService? _beanReviewPromptService;
-
-  // Single per-visit guard shared between the slot card
-  // (`BeanReviewNudgeCard`) and the eval sheet's "Rate the beans" step:
-  // whichever one actually renders first calls `recordImpression()`, and
-  // this flag stops the other from also recording. Plain field (not
-  // `setState`-driven) — nothing in `build()` reads it directly.
-  bool _beanReviewImpressionRecorded = false;
-
-  bool get hasBeanReviewImpressionRecorded => _beanReviewImpressionRecorded;
-
-  void _markBeanReviewImpressionRecorded() {
-    _beanReviewImpressionRecorded = true;
-  }
 
   bool get _inSyncWon =>
       _inSyncResolved &&
@@ -747,11 +716,6 @@ class _FinishScreenState extends State<FinishScreen> {
           if (!mounted) return;
           setState(() => _rating = updated);
         },
-        reviewDecision: _beanReviewDecision,
-        reviewPromptService: _beanReviewPromptService,
-        hasBeanReviewImpressionRecorded: () =>
-            hasBeanReviewImpressionRecorded,
-        onBeanReviewImpressionRecorded: _markBeanReviewImpressionRecorded,
       ),
     );
   }
@@ -912,13 +876,6 @@ class _FinishScreenState extends State<FinishScreen> {
       whatsNewPopupFuture: whatsNewPopupFuture,
       locale: locale,
     );
-    // Hoist the resolver's once-per-visit bean-review decision (plan 039
-    // Phase B2) so the eval sheet's "Rate the beans" step can read the exact
-    // same decision the slot card renders from — see the field docs above.
-    // No `setState`: nothing in `build()` depends on these directly, only
-    // the sheet invocation in `_tapRatingStar` reads them at tap time.
-    _beanReviewDecision = resolution.reviewDecision;
-    _beanReviewPromptService = resolution.promptService;
     return resolution.content;
   }
 
@@ -1233,10 +1190,6 @@ class _FinishScreenState extends State<FinishScreen> {
                                 bean: content.bean!,
                                 trigger: content.trigger!,
                                 promptService: content.promptService!,
-                                hasSharedImpressionRecorded: () =>
-                                    hasBeanReviewImpressionRecorded,
-                                onImpressionRecorded:
-                                    _markBeanReviewImpressionRecorded,
                                 budgetService: _budgetForWhatsNew,
                               );
                             case FinishSlotKind.whatsNew:
