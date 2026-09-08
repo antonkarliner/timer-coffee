@@ -150,6 +150,10 @@ class AnalyticsService extends ChangeNotifier {
     'popup_shown': 'general',
     'popup_dismissed': 'general',
     'popup_link_tapped': 'general',
+    // Campaign support prompt in the launch popup (plan 052, Item A)
+    'support_prompt_shown': 'general',
+    'support_prompt_tapped': 'general',
+    'support_prompt_dismissed': 'general',
   };
 
   // ──────────────────── State ────────────────────

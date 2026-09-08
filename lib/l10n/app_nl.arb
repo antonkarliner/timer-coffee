@@ -1495,5 +1495,7 @@
   "brewExportExportedOn": "Geëxporteerd op",
   "brewExportDateLabel": "Datum",
   "brewExportTdsLabel": "TDS",
-  "brewExportNoBeanGroup": "Overige zetbeurten"
+  "brewExportNoBeanGroup": "Overige zetbeurten",
+  "campaignSupportCta": "Steun Timer.Coffee",
+  "campaignGoalProgress": "{raised} van {goal}"
 }

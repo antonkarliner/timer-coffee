@@ -36,6 +36,7 @@ import '../../services/analytics_service.dart';
 import '../../services/engagement_budget_service.dart';
 import '../../theme/design_tokens.dart';
 import '../base_buttons.dart';
+import '../campaign_support_block.dart';
 
 /// Source-screen tag on every popup analytics event fired from this card —
 /// mirrors `launch_popup.dart`'s `_kSourceScreen` ('home'), but 'finish' so
@@ -108,6 +109,14 @@ class _WhatsNewCardState extends State<WhatsNewCard> {
   }
 
   Future<void> _openExpanded() async {
+    // Plan 052, Item A: the expanded dialog of an active-campaign popup
+    // additionally shows the shared support block below the markdown (the
+    // card's own collapsed appearance is untouched). The flag is captured
+    // once so the dialog tree (and the dismissal bookkeeping below) cannot
+    // flip if the campaign expires while the dialog is open.
+    final campaignActive = widget.popup.isCampaignActive;
+    var campaignCtaTapped = false;
+
     // showDialog<bool> resolves to `true` only when the Close button popped
     // it explicitly; a barrier tap or the system back gesture resolves to
     // `null` — the same `dismiss_method` derivation as `launch_popup.dart`.
@@ -119,7 +128,24 @@ class _WhatsNewCardState extends State<WhatsNewCard> {
             borderRadius: BorderRadius.circular(AppRadius.card),
           ),
           title: Text(AppLocalizations.of(context)!.whatsnewtitle),
-          content: SingleChildScrollView(child: _buildMarkdown(context)),
+          content: SingleChildScrollView(
+            // Non-campaign popups keep the exact pre-campaign tree; only an
+            // active campaign adds the support block below the markdown.
+            child: campaignActive
+                ? Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      _buildMarkdown(context),
+                      CampaignSupportBlock(
+                        popup: widget.popup,
+                        sourceScreen: kWhatsNewCardSourceScreen,
+                        onCtaTapped: () => campaignCtaTapped = true,
+                      ),
+                    ],
+                  )
+                : _buildMarkdown(context),
+          ),
           actions: <Widget>[
             AppTextButton(
               label: AppLocalizations.of(context)!.whatsnewclose,
@@ -139,6 +165,19 @@ class _WhatsNewCardState extends State<WhatsNewCard> {
       'source_screen': kWhatsNewCardSourceScreen,
       'dismiss_method': closedExplicitly == true ? 'close' : 'barrier_or_back',
     });
+
+    // Plan 052, Item A: the dialog showed an active campaign block and
+    // closed without the CTA having been tapped — derived from the same
+    // close path as popup_dismissed, no second dismissal mechanism.
+    if (campaignActive && !campaignCtaTapped) {
+      AnalyticsService.maybeInstance?.track(
+        'support_prompt_dismissed',
+        properties: {
+          'trigger_id': campaignTriggerId(widget.popup.id),
+          'source_screen': kWhatsNewCardSourceScreen,
+        },
+      );
+    }
   }
 
   Widget _buildMarkdown(BuildContext context) {

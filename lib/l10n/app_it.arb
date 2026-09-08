@@ -1495,5 +1495,7 @@
   "brewExportExportedOn": "Esportato il",
   "brewExportDateLabel": "Data",
   "brewExportTdsLabel": "TDS",
-  "brewExportNoBeanGroup": "Altre estrazioni"
+  "brewExportNoBeanGroup": "Altre estrazioni",
+  "campaignSupportCta": "Sostieni Timer.Coffee",
+  "campaignGoalProgress": "{raised} di {goal}"
 }

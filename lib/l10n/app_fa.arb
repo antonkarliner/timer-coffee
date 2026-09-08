@@ -1668,5 +1668,7 @@
   "brewExportExportedOn": "خروجی گرفته‌شده در",
   "brewExportDateLabel": "تاریخ",
   "brewExportTdsLabel": "TDS",
-  "brewExportNoBeanGroup": "دم‌آوری‌های دیگر"
+  "brewExportNoBeanGroup": "دم‌آوری‌های دیگر",
+  "campaignSupportCta": "از Timer.Coffee حمایت کنید",
+  "campaignGoalProgress": "{raised} از {goal}"
 }

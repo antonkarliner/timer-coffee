@@ -11,6 +11,7 @@ import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/services/engagement_budget_service.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
+import 'package:coffee_timer/widgets/campaign_support_block.dart';
 import 'package:url_launcher/url_launcher.dart'; // Ensure correct import path
 import 'package:flutter_markdown/flutter_markdown.dart';
 
@@ -158,6 +159,13 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
 
     if (!mounted) return;
 
+    // Plan 052, Item A: an active campaign popup additionally renders the
+    // shared support block inside the dialog's scrollable content. The flag
+    // is captured once so the dialog tree (and the dismissal bookkeeping
+    // below) cannot flip if the campaign expires while the dialog is open.
+    final campaignActive = popup.isCampaignActive;
+    var campaignCtaTapped = false;
+
     // showDialog<bool> resolves to `true` only when the Close button popped
     // it explicitly; a barrier tap or the system back gesture resolves to
     // `null`, which is exactly the reflex-dismissal signal this analytics
@@ -169,7 +177,22 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
         return AlertDialog(
           title: Text(AppLocalizations.of(context)!.whatsnewtitle),
           content: SingleChildScrollView(
-            child: _buildMarkdown(context, popup.content, popup.id),
+            // Non-campaign popups keep the exact pre-campaign tree; only an
+            // active campaign adds the support block below the markdown.
+            child: campaignActive
+                ? Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      _buildMarkdown(context, popup.content, popup.id),
+                      CampaignSupportBlock(
+                        popup: popup,
+                        sourceScreen: _kSourceScreen,
+                        onCtaTapped: () => campaignCtaTapped = true,
+                      ),
+                    ],
+                  )
+                : _buildMarkdown(context, popup.content, popup.id),
           ),
           actions: <Widget>[
             AppTextButton(
@@ -192,6 +215,19 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
       'source_screen': _kSourceScreen,
       'dismiss_method': closedExplicitly == true ? 'close' : 'barrier_or_back',
     });
+
+    // Plan 052, Item A: a dialog that showed an active campaign block and
+    // closed without the CTA having been tapped is a support-prompt
+    // dismissal, derived from the same close path as popup_dismissed.
+    if (campaignActive && !campaignCtaTapped) {
+      AnalyticsService.maybeInstance?.track(
+        'support_prompt_dismissed',
+        properties: {
+          'trigger_id': campaignTriggerId(popup.id),
+          'source_screen': _kSourceScreen,
+        },
+      );
+    }
   }
 
   Widget _buildMarkdown(BuildContext context, String data, int popupId) {

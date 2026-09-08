@@ -1495,5 +1495,7 @@
   "brewExportExportedOn": "エクスポート日時",
   "brewExportDateLabel": "日付",
   "brewExportTdsLabel": "TDS",
-  "brewExportNoBeanGroup": "その他の抽出"
+  "brewExportNoBeanGroup": "その他の抽出",
+  "campaignSupportCta": "Timer.Coffeeをサポート",
+  "campaignGoalProgress": "{raised} / {goal}"
 }

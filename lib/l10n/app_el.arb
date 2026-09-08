@@ -1890,5 +1890,7 @@
   "brewExportExportedOn": "Εξήχθη",
   "brewExportDateLabel": "Ημερομηνία",
   "brewExportTdsLabel": "TDS",
-  "brewExportNoBeanGroup": "Άλλες παρασκευές"
+  "brewExportNoBeanGroup": "Άλλες παρασκευές",
+  "campaignSupportCta": "Υποστηρίξτε το Timer.Coffee",
+  "campaignGoalProgress": "{raised} από {goal}"
 }

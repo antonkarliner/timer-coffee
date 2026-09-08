@@ -1495,5 +1495,7 @@
   "brewExportExportedOn": "Exportat la",
   "brewExportDateLabel": "Data",
   "brewExportTdsLabel": "TDS",
-  "brewExportNoBeanGroup": "Alte preparări"
+  "brewExportNoBeanGroup": "Alte preparări",
+  "campaignSupportCta": "Susține Timer.Coffee",
+  "campaignGoalProgress": "{raised} din {goal}"
 }

@@ -1495,5 +1495,7 @@
   "brewExportExportedOn": "تاريخ التصدير",
   "brewExportDateLabel": "التاريخ",
   "brewExportTdsLabel": "TDS",
-  "brewExportNoBeanGroup": "تحضيرات أخرى"
+  "brewExportNoBeanGroup": "تحضيرات أخرى",
+  "campaignSupportCta": "ادعم Timer.Coffee",
+  "campaignGoalProgress": "{raised} من {goal}"
 }

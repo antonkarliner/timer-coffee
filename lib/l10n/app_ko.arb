@@ -1666,5 +1666,7 @@
   "brewExportExportedOn": "내보내기 날짜",
   "brewExportDateLabel": "날짜",
   "brewExportTdsLabel": "TDS",
-  "brewExportNoBeanGroup": "기타 추출"
+  "brewExportNoBeanGroup": "기타 추출",
+  "campaignSupportCta": "Timer.Coffee 후원하기",
+  "campaignGoalProgress": "{raised} / {goal}"
 }

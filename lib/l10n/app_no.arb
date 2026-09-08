@@ -1817,5 +1817,7 @@
   "brewExportExportedOn": "Eksportert",
   "brewExportDateLabel": "Dato",
   "brewExportTdsLabel": "TDS",
-  "brewExportNoBeanGroup": "Andre brygg"
+  "brewExportNoBeanGroup": "Andre brygg",
+  "campaignSupportCta": "Støtt Timer.Coffee",
+  "campaignGoalProgress": "{raised} av {goal}"
 }

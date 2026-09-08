@@ -2736,5 +2736,15 @@
   "brewExportTdsLabel": "TDS",
   "@brewExportTdsLabel": {"description": "Field label for the TDS reading in a brew markdown export."},
   "brewExportNoBeanGroup": "Other brews",
-  "@brewExportNoBeanGroup": {"description": "Heading for brews with no linked bean or roaster on record in a by-bean markdown export."}
+  "@brewExportNoBeanGroup": {"description": "Heading for brews with no linked bean or roaster on record in a by-bean markdown export."},
+  "campaignSupportCta": "Support Timer.Coffee",
+  "@campaignSupportCta": {"description": "Label of the donate call-to-action button on a campaign support block shown inside the launch popup."},
+  "campaignGoalProgress": "{raised} of {goal}",
+  "@campaignGoalProgress": {
+    "description": "Goal progress label on a campaign support block, e.g. \"$425 of $1,000\". {raised} is the amount raised so far, {goal} is the campaign goal; both are whole-dollar amounts.",
+    "placeholders": {
+      "raised": {"type": "String"},
+      "goal": {"type": "String"}
+    }
+  }
 }

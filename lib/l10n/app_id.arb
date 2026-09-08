@@ -1495,5 +1495,7 @@
   "brewExportExportedOn": "Diekspor",
   "brewExportDateLabel": "Tanggal",
   "brewExportTdsLabel": "TDS",
-  "brewExportNoBeanGroup": "Seduhan lainnya"
+  "brewExportNoBeanGroup": "Seduhan lainnya",
+  "campaignSupportCta": "Dukung Timer.Coffee",
+  "campaignGoalProgress": "{raised} dari {goal}"
 }

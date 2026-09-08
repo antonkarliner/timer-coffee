@@ -1666,5 +1666,7 @@
   "brewExportExportedOn": "Izvezeno",
   "brewExportDateLabel": "Datum",
   "brewExportTdsLabel": "TDS",
-  "brewExportNoBeanGroup": "Ostale pripreme"
+  "brewExportNoBeanGroup": "Ostale pripreme",
+  "campaignSupportCta": "Podržite Timer.Coffee",
+  "campaignGoalProgress": "{raised} od {goal}"
 }

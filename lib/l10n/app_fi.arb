@@ -1347,5 +1347,7 @@
   "brewExportExportedOn": "Viety",
   "brewExportDateLabel": "Päivämäärä",
   "brewExportTdsLabel": "TDS",
-  "brewExportNoBeanGroup": "Muut valmistukset"
+  "brewExportNoBeanGroup": "Muut valmistukset",
+  "campaignSupportCta": "Tue Timer.Coffeea",
+  "campaignGoalProgress": "{raised} / {goal}"
 }

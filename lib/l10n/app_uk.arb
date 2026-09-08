@@ -1495,5 +1495,7 @@
   "brewExportExportedOn": "Експортовано",
   "brewExportDateLabel": "Дата",
   "brewExportTdsLabel": "TDS",
-  "brewExportNoBeanGroup": "Інші заварювання"
+  "brewExportNoBeanGroup": "Інші заварювання",
+  "campaignSupportCta": "Підтримайте Timer.Coffee",
+  "campaignGoalProgress": "{raised} із {goal}"
 }

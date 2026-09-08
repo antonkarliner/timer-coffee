@@ -1495,5 +1495,7 @@
   "brewExportExportedOn": "Dışa aktarma tarihi",
   "brewExportDateLabel": "Tarih",
   "brewExportTdsLabel": "TDS",
-  "brewExportNoBeanGroup": "Diğer demlemeler"
+  "brewExportNoBeanGroup": "Diğer demlemeler",
+  "campaignSupportCta": "Timer.Coffee uygulamasını destekle",
+  "campaignGoalProgress": "{raised} / {goal}"
 }

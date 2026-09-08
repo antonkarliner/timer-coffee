@@ -1495,5 +1495,7 @@
   "brewExportExportedOn": "导出时间",
   "brewExportDateLabel": "日期",
   "brewExportTdsLabel": "TDS",
-  "brewExportNoBeanGroup": "其他冲煮"
+  "brewExportNoBeanGroup": "其他冲煮",
+  "campaignSupportCta": "支持 Timer.Coffee",
+  "campaignGoalProgress": "{raised} / {goal}"
 }
