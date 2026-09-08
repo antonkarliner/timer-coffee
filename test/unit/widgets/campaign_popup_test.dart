@@ -173,6 +173,28 @@ void main() {
       expect(bar.value, 0.25);
     });
 
+    testWidgets('progress bar uses explicit monochrome theme colours',
+        (tester) async {
+      final popup = _makePopup(
+        id: 7,
+        hookType: 'coffee_day',
+        campaignEndsAt: DateTime.utc(2100, 1, 1),
+        goalAmountUsd: 1000,
+        progressAmountUsd: 250,
+      );
+
+      await tester.pumpWidget(_host(
+        LaunchPopupWidget(fetchPopupOverride: (context, locale) async => popup),
+      ));
+      await tester.pumpAndSettle();
+
+      final finder = find.byType(LinearProgressIndicator);
+      final bar = tester.widget<LinearProgressIndicator>(finder);
+      final colorScheme = Theme.of(tester.element(finder)).colorScheme;
+      expect(bar.color, colorScheme.primary);
+      expect(bar.backgroundColor, colorScheme.outlineVariant);
+    });
+
     testWidgets('progress present but goal null → no progress bar',
         (tester) async {
       final popup = _makePopup(

@@ -118,6 +118,9 @@ class _CampaignSupportBlockState extends State<CampaignSupportBlock> {
   /// present and the goal is positive; the fraction is clamped to
   /// 0.0–1.0 so over-funding renders a full bar and negatives an empty
   /// one, and the label always shows whole dollars (never a raw float).
+  /// The bar is deliberately monochrome (primary fill on an
+  /// outlineVariant track) because the block sits inside the launch popup,
+  /// where the app's accent orange reads as a system colour.
   Widget _buildGoalProgress(
     BuildContext context,
     AppLocalizations l10n,
@@ -159,6 +162,8 @@ class _CampaignSupportBlockState extends State<CampaignSupportBlock> {
         const SizedBox(height: AppSpacing.xs),
         LinearProgressIndicator(
           value: fraction,
+          color: theme.colorScheme.primary,
+          backgroundColor: theme.colorScheme.outlineVariant,
           borderRadius: BorderRadius.circular(AppRadius.small),
         ),
       ],
