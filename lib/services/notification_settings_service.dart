@@ -3,6 +3,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:rxdart/rxdart.dart';
 
+import 'analytics_service.dart';
+
 const String KEY_MASTER_ENABLED = 'notifications_master_enabled';
 const String KEY_MORNING_REMINDER = 'notifications_morning_reminder_enabled';
 const String KEY_MORNING_REMINDER_HOUR = 'notifications_morning_reminder_hour';
@@ -61,11 +63,13 @@ class NotificationSettingsService {
     return _prefs!.getBool(KEY_MASTER_ENABLED) ?? false;
   }
 
-  Future<void> setMasterEnabled(bool enabled) async {
+  Future<void> setMasterEnabled(bool enabled, {String source = 'user'}) async {
     await _ensureInitialized();
+    final previous = _prefs!.getBool(KEY_MASTER_ENABLED) ?? false;
     await _prefs!.setBool(KEY_MASTER_ENABLED, enabled);
     _masterSubject.add(enabled);
     AppLogger.debug('Master notification setting updated: $enabled');
+    if (previous != enabled) _trackToggle('master', enabled, source);
   }
 
   Future<bool> isMorningReminderEnabled() async {
@@ -73,11 +77,16 @@ class NotificationSettingsService {
     return _prefs!.getBool(KEY_MORNING_REMINDER) ?? false;
   }
 
-  Future<void> setMorningReminderEnabled(bool enabled) async {
+  Future<void> setMorningReminderEnabled(
+    bool enabled, {
+    String source = 'user',
+  }) async {
     await _ensureInitialized();
+    final previous = _prefs!.getBool(KEY_MORNING_REMINDER) ?? false;
     await _prefs!.setBool(KEY_MORNING_REMINDER, enabled);
     _morningSubject.add(enabled);
     AppLogger.debug('Morning reminder setting updated: $enabled');
+    if (previous != enabled) _trackToggle('morning_reminder', enabled, source);
   }
 
   Future<TimeOfDay> getMorningReminderTime() async {
@@ -102,11 +111,16 @@ class NotificationSettingsService {
     return _prefs!.getBool(KEY_WEEKLY_SUMMARY) ?? false;
   }
 
-  Future<void> setWeeklySummaryEnabled(bool enabled) async {
+  Future<void> setWeeklySummaryEnabled(
+    bool enabled, {
+    String source = 'user',
+  }) async {
     await _ensureInitialized();
+    final previous = _prefs!.getBool(KEY_WEEKLY_SUMMARY) ?? false;
     await _prefs!.setBool(KEY_WEEKLY_SUMMARY, enabled);
     _weeklySubject.add(enabled);
     AppLogger.debug('Weekly summary setting updated: $enabled');
+    if (previous != enabled) _trackToggle('weekly_summary', enabled, source);
   }
 
   Future<bool> isBeanFreshnessEnabled() async {
@@ -114,11 +128,16 @@ class NotificationSettingsService {
     return _prefs!.getBool(KEY_BEAN_FRESHNESS) ?? false;
   }
 
-  Future<void> setBeanFreshnessEnabled(bool enabled) async {
+  Future<void> setBeanFreshnessEnabled(
+    bool enabled, {
+    String source = 'user',
+  }) async {
     await _ensureInitialized();
+    final previous = _prefs!.getBool(KEY_BEAN_FRESHNESS) ?? false;
     await _prefs!.setBool(KEY_BEAN_FRESHNESS, enabled);
     _beanFreshnessSubject.add(enabled);
     AppLogger.debug('Bean freshness setting updated: $enabled');
+    if (previous != enabled) _trackToggle('bean_freshness', enabled, source);
   }
 
   Future<bool> isBeanReviewNudgeEnabled() async {
@@ -126,11 +145,16 @@ class NotificationSettingsService {
     return _prefs!.getBool(KEY_BEAN_REVIEW_NUDGE) ?? true;
   }
 
-  Future<void> setBeanReviewNudgeEnabled(bool enabled) async {
+  Future<void> setBeanReviewNudgeEnabled(
+    bool enabled, {
+    String source = 'user',
+  }) async {
     await _ensureInitialized();
+    final previous = _prefs!.getBool(KEY_BEAN_REVIEW_NUDGE) ?? true;
     await _prefs!.setBool(KEY_BEAN_REVIEW_NUDGE, enabled);
     _beanReviewNudgeSubject.add(enabled);
     AppLogger.debug('Bean review nudge setting updated: $enabled');
+    if (previous != enabled) _trackToggle('bean_review_nudge', enabled, source);
   }
 
   void dispose() {
@@ -146,6 +170,23 @@ class NotificationSettingsService {
     if (_prefs == null) {
       await init();
     }
+  }
+
+  /// Emits `notification_setting_toggled` for a genuine state change.
+  ///
+  /// Uses [AnalyticsService.maybeInstance] rather than `instance` because
+  /// notification settings can be written before analytics initializes (the
+  /// notification migration runs early in startup) and in widget tests where
+  /// the singleton is never created.
+  void _trackToggle(String setting, bool enabled, String source) {
+    AnalyticsService.maybeInstance?.track(
+      'notification_setting_toggled',
+      properties: {
+        'setting': setting,
+        'enabled': enabled,
+        'source': source,
+      },
+    );
   }
 
   /// Check if notification migration has been completed

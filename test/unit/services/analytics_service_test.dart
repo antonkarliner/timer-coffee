@@ -431,6 +431,42 @@ void main() {
       expect(service.bufferLength, 0);
     });
 
+    test('registers notification_setting_toggled (general category)', () {
+      service.track(
+        'notification_setting_toggled',
+        properties: {
+          'setting': 'master',
+          'enabled': true,
+          'source': 'user',
+        },
+      );
+
+      final events = service.bufferedEventsForTesting;
+      expect(events.map((event) => event['event_name']).toList(),
+          ['notification_setting_toggled']);
+      expect(events.every((event) => event['category'] == 'general'), isTrue);
+
+      final properties = events.first['properties'] as Map<String, dynamic>;
+      expect(properties['setting'], 'master');
+      expect(properties['enabled'], isTrue);
+      expect(properties['source'], 'user');
+    });
+
+    test(
+        'is no-op for notification_setting_toggled when general category disabled',
+        () async {
+      await service.setGeneralEnabled(false);
+      service.track(
+        'notification_setting_toggled',
+        properties: {
+          'setting': 'master',
+          'enabled': true,
+          'source': 'user',
+        },
+      );
+      expect(service.bufferLength, 0);
+    });
+
     test('buffers beta_feature_toggled under general category', () {
       service.track(
         'beta_feature_toggled',

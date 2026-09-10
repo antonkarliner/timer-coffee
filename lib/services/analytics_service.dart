@@ -26,6 +26,10 @@ import '../utils/app_logger.dart';
 ///   collection interactions and sharing, donation_screen_viewed,
 ///   donation_button_tapped, donation_completed, donation_failed,
 ///   donation_cancelled,
+///   notification_permission_shown, notification_permission_result,
+///   notification_tapped, notification_scheduled,
+///   notification_presumed_delivered, notification_cancelled,
+///   notification_setting_toggled,
 ///   roaster_profile_viewed, roaster_link_tapped, roaster_contribution_shown/
 ///   _submitted/_dismissed, the "moments" (surprise-and-delight) events
 ///   moment_shown, moment_interacted, moment_discovered, the finish-
@@ -139,6 +143,8 @@ class AnalyticsService extends ChangeNotifier {
     'notification_scheduled': 'general',
     'notification_presumed_delivered': 'general',
     'notification_cancelled': 'general',
+    // Notification settings activation
+    'notification_setting_toggled': 'general',
     // Advanced / beta feature toggles
     'beta_feature_toggled': 'general',
     // Moments (surprise-and-delight / easter eggs)

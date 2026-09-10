@@ -85,7 +85,10 @@ class NotificationMigrationService {
 
       if (hasPermissions) {
         // Enable master notification toggle
-        await NotificationSettingsService.instance.setMasterEnabled(true);
+        await NotificationSettingsService.instance.setMasterEnabled(
+          true,
+          source: 'migration',
+        );
         AppLogger.info('Master notification toggle enabled due to migration');
       } else {
         AppLogger.debug(

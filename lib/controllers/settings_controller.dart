@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dynamic_icon_plus/flutter_dynamic_icon_plus.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../services/analytics_service.dart';
 import '../services/notification_service.dart';
 import '../services/local_notification_scheduler_service.dart';
 import '../database/database.dart';
@@ -234,6 +235,13 @@ class SettingsController extends ChangeNotifier {
 
         if (!hasPerm) {
           final granted = await _notificationService.requestPermissions();
+          AnalyticsService.maybeInstance?.track(
+            'notification_permission_result',
+            properties: {
+              'result': granted ? 'granted' : 'denied',
+              'source': 'settings',
+            },
+          );
           if (!granted) {
             return ToggleNotificationResult.permissionDenied;
           }
