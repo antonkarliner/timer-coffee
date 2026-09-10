@@ -1100,18 +1100,9 @@
     }
   },
 
-  "notifBeanFreshnessTitle": "Taze çekirdek zamanı mı?",
-  "notifBeanFreshnessBody": "{beanName} {days} gün önce kavruldu. En iyi dönemini geçmiş olabilir.",
-  "@notifBeanFreshnessBody": {
-    "placeholders": {
-      "beanName": {
-        "type": "String"
-      },
-      "days": {
-        "type": "int"
-      }
-    }
-  },
+  "notifBeanFreshnessTitle": "Demleme vakti",
+  "notifBeanFreshnessRestBody": "{beanName} en iyi zamanına ulaşıyor — demlemeyi unutma",
+  "notifBeanFreshnessIdleBody": "{beanName} en iyi dönemi geçmeden demlemeyi unutma",
 
   "notifBeanReviewNudgeTitle": "{roaster} kavurucusundan {beanName} nasıldı?",
   "notifBeanReviewNudgeTitleNoRoaster": "{beanName} nasıldı?",
@@ -1126,8 +1117,8 @@
   "settingsMorningReminderTime": "Hatırlatma saati",
   "settingsWeeklySummary": "Haftalık özet",
   "settingsWeeklySummarySubtitle": "Pazar akşamı demlemelerinin özeti",
-  "settingsBeanFreshness": "Çekirdek tazelik uyarıları",
-  "settingsBeanFreshnessSubtitle": "Kavrulma tarihinin üzerinden 3 haftadan fazla geçtiğinde bildir",
+  "settingsBeanFreshness": "Tazelik hatırlatmaları",
+  "settingsBeanFreshnessSubtitle": "Çekirdeklerini en iyi zamanındayken demlemen için hatırlatır",
   "daysAgo": "{count, plural, one{1 gün önce} other{{count} gün önce}}",
   "@daysAgo": {
     "placeholders": {

@@ -63,8 +63,19 @@ class LocalNotificationSchedulerService {
   // --- SharedPreferences cooldown keys ---
   static const _keyLastCelebratedMilestone = 'notif_last_celebrated_milestone';
   static const _keyRecipeExploreShown = 'notif_recipe_explore_shown';
-  static const _keyBeanFreshnessLastUuid = 'notif_bean_freshness_last_uuid';
-  static const _keyBeanFreshnessLastDate = 'notif_bean_freshness_last_date';
+  static const _keyBeanFreshnessPending = 'notif_bean_freshness_pending';
+  static const _keyBeanFreshnessNudged = 'notif_bean_freshness_nudged';
+  static const _keyBeanFreshnessLastFiredMs =
+      'notif_bean_freshness_last_fired_ms';
+  // Written by the pre-2026-09-10 cooldown implementation, which no longer
+  // exists. Upgrading installs still carry them, so they are removed on the
+  // first run that gets this far; see [_clearLegacyFreshnessKeys].
+  static const _legacyKeyBeanFreshnessLastUuid =
+      'notif_bean_freshness_last_uuid';
+  static const _legacyKeyBeanFreshnessLastDate =
+      'notif_bean_freshness_last_date';
+  static const _keyMorningLastTrackedMs = 'notif_morning_last_tracked_ms';
+  static const _keyWeeklyLastTrackedMs = 'notif_weekly_last_tracked_ms';
   // Prevents brew inactivity reminders from firing more than once per 14 days,
   // so casual brewers with ~weekly cadence aren't repeatedly nagged.
   static const _keyBrewReminderLastScheduled =
@@ -147,9 +158,10 @@ class LocalNotificationSchedulerService {
           locale,
         ),
         // Tier 3 (optional, toggleable)
-        _scheduleMorningReminder(settings, l10n),
-        _scheduleWeeklyReminder(settings, userStatsDao, l10n),
-        _scheduleBeanFreshnessAlert(settings, coffeeBeansDao, l10n, prefs),
+        _scheduleMorningReminder(settings, l10n, prefs),
+        _scheduleWeeklyReminder(settings, userStatsDao, l10n, prefs),
+        _scheduleBeanFreshnessAlert(
+            settings, coffeeBeansDao, userStatsDao, l10n, prefs),
         _scheduleBeanReviewNudges(
             settings, coffeeBeansDao, userStatsDao, l10n, prefs),
         _materializeRoasterContribNudges(l10n: l10n),
@@ -454,6 +466,7 @@ class LocalNotificationSchedulerService {
   Future<void> _scheduleMorningReminder(
     NotificationSettingsService settings,
     AppLocalizations l10n,
+    SharedPreferences prefs,
   ) async {
     if (!await settings.isMorningReminderEnabled()) return;
 
@@ -487,12 +500,19 @@ class LocalNotificationSchedulerService {
       at: target,
       payload: 'notif:morning_reminder',
     );
+    await _trackScheduledOnce(
+      prefs: prefs,
+      key: _keyMorningLastTrackedMs,
+      notificationType: 'morning_reminder',
+      fireAt: target,
+    );
   }
 
   Future<void> _scheduleWeeklyReminder(
     NotificationSettingsService settings,
     UserStatsDao dao,
     AppLocalizations l10n,
+    SharedPreferences prefs,
   ) async {
     if (!await settings.isWeeklySummaryEnabled()) return;
 
@@ -533,56 +553,284 @@ class LocalNotificationSchedulerService {
       at: target,
       payload: '/stats?period=thisWeek',
     );
+    await _trackScheduledOnce(
+      prefs: prefs,
+      key: _keyWeeklyLastTrackedMs,
+      notificationType: 'weekly_summary',
+      fireAt: target,
+    );
+  }
+
+  static const _freshnessRestDays = 14;
+  static const _freshnessRestCapDays = 28;
+  static const _freshnessIdleDays = 14;
+  static const _freshnessIdleCapDays = 35;
+  static const _freshnessUserFloorDays = 7;
+  static const _freshnessHour = 11;
+
+  Map<String, dynamic>? _readFreshnessPending(SharedPreferences prefs) {
+    final raw = prefs.getString(_keyBeanFreshnessPending);
+    if (raw == null || raw.isEmpty) return null;
+    try {
+      final pending = (jsonDecode(raw) as Map).cast<String, dynamic>();
+      final uuid = pending['u'];
+      final trigger = pending['t'];
+      final fireMs = pending['f'];
+      if (uuid is! String ||
+          (trigger != 'rest' && trigger != 'idle') ||
+          fireMs is! int) {
+        return null;
+      }
+      return pending;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<void> _writeFreshnessPending(
+    SharedPreferences prefs,
+    String uuid,
+    String trigger,
+    DateTime fireAt,
+  ) async {
+    await prefs.setString(
+      _keyBeanFreshnessPending,
+      jsonEncode({'u': uuid, 't': trigger, 'f': fireAt.millisecondsSinceEpoch}),
+    );
+  }
+
+  Future<void> _clearFreshnessPending(SharedPreferences prefs) async {
+    await prefs.remove(_keyBeanFreshnessPending);
+  }
+
+  /// Drops the two SharedPreferences keys left behind by the old cooldown
+  /// implementation. Guarded by [SharedPreferences.containsKey] so it costs one
+  /// in-memory lookup per run once they are gone, rather than needing a
+  /// migration flag of its own — a flag would replace two dead keys with one.
+  Future<void> _clearLegacyFreshnessKeys(SharedPreferences prefs) async {
+    if (prefs.containsKey(_legacyKeyBeanFreshnessLastUuid)) {
+      await prefs.remove(_legacyKeyBeanFreshnessLastUuid);
+    }
+    if (prefs.containsKey(_legacyKeyBeanFreshnessLastDate)) {
+      await prefs.remove(_legacyKeyBeanFreshnessLastDate);
+    }
+  }
+
+  Set<String> _freshnessNudgedTriggers(SharedPreferences prefs, String uuid) {
+    final raw = prefs.getString(_keyBeanFreshnessNudged);
+    if (raw == null || raw.isEmpty) return <String>{};
+    try {
+      final map = (jsonDecode(raw) as Map).cast<String, dynamic>();
+      final triggers = map[uuid];
+      if (triggers is! List) return <String>{};
+      return triggers.whereType<String>().toSet();
+    } catch (_) {
+      return <String>{};
+    }
+  }
+
+  Future<void> _markFreshnessNudged(
+    SharedPreferences prefs,
+    String uuid,
+    String trigger,
+  ) async {
+    final raw = prefs.getString(_keyBeanFreshnessNudged);
+    Map<String, dynamic> map;
+    try {
+      map = raw == null || raw.isEmpty
+          ? <String, dynamic>{}
+          : (jsonDecode(raw) as Map).cast<String, dynamic>();
+    } catch (_) {
+      map = <String, dynamic>{};
+    }
+    final existing = map[uuid];
+    final triggers = existing is List
+        ? existing.whereType<String>().toSet()
+        : <String>{};
+    triggers.add(trigger);
+    map[uuid] = triggers.toList();
+    await prefs.setString(_keyBeanFreshnessNudged, jsonEncode(map));
+  }
+
+  Future<void> _pruneFreshnessNudged(
+    SharedPreferences prefs,
+    Set<String> liveUuids,
+  ) async {
+    final raw = prefs.getString(_keyBeanFreshnessNudged);
+    if (raw == null || raw.isEmpty) return;
+    try {
+      final map = (jsonDecode(raw) as Map).cast<String, dynamic>();
+      final oldLength = map.length;
+      map.removeWhere((uuid, _) => !liveUuids.contains(uuid));
+      if (map.length != oldLength) {
+        await prefs.setString(_keyBeanFreshnessNudged, jsonEncode(map));
+      }
+    } catch (_) {
+      return;
+    }
   }
 
   Future<void> _scheduleBeanFreshnessAlert(
     NotificationSettingsService settings,
     CoffeeBeansDao dao,
+    UserStatsDao statsDao,
     AppLocalizations l10n,
     SharedPreferences prefs,
   ) async {
-    if (!await settings.isBeanFreshnessEnabled()) return;
+    await _clearLegacyFreshnessKeys(prefs);
+
+    var pending = _readFreshnessPending(prefs);
+    final pendingFireMs = pending?['f'];
+    if (pending != null &&
+        pendingFireMs is int &&
+        pendingFireMs <= DateTime.now().millisecondsSinceEpoch) {
+      final uuid = pending['u'] as String;
+      final trigger = pending['t'] as String;
+      await _markFreshnessNudged(prefs, uuid, trigger);
+      await prefs.setInt(_keyBeanFreshnessLastFiredMs, pendingFireMs);
+      await _clearFreshnessPending(prefs);
+      AnalyticsService.maybeInstance?.track(
+        'notification_presumed_delivered',
+        properties: {
+          'notification_type': 'bean_freshness',
+          'trigger': trigger,
+          'bean_uuid': uuid,
+        },
+      );
+      pending = null;
+    }
+
+    if (!await settings.isBeanFreshnessEnabled()) {
+      await _clearFreshnessPending(prefs);
+      return;
+    }
 
     final beans = await dao.fetchAllCoffeeBeans();
-    if (beans.isEmpty) return;
+    final stats = await statsDao.fetchAllStats();
+    final statsByBean = <String, ({int count, DateTime lastBrew})>{};
+    for (final stat in stats) {
+      final uuid = stat.coffeeBeansUuid;
+      if (uuid == null) continue;
+      final existing = statsByBean[uuid];
+      statsByBean[uuid] = (
+        count: (existing?.count ?? 0) + 1,
+        lastBrew: existing == null || stat.createdAt.isAfter(existing.lastBrew)
+            ? stat.createdAt
+            : existing.lastBrew,
+      );
+    }
 
-    // Find the most recently roasted bean
-    CoffeeBeansModel? candidate;
+    final liveUuids = beans.map((bean) => bean.beansUuid).toSet();
+    await _pruneFreshnessNudged(prefs, liveUuids);
+
+    final now = DateTime.now();
+    final lastFiredMs = prefs.getInt(_keyBeanFreshnessLastFiredMs);
+    final floorAt = lastFiredMs == null
+        ? null
+        : DateTime.fromMillisecondsSinceEpoch(
+            lastFiredMs,
+          ).add(const Duration(days: _freshnessUserFloorDays));
+    final candidates =
+        <({CoffeeBeansModel bean, String trigger, DateTime fireAt})>[];
+
     for (final bean in beans) {
-      if (bean.roastDate == null || bean.isDeleted) continue;
-      // Skip beans the user has explicitly recorded as empty (< 0.1 g)
-      if (bean.packageWeightGrams != null && bean.packageWeightGrams! < 0.1) continue;
-      if (candidate == null ||
-          bean.roastDate!.isAfter(candidate.roastDate!)) {
-        candidate = bean;
+      final roast = bean.roastDate;
+      if (bean.isDeleted || roast == null || roast.isAfter(now)) continue;
+      if (bean.packageWeightGrams != null && bean.packageWeightGrams! < 0.1) {
+        continue;
       }
+
+      final nudged = _freshnessNudgedTriggers(prefs, bean.beansUuid);
+      final beanStats = statsByBean[bean.beansUuid];
+      late final String trigger;
+      late DateTime fireAt;
+      if (beanStats == null || beanStats.count == 0) {
+        trigger = 'rest';
+        if (nudged.contains(trigger)) continue;
+        if (now.isAfter(
+          roast.add(const Duration(days: _freshnessRestCapDays)),
+        )) {
+          continue;
+        }
+        fireAt = _atTime(
+          roast.add(const Duration(days: _freshnessRestDays)),
+          _freshnessHour,
+          0,
+        );
+      } else {
+        trigger = 'idle';
+        if (nudged.contains(trigger)) continue;
+        fireAt = _atTime(
+          beanStats.lastBrew.add(const Duration(days: _freshnessIdleDays)),
+          _freshnessHour,
+          0,
+        );
+        if (fireAt.isAfter(
+          roast.add(const Duration(days: _freshnessIdleCapDays)),
+        )) {
+          continue;
+        }
+      }
+
+      if (!fireAt.isAfter(now)) {
+        fireAt = _nextAtHour(now, _freshnessHour);
+      }
+      if (floorAt != null && fireAt.isBefore(floorAt)) {
+        fireAt = _atTime(floorAt, _freshnessHour, 0);
+      }
+
+      final capDays = trigger == 'rest'
+          ? _freshnessRestCapDays
+          : _freshnessIdleCapDays;
+      if (fireAt.isAfter(roast.add(Duration(days: capDays)))) continue;
+
+      candidates.add((bean: bean, trigger: trigger, fireAt: fireAt));
     }
-    if (candidate == null) return;
 
-    final daysSinceRoast =
-        DateTime.now().difference(candidate.roastDate!).inDays;
-    if (daysSinceRoast < 21) return;
-
-    // Cooldown: don't re-nag the same bean within 14 days
-    final lastUuid = prefs.getString(_keyBeanFreshnessLastUuid);
-    final lastDateMs = prefs.getInt(_keyBeanFreshnessLastDate);
-    if (lastUuid == candidate.beansUuid && lastDateMs != null) {
-      final lastDate = DateTime.fromMillisecondsSinceEpoch(lastDateMs);
-      if (DateTime.now().difference(lastDate).inDays < 14) return;
+    if (candidates.isEmpty) {
+      await _clearFreshnessPending(prefs);
+      return;
     }
 
-    await prefs.setString(_keyBeanFreshnessLastUuid, candidate.beansUuid);
-    await prefs.setInt(
-        _keyBeanFreshnessLastDate, DateTime.now().millisecondsSinceEpoch);
+    candidates.sort((a, b) {
+      final fireComparison = a.fireAt.compareTo(b.fireAt);
+      if (fireComparison != 0) return fireComparison;
+      return b.bean.roastDate!.compareTo(a.bean.roastDate!);
+    });
+    final candidate = candidates.first;
+    final bean = candidate.bean;
+    final trigger = candidate.trigger;
+    final fireAt = candidate.fireAt;
 
-    final beanName = candidate.name.isNotEmpty ? candidate.name : candidate.roaster;
+    final beanName = bean.name.isNotEmpty ? bean.name : bean.roaster;
+    final body = trigger == 'rest'
+        ? l10n.notifBeanFreshnessRestBody(beanName)
+        : l10n.notifBeanFreshnessIdleBody(beanName);
     await _schedule(
       id: _idBeanFreshness,
       title: l10n.notifBeanFreshnessTitle,
-      body: l10n.notifBeanFreshnessBody(beanName, daysSinceRoast),
-      at: _atTime(DateTime.now().add(const Duration(days: 1)), 11, 0),
-      payload: '/beans/${candidate.beansUuid}',
+      body: body,
+      at: fireAt,
+      payload: '/beans/${bean.beansUuid}',
     );
+
+    final fireMs = fireAt.millisecondsSinceEpoch;
+    final pendingChanged =
+        pending == null ||
+        pending['u'] != bean.beansUuid ||
+        pending['t'] != trigger ||
+        pending['f'] != fireMs;
+    await _writeFreshnessPending(prefs, bean.beansUuid, trigger, fireAt);
+    if (pendingChanged) {
+      AnalyticsService.maybeInstance?.track(
+        'notification_scheduled',
+        properties: {
+          'notification_type': 'bean_freshness',
+          'trigger': trigger,
+          'bean_uuid': bean.beansUuid,
+        },
+      );
+    }
   }
 
   // ---------------------------------------------------------------------------
@@ -913,6 +1161,29 @@ class LocalNotificationSchedulerService {
         },
       );
     }
+  }
+
+  /// Emits `notification_scheduled` at most once per distinct [fireAt].
+  ///
+  /// [rescheduleAll] is idempotent and runs on app start, on every settings
+  /// toggle and after every finished brew, re-arming these recurring
+  /// reminders each time. Emitting on every call would produce several events
+  /// a day per user and make the count useless as a delivery denominator, so
+  /// the last-tracked fire instant is persisted and an event is emitted only
+  /// when the target instant actually changes.
+  Future<void> _trackScheduledOnce({
+    required SharedPreferences prefs,
+    required String key,
+    required String notificationType,
+    required DateTime fireAt,
+  }) async {
+    final ms = fireAt.millisecondsSinceEpoch;
+    if (prefs.getInt(key) == ms) return;
+    await prefs.setInt(key, ms);
+    AnalyticsService.maybeInstance?.track(
+      'notification_scheduled',
+      properties: {'notification_type': notificationType},
+    );
   }
 
   // ---------------------------------------------------------------------------
@@ -1413,6 +1684,12 @@ class LocalNotificationSchedulerService {
   /// Returns [date] with time set to [hour]:[minute].
   DateTime _atTime(DateTime date, int hour, int minute) {
     return DateTime(date.year, date.month, date.day, hour, minute);
+  }
+
+  DateTime _nextAtHour(DateTime now, int hour) {
+    final today = DateTime(now.year, now.month, now.day, hour);
+    if (today.isAfter(now)) return today;
+    return DateTime(now.year, now.month, now.day + 1, hour);
   }
 
   /// Checks whether the user's first brew is at least [days] old.

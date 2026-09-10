@@ -1100,18 +1100,9 @@
     }
   },
 
-  "notifBeanFreshnessTitle": "Час для свіжих зерен?",
-  "notifBeanFreshnessBody": "Ваші зерна {beanName} були обсмажені {days, plural, one{{days} день тому} few{{days} дні тому} many{{days} днів тому} other{{days} дня тому}}. Можливо, вони вже не на піку свіжості.",
-  "@notifBeanFreshnessBody": {
-    "placeholders": {
-      "beanName": {
-        "type": "String"
-      },
-      "days": {
-        "type": "int"
-      }
-    }
-  },
+  "notifBeanFreshnessTitle": "Час заварювати каву",
+  "notifBeanFreshnessRestBody": "{beanName} виходить на пік смаку — не забудьте заварити",
+  "notifBeanFreshnessIdleBody": "Не забудьте заварити {beanName}, поки пік смаку не минув",
 
   "notifBeanReviewNudgeTitle": "Як вам {beanName} від {roaster}?",
   "notifBeanReviewNudgeTitleNoRoaster": "Як вам {beanName}?",
@@ -1126,8 +1117,8 @@
   "settingsMorningReminderTime": "Час нагадування",
   "settingsWeeklySummary": "Підсумки тижня",
   "settingsWeeklySummarySubtitle": "Короткий підсумок ваших заварювань у неділю ввечері",
-  "settingsBeanFreshness": "Сповіщення про свіжість зерна",
-  "settingsBeanFreshnessSubtitle": "Сповіщати, коли з дати обсмаження минуло понад 3 тижні",
+  "settingsBeanFreshness": "Нагадування про свіжість",
+  "settingsBeanFreshnessSubtitle": "Нагадаємо заварити зерна, поки вони на піку смаку",
   "daysAgo": "{count, plural, one{{count} день тому} few{{count} дні тому} many{{count} днів тому} other{{count} дня тому}}",
   "@daysAgo": {
     "placeholders": {

@@ -1495,18 +1495,9 @@
     }
   },
 
-  "notifBeanFreshnessTitle": "Ώρα για πιο φρέσκους κόκκους;",
-  "notifBeanFreshnessBody": "Οι κόκκοι {beanName} καβουρδίστηκαν πριν από {days} ημέρες. Μπορεί να έχουν περάσει το καλύτερό τους σημείο.",
-  "@notifBeanFreshnessBody": {
-    "placeholders": {
-      "beanName": {
-        "type": "String"
-      },
-      "days": {
-        "type": "int"
-      }
-    }
-  },
+  "notifBeanFreshnessTitle": "Ώρα να φτιάξεις καφέ",
+  "notifBeanFreshnessRestBody": "Ο καφές {beanName} φτάνει στα καλύτερά του — μην ξεχάσεις να τον φτιάξεις",
+  "notifBeanFreshnessIdleBody": "Μην ξεχάσεις να φτιάξεις τον καφέ {beanName} πριν περάσει η καλύτερη στιγμή του",
 
   "notifBeanReviewNudgeTitle": "Πώς σας φάνηκε το {beanName} από {roaster};",
   "notifBeanReviewNudgeTitleNoRoaster": "Πώς σας φάνηκε το {beanName};",
@@ -1521,8 +1512,8 @@
   "settingsMorningReminderTime": "Ώρα υπενθύμισης",
   "settingsWeeklySummary": "Εβδομαδιαία σύνοψη",
   "settingsWeeklySummarySubtitle": "Κυριακάτικη βραδινή ανακεφαλαίωση των παρασκευών σου",
-  "settingsBeanFreshness": "Ειδοποιήσεις φρεσκάδας κόκκων",
-  "settingsBeanFreshnessSubtitle": "Ειδοποίηση όταν έχουν περάσει πάνω από 3 εβδομάδες από την ημερομηνία καβουρδίσματος",
+  "settingsBeanFreshness": "Υπενθυμίσεις φρεσκάδας",
+  "settingsBeanFreshnessSubtitle": "Σου θυμίζει να φτιάξεις τον καφέ σου όσο οι κόκκοι είναι στα καλύτερά τους",
   "daysAgo": "{count, plural, one{πριν 1 ημέρα} other{πριν {count} ημέρες}}",
   "@daysAgo": {
     "placeholders": {

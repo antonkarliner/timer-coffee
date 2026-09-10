@@ -952,18 +952,9 @@
     }
   },
 
-  "notifBeanFreshnessTitle": "Olisiko aika tuoreemmille pavuille?",
-  "notifBeanFreshnessBody": "Pavut {beanName} paahdettiin {days} päivää sitten. Ne eivät ehkä ole enää parhaimmillaan.",
-  "@notifBeanFreshnessBody": {
-    "placeholders": {
-      "beanName": {
-        "type": "String"
-      },
-      "days": {
-        "type": "int"
-      }
-    }
-  },
+  "notifBeanFreshnessTitle": "Aika keittää kahvia",
+  "notifBeanFreshnessRestBody": "{beanName} on parhaimmillaan – muista keittää se",
+  "notifBeanFreshnessIdleBody": "Muista keittää {beanName}, ennen kuin paras hetki menee ohi",
 
   "notifBeanReviewNudgeTitle": "Miltä {beanName} paahtimolta {roaster} maistui?",
   "notifBeanReviewNudgeTitleNoRoaster": "Miltä {beanName} maistui?",
@@ -978,8 +969,8 @@
   "settingsMorningReminderTime": "Muistutuksen aika",
   "settingsWeeklySummary": "Viikkoyhteenveto",
   "settingsWeeklySummarySubtitle": "Sunnuntai-illan yhteenveto viikon valmistuksista",
-  "settingsBeanFreshness": "Papujen tuoreushälytykset",
-  "settingsBeanFreshnessSubtitle": "Ilmoita, kun paahtopäivästä on kulunut yli 3 viikkoa",
+  "settingsBeanFreshness": "Tuoreusmuistutukset",
+  "settingsBeanFreshnessSubtitle": "Muistuttaa keittämään pavut, kun ne ovat parhaimmillaan",
   "daysAgo": "{count, plural, one{1 päivä sitten} other{{count} päivää sitten}}",
   "@daysAgo": {
     "placeholders": {

@@ -1100,18 +1100,9 @@
     }
   },
 
-  "notifBeanFreshnessTitle": "E timpul pentru boabe proaspete?",
-  "notifBeanFreshnessBody": "Boabele tale {beanName} au fost prăjite acum {days} zile. S-ar putea să fi trecut de vârf.",
-  "@notifBeanFreshnessBody": {
-    "placeholders": {
-      "beanName": {
-        "type": "String"
-      },
-      "days": {
-        "type": "int"
-      }
-    }
-  },
+  "notifBeanFreshnessTitle": "E timpul să prepari o cafea",
+  "notifBeanFreshnessRestBody": "{beanName} ajunge la apogeu — nu uita să prepari o cafea",
+  "notifBeanFreshnessIdleBody": "Nu uita să prepari {beanName} înainte să treacă apogeul",
 
   "notifBeanReviewNudgeTitle": "Cum a fost {beanName} de la {roaster}?",
   "notifBeanReviewNudgeTitleNoRoaster": "Cum a fost {beanName}?",
@@ -1126,8 +1117,8 @@
   "settingsMorningReminderTime": "Ora mementoului",
   "settingsWeeklySummary": "Rezumat săptămânal",
   "settingsWeeklySummarySubtitle": "Recapitulare a preparărilor tale duminică seara",
-  "settingsBeanFreshness": "Alerte pentru prospețimea boabelor",
-  "settingsBeanFreshnessSubtitle": "Te anunță când boabele au fost prăjite de peste 3 săptămâni",
+  "settingsBeanFreshness": "Mementouri de prospețime",
+  "settingsBeanFreshnessSubtitle": "Îți amintește să prepari boabele cât sunt la apogeu",
   "daysAgo": "{count, plural, one{acum 1 zi} few{acum {count} zile} other{acum {count} de zile}}",
   "@daysAgo": {
     "placeholders": {

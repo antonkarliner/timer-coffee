@@ -1273,18 +1273,9 @@
     }
   },
 
-  "notifBeanFreshnessTitle": "وقت دانه‌های تازه رسیده؟",
-  "notifBeanFreshnessBody": "{beanName} {days} روز پیش رست شده است. ممکن است از بهترین زمانش گذشته باشد.",
-  "@notifBeanFreshnessBody": {
-    "placeholders": {
-      "beanName": {
-        "type": "String"
-      },
-      "days": {
-        "type": "int"
-      }
-    }
-  },
+  "notifBeanFreshnessTitle": "وقت دم کردن است",
+  "notifBeanFreshnessRestBody": "{beanName} دارد به بهترین حالتش می‌رسد — یادت نرود دمش کنی",
+  "notifBeanFreshnessIdleBody": "یادت نرود {beanName} را قبل از تمام‌شدن بهترین زمانش دم کنی",
 
   "notifBeanReviewNudgeTitle": "{beanName} از {roaster} چطور بود؟",
   "notifBeanReviewNudgeTitleNoRoaster": "{beanName} چطور بود؟",
@@ -1299,8 +1290,8 @@
   "settingsMorningReminderTime": "زمان یادآور",
   "settingsWeeklySummary": "خلاصه هفتگی",
   "settingsWeeklySummarySubtitle": "مرور دم‌آوری‌های هفته در یکشنبه شب",
-  "settingsBeanFreshness": "هشدار تازگی دانه‌ها",
-  "settingsBeanFreshnessSubtitle": "وقتی بیش از ۳ هفته از تاریخ رست گذشته باشد اطلاع بده",
+  "settingsBeanFreshness": "یادآوری‌های تازگی",
+  "settingsBeanFreshnessSubtitle": "یادآوری می‌کند قهوه‌ات را وقتی در بهترین حالت است دم کنی",
   "daysAgo": "{count, plural, other{{count} روز پیش}}",
   "@daysAgo": {
     "placeholders": {

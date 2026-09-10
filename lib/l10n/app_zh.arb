@@ -1100,18 +1100,9 @@
     }
   },
 
-  "notifBeanFreshnessTitle": "该换更新鲜的豆子了吗？",
-  "notifBeanFreshnessBody": "{beanName} 是 {days} 天前烘焙的。可能已经过了最佳风味期。",
-  "@notifBeanFreshnessBody": {
-    "placeholders": {
-      "beanName": {
-        "type": "String"
-      },
-      "days": {
-        "type": "int"
-      }
-    }
-  },
+  "notifBeanFreshnessTitle": "该冲煮了",
+  "notifBeanFreshnessRestBody": "{beanName} 正进入最佳风味期，别忘了冲煮",
+  "notifBeanFreshnessIdleBody": "别忘了在最佳风味期结束前冲煮 {beanName}",
 
   "notifBeanReviewNudgeTitle": "{roaster} 的 {beanName} 怎么样？",
   "notifBeanReviewNudgeTitleNoRoaster": "{beanName} 怎么样？",
@@ -1126,8 +1117,8 @@
   "settingsMorningReminderTime": "提醒时间",
   "settingsWeeklySummary": "每周总结",
   "settingsWeeklySummarySubtitle": "周日晚上回顾本周的冲煮",
-  "settingsBeanFreshness": "咖啡豆新鲜度提醒",
-  "settingsBeanFreshnessSubtitle": "咖啡豆烘焙满 3 周时通知",
+  "settingsBeanFreshness": "新鲜度提醒",
+  "settingsBeanFreshnessSubtitle": "在咖啡豆风味最佳时提醒你冲煮",
   "daysAgo": "{count, plural, other{{count}天前}}",
   "@daysAgo": {
     "placeholders": {

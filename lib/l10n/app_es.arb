@@ -1100,18 +1100,9 @@
     }
   },
 
-  "notifBeanFreshnessTitle": "¿Hora de granos frescos?",
-  "notifBeanFreshnessBody": "Tus granos {beanName} se tostaron hace {days} días. Puede que ya hayan pasado su mejor momento.",
-  "@notifBeanFreshnessBody": {
-    "placeholders": {
-      "beanName": {
-        "type": "String"
-      },
-      "days": {
-        "type": "int"
-      }
-    }
-  },
+  "notifBeanFreshnessTitle": "Hora de preparar café",
+  "notifBeanFreshnessRestBody": "{beanName} está alcanzando su mejor momento: no olvides prepararlo",
+  "notifBeanFreshnessIdleBody": "No olvides preparar {beanName} antes de que pase su mejor momento",
 
   "notifBeanReviewNudgeTitle": "¿Qué tal estuvo {beanName} de {roaster}?",
   "notifBeanReviewNudgeTitleNoRoaster": "¿Qué tal estuvo {beanName}?",
@@ -1126,8 +1117,8 @@
   "settingsMorningReminderTime": "Hora del recordatorio",
   "settingsWeeklySummary": "Resumen semanal",
   "settingsWeeklySummarySubtitle": "Resumen de tus preparaciones el domingo por la noche",
-  "settingsBeanFreshness": "Alertas de frescura de granos",
-  "settingsBeanFreshnessSubtitle": "Avisar cuando los granos lleven más de 3 semanas tostados",
+  "settingsBeanFreshness": "Recordatorios de frescura",
+  "settingsBeanFreshnessSubtitle": "Te recuerda preparar tus granos cuando están en su mejor momento",
   "daysAgo": "{count, plural, one{hace 1 día} other{hace {count} días}}",
   "@daysAgo": {
     "placeholders": {

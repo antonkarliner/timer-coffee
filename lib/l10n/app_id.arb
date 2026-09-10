@@ -1100,18 +1100,9 @@
     }
   },
 
-  "notifBeanFreshnessTitle": "Saatnya biji yang lebih segar?",
-  "notifBeanFreshnessBody": "Biji {beanName} kamu disangrai {days} hari lalu. Mungkin sudah lewat masa terbaiknya.",
-  "@notifBeanFreshnessBody": {
-    "placeholders": {
-      "beanName": {
-        "type": "String"
-      },
-      "days": {
-        "type": "int"
-      }
-    }
-  },
+  "notifBeanFreshnessTitle": "Waktunya menyeduh",
+  "notifBeanFreshnessRestBody": "{beanName} sedang mencapai puncaknya — jangan lupa diseduh",
+  "notifBeanFreshnessIdleBody": "Jangan lupa seduh {beanName} sebelum masa terbaiknya lewat",
 
   "notifBeanReviewNudgeTitle": "Bagaimana {beanName} dari {roaster}?",
   "notifBeanReviewNudgeTitleNoRoaster": "Bagaimana {beanName}?",
@@ -1126,8 +1117,8 @@
   "settingsMorningReminderTime": "Waktu pengingat",
   "settingsWeeklySummary": "Ringkasan mingguan",
   "settingsWeeklySummarySubtitle": "Rekap seduhan Anda pada Minggu malam",
-  "settingsBeanFreshness": "Peringatan kesegaran biji",
-  "settingsBeanFreshnessSubtitle": "Beri tahu saat biji sudah lebih dari 3 minggu sejak tanggal sangrai",
+  "settingsBeanFreshness": "Pengingat kesegaran",
+  "settingsBeanFreshnessSubtitle": "Mengingatkan untuk menyeduh biji kopi saat sedang paling nikmat",
   "daysAgo": "{count, plural, other{{count} hari yang lalu}}",
   "@daysAgo": {
     "placeholders": {

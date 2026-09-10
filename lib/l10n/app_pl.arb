@@ -1100,18 +1100,9 @@
     }
   },
 
-  "notifBeanFreshnessTitle": "Czas na świeże ziarna?",
-  "notifBeanFreshnessBody": "Twoje ziarna {beanName} zostały wypalone {days, plural, one{{days} dzień temu} few{{days} dni temu} many{{days} dni temu} other{{days} dni temu}}. Mogą już nie być w szczytnej formie.",
-  "@notifBeanFreshnessBody": {
-    "placeholders": {
-      "beanName": {
-        "type": "String"
-      },
-      "days": {
-        "type": "int"
-      }
-    }
-  },
+  "notifBeanFreshnessTitle": "Czas zaparzyć kawę",
+  "notifBeanFreshnessRestBody": "{beanName} właśnie osiąga szczyt — nie zapomnij zaparzyć",
+  "notifBeanFreshnessIdleBody": "Nie zapomnij zaparzyć {beanName}, zanim minie najlepszy moment",
 
   "notifBeanReviewNudgeTitle": "Jak smakowały ziarna {beanName} z palarni {roaster}?",
   "notifBeanReviewNudgeTitleNoRoaster": "Jak smakowały ziarna {beanName}?",
@@ -1126,8 +1117,8 @@
   "settingsMorningReminderTime": "Godzina przypomnienia",
   "settingsWeeklySummary": "Podsumowanie tygodnia",
   "settingsWeeklySummarySubtitle": "Niedzielne wieczorne podsumowanie Twoich parzeń",
-  "settingsBeanFreshness": "Alerty świeżości ziaren",
-  "settingsBeanFreshnessSubtitle": "Powiadamiaj, gdy od daty palenia miną ponad 3 tygodnie",
+  "settingsBeanFreshness": "Przypomnienia o świeżości",
+  "settingsBeanFreshnessSubtitle": "Przypomina, by zaparzyć ziarna, gdy są w najlepszej formie",
   "daysAgo": "{count, plural, one{1 dzień temu} few{{count} dni temu} many{{count} dni temu} other{{count} dni temu}}",
   "@daysAgo": {
     "placeholders": {

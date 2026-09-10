@@ -1271,18 +1271,9 @@
     }
   },
 
-  "notifBeanFreshnessTitle": "Vrijeme za svježa zrna?",
-  "notifBeanFreshnessBody": "Tvoja zrna {beanName} pržena su prije {days, plural, one{{days} dan} few{{days} dana} other{{days} dana}}. Možda su prošla svoj vrhunac.",
-  "@notifBeanFreshnessBody": {
-    "placeholders": {
-      "beanName": {
-        "type": "String"
-      },
-      "days": {
-        "type": "int"
-      }
-    }
-  },
+  "notifBeanFreshnessTitle": "Vrijeme za kuhanje kave",
+  "notifBeanFreshnessRestBody": "{beanName} dolazi na vrhunac — ne zaboravi ga skuhati",
+  "notifBeanFreshnessIdleBody": "Ne zaboravi skuhati {beanName} prije nego što mu prođe vrhunac",
 
   "notifBeanReviewNudgeTitle": "Kako ti se svidio {beanName} iz pržionice {roaster}?",
   "notifBeanReviewNudgeTitleNoRoaster": "Kako ti se svidio {beanName}?",
@@ -1297,8 +1288,8 @@
   "settingsMorningReminderTime": "Vrijeme podsjetnika",
   "settingsWeeklySummary": "Tjedni sažetak",
   "settingsWeeklySummarySubtitle": "Nedjeljni večernji pregled tvojih priprema",
-  "settingsBeanFreshness": "Upozorenja o svježini zrna",
-  "settingsBeanFreshnessSubtitle": "Obavijesti kada je od datuma prženja prošlo više od 3 tjedna",
+  "settingsBeanFreshness": "Podsjetnici o svježini",
+  "settingsBeanFreshnessSubtitle": "Podsjeća te da skuhaš zrna dok su na vrhuncu",
   "daysAgo": "{count, plural, one{prije 1 dan} few{prije {count} dana} other{prije {count} dana}}",
   "@daysAgo": {
     "placeholders": {

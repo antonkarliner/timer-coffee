@@ -1100,18 +1100,9 @@
     }
   },
 
-  "notifBeanFreshnessTitle": "È il momento di chicchi freschi?",
-  "notifBeanFreshnessBody": "I tuoi chicchi {beanName} sono stati tostati {days} giorni fa. Potrebbero aver superato il loro momento migliore.",
-  "@notifBeanFreshnessBody": {
-    "placeholders": {
-      "beanName": {
-        "type": "String"
-      },
-      "days": {
-        "type": "int"
-      }
-    }
-  },
+  "notifBeanFreshnessTitle": "È ora di preparare il caffè",
+  "notifBeanFreshnessRestBody": "{beanName} sta raggiungendo il suo massimo: non dimenticare di prepararlo",
+  "notifBeanFreshnessIdleBody": "Non dimenticare di preparare {beanName} prima che passi il momento migliore",
 
   "notifBeanReviewNudgeTitle": "Com'era {beanName} di {roaster}?",
   "notifBeanReviewNudgeTitleNoRoaster": "Com'era {beanName}?",
@@ -1126,8 +1117,8 @@
   "settingsMorningReminderTime": "Ora del promemoria",
   "settingsWeeklySummary": "Riepilogo settimanale",
   "settingsWeeklySummarySubtitle": "Riepilogo delle tue preparazioni di domenica sera",
-  "settingsBeanFreshness": "Avvisi freschezza chicchi",
-  "settingsBeanFreshnessSubtitle": "Ti avvisa quando i chicchi sono stati tostati da più di 3 settimane",
+  "settingsBeanFreshness": "Promemoria freschezza",
+  "settingsBeanFreshnessSubtitle": "Ti ricorda di preparare i tuoi chicchi quando sono al meglio",
   "daysAgo": "{count, plural, one{1 giorno fa} other{{count} giorni fa}}",
   "@daysAgo": {
     "placeholders": {

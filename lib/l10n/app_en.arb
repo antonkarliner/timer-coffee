@@ -1573,15 +1573,22 @@
       }
     }
   },
-  "notifBeanFreshnessTitle": "Time for fresh beans?",
-  "notifBeanFreshnessBody": "Your {beanName} was roasted {days} days ago. It may be past its peak.",
-  "@notifBeanFreshnessBody": {
+  "notifBeanFreshnessTitle": "Time to brew",
+  "notifBeanFreshnessRestBody": "{beanName} is reaching its peak — don’t forget to brew it",
+  "@notifBeanFreshnessRestBody": {
+    "description": "Bean freshness nudge body for a bean that has never been brewed.",
     "placeholders": {
       "beanName": {
         "type": "String"
-      },
-      "days": {
-        "type": "int"
+      }
+    }
+  },
+  "notifBeanFreshnessIdleBody": "Don’t forget to brew {beanName} before its peak is over",
+  "@notifBeanFreshnessIdleBody": {
+    "description": "Bean freshness nudge body for a bean that has not been brewed for a while.",
+    "placeholders": {
+      "beanName": {
+        "type": "String"
       }
     }
   },
@@ -1632,8 +1639,8 @@
   "settingsMorningReminderTime": "Reminder time",
   "settingsWeeklySummary": "Weekly summary",
   "settingsWeeklySummarySubtitle": "Sunday evening recap of your brews",
-  "settingsBeanFreshness": "Bean freshness alerts",
-  "settingsBeanFreshnessSubtitle": "Notify when beans are more than 3 weeks past roast date",
+  "settingsBeanFreshness": "Freshness reminders",
+  "settingsBeanFreshnessSubtitle": "Remind you to brew your beans while they’re at their best",
   "daysAgo": "{count, plural, one{1 day ago} other{{count} days ago}}",
   "@daysAgo": {
     "placeholders": {

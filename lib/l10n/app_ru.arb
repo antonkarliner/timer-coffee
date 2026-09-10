@@ -1100,18 +1100,9 @@
     }
   },
 
-  "notifBeanFreshnessTitle": "Пора за свежими зёрнами?",
-  "notifBeanFreshnessBody": "Ваши зёрна {beanName} были обжарены {days, plural, one{{days} день назад} few{{days} дня назад} many{{days} дней назад} other{{days} дня назад}}. Возможно, они уже не на пике свежести.",
-  "@notifBeanFreshnessBody": {
-    "placeholders": {
-      "beanName": {
-        "type": "String"
-      },
-      "days": {
-        "type": "int"
-      }
-    }
-  },
+  "notifBeanFreshnessTitle": "Пора заваривать кофе",
+  "notifBeanFreshnessRestBody": "{beanName} выходит на пик вкуса — не забудьте заварить",
+  "notifBeanFreshnessIdleBody": "Не забудьте заварить {beanName}, пока пик вкуса не прошёл",
 
   "notifBeanReviewNudgeTitle": "Как вам {beanName} от {roaster}?",
   "notifBeanReviewNudgeTitleNoRoaster": "Как вам {beanName}?",
@@ -1126,8 +1117,8 @@
   "settingsMorningReminderTime": "Время напоминания",
   "settingsWeeklySummary": "Итоги недели",
   "settingsWeeklySummarySubtitle": "Краткая сводка по вашим завариваниям в воскресенье вечером",
-  "settingsBeanFreshness": "Уведомления о свежести зерна",
-  "settingsBeanFreshnessSubtitle": "Уведомлять, когда с даты обжарки прошло более 3 недель",
+  "settingsBeanFreshness": "Напоминания о свежести",
+  "settingsBeanFreshnessSubtitle": "Напомним заварить зёрна, пока они на пике вкуса",
   "daysAgo": "{count, plural, one{{count} день назад} few{{count} дня назад} many{{count} дней назад} other{{count} дня назад}}",
   "@daysAgo": {
     "placeholders": {

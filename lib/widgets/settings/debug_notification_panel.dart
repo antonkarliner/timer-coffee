@@ -108,18 +108,40 @@ class DebugNotificationPanel extends StatelessWidget {
           ),
         ListTile(
           title: Text(
-            l10n.notifBeanFreshnessTitle,
+            'Freshness — rest',
             style: Theme.of(context).textTheme.bodyMedium,
           ),
           subtitle: Text(
-            'Finds most recently roasted bean (5+ days old)',
+            'Never-brewed variant (fires at roast + 14 d in production)',
             style: Theme.of(context).textTheme.bodySmall,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
           trailing: AppTextButton(
             label: 'Fire',
-            onPressed: () => _fireBeanFreshnessNotification(context),
+            onPressed: () =>
+                _fireBeanFreshnessNotification(context, trigger: 'rest'),
+            isFullWidth: false,
+            height: AppButton.heightSmall,
+            padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
+          ),
+        ),
+        ListTile(
+          title: Text(
+            'Freshness — idle',
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+          subtitle: Text(
+            'Opened-then-left variant (fires at last brew + 14 d)',
+            style: Theme.of(context).textTheme.bodySmall,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          trailing: AppTextButton(
+            label: 'Fire',
+            onPressed: () =>
+                _fireBeanFreshnessNotification(context, trigger: 'idle'),
             isFullWidth: false,
             height: AppButton.heightSmall,
             padding: const EdgeInsets.symmetric(
@@ -187,7 +209,13 @@ class DebugNotificationPanel extends StatelessWidget {
     }
   }
 
-  Future<void> _fireBeanFreshnessNotification(BuildContext context) async {
+  /// Fires the real freshness notification for one of its two triggers, so the
+  /// rendered banner can be checked against what the scheduler actually sends.
+  /// [trigger] is `rest` (bean never brewed) or `idle` (bag opened then left).
+  Future<void> _fireBeanFreshnessNotification(
+    BuildContext context, {
+    required String trigger,
+  }) async {
     final messenger = ScaffoldMessenger.of(context);
     final l10n = AppLocalizations.of(context)!;
     final beansProvider = context.read<CoffeeBeansProvider>();
@@ -217,10 +245,10 @@ class DebugNotificationPanel extends StatelessWidget {
 
     final beanName =
         candidate.name.isNotEmpty ? candidate.name : candidate.roaster;
-    final daysSinceRoast =
-        DateTime.now().difference(candidate.roastDate!).inDays;
     final title = l10n.notifBeanFreshnessTitle;
-    final body = l10n.notifBeanFreshnessBody(beanName, daysSinceRoast);
+    final body = trigger == 'rest'
+        ? l10n.notifBeanFreshnessRestBody(beanName)
+        : l10n.notifBeanFreshnessIdleBody(beanName);
     final payload = '/beans/${candidate.beansUuid}';
 
     final at = DateTime.now().add(const Duration(seconds: 5));

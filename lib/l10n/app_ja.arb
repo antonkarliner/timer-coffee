@@ -1100,18 +1100,9 @@
     }
   },
 
-  "notifBeanFreshnessTitle": "そろそろ新しい豆が必要ですか？",
-  "notifBeanFreshnessBody": "{beanName}は焙煎から{days}日経っています。ベストな時期を過ぎているかもしれません。",
-  "@notifBeanFreshnessBody": {
-    "placeholders": {
-      "beanName": {
-        "type": "String"
-      },
-      "days": {
-        "type": "int"
-      }
-    }
-  },
+  "notifBeanFreshnessTitle": "コーヒーを淹れましょう",
+  "notifBeanFreshnessRestBody": "{beanName} がおいしくなる頃です。淹れるのをお忘れなく",
+  "notifBeanFreshnessIdleBody": "おいしい時期が過ぎる前に {beanName} を淹れましょう",
 
   "notifBeanReviewNudgeTitle": "{roaster}の{beanName}はいかがでしたか？",
   "notifBeanReviewNudgeTitleNoRoaster": "{beanName}はいかがでしたか？",
@@ -1126,8 +1117,8 @@
   "settingsMorningReminderTime": "通知時刻",
   "settingsWeeklySummary": "週間まとめ",
   "settingsWeeklySummarySubtitle": "日曜の夜に今週のコーヒーを振り返る",
-  "settingsBeanFreshness": "豆の鮮度アラート",
-  "settingsBeanFreshnessSubtitle": "焙煎日から3週間を過ぎた豆を通知する",
+  "settingsBeanFreshness": "鮮度リマインダー",
+  "settingsBeanFreshnessSubtitle": "豆がいちばんおいしい時期に淹れるようお知らせします",
   "daysAgo": "{count, plural, other{{count}日前}}",
   "@daysAgo": {
     "placeholders": {

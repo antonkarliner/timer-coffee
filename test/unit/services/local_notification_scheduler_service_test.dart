@@ -8,6 +8,7 @@ import 'package:coffee_timer/services/local_notification_scheduler_service.dart'
 import 'package:coffee_timer/services/notification_settings_service.dart';
 import 'package:coffee_timer/services/onboarding_service.dart';
 import 'package:coffee_timer/utils/version_vector.dart';
+import 'package:flutter/material.dart' show TimeOfDay;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -81,6 +82,20 @@ void main() {
           .firstWhere((c) => c.id == id,
               orElse: () => (id: id, payload: null))
           .payload;
+
+  // Counts buffered `notification_scheduled` analytics events for a given
+  // `notification_type`. Other schedulers (bean_review_nudge,
+  // roaster_contribution_nudge) and `notification_setting_toggled` land in
+  // the same buffer, so every assertion must filter on both the event name
+  // and the notification_type — never on total buffer length.
+  int scheduledCountFor(String notificationType) {
+    return AnalyticsService.instance.bufferedEventsForTesting
+        .where((e) =>
+            e['event_name'] == 'notification_scheduled' &&
+            (e['properties'] as Map?)?['notification_type'] ==
+                notificationType)
+        .length;
+  }
 
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
@@ -453,6 +468,66 @@ void main() {
       expect(scheduled(1201), isTrue);
       expect(payloadOf(1201), equals('notif:morning_reminder'));
     });
+
+    test(
+        'enabling emits exactly one notification_scheduled event for morning_reminder',
+        () async {
+      SharedPreferences.setMockInitialValues({
+        KEY_MORNING_REMINDER: true,
+      });
+      await NotificationSettingsService.instance.init();
+      await runScheduler();
+
+      expect(scheduledCountFor('morning_reminder'), 1);
+      final p = await SharedPreferences.getInstance();
+      expect(p.getInt('notif_morning_last_tracked_ms'), isNotNull);
+    });
+
+    test(
+        'calling runScheduler twice in a row does not duplicate the event (dedupe)',
+        () async {
+      SharedPreferences.setMockInitialValues({
+        KEY_MORNING_REMINDER: true,
+      });
+      await NotificationSettingsService.instance.init();
+      await runScheduler();
+      await runScheduler();
+
+      expect(scheduledCountFor('morning_reminder'), 1);
+    });
+
+    test('a changed reminder time re-emits and updates the persisted instant',
+        () async {
+      SharedPreferences.setMockInitialValues({
+        KEY_MORNING_REMINDER: true,
+      });
+      await NotificationSettingsService.instance.init();
+      await runScheduler();
+
+      expect(scheduledCountFor('morning_reminder'), 1);
+      final firstMs = (await SharedPreferences.getInstance())
+          .getInt('notif_morning_last_tracked_ms');
+      expect(firstMs, isNotNull);
+
+      // Default reminder time is 08:30 — 20:15 cannot land on the same fire
+      // instant, whether today's or tomorrow's target date is chosen.
+      await NotificationSettingsService.instance
+          .setMorningReminderTime(const TimeOfDay(hour: 20, minute: 15));
+      await runScheduler();
+
+      expect(scheduledCountFor('morning_reminder'), 2);
+      final secondMs = (await SharedPreferences.getInstance())
+          .getInt('notif_morning_last_tracked_ms');
+      expect(secondMs, isNotNull);
+      expect(secondMs, isNot(equals(firstMs)));
+    });
+
+    test('disabled setting (default off) emits no morning_reminder event',
+        () async {
+      await runScheduler();
+
+      expect(scheduledCountFor('morning_reminder'), 0);
+    });
   });
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -492,6 +567,36 @@ void main() {
       expect(scheduled(1301), isTrue);
       expect(payloadOf(1301), equals('/stats?period=thisWeek'));
     });
+
+    test(
+        'enabling emits exactly one notification_scheduled event for weekly_summary',
+        () async {
+      SharedPreferences.setMockInitialValues({KEY_WEEKLY_SUMMARY: true});
+      await NotificationSettingsService.instance.init();
+      await runScheduler();
+
+      expect(scheduledCountFor('weekly_summary'), 1);
+      final p = await SharedPreferences.getInstance();
+      expect(p.getInt('notif_weekly_last_tracked_ms'), isNotNull);
+    });
+
+    test(
+        'calling runScheduler twice in a row does not duplicate the event (dedupe)',
+        () async {
+      SharedPreferences.setMockInitialValues({KEY_WEEKLY_SUMMARY: true});
+      await NotificationSettingsService.instance.init();
+      await runScheduler();
+      await runScheduler();
+
+      expect(scheduledCountFor('weekly_summary'), 1);
+    });
+
+    test('disabled setting (default off) emits no weekly_summary event',
+        () async {
+      await runScheduler();
+
+      expect(scheduledCountFor('weekly_summary'), 0);
+    });
   });
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -499,10 +604,67 @@ void main() {
   // ─────────────────────────────────────────────────────────────────────────
 
   group('bean freshness alert', () {
+    const pendingKey = 'notif_bean_freshness_pending';
+    const nudgedKey = 'notif_bean_freshness_nudged';
+    const lastFiredKey = 'notif_bean_freshness_last_fired_ms';
+
+    // Alerts always land at 11:00 on the target day — mirrors `_atTime(d, 11, 0)`
+    // in the service, so expectations pin both the day offset and the hour.
+    int elevenOn(DateTime day) =>
+        DateTime(day.year, day.month, day.day, 11).millisecondsSinceEpoch;
+
+    // Turns the toggle on (optionally seeding extra prefs first) and re-inits
+    // the settings service, which caches the value.
+    Future<void> enableFreshness([Map<String, Object> extra = const {}]) async {
+      SharedPreferences.setMockInitialValues({
+        KEY_BEAN_FRESHNESS: true,
+        ...extra,
+      });
+      await NotificationSettingsService.instance.init();
+    }
+
+    // The currently armed alert record, or null when nothing is armed.
+    Future<Map<String, dynamic>?> pendingRecord() async {
+      final p = await SharedPreferences.getInstance();
+      final raw = p.getString(pendingKey);
+      if (raw == null) return null;
+      return (jsonDecode(raw) as Map).cast<String, dynamic>();
+    }
+
+    // Triggers already consumed for a bean — never armed again for it.
+    Future<Set<String>> nudgedTriggers(String uuid) async {
+      final p = await SharedPreferences.getInstance();
+      final raw = p.getString(nudgedKey);
+      if (raw == null) return <String>{};
+      final triggers = (jsonDecode(raw) as Map).cast<String, dynamic>()[uuid];
+      return triggers is List
+          ? triggers.whereType<String>().toSet()
+          : <String>{};
+    }
+
+    // Same discipline as scheduledCountFor: the bean review nudge also emits
+    // notification_presumed_delivered into the shared buffer, so every
+    // assertion filters on both the event name and the notification_type.
+    List<Map<String, dynamic>> presumedDeliveredFor(String notificationType) {
+      return AnalyticsService.instance.bufferedEventsForTesting
+          .where((e) =>
+              e['event_name'] == 'notification_presumed_delivered' &&
+              (e['properties'] as Map?)?['notification_type'] ==
+                  notificationType)
+          .toList();
+    }
+
+    Future<void> insertBrew(String beansUuid, DateTime at,
+        {String uuid = 'stat-1'}) {
+      return db.userStatsDao.insertUserStat(
+        _makeStat(uuid: uuid, createdAt: at)
+            .copyWith(coffeeBeansUuid: beansUuid),
+      );
+    }
+
     test('does not schedule when setting is disabled (default off)', () async {
       await db.coffeeBeansDao.insertCoffeeBeans(
-        _makeBean(
-            roastDate: DateTime.now().subtract(const Duration(days: 30))),
+        _makeBean(roastDate: DateTime.now().subtract(const Duration(days: 3))),
       );
       await runScheduler();
 
@@ -510,95 +672,100 @@ void main() {
     });
 
     test('does not schedule when no beans exist', () async {
-      SharedPreferences.setMockInitialValues({KEY_BEAN_FRESHNESS: true});
-      await NotificationSettingsService.instance.init();
+      await enableFreshness();
       await runScheduler();
 
       expect(scheduled(1401), isFalse);
     });
 
-    test('does not schedule when most recent bean has no roastDate', () async {
-      SharedPreferences.setMockInitialValues({KEY_BEAN_FRESHNESS: true});
-      await NotificationSettingsService.instance.init();
-      await db.coffeeBeansDao.insertCoffeeBeans(
-        _makeBean(roastDate: null),
-      );
-      await runScheduler();
-
-      expect(scheduled(1401), isFalse);
-    });
-
-    test('does not schedule when bean was roasted fewer than 21 days ago',
+    test('removes the legacy cooldown keys left by the old implementation',
         () async {
-      SharedPreferences.setMockInitialValues({KEY_BEAN_FRESHNESS: true});
-      await NotificationSettingsService.instance.init();
+      final now = DateTime.now();
+      await enableFreshness({
+        'notif_bean_freshness_last_uuid': 'bean-1',
+        'notif_bean_freshness_last_date': now.millisecondsSinceEpoch,
+      });
+      final before = await SharedPreferences.getInstance();
+      expect(before.containsKey('notif_bean_freshness_last_uuid'), isTrue);
+      expect(before.containsKey('notif_bean_freshness_last_date'), isTrue);
+
+      await runScheduler();
+
+      final after = await SharedPreferences.getInstance();
+      expect(after.containsKey('notif_bean_freshness_last_uuid'), isFalse);
+      expect(after.containsKey('notif_bean_freshness_last_date'), isFalse);
+    });
+
+    test('legacy key removal does not disturb the new freshness state',
+        () async {
+      final now = DateTime.now();
+      await enableFreshness({
+        'notif_bean_freshness_last_uuid': 'bean-1',
+        'notif_bean_freshness_last_date': now.millisecondsSinceEpoch,
+      });
       await db.coffeeBeansDao.insertCoffeeBeans(
-        _makeBean(
-            roastDate: DateTime.now().subtract(const Duration(days: 15))),
+        _makeBean(roastDate: now.subtract(const Duration(days: 3))),
       );
+
+      await runScheduler();
+
+      // The stale keys are gone AND the bean is still armed normally.
+      final prefs = await SharedPreferences.getInstance();
+      expect(prefs.containsKey('notif_bean_freshness_last_uuid'), isFalse);
+      expect(scheduled(1401), isTrue);
+      expect((await pendingRecord())?['t'], 'rest');
+    });
+
+    test('does not schedule a bean with no roast date', () async {
+      await enableFreshness();
+      await db.coffeeBeansDao.insertCoffeeBeans(_makeBean(roastDate: null));
       await runScheduler();
 
       expect(scheduled(1401), isFalse);
     });
 
-    test('schedules with /beans payload when bean was roasted 30+ days ago',
-        () async {
-      SharedPreferences.setMockInitialValues({KEY_BEAN_FRESHNESS: true});
-      await NotificationSettingsService.instance.init();
+    // ── rest trigger: the bean has never been brewed ──────────────────────
+
+    test('rest: arms a never-brewed bean at roast + 14 days, 11:00', () async {
+      await enableFreshness();
+      final roast = DateTime.now().subtract(const Duration(days: 3));
       await db.coffeeBeansDao.insertCoffeeBeans(
-        _makeBean(
-            roastDate: DateTime.now().subtract(const Duration(days: 30))),
+        _makeBean(uuid: 'bean-1', roastDate: roast),
       );
       await runScheduler();
 
       expect(scheduled(1401), isTrue);
       expect(payloadOf(1401), equals('/beans/bean-1'));
+      final pending = await pendingRecord();
+      expect(pending, isNotNull);
+      expect(pending!['u'], equals('bean-1'));
+      expect(pending['t'], equals('rest'));
+      expect(pending['f'],
+          equals(elevenOn(roast.add(const Duration(days: 14)))));
     });
 
-    test('respects 14-day cooldown — skips within cooldown window', () async {
-      final now = DateTime.now();
-      SharedPreferences.setMockInitialValues({
-        KEY_BEAN_FRESHNESS: true,
-        'notif_bean_freshness_last_uuid': 'bean-1',
-        'notif_bean_freshness_last_date':
-            now.subtract(const Duration(days: 7)).millisecondsSinceEpoch,
-      });
-      await NotificationSettingsService.instance.init();
-      await db.coffeeBeansDao.insertCoffeeBeans(
-        _makeBean(
-          uuid: 'bean-1',
-          roastDate: now.subtract(const Duration(days: 30)),
-        ),
-      );
-      await runScheduler();
-
-      expect(scheduled(1401), isFalse); // 7 days < 14-day cooldown
-    });
-
-    test('schedules again once the 14-day cooldown has expired', () async {
-      final now = DateTime.now();
-      SharedPreferences.setMockInitialValues({
-        KEY_BEAN_FRESHNESS: true,
-        'notif_bean_freshness_last_uuid': 'bean-1',
-        'notif_bean_freshness_last_date':
-            now.subtract(const Duration(days: 15)).millisecondsSinceEpoch,
-      });
-      await NotificationSettingsService.instance.init();
-      await db.coffeeBeansDao.insertCoffeeBeans(
-        _makeBean(
-          uuid: 'bean-1',
-          roastDate: now.subtract(const Duration(days: 30)),
-        ),
-      );
-      await runScheduler();
-
-      expect(scheduled(1401), isTrue); // 15 days > 14-day cooldown
-    });
-
-    test('persists bean UUID and timestamp to prefs after scheduling',
+    test('rest: a bean already inside the window fires at the next 11:00',
         () async {
-      SharedPreferences.setMockInitialValues({KEY_BEAN_FRESHNESS: true});
-      await NotificationSettingsService.instance.init();
+      await enableFreshness();
+      // roast + 14d is 6 days in the past — the alert must move forward
+      // rather than be armed at a past instant.
+      await db.coffeeBeansDao.insertCoffeeBeans(
+        _makeBean(
+          uuid: 'bean-1',
+          roastDate: DateTime.now().subtract(const Duration(days: 20)),
+        ),
+      );
+      await runScheduler();
+
+      expect(scheduled(1401), isTrue);
+      final pending = await pendingRecord();
+      expect(pending!['t'], equals('rest'));
+      expect(pending['f'] as int,
+          greaterThan(DateTime.now().millisecondsSinceEpoch));
+    });
+
+    test('rest: does not arm a bean past the 28-day rest cap', () async {
+      await enableFreshness();
       await db.coffeeBeansDao.insertCoffeeBeans(
         _makeBean(
           uuid: 'bean-1',
@@ -607,36 +774,325 @@ void main() {
       );
       await runScheduler();
 
-      final p = await SharedPreferences.getInstance();
-      expect(p.getString('notif_bean_freshness_last_uuid'), 'bean-1');
-      expect(p.getInt('notif_bean_freshness_last_date'), isNotNull);
+      expect(scheduled(1401), isFalse);
+      expect(await pendingRecord(), isNull);
     });
 
-    test('prefers more recently roasted bean when multiple exist', () async {
-      SharedPreferences.setMockInitialValues({KEY_BEAN_FRESHNESS: true});
-      await NotificationSettingsService.instance.init();
-      final now = DateTime.now();
-      // Both are stale, but bean-2 is the more recent one
+    // ── idle trigger: the bean has brews ──────────────────────────────────
+
+    test('idle: arms a brewed bean at last brew + 14 days, 11:00', () async {
+      await enableFreshness();
+      final roast = DateTime.now().subtract(const Duration(days: 25));
+      // 5 days ago, so last brew + 14d is still ahead of both now and the
+      // roast + 35d cap — the case where the raw fire time survives intact.
+      final lastBrew = DateTime.now().subtract(const Duration(days: 5));
+      await db.coffeeBeansDao.insertCoffeeBeans(
+        _makeBean(uuid: 'bean-1', roastDate: roast),
+      );
+      await insertBrew('bean-1', lastBrew);
+      await runScheduler();
+
+      expect(scheduled(1401), isTrue);
+      expect(payloadOf(1401), equals('/beans/bean-1'));
+      final pending = await pendingRecord();
+      expect(pending!['t'], equals('idle'));
+      expect(pending['f'],
+          equals(elevenOn(lastBrew.add(const Duration(days: 14)))));
+    });
+
+    test('idle: does not arm when last brew + 14 days is past the 35-day cap',
+        () async {
+      await enableFreshness();
+      // roast + 35d was 5 days ago; last brew + 14d is 12 days out.
       await db.coffeeBeansDao.insertCoffeeBeans(
         _makeBean(
           uuid: 'bean-1',
-          name: 'Older Bean',
-          roastDate: now.subtract(const Duration(days: 60)),
+          roastDate: DateTime.now().subtract(const Duration(days: 40)),
         ),
       );
+      await insertBrew(
+          'bean-1', DateTime.now().subtract(const Duration(days: 2)));
+      await runScheduler();
+
+      expect(scheduled(1401), isFalse);
+      expect(await pendingRecord(), isNull);
+    });
+
+    // ── re-arming, handoff, one-shot ──────────────────────────────────────
+
+    // Regression: rescheduleAll cancels every reserved ID up front, so an
+    // armed freshness alert used to be cancelled and never recreated.
+    test('an armed alert survives a cancel-all cycle', () async {
+      await enableFreshness();
       await db.coffeeBeansDao.insertCoffeeBeans(
         _makeBean(
-          uuid: 'bean-2',
-          name: 'Newer Bean',
-          roastDate: now.subtract(const Duration(days: 25)),
+          uuid: 'bean-1',
+          roastDate: DateTime.now().subtract(const Duration(days: 3)),
+        ),
+      );
+      await runScheduler();
+      expect(scheduled(1401), isTrue);
+      final first = await pendingRecord();
+
+      // Next app open: the OS notification is gone, the stored state is not.
+      LocalNotificationSchedulerService.resetTestState();
+      await runScheduler();
+
+      expect(scheduled(1401), isTrue,
+          reason: 'armed alert must be re-armed by a later reschedule');
+      expect(payloadOf(1401), equals('/beans/bean-1'));
+      expect(await pendingRecord(), equals(first));
+    });
+
+    test('a first brew hands the bean from the rest to the idle trigger',
+        () async {
+      await enableFreshness();
+      await db.coffeeBeansDao.insertCoffeeBeans(
+        _makeBean(
+          uuid: 'bean-1',
+          roastDate: DateTime.now().subtract(const Duration(days: 3)),
+        ),
+      );
+      await runScheduler();
+      final rest = await pendingRecord();
+      expect(rest!['t'], equals('rest'));
+
+      await insertBrew('bean-1', DateTime.now());
+      LocalNotificationSchedulerService.resetTestState();
+      await runScheduler();
+
+      expect(scheduled(1401), isTrue);
+      final idle = await pendingRecord();
+      expect(idle!['t'], equals('idle'));
+      expect(idle['f'] as int, greaterThan(rest['f'] as int),
+          reason: 'idle counts from the brew, which is later than roast + 14d');
+    });
+
+    test('consumes a past-due armed alert and reports it as delivered',
+        () async {
+      final firedAt = DateTime.now().subtract(const Duration(hours: 2));
+      await enableFreshness({
+        pendingKey: jsonEncode({
+          'u': 'bean-1',
+          't': 'rest',
+          'f': firedAt.millisecondsSinceEpoch,
+        }),
+      });
+      // The bean must still exist — the nudged map is pruned of dead uuids.
+      await db.coffeeBeansDao.insertCoffeeBeans(
+        _makeBean(
+          uuid: 'bean-1',
+          roastDate: DateTime.now().subtract(const Duration(days: 17)),
         ),
       );
       await runScheduler();
 
-      expect(scheduled(1401), isTrue);
-      // bean-2 should be recorded in prefs as it has the later roast date
+      final delivered = presumedDeliveredFor('bean_freshness');
+      expect(delivered.length, 1);
+      expect(delivered.single['properties']['trigger'], equals('rest'));
+      expect(delivered.single['properties']['bean_uuid'], equals('bean-1'));
+      expect(await pendingRecord(), isNull);
       final p = await SharedPreferences.getInstance();
-      expect(p.getString('notif_bean_freshness_last_uuid'), 'bean-2');
+      expect(p.getInt(lastFiredKey), equals(firedAt.millisecondsSinceEpoch));
+      expect(await nudgedTriggers('bean-1'), equals({'rest'}));
+      expect(scheduled(1401), isFalse,
+          reason: 'a consumed trigger is not re-armed for the same bean');
+    });
+
+    test('a trigger already in the nudged map is never armed again', () async {
+      await enableFreshness({
+        nudgedKey: jsonEncode({
+          'bean-1': ['rest'],
+        }),
+      });
+      await db.coffeeBeansDao.insertCoffeeBeans(
+        _makeBean(
+          uuid: 'bean-1',
+          roastDate: DateTime.now().subtract(const Duration(days: 3)),
+        ),
+      );
+      await runScheduler();
+
+      expect(scheduled(1401), isFalse);
+      expect(scheduledCountFor('bean_freshness'), 0);
+    });
+
+    // ── per-user floor and candidate ordering ─────────────────────────────
+
+    test('per-user floor pushes a candidate to lastFired + 7 days', () async {
+      final lastFired = DateTime.now().subtract(const Duration(days: 2));
+      await enableFreshness({
+        lastFiredKey: lastFired.millisecondsSinceEpoch,
+      });
+      final roast = DateTime.now().subtract(const Duration(days: 12));
+      await db.coffeeBeansDao.insertCoffeeBeans(
+        _makeBean(uuid: 'bean-1', roastDate: roast),
+      );
+      await runScheduler();
+
+      expect(scheduled(1401), isTrue);
+      final pending = await pendingRecord();
+      // Raw fire time is 2 days out; the floor is 5 days out. The push lands
+      // on 11:00 of the floor's day, and roast + 28d is 16 days out, so the
+      // re-checked cap still holds.
+      final raw = elevenOn(roast.add(const Duration(days: 14)));
+      final floored = elevenOn(lastFired.add(const Duration(days: 7)));
+      expect(pending!['f'], equals(floored));
+      expect(pending['f'] as int, greaterThan(raw),
+          reason: 'the floor moves the alert later, never earlier');
+    });
+
+    test('prefers the candidate with the earliest fire time', () async {
+      await enableFreshness();
+      final now = DateTime.now();
+      await db.coffeeBeansDao.insertCoffeeBeans(
+        _makeBean(
+          uuid: 'bean-fresh',
+          name: 'Fresher Bean',
+          roastDate: now.subtract(const Duration(days: 3)),
+        ),
+      );
+      await db.coffeeBeansDao.insertCoffeeBeans(
+        _makeBean(
+          uuid: 'bean-older',
+          name: 'Older Bean',
+          roastDate: now.subtract(const Duration(days: 10)),
+        ),
+      );
+      await runScheduler();
+
+      // rest fires at roast + 14d, so the older bean's alert comes first.
+      expect(scheduled(1401), isTrue);
+      expect(payloadOf(1401), equals('/beans/bean-older'));
+      expect((await pendingRecord())!['u'], equals('bean-older'));
+    });
+
+    test('breaks a fire-time tie with the later roast date', () async {
+      await enableFreshness();
+      final base = DateTime.now().subtract(const Duration(days: 5));
+      await db.coffeeBeansDao.insertCoffeeBeans(
+        _makeBean(
+          uuid: 'bean-early',
+          name: 'Morning Roast',
+          roastDate: DateTime(base.year, base.month, base.day, 6),
+        ),
+      );
+      await db.coffeeBeansDao.insertCoffeeBeans(
+        _makeBean(
+          uuid: 'bean-late',
+          name: 'Evening Roast',
+          roastDate: DateTime(base.year, base.month, base.day, 18),
+        ),
+      );
+      await runScheduler();
+
+      // Same roast day → identical 11:00 fire instant → later roast wins.
+      expect(payloadOf(1401), equals('/beans/bean-late'));
+    });
+
+    // ── analytics ─────────────────────────────────────────────────────────
+
+    test(
+        'an armed alert emits one notification_scheduled with its uuid and trigger',
+        () async {
+      await enableFreshness();
+      await db.coffeeBeansDao.insertCoffeeBeans(
+        _makeBean(
+          uuid: 'bean-1',
+          roastDate: DateTime.now().subtract(const Duration(days: 3)),
+        ),
+      );
+      await runScheduler();
+
+      expect(scheduledCountFor('bean_freshness'), 1);
+      final events = AnalyticsService.instance.bufferedEventsForTesting.where(
+          (e) =>
+              e['event_name'] == 'notification_scheduled' &&
+              (e['properties'] as Map?)?['notification_type'] ==
+                  'bean_freshness');
+      expect(events.single['properties']['bean_uuid'], equals('bean-1'));
+      expect(events.single['properties']['trigger'], equals('rest'));
+    });
+
+    test('an unchanged candidate does not re-emit on the next run', () async {
+      await enableFreshness();
+      await db.coffeeBeansDao.insertCoffeeBeans(
+        _makeBean(
+          uuid: 'bean-1',
+          roastDate: DateTime.now().subtract(const Duration(days: 3)),
+        ),
+      );
+      await runScheduler();
+      expect(scheduledCountFor('bean_freshness'), 1);
+
+      await runScheduler();
+
+      expect(scheduledCountFor('bean_freshness'), 1,
+          reason: 'rescheduleAll runs many times a day');
+      expect(scheduled(1401), isTrue);
+    });
+
+    // ── skips ─────────────────────────────────────────────────────────────
+
+    test('skips a bean explicitly marked empty (0 g)', () async {
+      await enableFreshness();
+      await db.coffeeBeansDao.insertCoffeeBeans(
+        _makeBean(
+          uuid: 'bean-1',
+          roastDate: DateTime.now().subtract(const Duration(days: 3)),
+        ).copyWith(packageWeightGrams: 0.0),
+      );
+      await runScheduler();
+
+      expect(scheduled(1401), isFalse);
+    });
+
+    test('skips a bean whose roast date is in the future', () async {
+      await enableFreshness();
+      await db.coffeeBeansDao.insertCoffeeBeans(
+        _makeBean(
+          uuid: 'bean-1',
+          roastDate: DateTime.now().add(const Duration(days: 2)),
+        ),
+      );
+      await runScheduler();
+
+      expect(scheduled(1401), isFalse);
+    });
+
+    test('a disabled toggle clears an armed alert', () async {
+      SharedPreferences.setMockInitialValues({
+        pendingKey: jsonEncode({
+          'u': 'bean-1',
+          't': 'rest',
+          'f': DateTime.now()
+              .add(const Duration(days: 3))
+              .millisecondsSinceEpoch,
+        }),
+      });
+      await NotificationSettingsService.instance.init();
+      await db.coffeeBeansDao.insertCoffeeBeans(
+        _makeBean(
+          uuid: 'bean-1',
+          roastDate: DateTime.now().subtract(const Duration(days: 3)),
+        ),
+      );
+      await runScheduler();
+
+      expect(scheduled(1401), isFalse);
+      expect(await pendingRecord(), isNull);
+      expect(presumedDeliveredFor('bean_freshness'), isEmpty);
+    });
+
+    test('disabled setting (default off) emits no bean_freshness event',
+        () async {
+      await db.coffeeBeansDao.insertCoffeeBeans(
+        _makeBean(
+            roastDate: DateTime.now().subtract(const Duration(days: 3))),
+      );
+      await runScheduler();
+
+      expect(scheduledCountFor('bean_freshness'), 0);
     });
   });
 

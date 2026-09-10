@@ -1100,18 +1100,9 @@
     }
   },
 
-  "notifBeanFreshnessTitle": "Hora de grãos frescos?",
-  "notifBeanFreshnessBody": "Seus grãos {beanName} foram torrados há {days} dias. Eles podem já ter passado do auge.",
-  "@notifBeanFreshnessBody": {
-    "placeholders": {
-      "beanName": {
-        "type": "String"
-      },
-      "days": {
-        "type": "int"
-      }
-    }
-  },
+  "notifBeanFreshnessTitle": "Hora de preparar um café",
+  "notifBeanFreshnessRestBody": "{beanName} está chegando ao auge — não esqueça de preparar",
+  "notifBeanFreshnessIdleBody": "Não esqueça de preparar {beanName} antes que o auge passe",
 
   "notifBeanReviewNudgeTitle": "Como foi {beanName} de {roaster}?",
   "notifBeanReviewNudgeTitleNoRoaster": "Como foi {beanName}?",
@@ -1126,8 +1117,8 @@
   "settingsMorningReminderTime": "Horário do lembrete",
   "settingsWeeklySummary": "Resumo semanal",
   "settingsWeeklySummarySubtitle": "Resumo dos seus preparos no domingo à noite",
-  "settingsBeanFreshness": "Alertas de frescor dos grãos",
-  "settingsBeanFreshnessSubtitle": "Avisar quando os grãos tiverem sido torrados há mais de 3 semanas",
+  "settingsBeanFreshness": "Lembretes de frescor",
+  "settingsBeanFreshnessSubtitle": "Lembra você de preparar seus grãos quando estão no melhor momento",
   "daysAgo": "{count, plural, one{há 1 dia} other{há {count} dias}}",
   "@daysAgo": {
     "placeholders": {

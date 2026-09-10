@@ -1100,18 +1100,9 @@
     }
   },
 
-  "notifBeanFreshnessTitle": "Tijd voor verse bonen?",
-  "notifBeanFreshnessBody": "Je bonen {beanName} zijn {days} dagen geleden gebrand. Ze zijn misschien niet meer op hun best.",
-  "@notifBeanFreshnessBody": {
-    "placeholders": {
-      "beanName": {
-        "type": "String"
-      },
-      "days": {
-        "type": "int"
-      }
-    }
-  },
+  "notifBeanFreshnessTitle": "Tijd om koffie te zetten",
+  "notifBeanFreshnessRestBody": "{beanName} komt op zijn best — vergeet niet om het te zetten",
+  "notifBeanFreshnessIdleBody": "Vergeet {beanName} niet te zetten voordat de beste periode voorbij is",
 
   "notifBeanReviewNudgeTitle": "Hoe was {beanName} van {roaster}?",
   "notifBeanReviewNudgeTitleNoRoaster": "Hoe was {beanName}?",
@@ -1126,8 +1117,8 @@
   "settingsMorningReminderTime": "Herinneringstijd",
   "settingsWeeklySummary": "Wekelijkse samenvatting",
   "settingsWeeklySummarySubtitle": "Zondagavondoverzicht van je zetbeurten",
-  "settingsBeanFreshness": "Versheidsmeldingen voor bonen",
-  "settingsBeanFreshnessSubtitle": "Melden wanneer bonen ouder zijn dan 3 weken",
+  "settingsBeanFreshness": "Versheidsherinneringen",
+  "settingsBeanFreshnessSubtitle": "Herinnert je eraan je bonen te zetten wanneer ze op hun best zijn",
   "daysAgo": "{count, plural, one{1 dag geleden} other{{count} dagen geleden}}",
   "@daysAgo": {
     "placeholders": {

@@ -1100,18 +1100,9 @@
     }
   },
 
-  "notifBeanFreshnessTitle": "Il est temps de changer de grains ?",
-  "notifBeanFreshnessBody": "Votre {beanName} a été torréfié il y a {days} jours. Il a peut-être passé son optimum.",
-  "@notifBeanFreshnessBody": {
-    "placeholders": {
-      "beanName": {
-        "type": "String"
-      },
-      "days": {
-        "type": "int"
-      }
-    }
-  },
+  "notifBeanFreshnessTitle": "L’heure de préparer un café",
+  "notifBeanFreshnessRestBody": "{beanName} arrive à son apogée — n’oubliez pas de le préparer",
+  "notifBeanFreshnessIdleBody": "N’oubliez pas de préparer {beanName} avant la fin de son apogée",
 
   "notifBeanReviewNudgeTitle": "Qu’avez-vous pensé de {beanName} de {roaster} ?",
   "notifBeanReviewNudgeTitleNoRoaster": "Qu’avez-vous pensé de {beanName} ?",
@@ -1126,8 +1117,8 @@
   "settingsMorningReminderTime": "Heure du rappel",
   "settingsWeeklySummary": "Résumé hebdomadaire",
   "settingsWeeklySummarySubtitle": "Récapitulatif de vos préparations le dimanche soir",
-  "settingsBeanFreshness": "Alertes de fraîcheur des grains",
-  "settingsBeanFreshnessSubtitle": "Vous avertir quand les grains ont été torréfiés il y a plus de 3 semaines",
+  "settingsBeanFreshness": "Rappels de fraîcheur",
+  "settingsBeanFreshnessSubtitle": "Vous rappelle d’utiliser vos grains quand ils sont à leur meilleur",
   "daysAgo": "{count, plural, one{il y a 1 jour} other{il y a {count} jours}}",
   "@daysAgo": {
     "placeholders": {

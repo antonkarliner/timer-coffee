@@ -1422,18 +1422,9 @@
     }
   },
 
-  "notifBeanFreshnessTitle": "Tid for ferske bønner?",
-  "notifBeanFreshnessBody": "Bønnene dine, {beanName}, ble brent for {days} dager siden. De er kanskje ikke lenger på sitt beste.",
-  "@notifBeanFreshnessBody": {
-    "placeholders": {
-      "beanName": {
-        "type": "String"
-      },
-      "days": {
-        "type": "int"
-      }
-    }
-  },
+  "notifBeanFreshnessTitle": "På tide å brygge",
+  "notifBeanFreshnessRestBody": "{beanName} er på sitt beste nå – ikke glem å brygge den",
+  "notifBeanFreshnessIdleBody": "Ikke glem å brygge {beanName} før den beste tiden er over",
 
   "notifBeanReviewNudgeTitle": "Hvordan var {beanName} fra {roaster}?",
   "notifBeanReviewNudgeTitleNoRoaster": "Hvordan var {beanName}?",
@@ -1448,8 +1439,8 @@
   "settingsMorningReminderTime": "Tidspunkt for påminnelse",
   "settingsWeeklySummary": "Ukentlig oppsummering",
   "settingsWeeklySummarySubtitle": "Søndag kveldsoppsummering av bryggene dine",
-  "settingsBeanFreshness": "Varsler om bønnenes ferskhet",
-  "settingsBeanFreshnessSubtitle": "Gi beskjed når bønnene er eldre enn 3 uker",
+  "settingsBeanFreshness": "Ferskhetspåminnelser",
+  "settingsBeanFreshnessSubtitle": "Minner deg på å brygge bønnene mens de er på sitt beste",
   "daysAgo": "{count, plural, one{for 1 dag siden} other{for {count} dager siden}}",
   "@daysAgo": {
     "placeholders": {

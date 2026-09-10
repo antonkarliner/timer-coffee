@@ -1271,18 +1271,9 @@
     }
   },
 
-  "notifBeanFreshnessTitle": "더 신선한 원두가 필요할까요?",
-  "notifBeanFreshnessBody": "{beanName}는 로스팅한 지 {days}일이 지났어요. 최상의 시기를 지났을 수 있어요.",
-  "@notifBeanFreshnessBody": {
-    "placeholders": {
-      "beanName": {
-        "type": "String"
-      },
-      "days": {
-        "type": "int"
-      }
-    }
-  },
+  "notifBeanFreshnessTitle": "커피 내릴 시간이에요",
+  "notifBeanFreshnessRestBody": "{beanName} 원두가 가장 맛있어질 때예요 — 잊지 말고 내려 보세요",
+  "notifBeanFreshnessIdleBody": "가장 맛있는 시기가 지나기 전에 {beanName} 원두를 내려 보세요",
 
   "notifBeanReviewNudgeTitle": "{roaster}의 {beanName}는 어땠나요?",
   "notifBeanReviewNudgeTitleNoRoaster": "{beanName}는 어땠나요?",
@@ -1297,8 +1288,8 @@
   "settingsMorningReminderTime": "알림 시간",
   "settingsWeeklySummary": "주간 요약",
   "settingsWeeklySummarySubtitle": "일요일 저녁에 보는 이번 주 커피 요약",
-  "settingsBeanFreshness": "원두 신선도 알림",
-  "settingsBeanFreshnessSubtitle": "로스팅한 지 3주가 지난 원두를 알려주기",
+  "settingsBeanFreshness": "신선도 알림",
+  "settingsBeanFreshnessSubtitle": "원두가 가장 맛있을 때 내려 마시도록 알려줍니다",
   "daysAgo": "{count, plural, other{{count}일 전}}",
   "@daysAgo": {
     "placeholders": {

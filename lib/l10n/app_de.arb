@@ -1100,18 +1100,9 @@
     }
   },
 
-  "notifBeanFreshnessTitle": "Zeit für frische Bohnen?",
-  "notifBeanFreshnessBody": "Deine Bohnen {beanName} wurden vor {days} Tagen geröstet. Sie sind vielleicht nicht mehr auf ihrem Höhepunkt.",
-  "@notifBeanFreshnessBody": {
-    "placeholders": {
-      "beanName": {
-        "type": "String"
-      },
-      "days": {
-        "type": "int"
-      }
-    }
-  },
+  "notifBeanFreshnessTitle": "Zeit zu brühen",
+  "notifBeanFreshnessRestBody": "{beanName} erreicht gerade den perfekten Punkt – vergiss nicht, sie zu brühen",
+  "notifBeanFreshnessIdleBody": "Vergiss nicht, {beanName} zu brühen, bevor der beste Moment vorbei ist",
 
   "notifBeanReviewNudgeTitle": "Wie fandest du {beanName} von {roaster}?",
   "notifBeanReviewNudgeTitleNoRoaster": "Wie fandest du {beanName}?",
@@ -1126,8 +1117,8 @@
   "settingsMorningReminderTime": "Erinnerungszeit",
   "settingsWeeklySummary": "Wochenzusammenfassung",
   "settingsWeeklySummarySubtitle": "Sonntagabend-Zusammenfassung deiner Brühvorgänge",
-  "settingsBeanFreshness": "Bohnen-Frischewarnungen",
-  "settingsBeanFreshnessSubtitle": "Benachrichtigen, wenn Bohnen älter als 3 Wochen sind",
+  "settingsBeanFreshness": "Frische-Erinnerungen",
+  "settingsBeanFreshnessSubtitle": "Erinnert dich daran, deine Bohnen zu brühen, solange sie am besten schmecken",
   "daysAgo": "{count, plural, one{vor 1 Tag} other{vor {count} Tagen}}",
   "@daysAgo": {
     "placeholders": {
