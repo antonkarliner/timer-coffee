@@ -287,25 +287,17 @@ class UserRecipeProvider with ChangeNotifier {
           'Marked recipe ${AppLogger.sanitize(recipeId)} as deleted and private in Supabase.',
         );
 
-        // 2. Mark related user_stats as deleted remotely. Best-effort: a
-        //    failure here only means the brews stay visible on other devices,
-        //    which matches the local behavior now that brew history survives
-        //    recipe deletion.
-        try {
-          await Supabase.instance.client
-              .from('user_stats')
-              .update({'is_deleted': true})
-              .match({'user_id': userId, 'recipe_id': recipeId})
-              .timeout(NetworkTimeouts.handshake);
-          AppLogger.debug(
-            'Marked related user_stats as deleted for recipe ${AppLogger.sanitize(recipeId)}.',
-          );
-        } catch (e) {
-          AppLogger.error(
-            "Error marking related user_stats as deleted for recipe ${AppLogger.sanitize(recipeId)}",
-            errorObject: e,
-          );
-        }
+        // 2. Related user_stats are deliberately NOT touched. Deleting a
+        //    recipe no longer deletes the brews logged with it — that is the
+        //    entire point of tombstoning rather than hard-deleting.
+        //
+        //    Tombstoning them remotely would actively undo the fix: the
+        //    update does not bump version_vector, so the rows end up live
+        //    locally and deleted remotely at the SAME vector. syncNewUserStats
+        //    resolves that tie by preferring deletions, so the very next sync
+        //    would overwrite the local rows as deleted and destroy exactly the
+        //    brew history this plan set out to preserve — just one sync later
+        //    instead of instantly.
 
         // 3. Delete related user_recipe_preferences. Best-effort for the
         //    same reason; the stale preferences are harmless.
