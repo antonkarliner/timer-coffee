@@ -89,7 +89,9 @@ void main() {
 
     verify(userRecipeProvider.deleteUserRecipe(recipe.id)).called(1);
     verify(recipeProvider.fetchAllRecipes()).called(1);
-    expect(find.text('Recipe deleted successfully'), findsOneWidget);
+    // Phase 4b: the delete confirmation snackbar carries an Undo action.
+    expect(find.text('Recipe deleted'), findsOneWidget);
+    expect(find.text('Undo'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 

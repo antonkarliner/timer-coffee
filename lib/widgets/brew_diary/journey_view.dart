@@ -29,11 +29,16 @@ class JourneyView extends StatelessWidget {
     required this.group,
     this.logoUrls,
     this.onBeanTap,
+    this.onUndo,
   });
 
   final DiaryGroup group;
   final Future<Map<String, String?>>? logoUrls;
   final VoidCallback? onBeanTap;
+
+  /// Called after a diary entry deleted from this journey is restored via the
+  /// delete snackbar's Undo action, so the diary underneath can reload.
+  final VoidCallback? onUndo;
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +66,7 @@ class JourneyView extends StatelessWidget {
           group: group,
           logoUrls: logoUrls,
           onBeanTap: onBeanTap,
+          onUndo: onUndo,
         ),
       ),
     );
@@ -68,11 +74,17 @@ class JourneyView extends StatelessWidget {
 }
 
 class _BeanJourney extends StatefulWidget {
-  const _BeanJourney({required this.group, this.logoUrls, this.onBeanTap});
+  const _BeanJourney({
+    required this.group,
+    this.logoUrls,
+    this.onBeanTap,
+    this.onUndo,
+  });
 
   final DiaryGroup group;
   final Future<Map<String, String?>>? logoUrls;
   final VoidCallback? onBeanTap;
+  final VoidCallback? onUndo;
 
   @override
   State<_BeanJourney> createState() => _BeanJourneyState();
@@ -201,6 +213,7 @@ class _BeanJourneyState extends State<_BeanJourney> {
               logoUrls: widget.logoUrls,
               isBest: identical(series[index], best),
               onEntryChanged: _replaceEntry,
+              onUndo: widget.onUndo,
               onBookmarkToggle: () => _toggleBookmark(series[index]),
               bookmarkTogglePending: _pendingBookmarkUuids.contains(
                 series[index].statUuid,
@@ -411,6 +424,7 @@ class _JourneyEntryCard extends StatelessWidget {
     this.logoUrls,
     this.isBest = false,
     this.onEntryChanged,
+    this.onUndo,
   });
 
   final DiaryEntry entry;
@@ -419,6 +433,7 @@ class _JourneyEntryCard extends StatelessWidget {
   final Future<Map<String, String?>>? logoUrls;
   final bool isBest;
   final ValueChanged<DiaryEntry>? onEntryChanged;
+  final VoidCallback? onUndo;
 
   @override
   Widget build(BuildContext context) {
@@ -448,6 +463,7 @@ class _JourneyEntryCard extends StatelessWidget {
             logoUrls: logoUrls,
             onEntryChanged: onEntryChanged,
             onOpenBeanJourney: (_) => Navigator.of(context).pop(),
+            onUndo: onUndo,
             analyticsSource: 'group_card',
           );
           if (changed == true && context.mounted) {

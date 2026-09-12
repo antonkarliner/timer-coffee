@@ -271,8 +271,8 @@ class CoffeeBeanGridCard extends StatelessWidget {
                                 final confirmed = await showDialog<bool>(
                                   context: context,
                                   builder: (context) => ConfirmDeleteDialog(
-                                    title: loc.confirmDeleteTitle,
-                                    content: loc.confirmDeleteMessage,
+                                    title: loc.beanDeleteTitle,
+                                    content: loc.beanDeleteMessage,
                                     confirmLabel: loc.delete,
                                     cancelLabel: loc.cancel,
                                   ),

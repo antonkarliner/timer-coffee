@@ -24,6 +24,7 @@ import 'package:coffee_timer/widgets/fields/dropdown_search_field.dart';
 import 'package:coffee_timer/widgets/fields/labeled_field.dart';
 import 'package:coffee_timer/widgets/fields/numeric_text_field.dart';
 import 'package:coffee_timer/widgets/roaster_logo.dart';
+import 'package:coffee_timer/widgets/undo_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
@@ -59,6 +60,7 @@ Future<bool?> showBrewDetailSheet(
   ValueChanged<double?>? onRatingChanged,
   ValueChanged<DiaryEntry>? onEntryChanged,
   ValueChanged<DiaryEntry>? onOpenBeanJourney,
+  VoidCallback? onUndo,
   String analyticsSource = 'card',
 }) {
   assert(
@@ -75,6 +77,7 @@ Future<bool?> showBrewDetailSheet(
       onRatingChanged: onRatingChanged,
       onEntryChanged: onEntryChanged,
       onOpenBeanJourney: onOpenBeanJourney,
+      onUndo: onUndo,
       analyticsSource: analyticsSource,
     ),
   );
@@ -125,6 +128,7 @@ class BrewDetailSheet extends StatefulWidget {
     this.onRatingChanged,
     this.onEntryChanged,
     this.onOpenBeanJourney,
+    this.onUndo,
     this.analyticsSource = 'card',
   });
 
@@ -133,6 +137,10 @@ class BrewDetailSheet extends StatefulWidget {
   final ValueChanged<double?>? onRatingChanged;
   final ValueChanged<DiaryEntry>? onEntryChanged;
   final ValueChanged<DiaryEntry>? onOpenBeanJourney;
+
+  /// Called after the delete's Undo action restores the entry, so the screen
+  /// showing the diary can reload it without a manual pull-to-refresh.
+  final VoidCallback? onUndo;
 
   /// Where the sheet was opened from — one of `card`, `group_card`,
   /// `deep_link`. Reported once via the `diary_entry_opened` analytics
@@ -606,12 +614,30 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
         );
       }
     }
-    await userStatProvider.deleteUserStat(_entry.statUuid);
+    // Captured before the awaits: read after `deleteUserStat` only from
+    // locals — this State can be disposed (sheet dismissed) mid-flight.
+    final statUuid = _entry.statUuid;
+    final entrySource = _entry.entrySource;
+    final onUndo = widget.onUndo;
+    await userStatProvider.deleteUserStat(statUuid);
     AnalyticsService.maybeInstance?.track(
       'diary_entry_deleted',
-      properties: {'entry_source': diaryEntrySourceLabel(_entry.entrySource)},
+      properties: {'entry_source': diaryEntrySourceLabel(entrySource)},
     );
+    // Pop first, then snackbar: the undo affordance must appear over whatever
+    // screen is showing (usually the diary). The `messenger` captured before
+    // the awaits above stays valid after this element is popped — a fresh
+    // ScaffoldMessenger.of(context) here would not be.
     if (mounted) Navigator.of(context).pop(true);
+    showUndoSnackBar(
+      messenger,
+      message: loc.entryDeleted,
+      undoLabel: loc.undo,
+      onUndo: () async {
+        await userStatProvider.restoreUserStat(statUuid);
+        onUndo?.call();
+      },
+    );
   }
 
   @override

@@ -10,6 +10,7 @@ import '../widgets/coffee_beans/index.dart';
 import '../l10n/app_localizations.dart';
 import '../theme/design_tokens.dart';
 import '../widgets/base_buttons.dart';
+import '../widgets/undo_snackbar.dart';
 
 @RoutePage()
 class CoffeeBeansScreen extends StatefulWidget {
@@ -207,11 +208,23 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
     CoffeeBeansController controller,
     CoffeeBeansModel bean,
   ) async {
+    final loc = AppLocalizations.of(context)!;
+    // Captured before the awaits so the undo snackbar still shows if the
+    // widget tree moves on while the delete is in flight.
+    final messenger = ScaffoldMessenger.of(context);
     final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
       context,
       listen: false,
     );
     await coffeeBeansProvider.deleteCoffeeBeans(bean.beansUuid);
+    showUndoSnackBar(
+      messenger,
+      message: loc.beanDeleted,
+      undoLabel: loc.undo,
+      // Restoring notifies CoffeeBeansProvider, which the list controller
+      // listens to — the bean reappears without a manual refresh.
+      onUndo: () => coffeeBeansProvider.restoreCoffeeBeans(bean.beansUuid),
+    );
     if (!context.mounted) return;
     await controller.refreshData(context);
   }

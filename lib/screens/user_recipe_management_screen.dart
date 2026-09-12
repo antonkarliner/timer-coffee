@@ -9,6 +9,7 @@ import '../providers/user_recipe_provider.dart';
 import '../models/recipe_model.dart';
 import '../widgets/confirm_delete_dialog.dart';
 import '../app_router.gr.dart';
+import '../widgets/undo_snackbar.dart';
 import '../widgets/recipe_detail/unpublish_recipe_dialog.dart';
 import '../widgets/user_recipe_management/management_app_bar.dart';
 import '../widgets/user_recipe_management/created_list_section.dart';
@@ -57,6 +58,10 @@ class _UserRecipeManagementScreenState
   }
 
   Future<void> _deleteRecipe(BuildContext context, RecipeModel recipe) async {
+    final l10n = AppLocalizations.of(context)!;
+    // Captured before the awaits: the undo snackbar must appear over the list
+    // even if this route moves while the delete is in flight.
+    final messenger = ScaffoldMessenger.of(context);
     final userRecipeProvider = Provider.of<UserRecipeProvider>(
       context,
       listen: false,
@@ -66,15 +71,19 @@ class _UserRecipeManagementScreenState
     try {
       await userRecipeProvider.deleteUserRecipe(recipe.id);
       await recipeProvider.fetchAllRecipes();
-      if (!context.mounted) return;
-
-      final l10n = AppLocalizations.of(context)!;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(l10n.userRecipesSnackbarDeleted)));
+      showUndoSnackBar(
+        messenger,
+        message: l10n.userRecipesSnackbarDeleted,
+        undoLabel: l10n.undo,
+        // Re-fetch the combined list so the restored recipe reappears —
+        // this screen renders RecipeProvider, not UserRecipeProvider.
+        onUndo: () async {
+          await userRecipeProvider.restoreUserRecipe(recipe.id);
+          await recipeProvider.fetchAllRecipes();
+        },
+      );
     } catch (e) {
       if (!context.mounted) return;
-      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(l10n.recipeDeleteError(e))));

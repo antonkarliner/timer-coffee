@@ -331,6 +331,15 @@ class MockCoffeeBeansProvider extends _i1.Mock
           as _i12.Future<void>);
 
   @override
+  _i12.Future<void> restoreCoffeeBeans(String? beansUuid) =>
+      (super.noSuchMethod(
+            Invocation.method(#restoreCoffeeBeans, [beansUuid]),
+            returnValue: _i12.Future<void>.value(),
+            returnValueForMissingStub: _i12.Future<void>.value(),
+          )
+          as _i12.Future<void>);
+
+  @override
   _i12.Future<_i13.CoffeeBeansModel?> fetchCoffeeBeansById(int? id) =>
       (super.noSuchMethod(
             Invocation.method(#fetchCoffeeBeansById, [id]),
@@ -999,6 +1008,15 @@ class MockUserStatProvider extends _i1.Mock implements _i15.UserStatProvider {
   _i12.Future<void> deleteUserStat(String? statUuid) =>
       (super.noSuchMethod(
             Invocation.method(#deleteUserStat, [statUuid]),
+            returnValue: _i12.Future<void>.value(),
+            returnValueForMissingStub: _i12.Future<void>.value(),
+          )
+          as _i12.Future<void>);
+
+  @override
+  _i12.Future<void> restoreUserStat(String? statUuid) =>
+      (super.noSuchMethod(
+            Invocation.method(#restoreUserStat, [statUuid]),
             returnValue: _i12.Future<void>.value(),
             returnValueForMissingStub: _i12.Future<void>.value(),
           )

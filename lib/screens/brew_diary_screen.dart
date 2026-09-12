@@ -212,6 +212,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                 builder: (_) => JourneyView(
                   group: journeyGroup,
                   logoUrls: _groupLogoUrls(journeyGroup),
+                  onUndo: _refresh,
                 ),
               ),
             )
@@ -219,6 +220,10 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
               if (mounted) _refresh();
             });
       },
+      // Reload the diary when a deleted entry is restored via the delete
+      // snackbar's Undo action (the sheet pops before the undo can happen,
+      // so nothing else refreshes the list).
+      onUndo: _refresh,
       analyticsSource: source,
     );
     if (mounted) _refresh();

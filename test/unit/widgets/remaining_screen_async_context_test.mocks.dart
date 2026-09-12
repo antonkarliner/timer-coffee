@@ -2206,6 +2206,15 @@ class MockCoffeeBeansProvider extends _i1.Mock
           as _i8.Future<void>);
 
   @override
+  _i8.Future<void> restoreCoffeeBeans(String? beansUuid) =>
+      (super.noSuchMethod(
+            Invocation.method(#restoreCoffeeBeans, [beansUuid]),
+            returnValue: _i8.Future<void>.value(),
+            returnValueForMissingStub: _i8.Future<void>.value(),
+          )
+          as _i8.Future<void>);
+
+  @override
   _i8.Future<_i15.CoffeeBeansModel?> fetchCoffeeBeansById(int? id) =>
       (super.noSuchMethod(
             Invocation.method(#fetchCoffeeBeansById, [id]),

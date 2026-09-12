@@ -580,6 +580,15 @@ class MockUserRecipeProvider extends _i1.Mock
           as _i9.Future<void>);
 
   @override
+  _i9.Future<void> restoreUserRecipe(String? recipeId) =>
+      (super.noSuchMethod(
+            Invocation.method(#restoreUserRecipe, [recipeId]),
+            returnValue: _i9.Future<void>.value(),
+            returnValueForMissingStub: _i9.Future<void>.value(),
+          )
+          as _i9.Future<void>);
+
+  @override
   _i9.Future<void> unpublishRecipe(String? recipeId) =>
       (super.noSuchMethod(
             Invocation.method(#unpublishRecipe, [recipeId]),

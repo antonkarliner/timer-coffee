@@ -22,6 +22,7 @@ import '../widgets/confirm_delete_dialog.dart';
 import '../widgets/roaster_profile/review_body.dart';
 import '../widgets/roaster_profile/review_form.dart';
 import '../widgets/roaster_contribution/contribution_prompt_card.dart';
+import '../widgets/undo_snackbar.dart';
 import '../app_router.gr.dart';
 import '../utils/roaster_background_color.dart';
 
@@ -271,19 +272,44 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen>
                                 final confirmed = await showDialog<bool>(
                                   context: context,
                                   builder: (context) => ConfirmDeleteDialog(
-                                    title: loc.confirmDeleteTitle,
-                                    content: loc.confirmDeleteMessage,
+                                    title: loc.beanDeleteTitle,
+                                    content: loc.beanDeleteMessage,
                                     confirmLabel: loc.delete,
                                     cancelLabel: loc.cancel,
                                   ),
                                 );
-                                if (confirmed == true && context.mounted) {
-                                  final success = await controller.deleteBean(
-                                    context,
+                                if (confirmed != true || !context.mounted) {
+                                  return;
+                                }
+                                // Captured before the delete/pop below: the
+                                // snackbar must appear over whatever screen
+                                // the pop reveals, and a fresh
+                                // ScaffoldMessenger.of after maybePop would
+                                // read this screen's defunct context.
+                                final messenger = ScaffoldMessenger.of(context);
+                                final beansProvider =
+                                    Provider.of<CoffeeBeansProvider>(
+                                      context,
+                                      listen: false,
+                                    );
+                                final beansUuid = controller.bean!.beansUuid;
+                                final success = await controller.deleteBean(
+                                  context,
+                                );
+                                if (success && context.mounted) {
+                                  context.router.maybePop();
+                                }
+                                if (success) {
+                                  showUndoSnackBar(
+                                    messenger,
+                                    message: loc.beanDeleted,
+                                    undoLabel: loc.undo,
+                                    // Notifies CoffeeBeansProvider, which the
+                                    // beans list controller listens to — the
+                                    // bean reappears without a manual refresh.
+                                    onUndo: () => beansProvider
+                                        .restoreCoffeeBeans(beansUuid),
                                   );
-                                  if (success && context.mounted) {
-                                    context.router.maybePop();
-                                  }
                                 }
                               }
                             : null,
