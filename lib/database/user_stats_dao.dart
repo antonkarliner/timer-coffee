@@ -203,8 +203,8 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
           us.is_marked,
           us.notes,
           us.coffee_beans_uuid,
-          cb.name AS bean_name,
-          cb.roaster AS bean_roaster,
+          COALESCE(cb.name, us.beans) AS bean_name,
+          COALESCE(cb.roaster, us.roaster) AS bean_roaster,
           cb.origin AS bean_origin
         FROM user_stats AS us
         INNER JOIN brewing_methods AS bm

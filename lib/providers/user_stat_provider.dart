@@ -22,6 +22,26 @@ class UserStatProvider extends ChangeNotifier {
 
   UserStatProvider(this.db, this.coffeeBeansProvider) : deviceId = Uuid().v4();
 
+  Future<({String? beans, String? roaster})> _resolveBeanSnapshot(
+    String? beansUuid,
+  ) async {
+    if (beansUuid == null || beansUuid.trim().isEmpty) {
+      return (beans: null, roaster: null);
+    }
+
+    try {
+      final bean = await db.coffeeBeansDao.fetchCoffeeBeansByUuid(beansUuid);
+      return (beans: bean?.name, roaster: bean?.roaster);
+    } catch (error, stackTrace) {
+      AppLogger.warning(
+        'Could not resolve coffee bean snapshot',
+        errorObject: error,
+        stackTrace: stackTrace,
+      );
+      return (beans: null, roaster: null);
+    }
+  }
+
   Future<void> insertUserStat({
     required String recipeId,
     required double coffeeAmount,
@@ -46,6 +66,7 @@ class UserStatProvider extends ChangeNotifier {
   }) async {
     final newStatUuid = statUuid ?? _uuid.v7();
     final versionVector = VersionVector.initial(deviceId).toString();
+    final beanSnapshot = await _resolveBeanSnapshot(coffeeBeansUuid);
 
     final newStat = UserStatsModel(
       statUuid: newStatUuid,
@@ -57,8 +78,8 @@ class UserStatProvider extends ChangeNotifier {
       brewingMethodId: brewingMethodId,
       createdAt: createdAt ?? DateTime.now().toUtc(),
       notes: notes,
-      beans: beans,
-      roaster: roaster,
+      beans: beans ?? beanSnapshot.beans,
+      roaster: roaster ?? beanSnapshot.roaster,
       rating: rating,
       coffeeBeansId: coffeeBeansId,
       isMarked: isMarked,
@@ -142,6 +163,7 @@ class UserStatProvider extends ChangeNotifier {
 
     final currentVector = VersionVector.fromString(currentStat.versionVector);
     final newVector = currentVector.increment();
+    final beanSnapshot = await _resolveBeanSnapshot(coffeeBeansUuid);
 
     var updatedStat = currentStat.copyWith(
       recipeId: recipeId,
@@ -151,8 +173,8 @@ class UserStatProvider extends ChangeNotifier {
       strengthSliderPosition: strengthSliderPosition,
       brewingMethodId: brewingMethodId,
       notes: notes,
-      beans: beans,
-      roaster: roaster,
+      beans: beans ?? beanSnapshot.beans,
+      roaster: roaster ?? beanSnapshot.roaster,
       rating: rating,
       coffeeBeansId: coffeeBeansId,
       isMarked: isMarked,
@@ -182,8 +204,8 @@ class UserStatProvider extends ChangeNotifier {
         brewingMethodId: updatedStat.brewingMethodId,
         createdAt: currentStat.createdAt,
         notes: updatedStat.notes,
-        beans: updatedStat.beans,
-        roaster: updatedStat.roaster,
+        beans: null,
+        roaster: null,
         rating: updatedStat.rating,
         coffeeBeansId: updatedStat.coffeeBeansId,
         isMarked: updatedStat.isMarked,
@@ -381,6 +403,8 @@ class UserStatProvider extends ChangeNotifier {
     required String? nextBeanUuid,
   }) async {
     final currentStat = await _fetchDiaryStat(statUuid);
+    String? nextBeans;
+    String? nextRoaster;
     if (nextBeanUuid != null) {
       final targetBean = await coffeeBeansProvider.fetchCoffeeBeansByUuid(
         nextBeanUuid,
@@ -388,6 +412,8 @@ class UserStatProvider extends ChangeNotifier {
       if (targetBean == null) {
         throw StateError('Coffee beans not found');
       }
+      nextBeans = targetBean.name;
+      nextRoaster = targetBean.roaster;
     }
 
     final oldBeanUuid = currentStat.coffeeBeansUuid;
@@ -423,7 +449,12 @@ class UserStatProvider extends ChangeNotifier {
         await adjust(nextBeanUuid, currentStat.coffeeAmount);
       }
       await _persistDiaryStat(
-        _rebuildDiaryStat(currentStat, coffeeBeansUuid: nextBeanUuid),
+        _rebuildDiaryStat(
+          currentStat,
+          beans: nextBeans,
+          roaster: nextRoaster,
+          coffeeBeansUuid: nextBeanUuid,
+        ),
       );
     } catch (error, stackTrace) {
       for (final adjustment in completedAdjustments.reversed) {
@@ -474,6 +505,8 @@ class UserStatProvider extends ChangeNotifier {
     Object? tasteBalance = _unchangedDiaryField,
     Object? notes = _unchangedDiaryField,
     Object? rating = _unchangedDiaryField,
+    Object? beans = _unchangedDiaryField,
+    Object? roaster = _unchangedDiaryField,
     Object? coffeeBeansUuid = _unchangedDiaryField,
     Object? tags = _unchangedDiaryField,
     Object? tdsPercent = _unchangedDiaryField,
@@ -495,8 +528,12 @@ class UserStatProvider extends ChangeNotifier {
       notes: identical(notes, _unchangedDiaryField)
           ? currentStat.notes
           : notes as String?,
-      beans: currentStat.beans,
-      roaster: currentStat.roaster,
+      beans: identical(beans, _unchangedDiaryField)
+          ? currentStat.beans
+          : beans as String?,
+      roaster: identical(roaster, _unchangedDiaryField)
+          ? currentStat.roaster
+          : roaster as String?,
       rating: identical(rating, _unchangedDiaryField)
           ? currentStat.rating
           : rating as double?,
@@ -838,6 +875,8 @@ class UserStatProvider extends ChangeNotifier {
             UserStatsCompanion(
               id: Value(stat.id),
               coffeeBeansUuid: Value(coffeeBeans.beansUuid),
+              beans: Value(coffeeBeans.name),
+              roaster: Value(coffeeBeans.roaster),
             ),
           );
         } else {

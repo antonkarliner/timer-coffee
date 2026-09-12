@@ -439,12 +439,9 @@ class CoffeeBeansProvider with ChangeNotifier {
       throw Exception('Coffee beans not found');
     }
 
-    // Perform the deletion and detachment in a transaction
+    // Perform the deletion in a transaction
     final updatedBeans = await db.transaction(() async {
-      // First, detach the coffee bean from all user stats
-      await db.userStatsDao.detachCoffeeBeanFromStats(beansUuid);
-
-      // Then, mark the bean as deleted
+      // Mark the bean as deleted
       final currentVector = VersionVector.fromString(
         currentBeans.versionVector,
       );

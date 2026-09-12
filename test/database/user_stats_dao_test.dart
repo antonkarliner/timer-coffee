@@ -8,6 +8,7 @@ import 'package:coffee_timer/providers/user_stat_provider.dart';
 import 'package:coffee_timer/screens/brew_diary_screen.dart';
 import 'package:coffee_timer/services/date_time_format_service.dart';
 import 'package:coffee_timer/utils/version_vector.dart';
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -96,6 +97,20 @@ Future<void> _seedDiaryCatalog(AppDatabase db) async {
           name: 'English recipe',
           grindSize: 'Medium-fine',
           shortDescription: 'English description',
+        ),
+      );
+}
+
+Future<void> _seedDiaryBean(AppDatabase db) async {
+  await db
+      .into(db.coffeeBeans)
+      .insert(
+        CoffeeBeansCompanion.insert(
+          beansUuid: 'bean-1',
+          roaster: 'Test Roaster',
+          name: 'Kayon Mountain',
+          origin: 'Ethiopia',
+          versionVector: VersionVector.initial('device-1').toString(),
         ),
       );
 }
@@ -268,17 +283,7 @@ void main() {
     });
 
     test('returns newest entries first with all joined card fields', () async {
-      await db
-          .into(db.coffeeBeans)
-          .insert(
-            CoffeeBeansCompanion.insert(
-              beansUuid: 'bean-1',
-              roaster: 'Test Roaster',
-              name: 'Kayon Mountain',
-              origin: 'Ethiopia',
-              versionVector: VersionVector.initial('device-1').toString(),
-            ),
-          );
+      await _seedDiaryBean(db);
       await db.userStatsDao.insertUserStat(
         _makeStat(uuid: 'older', createdAt: DateTime(2024, 1, 1)),
       );
@@ -358,6 +363,51 @@ void main() {
       expect(results.single.beanName, isNull);
       expect(results.single.roaster, isNull);
       expect(results.single.ratio, isNull);
+    });
+
+    test('uses the bean snapshot after the linked bean is deleted', () async {
+      await _seedDiaryBean(db);
+      await db.userStatsDao.insertUserStat(
+        _makeStat(
+          coffeeBeansUuid: 'bean-1',
+          beans: 'Kayon Mountain',
+          roaster: 'Test Roaster',
+        ),
+      );
+      await (db.update(db.coffeeBeans)
+            ..where((bean) => bean.beansUuid.equals('bean-1')))
+          .write(const CoffeeBeansCompanion(isDeleted: Value(true)));
+
+      final entry = (await db.userStatsDao.fetchDiaryEntries('en')).single;
+
+      expect(entry.beanName, 'Kayon Mountain');
+      expect(entry.roaster, 'Test Roaster');
+      expect(entry.origin, isNull);
+    });
+
+    test('prefers renamed live bean data over the stored snapshot', () async {
+      await _seedDiaryBean(db);
+      await db.userStatsDao.insertUserStat(
+        _makeStat(
+          coffeeBeansUuid: 'bean-1',
+          beans: 'Old typo',
+          roaster: 'Old Roaster',
+        ),
+      );
+      await (db.update(
+        db.coffeeBeans,
+      )..where((bean) => bean.beansUuid.equals('bean-1'))).write(
+        const CoffeeBeansCompanion(
+          name: Value('Corrected Name'),
+          roaster: Value('Corrected Roaster'),
+        ),
+      );
+
+      final entry = (await db.userStatsDao.fetchDiaryEntries('en')).single;
+
+      // INTENDED: live bean corrections must override the historical snapshot.
+      expect(entry.beanName, 'Corrected Name');
+      expect(entry.roaster, 'Corrected Roaster');
     });
 
     test('excludes soft-deleted rows', () async {

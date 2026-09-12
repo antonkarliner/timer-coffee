@@ -42,6 +42,35 @@ void main() {
     expect(await harness.weight(), 100);
   });
 
+  test('deleting a bean keeps its UUID on existing diary entries', () async {
+    final harness = await _Harness.create();
+    addTearDown(harness.close);
+
+    await harness.beans.deleteCoffeeBeans(_Harness.beanUuid);
+
+    expect((await harness.stat())!.coffeeBeansUuid, _Harness.beanUuid);
+  });
+
+  test('insertUserStat derives the bean and roaster snapshot', () async {
+    final harness = await _Harness.create();
+    addTearDown(harness.close);
+
+    await harness.stats.insertUserStat(
+      statUuid: 'snapshot-stat',
+      recipeId: 'recipe-1',
+      coffeeAmount: 15,
+      waterAmount: 250,
+      sweetnessSliderPosition: 1,
+      strengthSliderPosition: 1,
+      brewingMethodId: 'method-1',
+      coffeeBeansUuid: _Harness.beanUuid,
+    );
+
+    final stat = await harness.db.userStatsDao.fetchStatByUuid('snapshot-stat');
+    expect(stat!.beans, 'Test Beans');
+    expect(stat.roaster, 'Test Roaster');
+  });
+
   test('15 g to 10 g then delete is inventory-neutral', () async {
     final harness = await _Harness.create();
     addTearDown(harness.close);
@@ -311,6 +340,48 @@ void main() {
     expect(await harness.weight(_Harness.beanBUuid), 85);
   });
 
+  test(
+    'replacement refreshes the snapshot used after the new bean is deleted',
+    () async {
+      final harness = await _Harness.create(
+        packageWeight: 85,
+        includeBeanB: true,
+      );
+      addTearDown(harness.close);
+
+      await harness.stats.updateDiaryBean(
+        statUuid: _Harness.statUuid,
+        nextBeanUuid: _Harness.beanBUuid,
+      );
+      await harness.beans.deleteCoffeeBeans(_Harness.beanBUuid);
+
+      final stat = (await harness.stat())!;
+      final entry = (await harness.db.userStatsDao.fetchDiaryEntries(
+        'en',
+      )).single;
+      expect(stat.beans, 'Second Beans');
+      expect(stat.roaster, 'Second Roaster');
+      expect(entry.beanName, 'Second Beans');
+      expect(entry.roaster, 'Second Roaster');
+      expect(entry.beanName, isNot('Test Beans'));
+    },
+  );
+
+  test('detaching a bean clears its stored snapshot', () async {
+    final harness = await _Harness.create(packageWeight: 85);
+    addTearDown(harness.close);
+
+    await harness.stats.updateDiaryBean(
+      statUuid: _Harness.statUuid,
+      nextBeanUuid: null,
+    );
+
+    final stat = (await harness.stat())!;
+    expect(stat.coffeeBeansUuid, isNull);
+    expect(stat.beans, isNull);
+    expect(stat.roaster, isNull);
+  });
+
   test('same bean UUID is a complete no-op', () async {
     final harness = await _Harness.create(packageWeight: 85);
     addTearDown(harness.close);
@@ -533,6 +604,14 @@ class _Harness {
     double? extractionYieldPercent,
   }) async {
     final db = openTestDatabase();
+    await db
+        .into(db.brewingMethods)
+        .insert(
+          BrewingMethodsCompanion.insert(
+            brewingMethodId: 'method-1',
+            brewingMethod: 'V60',
+          ),
+        );
     await db.coffeeBeansDao.insertCoffeeBeans(
       CoffeeBeansModel(
         beansUuid: beanUuid,
@@ -567,6 +646,8 @@ class _Harness {
         brewingMethodId: 'method-1',
         createdAt: DateTime.utc(2026, 7, 14),
         notes: 'Initial note',
+        beans: initialBeanUuid == null ? null : 'Test Beans',
+        roaster: initialBeanUuid == null ? null : 'Test Roaster',
         rating: 4,
         isMarked: false,
         coffeeBeansUuid: initialBeanUuid,
