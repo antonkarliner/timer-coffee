@@ -1,6 +1,6 @@
 # Privacy Policy for Timer.Coffee
 
-Last Updated: 09.09.2026
+Last Updated: 12.09.2026
 
 1. INTRODUCTION
 
@@ -35,6 +35,8 @@ This is the core data of the product. We store it so the app can remember your b
 - If you use the built-in extraction calculator and choose to save a result, we store the TDS (total dissolved solids) percentage and calculated extraction yield percentage you entered alongside the related brew statistic, so you can review your extraction results later and sync them across your devices. Saving a result is optional and only happens if you take that action.
 - For each brew or diary entry, we may store the water temperature, optional taste feedback (sour, balanced, or bitter), and the entry source (whether the entry came from a timer-guided brew or was entered manually), so you can review and compare your brews later.
 - Brew diary content, such as notes, custom tags you add to an entry, grind size, bean links, favorite or marked state, and sync metadata, so you can keep personal brewing records.
+- When you link a bean to a brew, we also store a copy of that bean's name and roaster on the brew entry itself. This is a snapshot of what the bean was called at the time, so the entry still says which coffee you brewed if you later delete the bean record. While the bean record still exists, the diary shows its current details, so correcting a typo in a bean's name updates your past brews too.
+- When you delete a brew, bean, or recipe, the record is marked as deleted rather than erased immediately, and we store the time it was deleted. This is what lets your deletion sync to your other devices instead of the record reappearing from them.
 - Recipes, recipe localizations, and recipe steps, such as amounts, temperatures, brew times, descriptions, visibility state, and moderation flags, so custom recipes can be saved and synced.
 - Bean records, such as roaster, bean name, origin, variety, tasting notes, processing method, elevation, harvest date, roast date, region, roast level, grind size, cupping score, notes, farmer, farm, package weight, favorite state, cover photo URL, and sync metadata, so you can track and reuse your bean information.
 - Recipe preferences, such as favorites, last-used timestamps, slider positions, custom amounts, and custom grind size, so the app can remember how you like to brew.

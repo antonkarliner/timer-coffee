@@ -79,6 +79,12 @@ class Recipes extends Table {
       .withDefault(const Constant(false))();
   BoolColumn get isPublic =>
       boolean().named('is_public').withDefault(const Constant(false))();
+  // Soft-delete marker. Deleting a user recipe used to hard-delete this row,
+  // which cascaded through user_stats.recipe_id and destroyed the brew history
+  // logged with it (plan 056). Tombstone instead so the diary survives.
+  BoolColumn get isDeleted =>
+      boolean().named('is_deleted').withDefault(const Constant(false))();
+  DateTimeColumn get deletedAt => dateTime().named('deleted_at').nullable()();
 
   @override
   Set<Column> get primaryKey => {id};
@@ -201,6 +207,7 @@ class UserStats extends Table {
   TextColumn get versionVector => text().named('version_vector')();
   BoolColumn get isDeleted =>
       boolean().named('is_deleted').withDefault(const Constant(false))();
+  DateTimeColumn get deletedAt => dateTime().named('deleted_at').nullable()();
 
   @override
   Set<Column> get primaryKey => {statUuid};
@@ -242,6 +249,7 @@ class CoffeeBeans extends Table {
   TextColumn get photoUrl => text().named('photo_url').nullable()();
   DateTimeColumn get reviewNudgeScheduledAt =>
       dateTime().named('review_nudge_scheduled_at').nullable()();
+  DateTimeColumn get deletedAt => dateTime().named('deleted_at').nullable()();
 
   @override
   Set<Column> get primaryKey => {beansUuid};
@@ -384,7 +392,8 @@ class AppDatabase extends _$AppDatabase {
   factory AppDatabase.fromExecutor(QueryExecutor e) => AppDatabase(e);
 
   @override
-  int get schemaVersion => 40; // Added Brew Diary custom tags field
+  int get schemaVersion =>
+      41; // Recipe soft-delete marker + deleted_at on stats/beans/recipes
 
   String _generateUuidV7() {
     return _uuid.v7();
@@ -896,6 +905,12 @@ class AppDatabase extends _$AppDatabase {
         },
         from39To40: (m, schema) async {
           await m.addColumn(schema.userStats, schema.userStats.tags);
+        },
+        from40To41: (m, schema) async {
+          await m.addColumn(schema.recipes, schema.recipes.isDeleted);
+          await m.addColumn(schema.recipes, schema.recipes.deletedAt);
+          await m.addColumn(schema.userStats, schema.userStats.deletedAt);
+          await m.addColumn(schema.coffeeBeans, schema.coffeeBeans.deletedAt);
         },
       )(m, oldVersion, newVersion);
     },
