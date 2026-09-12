@@ -633,6 +633,7 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
       messenger,
       message: loc.entryDeleted,
       undoLabel: loc.undo,
+      entity: UndoEntityType.diary,
       onUndo: () async {
         await userStatProvider.restoreUserStat(statUuid);
         onUndo?.call();

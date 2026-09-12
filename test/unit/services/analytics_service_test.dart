@@ -475,6 +475,64 @@ void main() {
       expect(service.bufferLength, 1);
     });
 
+    test(
+      'registers deletion and undo events with privacy-safe payloads (plan 056)',
+      () {
+        service.track('bean_deleted', properties: {
+          'brew_count': 3,
+          'has_linked_brews': true,
+          'has_stock_remaining': false,
+        });
+        service.track('user_recipe_deleted', properties: {
+          'brew_count': 0,
+          'is_public': false,
+        });
+        service.track('delete_undo_tapped', properties: {'entity': 'bean'});
+
+        final events = service.bufferedEventsForTesting;
+        expect(events.map((event) => event['event_name']).toList(), [
+          'bean_deleted',
+          'user_recipe_deleted',
+          'delete_undo_tapped',
+        ]);
+        expect(events[0]['category'], 'beans');
+        expect(events[1]['category'], 'general');
+        expect(events[2]['category'], 'general');
+
+        // Privacy rule: booleans, counts, and enums only — never a name,
+        // note, or other free text. The one allowed string is the fixed
+        // `entity` enum of delete_undo_tapped.
+        const allowedEnumValues = {'diary', 'bean', 'recipe'};
+        for (final event in events) {
+          final properties = event['properties'] as Map<Object?, Object?>;
+          for (final value in properties.values) {
+            if (value is String) {
+              expect(allowedEnumValues, contains(value));
+            } else {
+              expect(value, anyOf(isA<bool>(), isA<int>()));
+            }
+          }
+        }
+        expect(
+          (events[2]['properties'] as Map)['entity'],
+          anyOf('diary', 'bean', 'recipe'),
+        );
+      },
+    );
+
+    test('is no-op when category disabled for deletion events', () async {
+      await service.setBeansEnabled(false);
+      await service.setGeneralEnabled(false);
+      service.track('bean_deleted', properties: {
+        'brew_count': 1,
+        'has_linked_brews': true,
+        'has_stock_remaining': true,
+      });
+      service.track('user_recipe_deleted', properties: {'brew_count': 2});
+      service.track('delete_undo_tapped', properties: {'entity': 'diary'});
+      expect(service.bufferLength, 0);
+    });
+
     test('respects categories independently', () async {
       await service.setBrewsEnabled(false);
       // Beans and general should still work

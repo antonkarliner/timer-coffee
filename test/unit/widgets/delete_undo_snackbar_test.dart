@@ -18,6 +18,7 @@ import 'package:coffee_timer/screens/coffee_beans_detail_screen.dart';
 import 'package:coffee_timer/screens/coffee_beans_screen.dart';
 import 'package:coffee_timer/screens/recipe_list_screen.dart';
 import 'package:coffee_timer/screens/user_recipe_management_screen.dart';
+import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/services/date_time_format_service.dart';
 import 'package:coffee_timer/services/feature_flags/feature_flags_repository.dart';
 import 'package:coffee_timer/services/roaster_logo_service.dart';
@@ -84,6 +85,25 @@ void main() {
     logoService = MockRoasterLogoService();
     stackRouter = MockStackRouter();
   });
+
+  // AnalyticsService must be initialized from the plain (non-FakeAsync)
+  // zone: its PackageInfo.fromPlatform() await never completes under
+  // testWidgets, and the periodic flush timer must not be created inside
+  // one either. The undo assertions below read the real buffer.
+  setUp(() async {
+    SharedPreferences.setMockInitialValues({});
+    AnalyticsService.resetForTesting();
+    await AnalyticsService.initialize(await SharedPreferences.getInstance());
+  });
+
+  tearDown(() {
+    AnalyticsService.resetForTesting();
+  });
+
+  List<Map<String, dynamic>> undoEvents() => AnalyticsService
+      .instance.bufferedEventsForTesting
+      .where((event) => event['event_name'] == 'delete_undo_tapped')
+      .toList();
 
   Widget localizedApp(Widget child) {
     return MaterialApp(
@@ -205,6 +225,11 @@ void main() {
       await tester.pumpAndSettle();
 
       verify(userStatProvider.restoreUserStat(entry.statUuid)).called(1);
+      // The undo tap is the `delete_undo_tapped` decision input (plan 056):
+      // exactly one event, and only a fixed enum — no entry text.
+      final events = undoEvents();
+      expect(events, hasLength(1));
+      expect((events.single['properties'] as Map)['entity'], 'diary');
       expect(tester.takeException(), isNull);
     });
 
@@ -312,6 +337,9 @@ void main() {
       await tester.pump();
       await tester.pumpAndSettle();
       verify(coffeeBeansProvider.restoreCoffeeBeans(bean.beansUuid)).called(1);
+      final events = undoEvents();
+      expect(events, hasLength(1));
+      expect((events.single['properties'] as Map)['entity'], 'bean');
       expect(tester.takeException(), isNull);
     });
   });
@@ -460,6 +488,9 @@ void main() {
       verify(userRecipeProvider.restoreUserRecipe(recipe.id)).called(1);
       // The undo re-fetches the combined list so the recipe reappears.
       verify(recipeProvider.fetchAllRecipes()).called(1);
+      final events = undoEvents();
+      expect(events, hasLength(1));
+      expect((events.single['properties'] as Map)['entity'], 'recipe');
       expect(tester.takeException(), isNull);
     });
 

@@ -7,6 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 import '../database/database.dart';
 import '../models/coffee_beans_model.dart';
+import '../services/analytics_service.dart';
 import '../utils/app_logger.dart';
 import 'database_provider.dart';
 
@@ -459,6 +460,23 @@ class CoffeeBeansProvider with ChangeNotifier {
 
       return updatedBeans;
     });
+
+    // Fired here — inside the provider — rather than at the three UI call
+    // sites, so every delete entry point is covered exactly once and only
+    // after the local tombstone has actually committed. Booleans and counts
+    // only: never the bean's name, roaster, or notes.
+    final brewCount = await db.userStatsDao.countBrewsForBean(beansUuid);
+    final hasStockRemaining =
+        currentBeans.packageWeightGrams != null &&
+        currentBeans.packageWeightGrams! > 0;
+    AnalyticsService.maybeInstance?.track(
+      'bean_deleted',
+      properties: {
+        'brew_count': brewCount,
+        'has_linked_brews': brewCount > 0,
+        'has_stock_remaining': hasStockRemaining,
+      },
+    );
 
     final user = Supabase.instance.client.auth.currentUser;
     if (user != null && !user.isAnonymous) {

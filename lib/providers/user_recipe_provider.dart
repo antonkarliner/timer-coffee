@@ -6,6 +6,7 @@ import 'package:drift/drift.dart' as drift;
 import 'package:uuid/uuid.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:coffee_timer/config/network_timeouts.dart';
+import '../services/analytics_service.dart';
 import '../utils/app_logger.dart';
 
 class UserRecipeProvider with ChangeNotifier {
@@ -330,12 +331,34 @@ class UserRecipeProvider with ChangeNotifier {
       }
     }
 
+    // Measured before the tombstone: how many live diary entries reference
+    // this recipe. That number is the blast radius the pre-plan-056 hard
+    // delete destroyed silently, and it has never been measurable before.
+    // Entries already soft-deleted do not count. Booleans and counts only —
+    // never the recipe's name.
+    final brewCount = await _database.userStatsDao.countBrewsForRecipe(
+      recipeId,
+    );
+    final recipeRow = await (_database.select(_database.recipes)
+          ..where((tbl) => tbl.id.equals(recipeId)))
+        .getSingleOrNull();
+
     // Local commit: tombstone the recipe row instead of hard-deleting it.
     // The localizations and steps are kept so diary entries logged with the
     // recipe still resolve their name and derived water temperature, and the
     // user_stats rows survive (a hard delete would cascade through
     // user_stats.recipe_id and destroy the brew history).
     await _database.recipesDao.softDeleteRecipe(recipeId);
+
+    // Fired only after the tombstone committed: a failed delete (the remote
+    // leg above throws) must not emit.
+    AnalyticsService.maybeInstance?.track(
+      'user_recipe_deleted',
+      properties: {
+        'brew_count': brewCount,
+        'is_public': recipeRow?.isPublic ?? false,
+      },
+    );
 
     _userRecipes.removeWhere((element) => element.id == recipeId);
     notifyListeners();

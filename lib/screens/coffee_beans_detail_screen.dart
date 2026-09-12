@@ -304,6 +304,7 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen>
                                     messenger,
                                     message: loc.beanDeleted,
                                     undoLabel: loc.undo,
+                                    entity: UndoEntityType.bean,
                                     // Notifies CoffeeBeansProvider, which the
                                     // beans list controller listens to — the
                                     // bean reappears without a manual refresh.

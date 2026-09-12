@@ -5,6 +5,7 @@ import 'package:coffee_timer/providers/coffee_beans_provider.dart';
 import 'package:coffee_timer/providers/database_provider.dart';
 import 'package:coffee_timer/providers/user_recipe_provider.dart';
 import 'package:coffee_timer/providers/user_stat_provider.dart';
+import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/utils/version_vector.dart';
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter_test/flutter_test.dart';
@@ -40,9 +41,15 @@ void main() {
             brewingMethod: 'V60',
           ),
         );
+    // Real analytics so the delete events below are observable in the
+    // buffer. Plain `test()`s — no FakeAsync, so the flush timer is fine.
+    SharedPreferences.setMockInitialValues({});
+    AnalyticsService.resetForTesting();
+    await AnalyticsService.initialize(await SharedPreferences.getInstance());
   });
 
   tearDown(() async {
+    AnalyticsService.resetForTesting();
     await db.close();
   });
 
@@ -341,6 +348,153 @@ void main() {
       final entries = await db.userStatsDao.fetchDiaryEntries('en');
       expect(entries, hasLength(1));
       expect(entries.single.recipeName, 'My V60 recipe');
+    });
+  });
+
+  group('delete analytics (plan 056 phase 5)', () {
+    List<Map<String, dynamic>> eventsNamed(String name) =>
+        AnalyticsService.instance.bufferedEventsForTesting
+            .where((event) => event['event_name'] == name)
+            .toList();
+
+    test('bean_deleted reports linked brews and remaining stock', () async {
+      await seedStatWithBean(); // 1 live entry linked to bean-1, 100 g bag
+
+      await beans.deleteCoffeeBeans('bean-1');
+
+      final events = eventsNamed('bean_deleted');
+      expect(events, hasLength(1));
+      expect(events.single['category'], 'beans');
+      final properties = events.single['properties'] as Map;
+      expect(properties['brew_count'], 1);
+      expect(properties['has_linked_brews'], isTrue);
+      expect(properties['has_stock_remaining'], isTrue);
+      // Privacy rule: counts and booleans only — never the bean or roaster
+      // name (the seed data carries both, so a leak would fail this).
+      for (final value in properties.values) {
+        expect(value, anyOf(isA<bool>(), isA<int>()));
+      }
+    });
+
+    test('bean_deleted skips soft-deleted entries and empty bags', () async {
+      await seedBean(packageWeight: 0);
+      await db.userStatsDao.insertUserStat(
+        UserStatsModel(
+          statUuid: 'stat-tombstoned',
+          recipeId: 'recipe-1',
+          coffeeAmount: 15,
+          waterAmount: 250,
+          sweetnessSliderPosition: 1,
+          strengthSliderPosition: 1,
+          brewingMethodId: 'method-1',
+          createdAt: DateTime.utc(2026, 7, 15),
+          beans: 'Test Beans',
+          roaster: 'Test Roaster',
+          isMarked: false,
+          coffeeBeansUuid: 'bean-1',
+          versionVector: VersionVector.initial('stat-device').toString(),
+          isDeleted: true,
+        ),
+      );
+
+      await beans.deleteCoffeeBeans('bean-1');
+
+      final events = eventsNamed('bean_deleted');
+      expect(events, hasLength(1));
+      final properties = events.single['properties'] as Map;
+      // The only linked entry is soft-deleted — it must not be counted.
+      expect(properties['brew_count'], 0);
+      expect(properties['has_linked_brews'], isFalse);
+      // package_weight_grams 0 is an empty bag: no remaining stock.
+      expect(properties['has_stock_remaining'], isFalse);
+    });
+
+    test('user_recipe_deleted counts only live diary entries', () async {
+      await seedCustomRecipeWithBrew(); // stat-1 live, recipe not public
+      Future<void> addStat(String uuid, {required bool deleted}) =>
+          db.userStatsDao.insertUserStat(
+            UserStatsModel(
+              statUuid: uuid,
+              recipeId: 'usr-user-1-recipe',
+              coffeeAmount: 15,
+              waterAmount: 250,
+              sweetnessSliderPosition: 1,
+              strengthSliderPosition: 2,
+              brewingMethodId: 'method-1',
+              createdAt: DateTime(2024, 2, 1),
+              isMarked: false,
+              versionVector: VersionVector.initial('device-1').toString(),
+              isDeleted: deleted,
+            ),
+          );
+      await addStat('stat-2', deleted: false);
+      await addStat('stat-tombstoned', deleted: true);
+
+      await recipes.deleteUserRecipe('usr-user-1-recipe');
+
+      final events = eventsNamed('user_recipe_deleted');
+      expect(events, hasLength(1));
+      expect(events.single['category'], 'general');
+      final properties = events.single['properties'] as Map;
+      // 2 live entries (stat-1, stat-2); the soft-deleted one is NOT counted.
+      expect(properties['brew_count'], 2);
+      expect(properties['is_public'], isFalse);
+      // Privacy rule: counts and booleans only — never the recipe name.
+      for (final value in properties.values) {
+        expect(value, anyOf(isA<bool>(), isA<int>()));
+      }
+    });
+
+    test('user_recipe_deleted flags a recipe that was public', () async {
+      await db
+          .into(db.recipes)
+          .insert(
+            RecipesCompanion.insert(
+              id: 'usr-user-1-pub',
+              brewingMethodId: 'method-1',
+              coffeeAmount: 15,
+              waterAmount: 250,
+              waterTemp: 93,
+              brewTime: 180,
+              vendorId: const Value('usr-user-1'),
+              isPublic: const Value(true),
+            ),
+          );
+      await db.userStatsDao.insertUserStat(
+        UserStatsModel(
+          statUuid: 'stat-pub',
+          recipeId: 'usr-user-1-pub',
+          coffeeAmount: 15,
+          waterAmount: 250,
+          sweetnessSliderPosition: 1,
+          strengthSliderPosition: 2,
+          brewingMethodId: 'method-1',
+          createdAt: DateTime(2024, 3, 1),
+          isMarked: false,
+          versionVector: VersionVector.initial('device-1').toString(),
+          isDeleted: false,
+        ),
+      );
+
+      await recipes.deleteUserRecipe('usr-user-1-pub');
+
+      final events = eventsNamed('user_recipe_deleted');
+      expect(events, hasLength(1));
+      final properties = events.single['properties'] as Map;
+      expect(properties['brew_count'], 1);
+      expect(properties['is_public'], isTrue);
+    });
+
+    test('delete events stay silent when analytics never initialized', () async {
+      AnalyticsService.resetForTesting(); // maybeInstance == null
+      await seedBean();
+      await seedCustomRecipeWithBrew();
+
+      // The null-safe maybeInstance?.track form must not throw here.
+      await beans.deleteCoffeeBeans('bean-1');
+      await recipes.deleteUserRecipe('usr-user-1-recipe');
+
+      expect(AnalyticsService.maybeInstance, isNull);
     });
   });
 }

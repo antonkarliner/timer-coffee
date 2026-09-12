@@ -82,6 +82,7 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
         messenger,
         message: l10n.userRecipesSnackbarDeleted,
         undoLabel: l10n.undo,
+        entity: UndoEntityType.recipe,
         // Re-fetch the combined list so the restored recipe reappears —
         // this screen renders RecipeProvider, not UserRecipeProvider.
         onUndo: () async {

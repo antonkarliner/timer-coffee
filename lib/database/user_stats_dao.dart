@@ -131,6 +131,38 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
     return result != null ? _userStatFromRow(result) : null;
   }
 
+  /// Counts the non-deleted diary entries linked to a bean. Feeds the
+  /// `bean_deleted` analytics event: how much brew history still references
+  /// the bean at the moment it is deleted (brews are never detached from a
+  /// deleted bean, so this is its linked history size).
+  Future<int> countBrewsForBean(String beansUuid) async {
+    final countExpr = userStats.statUuid.count();
+    final query = selectOnly(userStats)
+      ..addColumns([countExpr])
+      ..where(
+        userStats.coffeeBeansUuid.equals(beansUuid) &
+            userStats.isDeleted.equals(false),
+      );
+    final row = await query.getSingle();
+    return row.read(countExpr) ?? 0;
+  }
+
+  /// Counts the non-deleted diary entries that reference a recipe. Feeds the
+  /// `user_recipe_deleted` analytics event: the blast radius of the deletion
+  /// (plan 056 — the number that was never measurable while the delete path
+  /// still destroyed brew history).
+  Future<int> countBrewsForRecipe(String recipeId) async {
+    final countExpr = userStats.statUuid.count();
+    final query = selectOnly(userStats)
+      ..addColumns([countExpr])
+      ..where(
+        userStats.recipeId.equals(recipeId) &
+            userStats.isDeleted.equals(false),
+      );
+    final row = await query.getSingle();
+    return row.read(countExpr) ?? 0;
+  }
+
   Future<GrindSuggestionResult?> latestGrindSuggestionForBeanAndMethod(
     String beansUuid,
     String brewingMethodId,

@@ -21,7 +21,7 @@ import '../utils/app_logger.dart';
 /// - **beans**: beans_added, beans_scan_used, beans_attached,
 ///   review_form_opened, review_added, review_added_after_notification,
 ///   review_edited, review_deleted, review_translated,
-///   reviews_translated_batch, review_nudge_card_shown
+///   reviews_translated_batch, review_nudge_card_shown, bean_deleted
 /// - **general**: app_opened, screen_viewed, recipe_created, recipe_shared,
 ///   collection interactions and sharing, donation_screen_viewed,
 ///   donation_button_tapped, donation_completed, donation_failed,
@@ -35,7 +35,8 @@ import '../utils/app_logger.dart';
 ///   moment_shown, moment_interacted, moment_discovered, the finish-
 ///   screen engagement budget (plan 039, shadow mode) events
 ///   engagement_ask_shown, engagement_ask_suppressed, and the launch popup
-///   events popup_shown, popup_dismissed, popup_link_tapped
+///   events popup_shown, popup_dismissed, popup_link_tapped, and the
+///   deletion events user_recipe_deleted, delete_undo_tapped
 class AnalyticsService extends ChangeNotifier {
   AnalyticsService._();
 
@@ -105,6 +106,8 @@ class AnalyticsService extends ChangeNotifier {
     'review_translated': 'beans',
     'reviews_translated_batch': 'beans',
     'review_nudge_card_shown': 'beans',
+    // Deletion instrumentation (plan 056 Phase 5)
+    'bean_deleted': 'beans',
     // General
     'app_opened': 'general',
     'screen_viewed': 'general',
@@ -162,6 +165,9 @@ class AnalyticsService extends ChangeNotifier {
     'support_prompt_shown': 'general',
     'support_prompt_tapped': 'general',
     'support_prompt_dismissed': 'general',
+    // Deletion + undo instrumentation (plan 056 Phase 5)
+    'user_recipe_deleted': 'general',
+    'delete_undo_tapped': 'general',
   };
 
   // ──────────────────── State ────────────────────
