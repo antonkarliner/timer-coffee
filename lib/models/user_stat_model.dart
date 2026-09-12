@@ -27,6 +27,9 @@ class UserStatsModel {
   final String versionVector;
   final bool isDeleted;
 
+  /// When this entry was soft-deleted (tombstoned), or null while it is live.
+  final DateTime? deletedAt;
+
   UserStatsModel({
     required this.statUuid,
     this.id,
@@ -53,6 +56,7 @@ class UserStatsModel {
     this.tags,
     required this.versionVector,
     required this.isDeleted,
+    this.deletedAt,
   });
 
   VersionVector get versionVectorObject =>
@@ -84,6 +88,7 @@ class UserStatsModel {
     String? tags,
     String? versionVector,
     bool? isDeleted,
+    DateTime? deletedAt,
   }) {
     return UserStatsModel(
       statUuid: statUuid ?? this.statUuid,
@@ -114,6 +119,10 @@ class UserStatsModel {
       tags: tags ?? this.tags,
       versionVector: versionVector ?? this.versionVector,
       isDeleted: isDeleted ?? this.isDeleted,
+      // Null means "leave unchanged" (like every other copyWith parameter),
+      // NOT "clear". Clearing [deletedAt] on a restore requires constructing
+      // the model directly instead of using copyWith.
+      deletedAt: deletedAt ?? this.deletedAt,
     );
   }
 
@@ -147,7 +156,8 @@ class UserStatsModel {
           entrySource == other.entrySource &&
           tags == other.tags &&
           versionVector == other.versionVector &&
-          isDeleted == other.isDeleted;
+          isDeleted == other.isDeleted &&
+          deletedAt == other.deletedAt;
 
   // Hash code
   @override
@@ -176,5 +186,6 @@ class UserStatsModel {
       entrySource.hashCode ^
       tags.hashCode ^
       versionVector.hashCode ^
-      isDeleted.hashCode;
+      isDeleted.hashCode ^
+      deletedAt.hashCode;
 }

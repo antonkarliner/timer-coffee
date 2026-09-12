@@ -26,6 +26,9 @@ class CoffeeBeansModel {
   final String? photoUrl;
   final DateTime? reviewNudgeScheduledAt;
 
+  /// When this bean was soft-deleted (tombstoned), or null while it is live.
+  final DateTime? deletedAt;
+
   CoffeeBeansModel({
     required this.beansUuid,
     this.id,
@@ -51,6 +54,7 @@ class CoffeeBeansModel {
     required this.versionVector,
     this.photoUrl,
     this.reviewNudgeScheduledAt,
+    this.deletedAt,
   });
 
   VersionVector get versionVectorObject =>
@@ -89,6 +93,7 @@ class CoffeeBeansModel {
     String? versionVector,
     String? photoUrl,
     DateTime? reviewNudgeScheduledAt,
+    DateTime? deletedAt,
   }) {
     return CoffeeBeansModel(
       beansUuid: beansUuid ?? this.beansUuid,
@@ -116,6 +121,10 @@ class CoffeeBeansModel {
       photoUrl: photoUrl ?? this.photoUrl,
       reviewNudgeScheduledAt:
           reviewNudgeScheduledAt ?? this.reviewNudgeScheduledAt,
+      // Null means "leave unchanged" (like every other copyWith parameter),
+      // NOT "clear". Clearing [deletedAt] on a restore requires constructing
+      // the model directly instead of using copyWith.
+      deletedAt: deletedAt ?? this.deletedAt,
     );
   }
 
@@ -147,7 +156,8 @@ class CoffeeBeansModel {
           isDeleted == other.isDeleted &&
           versionVector == other.versionVector &&
           photoUrl == other.photoUrl &&
-          reviewNudgeScheduledAt == other.reviewNudgeScheduledAt;
+          reviewNudgeScheduledAt == other.reviewNudgeScheduledAt &&
+          deletedAt == other.deletedAt;
 
   @override
   int get hashCode =>
@@ -174,5 +184,6 @@ class CoffeeBeansModel {
       isDeleted.hashCode ^
       versionVector.hashCode ^
       photoUrl.hashCode ^
-      reviewNudgeScheduledAt.hashCode;
+      reviewNudgeScheduledAt.hashCode ^
+      deletedAt.hashCode;
 }

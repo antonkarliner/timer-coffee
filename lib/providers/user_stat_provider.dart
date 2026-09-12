@@ -611,6 +611,7 @@ class UserStatProvider extends ChangeNotifier {
     final updatedStat = currentStat.copyWith(
       isDeleted: true,
       versionVector: newVector.toString(),
+      deletedAt: DateTime.now().toUtc(),
     );
 
     // Update the stat locally (to mark it as deleted)
@@ -633,6 +634,88 @@ class UserStatProvider extends ChangeNotifier {
         } catch (e) {
           AppLogger.error(
             'Error marking user stat as deleted in Supabase',
+            errorObject: e,
+          );
+        }
+      }());
+    }
+
+    notifyListeners();
+  }
+
+  /// Reverses [deleteUserStat]: clears the tombstone and gives the row a
+  /// strictly higher version vector so the restore wins over the deletion
+  /// during sync. syncNewUserStats()'s equal-vector tie-break deliberately
+  /// prefers deletions over restorations — reusing the delete's vector would
+  /// make the next sync re-delete the restored row. The increment routes the
+  /// row through _isLocalNewer() instead, which picks the higher vector.
+  Future<void> restoreUserStat(String statUuid) async {
+    final currentStat = await db.userStatsDao.fetchStatByUuidIncludingDeleted(
+      statUuid,
+    );
+    if (currentStat == null) {
+      AppLogger.error(
+        'Stat not found for UUID',
+        errorObject: AppLogger.sanitize(statUuid),
+      );
+      throw Exception('Stat not found');
+    }
+
+    final currentVector = VersionVector.fromString(currentStat.versionVector);
+    final newVector = currentVector.increment();
+
+    // Constructed directly rather than via copyWith: copyWith's
+    // `deletedAt ?? this.deletedAt` cannot clear the timestamp, and a restore
+    // must write an explicit NULL.
+    final restoredStat = UserStatsModel(
+      statUuid: currentStat.statUuid,
+      id: currentStat.id,
+      recipeId: currentStat.recipeId,
+      coffeeAmount: currentStat.coffeeAmount,
+      waterAmount: currentStat.waterAmount,
+      sweetnessSliderPosition: currentStat.sweetnessSliderPosition,
+      strengthSliderPosition: currentStat.strengthSliderPosition,
+      brewingMethodId: currentStat.brewingMethodId,
+      createdAt: currentStat.createdAt,
+      notes: currentStat.notes,
+      beans: currentStat.beans,
+      roaster: currentStat.roaster,
+      rating: currentStat.rating,
+      coffeeBeansId: currentStat.coffeeBeansId,
+      isMarked: currentStat.isMarked,
+      coffeeBeansUuid: currentStat.coffeeBeansUuid,
+      grindSize: currentStat.grindSize,
+      tdsPercent: currentStat.tdsPercent,
+      extractionYieldPercent: currentStat.extractionYieldPercent,
+      waterTemp: currentStat.waterTemp,
+      tasteBalance: currentStat.tasteBalance,
+      entrySource: currentStat.entrySource,
+      tags: currentStat.tags,
+      versionVector: newVector.toString(),
+      isDeleted: false,
+      deletedAt: null,
+    );
+
+    // Update the stat locally (to clear the tombstone)
+    await db.userStatsDao.updateUserStat(restoredStat);
+
+    // Remote sync is best-effort and fire-and-forget — never block the caller on
+    // the network. Local DB is the source of truth; syncNewUserStats() reconciles.
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user != null && !user.isAnonymous) {
+      final supabaseData = _userStatModelToJson(restoredStat);
+      supabaseData['user_id'] = user.id;
+      unawaited(() async {
+        try {
+          await Supabase.instance.client
+              .from('user_stats')
+              .upsert(supabaseData, onConflict: 'user_id,stat_uuid')
+              .timeout(NetworkTimeouts.handshake);
+        } on TimeoutException catch (e) {
+          AppLogger.error('Supabase operation timed out', errorObject: e);
+        } catch (e) {
+          AppLogger.error(
+            'Error restoring user stat in Supabase',
             errorObject: e,
           );
         }
@@ -1308,6 +1391,7 @@ class UserStatProvider extends ChangeNotifier {
       'tags': model.tags,
       'version_vector': model.versionVector,
       'is_deleted': model.isDeleted,
+      'deleted_at': model.deletedAt?.toIso8601String(),
     };
   }
 
@@ -1343,6 +1427,9 @@ class UserStatProvider extends ChangeNotifier {
       coffeeBeansUuid: json['coffee_beans_uuid'],
       versionVector: json['version_vector'],
       isDeleted: json['is_deleted'] ?? false, // Handle isDeleted field
+      deletedAt: json['deleted_at'] != null
+          ? DateTime.parse(json['deleted_at'] as String)
+          : null,
     );
   }
 }

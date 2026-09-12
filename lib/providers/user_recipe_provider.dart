@@ -341,6 +341,67 @@ class UserRecipeProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  /// Reverses [deleteUserRecipe]: clears the tombstone so the recipe is
+  /// visible again on the browse surfaces, keeping its steps, localizations
+  /// and diary history intact.
+  Future<void> restoreUserRecipe(String recipeId) async {
+    // Fetch the tombstoned row first so an unknown recipe fails before
+    // anything is written.
+    final row = await (_database.select(
+      _database.recipes,
+    )..where((tbl) => tbl.id.equals(recipeId))).getSingleOrNull();
+    if (row == null) {
+      AppLogger.error(
+        'Recipe not found for restore: ${AppLogger.sanitize(recipeId)}',
+      );
+      throw Exception('Recipe not found');
+    }
+
+    // Local commit first — same as the stat/bean restores. Remote leg is
+    // best-effort and fire-and-forget: never block the caller on the network,
+    // never let a failed call throw out of the method.
+    await _database.recipesDao.restoreRecipe(recipeId);
+
+    if (recipeId.startsWith('usr-')) {
+      final user = Supabase.instance.client.auth.currentUser;
+      if (user != null && !user.isAnonymous) {
+        unawaited(() async {
+          try {
+            await Supabase.instance.client
+                .from('user_recipes')
+                .update({
+                  'is_deleted': false,
+                  'deleted_at': null,
+                  // Bumped remotely (like the delete leg does) so other
+                  // devices' download sync picks up the restored row.
+                  'last_modified': DateTime.now().toUtc().toIso8601String(),
+                })
+                .eq('id', recipeId)
+                .timeout(NetworkTimeouts.handshake);
+            AppLogger.debug(
+              'Marked recipe ${AppLogger.sanitize(recipeId)} as restored in Supabase.',
+            );
+          } on TimeoutException catch (e) {
+            AppLogger.warning('Supabase operation timed out', errorObject: e);
+          } catch (e) {
+            AppLogger.error(
+              'Error restoring recipe ${AppLogger.sanitize(recipeId)} in Supabase',
+              errorObject: e,
+            );
+          }
+        }());
+      } else {
+        AppLogger.debug(
+          'Skipping Supabase restore for anonymous user or no user.',
+        );
+      }
+    }
+
+    // Re-add the restored recipe to the provider state (loadUserRecipes
+    // filters tombstones, so the restored row now comes back).
+    await loadUserRecipes();
+  }
+
   Future<void> unpublishRecipe(String recipeId) async {
     // Check if this is a user-created recipe
     if (!recipeId.startsWith('usr-')) {

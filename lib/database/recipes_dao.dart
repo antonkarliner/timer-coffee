@@ -164,6 +164,20 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
     );
   }
 
+  /// Clears a tombstone written by [softDeleteRecipe]: the recipe becomes
+  /// live again on the browse surfaces while its localizations, steps and
+  /// diary history stay untouched. `lastModified` is deliberately NOT bumped,
+  /// for the same reason [softDeleteRecipe] does not bump it: it feeds the
+  /// catalog sync watermark via [fetchLastModified].
+  Future<void> restoreRecipe(String recipeId) async {
+    await (update(recipes)..where((tbl) => tbl.id.equals(recipeId))).write(
+      RecipesCompanion(
+        isDeleted: const Value(false),
+        deletedAt: const Value(null),
+      ),
+    );
+  }
+
   /// Sync watermark for the catalog fetch. INTENDED: tombstoned recipes are
   /// NOT filtered here — filtering could move the watermark and break
   /// incremental catalog sync.

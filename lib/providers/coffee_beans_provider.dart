@@ -451,6 +451,7 @@ class CoffeeBeansProvider with ChangeNotifier {
       final updatedBeans = currentBeans.copyWith(
         isDeleted: true, // Mark as deleted
         versionVector: newVector.toString(),
+        deletedAt: DateTime.now().toUtc(),
       );
 
       // Update the beans locally (to mark it as deleted)
@@ -487,6 +488,86 @@ class CoffeeBeansProvider with ChangeNotifier {
 
     // Removed local deletion
     // await db.coffeeBeansDao.deleteCoffeeBeans(beansUuid);
+
+    notifyListeners();
+  }
+
+  /// Reverses [deleteCoffeeBeans]: clears the tombstone and gives the bean a
+  /// strictly higher version vector so the restore wins over the deletion
+  /// during sync. syncNewCoffeeBeans()'s equal-vector tie-break deliberately
+  /// prefers deletions over restorations — reusing the delete's vector would
+  /// make the next sync re-delete the restored bean. The increment routes the
+  /// bean through _isLocalNewer() instead, which picks the higher vector.
+  Future<void> restoreCoffeeBeans(String beansUuid) async {
+    final currentBeans = await db.coffeeBeansDao
+        .fetchCoffeeBeansByUuidIncludingDeleted(beansUuid);
+    if (currentBeans == null) {
+      AppLogger.error(
+        'Coffee beans not found for UUID: ${AppLogger.sanitize(beansUuid)}',
+      );
+      throw Exception('Coffee beans not found');
+    }
+
+    final currentVector = VersionVector.fromString(currentBeans.versionVector);
+    final newVector = currentVector.increment();
+
+    // Constructed directly rather than via copyWith: copyWith's
+    // `deletedAt ?? this.deletedAt` cannot clear the timestamp, and a restore
+    // must write an explicit NULL.
+    final restoredBeans = CoffeeBeansModel(
+      beansUuid: currentBeans.beansUuid,
+      id: currentBeans.id,
+      roaster: currentBeans.roaster,
+      name: currentBeans.name,
+      origin: currentBeans.origin,
+      variety: currentBeans.variety,
+      tastingNotes: currentBeans.tastingNotes,
+      processingMethod: currentBeans.processingMethod,
+      elevation: currentBeans.elevation,
+      harvestDate: currentBeans.harvestDate,
+      roastDate: currentBeans.roastDate,
+      region: currentBeans.region,
+      roastLevel: currentBeans.roastLevel,
+      grindSize: currentBeans.grindSize,
+      cuppingScore: currentBeans.cuppingScore,
+      notes: currentBeans.notes,
+      farmer: currentBeans.farmer,
+      farm: currentBeans.farm,
+      packageWeightGrams: currentBeans.packageWeightGrams,
+      isFavorite: currentBeans.isFavorite,
+      versionVector: newVector.toString(),
+      isDeleted: false,
+      photoUrl: currentBeans.photoUrl,
+      reviewNudgeScheduledAt: currentBeans.reviewNudgeScheduledAt,
+      deletedAt: null,
+    );
+
+    // Update the bean locally (to clear the tombstone)
+    await db.coffeeBeansDao.updateCoffeeBeans(restoredBeans);
+
+    // Remote sync is best-effort and fire-and-forget — never block the caller
+    // on the network. Local DB is the source of truth; syncNewCoffeeBeans()
+    // reconciles.
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user != null && !user.isAnonymous) {
+      final supabaseData = _coffeeBeansModelToJson(restoredBeans);
+      supabaseData['user_id'] = user.id;
+      unawaited(() async {
+        try {
+          await Supabase.instance.client
+              .from('user_coffee_beans')
+              .upsert(supabaseData, onConflict: 'user_id,beans_uuid')
+              .timeout(const Duration(seconds: 2));
+        } on TimeoutException catch (e) {
+          AppLogger.warning('Supabase operation timed out', errorObject: e);
+        } catch (e) {
+          AppLogger.error(
+            'Error restoring coffee beans in Supabase',
+            errorObject: e,
+          );
+        }
+      }());
+    }
 
     notifyListeners();
   }
@@ -873,6 +954,7 @@ class CoffeeBeansProvider with ChangeNotifier {
       'is_favorite': model.isFavorite,
       'version_vector': model.versionVector,
       'is_deleted': model.isDeleted,
+      'deleted_at': model.deletedAt?.toIso8601String(),
       'photo_url': model.photoUrl,
     };
   }
@@ -909,6 +991,9 @@ class CoffeeBeansProvider with ChangeNotifier {
       isFavorite: json['is_favorite'],
       versionVector: json['version_vector'],
       isDeleted: json['is_deleted'] ?? false,
+      deletedAt: json['deleted_at'] != null
+          ? DateTime.parse(json['deleted_at'] as String)
+          : null,
       photoUrl: json['photo_url'],
     );
   }

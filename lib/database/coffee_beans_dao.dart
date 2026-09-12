@@ -33,6 +33,7 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
       isDeleted: row.isDeleted,
       photoUrl: row.photoUrl,
       reviewNudgeScheduledAt: row.reviewNudgeScheduledAt,
+      deletedAt: row.deletedAt,
     );
   }
 
@@ -61,6 +62,7 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
       isDeleted: Value(model.isDeleted),
       photoUrl: Value(model.photoUrl),
       reviewNudgeScheduledAt: Value(model.reviewNudgeScheduledAt),
+      deletedAt: Value(model.deletedAt),
     );
   }
 
@@ -266,6 +268,18 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
       ..where(
         (tbl) => tbl.beansUuid.equals(uuid) & tbl.isDeleted.equals(false),
       ); // Exclude deleted beans
+    final beans = await query.getSingleOrNull();
+    return beans != null ? _coffeeBeansFromRow(beans) : null;
+  }
+
+  /// Finds a bean by UUID, including tombstoned rows. INTENDED: unlike
+  /// [fetchCoffeeBeansByUuid] this does not filter `is_deleted`, so the
+  /// restore path can fetch the row a delete has just tombstoned.
+  Future<CoffeeBeansModel?> fetchCoffeeBeansByUuidIncludingDeleted(
+    String uuid,
+  ) async {
+    final query = select(coffeeBeans)
+      ..where((tbl) => tbl.beansUuid.equals(uuid));
     final beans = await query.getSingleOrNull();
     return beans != null ? _coffeeBeansFromRow(beans) : null;
   }

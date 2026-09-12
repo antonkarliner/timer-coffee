@@ -376,6 +376,9 @@ extension CoffeeBeansCompanionExtension on CoffeeBeansCompanion {
       reviewNudgeScheduledAt: json['review_nudge_scheduled_at'] != null
           ? Value(DateTime.parse(json['review_nudge_scheduled_at']))
           : const Value.absent(),
+      deletedAt: json['deleted_at'] != null
+          ? Value(DateTime.parse(json['deleted_at']))
+          : const Value.absent(),
     );
   }
 
@@ -412,6 +415,9 @@ extension CoffeeBeansCompanionExtension on CoffeeBeansCompanion {
       'photo_url': photoUrl.present ? photoUrl.value : null,
       'review_nudge_scheduled_at': reviewNudgeScheduledAt.present
           ? reviewNudgeScheduledAt.value?.toIso8601String()
+          : null,
+      'deleted_at': deletedAt.present
+          ? deletedAt.value?.toIso8601String()
           : null,
     };
   }

@@ -72,6 +72,7 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
       tags: row.tags,
       versionVector: row.versionVector,
       isDeleted: row.isDeleted,
+      deletedAt: row.deletedAt,
     );
   }
 
@@ -101,6 +102,7 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
       tags: Value(model.tags),
       versionVector: Value(model.versionVector),
       isDeleted: Value(model.isDeleted),
+      deletedAt: Value(model.deletedAt),
     );
   }
 
@@ -113,6 +115,18 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
       ..where(
         (tbl) => tbl.statUuid.equals(statUuid) & tbl.isDeleted.equals(false),
       );
+    final result = await query.getSingleOrNull();
+    return result != null ? _userStatFromRow(result) : null;
+  }
+
+  /// Finds a stat by UUID, including tombstoned rows. INTENDED: unlike
+  /// [fetchStatByUuid] this does not filter `is_deleted`, so the restore path
+  /// can fetch the row a delete has just tombstoned.
+  Future<UserStatsModel?> fetchStatByUuidIncludingDeleted(
+    String statUuid,
+  ) async {
+    final query = select(userStats)
+      ..where((tbl) => tbl.statUuid.equals(statUuid));
     final result = await query.getSingleOrNull();
     return result != null ? _userStatFromRow(result) : null;
   }
