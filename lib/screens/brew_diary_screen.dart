@@ -108,7 +108,8 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
     _entriesFuture = _fetchEntries(
       provider,
       locale,
-      unknownRecipe: loc.unknownRecipe,
+      orphanedRecipeName: (entry) =>
+          loc.diaryOrphanedRecipeName(entry.methodName),
     );
     _topMethodsFuture = provider.topMethodsLast90Days(locale);
   }
@@ -116,14 +117,14 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
   Future<List<DiaryEntry>> _fetchEntries(
     UserStatProvider provider,
     String locale, {
-    required String unknownRecipe,
+    required String Function(DiaryEntry entry) orphanedRecipeName,
   }) async {
     try {
       final entries = await provider.fetchDiaryEntries(locale);
       return [
         for (final entry in entries)
           if (entry.recipeName.isEmpty)
-            entry.copyWith(recipeName: unknownRecipe)
+            entry.copyWith(recipeName: orphanedRecipeName(entry))
           else
             entry,
       ];

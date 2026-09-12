@@ -54,7 +54,7 @@ void main() {
       tester.element(find.byType(BeanJourneyScreen)),
     )!;
 
-    expect(find.text(loc.unknownRecipe), findsOneWidget);
+    expect(find.text(loc.diaryOrphanedRecipeName('V60')), findsOneWidget);
   });
 
   testWidgets('shows the localized empty state for a missing group', (

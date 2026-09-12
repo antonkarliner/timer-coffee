@@ -51,6 +51,10 @@ class UserRecipeProvider with ChangeNotifier {
         isPublic: drift.Value(
           recipeWithVendorId.isPublic,
         ), // Include isPublic field
+        // A write (re)creating a recipe id always produces a live recipe;
+        // never leave a stale tombstone on it.
+        isDeleted: const drift.Value(false),
+        deletedAt: const drift.Value(null),
       );
       await _database.recipesDao.insertOrUpdateRecipe(recipeCompanion);
 
@@ -153,6 +157,11 @@ class UserRecipeProvider with ChangeNotifier {
       //   and explicitly clears the flag. Setting it here would re-flag on restart.
       // - Future edits to already-public recipes are moderated in the save flow.
       needsModerationReview: const drift.Value(false),
+      // Saving over an existing recipe id always produces a live recipe:
+      // clear any tombstone so a deleted-then-recreated recipe is visible
+      // again instead of staying invisible in every filtered list.
+      isDeleted: const drift.Value(false),
+      deletedAt: const drift.Value(null),
     );
 
     // Wrap database operations in a transaction
@@ -245,111 +254,88 @@ class UserRecipeProvider with ChangeNotifier {
   }
 
   Future<void> deleteUserRecipe(String recipeId) async {
-    // On delete, remove all localizations and steps regardless of locale for usr- recipes
-    // Delete from local database
-    try {
-      await _database.recipesDao.deleteRecipe(recipeId);
-    } catch (e) {
-      AppLogger.error("Error deleting recipe", errorObject: e);
-    }
-    try {
-      await _database.recipeLocalizationsDao.deleteLocalizationsForRecipe(
-        recipeId,
-      );
-    } catch (e) {
-      AppLogger.error("Error deleting localizations", errorObject: e);
-    }
-    try {
-      await _database.stepsDao.deleteStepsForRecipe(recipeId);
-    } catch (e) {
-      AppLogger.error("Error deleting steps", errorObject: e);
-    }
-
-    // Mark as deleted in Supabase if it's a user recipe and the user is not anonymous
+    // Remote leg FIRST for signed-in users: if the local tombstone were
+    // committed before Supabase accepted the deletion, a failed or timed-out
+    // remote call would leave local and remote disagreeing (the next sync
+    // would then treat data this device already removed as still alive).
+    // Nothing is written locally until the critical remote tombstone
+    // succeeds; if it fails the error propagates — the delete aborts and the
+    // calling screen surfaces it — instead of being swallowed into a log.
     if (recipeId.startsWith('usr-')) {
-      try {
-        final user = Supabase.instance.client.auth.currentUser;
-        // Only perform remote cleanup if user is logged in and not anonymous
-        if (user != null && !user.isAnonymous) {
-          final userId = user.id;
+      final user = Supabase.instance.client.auth.currentUser;
+      // Only perform remote cleanup if user is logged in and not anonymous
+      if (user != null && !user.isAnonymous) {
+        final userId = user.id;
+        AppLogger.debug(
+          'Performing remote cleanup for recipe ${AppLogger.sanitize(recipeId)} for user ${AppLogger.sanitize(userId)}...',
+        );
+
+        // 1. Tombstone the recipe remotely and make it private. Critical:
+        //    failure aborts the whole delete so local and remote cannot
+        //    diverge.
+        await Supabase.instance.client
+            .from('user_recipes')
+            .update({
+              'is_deleted': true,
+              'ispublic': false, // Set ispublic to false on deletion
+              'last_modified': DateTime.now().toUtc().toIso8601String(),
+            })
+            .eq('id', recipeId)
+            .timeout(NetworkTimeouts.handshake);
+        AppLogger.debug(
+          'Marked recipe ${AppLogger.sanitize(recipeId)} as deleted and private in Supabase.',
+        );
+
+        // 2. Mark related user_stats as deleted remotely. Best-effort: a
+        //    failure here only means the brews stay visible on other devices,
+        //    which matches the local behavior now that brew history survives
+        //    recipe deletion.
+        try {
+          await Supabase.instance.client
+              .from('user_stats')
+              .update({'is_deleted': true})
+              .match({'user_id': userId, 'recipe_id': recipeId})
+              .timeout(NetworkTimeouts.handshake);
           AppLogger.debug(
-            'Performing remote cleanup for recipe ${AppLogger.sanitize(recipeId)} for user ${AppLogger.sanitize(userId)}...',
+            'Marked related user_stats as deleted for recipe ${AppLogger.sanitize(recipeId)}.',
           );
-
-          // 1. Clean up user_stats (mark as deleted)
-          try {
-            await Supabase.instance.client
-                .from('user_stats')
-                .update({
-                  'is_deleted': true,
-                  // Optionally update a 'last_modified' timestamp if the table has one
-                })
-                .match({'user_id': userId, 'recipe_id': recipeId})
-                .timeout(NetworkTimeouts.handshake);
-            AppLogger.debug(
-              'Marked related user_stats as deleted for recipe ${AppLogger.sanitize(recipeId)}.',
-            );
-          } catch (e) {
-            AppLogger.error(
-              "Error marking related user_stats as deleted for recipe ${AppLogger.sanitize(recipeId)}",
-              errorObject: e,
-            );
-            // Decide if we should continue or abort
-          }
-
-          // 2. Clean up user_recipe_preferences (delete)
-          try {
-            await Supabase.instance.client
-                .from('user_recipe_preferences')
-                .delete()
-                .match({'user_id': userId, 'recipe_id': recipeId})
-                .timeout(NetworkTimeouts.handshake);
-            AppLogger.debug(
-              'Deleted related user_recipe_preferences for recipe ${AppLogger.sanitize(recipeId)}.',
-            );
-          } catch (e) {
-            AppLogger.error(
-              "Error deleting related user_recipe_preferences for recipe ${AppLogger.sanitize(recipeId)}",
-              errorObject: e,
-            );
-            // Decide if we should continue or abort
-          }
-
-          // 3. Mark the recipe itself as deleted and make it private
-          try {
-            await Supabase.instance.client
-                .from('user_recipes')
-                .update({
-                  'is_deleted': true,
-                  'ispublic': false, // Set ispublic to false on deletion
-                  'last_modified': DateTime.now()
-                      .toUtc()
-                      .toIso8601String(), // Also update timestamp
-                })
-                .eq('id', recipeId)
-                .timeout(NetworkTimeouts.handshake);
-            AppLogger.debug(
-              'Marked recipe ${AppLogger.sanitize(recipeId)} as deleted and private in Supabase.',
-            );
-          } catch (e) {
-            // This was the original catch block, keep it for the main recipe deletion error
-            AppLogger.error(
-              "Error marking recipe ${AppLogger.sanitize(recipeId)} as deleted in Supabase",
-              errorObject: e,
-            );
-          }
-        } else {
-          AppLogger.debug(
-            'Skipping Supabase remote cleanup/delete for anonymous user or no user.',
+        } catch (e) {
+          AppLogger.error(
+            "Error marking related user_stats as deleted for recipe ${AppLogger.sanitize(recipeId)}",
+            errorObject: e,
           );
         }
-      } catch (e) {
-        AppLogger.error(
-          "Error marking recipe as deleted in Supabase",
-          errorObject: e,
+
+        // 3. Delete related user_recipe_preferences. Best-effort for the
+        //    same reason; the stale preferences are harmless.
+        try {
+          await Supabase.instance.client
+              .from('user_recipe_preferences')
+              .delete()
+              .match({'user_id': userId, 'recipe_id': recipeId})
+              .timeout(NetworkTimeouts.handshake);
+          AppLogger.debug(
+            'Deleted related user_recipe_preferences for recipe ${AppLogger.sanitize(recipeId)}.',
+          );
+        } catch (e) {
+          AppLogger.error(
+            "Error deleting related user_recipe_preferences for recipe ${AppLogger.sanitize(recipeId)}",
+            errorObject: e,
+          );
+        }
+      } else {
+        AppLogger.debug(
+          'Skipping Supabase remote cleanup/delete for anonymous user or no user.',
         );
       }
     }
+
+    // Local commit: tombstone the recipe row instead of hard-deleting it.
+    // The localizations and steps are kept so diary entries logged with the
+    // recipe still resolve their name and derived water temperature, and the
+    // user_stats rows survive (a hard delete would cascade through
+    // user_stats.recipe_id and destroy the brew history).
+    await _database.recipesDao.softDeleteRecipe(recipeId);
 
     _userRecipes.removeWhere((element) => element.id == recipeId);
     notifyListeners();
@@ -457,6 +443,9 @@ class UserRecipeProvider with ChangeNotifier {
               ? drift.Value(originalRecipe.originalAuthorId!)
               : const drift.Value.absent(),
           isPublic: drift.Value(originalRecipe.isPublic), // Copy isPublic field
+          // A copy is always a live recipe.
+          isDeleted: const drift.Value(false),
+          deletedAt: const drift.Value(null),
         );
         // Use insertOrUpdate, which handles potential (though unlikely) conflicts
         await _database.recipesDao.insertOrUpdateRecipe(recipeCompanion);
@@ -585,6 +574,10 @@ class UserRecipeProvider with ChangeNotifier {
           isPublic: drift.Value(
             supabaseRecipeData['ispublic'] ?? false,
           ), // Include isPublic field from Supabase
+          // An import (re)creating a recipe id always produces a live recipe;
+          // never leave a stale tombstone on it.
+          isDeleted: const drift.Value(false),
+          deletedAt: const drift.Value(null),
         );
         await _database.recipesDao.insertOrUpdateRecipe(recipeCompanion);
 

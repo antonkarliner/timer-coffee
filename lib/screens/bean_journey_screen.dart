@@ -48,7 +48,9 @@ class _BeanJourneyScreenState extends State<BeanJourneyScreen> {
       final entries = [
         for (final entry in loadedEntries)
           if (entry.recipeName.isEmpty)
-            entry.copyWith(recipeName: loc.unknownRecipe)
+            entry.copyWith(
+              recipeName: loc.diaryOrphanedRecipeName(entry.methodName),
+            )
           else
             entry,
       ];

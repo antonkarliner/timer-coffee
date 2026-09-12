@@ -469,7 +469,10 @@ void main() {
         tester.element(find.byType(BrewDiaryScreen)),
       )!;
 
-      expect(find.text(loc.unknownRecipe), findsOneWidget);
+      expect(
+        find.text(loc.diaryOrphanedRecipeName('V60')),
+        findsOneWidget,
+      );
       expect(
         find.bySemanticsIdentifier('userStatCard_stat-screen'),
         findsOneWidget,

@@ -20,7 +20,7 @@
   "userRecipesSectionImported": "Imported by you",
   "userRecipesEmpty": "No recipes found",
   "userRecipesDeleteTitle": "Delete recipe?",
-  "userRecipesDeleteMessage": "This action cannot be undone.",
+  "userRecipesDeleteMessage": "The recipe will be removed from your recipe list. Brews you logged with it will stay in your diary.",
   "userRecipesDeleteConfirm": "Delete",
   "userRecipesDeleteCancel": "Cancel",
   "userRecipesSnackbarDeleted": "Recipe deleted",
@@ -144,6 +144,13 @@
   "mostUsedRecipes": "Most used recipes:",
   "globalStats": "Global stats",
   "unknownRecipe": "Unknown Recipe",
+  "diaryOrphanedRecipeName": "Deleted recipe · {brewingMethod}",
+  "@diaryOrphanedRecipeName": {
+    "description": "Fallback title for a diary entry whose recipe row is missing; the brewing method is always known",
+    "placeholders": {
+      "brewingMethod": {"type": "String"}
+    }
+  },
   "pulseUserRecipe": "User recipe",
   "noData": "No data",
   "noInternetConnection": "No internet connection",

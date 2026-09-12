@@ -665,9 +665,14 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
     }
   }
 
-  /// Returns any available recipe to use as a safe FK fallback
+  /// Returns any available recipe to use as a safe FK fallback. Tombstoned
+  /// recipes are excluded: a fallback must never reattach a stat to a recipe
+  /// the user deleted.
   Future<Recipe?> _fetchAnyRecipe() async {
-    return (select(recipes)..limit(1)).getSingleOrNull();
+    return (select(recipes)
+          ..where((tbl) => tbl.isDeleted.equals(false))
+          ..limit(1))
+        .getSingleOrNull();
   }
 
   /// Creates a fallback stat that points to an existing recipe (if any)

@@ -8,6 +8,9 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
 
   RecipesDao(this.db) : super(db);
 
+  /// INTENDED: tombstoned recipes are NOT filtered here — a diary entry must
+  /// still be able to open the recipe it was brewed with; keeping history
+  /// viewable is the point of tombstoning.
   Future<RecipeModel?> getRecipeModelById(
     String recipeId,
     String locale,
@@ -54,7 +57,11 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
   }
 
   Future<List<RecipeModel>> getAllRecipes(String locale) async {
-    final recipeDatas = await select(recipes).get();
+    // Browse surface: tombstoned recipes must not appear.
+    final recipeDatas =
+        await (select(recipes)
+              ..where((tbl) => tbl.isDeleted.equals(false)))
+            .get();
     return await _getRecipeModelsFromQuery(recipeDatas, locale);
   }
 
@@ -62,9 +69,15 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
     String brewingMethodId,
     String locale,
   ) async {
-    final recipeDatas = await (select(
-      recipes,
-    )..where((tbl) => tbl.brewingMethodId.equals(brewingMethodId))).get();
+    // Browse surface: tombstoned recipes must not appear.
+    final recipeDatas =
+        await (select(recipes)
+              ..where(
+                (tbl) =>
+                    tbl.brewingMethodId.equals(brewingMethodId) &
+                    tbl.isDeleted.equals(false),
+              ))
+            .get();
     return await _getRecipeModelsFromQuery(recipeDatas, locale);
   }
 
@@ -114,6 +127,9 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
     return recipeModels;
   }
 
+  /// Sync reconciliation. INTENDED: tombstoned recipes are NOT filtered here —
+  /// hiding the row would make sync think it is missing locally and
+  /// re-download it, resurrecting the recipe.
   Future<Map<String, DateTime>> fetchIdsAndLastModifiedDates() async {
     final queryResult = await select(recipes).map((row) {
       return MapEntry(row.id, row.lastModified ?? DateTime(0));
@@ -125,10 +141,32 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
     await into(recipes).insertOnConflictUpdate(recipe);
   }
 
+  /// Hard-deletes the recipe row. That cascades through user_stats.recipe_id
+  /// and destroys brew history, so user-facing deletion must go through
+  /// [softDeleteRecipe] instead. Kept for callers that genuinely need a
+  /// physical delete.
   Future<void> deleteRecipe(String recipeId) async {
     await (delete(recipes)..where((t) => t.id.equals(recipeId))).go();
   }
 
+  /// Tombstones a recipe instead of hard-deleting it: the row, its
+  /// localizations and its steps survive so diary entries logged with the
+  /// recipe stay readable and keep resolving their name and derived water
+  /// temperature. [deleteRecipe] would cascade through user_stats and destroy
+  /// that history. `lastModified` is deliberately NOT bumped: it feeds the
+  /// catalog sync watermark via [fetchLastModified].
+  Future<void> softDeleteRecipe(String recipeId) async {
+    await (update(recipes)..where((tbl) => tbl.id.equals(recipeId))).write(
+      RecipesCompanion(
+        isDeleted: const Value(true),
+        deletedAt: Value(DateTime.now().toUtc()),
+      ),
+    );
+  }
+
+  /// Sync watermark for the catalog fetch. INTENDED: tombstoned recipes are
+  /// NOT filtered here — filtering could move the watermark and break
+  /// incremental catalog sync.
   Future<DateTime?> fetchLastModified() async {
     final query = select(recipes)
       ..orderBy([
@@ -141,17 +179,29 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
   }
 
   Future<List<Recipe>> getUserRecipes() async {
-    return (select(recipes)..where((tbl) => tbl.id.like('usr-%'))).get();
+    // Management surface ("Your recipes"): tombstoned recipes must not appear.
+    return (select(recipes)
+          ..where(
+            (tbl) => tbl.id.like('usr-%') & tbl.isDeleted.equals(false),
+          ))
+        .get();
   }
 
   Future<List<Recipe>> getImportedRecipes() async {
+    // Imported-recipes listing: tombstoned recipes must not appear.
     return (select(recipes)..where(
-          (tbl) => tbl.isImported.equals(true) & tbl.importId.isNotNull(),
+          (tbl) =>
+              tbl.isImported.equals(true) &
+              tbl.importId.isNotNull() &
+              tbl.isDeleted.equals(false),
         ))
         .get();
   }
 
-  // New method to find a recipe by its import ID
+  /// Finds a recipe by its import ID, including tombstoned rows. INTENDED: a
+  /// re-import must find the existing (possibly tombstoned) row so it updates
+  /// it instead of creating a duplicate; the import/save path then clears the
+  /// tombstone.
   Future<Recipe?> getRecipeByImportId(String importId) async {
     return (select(
       recipes,
@@ -179,6 +229,8 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
 
   // Get user recipes modified after a certain time
   // Include recipes needing moderation so they can sync their status
+  // INTENDED: tombstoned recipes are NOT filtered here — the sync upload leg
+  // must still see them so deletion state can travel up to Supabase.
   Future<List<Recipe>> getUserRecipesModifiedAfter(
     DateTime? afterTime,
     String userId,
@@ -211,11 +263,13 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
   }
 
   // Get all recipes that need moderation review (only public recipes)
+  // A deleted recipe needs no moderation, so tombstones are filtered out.
   Future<List<Recipe>> getRecipesNeedingModeration() async {
     return (select(recipes)..where(
           (tbl) =>
               tbl.needsModerationReview.equals(true) &
-              tbl.isPublic.equals(true),
+              tbl.isPublic.equals(true) &
+              tbl.isDeleted.equals(false),
         ))
         .get();
   }

@@ -78,8 +78,10 @@ class RecipeCollectionsDao extends DatabaseAccessor<AppDatabase>
     if (members.isEmpty) return const [];
 
     final recipeIds = members.map((m) => m.recipeId).toList();
+    // Collection contents are a browse surface: tombstoned recipes must not
+    // appear.
     final recipeRows = await (select(recipes)
-          ..where((r) => r.id.isIn(recipeIds)))
+          ..where((r) => r.id.isIn(recipeIds) & r.isDeleted.equals(false)))
         .get();
     final recipeById = {for (final r in recipeRows) r.id: r};
     // Preserve member sort order.
