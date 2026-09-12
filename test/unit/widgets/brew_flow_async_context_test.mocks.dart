@@ -4090,6 +4090,32 @@ class MockDatabaseProvider extends _i1.Mock implements _i7.DatabaseProvider {
           as _i5.Future<List<_i21.HelpArticleModel>>);
 
   @override
+  _i5.Future<List<_i21.HelpArticleModel>> getAllHelpArticles(String? locale) =>
+      (super.noSuchMethod(
+            Invocation.method(#getAllHelpArticles, [locale]),
+            returnValue: _i5.Future<List<_i21.HelpArticleModel>>.value(
+              <_i21.HelpArticleModel>[],
+            ),
+            returnValueForMissingStub:
+                _i5.Future<List<_i21.HelpArticleModel>>.value(
+                  <_i21.HelpArticleModel>[],
+                ),
+          )
+          as _i5.Future<List<_i21.HelpArticleModel>>);
+
+  @override
+  List<_i21.HelpArticleModel> searchHelpArticles(
+    List<_i21.HelpArticleModel>? articles,
+    String? query,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#searchHelpArticles, [articles, query]),
+            returnValue: <_i21.HelpArticleModel>[],
+            returnValueForMissingStub: <_i21.HelpArticleModel>[],
+          )
+          as List<_i21.HelpArticleModel>);
+
+  @override
   _i5.Future<_i21.HelpArticleModel?> getHelpArticle(
     String? slug,
     String? locale,
