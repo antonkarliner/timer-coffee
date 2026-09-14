@@ -1,8 +1,9 @@
-// Widget tests for the brewing screen's floating action button (plan 052 B):
-// on the last step, past the five-second threshold, the FAB must be an
-// extended, labelled "Skip" button; before that it must stay the plain pause
-// icon it has always been. The Semantics identifiers are load-bearing for the
-// Maestro screenshot suite and are asserted in both states.
+// Widget tests for the brewing screen's floating action button (plan 052 B,
+// prototype: immediate swap): on the last step, from the moment it starts,
+// the FAB must be an extended, labelled "Finish" button instead of the plain
+// pause icon it shows on every other step. The Semantics identifiers are
+// load-bearing for the Maestro screenshot suite and are asserted in both
+// states.
 //
 // `BrewingProcessScreen` is pumped whole. The seams it can reach from a test
 // process are handled like this:
@@ -164,43 +165,18 @@ void main() {
 
   group('brewing screen skip button', () {
     testWidgets(
-      'before five seconds on the last step it stays the plain pause FAB',
+      'from the first frame on the last step it is the labelled finish FAB',
       (tester) async {
         final semantics = tester.ensureSemantics();
         await _pumpScreen(tester, 1);
+        // AnimatedSwitcher has nothing to switch away from on the very first
+        // frame (there is no prior pause FAB to retire), so no extra settle
+        // time is needed before asserting the finish FAB is present.
         await tester.pump(const Duration(seconds: 2));
 
         expect(_fab, findsOneWidget);
-        expect(find.text('Skip'), findsNothing);
         expect(
-          find.descendant(of: _fab, matching: find.byIcon(Icons.pause)),
-          findsOneWidget,
-        );
-        expect(_semanticsWithId('togglePauseButton'), findsOneWidget);
-        expect(_semanticsWithId('skipLastStepButton'), findsNothing);
-
-        await _teardownTree(tester);
-        semantics.dispose();
-      },
-    );
-
-    testWidgets(
-      'after five seconds on the last step it becomes the labelled skip FAB',
-      (tester) async {
-        final semantics = tester.ensureSemantics();
-        await _pumpScreen(tester, 1);
-        await tester.pump(const Duration(seconds: 2));
-        expect(find.text('Skip'), findsNothing);
-
-        // Ticks 3-6 push currentStepTime to 6 (>= 5), revealing the skip
-        // button; the extra 400ms lets the AnimatedSwitcher's 300ms scale
-        // transition retire the outgoing pause FAB.
-        await tester.pump(const Duration(seconds: 4));
-        await tester.pump(const Duration(milliseconds: 400));
-
-        expect(_fab, findsOneWidget);
-        expect(
-          find.descendant(of: _fab, matching: find.text('Skip')),
+          find.descendant(of: _fab, matching: find.text('Finish')),
           findsOneWidget,
         );
         expect(
@@ -217,17 +193,17 @@ void main() {
     );
 
     testWidgets(
-      'on a non-final step the FAB never becomes the skip button',
+      'on a non-final step the FAB never becomes the finish button',
       (tester) async {
         final semantics = tester.ensureSemantics();
         await _pumpScreen(tester, 2);
         await tester.pump(const Duration(seconds: 8));
         await tester.pump(const Duration(milliseconds: 400));
 
-        // currentStepTime (8) is past the threshold, but this is step 1 of 2,
-        // so the plain pause FAB must remain.
+        // Still step 1 of 2, so the plain pause FAB must remain regardless
+        // of how long this step has been running.
         expect(_fab, findsOneWidget);
-        expect(find.text('Skip'), findsNothing);
+        expect(find.text('Finish'), findsNothing);
         expect(
           find.descendant(of: _fab, matching: find.byIcon(Icons.pause)),
           findsOneWidget,
@@ -245,9 +221,7 @@ void main() {
       (tester) async {
         await _pumpScreen(tester, 1);
         await tester.pump(const Duration(seconds: 2));
-        await tester.pump(const Duration(seconds: 4));
-        await tester.pump(const Duration(milliseconds: 400));
-        expect(find.text('Skip'), findsOneWidget);
+        expect(find.text('Finish'), findsOneWidget);
 
         // Two taps without an intervening frame simulate a rapid double tap:
         // the first lands on the live element, the second must be absorbed
@@ -275,7 +249,7 @@ void main() {
         // The skip path entered the end-of-brew animation, which removes the
         // FAB entirely (floatingActionButton: null).
         expect(_fab, findsNothing);
-        expect(find.text('Skip'), findsNothing);
+        expect(find.text('Finish'), findsNothing);
 
         await _teardownTree(tester);
       },

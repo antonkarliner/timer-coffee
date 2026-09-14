@@ -1205,7 +1205,7 @@
   "manualStepControlDescription": "추출 중 이전 및 건너뛰기 화살표를 표시합니다.",
   "previousStep": "이전 단계",
   "nextStep": "다음 단계",
-  "brewingSkipStepLabel": "건너뛰기",
+  "brewingSkipStepLabel": "마치기",
   "done": "완료",
   "saving": "저장 중…",
 

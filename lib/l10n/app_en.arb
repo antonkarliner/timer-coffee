@@ -1516,9 +1516,9 @@
   "manualStepControlDescription": "Show back and skip arrows during brewing.",
   "previousStep": "Previous step",
   "nextStep": "Next step",
-  "brewingSkipStepLabel": "Skip",
+  "brewingSkipStepLabel": "Finish",
   "@brewingSkipStepLabel": {
-    "description": "Label on the floating action button that skips the final brewing step; shown on the brewing screen once the last step has been running for five seconds"
+    "description": "Label on the floating action button that ends the brew early during the final brewing step; shown on the brewing screen for the entire last step"
   },
   "done": "Done",
   "saving": "Saving…",

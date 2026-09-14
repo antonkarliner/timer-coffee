@@ -1203,9 +1203,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   }
 
   bool _shouldShowSkipButton() {
-    // Show skip button only on last step and after first 5 seconds
+    // Show the finish button for the entire last step, from the moment it
+    // starts (prototype: immediate swap, no five-second delay).
     return currentStepIndex == brewingSteps.length - 1 &&
-        currentStepTime >= 5 &&
         !_isEndBrewAnimating;
   }
 

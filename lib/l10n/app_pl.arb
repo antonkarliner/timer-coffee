@@ -1034,7 +1034,7 @@
   "manualStepControlDescription": "Pokaż strzałki wstecz i pomiń podczas parzenia.",
   "previousStep": "Poprzedni krok",
   "nextStep": "Następny krok",
-  "brewingSkipStepLabel": "Pomiń",
+  "brewingSkipStepLabel": "Zakończ",
   "done": "Gotowe",
   "saving": "Zapisywanie…",
 

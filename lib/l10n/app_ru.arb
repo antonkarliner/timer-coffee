@@ -1034,7 +1034,7 @@
   "manualStepControlDescription": "Показывать стрелки назад и пропустить во время заваривания.",
   "previousStep": "Предыдущий шаг",
   "nextStep": "Следующий шаг",
-  "brewingSkipStepLabel": "Пропустить",
+  "brewingSkipStepLabel": "Завершить",
   "done": "Готово",
   "saving": "Сохранение…",
 

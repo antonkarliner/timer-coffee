@@ -1034,7 +1034,7 @@
   "manualStepControlDescription": "Mostrar setas de voltar e pular durante o preparo.",
   "previousStep": "Etapa anterior",
   "nextStep": "Próxima etapa",
-  "brewingSkipStepLabel": "Pular",
+  "brewingSkipStepLabel": "Finalizar",
   "done": "Concluir",
   "saving": "Salvando…",
 

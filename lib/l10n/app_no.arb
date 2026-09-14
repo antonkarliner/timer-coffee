@@ -1356,7 +1356,7 @@
   "manualStepControlDescription": "Vis tilbake- og hopp over-piler under brygging.",
   "previousStep": "Forrige trinn",
   "nextStep": "Neste trinn",
-  "brewingSkipStepLabel": "Hopp over",
+  "brewingSkipStepLabel": "Fullfør",
   "done": "Ferdig",
   "saving": "Lagrer…",
 
