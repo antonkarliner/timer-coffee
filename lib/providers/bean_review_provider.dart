@@ -316,9 +316,13 @@ class BeanReviewProvider extends ChangeNotifier {
   }
 
   /// Updates an existing review (all fields editable).
+  ///
+  /// [roasterProfileId] is only used to invalidate the roaster's cached review
+  /// list; it is not part of the write, which is keyed on the review id. It is
+  /// null when the roaster has no directory profile yet.
   Future<bool> updateReview({
     required String reviewId,
-    required String roasterProfileId,
+    String? roasterProfileId,
     required double rating,
     String? reviewText,
     double? sweetness,
@@ -373,7 +377,7 @@ class BeanReviewProvider extends ChangeNotifier {
         },
       );
 
-      _invalidateCacheForRoaster(roasterProfileId);
+      if (roasterProfileId != null) _invalidateCacheForRoaster(roasterProfileId);
       if (coffeeBeansUuid != null) {
         _userBeanReviewCache.remove(coffeeBeansUuid);
         final uid = Supabase.instance.client.auth.currentUser?.id;

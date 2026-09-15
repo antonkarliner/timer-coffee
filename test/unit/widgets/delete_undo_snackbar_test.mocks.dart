@@ -2336,6 +2336,15 @@ class MockDatabaseProvider extends _i1.Mock implements _i3.DatabaseProvider {
           as _i14.Future<Map<String, String?>>);
 
   @override
+  _i14.Future<void> clearRoasterDirectoryCache() =>
+      (super.noSuchMethod(
+            Invocation.method(#clearRoasterDirectoryCache, []),
+            returnValue: _i14.Future<void>.value(),
+            returnValueForMissingStub: _i14.Future<void>.value(),
+          )
+          as _i14.Future<void>);
+
+  @override
   _i14.Future<bool> uploadUserPreferencesToSupabase() =>
       (super.noSuchMethod(
             Invocation.method(#uploadUserPreferencesToSupabase, []),
@@ -2594,7 +2603,7 @@ class MockBeanReviewProvider extends _i1.Mock
   @override
   _i14.Future<bool> updateReview({
     required String? reviewId,
-    required String? roasterProfileId,
+    String? roasterProfileId,
     required double? rating,
     String? reviewText,
     double? sweetness,

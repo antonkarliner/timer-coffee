@@ -523,6 +523,15 @@ class MockDatabaseProvider extends _i1.Mock implements _i6.DatabaseProvider {
           as _i3.Future<Map<String, String?>>);
 
   @override
+  _i3.Future<void> clearRoasterDirectoryCache() =>
+      (super.noSuchMethod(
+            Invocation.method(#clearRoasterDirectoryCache, []),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
+
+  @override
   _i3.Future<bool> uploadUserPreferencesToSupabase() =>
       (super.noSuchMethod(
             Invocation.method(#uploadUserPreferencesToSupabase, []),
