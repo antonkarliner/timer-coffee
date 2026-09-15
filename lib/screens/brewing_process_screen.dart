@@ -3,11 +3,12 @@ import 'dart:core';
 import 'dart:core' as core;
 import 'dart:io';
 import 'dart:math' as math; // Added for math functions
+import 'dart:ui' show lerpDouble;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:flutter_animate/flutter_animate.dart'; // Added for animations
 import 'package:uuid/uuid.dart';
 import '../models/recipe_model.dart';
 import '../models/brew_step_model.dart';
@@ -28,6 +29,7 @@ import '../services/analytics_service.dart';
 import '../services/advanced_features_service.dart';
 import '../services/recipe_expression_service.dart';
 import '../theme/design_tokens.dart';
+import '../widgets/brewing/brew_timer_ring.dart';
 import '../widgets/brewing/next_step_preview.dart';
 
 class LocalizedNumberText extends StatelessWidget {
@@ -94,11 +96,31 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   late AnimationController _pulseController;
   late Animation<double> _pulseAnimation;
 
-  late AnimationController _colorController;
-
   late AnimationController
   _endBrewAnimationController; // For end of brew animation
   bool _isEndBrewAnimating = false; // Flag for end of brew animation state
+
+  // Plan 061 Direction B — derived end-sequence animations. Every visual is
+  // driven from _endBrewAnimationController via Intervals (R1, one clock).
+  late CurvedAnimation _endArc; // 0.00–0.15: arc lerps to 1.0
+  late CurvedAnimation _endCountdownFade; // 0.00–0.15: countdown 1 -> 0
+  late CurvedAnimation _endFill; // 0.10–0.70: fill 0 -> 1
+  late CurvedAnimation _endAmplitudeDecay; // 0.61–0.79: wave decay 1 -> 0
+  late CurvedAnimation _endAccord; // 0.87–1.00: swell, then collapse
+  late CurvedAnimation _endAccordFade; // 0.90–1.00: fade out on collapse
+
+  /// Arc fraction the ring stood at when the end sequence was triggered; the
+  /// end arc lerps from here to 1.0 instead of snapping (plan 061 B2.2).
+  double _endArcStartValue = 0.0;
+
+  /// One-shot flag for the end-sequence haptic (plan 061 R7). Never reset —
+  /// one brew, one haptic.
+  bool _endHapticFired = false;
+
+  /// Whether the OS asks for reduced motion. Re-read at the top of every
+  /// build() (plan 061 R4).
+  bool _reduceMotion = false;
+
   bool _brewFinishedEmitted = false; // Guards brew_finished (plan 042, A1)
   bool _lastStepReachedEmitted =
       false; // Guards last_step_reached (plan 042, E1)
@@ -291,21 +313,46 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       end: 1.04,
     ).animate(CurvedAnimation(parent: _pulseController, curve: Curves.easeOut));
 
-    _colorController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-    // ColorTween will be set dynamically in build
-
+    // Plan 061 B2.1: the whole end sequence is timed by this single
+    // controller. See _endSequenceFullDuration for the pacing rationale.
     _endBrewAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1800), // Adjusted duration
+      duration: _endSequenceFullDuration,
+    );
+    // Plan 061 B2.2: derived animations, all on the one clock (R1).
+    _endArc = CurvedAnimation(
+      parent: _endBrewAnimationController,
+      curve: const Interval(0.0, 0.151, curve: Curves.easeOut),
+    );
+    _endCountdownFade = CurvedAnimation(
+      parent: _endBrewAnimationController,
+      curve: const Interval(0.0, 0.151, curve: Curves.easeOut),
+    );
+    _endFill = CurvedAnimation(
+      parent: _endBrewAnimationController,
+      curve: const Interval(0.10, 0.660, curve: Curves.easeInOutCubic),
+    );
+    _endAmplitudeDecay = CurvedAnimation(
+      parent: _endBrewAnimationController,
+      curve: const Interval(0.660, 0.774, curve: Curves.easeOut),
+    );
+    // The closing accord. easeInBack undershoots below 0 before it climbs,
+    // and because the scale lerps 1.0 -> 0.5 that undershoot reads as a small
+    // swell before the collapse — one curve gives both beats.
+    _endAccord = CurvedAnimation(
+      parent: _endBrewAnimationController,
+      curve: const Interval(0.830, 1.0, curve: Curves.easeInBack),
+    );
+    _endAccordFade = CurvedAnimation(
+      parent: _endBrewAnimationController,
+      curve: const Interval(0.868, 1.0, curve: Curves.easeIn),
     );
     _endBrewAnimationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         _navigateToFinishScreen();
       }
     });
+    _endBrewAnimationController.addListener(_onEndBrewAnimationTick);
 
     brewingSteps = widget.recipe.steps
         .map((step) {
@@ -382,9 +429,61 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     WakelockPlus.disable();
     _player.dispose();
     _pulseController.dispose();
-    _colorController.dispose();
     _endBrewAnimationController.dispose();
     super.dispose();
+  }
+
+  /// Fires the heavy-impact haptic once, on iOS/Android only, independent of
+  /// `notificationMode` (plan 061 R7).
+  ///
+  /// 0.898 puts it on the peak of the accord's swell rather than before it:
+  /// the accord runs 0.830-1.0 on an easeInBack curve, whose undershoot — and
+  /// so the widest point of the cup — lands about 40% in. Felt and seen then
+  /// land together instead of a beat apart.
+  static const double _endHapticAt = 0.898;
+
+  void _onEndBrewAnimationTick() {
+    if (_endHapticFired) return;
+    if (_endBrewAnimationController.value < _endHapticAt) return;
+    _endHapticFired = true;
+    if (!kIsWeb && (Platform.isIOS || Platform.isAndroid)) {
+      HapticFeedback.heavyImpact();
+    }
+  }
+
+  /// The unhurried pour. The first pass ran this in 1400 ms, which read as
+  /// hurried — the brew is over and there is nothing left to wait for, so the
+  /// sequence should feel like a reward rather than a loading step.
+  ///
+  /// Retimed 2026-09-15: an earlier 3900 ms cut left 1020 ms of near-dead
+  /// screen between the liquid reaching the top and the closing accord, which
+  /// read as waiting rather than savouring. The settle and hold are now much
+  /// shorter and the whole thing is tighter. Beats land at roughly: arc
+  /// closing 400 ms, liquid rising 1485 ms, surface settling 300 ms, hold
+  /// 150 ms, then a 450 ms accord — the filled cup swells very slightly and
+  /// collapses away. Gap between "full" and the accord: 450 ms.
+  ///
+  /// The wave phase is derived from the controller's own value, so lengthening
+  /// this slows the lapping to match rather than leaving it churning.
+  static const Duration _endSequenceFullDuration = Duration(
+    milliseconds: 2650,
+  );
+
+  /// Settled-state hold under reduced motion (plan 061 R4): no animation, just
+  /// long enough for the finished ring to register before the screen changes.
+  static const Duration _endSequenceReducedDuration = Duration(
+    milliseconds: 250,
+  );
+
+  /// How long the end sequence runs, honouring reduced motion.
+  Duration get _endSequenceDuration =>
+      _reduceMotion ? _endSequenceReducedDuration : _endSequenceFullDuration;
+
+  /// Skip-on-tap during the end sequence (plan 061 R5): jump the master
+  /// controller straight to its end value; its `completed` status navigates.
+  void _skipEndBrewAnimation() {
+    if (!_isEndBrewAnimating || _navigatedToFinish) return;
+    _endBrewAnimationController.value = 1.0;
   }
 
   void _navigateToFinishScreen() {
@@ -395,8 +494,14 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
 
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(
-        builder: (context) => FinishScreen(
+      PageRouteBuilder(
+        transitionDuration: _reduceMotion
+            ? Duration.zero
+            : const Duration(milliseconds: 350),
+        reverseTransitionDuration: _reduceMotion
+            ? Duration.zero
+            : const Duration(milliseconds: 350),
+        pageBuilder: (_, _, _) => FinishScreen(
           brewingMethodName: widget.brewingMethodName,
           recipe: widget.recipe,
           waterAmount: widget.waterAmount,
@@ -404,6 +509,8 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
           sweetnessSliderPosition: widget.sweetnessSliderPosition,
           strengthSliderPosition: widget.strengthSliderPosition,
         ),
+        transitionsBuilder: (_, animation, _, child) =>
+            FadeTransition(opacity: animation, child: child),
       ),
     );
   }
@@ -477,9 +584,15 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
           timer.cancel();
           _endLiveActivity(reason: 'completed');
           setState(() {
+            // Capture the arc BEFORE raising the flag: _currentArcProgress
+            // short-circuits to 1.0 once _isEndBrewAnimating is true, so
+            // reading it afterwards always yields 1.0 and the sweep in the
+            // builder degenerates into a snap (lerp from 1.0 to 1.0).
+            _endArcStartValue = _currentArcProgress;
             _isEndBrewAnimating = true;
           });
           _emitBrewFinished('timer');
+          _endBrewAnimationController.duration = _endSequenceDuration;
           _endBrewAnimationController.forward(from: 0.0);
         }
       } else {
@@ -494,19 +607,6 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
           _pulseController
               .forward(from: 0.0)
               .then((_) => _pulseController.reverse());
-        }
-        // Color tween logic: last 3 seconds of final step
-        if (!_isEndBrewAnimating &&
-            currentStepIndex == brewingSteps.length - 1 &&
-            (stepDuration - currentStepTime) < 3 &&
-            (stepDuration - currentStepTime) >= 0) {
-          if (!_colorController.isAnimating && _colorController.value == 0.0) {
-            _colorController.forward();
-          }
-        } else {
-          if (_colorController.value != 0.0 && !_isEndBrewAnimating) {
-            _colorController.reverse();
-          }
         }
       }
     });
@@ -1156,6 +1256,10 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     if (!mounted || brewingSteps.isEmpty) return;
 
     setState(() {
+      // Capture the arc where the ring actually was — before both the jump
+      // to the last step and the flag, either of which forces
+      // _currentArcProgress to 1.0 and turns the sweep into a snap.
+      _endArcStartValue = _currentArcProgress;
       currentStepIndex = brewingSteps.length - 1;
       currentStepTime = brewingSteps.last.time.inSeconds;
       _isEndBrewAnimating = true;
@@ -1163,6 +1267,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     // A brew that resyncs straight to finished did reach the last step.
     _maybeEmitLastStepReached();
     _emitBrewFinished('resync');
+    _endBrewAnimationController.duration = _endSequenceDuration;
     _endBrewAnimationController.forward(from: 0.0);
 
     AppLogger.info(
@@ -1197,8 +1302,12 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     _playStepNotification();
 
     setState(() {
+      // Arc first, flag second — see _currentArcProgress. On this path the
+      // ring is genuinely mid-step, so this is the sweep the user sees.
+      _endArcStartValue = _currentArcProgress;
       _isEndBrewAnimating = true;
     });
+    _endBrewAnimationController.duration = _endSequenceDuration;
     _endBrewAnimationController.forward(from: 0.0);
   }
 
@@ -1207,6 +1316,18 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     // starts (prototype: immediate swap, no five-second delay).
     return currentStepIndex == brewingSteps.length - 1 &&
         !_isEndBrewAnimating;
+  }
+
+  /// The arc fraction the ring shows in the normal state — full once the
+  /// step time is up (or the end sequence is running), otherwise
+  /// elapsed/total. Mirrors the value logic of the CircularProgressIndicator
+  /// that BrewTimerRing replaces (plan 061 B1).
+  double get _currentArcProgress {
+    final int stepTotalSeconds = brewingSteps[currentStepIndex].time.inSeconds;
+    if (_isEndBrewAnimating || currentStepTime >= stepTotalSeconds) {
+      return 1.0;
+    }
+    return stepTotalSeconds > 0 ? currentStepTime / stepTotalSeconds : 0.0;
   }
 
   // Tear the Live Activity / backend session down once, the first time the
@@ -1249,9 +1370,13 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       // measurement this event exists to support — see final report.
       timer.cancel();
       setState(() {
+        // Arc first, flag second — see _currentArcProgress. Like the skip
+        // path, the ring is mid-step here and should sweep, not snap.
+        _endArcStartValue = _currentArcProgress;
         _isEndBrewAnimating = true;
       });
       _emitBrewFinished('manual_next');
+      _endBrewAnimationController.duration = _endSequenceDuration;
       _endBrewAnimationController.forward(from: 0.0);
     }
   }
@@ -1301,6 +1426,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
 
   @override
   Widget build(BuildContext context) {
+    // Re-read every frame so the end sequence (and its route) always sees the
+    // current OS reduced-motion setting (plan 061 R4).
+    _reduceMotion = MediaQuery.disableAnimationsOf(context);
     final manualStepControlEnabled = context
         .watch<AdvancedFeaturesService>()
         .manualStepControlEnabled;
@@ -1313,9 +1441,17 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
           ),
         ),
       ),
-      body: Stack(
-        children: [
-          Column(
+      // Tap anywhere to skip the end sequence (plan 061 R5). The behaviour
+      // must be conditional: an opaque detector with a null onTap would still
+      // absorb taps and deaden the pause/skip FAB during normal brewing.
+      body: GestureDetector(
+        behavior: _isEndBrewAnimating
+            ? HitTestBehavior.opaque
+            : HitTestBehavior.deferToChild,
+        onTap: _isEndBrewAnimating ? _skipEndBrewAnimation : null,
+        child: Stack(
+          children: [
+            Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
@@ -1339,231 +1475,138 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                                   child: AnimatedBuilder(
                                     animation: Listenable.merge([
                                       _pulseController,
-                                      _colorController,
+                                      _endBrewAnimationController,
                                     ]),
                                     builder: (context, child) {
                                       final theme = Theme.of(context);
-                                      final isFinalStep =
-                                          currentStepIndex ==
-                                          brewingSteps.length - 1;
-                                      final remaining =
-                                          brewingSteps[currentStepIndex]
-                                              .time
-                                              .inSeconds -
-                                          currentStepTime;
-                                      final isLast3 =
-                                          isFinalStep &&
-                                          remaining < 3 &&
-                                          remaining >= 0 &&
-                                          !_isEndBrewAnimating;
 
-                                      final Color beginColor =
+                                      // One ring colour for the whole brew.
+                                      // The last three seconds of the final
+                                      // step used to tween to a cherry red
+                                      // and then back again; that flash read
+                                      // as an error rather than a countdown,
+                                      // so the warning colour is gone. The
+                                      // scale pulse still marks the final
+                                      // seconds.
+                                      final Color ringColor =
                                           theme.colorScheme.secondary;
-                                      final Color endColor =
-                                          theme.brightness == Brightness.dark
-                                          ? const Color(
-                                              0xffc66564,
-                                            ) // Cherry (dark)
-                                          : const Color(
-                                              0xff8e2e2d,
-                                            ); // Cherry (light)
-
-                                      final colorTween = ColorTween(
-                                        begin: beginColor,
-                                        end: endColor,
-                                      );
-
-                                      final Color currentRingColor = (isLast3
-                                          ? (colorTween.evaluate(
-                                                  _colorController,
-                                                ) ??
-                                                beginColor)
-                                          : beginColor);
 
                                       final ringDiameter =
                                           brewTimerRingDiameterForWidth(
                                             MediaQuery.sizeOf(context).width,
                                           );
 
-                                      Widget
-                                      progressIndicatorDisplay = SizedBox(
-                                        width: ringDiameter,
-                                        height: ringDiameter,
-                                        child: Stack(
-                                          alignment: Alignment.center,
-                                          children: [
-                                            SizedBox(
-                                              width: ringDiameter,
-                                              height: ringDiameter,
-                                              child: CircularProgressIndicator(
-                                                value:
-                                                    (_isEndBrewAnimating ||
-                                                        currentStepTime >=
-                                                            brewingSteps[currentStepIndex]
-                                                                .time
-                                                                .inSeconds)
-                                                    ? 1.0
-                                                    : (brewingSteps[currentStepIndex]
-                                                                  .time
-                                                                  .inSeconds >
-                                                              0
-                                                          ? currentStepTime /
-                                                                brewingSteps[currentStepIndex]
-                                                                    .time
-                                                                    .inSeconds
-                                                          : 0),
-                                                backgroundColor:
-                                                    theme.brightness ==
-                                                        Brightness.dark
-                                                    ? const Color(0xFF5A5A5A)
-                                                    : const Color(0xFFE4E4E4),
-                                                valueColor:
-                                                    AlwaysStoppedAnimation(
-                                                      _isEndBrewAnimating
-                                                          ? endColor
-                                                          : currentRingColor,
-                                                    ),
-                                                strokeWidth: 8,
-                                              ),
-                                            ),
-                                            if (!_isEndBrewAnimating)
-                                              Semantics(
-                                                identifier: 'stepTimeCounter',
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    LocalizedNumberText(
-                                                      currentNumber:
-                                                          currentStepTime,
-                                                      totalNumber:
-                                                          brewingSteps[currentStepIndex]
-                                                              .time
-                                                              .inSeconds,
-                                                      style: TextStyle(
-                                                        fontSize:
-                                                            ringDiameter / 6,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: theme
-                                                            .colorScheme
-                                                            .onSurface,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      ' ${AppLocalizations.of(context)!.secondsAbbreviation}',
-                                                      style: TextStyle(
-                                                        fontSize:
-                                                            ringDiameter / 7.5,
-                                                        color: theme
-                                                            .colorScheme
-                                                            .onSurface
-                                                            .withValues(alpha: 0.7),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                          ],
-                                        ),
-                                      );
+                                      final Color trackColor =
+                                          theme.brightness == Brightness.dark
+                                          ? const Color(0xFF5A5A5A)
+                                          : const Color(0xFFE4E4E4);
 
-                                      if (_isEndBrewAnimating) {
-                                        const int numDroplets = 10;
-                                        final double dropletStartSize = 12.0;
-                                        final Color dropletColor = endColor;
-                                        final double initialRingRadius =
-                                            ringDiameter / 2;
-
-                                        List<Widget>
-                                        dropletWidgets = List.generate(
-                                          numDroplets,
-                                          (i) {
-                                            final double angle =
-                                                (i / numDroplets) * 2 * math.pi;
-                                            return Animate(
-                                              onPlay: (controller) =>
-                                                  controller.forward(),
-                                              delay: const Duration(
-                                                milliseconds: 200,
-                                              ), // All droplets start after 200ms
-                                              effects: [
-                                                FadeEffect(
-                                                  duration: 50.milliseconds,
-                                                  begin: 0.0,
-                                                  end: 1.0,
-                                                ), // Initial fade in
-                                                MoveEffect(
-                                                  begin: Offset(
-                                                    math.cos(angle) *
-                                                        initialRingRadius,
-                                                    math.sin(angle) *
-                                                        initialRingRadius,
+                                      final Widget countdownContent =
+                                          Semantics(
+                                            identifier: 'stepTimeCounter',
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                LocalizedNumberText(
+                                                  currentNumber:
+                                                      currentStepTime,
+                                                  totalNumber:
+                                                      brewingSteps[currentStepIndex]
+                                                          .time
+                                                          .inSeconds,
+                                                  style: TextStyle(
+                                                    fontSize: ringDiameter / 6,
+                                                    fontWeight:
+                                                        FontWeight.bold,
+                                                    color: theme
+                                                        .colorScheme
+                                                        .onSurface,
                                                   ),
-                                                  end: Offset.zero,
-                                                  duration: 800.milliseconds,
-                                                  curve: Curves.easeOutQuart,
                                                 ),
-                                                ScaleEffect(
-                                                  begin: const Offset(1, 1),
-                                                  end: const Offset(0.2, 0.2),
-                                                  duration: 800.milliseconds,
-                                                  curve: Curves.easeOut,
-                                                ),
-                                                FadeEffect(
-                                                  begin: 1.0,
-                                                  end: 0.0,
-                                                  duration: 700.milliseconds,
-                                                  curve: Curves.easeIn,
-                                                  delay: 100.milliseconds,
+                                                Text(
+                                                  ' ${AppLocalizations.of(context)!.secondsAbbreviation}',
+                                                  style: TextStyle(
+                                                    fontSize:
+                                                        ringDiameter / 7.5,
+                                                    color: theme
+                                                        .colorScheme
+                                                        .onSurface
+                                                        .withValues(alpha: 0.7),
+                                                  ),
                                                 ),
                                               ],
-                                              child: Container(
-                                                width: dropletStartSize,
-                                                height: dropletStartSize,
-                                                decoration: BoxDecoration(
-                                                  color: dropletColor,
-                                                  shape: BoxShape.circle,
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        );
+                                            ),
+                                          );
 
-                                        progressIndicatorDisplay = Animate(
-                                          onPlay: (controller) =>
-                                              controller.forward(),
-                                          effects: [
-                                            ShakeEffect(
-                                              hz: 12,
-                                              duration: 300.milliseconds,
-                                              curve: Curves.easeInOut,
-                                            ),
-                                            FadeEffect(
-                                              begin: 1.0,
-                                              end: 0.0,
-                                              delay: 1400.milliseconds,
-                                              duration: 400.milliseconds,
-                                            ),
-                                            ScaleEffect(
-                                              delay: 1400.milliseconds,
-                                              begin: const Offset(1, 1),
-                                              end: const Offset(0.5, 0.5),
-                                              duration: 400.milliseconds,
-                                            ),
-                                          ],
-                                          child: progressIndicatorDisplay,
+                                      // Plan 061 Direction B. The widget
+                                      // type at this tree position stays
+                                      // BrewTimerRing in every state (R3);
+                                      // the end sequence only changes the
+                                      // values handed to its painter. All
+                                      // end values derive from the one
+                                      // master controller (R1), and the
+                                      // ring keeps the normal secondary
+                                      // colour — cherry stays reserved for
+                                      // the last-3-seconds warning above
+                                      // (R6).
+                                      final Widget progressIndicatorDisplay;
+                                      if (_isEndBrewAnimating) {
+                                        final double arc = _reduceMotion
+                                            ? 1.0
+                                            : lerpDouble(
+                                                _endArcStartValue,
+                                                1.0,
+                                                _endArc.value,
+                                              )!;
+                                        final double fillLevel = _reduceMotion
+                                            ? 1.0
+                                            : _endFill.value;
+                                        final double wavePhase =
+                                            _endBrewAnimationController.value *
+                                                4 *
+                                                math.pi;
+                                        final double waveAmplitude =
+                                            _reduceMotion
+                                            ? 0.0
+                                            : ringDiameter *
+                                                0.045 *
+                                                (1 - _endAmplitudeDecay.value);
+                                        progressIndicatorDisplay =
+                                            BrewTimerRing(
+                                          diameter: ringDiameter,
+                                          progress: arc,
+                                          fillLevel: fillLevel,
+                                          wavePhase: wavePhase,
+                                          waveAmplitude: waveAmplitude,
+                                          ringColor: ringColor,
+                                          trackColor: trackColor,
+                                          fillColor: AppBrewColors.brewFill(
+                                            theme.colorScheme,
+                                          ),
+                                          strokeWidth: 8,
+                                          countdownOpacity: _reduceMotion
+                                              ? 0.0
+                                              : 1 - _endCountdownFade.value,
+                                          countdown: countdownContent,
                                         );
-
-                                        progressIndicatorDisplay = Stack(
-                                          alignment: Alignment.center,
-                                          clipBehavior: Clip.none,
-                                          children: [
-                                            progressIndicatorDisplay,
-                                            ...dropletWidgets,
-                                          ],
+                                      } else {
+                                        progressIndicatorDisplay =
+                                            BrewTimerRing(
+                                          diameter: ringDiameter,
+                                          progress: _currentArcProgress,
+                                          fillLevel: 0,
+                                          wavePhase: 0,
+                                          waveAmplitude: 0,
+                                          ringColor: ringColor,
+                                          trackColor: trackColor,
+                                          fillColor: AppBrewColors.brewFill(
+                                            theme.colorScheme,
+                                          ),
+                                          strokeWidth: 8,
+                                          countdownOpacity: 1.0,
+                                          countdown: countdownContent,
                                         );
                                       }
 
@@ -1581,11 +1624,42 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                                                       currentStepTime >=
                                                   0);
 
-                                      return Transform.scale(
-                                        scale: enablePulse
-                                            ? _pulseAnimation.value
-                                            : 1.0,
-                                        child: progressIndicatorDisplay,
+                                      // The closing accord (plan 061,
+                                      // operator request 2026-09-15): once the
+                                      // liquid has settled, the filled cup
+                                      // swells a touch and collapses away, so
+                                      // the sequence ends on a beat instead of
+                                      // just stopping. Driven from the same
+                                      // master controller as everything else
+                                      // (R1) and applied as values on the
+                                      // always-present Transform/Opacity pair,
+                                      // never by swapping widgets (R3).
+                                      final double accordScale =
+                                          _isEndBrewAnimating && !_reduceMotion
+                                          ? lerpDouble(
+                                              1.0,
+                                              0.5,
+                                              _endAccord.value,
+                                            )!
+                                          : 1.0;
+                                      final double accordOpacity =
+                                          _isEndBrewAnimating && !_reduceMotion
+                                          ? (1.0 - _endAccordFade.value).clamp(
+                                              0.0,
+                                              1.0,
+                                            )
+                                          : 1.0;
+
+                                      return Opacity(
+                                        opacity: accordOpacity,
+                                        child: Transform.scale(
+                                          scale:
+                                              (enablePulse
+                                                  ? _pulseAnimation.value
+                                                  : 1.0) *
+                                              accordScale,
+                                          child: progressIndicatorDisplay,
+                                        ),
                                       );
                                     },
                                   ),
@@ -1670,7 +1744,8 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                 ),
             ],
           ),
-        ],
+          ],
+        ),
       ),
       floatingActionButton: _isEndBrewAnimating
           ? null

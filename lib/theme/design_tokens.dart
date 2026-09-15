@@ -91,6 +91,32 @@ class AppSemanticColors {
   };
 }
 
+/// Colours for the end-of-brew "pour complete" fill on the brewing timer
+/// ring: the brewed form of the scheme's own [ColorScheme.secondary], so the
+/// liquid and the ring around it are provably the same family and the fill
+/// follows any future change to the palette instead of drifting from it.
+class AppBrewColors {
+  AppBrewColors._();
+
+  /// Lightness multipliers applied to `secondary` to reach the liquid. The
+  /// light theme needs a much deeper brown to read as coffee against white;
+  /// the dark theme only needs a nudge, or the fill loses its separation from
+  /// the surface behind it.
+  static const double _fillDarkenLight = 0.55;
+  static const double _fillDarkenDark = 0.80;
+
+  /// Body colour of the settled liquid inside the completion ring.
+  static Color brewFill(ColorScheme scheme) {
+    final hsl = HSLColor.fromColor(scheme.secondary);
+    final factor = scheme.brightness == Brightness.light
+        ? _fillDarkenLight
+        : _fillDarkenDark;
+    return hsl
+        .withLightness((hsl.lightness * factor).clamp(0.0, 1.0))
+        .toColor();
+  }
+}
+
 /// Design tokens for the Timer Coffee app
 /// Contains standardized spacing, radius, stroke, icon sizes, and text styles
 class AppTokens {
