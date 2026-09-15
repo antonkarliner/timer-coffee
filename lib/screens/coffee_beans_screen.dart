@@ -21,6 +21,8 @@ class CoffeeBeansScreen extends StatefulWidget {
 }
 
 class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
+  static const _minimumRefreshIndicatorDuration = Duration(milliseconds: 900);
+
   late CoffeeBeansController _controller;
 
   @override
@@ -85,7 +87,12 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
                   ),
 
                   // Content
-                  Expanded(child: _buildContent(context, controller)),
+                  Expanded(
+                    child: RefreshIndicator(
+                      onRefresh: () => _forceRefresh(context, controller),
+                      child: _buildContent(context, controller),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -130,33 +137,34 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
     }
 
     if (controller.error != null) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-            Icons.error_outline,
-            size: AppIconSize.emptyState,
-            color: Theme.of(context)
-                .colorScheme
-                .onSurface
-                .withValues(alpha: 0.35),
+      return _buildAlwaysScrollableFill(
+        Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.error_outline,
+                size: AppIconSize.emptyState,
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.35),
+              ),
+              const SizedBox(height: AppSpacing.base),
+              Text(
+                loc.error(controller.error.toString()),
+                style: Theme.of(context).textTheme.titleMedium,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              AppElevatedButton(
+                label: loc.retry,
+                onPressed: () => controller.refreshData(context),
+                isFullWidth: false,
+                height: AppButton.heightSmall,
+                padding: AppButton.paddingSmall,
+              ),
+            ],
           ),
-            const SizedBox(height: AppSpacing.base),
-            Text(
-              loc.error(controller.error.toString()),
-              style: Theme.of(context).textTheme.titleMedium,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            AppElevatedButton(
-              label: loc.retry,
-              onPressed: () => controller.refreshData(context),
-              isFullWidth: false,
-              height: AppButton.heightSmall,
-              padding: AppButton.paddingSmall,
-            ),
-          ],
         ),
       );
     }
@@ -167,12 +175,16 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
     if (beans.isEmpty) {
       // Check if this is due to filters/search or truly no beans
       if (controller.hasActiveFilters) {
-        return CoffeeBeansEmptyState.noSearchResults(
-          onClearFilters: () => controller.clearAllFilters(context),
+        return _buildAlwaysScrollableFill(
+          CoffeeBeansEmptyState.noSearchResults(
+            onClearFilters: () => controller.clearAllFilters(context),
+          ),
         );
       } else {
-        return CoffeeBeansEmptyState.noBeans(
-          onAddBeans: () => controller.navigateToNewBeans(context),
+        return _buildAlwaysScrollableFill(
+          CoffeeBeansEmptyState.noBeans(
+            onAddBeans: () => controller.navigateToNewBeans(context),
+          ),
         );
       }
     }
@@ -201,6 +213,23 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
                 controller.navigateToBeanDetail(context, bean.beansUuid),
             sortOption: controller.sortOptions.sortOption,
           );
+  }
+
+  Widget _buildAlwaysScrollableFill(Widget child) {
+    return CustomScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      slivers: [SliverFillRemaining(hasScrollBody: false, child: child)],
+    );
+  }
+
+  Future<void> _forceRefresh(
+    BuildContext context,
+    CoffeeBeansController controller,
+  ) async {
+    await Future.wait([
+      controller.forceRefresh(context),
+      Future<void>.delayed(_minimumRefreshIndicatorDuration),
+    ]);
   }
 
   Future<void> _handleDelete(

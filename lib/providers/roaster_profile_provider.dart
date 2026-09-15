@@ -7,23 +7,40 @@ import 'package:coffee_timer/services/roaster_directory_service.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
 
 class RoasterProfileProvider extends ChangeNotifier {
+  RoasterProfileProvider()
+    : _roasterDirectoryService = RoasterDirectoryService.instance,
+      _roasterDirectoryCacheGeneration =
+          RoasterDirectoryService.instance.cacheGeneration;
+
+  @visibleForTesting
+  RoasterProfileProvider.withRoasterDirectoryService(
+    this._roasterDirectoryService,
+  ) : _roasterDirectoryCacheGeneration =
+          _roasterDirectoryService.cacheGeneration;
+
+  final RoasterDirectoryService _roasterDirectoryService;
+  int _roasterDirectoryCacheGeneration;
+
   // In-memory cache keyed by slug
   final Map<String, RoasterProfileModel> _profileCache = {};
-  // Cache for roaster name → slug lookups (null means no profile found)
-  final Map<String, String?> _nameSlugCache = {};
-  // Cache for roaster name → profile ID lookups (null means no profile found)
-  final Map<String, String?> _nameProfileIdCache = {};
+  // Positive cache for roaster name → slug lookups.
+  final Map<String, String> _nameSlugCache = {};
+  // Positive cache for roaster name → profile ID lookups.
+  final Map<String, String> _nameProfileIdCache = {};
   // Cache for vendorId → profile lookups (null means no profile found)
   final Map<String, RoasterProfileModel?> _vendorIdProfileCache = {};
 
   /// Returns a cached profile or fetches from Supabase.
   Future<RoasterProfileModel?> fetchProfile(String slug) async {
+    _syncRoasterDirectoryCacheGeneration();
     if (_profileCache.containsKey(slug)) {
       return _profileCache[slug];
     }
     try {
-      final response = await Supabase.instance.client
-          .rpc('get_roaster_profile', params: {'p_slug': slug});
+      final response = await Supabase.instance.client.rpc(
+        'get_roaster_profile',
+        params: {'p_slug': slug},
+      );
       if (response == null) return null;
       final profile = RoasterProfileModel.fromJson(
         Map<String, dynamic>.from(response as Map),
@@ -66,16 +83,23 @@ class RoasterProfileProvider extends ChangeNotifier {
   /// Checks if a roaster name has an active profile. Returns the slug or null.
   /// Uses unaccent-normalised server-side matching.
   Future<String?> fetchRoasterSlugByName(String roasterName) async {
+    _syncRoasterDirectoryCacheGeneration();
     final key = roasterName.trim().toLowerCase();
     if (_nameSlugCache.containsKey(key)) {
       return _nameSlugCache[key];
     }
     try {
-      final bundle =
-          await RoasterDirectoryService.instance.fetchBundle(roasterName);
-      _nameSlugCache[key] = bundle?['slug'];
-      _nameProfileIdCache[key] = bundle?['profile_id'];
-      return _nameSlugCache[key];
+      final bundle = await _roasterDirectoryService.fetchBundle(roasterName);
+      if (bundle == null) return null;
+      final slug = bundle['slug'];
+      final profileId = bundle['profile_id'];
+      if (slug != null) {
+        _nameSlugCache[key] = slug;
+      }
+      if (profileId != null) {
+        _nameProfileIdCache[key] = profileId;
+      }
+      return slug;
     } catch (error) {
       AppLogger.error(
         'Error fetching roaster slug by name',
@@ -88,6 +112,7 @@ class RoasterProfileProvider extends ChangeNotifier {
   /// Returns the roaster profile UUID for the given roaster name, or null.
   /// Reuses the same RPC result as [fetchRoasterSlugByName].
   Future<String?> fetchRoasterProfileIdByName(String roasterName) async {
+    _syncRoasterDirectoryCacheGeneration();
     final key = roasterName.trim().toLowerCase();
     if (_nameProfileIdCache.containsKey(key)) {
       return _nameProfileIdCache[key];
@@ -100,7 +125,9 @@ class RoasterProfileProvider extends ChangeNotifier {
   /// Looks up the active roaster profile for a recipe's vendorId (format: 'usr-UUID').
   /// Returns null if none found or vendorId is invalid.
   Future<RoasterProfileModel?> fetchRoasterProfileByVendorId(
-      String vendorId) async {
+    String vendorId,
+  ) async {
+    _syncRoasterDirectoryCacheGeneration();
     if (_vendorIdProfileCache.containsKey(vendorId)) {
       return _vendorIdProfileCache[vendorId];
     }
@@ -135,5 +162,15 @@ class RoasterProfileProvider extends ChangeNotifier {
     _nameProfileIdCache.clear();
     _vendorIdProfileCache.clear();
     notifyListeners();
+  }
+
+  void _syncRoasterDirectoryCacheGeneration() {
+    final generation = _roasterDirectoryService.cacheGeneration;
+    if (_roasterDirectoryCacheGeneration == generation) return;
+    _profileCache.clear();
+    _nameSlugCache.clear();
+    _nameProfileIdCache.clear();
+    _vendorIdProfileCache.clear();
+    _roasterDirectoryCacheGeneration = generation;
   }
 }

@@ -36,6 +36,8 @@ class YearlyPercentileResult {
 
 class DatabaseProvider {
   final AppDatabase _db;
+  final RoasterDirectoryService _roasterDirectoryService;
+  late int _roasterDirectoryCacheGeneration;
   LaunchPopupModel? _launchPopupModel; // Field to store fetched launch popup
   // Constants for SharedPreferences keys
   static const String _lastSyncTimestampKey = 'lastUserRecipeSyncTimestamp';
@@ -46,7 +48,18 @@ class DatabaseProvider {
   // missed fire-and-forget upload can't be clobbered by stale remote data.
   static const String _pendingPrefSyncKey = 'pendingPrefSyncRecipeIds';
 
-  DatabaseProvider(this._db);
+  DatabaseProvider(this._db)
+    : _roasterDirectoryService = RoasterDirectoryService.instance {
+    _roasterDirectoryCacheGeneration = _roasterDirectoryService.cacheGeneration;
+  }
+
+  @visibleForTesting
+  DatabaseProvider.withRoasterDirectoryService(
+    this._db,
+    this._roasterDirectoryService,
+  ) {
+    _roasterDirectoryCacheGeneration = _roasterDirectoryService.cacheGeneration;
+  }
 
   // --- SharedPreferences Helpers ---
 
@@ -1835,6 +1848,7 @@ class DatabaseProvider {
   Future<Map<String, String?>> fetchCachedRoasterLogoUrls(
     String roasterName,
   ) async {
+    _syncRoasterDirectoryCacheGeneration();
     final normalizedRoasterName = removeDiacritics(roasterName).toLowerCase();
 
     if (_roasterLogoCache.containsKey(normalizedRoasterName)) {
@@ -1842,20 +1856,34 @@ class DatabaseProvider {
     }
 
     try {
-      final bundle = await RoasterDirectoryService.instance.fetchBundle(
-        roasterName,
-      );
+      final bundle = await _roasterDirectoryService.fetchBundle(roasterName);
       final logoUrls = <String, String?>{
         'original': bundle?['roaster_logo_url'],
         'mirror': bundle?['roaster_logo_mirror_url'],
         'dominant_color_hex': bundle?['dominant_color_hex'],
       };
-      _roasterLogoCache[normalizedRoasterName] = logoUrls;
+      if (bundle != null) {
+        _roasterLogoCache[normalizedRoasterName] = logoUrls;
+      }
       return logoUrls;
     } catch (_) {
       // Error: not cached so the next call retries.
       return {'original': null, 'mirror': null};
     }
+  }
+
+  /// Clears the shared directory cache and this provider's derived logo data.
+  Future<void> clearRoasterDirectoryCache() async {
+    _roasterLogoCache.clear();
+    await _roasterDirectoryService.clearCache();
+    _roasterDirectoryCacheGeneration = _roasterDirectoryService.cacheGeneration;
+  }
+
+  void _syncRoasterDirectoryCacheGeneration() {
+    final generation = _roasterDirectoryService.cacheGeneration;
+    if (_roasterDirectoryCacheGeneration == generation) return;
+    _roasterLogoCache.clear();
+    _roasterDirectoryCacheGeneration = generation;
   }
 
   /// Uploads all local preferences to Supabase. Returns true on success (or when

@@ -47,6 +47,7 @@ class CoffeeBeansListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       controller: scrollController,
+      physics: const AlwaysScrollableScrollPhysics(),
       padding: const EdgeInsets.all(16.0),
       itemCount: beans.length,
       itemBuilder: (context, index) {

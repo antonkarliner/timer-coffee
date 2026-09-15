@@ -13,6 +13,7 @@ import '../widgets/coffee_beans/dialogs/coffee_beans_filter_dialog.dart';
 import '../widgets/coffee_beans/dialogs/coffee_beans_sort_dialog.dart';
 import '../app_router.gr.dart';
 import '../providers/coffee_beans_provider.dart';
+import '../providers/database_provider.dart';
 
 /// Controller for Coffee Beans Screen responsible for:
 /// - Managing all screen state using Phase 1 models
@@ -216,9 +217,29 @@ class CoffeeBeansController extends ChangeNotifier {
     return _refreshData(coffeeBeansProvider);
   }
 
-  Future<void> _refreshData(CoffeeBeansProvider coffeeBeansProvider) async {
+  /// Handles an explicit pull-to-refresh by invalidating the roaster directory
+  /// and all derived logo caches before reloading the bean list.
+  Future<void> forceRefresh(BuildContext context) async {
+    if (_isDisposed || !context.mounted) return;
+    final databaseProvider = Provider.of<DatabaseProvider>(
+      context,
+      listen: false,
+    );
+    await databaseProvider.clearRoasterDirectoryCache();
+    if (_isDisposed || !context.mounted) return;
+    final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+      context,
+      listen: false,
+    );
+    await _refreshData(coffeeBeansProvider, showLoading: false);
+  }
+
+  Future<void> _refreshData(
+    CoffeeBeansProvider coffeeBeansProvider, {
+    bool showLoading = true,
+  }) async {
     if (_isDisposed) return;
-    _setLoading(true);
+    if (showLoading) _setLoading(true);
     try {
       // Fetch filtered data from database
       final filteredBeans = await coffeeBeansProvider.fetchFilteredCoffeeBeans(
@@ -249,11 +270,15 @@ class CoffeeBeansController extends ChangeNotifier {
       if (_isDisposed) return;
       _grandTotalGramsLeft = _sumGramsLeft(allBeans);
 
-      _setError(null);
+      _setError(null, notify: showLoading);
     } catch (e) {
-      _setError(e.toString());
+      _setError(e.toString(), notify: showLoading);
     } finally {
-      _setLoading(false);
+      if (showLoading) {
+        _setLoading(false);
+      } else if (!_isDisposed) {
+        notifyListeners();
+      }
     }
   }
 
@@ -265,11 +290,11 @@ class CoffeeBeansController extends ChangeNotifier {
     }
   }
 
-  void _setError(String? error) {
+  void _setError(String? error, {bool notify = true}) {
     if (_isDisposed) return;
     if (_error != error) {
       _error = error;
-      notifyListeners();
+      if (notify) notifyListeners();
     }
   }
 
@@ -471,9 +496,13 @@ class CoffeeBeansController extends ChangeNotifier {
 
       _isRefreshing = true;
       try {
-        // Many flows return a String on successful edit/save; refresh when we get any non-null result
+        // Many flows return a String on successful edit/save; refresh when we
+        // get any non-null result. An unchanged return still needs to rebuild
+        // the cards so an expired roaster-directory miss can resolve to a logo.
         if (result != null) {
           await refreshData(context);
+        } else {
+          notifyListeners();
         }
         if (_isDisposed) return;
         // Ensure search field is unfocused after returning from navigation

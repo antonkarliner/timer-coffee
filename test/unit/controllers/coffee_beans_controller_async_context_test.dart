@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:coffee_timer/controllers/coffee_beans_controller.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/providers/coffee_beans_provider.dart';
+import 'package:coffee_timer/providers/database_provider.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,10 +13,12 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'coffee_beans_controller_async_context_test.mocks.dart';
+import '../widgets/widget_async_context_batch_test.mocks.dart' as widget_mocks;
 
 @GenerateNiceMocks([MockSpec<CoffeeBeansProvider>(), MockSpec<StackRouter>()])
 void main() {
   late ListeningMockCoffeeBeansProvider coffeeBeansProvider;
+  late RefreshableMockDatabaseProvider databaseProvider;
   late MockStackRouter stackRouter;
   late CoffeeBeansController controller;
   late bool controllerDisposed;
@@ -23,6 +26,7 @@ void main() {
   setUp(() {
     SharedPreferences.setMockInitialValues({});
     coffeeBeansProvider = ListeningMockCoffeeBeansProvider();
+    databaseProvider = RefreshableMockDatabaseProvider();
     stackRouter = MockStackRouter();
     controller = CoffeeBeansController();
     controllerDisposed = false;
@@ -49,11 +53,14 @@ void main() {
       stateHash: 0,
       child: ChangeNotifierProvider<CoffeeBeansProvider>.value(
         value: coffeeBeansProvider,
-        child: MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          locale: const Locale('en'),
-          home: const Scaffold(body: SizedBox(key: Key('controller-host'))),
+        child: Provider<DatabaseProvider>.value(
+          value: databaseProvider,
+          child: MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            locale: const Locale('en'),
+            home: const Scaffold(body: SizedBox(key: Key('controller-host'))),
+          ),
         ),
       ),
     );
@@ -146,6 +153,28 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('force refresh clears roaster cache before reloading beans', (
+    tester,
+  ) async {
+    final events = <String>[];
+    databaseProvider.onClear = () => events.add('cache');
+    when(coffeeBeansProvider.fetchFilteredCoffeeBeans()).thenAnswer((_) async {
+      events.add('filtered');
+      return [];
+    });
+    when(coffeeBeansProvider.fetchAllCoffeeBeans()).thenAnswer((_) async {
+      events.add('all');
+      return [];
+    });
+    final context = await pumpHost(tester);
+
+    await controller.forceRefresh(context);
+
+    expect(events, ['cache', 'filtered', 'all']);
+    expect(databaseProvider.clearCalls, 1);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('new-beans navigation refreshes after a successful return', (
     tester,
   ) async {
@@ -197,6 +226,26 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('bean-detail navigation rebuilds after an unchanged return', (
+    tester,
+  ) async {
+    final routeResult = Completer<Object?>();
+    when(stackRouter.push<Object?>(any)).thenAnswer((_) => routeResult.future);
+    final context = await pumpHost(tester);
+    var notifications = 0;
+    controller.addListener(() => notifications++);
+    clearInteractions(coffeeBeansProvider);
+
+    controller.navigateToBeanDetail(context, 'bean-1');
+    routeResult.complete();
+    await tester.pump();
+
+    expect(notifications, 1);
+    verifyNever(coffeeBeansProvider.fetchFilteredCoffeeBeans());
+    verifyNever(coffeeBeansProvider.fetchAllCoffeeBeans());
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('bean-detail navigation ignores a result after disposal', (
     tester,
   ) async {
@@ -232,5 +281,17 @@ class ListeningMockCoffeeBeansProvider extends MockCoffeeBeansProvider {
     for (final listener in List<VoidCallback>.from(_listeners)) {
       listener();
     }
+  }
+}
+
+class RefreshableMockDatabaseProvider
+    extends widget_mocks.MockDatabaseProvider {
+  VoidCallback? onClear;
+  int clearCalls = 0;
+
+  @override
+  Future<void> clearRoasterDirectoryCache() async {
+    clearCalls++;
+    onClear?.call();
   }
 }

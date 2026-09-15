@@ -26,6 +26,7 @@ import 'package:coffee_timer/widgets/coffee_beans/coffee_bean_grid_card.dart';
 import 'package:coffee_timer/widgets/favorite_button.dart';
 import 'package:coffee_timer/widgets/new_beans/image_flow/selected_images_sheet.dart';
 import 'package:coffee_timer/widgets/launch_popup.dart';
+import 'package:coffee_timer/widgets/roaster_logo.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -475,6 +476,58 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('pull-to-refresh clears roaster cache and reloads beans', (
+    tester,
+  ) async {
+    final coffeeBeansProvider = MockCoffeeBeansProvider();
+    final databaseProvider = RefreshableMockDatabaseProvider();
+    when(
+      databaseProvider.fetchCachedRoasterLogoUrls(bean.roaster),
+    ).thenAnswer((_) async => {'original': null, 'mirror': null});
+    when(
+      coffeeBeansProvider.fetchAllDistinctRoasters(),
+    ).thenAnswer((_) async => ['Test Roaster']);
+    when(
+      coffeeBeansProvider.fetchAllDistinctOrigins(),
+    ).thenAnswer((_) async => ['Test Origin']);
+    when(
+      coffeeBeansProvider.fetchFilteredCoffeeBeans(),
+    ).thenAnswer((_) async => [bean]);
+    when(
+      coffeeBeansProvider.fetchAllCoffeeBeans(),
+    ).thenAnswer((_) async => [bean]);
+
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider<CoffeeBeansProvider>.value(
+            value: coffeeBeansProvider,
+          ),
+          Provider<DatabaseProvider>.value(value: databaseProvider),
+        ],
+        child: localizedApp(const CoffeeBeansScreen()),
+      ),
+    );
+    await tester.pumpAndSettle();
+    clearInteractions(databaseProvider);
+    clearInteractions(coffeeBeansProvider);
+
+    await tester.drag(find.byType(RefreshIndicator), const Offset(0, 300));
+    await tester.pump();
+
+    expect(find.byType(RefreshProgressIndicator), findsOneWidget);
+    await tester.pump(const Duration(milliseconds: 800));
+    expect(find.byType(RefreshProgressIndicator), findsOneWidget);
+
+    await tester.pumpAndSettle();
+
+    expect(find.byType(RefreshProgressIndicator), findsNothing);
+    expect(databaseProvider.clearCalls, 1);
+    verify(coffeeBeansProvider.fetchFilteredCoffeeBeans()).called(1);
+    verify(coffeeBeansProvider.fetchAllCoffeeBeans()).called(1);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('bean favorite toggle finishes safely after screen disposal', (
     tester,
   ) async {
@@ -642,6 +695,54 @@ void main() {
     await tester.tap(find.text('Next'));
 
     expect(selectedUuid, 'bean-a');
+  });
+
+  testWidgets('bean card replaces a completed logo miss after a rebuild', (
+    tester,
+  ) async {
+    final coffeeBeansProvider = MockCoffeeBeansProvider();
+    final databaseProvider = MockDatabaseProvider();
+    final rebuild = ValueNotifier<int>(0);
+    var lookupCount = 0;
+    when(databaseProvider.fetchCachedRoasterLogoUrls(bean.roaster)).thenAnswer((
+      _,
+    ) async {
+      lookupCount++;
+      return lookupCount == 1
+          ? {'original': null, 'mirror': null}
+          : {'original': 'https://example.com/momus.png', 'mirror': null};
+    });
+
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider<CoffeeBeansProvider>.value(
+            value: coffeeBeansProvider,
+          ),
+          Provider<DatabaseProvider>.value(value: databaseProvider),
+        ],
+        child: localizedApp(
+          ValueListenableBuilder<int>(
+            valueListenable: rebuild,
+            builder: (context, value, child) => CoffeeBeanCard(
+              bean: bean,
+              isEditMode: false,
+              onDelete: () {},
+              onTap: () {},
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byType(RoasterLogo), findsNothing);
+
+    rebuild.value++;
+    await tester.pumpAndSettle();
+
+    expect(find.byType(RoasterLogo), findsOneWidget);
+    verify(databaseProvider.fetchCachedRoasterLogoUrls(bean.roaster)).called(2);
   });
 
   testWidgets('bean cards forward the required UUID when favorited', (
@@ -878,6 +979,15 @@ void main() {
     expect(find.byType(AlertDialog), findsNothing);
     expect(tester.takeException(), isNull);
   });
+}
+
+class RefreshableMockDatabaseProvider extends MockDatabaseProvider {
+  int clearCalls = 0;
+
+  @override
+  Future<void> clearRoasterDirectoryCache() async {
+    clearCalls++;
+  }
 }
 
 typedef _ShowPreviewCallback =
