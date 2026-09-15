@@ -424,9 +424,17 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
 
     bool ok;
     if (_isEditing) {
+      // roasterProfileId is null when the roaster has no directory profile yet.
+      // An edit has no profile-scoped review to target, so fail the save
+      // through the normal failure path rather than force-unwrapping.
+      final profileId = widget.roasterProfileId;
+      if (profileId == null) {
+        if (mounted) setState(() => _submitting = false);
+        return;
+      }
       ok = await provider.updateReview(
         reviewId: widget.existingReview!.id,
-        roasterProfileId: widget.roasterProfileId!,
+        roasterProfileId: profileId,
         rating: _rating,
         reviewText: _reviewController.text.trim().isEmpty
             ? null
