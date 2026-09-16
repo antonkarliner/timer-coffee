@@ -27,6 +27,7 @@ import 'package:coffee_timer/services/feature_flags/feature_flags_repository.dar
 // Import for RecipeCreationScreen
 // Import AppDatabase and Recipe
 import '../widgets/launch_popup.dart';
+import '../widgets/roaster_contribution/contribution_ack_banner.dart';
 import '../services/analytics_service.dart';
 import '../utils/app_logger.dart'; // Import AppLogger
 import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPreferences
@@ -413,6 +414,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     final showYearlyStats25Banner =
         flags[FeatureFlagKeys.yearlyStatsStory25Banner] ?? false;
 
+    // Banners must not stack: the acknowledgement banner only gets the slot
+    // when neither feature-flagged banner is currently showing above the tabs.
+    final showContributionAckBanner =
+        !(showYearlyStats25Banner && !_yearlyStats25BannerDismissed) &&
+        !(showGiftBanner && !_giftBoxBannerDismissed);
+
     // Handle case where localizations are null during initialization
     if (l10n == null) {
       return Scaffold(
@@ -475,6 +482,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     });
                   },
                 ),
+
+              // Roaster-contribution acknowledgement banner (see
+              // showContributionAckBanner above for the no-stacking rule).
+              if (showContributionAckBanner)
+                const RoasterContributionAckBanner(),
 
               // Show banner only on web if _showBanner is true.
               if (kIsWeb && _showBanner)

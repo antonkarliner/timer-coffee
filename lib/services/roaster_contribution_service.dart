@@ -43,6 +43,11 @@ typedef RoasterContributionTargetLoader =
 /// mirrors [RoasterContributionTargetLoader] so tests run without a network.
 typedef RoasterContributionAcknowledgementLoader = Future<Object?> Function();
 
+/// Injectable fetcher for the widgets that surface a pending acknowledgement,
+/// so they can be pumped in tests without a Supabase client.
+typedef RoasterContributionAcknowledgementFetcher =
+    Future<RoasterContributionAcknowledgement?> Function();
+
 /// Bridges the app to the plan-011 roaster-website crowdsourcing backend:
 /// checks whether a roaster is a pending candidate worth prompting about
 /// ([checkEligibility]) and submits the user's website ([submitContribution]).
