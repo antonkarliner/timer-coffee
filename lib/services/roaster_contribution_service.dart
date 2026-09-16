@@ -39,6 +39,10 @@ enum RoasterContributionResult {
 typedef RoasterContributionTargetLoader =
     Future<Object?> Function(String roaster);
 
+/// Injectable RPC loader for the pending-contribution acknowledgements —
+/// mirrors [RoasterContributionTargetLoader] so tests run without a network.
+typedef RoasterContributionAcknowledgementLoader = Future<Object?> Function();
+
 /// Bridges the app to the plan-011 roaster-website crowdsourcing backend:
 /// checks whether a roaster is a pending candidate worth prompting about
 /// ([checkEligibility]) and submits the user's website ([submitContribution]).
@@ -52,13 +56,17 @@ typedef RoasterContributionTargetLoader =
 class RoasterContributionService {
   RoasterContributionService._internal({
     RoasterContributionTargetLoader? targetLoader,
+    RoasterContributionAcknowledgementLoader? acknowledgementLoader,
     bool Function()? hasCurrentUser,
     DateTime Function()? now,
     Duration targetCacheTtl = const Duration(minutes: 10),
+    Duration acknowledgementCacheTtl = const Duration(minutes: 10),
   }) : _targetLoader = targetLoader,
+       _acknowledgementLoader = acknowledgementLoader,
        _hasCurrentUser = hasCurrentUser,
        _now = now ?? DateTime.now,
-       _targetCacheTtl = targetCacheTtl;
+       _targetCacheTtl = targetCacheTtl,
+       _acknowledgementCacheTtl = acknowledgementCacheTtl;
 
   static final RoasterContributionService instance =
       RoasterContributionService._internal();
@@ -67,14 +75,18 @@ class RoasterContributionService {
   @visibleForTesting
   factory RoasterContributionService.forTesting({
     required RoasterContributionTargetLoader targetLoader,
+    RoasterContributionAcknowledgementLoader? acknowledgementLoader,
     bool Function()? hasCurrentUser,
     DateTime Function()? now,
     Duration targetCacheTtl = const Duration(minutes: 10),
+    Duration acknowledgementCacheTtl = const Duration(minutes: 10),
   }) => RoasterContributionService._internal(
     targetLoader: targetLoader,
+    acknowledgementLoader: acknowledgementLoader,
     hasCurrentUser: hasCurrentUser,
     now: now,
     targetCacheTtl: targetCacheTtl,
+    acknowledgementCacheTtl: acknowledgementCacheTtl,
   );
 
   /// Clusters the user has finished with — submitted a contribution or tapped
@@ -87,15 +99,25 @@ class RoasterContributionService {
   static const String _keyShownClusters = 'roaster_contrib_shown_v1';
 
   static const String _rpcTarget = 'roaster_contribution_target';
+  static const String _rpcAcknowledgements =
+      'get_my_contribution_acknowledgements';
+  static const String _rpcMarkAcknowledged = 'mark_contribution_acknowledged';
   static const String _edgeFnSubmit = 'submit-roaster-contribution';
   static final RegExp _whitespace = RegExp(r'\s+');
 
   final RoasterContributionTargetLoader? _targetLoader;
+  final RoasterContributionAcknowledgementLoader? _acknowledgementLoader;
   final bool Function()? _hasCurrentUser;
   final DateTime Function() _now;
   final Duration _targetCacheTtl;
+  final Duration _acknowledgementCacheTtl;
   final Map<String, _CachedRoasterContributionTarget> _targetCache = {};
   final Map<String, Future<_RoasterContributionTarget>> _targetRequests = {};
+
+  /// Cached pending acknowledgement (plan 062). Null inside the entry means
+  /// "fetched, nothing pending"; a null entry itself means "not fetched yet".
+  _CachedAcknowledgement? _acknowledgementCache;
+  Future<RoasterContributionAcknowledgement?>? _acknowledgementRequest;
 
   SupabaseClient get _client => Supabase.instance.client;
 
@@ -269,6 +291,99 @@ class RoasterContributionService {
     return resolved.contains(clusterId);
   }
 
+  /// Returns the first pending acknowledgement for the user's contributions
+  /// (plan 062) — a roaster they submitted that is now live — or null when
+  /// signed out, when nothing is pending, or on any error. Cached for
+  /// [_acknowledgementCacheTtl] with in-flight request de-dup. Never throws.
+  Future<RoasterContributionAcknowledgement?> fetchPendingAcknowledgement() {
+    // Requires a session (anonymous is fine), same as contributing itself.
+    final hasCurrentUser =
+        _hasCurrentUser?.call() ?? _client.auth.currentUser != null;
+    if (!hasCurrentUser) return Future.value(null);
+
+    final cached = _acknowledgementCache;
+    final now = _now();
+    if (cached != null && now.isBefore(cached.expiresAt)) {
+      return Future.value(cached.acknowledgement);
+    }
+    _acknowledgementCache = null;
+
+    final existingRequest = _acknowledgementRequest;
+    if (existingRequest != null) return existingRequest;
+
+    late final Future<RoasterContributionAcknowledgement?> request;
+    request = _fetchAcknowledgement()
+        .then((acknowledgement) {
+          _acknowledgementCache = _CachedAcknowledgement(
+            acknowledgement: acknowledgement,
+            expiresAt: _now().add(_acknowledgementCacheTtl),
+          );
+          return acknowledgement;
+        })
+        .whenComplete(() {
+          if (identical(_acknowledgementRequest, request)) {
+            _acknowledgementRequest = null;
+          }
+        });
+    _acknowledgementRequest = request;
+    return request;
+  }
+
+  Future<RoasterContributionAcknowledgement?> _fetchAcknowledgement() async {
+    try {
+      final response = _acknowledgementLoader != null
+          ? await _acknowledgementLoader()
+          : await _client.rpc(_rpcAcknowledgements, params: {'p_limit': 1});
+      if (response is! List) {
+        throw const FormatException('Invalid acknowledgement response');
+      }
+      if (response.isEmpty) return null;
+      final row = response.first;
+      if (row is! Map) {
+        throw const FormatException('Invalid acknowledgement row');
+      }
+      return RoasterContributionAcknowledgement.fromMap(
+        Map<String, dynamic>.from(row),
+      );
+    } catch (error) {
+      AppLogger.error(
+        'get_my_contribution_acknowledgements failed',
+        errorObject: AppLogger.sanitize(error),
+      );
+      return null;
+    }
+  }
+
+  /// Marks the acknowledgement for [contributionId] as delivered in-app so the
+  /// card never returns (the RPC is idempotent). Clears the cached fetch so the
+  /// next read is fresh. Never throws.
+  Future<void> markAcknowledged(int contributionId) async {
+    _acknowledgementCache = null;
+    try {
+      await _client.rpc(
+        _rpcMarkAcknowledged,
+        params: {'p_contribution_id': contributionId, 'p_channel': 'in_app'},
+      );
+    } catch (error) {
+      AppLogger.error(
+        'mark_contribution_acknowledged failed',
+        errorObject: AppLogger.sanitize(error),
+      );
+    }
+    AnalyticsService.maybeInstance?.track(
+      'roaster_contribution_ack_shown',
+      properties: {'contribution_id': contributionId},
+    );
+  }
+
+  /// Fires when the user taps an acknowledgement card's primary action.
+  void trackAcknowledgementTapped(int contributionId) {
+    AnalyticsService.maybeInstance?.track(
+      'roaster_contribution_ack_tapped',
+      properties: {'contribution_id': contributionId},
+    );
+  }
+
   RoasterContributionResult _resultFromStatus(String status) {
     switch (status) {
       case 'ok':
@@ -322,5 +437,63 @@ class _CachedRoasterContributionTarget {
   });
 
   final _RoasterContributionTarget target;
+  final DateTime expiresAt;
+}
+
+/// One resolved contribution by the current user: the roaster they submitted is
+/// now live in the database, and the hub card thanks them for it (plan 062).
+class RoasterContributionAcknowledgement {
+  const RoasterContributionAcknowledgement({
+    required this.contributionId,
+    required this.roasterName,
+    required this.slug,
+    this.logoUrl,
+    this.logoMirrorUrl,
+    this.dominantColorHex,
+    this.resolvedAt,
+  });
+
+  /// Tolerates nulls and a malformed/missing `resolved_at` (parse failure →
+  /// null, never throw) so one bad row can never crash the hub card.
+  factory RoasterContributionAcknowledgement.fromMap(
+    Map<String, dynamic> data,
+  ) {
+    final resolvedRaw = data['resolved_at'];
+    return RoasterContributionAcknowledgement(
+      contributionId: _intFrom(data['contribution_id']),
+      roasterName: data['roaster_name'] as String? ?? '',
+      slug: data['slug'] as String? ?? '',
+      logoUrl: data['roaster_logo_url'] as String?,
+      logoMirrorUrl: data['roaster_logo_mirror_url'] as String?,
+      dominantColorHex: data['dominant_color_hex'] as String?,
+      resolvedAt: resolvedRaw is String ? DateTime.tryParse(resolvedRaw) : null,
+    );
+  }
+
+  static int _intFrom(Object? value) {
+    if (value is int) return value;
+    if (value is num) return value.toInt();
+    if (value is String) return int.tryParse(value) ?? 0;
+    return 0;
+  }
+
+  final int contributionId;
+  final String roasterName;
+  final String slug;
+  final String? logoUrl;
+  final String? logoMirrorUrl;
+  final String? dominantColorHex;
+  final DateTime? resolvedAt;
+}
+
+class _CachedAcknowledgement {
+  const _CachedAcknowledgement({
+    required this.acknowledgement,
+    required this.expiresAt,
+  });
+
+  /// Null means the fetch succeeded but nothing is pending — cached so the
+  /// (overwhelmingly common) empty case does not re-hit the RPC within the TTL.
+  final RoasterContributionAcknowledgement? acknowledgement;
   final DateTime expiresAt;
 }

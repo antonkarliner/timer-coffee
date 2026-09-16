@@ -24,6 +24,7 @@ import '../utils/app_material_symbols.dart';
 import '../widgets/base_buttons.dart';
 import '../widgets/account_avatar_inline.dart';
 import '../widgets/coffee_journey_card.dart';
+import '../widgets/roaster_contribution/contribution_ack_card.dart';
 import '../services/onboarding_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../database/database.dart';
@@ -220,6 +221,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
         ),
         children: [
           const CoffeeJourneyCard(location: JourneyCardLocation.hub),
+          const RoasterContributionAckCard(),
           _HubSection(
             title: l10n.hubSectionYourCoffee,
             children: [

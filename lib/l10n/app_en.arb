@@ -2179,6 +2179,28 @@
   "@roasterContributionCardDismiss": {
     "description": "Secondary button on the roaster-contribution prompt card; dismisses it."
   },
+  "roasterContributionAckTitle": "{roaster} is on Timer.Coffee now",
+  "@roasterContributionAckTitle": {
+    "description": "Title of the card acknowledging that the user's roaster contribution has been added to the database.",
+    "placeholders": {
+      "roaster": {
+        "type": "String",
+        "example": "Onyx Coffee Lab"
+      }
+    }
+  },
+  "roasterContributionAckBody": "Thanks for sending us their details.",
+  "@roasterContributionAckBody": {
+    "description": "Body text of the roaster-contribution acknowledgement card."
+  },
+  "roasterContributionAckAction": "See their page",
+  "@roasterContributionAckAction": {
+    "description": "Primary button on the acknowledgement card; opens the roaster's profile page."
+  },
+  "roasterContributionAckDismiss": "Dismiss",
+  "@roasterContributionAckDismiss": {
+    "description": "Secondary button on the acknowledgement card; hides it."
+  },
   "roasterContributionSheetTitle": "Help add {roaster} to Timer.Coffee",
   "@roasterContributionSheetTitle": {
     "description": "Title of the roaster-contribution bottom sheet form.",
