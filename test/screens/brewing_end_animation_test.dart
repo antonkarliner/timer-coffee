@@ -66,6 +66,7 @@ import 'package:coffee_timer/services/moments_service.dart';
 import 'package:coffee_timer/services/onboarding_service.dart';
 import 'package:coffee_timer/widgets/brewing/brew_fill_ring_painter.dart';
 import 'package:coffee_timer/widgets/brewing/brew_timer_ring.dart';
+import 'package:coffee_timer/widgets/brewing/pour_brewing_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -129,8 +130,12 @@ RecipeModel _recipe({required int stepCount}) => RecipeModel(
       ),
     );
 
-Widget _screen({required int stepCount, bool reduceMotion = false}) {
-  final Widget screen = BrewingProcessScreen(
+Widget _screen({
+  required int stepCount,
+  bool reduceMotion = false,
+  TextScaler? textScaler,
+}) {
+  Widget screen = BrewingProcessScreen(
     recipe: _recipe(stepCount: stepCount),
     coffeeAmount: 15,
     waterAmount: 250,
@@ -139,6 +144,20 @@ Widget _screen({required int stepCount, bool reduceMotion = false}) {
     strengthSliderPosition: 1,
     brewingMethodName: 'V60',
   );
+  if (textScaler != null) {
+    // Same pattern as the reduce-motion wrapper below: override only the
+    // text scaler while every other MediaQuery value (size, padding) keeps
+    // its real value.
+    screen = Builder(
+      builder: (context) {
+        final mediaQuery = MediaQuery.of(context);
+        return MediaQuery(
+          data: mediaQuery.copyWith(textScaler: textScaler),
+          child: screen,
+        );
+      },
+    );
+  }
   if (!reduceMotion) {
     return screen;
   }
@@ -200,6 +219,9 @@ Future<void> _pumpScreen(
   WidgetTester tester, {
   required int stepCount,
   bool reduceMotion = false,
+  bool pourLayout = false,
+  Size? physicalSize,
+  TextScaler? textScaler,
   AdvancedFeaturesService? advancedFeatures,
   _RouteRecorder? routeRecorder,
 }) async {
@@ -231,6 +253,12 @@ Future<void> _pumpScreen(
 
   final advanced = advancedFeatures ?? AdvancedFeaturesService();
   addTearDown(advanced.dispose);
+  if (pourLayout) {
+    // Must be set before the screen builds: the screen captures
+    // pourLayoutEnabled once in initState with context.read, it never
+    // watches the service for it.
+    await advanced.setPourLayoutEnabled(true);
+  }
   final onboarding = OnboardingService(prefs);
   addTearDown(onboarding.dispose);
   final moments = MomentsService(prefs: prefs, database: db);
@@ -240,7 +268,7 @@ Future<void> _pumpScreen(
   final beanReviews = BeanReviewProvider();
   addTearDown(beanReviews.dispose);
 
-  tester.view.physicalSize = const Size(430, 932);
+  tester.view.physicalSize = physicalSize ?? const Size(430, 932);
   tester.view.devicePixelRatio = 1.0;
   addTearDown(tester.view.resetPhysicalSize);
   addTearDown(tester.view.resetDevicePixelRatio);
@@ -278,7 +306,11 @@ Future<void> _pumpScreen(
       beanReviews: beanReviews,
       brewRecording: BrewRecordingService(),
       routeRecorder: routeRecorder,
-      child: _screen(stepCount: stepCount, reduceMotion: reduceMotion),
+      child: _screen(
+        stepCount: stepCount,
+        reduceMotion: reduceMotion,
+        textScaler: textScaler,
+      ),
     ),
   );
 }
@@ -647,6 +679,215 @@ void main() {
         await tester.pump(const Duration(milliseconds: 300));
         expect(find.byIcon(Icons.play_arrow), findsOneWidget);
         expect(_semanticsWithId('brewPausedIndicator'), findsOneWidget);
+
+        await _teardownTree(tester);
+      },
+    );
+  });
+
+  group('brewing pour layout — Pour variant (plan 066 phase 2)', () {
+    testWidgets(
+      'the app bar step title advances as steps complete and the Pour body '
+      'shows the resolved step text',
+      (tester) async {
+        await _pumpScreen(tester, stepCount: 2, pourLayout: true);
+        await tester.pump(const Duration(seconds: 1));
+
+        // The Pour body is what is rendered, not the classic column.
+        expect(find.byType(PourBrewingView), findsOneWidget);
+
+        Text appBarTitle() => tester.widget<Text>(
+              find.descendant(
+                of: _semanticsWithId('brewingProcessTitle'),
+                matching: find.byType(Text),
+              ),
+            );
+        Text stepDescription() => tester.widget<Text>(
+              find.descendant(
+                of: _semanticsWithId('brewingStepDescription'),
+                matching: find.byType(Text),
+              ),
+            );
+
+        expect(appBarTitle().data, 'Step 1/2');
+        expect(stepDescription().data, 'Step 1');
+
+        // One minute plus a tick: the first step completes and the title
+        // advances with it.
+        await tester.pump(const Duration(seconds: 61));
+        expect(appBarTitle().data, 'Step 2/2');
+        expect(stepDescription().data, 'Step 2');
+
+        await _teardownTree(tester);
+      },
+    );
+
+    testWidgets(
+      'tapping the pause FAB shows the paused label and tapping it again '
+      'hides it',
+      (tester) async {
+        await _pumpScreen(tester, stepCount: 2, pourLayout: true);
+        await tester.pump(const Duration(seconds: 2));
+
+        expect(find.text('Paused'), findsNothing);
+        await tester.tap(find.byType(FloatingActionButton));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 300));
+        expect(find.text('Paused'), findsOneWidget);
+
+        await tester.tap(find.byType(FloatingActionButton));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 300));
+        expect(find.text('Paused'), findsNothing);
+
+        await _teardownTree(tester);
+      },
+    );
+
+    testWidgets(
+      'the skip FAB appears on the last step and finishing navigates to '
+      'FinishScreen',
+      (tester) async {
+        final recorder = _RouteRecorder();
+        await _pumpScreen(
+          tester,
+          stepCount: 1,
+          pourLayout: true,
+          routeRecorder: recorder,
+        );
+        await tester.pump(const Duration(seconds: 2));
+        // One-step recipe: the brew starts on the last step, so the FAB is
+        // the skip button from the first frame.
+        expect(_semanticsWithId('skipLastStepButton'), findsOneWidget);
+
+        await tester.tap(find.byType(FloatingActionButton));
+        // Settle the tap frame, then run out the 2650 ms sequence.
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 2900));
+        await tester.pump(const Duration(milliseconds: 100));
+
+        expect(find.byType(FinishScreen), findsOneWidget);
+        expect(recorder.replaces, 1);
+
+        await _teardownTree(tester);
+      },
+    );
+
+    testWidgets(
+      'letting the timer run out navigates to FinishScreen after the end '
+      'sequence',
+      (tester) async {
+        await _pumpScreen(tester, stepCount: 1, pourLayout: true);
+        await _pumpToFinishViaTimer(tester);
+
+        expect(find.byType(FinishScreen), findsOneWidget);
+
+        await _teardownTree(tester);
+      },
+    );
+
+    testWidgets(
+      'brew_finished carries layout: pour (and brew_started does too)',
+      (tester) async {
+        await _pumpScreen(tester, stepCount: 1, pourLayout: true);
+        await _pumpToFinishViaTimer(tester);
+
+        final events = _brewFinishedEvents();
+        expect(events, hasLength(1));
+        expect(
+          (events.single['properties'] as Map)['layout'],
+          'pour',
+        );
+        final started = AnalyticsService.instance.bufferedEventsForTesting
+            .where((e) => e['event_name'] == 'brew_started')
+            .toList();
+        expect(started, hasLength(1));
+        expect((started.single['properties'] as Map)['layout'], 'pour');
+
+        await _teardownTree(tester);
+      },
+    );
+
+    testWidgets('brew_finished carries layout: classic', (tester) async {
+      // No pourLayout: the service default (false) selects the classic
+      // layout.
+      await _pumpScreen(tester, stepCount: 1);
+      await _pumpToFinishViaTimer(tester);
+
+      final events = _brewFinishedEvents();
+      expect(events, hasLength(1));
+      expect(
+        (events.single['properties'] as Map)['layout'],
+        'classic',
+      );
+
+      await _teardownTree(tester);
+    });
+  });
+
+  group('brewing pour layout — minimum liquid level', () {
+    testWidgets(
+      'at the smallest supported width and textScale 1.5 the floor keeps the '
+      'liquid over the white text block from the first second (light theme)',
+      (tester) async {
+        // Regression guard for _kPourMinimumLevel. The countdown, the
+        // elapsed/total row and the paused label are white; the light
+        // theme's surface is pure white, so a block above the liquid is
+        // white-on-white (contrast 1.00) and literally invisible. MaterialApp
+        // defaults to the platform brightness, which is light in tests.
+        // 320x568 is the smallest supported screen (the compact floor of
+        // brewTimerRingDiameterForWidth). No timer tick has fired yet, so
+        // _brewProgressFraction is 0 and the entire level comes from the
+        // floor — if the floor is removed, level is 0 and nothing paints.
+        await _pumpScreen(
+          tester,
+          stepCount: 1,
+          pourLayout: true,
+          physicalSize: const Size(320, 568),
+          textScaler: const TextScaler.linear(1.5),
+        );
+        await tester.pump();
+
+        // Read the level the screen actually passed — do not recompute the
+        // formula here, or a drift in the formula would silently weaken this
+        // guard.
+        final PourBrewingView view = tester.widget<PourBrewingView>(
+          find.byType(PourBrewingView),
+        );
+        final double level = view.level;
+        final RenderBox viewBox = tester.renderObject<RenderBox>(
+          find.byType(PourBrewingView),
+        );
+        final double viewTop = viewBox.localToGlobal(Offset.zero).dy;
+        final double viewHeight = viewBox.size.height;
+
+        // The liquid occupies the bottom level * viewHeight of the view, so
+        // it covers a block iff the block's top edge (global) sits at or
+        // below the surface: level * viewHeight >= viewHeight - topEdge.
+        void expectCovered(RenderBox block, String what) {
+          final double topEdge =
+              block.localToGlobal(Offset.zero).dy - viewTop;
+          final double exposed =
+              (viewHeight - topEdge) - level * viewHeight;
+          expect(
+            level * viewHeight,
+            greaterThanOrEqualTo(viewHeight - topEdge),
+            reason: '$what is exposed above the liquid by ${exposed}px '
+                '(level $level, viewHeight $viewHeight) on the smallest '
+                'supported screen at textScale 1.5 in light mode',
+          );
+        }
+
+        expectCovered(
+          tester.renderObject<RenderBox>(
+            _semanticsWithId('stepTimeCounter'),
+          ),
+          'the white countdown',
+        );
+        expectCovered(
+          tester.renderObject<RenderBox>(find.text('00:00 / 01:00')),
+          'the white elapsed/total row',
+        );
 
         await _teardownTree(tester);
       },

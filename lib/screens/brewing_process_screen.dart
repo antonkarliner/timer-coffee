@@ -31,6 +31,7 @@ import '../services/recipe_expression_service.dart';
 import '../theme/design_tokens.dart';
 import '../widgets/brewing/brew_timer_ring.dart';
 import '../widgets/brewing/next_step_preview.dart';
+import '../widgets/brewing/pour_brewing_view.dart';
 
 class LocalizedNumberText extends StatelessWidget {
   final int currentNumber;
@@ -93,6 +94,20 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   bool _isPaused = false;
   final _player = AudioPlayer();
 
+  /// Whether this brew renders the Pour body (plan 066 phase 2). Captured
+  /// ONCE in initState with `context.read`, never `watch`, and never re-read
+  /// in build: flipping the toggle mid-brew must not swap the widget type
+  /// returned at the body's tree position — that makes Flutter destroy and
+  /// recreate the element there, re-running initState on its children (the
+  /// remount trap that has already shipped a real bug in this repo). Because
+  /// _pourLayout is fixed for the State's lifetime, the ternary in build()
+  /// resolves once and is safe. Do not "improve" this into a `watch`:
+  /// `manualStepControlEnabled` below is read with `watch` in build() on
+  /// purpose — it must appear the moment the service finishes its async init
+  /// — but it only adds/removes children inside an existing Row, it never
+  /// swaps the widget type at the body position.
+  late final bool _pourLayout;
+
   late AnimationController _pulseController;
   late Animation<double> _pulseAnimation;
 
@@ -112,6 +127,24 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   /// Arc fraction the ring stood at when the end sequence was triggered; the
   /// end arc lerps from here to 1.0 instead of snapping (plan 061 B2.2).
   double _endArcStartValue = 0.0;
+
+  /// Liquid level the Pour body stood at when the end sequence was
+  /// triggered; the end liquid lerps from here to full instead of snapping
+  /// (plan 066 phase 2). Captured immediately before _endArcStartValue at
+  /// every end-sequence trigger, for the same reason that ordering exists:
+  /// once _isEndBrewAnimating is true the derived values short-circuit
+  /// towards 1.0, so a value read afterwards is always 1.0 and the sweep
+  /// degenerates into a snap. In _finishFromResync the capture also precedes
+  /// the jump to the last step.
+  double _endLevelStartValue = 0.0;
+
+  /// Repeating wave-phase clock for the Pour body's liquid surface (plan 066
+  /// phase 2). Null when the Pour layout is off or on web — on web the
+  /// surface stays flat because the Skwasm repaint cost of a ripple is not
+  /// worth it. Null (or stopped, under reduced motion) means "flat surface"
+  /// to _buildPourBody. Created in initState; started/stopped in
+  /// didChangeDependencies, where MediaQuery is available.
+  AnimationController? _pourWaveController;
 
   /// One-shot flag for the end-sequence haptic (plan 061 R7). Never reset —
   /// one brew, one haptic.
@@ -288,6 +321,10 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   @override
   void initState() {
     super.initState();
+    // First statement: the layout is fixed for this brew, and the
+    // brew_started event below is the first reader of it (see the
+    // _pourLayout field comment for why this must stay a `read`).
+    _pourLayout = context.read<AdvancedFeaturesService>().pourLayoutEnabled;
     WakelockPlus.enable();
 
     AnalyticsService.instance.track(
@@ -297,6 +334,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
         'brewing_method_id': widget.recipe.brewingMethodId,
         'coffee_amount': widget.coffeeAmount,
         'water_amount': widget.waterAmount,
+        // Cohort key for the Pour-layout measurement (plan 066). Only this
+        // binary emits it; never derive the cohort from a date.
+        'layout': _pourLayout ? 'pour' : 'classic',
       },
     );
 
@@ -354,6 +394,17 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     });
     _endBrewAnimationController.addListener(_onEndBrewAnimationTick);
 
+    // The Pour body's wave clock exists only when the Pour layout is on and
+    // we are not on web (see the field comment). started/stopped in
+    // didChangeDependencies, where MediaQuery — and so the OS reduced-motion
+    // setting — is reachable.
+    if (_pourLayout && !kIsWeb) {
+      _pourWaveController = AnimationController(
+        vsync: this,
+        duration: const Duration(seconds: 4),
+      );
+    }
+
     brewingSteps = widget.recipe.steps
         .map((step) {
           Duration stepDuration = replaceTimePlaceholder(
@@ -401,6 +452,23 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     });
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // The wave clock is started/stopped here rather than in initState:
+    // MediaQuery is available here, and this re-runs when the OS
+    // accessibility settings change, so a mid-brew reduced-motion flip
+    // settles the surface instead of leaving it lapping. Both calls are
+    // guarded so this stays idempotent across the dependency updates.
+    final controller = _pourWaveController;
+    if (controller == null) return;
+    if (!MediaQuery.disableAnimationsOf(context)) {
+      if (!controller.isAnimating) controller.repeat();
+    } else {
+      if (controller.isAnimating) controller.stop();
+    }
+  }
+
   Future<void> _preloadAudio() async {
     try {
       await _player.setAsset('assets/audio/next.mp3');
@@ -418,6 +486,8 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
           'recipe_id': widget.recipe.id,
           'step_reached': currentStepIndex,
           'total_steps': brewingSteps.length,
+          // Cohort key, same as brew_started/brew_finished (plan 066).
+          'layout': _pourLayout ? 'pour' : 'classic',
         },
       );
     }
@@ -430,6 +500,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     _player.dispose();
     _pulseController.dispose();
     _endBrewAnimationController.dispose();
+    _pourWaveController?.dispose();
     super.dispose();
   }
 
@@ -528,6 +599,8 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
         'recipe_id': widget.recipe.id,
         'total_steps': brewingSteps.length,
         'completion_path': completionPath,
+        // Cohort key, same as brew_started (plan 066).
+        'layout': _pourLayout ? 'pour' : 'classic',
       },
     );
   }
@@ -575,6 +648,16 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
             currentStepIndex++;
             currentStepTime = 0;
           });
+          // Pour-only step-transition haptic (plan 066 phase 2). Classic
+          // stays untouched so any behavioural delta in the analytics stays
+          // attributable to the layout. No end-of-brew haptic is added
+          // alongside this: one already fires from _onEndBrewAnimationTick
+          // in both layouts.
+          if (_pourLayout &&
+              !kIsWeb &&
+              (Platform.isIOS || Platform.isAndroid)) {
+            HapticFeedback.mediumImpact();
+          }
           _maybeEmitLastStepReached();
           _currentStepStartedAtUtc = DateTime.now().toUtc();
           _updateLiveActivity();
@@ -588,6 +671,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
             // short-circuits to 1.0 once _isEndBrewAnimating is true, so
             // reading it afterwards always yields 1.0 and the sweep in the
             // builder degenerates into a snap (lerp from 1.0 to 1.0).
+            _endLevelStartValue = _brewProgressFraction;
             _endArcStartValue = _currentArcProgress;
             _isEndBrewAnimating = true;
           });
@@ -1258,7 +1342,10 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     setState(() {
       // Capture the arc where the ring actually was — before both the jump
       // to the last step and the flag, either of which forces
-      // _currentArcProgress to 1.0 and turns the sweep into a snap.
+      // _currentArcProgress to 1.0 and turns the sweep into a snap. The
+      // liquid level goes first for the same reason: it is derived from the
+      // step index/elapsed that the jump below mutates.
+      _endLevelStartValue = _brewProgressFraction;
       _endArcStartValue = _currentArcProgress;
       currentStepIndex = brewingSteps.length - 1;
       currentStepTime = brewingSteps.last.time.inSeconds;
@@ -1304,6 +1391,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     setState(() {
       // Arc first, flag second — see _currentArcProgress. On this path the
       // ring is genuinely mid-step, so this is the sweep the user sees.
+      _endLevelStartValue = _brewProgressFraction;
       _endArcStartValue = _currentArcProgress;
       _isEndBrewAnimating = true;
     });
@@ -1328,6 +1416,29 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       return 1.0;
     }
     return stepTotalSeconds > 0 ? currentStepTime / stepTotalSeconds : 0.0;
+  }
+
+  /// Fraction of the whole brew elapsed, 0..1 — completed step durations
+  /// plus the current step's elapsed seconds, over the sum of all step
+  /// durations. The same arithmetic `_elapsedTotalSecondsForSync` already
+  /// does; kept consistent with it (that method is untouched).
+  double get _brewProgressFraction {
+    if (brewingSteps.isEmpty) return 0.0;
+
+    final int totalDurationSeconds = brewingSteps.fold<int>(
+      0,
+      (sum, step) => sum + step.time.inSeconds,
+    );
+    if (totalDurationSeconds <= 0) return 0.0;
+
+    final int elapsedBeforeCurrentStep = brewingSteps
+        .take(currentStepIndex)
+        .fold<int>(0, (sum, step) => sum + step.time.inSeconds);
+    final int elapsedSeconds = math.max(
+      0,
+      elapsedBeforeCurrentStep + currentStepTime,
+    );
+    return (elapsedSeconds / totalDurationSeconds).clamp(0.0, 1.0);
   }
 
   // Tear the Live Activity / backend session down once, the first time the
@@ -1372,6 +1483,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       setState(() {
         // Arc first, flag second — see _currentArcProgress. Like the skip
         // path, the ring is mid-step here and should sweep, not snap.
+        _endLevelStartValue = _brewProgressFraction;
         _endArcStartValue = _currentArcProgress;
         _isEndBrewAnimating = true;
       });
@@ -1424,6 +1536,161 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   static const double _bottomControlClearance =
       56.0 + kFloatingActionButtonMargin + AppSpacing.sm;
 
+  /// Liquid never drops below this: the countdown, the elapsed/total row and
+  /// the paused label are white so they read against the coffee, and the
+  /// app's light surface is pure white — an uncovered block is white-on-white
+  /// (contrast 1.00). The floor keeps that block submerged from the first
+  /// second of the brew, at text scales up to 1.5 on the smallest screen we
+  /// support. It also matches the concept: the cup starts with coffee in it.
+  static const double _kPourMinimumLevel = 0.42;
+
+  /// Wave ripple height during normal brewing, px. Decays to 0 across the
+  /// end sequence's settle beat (see _endAmplitudeDecay).
+  static const double _kPourWaveAmplitude = 6.0;
+
+  /// The "Step n/total" label shared by the app bar title and the Pour
+  /// body's step label — built once so the two can never drift apart.
+  String _stepLabelText(BuildContext context) {
+    return '${AppLocalizations.of(context)!.step} ${intl.NumberFormat().format(currentStepIndex + 1)}/${intl.NumberFormat().format(brewingSteps.length)}';
+  }
+
+  /// The Pour body (plan 066 phase 2): [PourBrewingView] driven entirely
+  /// from state this screen already owns, wrapped in an AnimatedBuilder on
+  /// the wave clock plus the end-sequence clock — Listenable.merge accepts
+  /// null entries, so this also works when the wave controller was never
+  /// created (classic layout selected, or Pour on web).
+  Widget _buildPourBody(BuildContext context, bool manualStepControlEnabled) {
+    final loc = AppLocalizations.of(context)!;
+
+    // Liquid level. Normal brewing: whole-brew progress with the white-text
+    // floor applied (see _kPourMinimumLevel — load-bearing, not cosmetic).
+    // End sequence: lerp from wherever the liquid stood when the sequence
+    // was triggered up to full — or flat 1.0 under reduced motion, exactly
+    // as the ring branch does for its fill. _endLevelStartValue is captured
+    // from a level that already has the floor applied, so the end sequence
+    // inherits it automatically.
+    final double level = _isEndBrewAnimating
+        ? (_reduceMotion
+              ? 1.0
+              : lerpDouble(_endLevelStartValue, 1.0, _endFill.value)!)
+        : math.max(_kPourMinimumLevel, _brewProgressFraction);
+
+    // Wave surface. Amplitude 0 whenever there is no running wave clock —
+    // web, or reduced motion (the clock is stopped in
+    // didChangeDependencies) — otherwise the full ripple during brewing,
+    // decaying to 0 across the end sequence's settle beat.
+    final double waveAmplitude;
+    if (_pourWaveController == null || _reduceMotion) {
+      waveAmplitude = 0.0;
+    } else if (_isEndBrewAnimating) {
+      waveAmplitude = _kPourWaveAmplitude * (1 - _endAmplitudeDecay.value);
+    } else {
+      waveAmplitude = _kPourWaveAmplitude;
+    }
+
+    // Whole-view fade on the closing accord. There is no separate countdown
+    // fade here (unlike the classic ring): the whole view, countdown
+    // included, goes through this opacity.
+    final double opacity = _isEndBrewAnimating && !_reduceMotion
+        ? (1.0 - _endAccordFade.value).clamp(0.0, 1.0)
+        : 1.0;
+
+    // Same condition the classic layout applies to its arrows.
+    final bool showManualArrows =
+        manualStepControlEnabled && !_isEndBrewAnimating;
+
+    final String? nextInstruction =
+        (currentStepIndex < brewingSteps.length - 1 && !_isEndBrewAnimating)
+            ? '${loc.next}: ${brewingSteps[currentStepIndex + 1].description}'
+            : null;
+
+    // Elapsed/total for the row inside the liquid — the same sums
+    // _brewProgressFraction uses.
+    final int elapsedBeforeCurrentStep = brewingSteps
+        .take(currentStepIndex)
+        .fold<int>(0, (sum, step) => sum + step.time.inSeconds);
+    final int totalBrewSeconds = brewingSteps.fold<int>(
+      0,
+      (sum, step) => sum + step.time.inSeconds,
+    );
+    final int elapsedBrewSeconds = math.max(
+      0,
+      elapsedBeforeCurrentStep + currentStepTime,
+    );
+
+    return AnimatedBuilder(
+      animation: Listenable.merge([
+        _pourWaveController,
+        _endBrewAnimationController,
+      ]),
+      builder: (context, _) {
+        return PourBrewingView(
+          stepLabel: _stepLabelText(context),
+          instruction: brewingSteps[currentStepIndex].description,
+          nextInstruction: nextInstruction,
+          countdown: Semantics(
+            identifier: 'stepTimeCounter',
+            child: FittedBox(
+              // Keeps the countdown inside its slot at extreme text scales
+              // (the FlutterTest font and Android's largest accessibility
+              // settings both overflow a 60px countdown on narrow screens);
+              // at ordinary sizes it renders at natural size.
+              fit: BoxFit.scaleDown,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  LocalizedNumberText(
+                    currentNumber: currentStepTime,
+                    totalNumber: brewingSteps[currentStepIndex].time.inSeconds,
+                    style: TextStyle(
+                      fontSize: 60,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontFeatures: const [FontFeature.tabularFigures()],
+                    ),
+                  ),
+                  Text(
+                    ' ${loc.secondsAbbreviation}',
+                    style: TextStyle(
+                      fontSize: 32,
+                      color: Colors.white.withValues(alpha: 0.7),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          elapsedText: _formatMmSs(elapsedBrewSeconds),
+          totalText: _formatMmSs(totalBrewSeconds),
+          level: level,
+          wavePhase: (_pourWaveController?.value ?? 0) * 2 * math.pi,
+          waveAmplitude: waveAmplitude,
+          fillColor: AppBrewColors.brewFill(Theme.of(context).colorScheme),
+          isPaused: _isPaused && !_isEndBrewAnimating,
+          pausedLabel: loc.liveActivityPaused,
+          opacity: opacity,
+          leading: showManualArrows
+              ? _buildManualStepArrow(isBack: true)
+              : null,
+          trailing: showManualArrows
+              ? _buildManualStepArrow(isBack: false)
+              : null,
+          bottomClearance:
+              _bottomControlClearance + MediaQuery.of(context).padding.bottom,
+        );
+      },
+    );
+  }
+
+  /// mm:ss for the Pour body's elapsed/total row. No new package.
+  String _formatMmSs(int totalSeconds) {
+    final minutes = totalSeconds ~/ 60;
+    final seconds = totalSeconds % 60;
+    return '${minutes.toString().padLeft(2, '0')}:'
+        '${seconds.toString().padLeft(2, '0')}';
+  }
+
   @override
   Widget build(BuildContext context) {
     // Re-read every frame so the end sequence (and its route) always sees the
@@ -1436,9 +1703,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       appBar: AppBar(
         title: Semantics(
           identifier: 'brewingProcessTitle',
-          child: Text(
-            '${AppLocalizations.of(context)!.step} ${intl.NumberFormat().format(currentStepIndex + 1)}/${intl.NumberFormat().format(brewingSteps.length)}',
-          ),
+          child: Text(_stepLabelText(context)),
         ),
       ),
       // Tap anywhere to skip the end sequence (plan 061 R5). The behaviour
@@ -1451,7 +1716,17 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
         onTap: _isEndBrewAnimating ? _skipEndBrewAnimation : null,
         child: Stack(
           children: [
-            Column(
+            // The Pour/classic switch resolves once per State: _pourLayout is
+            // captured in initState with `read` and never changes for the
+            // lifetime of this screen (see that field's comment for why it
+            // must not become a `watch` — swapping widget types at this tree
+            // position mid-brew would remount the subtree and re-run
+            // initState on its children). The classic branch below is kept
+            // verbatim so any behavioural delta stays attributable to the
+            // layout.
+            _pourLayout
+                ? _buildPourBody(context, manualStepControlEnabled)
+                : Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
