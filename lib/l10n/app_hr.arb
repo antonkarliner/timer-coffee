@@ -1203,6 +1203,8 @@
   "advancedFeaturesDescription": "Ove su značajke eksperimentalne i ponekad mogu biti nestabilne.",
   "manualStepControl": "Ručno upravljanje koracima",
   "manualStepControlDescription": "Prikaži strelice za povratak i preskakanje tijekom pripreme.",
+  "pourLayout": "Urpujući ekran pripreme",
+  "pourLayoutDescription": "Ekran se puni kavom kako priprema napreduje. Klasični tajmer ostaje dostupan ovdje.",
   "previousStep": "Prethodni korak",
   "nextStep": "Sljedeći korak",
   "brewingSkipStepLabel": "Završi",

@@ -1032,6 +1032,8 @@
   "advancedFeaturesDescription": "هذه الميزات تجريبية وقد تكون غير مستقرة أحيانًا.",
   "manualStepControl": "تحكم يدوي بالخطوات",
   "manualStepControlDescription": "إظهار أسهم الرجوع والتخطي أثناء التحضير.",
+  "pourLayout": "شاشة تحضير غامرة",
+  "pourLayoutDescription": "تمتلئ الشاشة بالقهوة مع تقدم التحضير. يبقى المؤقت الكلاسيكي متاحًا هنا.",
   "previousStep": "الخطوة السابقة",
   "nextStep": "الخطوة التالية",
   "brewingSkipStepLabel": "إنهاء",

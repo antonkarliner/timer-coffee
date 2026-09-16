@@ -1514,6 +1514,8 @@
   "advancedFeaturesDescription": "These features are experimental and may sometimes be unstable.",
   "manualStepControl": "Manual step control",
   "manualStepControlDescription": "Show back and skip arrows during brewing.",
+  "pourLayout": "Immersive brewing screen",
+  "pourLayoutDescription": "The screen fills with coffee as the brew progresses. The classic timer stays available here.",
   "previousStep": "Previous step",
   "nextStep": "Next step",
   "brewingSkipStepLabel": "Finish",

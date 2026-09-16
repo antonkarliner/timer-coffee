@@ -1032,6 +1032,8 @@
   "advancedFeaturesDescription": "Ces fonctions sont expérimentales et peuvent parfois être instables.",
   "manualStepControl": "Contrôle manuel des étapes",
   "manualStepControlDescription": "Afficher les flèches retour et passer pendant la préparation.",
+  "pourLayout": "Écran de préparation immersif",
+  "pourLayoutDescription": "L’écran se remplit de café à mesure que la préparation avance. Le minuteur classique reste disponible ici.",
   "previousStep": "Étape précédente",
   "nextStep": "Étape suivante",
   "brewingSkipStepLabel": "Terminer",

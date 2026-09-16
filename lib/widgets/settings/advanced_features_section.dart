@@ -63,6 +63,21 @@ class _AdvancedFeaturesSectionState extends State<AdvancedFeaturesSection> {
                   );
                 },
               ),
+              AppSwitchListTile(
+                title: loc.pourLayout,
+                subtitle: loc.pourLayoutDescription,
+                value: advanced.pourLayoutEnabled,
+                onChanged: (value) {
+                  advanced.setPourLayoutEnabled(value);
+                  AnalyticsService.instance.track(
+                    'beta_feature_toggled',
+                    properties: {
+                      'feature': 'pour_layout',
+                      'enabled': value,
+                    },
+                  );
+                },
+              ),
             ],
           ),
         );

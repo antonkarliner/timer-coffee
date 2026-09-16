@@ -1032,6 +1032,8 @@
   "advancedFeaturesDescription": "Queste funzioni sono sperimentali e a volte possono essere instabili.",
   "manualStepControl": "Controllo manuale dei passaggi",
   "manualStepControlDescription": "Mostra frecce indietro e salta durante la preparazione.",
+  "pourLayout": "Schermata di preparazione immersiva",
+  "pourLayoutDescription": "Lo schermo si riempie di caffè mentre la preparazione avanza. Il timer classico resta disponibile qui.",
   "previousStep": "Passaggio precedente",
   "nextStep": "Passaggio successivo",
   "brewingSkipStepLabel": "Termina",

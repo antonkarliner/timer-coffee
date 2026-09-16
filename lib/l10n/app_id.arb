@@ -1032,6 +1032,8 @@
   "advancedFeaturesDescription": "Fitur ini masih eksperimental dan terkadang bisa tidak stabil.",
   "manualStepControl": "Kontrol langkah manual",
   "manualStepControlDescription": "Tampilkan panah kembali dan lewati saat menyeduh.",
+  "pourLayout": "Layar seduh imersif",
+  "pourLayoutDescription": "Layar terisi kopi seiring proses seduh berjalan. Timer klasik tetap tersedia di sini.",
   "previousStep": "Langkah sebelumnya",
   "nextStep": "Langkah berikutnya",
   "brewingSkipStepLabel": "Selesai",

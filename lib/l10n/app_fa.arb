@@ -1205,6 +1205,8 @@
   "advancedFeaturesDescription": "این ویژگی‌ها آزمایشی هستند و ممکن است گاهی ناپایدار باشند.",
   "manualStepControl": "کنترل دستی مرحله‌ها",
   "manualStepControlDescription": "نمایش فلش‌های برگشت و رد کردن هنگام دم‌آوری.",
+  "pourLayout": "صفحه دم‌آوری فراگیر",
+  "pourLayoutDescription": "همراه با پیشرفت دم‌آوری، صفحه از قهوه پر می‌شود. تایمر کلاسیک همچنان اینجا در دسترس است.",
   "previousStep": "مرحله قبلی",
   "nextStep": "مرحله بعدی",
   "brewingSkipStepLabel": "پایان",

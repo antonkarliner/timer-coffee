@@ -1032,6 +1032,8 @@
   "advancedFeaturesDescription": "Bu özellikler deneyseldir ve bazen kararsız olabilir.",
   "manualStepControl": "Manuel adım kontrolü",
   "manualStepControlDescription": "Demleme sırasında geri ve atla oklarını göster.",
+  "pourLayout": "Sürükleyici demleme ekranı",
+  "pourLayoutDescription": "Demleme ilerledikçe ekran kahveyle dolar. Klasik zamanlayıcı burada kullanılabilir kalır.",
   "previousStep": "Önceki adım",
   "nextStep": "Sonraki adım",
   "brewingSkipStepLabel": "Bitir",

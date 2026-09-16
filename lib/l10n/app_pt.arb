@@ -1032,6 +1032,8 @@
   "advancedFeaturesDescription": "Estes recursos são experimentais e às vezes podem ficar instáveis.",
   "manualStepControl": "Controle manual de etapas",
   "manualStepControlDescription": "Mostrar setas de voltar e pular durante o preparo.",
+  "pourLayout": "Tela de preparo imersiva",
+  "pourLayoutDescription": "A tela se enche de café conforme o preparo avança. O timer clássico continua disponível aqui.",
   "previousStep": "Etapa anterior",
   "nextStep": "Próxima etapa",
   "brewingSkipStepLabel": "Finalizar",

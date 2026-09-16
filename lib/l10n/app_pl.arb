@@ -1032,6 +1032,8 @@
   "advancedFeaturesDescription": "Te funkcje są eksperymentalne i czasami mogą być niestabilne.",
   "manualStepControl": "Ręczne sterowanie krokami",
   "manualStepControlDescription": "Pokaż strzałki wstecz i pomiń podczas parzenia.",
+  "pourLayout": "Immersyjny ekran parzenia",
+  "pourLayoutDescription": "Ekran wypełnia się kawą w miarę postępu parzenia. Klasyczny minutnik pozostaje tutaj dostępny.",
   "previousStep": "Poprzedni krok",
   "nextStep": "Następny krok",
   "brewingSkipStepLabel": "Zakończ",

@@ -1032,6 +1032,8 @@
   "advancedFeaturesDescription": "これらの機能は実験的なため、不安定になることがあります。",
   "manualStepControl": "手動ステップ操作",
   "manualStepControlDescription": "抽出中に戻る矢印とスキップ矢印を表示します。",
+  "pourLayout": "没入型抽出画面",
+  "pourLayoutDescription": "抽出が進むにつれて画面がコーヒーで満たされていきます。クラシックなタイマーもこちらで利用できます。",
   "previousStep": "前のステップ",
   "nextStep": "次のステップ",
   "brewingSkipStepLabel": "終了",

@@ -1032,6 +1032,8 @@
   "advancedFeaturesDescription": "Diese Funktionen sind experimentell und können manchmal instabil sein.",
   "manualStepControl": "Manuelle Schrittsteuerung",
   "manualStepControlDescription": "Beim Brühen Zurück- und Überspringen-Pfeile anzeigen.",
+  "pourLayout": "Immersiver Brühbildschirm",
+  "pourLayoutDescription": "Der Bildschirm füllt sich mit Kaffee, während die Zubereitung fortschreitet. Der klassische Timer bleibt hier verfügbar.",
   "previousStep": "Vorheriger Schritt",
   "nextStep": "Nächster Schritt",
   "brewingSkipStepLabel": "Beenden",

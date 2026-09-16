@@ -1032,6 +1032,8 @@
   "advancedFeaturesDescription": "Aceste funcții sunt experimentale și pot fi uneori instabile.",
   "manualStepControl": "Control manual al pașilor",
   "manualStepControlDescription": "Afișează săgeți de înapoi și de sărire în timpul preparării.",
+  "pourLayout": "Ecran de preparare imersiv",
+  "pourLayoutDescription": "Ecranul se umple cu cafea pe măsură ce prepararea avansează. Cronometrul clasic rămâne disponibil aici.",
   "previousStep": "Pasul anterior",
   "nextStep": "Pasul următor",
   "brewingSkipStepLabel": "Termină",

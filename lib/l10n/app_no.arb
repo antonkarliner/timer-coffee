@@ -1354,6 +1354,8 @@
   "advancedFeaturesDescription": "Disse funksjonene er eksperimentelle og kan av og til være ustabile.",
   "manualStepControl": "Manuell trinnkontroll",
   "manualStepControlDescription": "Vis tilbake- og hopp over-piler under brygging.",
+  "pourLayout": "Oppslukende bryggingsskjerm",
+  "pourLayoutDescription": "Skjermen fylles med kaffe etter hvert som bryggingen skrider frem. Den klassiske timeren forblir tilgjengelig her.",
   "previousStep": "Forrige trinn",
   "nextStep": "Neste trinn",
   "brewingSkipStepLabel": "Fullfør",

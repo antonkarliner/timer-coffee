@@ -1032,6 +1032,8 @@
   "advancedFeaturesDescription": "这些功能仍在实验阶段，有时可能不稳定。",
   "manualStepControl": "手动步骤控制",
   "manualStepControlDescription": "冲煮时显示上一步和跳过箭头。",
+  "pourLayout": "沉浸式冲煮界面",
+  "pourLayoutDescription": "随着冲煮进行，界面会逐渐被咖啡填满。经典计时器仍可在此使用。",
   "previousStep": "上一步",
   "nextStep": "下一步",
   "brewingSkipStepLabel": "结束",

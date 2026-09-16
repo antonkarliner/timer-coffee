@@ -1032,6 +1032,8 @@
   "advancedFeaturesDescription": "Estas funciones son experimentales y a veces pueden ser inestables.",
   "manualStepControl": "Control manual de pasos",
   "manualStepControlDescription": "Muestra flechas para volver y saltar durante la preparación.",
+  "pourLayout": "Pantalla de preparación inmersiva",
+  "pourLayoutDescription": "La pantalla se llena de café a medida que avanza la preparación. El temporizador clásico sigue disponible aquí.",
   "previousStep": "Paso anterior",
   "nextStep": "Paso siguiente",
   "brewingSkipStepLabel": "Finalizar",
