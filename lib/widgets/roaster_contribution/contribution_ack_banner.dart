@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 
 import '../../app_router.gr.dart';
 import '../../l10n/app_localizations.dart';
+import '../../services/roaster_color_service.dart';
 import '../../services/roaster_contribution_service.dart';
 import '../../theme/design_tokens.dart';
+import '../../utils/roaster_background_color.dart';
+import '../roaster_logo.dart';
 
 /// A main-screen banner thanking the user for a roaster contribution that is
 /// now live in the database (plan 062), shown in the home screen's banner slot
@@ -82,6 +85,22 @@ class _RoasterContributionAckBannerState
     final colorScheme = theme.colorScheme;
     final acknowledgement = _acknowledgement!;
 
+    // Tint the banner with the roaster's dominant colour; when the roaster
+    // has no usable colour, roasterBackgroundColor returns null and the Ink
+    // below falls back to the plain surface.
+    final tint = roasterBackgroundColor(
+      result: RoasterColorService.fromBackendHex(
+        acknowledgement.dominantColorHex,
+      ),
+      brightness: theme.brightness,
+    );
+    // The tint is derived FROM the logo's dominant colour, so the logo needs
+    // a neutral surface chip to stay visible on it (same fix as the roaster
+    // profile screen).
+    final hasLogo =
+        (acknowledgement.logoUrl?.trim().isNotEmpty ?? false) ||
+        (acknowledgement.logoMirrorUrl?.trim().isNotEmpty ?? false);
+
     // Same Material/InkWell shape as the home screen's other banners (see
     // _GiftBoxBanner there), but with token-built paddings and radii, and no
     // per-child buttons: the whole banner is the tap target.
@@ -100,7 +119,7 @@ class _RoasterContributionAckBannerState
           onTap: _onOpenRoaster,
           child: Ink(
             decoration: BoxDecoration(
-              color: colorScheme.surfaceContainerHighest,
+              color: tint ?? colorScheme.surfaceContainerHighest,
               borderRadius: BorderRadius.circular(AppRadius.card),
               border: Border.fromBorderSide(
                 BorderSide(color: colorScheme.outline.withValues(alpha: 0.3)),
@@ -112,8 +131,28 @@ class _RoasterContributionAckBannerState
                 vertical: AppSpacing.sm,
               ),
               child: Row(
+                // Top-aligned: with a two-line title, center alignment would
+                // float the leading element and close icon beside line two.
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Icon(Icons.store_outlined, size: AppIconSize.medium),
+                  if (hasLogo)
+                    Container(
+                      padding: const EdgeInsets.all(AppSpacing.xs),
+                      decoration: BoxDecoration(
+                        color: colorScheme.surface,
+                        borderRadius: BorderRadius.circular(AppRadius.small),
+                      ),
+                      child: RoasterLogo(
+                        originalUrl: acknowledgement.logoUrl,
+                        mirrorUrl: acknowledgement.logoMirrorUrl,
+                        height: AppIconSize.large,
+                        width: AppSpacing.xxl,
+                        borderRadius: AppRadius.small,
+                        forceFit: BoxFit.contain,
+                      ),
+                    )
+                  else
+                    const Icon(Icons.store_outlined, size: AppIconSize.medium),
                   const SizedBox(width: AppSpacing.sm),
                   Expanded(
                     child: Column(
