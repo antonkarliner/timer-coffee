@@ -9,6 +9,27 @@ import '../../theme/design_tokens.dart';
 import '../../utils/roaster_background_color.dart';
 import '../roaster_logo.dart';
 
+/// Whether a roaster's logo will be legible on the banner's light chip.
+///
+/// The banner tint is derived from the logo's own dominant colour, so a pale
+/// mark disappears on any light chip. Use the dominant colour as a proxy for
+/// the mark's own lightness and fall back to a generic icon when it is too
+/// light to show. The 0.3 luminance ceiling keeps at least a 3:1 contrast
+/// ratio against a white chip (WCAG 1.4.11 for non-text graphics).
+@visibleForTesting
+bool roasterLogoWillBeVisible(RoasterColorResult result) => switch (result) {
+      // Vibrant: an actual colour was extracted from the mark — check its
+      // luminance.
+      RoasterColorVibrant(color: final c) => c.computeLuminance() <= 0.3,
+      // Monochrome: fromBackendHex only returns this for a near-black graphic
+      // (maxC < 60) or the literal string 'monochrome', so the mark is dark
+      // → show it.
+      RoasterColorMonochrome() => true,
+      // None: no colour information at all (SVG or fetch failure); we have no
+      // evidence the mark is pale, so attempt the logo rather than hiding it.
+      RoasterColorNone() => true,
+    };
+
 /// A main-screen banner thanking the user for a roaster contribution that is
 /// now live in the database (plan 062), shown in the home screen's banner slot
 /// above the tab content so it reaches every tab. Renders
@@ -85,21 +106,26 @@ class _RoasterContributionAckBannerState
     final colorScheme = theme.colorScheme;
     final acknowledgement = _acknowledgement!;
 
+    // Compute the colour result ONCE and reuse it for both the tint below and
+    // the logo-legibility check.
+    final colorResult = RoasterColorService.fromBackendHex(
+      acknowledgement.dominantColorHex,
+    );
     // Tint the banner with the roaster's dominant colour; when the roaster
     // has no usable colour, roasterBackgroundColor returns null and the Ink
     // below falls back to the plain surface.
     final tint = roasterBackgroundColor(
-      result: RoasterColorService.fromBackendHex(
-        acknowledgement.dominantColorHex,
-      ),
+      result: colorResult,
       brightness: theme.brightness,
     );
     // The tint is derived FROM the logo's dominant colour, so the logo needs
     // a neutral surface chip to stay visible on it (same fix as the roaster
-    // profile screen).
+    // profile screen). A pale mark is invisible on any light chip, though, so
+    // only show the logo when it can actually be seen.
     final hasLogo =
-        (acknowledgement.logoUrl?.trim().isNotEmpty ?? false) ||
-        (acknowledgement.logoMirrorUrl?.trim().isNotEmpty ?? false);
+        ((acknowledgement.logoUrl?.trim().isNotEmpty ?? false) ||
+            (acknowledgement.logoMirrorUrl?.trim().isNotEmpty ?? false)) &&
+        roasterLogoWillBeVisible(colorResult);
 
     // Same Material/InkWell shape as the home screen's other banners (see
     // _GiftBoxBanner there), but with token-built paddings and radii, and no
@@ -172,7 +198,7 @@ class _RoasterContributionAckBannerState
                         const SizedBox(height: AppSpacing.xs),
                         Text(
                           l10n.roasterContributionAckBody,
-                          maxLines: 1,
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: AppTextStyles.caption,
                         ),
