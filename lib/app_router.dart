@@ -5,7 +5,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'services/analytics_service.dart';
 
-/// Tracks screen views via [AnalyticsService] on every push navigation.
+/// Tracks screen views via [AnalyticsService] on push navigation and tab
+/// lifecycle changes, since switching tabs does not push a route.
 class AnalyticsRouteObserver extends AutoRouterObserver {
   @override
   void didPush(Route route, Route? previousRoute) {
@@ -17,6 +18,24 @@ class AnalyticsRouteObserver extends AutoRouterObserver {
         properties: {'screen_name': name},
       );
     }
+  }
+
+  @override
+  void didInitTabRoute(TabPageRoute route, TabPageRoute? previousRoute) {
+    super.didInitTabRoute(route, previousRoute);
+    AnalyticsService.instance.track(
+      'screen_viewed',
+      properties: {'screen_name': route.name},
+    );
+  }
+
+  @override
+  void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {
+    super.didChangeTabRoute(route, previousRoute);
+    AnalyticsService.instance.track(
+      'screen_viewed',
+      properties: {'screen_name': route.name},
+    );
   }
 }
 
