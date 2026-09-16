@@ -2,6 +2,60 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+// ── Wave geometry (painter math, not layout spacing) ──
+//
+// Shared by BrewFillRingPainter and PourLiquidPainter: both brewing
+// presentations draw their liquid surface with [buildBrewWavePath], so the
+// end-of-brew ring fill and the Pour view are provably the same liquid in
+// both themes.
+
+/// Horizontal sampling step of the wave surface, px.
+const double _waveStepPx = 4.0;
+
+/// Whole wave cycles across the diameter for the primary/secondary layers.
+const double _waveCyclesPrimary = 1.5;
+const double _waveCyclesSecondary = 2.5;
+
+/// Phase offset and drift speed of the depth layer. The offset is public
+/// because the Pour painter composes its own second layer with it too.
+const double secondaryWavePhaseOffset = math.pi / 2;
+const double _secondaryWaveSpeed = 1.3;
+
+/// Alpha of the secondary wave layer. Public for the same reason as
+/// [secondaryWavePhaseOffset]: the Pour painter draws its depth layer with it.
+const double secondaryWaveAlpha = 0.5;
+
+/// Builds the liquid surface shared by the brewing presentations: a composite
+/// sine wave whose baseline sits at the fill level, closed down the right
+/// edge, along the bottom, and up the left edge.
+///
+/// Pure geometry — callers own the clipping and the two-layer draw order.
+Path buildBrewWavePath({
+  required Size size,
+  required double fillLevel,
+  required double waveAmplitude,
+  required double phase,
+}) {
+  double surfaceY(double x) {
+    final double k1 = 2 * math.pi * _waveCyclesPrimary / size.width;
+    final double k2 = 2 * math.pi * _waveCyclesSecondary / size.width;
+    return size.height * (1 - fillLevel) -
+        waveAmplitude * math.sin(k1 * x + phase) -
+        0.5 * waveAmplitude * math.sin(k2 * x - _secondaryWaveSpeed * phase);
+  }
+
+  final Path path = Path()..moveTo(0, surfaceY(0));
+  for (double x = _waveStepPx; x < size.width; x += _waveStepPx) {
+    path.lineTo(x, surfaceY(x));
+  }
+  // Land the final sample exactly on the right edge.
+  path.lineTo(size.width, surfaceY(size.width));
+  path.lineTo(size.width, size.height);
+  path.lineTo(0, size.height);
+  path.close();
+  return path;
+}
+
 /// Paints the brewing timer ring for plan 061 Direction B: a circular track,
 /// an optional "settled liquid" fill whose surface is a two-layer sine wave,
 /// and the step-progress arc on top.
@@ -58,22 +112,6 @@ class BrewFillRingPainter extends CustomPainter {
   /// Stroke width of track and arc.
   final double strokeWidth;
 
-  // ── Wave geometry (painter math, not layout spacing) ──
-
-  /// Horizontal sampling step of the wave surface, px.
-  static const double _waveStepPx = 4.0;
-
-  /// Whole wave cycles across the diameter for the primary/secondary layers.
-  static const double _waveCyclesPrimary = 1.5;
-  static const double _waveCyclesSecondary = 2.5;
-
-  /// Phase offset and drift speed of the depth layer.
-  static const double _secondaryWavePhaseOffset = math.pi / 2;
-  static const double _secondaryWaveSpeed = 1.3;
-
-  /// Alpha of the secondary wave layer.
-  static const double _secondaryWaveAlpha = 0.5;
-
   @override
   void paint(Canvas canvas, Size size) {
     final Offset center = Offset(size.width / 2, size.height / 2);
@@ -94,10 +132,23 @@ class BrewFillRingPainter extends CustomPainter {
         radius: size.shortestSide / 2 - strokeWidth / 2,
       );
       canvas.clipPath(Path()..addOval(clipRect));
-      canvas.drawPath(_wavePath(size, wavePhase), Paint()..color = fillColor);
       canvas.drawPath(
-        _wavePath(size, wavePhase + _secondaryWavePhaseOffset),
-        Paint()..color = fillColor.withValues(alpha: _secondaryWaveAlpha),
+        buildBrewWavePath(
+          size: size,
+          fillLevel: fillLevel,
+          waveAmplitude: waveAmplitude,
+          phase: wavePhase,
+        ),
+        Paint()..color = fillColor,
+      );
+      canvas.drawPath(
+        buildBrewWavePath(
+          size: size,
+          fillLevel: fillLevel,
+          waveAmplitude: waveAmplitude,
+          phase: wavePhase + secondaryWavePhaseOffset,
+        ),
+        Paint()..color = fillColor.withValues(alpha: secondaryWaveAlpha),
       );
       canvas.restore();
     }
@@ -116,32 +167,6 @@ class BrewFillRingPainter extends CustomPainter {
       false,
       arcPaint,
     );
-  }
-
-  /// Builds the liquid surface: a composite sine wave whose baseline sits at
-  /// the fill level, closed down the right edge, along the bottom, and up
-  /// the left edge.
-  Path _wavePath(Size size, double phase) {
-    double surfaceY(double x) {
-      final double k1 = 2 * math.pi * _waveCyclesPrimary / size.width;
-      final double k2 = 2 * math.pi * _waveCyclesSecondary / size.width;
-      return size.height * (1 - fillLevel) -
-          waveAmplitude * math.sin(k1 * x + phase) -
-          0.5 *
-              waveAmplitude *
-              math.sin(k2 * x - _secondaryWaveSpeed * phase);
-    }
-
-    final Path path = Path()..moveTo(0, surfaceY(0));
-    for (double x = _waveStepPx; x < size.width; x += _waveStepPx) {
-      path.lineTo(x, surfaceY(x));
-    }
-    // Land the final sample exactly on the right edge.
-    path.lineTo(size.width, surfaceY(size.width));
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, size.height);
-    path.close();
-    return path;
   }
 
   @override
