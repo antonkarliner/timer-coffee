@@ -19,15 +19,20 @@ const _nextInstruction = 'Wait for the drawdown to finish';
 // The FlutterTest font's glyphs advance a full em, so three digits at 72px
 // under a 1.5 scaler are wider than a 320dp screen: the narrow-screen
 // harness passes 56 to keep the caller's countdown on one line.
-Widget _countdown({double fontSize = 72}) => Text(
-  '128',
-  style: TextStyle(
-    fontSize: fontSize,
-    fontWeight: FontWeight.bold,
-    color: Colors.white,
-    fontFeatures: const [FontFeature.tabularFigures()],
-  ),
-);
+//
+// Takes the colour the view asks for: the view renders its content twice —
+// once dry, once submerged and clipped to the liquid — and hands each copy
+// the colour that reads against what is behind it there.
+Widget Function(Color) _countdown({double fontSize = 72}) =>
+    (Color color) => Text(
+          '128',
+          style: TextStyle(
+            fontSize: fontSize,
+            fontWeight: FontWeight.bold,
+            color: color,
+            fontFeatures: const [FontFeature.tabularFigures()],
+          ),
+        );
 
 PourBrewingView _view({
   String? nextInstruction = _nextInstruction,
@@ -38,10 +43,9 @@ PourBrewingView _view({
   double countdownFontSize = 72,
 }) {
   return PourBrewingView(
-    stepLabel: 'Step 3/5',
     instruction: instruction,
     nextInstruction: nextInstruction,
-    countdown: _countdown(fontSize: countdownFontSize),
+    countdownBuilder: _countdown(fontSize: countdownFontSize),
     elapsedText: '02:14',
     totalText: '04:00',
     level: level,
@@ -77,6 +81,15 @@ void _setSurface(WidgetTester tester, Size size) {
 
 Finder _semanticsWithId(String identifier) => find.byWidgetPredicate(
   (w) => w is Semantics && w.properties.identifier == identifier,
+);
+
+/// The view lays its content out twice — a dry copy in the scheme colours and
+/// a white copy clipped to the liquid — so a bare `find.text` matches two
+/// widgets. This scopes a text lookup to the dry copy, which is the only one
+/// wrapped in `brewingStepsContent` Semantics.
+Finder _dryText(String text) => find.descendant(
+  of: _semanticsWithId('brewingStepsContent'),
+  matching: find.text(text),
 );
 
 int _stepsContentChildCount(WidgetTester tester) {
@@ -165,16 +178,26 @@ void main() {
       },
     );
 
-    testWidgets('renders the uppercase step label and the elapsed row', (
+    testWidgets('renders the instruction, next step and the elapsed row', (
       tester,
     ) async {
       _setSurface(tester, const Size(375, 812));
       await tester.pumpWidget(_wrap(_view()));
 
-      expect(find.text('STEP 3/5'), findsOneWidget);
-      expect(find.text(_instruction), findsOneWidget);
-      expect(find.text(_nextInstruction), findsOneWidget);
-      expect(find.text('02:14 / 04:00'), findsOneWidget);
+      // Each string appears twice — once in the dry copy and once in the
+      // submerged copy clipped to the liquid — so assertions are scoped to
+      // the dry copy, which is the one carrying Semantics.
+      expect(_dryText(_instruction), findsOneWidget);
+      expect(_dryText(_nextInstruction), findsOneWidget);
+      expect(_dryText('02:14 / 04:00'), findsOneWidget);
+      expect(
+        find.text('02:14 / 04:00'),
+        findsNWidgets(2),
+        reason: 'both copies are laid out; only their colours differ',
+      );
+      // The step counter belongs to the app bar alone; rendering it here too
+      // repeated it on one screen.
+      expect(find.textContaining('Step 3/5'), findsNothing);
       expect(tester.takeException(), isNull);
     });
   });
@@ -214,10 +237,10 @@ void main() {
       var mounts = 0;
 
       PourBrewingView build(String? next) => PourBrewingView(
-        stepLabel: 'Step 3/5',
         instruction: _instruction,
         nextInstruction: next,
-        countdown: _MountCountingCountdown(onMount: () => mounts++),
+        countdownBuilder: (_) =>
+            _MountCountingCountdown(onMount: () => mounts++),
         elapsedText: '02:14',
         totalText: '04:00',
         level: 0.5,
@@ -230,13 +253,23 @@ void main() {
       );
 
       await tester.pumpWidget(_wrap(build(_nextInstruction)));
-      expect(mounts, 1);
+      // Two mounts, not one: the content is laid out twice (dry copy plus
+      // the white copy clipped to the liquid), so the countdown builder runs
+      // once per copy. What this test guards is that the number never grows
+      // afterwards.
+      expect(mounts, 2);
+      final int mountsAfterFirstBuild = mounts;
 
       await tester.pumpWidget(_wrap(build(null)));
       await tester.pumpWidget(_wrap(build(_nextInstruction)));
 
-      // Same tree position the whole time: exactly one mount.
-      expect(mounts, 1);
+      // Same tree position the whole time: no remount on either toggle.
+      expect(
+        mounts,
+        mountsAfterFirstBuild,
+        reason: 'toggling the next-step slot remounted the countdown — the '
+            'slot must collapse to SizedBox.shrink(), never be removed',
+      );
     });
   });
 
@@ -277,7 +310,7 @@ void main() {
       _setSurface(tester, const Size(375, 812));
       await tester.pumpWidget(_wrap(_view(isPaused: true)));
 
-      expect(find.text('Paused'), findsOneWidget);
+      expect(_dryText('Paused'), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
   });

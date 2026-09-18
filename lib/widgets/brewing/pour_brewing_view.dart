@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../theme/design_tokens.dart';
+import 'brew_fill_ring_painter.dart';
 import 'pour_liquid_painter.dart';
 
 /// The "Pour" brewing presentation (plan 066 phase 1): the current
@@ -15,30 +16,52 @@ import 'pour_liquid_painter.dart';
 /// the caller owns the timers and the reduced-motion decision
 /// (`waveAmplitude: 0` flattens the liquid surface).
 ///
+/// ## Text colour follows the liquid line
+///
+/// The cup starts empty and fills as the brew runs, so any given line of text
+/// may be above the coffee (dry) or below it (submerged), and the boundary
+/// sweeps across it mid-brew. A single colour cannot serve both: white is
+/// invisible on the light theme's pure-white surface (contrast 1.00), and
+/// `onSurface` is near-invisible on the coffee.
+///
+/// So the content is laid out **twice**, in the same coordinate space as the
+/// liquid painter:
+///
+///  * a **dry** copy in the scheme's `onSurface` / `onSurfaceVariant`, and
+///  * a **submerged** copy in white, clipped to the very same wave path the
+///    painter fills with.
+///
+/// The clip is per-pixel, so a glyph that straddles the surface is drawn part
+/// dry and part submerged and the colour change tracks the wave exactly,
+/// rather than popping when some threshold is crossed.
+///
+/// Only the dry copy carries `Semantics`: the two copies are identical
+/// otherwise, and duplicating the identifiers would break every
+/// `findsOneWidget` that looks them up. Note `ExcludeSemantics` would not do
+/// here — the tests match `Semantics` *widgets* in the widget tree, not
+/// nodes in the semantics tree.
+///
+/// ## Stable shape
+///
 /// Widget shape is intentionally **stable** in every state (see the remount
 /// trap in CLAUDE.md — swapping the widget type at a tree position destroys
 /// the subtree element and re-runs `initState` on whatever lives there): the
 /// next-step, paused, leading and trailing slots are always present and
 /// collapse to `SizedBox.shrink()` when empty, and [opacity] is applied with
-/// an always-present `Opacity`. No widget type is ever swapped at a tree
-/// position, so the caller-provided countdown is never remounted.
+/// an always-present `Opacity`. `withSemantics` is fixed per copy, so it
+/// never swaps a type at a position either.
 ///
-/// Colour placement follows the liquid line: everything below it (countdown
-/// slot, elapsed/total, paused label) is `Colors.white` in both themes —
-/// [AppBrewColors.brewFill] is dark enough for white to clear WCAG AA — and
-/// everything above it uses the scheme's `onSurface`, with the ghosted next
-/// step in `onSurfaceVariant`. The ghosting is a different colour, never an
-/// alpha fade. The instruction block is top-anchored and line-capped, which
-/// keeps it within the top ~35% of typical phone screens — the region the
-/// liquid does not reach during normal brewing — without a hard height box
-/// that would overflow at large text scalers.
+/// The height is split into two fixed-proportion regions — the instruction
+/// above, the countdown group below — so that a step whose instruction wraps
+/// to a different number of lines cannot shift the numbers as the step
+/// changes. Each region centres its own content and is line-capped, so the
+/// text can grow and shrink inside it without moving anything else.
 class PourBrewingView extends StatelessWidget {
   const PourBrewingView({
     super.key,
-    required this.stepLabel,
     required this.instruction,
     required this.nextInstruction,
-    required this.countdown,
+    required this.countdownBuilder,
     required this.elapsedText,
     required this.totalText,
     required this.level,
@@ -53,9 +76,6 @@ class PourBrewingView extends StatelessWidget {
     this.bottomClearance = 0,
   });
 
-  /// Already-localized step counter, e.g. "Step 3/5". Rendered uppercase.
-  final String stepLabel;
-
   /// The current step's resolved description, already localized.
   final String instruction;
 
@@ -63,14 +83,15 @@ class PourBrewingView extends StatelessWidget {
   /// step. The slot itself is always present in the tree.
   final String? nextInstruction;
 
-  /// The countdown content (large numerals), built by the caller. Lives in
-  /// an always-present slot inside the liquid.
-  final Widget countdown;
+  /// Builds the countdown content in the given colour. Called once per copy
+  /// (dry and submerged), so it must be cheap and must not carry `Semantics`
+  /// of its own — this view applies `stepTimeCounter` to the dry copy.
+  final Widget Function(Color color) countdownBuilder;
 
-  /// Already-formatted elapsed time, e.g. "02:14".
+  /// Already-formatted elapsed brew time, e.g. "02:14".
   final String elapsedText;
 
-  /// Already-formatted total step time, e.g. "04:00".
+  /// Already-formatted total brew time, e.g. "04:00".
   final String totalText;
 
   /// Liquid height, 0 (empty) .. 1 (full).
@@ -97,21 +118,51 @@ class PourBrewingView extends StatelessWidget {
   /// an always-present `Opacity`, never by conditionally wrapping.
   final double opacity;
 
-  /// Optional slot for the manual step-back arrow. Always present in the
-  /// tree; empty when null.
-  final Widget? leading;
+  /// Optional slot for the manual step-back arrow, built in the colour the
+  /// copy needs. Always present in the tree; empty when null. It is a builder
+  /// for the same reason [countdownBuilder] is: it sits beside the countdown,
+  /// low enough that the liquid reaches it, so a fixed colour would leave it
+  /// near-black on the coffee once submerged.
+  final Widget Function(Color color)? leading;
 
-  /// Optional slot for the manual step-forward arrow. Always present in the
-  /// tree; empty when null.
-  final Widget? trailing;
+  /// Optional slot for the manual step-forward arrow. Same contract as
+  /// [leading].
+  final Widget Function(Color color)? trailing;
 
   /// Vertical room left free at the bottom for the screen's floating action
   /// button.
   final double bottomClearance;
 
-  /// Letter spacing of the uppercase step label. No spacing token exists for
-  /// tracking; matches the value already used for chip labels in the app.
-  static const double _stepLabelLetterSpacing = 1.0;
+  /// The instruction is the one deliberate exception to the project type
+  /// ramp, whose top is 32 (`AppTextStyles.display`). This screen has a single
+  /// job — tell you what to do right now — and at 32 the instruction did not
+  /// carry the screen against the liquid. Capped at three lines, so the
+  /// longest real step text still fits.
+  static const double _instructionFontSize = 40.0;
+
+  /// How the height above the bottom clearance is split between the
+  /// instruction region and the countdown region. Fixed proportions, so a
+  /// step whose instruction wraps to a different number of lines cannot move
+  /// the countdown.
+  ///
+  /// The instruction takes the larger share because it is what has to fit:
+  /// three lines at 40 logical px, times a 1.5 accessibility text scale, plus
+  /// two lines of next-step, needs ~279px on a 320x690 screen — a 5:6 split
+  /// left only 259 and overflowed.
+  ///
+  /// The countdown region aligns its content to the *top* rather than
+  /// centring it, which is what actually pins the numbers: centring inside
+  /// the lower region would put them at ~77% of the height, back to the
+  /// bottom-heavy look the spacers had. Top-aligned, the countdown sits at
+  /// the boundary — 6/11, about 55% — whatever the instruction above it does.
+  static const int _instructionRegionFlex = 6;
+  static const int _countdownRegionFlex = 5;
+
+  /// Secondary text colour for the submerged copy. A warm off-white rather
+  /// than a faded white: alpha-faded text is an operator-rejected pattern
+  /// (design refresh 2026-07), so the hierarchy between primary and
+  /// secondary text is carried by a second solid colour.
+  static const Color _submergedSecondary = Color(0xFFEADFD5);
 
   @override
   Widget build(BuildContext context) {
@@ -133,53 +184,103 @@ class PourBrewingView extends StatelessWidget {
               ),
             ),
           ),
+          // Dry copy — reads against the surface, and owns every Semantics
+          // identifier in this view.
           Positioned.fill(
-            child: SafeArea(
-              child: Semantics(
-                identifier: 'brewingStepsContent',
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    top: AppSpacing.lg,
-                    left: AppSpacing.base,
-                    right: AppSpacing.base,
-                  ),
-                  // The children list below has a fixed length in every
-                  // state: conditional pieces are slots that collapse to
-                  // SizedBox.shrink(), never removed children.
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        stepLabel.toUpperCase(),
-                        textAlign: TextAlign.center,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTextStyles.caption.copyWith(
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: _stepLabelLetterSpacing,
-                          color: colorScheme.onSurface,
-                        ),
-                      ),
-                      const SizedBox(height: AppSpacing.xs),
-                      Semantics(
-                        identifier: 'brewingStepDescription',
-                        child: Text(
+            child: _content(
+              primary: colorScheme.onSurface,
+              secondary: colorScheme.onSurfaceVariant,
+              withSemantics: true,
+            ),
+          ),
+          // Submerged copy — identical layout in white, clipped to the same
+          // wave the painter fills with, so the colour boundary *is* the
+          // liquid surface.
+          Positioned.fill(
+            child: ClipPath(
+              clipper: _PourLiquidClipper(
+                level: level,
+                wavePhase: wavePhase,
+                waveAmplitude: waveAmplitude,
+              ),
+              child: _content(
+                primary: Colors.white,
+                secondary: _submergedSecondary,
+                withSemantics: false,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// One copy of the content. [withSemantics] is fixed per copy, never
+  /// state-dependent, so it cannot swap a widget type at a tree position.
+  Widget _content({
+    required Color primary,
+    required Color secondary,
+    required bool withSemantics,
+  }) {
+    Widget wrap(String identifier, Widget child) =>
+        withSemantics ? Semantics(identifier: identifier, child: child) : child;
+
+    return SafeArea(
+      child: wrap(
+        'brewingStepsContent',
+        Padding(
+          padding: const EdgeInsets.only(
+            top: AppSpacing.lg,
+            left: AppSpacing.base,
+            right: AppSpacing.base,
+          ),
+          // Two fixed-proportion regions rather than a spacer-balanced list.
+          // With spacers the countdown's position depended on how tall the
+          // instruction happened to be, so a step whose text wrapped to a
+          // different number of lines shifted the numbers as the step
+          // changed. Splitting the height by flex pins each region: the
+          // instruction grows and shrinks inside its own area and nothing
+          // below it moves.
+          //
+          // Both regions have a fixed child count in every state; the
+          // conditional pieces are slots that collapse to SizedBox.shrink(),
+          // never removed children.
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                flex: _instructionRegionFlex,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // Both blocks are Flexible so the region's fixed height is
+                    // authoritative: at a large accessibility text scale the
+                    // text ellipsises a line earlier instead of overflowing
+                    // the region. Chasing the flex ratio instead would only
+                    // move the scale at which it breaks.
+                    Flexible(
+                      child: wrap(
+                        'brewingStepDescription',
+                        Text(
                           instruction,
                           textAlign: TextAlign.center,
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                           style: AppTextStyles.display.copyWith(
+                            fontSize: _instructionFontSize,
                             fontWeight: FontWeight.w800,
-                            color: colorScheme.onSurface,
+                            color: primary,
                           ),
                         ),
                       ),
-                      const SizedBox(height: AppSpacing.sm),
-                      // Ghosted next-step slot: always present, empty box
-                      // when there is no next step. Ghosting is
-                      // onSurfaceVariant — a different colour, never an
-                      // alpha fade.
-                      nextInstruction == null
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    // Ghosted next-step slot: always present, empty box when
+                    // there is no next step. Ghosting is a second solid
+                    // colour, never an alpha fade.
+                    Flexible(
+                      child: nextInstruction == null
                           ? const SizedBox.shrink()
                           : Text(
                               nextInstruction!,
@@ -188,62 +289,109 @@ class PourBrewingView extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               style: AppTextStyles.caption.copyWith(
                                 height: 1.3,
-                                color: colorScheme.onSurfaceVariant,
+                                color: secondary,
                               ),
                             ),
-                      const Spacer(),
-                      Row(
-                        children: [
-                          leading ?? const SizedBox.shrink(),
-                          Expanded(
-                            // Kept name even though Pour has no ring: the
-                            // tests match this identifier, not the widget.
-                            child: Semantics(
-                              identifier: 'circularProgressIndicator',
-                              child: countdown,
-                            ),
-                          ),
-                          trailing ?? const SizedBox.shrink(),
-                        ],
-                      ),
-                      const SizedBox(height: AppSpacing.sm),
-                      Text(
-                        '$elapsedText / $totalText',
-                        textAlign: TextAlign.center,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTextStyles.caption.copyWith(
-                          color: Colors.white,
-                          fontFeatures: const [FontFeature.tabularFigures()],
-                        ),
-                      ),
-                      const SizedBox(height: AppSpacing.xs),
-                      // Paused slot: always present, empty box when not
-                      // paused — same rule as every other slot above.
-                      Semantics(
-                        identifier: 'brewPausedIndicator',
-                        child: isPaused
-                            ? Text(
-                                pausedLabel,
-                                textAlign: TextAlign.center,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: AppTextStyles.caption.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                ),
-                              )
-                            : const SizedBox.shrink(),
-                      ),
-                      SizedBox(height: bottomClearance),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-            ),
+              Expanded(
+                flex: _countdownRegionFlex,
+                child: Column(
+                  // Top, not centre — see _countdownRegionFlex.
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      children: [
+                        leading?.call(primary) ?? const SizedBox.shrink(),
+                        Expanded(
+                          // Kept name even though Pour has no ring: the tests
+                          // match this identifier, not the widget type.
+                          child: wrap(
+                            'circularProgressIndicator',
+                            wrap('stepTimeCounter', countdownBuilder(primary)),
+                          ),
+                        ),
+                        trailing?.call(primary) ?? const SizedBox.shrink(),
+                      ],
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    Text(
+                      '$elapsedText / $totalText',
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTextStyles.caption.copyWith(
+                        color: primary,
+                        fontFeatures: const [FontFeature.tabularFigures()],
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.xs),
+                    // Paused slot: always present, empty box when not paused
+                    // — same rule as every other slot here.
+                    wrap(
+                      'brewPausedIndicator',
+                      isPaused
+                          ? Text(
+                              pausedLabel,
+                              textAlign: TextAlign.center,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTextStyles.caption.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: primary,
+                              ),
+                            )
+                          : const SizedBox.shrink(),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: bottomClearance),
+            ],
           ),
-        ],
+        ),
       ),
     );
+  }
+}
+
+/// Clips the submerged copy of the content to the liquid, using the very same
+/// wave path [PourLiquidPainter] fills with — so the text's colour boundary
+/// and the coffee's surface are the same curve, not two approximations of it.
+///
+/// The painter draws a second, translucent layer at a phase offset; the clip
+/// follows the primary layer, which is the edge the eye reads as the surface.
+class _PourLiquidClipper extends CustomClipper<Path> {
+  const _PourLiquidClipper({
+    required this.level,
+    required this.wavePhase,
+    required this.waveAmplitude,
+  });
+
+  final double level;
+  final double wavePhase;
+  final double waveAmplitude;
+
+  @override
+  Path getClip(Size size) {
+    // An empty path clips everything away: with an empty cup the submerged
+    // copy contributes nothing and the dry copy is what shows.
+    if (level <= 0) return Path();
+    return buildBrewWavePath(
+      size: size,
+      fillLevel: level,
+      waveAmplitude: waveAmplitude,
+      phase: wavePhase,
+    );
+  }
+
+  @override
+  bool shouldReclip(covariant _PourLiquidClipper oldClipper) {
+    return oldClipper.level != level ||
+        oldClipper.wavePhase != wavePhase ||
+        oldClipper.waveAmplitude != waveAmplitude;
   }
 }

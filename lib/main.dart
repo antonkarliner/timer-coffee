@@ -1142,6 +1142,17 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
         ),
         ChangeNotifierProvider<AdvancedFeaturesService>(
           create: (_) => AdvancedFeaturesService()..init(),
+          // Not lazy: BrewingProcessScreen reads `pourLayoutEnabled` once, in
+          // initState, because the layout must not swap mid-brew. Under the
+          // default lazy construction the screen's own `read` was what built
+          // the service, so `init()` had not loaded SharedPreferences yet and
+          // the toggle always read false on a cold start — enable it, kill
+          // the app, start a brew, and you got the classic layout. Building
+          // it with the provider tree instead leaves only a microtask between
+          // construction and the loaded value, many frames before any brew.
+          // (`manualStepControlEnabled` never showed this because it is
+          // watched in build and self-heals when init notifies.)
+          lazy: false,
         ),
         ChangeNotifierProvider<CollectionsPreferencesService>(
           create: (_) => CollectionsPreferencesService()..init(),

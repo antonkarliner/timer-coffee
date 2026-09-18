@@ -146,6 +146,19 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   /// didChangeDependencies, where MediaQuery is available.
   AnimationController? _pourWaveController;
 
+  /// Monotonic clock the wave phase is derived from.
+  ///
+  /// The phase used to be `_pourWaveController.value * 2 * pi`, which wraps
+  /// from 2*pi back to 0 at the end of every repeat. The primary sine does not
+  /// notice — it is 2*pi-periodic — but the secondary depth layer is
+  /// `sin(k2*x - 1.3 * phase)`, so at each wrap it jumped by 2.6*pi, which is
+  /// not a whole number of cycles: the surface visibly burst once per loop.
+  /// Reading the phase off a clock that only ever increases removes the seam
+  /// entirely. Retuning the 1.3 to something that wraps cleanly was the other
+  /// option, but that constant is shared with the shipped plan-061 ring and
+  /// would have changed its end-of-brew animation too.
+  final Stopwatch _pourWaveClock = Stopwatch();
+
   /// One-shot flag for the end-sequence haptic (plan 061 R7). Never reset —
   /// one brew, one haptic.
   bool _endHapticFired = false;
@@ -463,9 +476,13 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     final controller = _pourWaveController;
     if (controller == null) return;
     if (!MediaQuery.disableAnimationsOf(context)) {
+      // The controller is only the ticker that drives repaints; the phase
+      // itself comes from _pourWaveClock, which never wraps.
       if (!controller.isAnimating) controller.repeat();
+      if (!_pourWaveClock.isRunning) _pourWaveClock.start();
     } else {
       if (controller.isAnimating) controller.stop();
+      if (_pourWaveClock.isRunning) _pourWaveClock.stop();
     }
   }
 
@@ -1418,10 +1435,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     return stepTotalSeconds > 0 ? currentStepTime / stepTotalSeconds : 0.0;
   }
 
-  /// Fraction of the whole brew elapsed, 0..1 — completed step durations
-  /// plus the current step's elapsed seconds, over the sum of all step
-  /// durations. The same arithmetic `_elapsedTotalSecondsForSync` already
-  /// does; kept consistent with it (that method is untouched).
+  /// Fraction of the whole brew elapsed, 0..1. The same arithmetic
+  /// `_elapsedTotalSecondsForSync` already does; kept consistent with it
+  /// (that method is untouched).
   double get _brewProgressFraction {
     if (brewingSteps.isEmpty) return 0.0;
 
@@ -1431,14 +1447,38 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     );
     if (totalDurationSeconds <= 0) return 0.0;
 
+    return (_elapsedBrewSeconds() / totalDurationSeconds).clamp(0.0, 1.0);
+  }
+
+  /// Seconds elapsed in the whole brew, as a **continuous** value.
+  ///
+  /// `currentStepTime` only advances once a second, from the brew timer's
+  /// `setState`. Driving the Pour liquid from it made the surface climb in
+  /// visible once-a-second steps rather than flowing, so the level is read
+  /// from the wall clock instead: the Pour body rebuilds on every wave-clock
+  /// tick, which turns those jumps into a continuous rise at no extra cost
+  /// (no new timer — the ticker already runs).
+  ///
+  /// Falls back to the integer counter whenever the wall clock is not the
+  /// truth: while paused `_brewAnchorUtc` is deliberately not advanced (it is
+  /// shifted forward on resume), so measuring against it would let the liquid
+  /// creep up while the brew is stopped.
+  double _elapsedBrewSeconds() {
     final int elapsedBeforeCurrentStep = brewingSteps
         .take(currentStepIndex)
         .fold<int>(0, (sum, step) => sum + step.time.inSeconds);
-    final int elapsedSeconds = math.max(
-      0,
-      elapsedBeforeCurrentStep + currentStepTime,
-    );
-    return (elapsedSeconds / totalDurationSeconds).clamp(0.0, 1.0);
+
+    if (_isPaused || _brewAnchorUtc == null) {
+      return math
+          .max(0, elapsedBeforeCurrentStep + currentStepTime)
+          .toDouble();
+    }
+
+    final int micros = DateTime.now()
+        .toUtc()
+        .difference(_brewAnchorUtc!)
+        .inMicroseconds;
+    return math.max(0.0, micros / Duration.microsecondsPerSecond);
   }
 
   // Tear the Live Activity / backend session down once, the first time the
@@ -1508,7 +1548,12 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     _pausedAtUtc = nowUtc;
   }
 
-  Widget _buildManualStepArrow({required bool isBack}) {
+  /// The manual step chevron. [color] overrides the default for the Pour
+  /// layout, which renders its content once dry and once submerged and needs
+  /// the arrow to change with the liquid line like everything beside it — a
+  /// fixed `onSurface` chevron reads as near-black once the coffee covers it.
+  /// Classic passes nothing and keeps its original colours exactly.
+  Widget _buildManualStepArrow({required bool isBack, Color? color}) {
     final colorScheme = Theme.of(context).colorScheme;
     final loc = AppLocalizations.of(context)!;
     final isRtl = Directionality.of(context) == TextDirection.rtl;
@@ -1520,8 +1565,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       child: IconButton(
         tooltip: isBack ? loc.previousStep : loc.nextStep,
         iconSize: AppIconSize.large,
-        color: colorScheme.onSurface.withValues(alpha: 0.5),
-        disabledColor: colorScheme.onSurface.withValues(alpha: 0.2),
+        color: color ?? colorScheme.onSurface.withValues(alpha: 0.5),
+        disabledColor:
+            color ?? colorScheme.onSurface.withValues(alpha: 0.2),
         onPressed: isDisabled
             ? null
             : (isBack ? _goToPreviousStepManually : _goToNextStepManually),
@@ -1536,13 +1582,17 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   static const double _bottomControlClearance =
       56.0 + kFloatingActionButtonMargin + AppSpacing.sm;
 
-  /// Liquid never drops below this: the countdown, the elapsed/total row and
-  /// the paused label are white so they read against the coffee, and the
-  /// app's light surface is pure white — an uncovered block is white-on-white
-  /// (contrast 1.00). The floor keeps that block submerged from the first
-  /// second of the brew, at text scales up to 1.5 on the smallest screen we
-  /// support. It also matches the concept: the cup starts with coffee in it.
-  static const double _kPourMinimumLevel = 0.42;
+  /// How long the wave takes to travel one full cycle.
+  static const int _kPourWavePeriodMicros =
+      4 * Duration.microsecondsPerSecond;
+
+  /// Ever-increasing wave phase, radians. Never wraps, so the secondary wave
+  /// layer (which advances at 1.3x this) has no seam to jump across — see
+  /// [_pourWaveClock].
+  double get _pourWavePhase =>
+      (_pourWaveClock.elapsedMicroseconds / _kPourWavePeriodMicros) *
+      2 *
+      math.pi;
 
   /// Wave ripple height during normal brewing, px. Decays to 0 across the
   /// end sequence's settle beat (see _endAmplitudeDecay).
@@ -1561,39 +1611,6 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   /// created (classic layout selected, or Pour on web).
   Widget _buildPourBody(BuildContext context, bool manualStepControlEnabled) {
     final loc = AppLocalizations.of(context)!;
-
-    // Liquid level. Normal brewing: whole-brew progress with the white-text
-    // floor applied (see _kPourMinimumLevel — load-bearing, not cosmetic).
-    // End sequence: lerp from wherever the liquid stood when the sequence
-    // was triggered up to full — or flat 1.0 under reduced motion, exactly
-    // as the ring branch does for its fill. _endLevelStartValue is captured
-    // from a level that already has the floor applied, so the end sequence
-    // inherits it automatically.
-    final double level = _isEndBrewAnimating
-        ? (_reduceMotion
-              ? 1.0
-              : lerpDouble(_endLevelStartValue, 1.0, _endFill.value)!)
-        : math.max(_kPourMinimumLevel, _brewProgressFraction);
-
-    // Wave surface. Amplitude 0 whenever there is no running wave clock —
-    // web, or reduced motion (the clock is stopped in
-    // didChangeDependencies) — otherwise the full ripple during brewing,
-    // decaying to 0 across the end sequence's settle beat.
-    final double waveAmplitude;
-    if (_pourWaveController == null || _reduceMotion) {
-      waveAmplitude = 0.0;
-    } else if (_isEndBrewAnimating) {
-      waveAmplitude = _kPourWaveAmplitude * (1 - _endAmplitudeDecay.value);
-    } else {
-      waveAmplitude = _kPourWaveAmplitude;
-    }
-
-    // Whole-view fade on the closing accord. There is no separate countdown
-    // fade here (unlike the classic ring): the whole view, countdown
-    // included, goes through this opacity.
-    final double opacity = _isEndBrewAnimating && !_reduceMotion
-        ? (1.0 - _endAccordFade.value).clamp(0.0, 1.0)
-        : 1.0;
 
     // Same condition the classic layout applies to its arrows.
     final bool showManualArrows =
@@ -1624,57 +1641,98 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
         _endBrewAnimationController,
       ]),
       builder: (context, _) {
+        // Everything the end sequence animates is derived HERE, inside the
+        // builder, not in the enclosing method. The end sequence runs off
+        // the controller alone: the brew timer is cancelled the moment it
+        // starts, so no setState fires for its whole 2650 ms and anything
+        // captured in the enclosing scope stays frozen at its last value.
+        // Read outside, the liquid never rose and the view never faded —
+        // the sequence rendered as a still frame followed by an abrupt cut
+        // to the finish screen.
+
+        // Liquid level. The cup starts empty and fills with the brew, so
+        // this is simply whole-brew progress; PourBrewingView draws its text
+        // twice and clips the white copy to the liquid, so legibility does
+        // not depend on the level (operator decision, 2026-09-16 — the
+        // earlier fix floored the level instead, which started the brew with
+        // a part-full cup). End sequence: lerp from wherever the liquid
+        // stood when the sequence was triggered up to full — or flat 1.0
+        // under reduced motion, exactly as the ring branch does for its
+        // fill.
+        final double level = _isEndBrewAnimating
+            ? (_reduceMotion
+                  ? 1.0
+                  : lerpDouble(_endLevelStartValue, 1.0, _endFill.value)!)
+            : _brewProgressFraction;
+
+        // Wave surface. Amplitude 0 whenever there is no running wave clock
+        // — web, or reduced motion (the clock is stopped in
+        // didChangeDependencies) — otherwise the full ripple during
+        // brewing, decaying to 0 across the end sequence's settle beat.
+        final double waveAmplitude;
+        if (_pourWaveController == null || _reduceMotion) {
+          waveAmplitude = 0.0;
+        } else if (_isEndBrewAnimating) {
+          waveAmplitude = _kPourWaveAmplitude * (1 - _endAmplitudeDecay.value);
+        } else {
+          waveAmplitude = _kPourWaveAmplitude;
+        }
+
+        // Whole-view fade on the closing accord. There is no separate
+        // countdown fade here (unlike the classic ring): the whole view,
+        // countdown included, goes through this opacity.
+        final double opacity = _isEndBrewAnimating && !_reduceMotion
+            ? (1.0 - _endAccordFade.value).clamp(0.0, 1.0)
+            : 1.0;
+
         return PourBrewingView(
-          stepLabel: _stepLabelText(context),
+          // No step label in the body: the app bar already shows "Step n/m"
+          // and rendering it twice on one screen just repeated itself.
           instruction: brewingSteps[currentStepIndex].description,
           nextInstruction: nextInstruction,
-          countdown: Semantics(
-            identifier: 'stepTimeCounter',
-            child: FittedBox(
-              // Keeps the countdown inside its slot at extreme text scales
-              // (the FlutterTest font and Android's largest accessibility
-              // settings both overflow a 60px countdown on narrow screens);
-              // at ordinary sizes it renders at natural size.
-              fit: BoxFit.scaleDown,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  LocalizedNumberText(
-                    currentNumber: currentStepTime,
-                    totalNumber: brewingSteps[currentStepIndex].time.inSeconds,
-                    style: TextStyle(
-                      fontSize: 60,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontFeatures: const [FontFeature.tabularFigures()],
-                    ),
-                  ),
-                  Text(
-                    ' ${loc.secondsAbbreviation}',
-                    style: TextStyle(
-                      fontSize: 32,
-                      color: Colors.white.withValues(alpha: 0.7),
-                    ),
-                  ),
-                ],
+          // Built per copy in the colour the view asks for: it renders the
+          // content once dry and once submerged, clipping the submerged copy
+          // to the liquid. No Semantics here — the view owns the
+          // `stepTimeCounter` identifier and applies it to the dry copy only,
+          // so the identifier resolves exactly once.
+          countdownBuilder: (Color color) => FittedBox(
+            // Keeps the countdown inside its slot at extreme text scales
+            // (the FlutterTest font and Android's largest accessibility
+            // settings both overflow a 60px countdown on narrow screens);
+            // at ordinary sizes it renders at natural size.
+            fit: BoxFit.scaleDown,
+            // The numerals alone, with no unit suffix. The suffix used to sit
+            // beside them in this row, and because the row was centred as a
+            // whole it pushed the digits about 40px left of the screen's
+            // centre. The elapsed/total line directly below already carries
+            // the units.
+            child: LocalizedNumberText(
+              currentNumber: currentStepTime,
+              totalNumber: brewingSteps[currentStepIndex].time.inSeconds,
+              style: TextStyle(
+                fontSize: 60,
+                fontWeight: FontWeight.bold,
+                color: color,
+                fontFeatures: const [FontFeature.tabularFigures()],
               ),
             ),
           ),
           elapsedText: _formatMmSs(elapsedBrewSeconds),
           totalText: _formatMmSs(totalBrewSeconds),
           level: level,
-          wavePhase: (_pourWaveController?.value ?? 0) * 2 * math.pi,
+          wavePhase: _pourWavePhase,
           waveAmplitude: waveAmplitude,
           fillColor: AppBrewColors.brewFill(Theme.of(context).colorScheme),
           isPaused: _isPaused && !_isEndBrewAnimating,
           pausedLabel: loc.liveActivityPaused,
           opacity: opacity,
           leading: showManualArrows
-              ? _buildManualStepArrow(isBack: true)
+              ? (Color color) =>
+                    _buildManualStepArrow(isBack: true, color: color)
               : null,
           trailing: showManualArrows
-              ? _buildManualStepArrow(isBack: false)
+              ? (Color color) =>
+                    _buildManualStepArrow(isBack: false, color: color)
               : null,
           bottomClearance:
               _bottomControlClearance + MediaQuery.of(context).padding.bottom,

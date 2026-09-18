@@ -733,7 +733,10 @@ void main() {
         await tester.tap(find.byType(FloatingActionButton));
         await tester.pump();
         await tester.pump(const Duration(milliseconds: 300));
-        expect(find.text('Paused'), findsOneWidget);
+        // Two copies: the Pour view lays its content out dry and submerged
+        // (the submerged one clipped to the liquid), so the label is two
+        // Text widgets that differ only in colour.
+        expect(find.text('Paused'), findsNWidgets(2));
 
         await tester.tap(find.byType(FloatingActionButton));
         await tester.pump();
@@ -825,69 +828,135 @@ void main() {
     });
   });
 
-  group('brewing pour layout — minimum liquid level', () {
+  group('brewing pour layout — the end sequence actually animates', () {
     testWidgets(
-      'at the smallest supported width and textScale 1.5 the floor keeps the '
-      'liquid over the white text block from the first second (light theme)',
+      'the liquid rises to full and the view fades across the sequence',
       (tester) async {
-        // Regression guard for _kPourMinimumLevel. The countdown, the
-        // elapsed/total row and the paused label are white; the light
-        // theme's surface is pure white, so a block above the liquid is
-        // white-on-white (contrast 1.00) and literally invisible. MaterialApp
-        // defaults to the platform brightness, which is light in tests.
-        // 320x568 is the smallest supported screen (the compact floor of
-        // brewTimerRingDiameterForWidth). No timer tick has fired yet, so
-        // _brewProgressFraction is 0 and the entire level comes from the
-        // floor — if the floor is removed, level is 0 and nothing paints.
-        await _pumpScreen(
-          tester,
-          stepCount: 1,
-          pourLayout: true,
-          physicalSize: const Size(320, 568),
-          textScaler: const TextScaler.linear(1.5),
+        // Regression guard. Everything the end sequence animates is derived
+        // inside _buildPourBody's AnimatedBuilder callback, because the brew
+        // timer is cancelled the moment the sequence starts: no setState
+        // fires for its whole 2650 ms. When these values were read in the
+        // enclosing method instead, they froze at their last setState value
+        // — the liquid sat still at 0.678 and the opacity never left 1.0 for
+        // the entire sequence, so the "pour complete" beat rendered as a
+        // still frame and then cut abruptly to the finish screen. Nothing
+        // else in this file caught it: every other Pour test asserts only
+        // that navigation happens.
+        //
+        // Three 60s steps, skipped 2s into the last one, so the brew is
+        // partway done and the level has real distance to travel.
+        await _pumpScreen(tester, stepCount: 3, pourLayout: true);
+        await tester.pump(const Duration(seconds: 61));
+        await tester.pump(const Duration(seconds: 61));
+        await tester.pump(const Duration(seconds: 2));
+
+        double currentLevel() =>
+            tester.widget<PourBrewingView>(find.byType(PourBrewingView)).level;
+        double currentOpacity() => tester
+            .widget<PourBrewingView>(find.byType(PourBrewingView))
+            .opacity;
+
+        final double levelBefore = currentLevel();
+        expect(
+          levelBefore,
+          lessThan(1.0),
+          reason: 'the probe needs room to rise, or it proves nothing',
         );
+
+        // Skip the last step to trigger the sequence.
+        await tester.tap(find.byType(FloatingActionButton));
         await tester.pump();
 
-        // Read the level the screen actually passed — do not recompute the
-        // formula here, or a drift in the formula would silently weaken this
-        // guard.
+        // Sample across the sequence while the view is still mounted.
+        final levels = <double>[];
+        final opacities = <double>[];
+        for (var i = 0; i < 25; i++) {
+          if (find.byType(PourBrewingView).evaluate().isEmpty) break;
+          levels.add(currentLevel());
+          opacities.add(currentOpacity());
+          await tester.pump(const Duration(milliseconds: 100));
+        }
+
+        expect(
+          levels.last,
+          greaterThan(levels.first),
+          reason: 'the liquid never rose: ${levels.first} -> ${levels.last}',
+        );
+        expect(
+          levels.last,
+          closeTo(1.0, 0.02),
+          reason: 'the liquid should reach full by the end of the fill beat',
+        );
+        expect(
+          opacities.last,
+          lessThan(1.0),
+          reason: 'the view never started fading on the closing accord',
+        );
+
+        await tester.pump(const Duration(milliseconds: 600));
+        await tester.pump(const Duration(milliseconds: 100));
+        expect(find.byType(FinishScreen), findsOneWidget);
+
+        await _teardownTree(tester);
+      },
+    );
+  });
+
+  group('brewing pour layout — text colour follows the liquid line', () {
+    testWidgets(
+      'the cup starts empty and the countdown is still legible against the '
+      'light surface',
+      (tester) async {
+        // The cup starts empty (operator decision, 2026-09-16), so at the
+        // first frame the countdown sits on the app's surface, which in the
+        // light theme is pure white. A white countdown there would be
+        // contrast 1.00 — invisible. Legibility comes from PourBrewingView
+        // drawing its content twice: a dry copy in onSurface, and a white
+        // copy clipped to the liquid. MaterialApp defaults to the platform
+        // brightness, which is light in tests. 320x568 is the smallest
+        // supported screen.
+        await _pumpScreen(tester, stepCount: 1, pourLayout: true);
+        await tester.pump();
+
         final PourBrewingView view = tester.widget<PourBrewingView>(
           find.byType(PourBrewingView),
         );
-        final double level = view.level;
-        final RenderBox viewBox = tester.renderObject<RenderBox>(
-          find.byType(PourBrewingView),
+        // Effectively empty, not exactly 0: the level is continuous wall-clock
+        // elapsed over total, so the first frame is a few hundred microseconds
+        // in (~0.0002). Asserting an exact 0 passed alone and failed under
+        // full-suite load. The epsilon is still two orders of magnitude below
+        // the 0.42 floor this guards against ever coming back.
+        expect(
+          view.level,
+          closeTo(0.0, 0.01),
+          reason: 'the cup must start empty — no minimum-level floor',
         );
-        final double viewTop = viewBox.localToGlobal(Offset.zero).dy;
-        final double viewHeight = viewBox.size.height;
 
-        // The liquid occupies the bottom level * viewHeight of the view, so
-        // it covers a block iff the block's top edge (global) sits at or
-        // below the surface: level * viewHeight >= viewHeight - topEdge.
-        void expectCovered(RenderBox block, String what) {
-          final double topEdge =
-              block.localToGlobal(Offset.zero).dy - viewTop;
-          final double exposed =
-              (viewHeight - topEdge) - level * viewHeight;
-          expect(
-            level * viewHeight,
-            greaterThanOrEqualTo(viewHeight - topEdge),
-            reason: '$what is exposed above the liquid by ${exposed}px '
-                '(level $level, viewHeight $viewHeight) on the smallest '
-                'supported screen at textScale 1.5 in light mode',
-          );
-        }
+        // Both copies of the countdown exist, in the two colours. The
+        // countdown numerals are the 60px Text inside LocalizedNumberText.
+        final Set<Color?> colours = tester
+            .widgetList<Text>(find.byType(Text))
+            .where((t) => t.style?.fontSize == 60)
+            .map((t) => t.style?.color)
+            .toSet();
+        expect(
+          colours.contains(Colors.white),
+          isTrue,
+          reason: 'the submerged copy is drawn in white',
+        );
+        expect(
+          colours.any((c) => c != null && c != Colors.white),
+          isTrue,
+          reason: 'the dry copy is drawn in the scheme colour, not white — '
+              'otherwise it is invisible on the white light-theme surface',
+        );
 
-        expectCovered(
-          tester.renderObject<RenderBox>(
-            _semanticsWithId('stepTimeCounter'),
-          ),
-          'the white countdown',
-        );
-        expectCovered(
-          tester.renderObject<RenderBox>(find.text('00:00 / 01:00')),
-          'the white elapsed/total row',
-        );
+        // ...but the identifiers still resolve exactly once, because only
+        // the dry copy carries Semantics.
+        expect(_semanticsWithId('stepTimeCounter'), findsOneWidget);
+        expect(_semanticsWithId('circularProgressIndicator'), findsOneWidget);
+        expect(_semanticsWithId('brewingStepsContent'), findsOneWidget);
+        expect(_semanticsWithId('brewingStepDescription'), findsOneWidget);
 
         await _teardownTree(tester);
       },
