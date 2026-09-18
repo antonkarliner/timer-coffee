@@ -46,8 +46,7 @@ PourBrewingView _view({
     instruction: instruction,
     nextInstruction: nextInstruction,
     countdownBuilder: _countdown(fontSize: countdownFontSize),
-    elapsedText: '02:14',
-    totalText: '04:00',
+    nextLabel: 'Next:',
     level: level,
     wavePhase: 1.0,
     waveAmplitude: 6.0,
@@ -178,7 +177,7 @@ void main() {
       },
     );
 
-    testWidgets('renders the instruction, next step and the elapsed row', (
+    testWidgets('renders the instruction and the next-step preview', (
       tester,
     ) async {
       _setSurface(tester, const Size(375, 812));
@@ -188,17 +187,61 @@ void main() {
       // submerged copy clipped to the liquid — so assertions are scoped to
       // the dry copy, which is the one carrying Semantics.
       expect(_dryText(_instruction), findsOneWidget);
+      expect(_dryText('Next:'), findsOneWidget);
       expect(_dryText(_nextInstruction), findsOneWidget);
-      expect(_dryText('02:14 / 04:00'), findsOneWidget);
       expect(
-        find.text('02:14 / 04:00'),
+        find.text(_instruction),
         findsNWidgets(2),
         reason: 'both copies are laid out; only their colours differ',
       );
-      // The step counter belongs to the app bar alone; rendering it here too
-      // repeated it on one screen.
+      // The step counter belongs to the app bar alone, and there is no
+      // elapsed/total readout: the liquid is the only whole-brew indicator.
       expect(find.textContaining('Step 3/5'), findsNothing);
+      expect(find.textContaining(' / '), findsNothing);
       expect(tester.takeException(), isNull);
+    });
+
+    testWidgets(
+      'follows the production hierarchy: countdown, then instruction, then '
+      'next step',
+      (tester) async {
+        // Guards the order itself. An earlier version put the instruction
+        // above the countdown, inverting the production screen's logic —
+        // time is what moves and presses, so it leads.
+        _setSurface(tester, const Size(375, 812));
+        await tester.pumpWidget(_wrap(_view()));
+
+        final double countdownY = tester
+            .getTopLeft(_semanticsWithId('stepTimeCounter'))
+            .dy;
+        final double instructionY = tester
+            .getTopLeft(_semanticsWithId('brewingStepDescription'))
+            .dy;
+        final double nextY = tester.getTopLeft(_dryText(_nextInstruction)).dy;
+
+        expect(countdownY, lessThan(instructionY));
+        expect(instructionY, lessThan(nextY));
+      },
+    );
+
+    testWidgets('a longer instruction does not move the countdown', (
+      tester,
+    ) async {
+      // The layout-shift guard: the countdown is anchored to a fixed region
+      // boundary, so a step whose instruction wraps to more lines must leave
+      // the numbers exactly where they were.
+      _setSurface(tester, const Size(375, 812));
+      await tester.pumpWidget(_wrap(_view(instruction: 'Wait.')));
+      final Offset shortY = tester.getTopLeft(
+        _semanticsWithId('stepTimeCounter'),
+      );
+
+      await tester.pumpWidget(_wrap(_view(instruction: _longInstruction)));
+      final Offset longY = tester.getTopLeft(
+        _semanticsWithId('stepTimeCounter'),
+      );
+
+      expect(longY, shortY);
     });
   });
 
@@ -241,8 +284,7 @@ void main() {
         nextInstruction: next,
         countdownBuilder: (_) =>
             _MountCountingCountdown(onMount: () => mounts++),
-        elapsedText: '02:14',
-        totalText: '04:00',
+        nextLabel: 'Next:',
         level: 0.5,
         wavePhase: 1.0,
         waveAmplitude: 6.0,
@@ -285,24 +327,37 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('the paused slot renders empty while running', (tester) async {
-      _setSurface(tester, const Size(375, 812));
-      await tester.pumpWidget(_wrap(_view(isPaused: false)));
+    testWidgets(
+      'the paused label is hidden while running but keeps its space, so '
+      'pausing does not move the countdown',
+      (tester) async {
+        // The countdown is bottom-anchored above the paused label, so a label
+        // that collapsed to nothing would push the numbers up on every
+        // pause. It is a Visibility that maintains its size instead.
+        _setSurface(tester, const Size(375, 812));
+        await tester.pumpWidget(_wrap(_view(isPaused: false)));
 
-      // The slot is always present, but renders as an empty box while
-      // running. Asserted structurally — a zero-size, childless SizedBox —
-      // rather than by widget-instance equality.
-      expect(_semanticsWithId('brewPausedIndicator'), findsOneWidget);
-      expect(find.text('Paused'), findsNothing);
-      final slot = tester.widget<Semantics>(
-        _semanticsWithId('brewPausedIndicator'),
-      );
-      final emptySlot = slot.child! as SizedBox;
-      expect(emptySlot.child, isNull);
-      expect(emptySlot.width ?? 0, 0);
-      expect(emptySlot.height ?? 0, 0);
-      expect(tester.getSize(_semanticsWithId('brewPausedIndicator')).height, 0);
-    });
+        expect(_semanticsWithId('brewPausedIndicator'), findsOneWidget);
+        final visibility = tester.widget<Visibility>(
+          find.descendant(
+            of: _semanticsWithId('brewPausedIndicator'),
+            matching: find.byType(Visibility),
+          ),
+        );
+        expect(visibility.visible, isFalse);
+        expect(visibility.maintainSize, isTrue);
+        final Offset runningY = tester.getTopLeft(
+          _semanticsWithId('stepTimeCounter'),
+        );
+
+        await tester.pumpWidget(_wrap(_view(isPaused: true)));
+        final Offset pausedY = tester.getTopLeft(
+          _semanticsWithId('stepTimeCounter'),
+        );
+
+        expect(pausedY, runningY);
+      },
+    );
 
     testWidgets('the paused slot renders the label while paused', (
       tester,

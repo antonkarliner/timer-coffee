@@ -4,12 +4,30 @@ import '../../theme/design_tokens.dart';
 import 'brew_fill_ring_painter.dart';
 import 'pour_liquid_painter.dart';
 
-/// The "Pour" brewing presentation (plan 066 phase 1): the current
-/// instruction at display size at the top, the next step ghosted beneath it,
-/// and the lower screen filled with liquid — the same
-/// [AppBrewColors.brewFill] coffee the end-of-brew ring fill uses — that
-/// rises with brew progress, with the countdown living inside the liquid as
-/// large numerals.
+/// The "Pour" brewing presentation (plan 066): the classic screen's
+/// information, in the classic screen's order, with coffee rising behind it.
+///
+/// ## Hierarchy
+///
+/// Top to bottom it follows the production layout, whose order is deliberate:
+///
+///  1. the **step countdown**, dominant — time is the thing that moves and
+///     presses, so it leads;
+///  2. the **instruction**, directly beneath it;
+///  3. the **next step**, small and secondary, bottom-left, so it never
+///     competes for attention.
+///
+/// The step number lives in the screen's app bar, and pause in the screen's
+/// floating button; neither belongs to this view.
+///
+/// An earlier version put the instruction above the countdown and added an
+/// "elapsed / total" row under it. Both were wrong. The order inverted what
+/// the production screen gets right, and the total row was a second moving
+/// number restating what the liquid already shows. The liquid is now the one
+/// and only whole-brew indicator — ambient, read at a glance, never a number
+/// — while the countdown is the precise per-step time. Two questions ("where
+/// am I in this step?", "how far through the brew?"), two channels, nothing
+/// competing.
 ///
 /// Presentation only: no state, no animation, no provider reads. Every value
 /// arrives through the constructor, already localized and already formatted;
@@ -41,29 +59,33 @@ import 'pour_liquid_painter.dart';
 /// here — the tests match `Semantics` *widgets* in the widget tree, not
 /// nodes in the semantics tree.
 ///
-/// ## Stable shape
+/// ## Stable shape, stable position
 ///
 /// Widget shape is intentionally **stable** in every state (see the remount
 /// trap in CLAUDE.md — swapping the widget type at a tree position destroys
 /// the subtree element and re-runs `initState` on whatever lives there): the
-/// next-step, paused, leading and trailing slots are always present and
-/// collapse to `SizedBox.shrink()` when empty, and [opacity] is applied with
-/// an always-present `Opacity`. `withSemantics` is fixed per copy, so it
-/// never swaps a type at a position either.
+/// next-step, leading and trailing slots are always present and collapse to
+/// `SizedBox.shrink()` when empty, the paused label is an always-present
+/// `Visibility`, and [opacity] is applied with an always-present `Opacity`.
+/// `withSemantics` is fixed per copy, so it never swaps a type either.
 ///
-/// The height is split into two fixed-proportion regions — the instruction
-/// above, the countdown group below — so that a step whose instruction wraps
-/// to a different number of lines cannot shift the numbers as the step
-/// changes. Each region centres its own content and is line-capped, so the
-/// text can grow and shrink inside it without moving anything else.
+/// Position is stable too. The height is split into three fixed-proportion
+/// regions, and each block is anchored to the region edge nearest its
+/// neighbour, so nothing moves when content changes size:
+///
+///  * the countdown is bottom-anchored in the top region and the instruction
+///    top-anchored in the middle one, so the two meet at a fixed boundary and
+///    a longer instruction grows *downward*, away from the numbers;
+///  * the next step is bottom-anchored in the bottom region and grows upward;
+///  * the paused label keeps its space when hidden, so pausing does not nudge
+///    the countdown up.
 class PourBrewingView extends StatelessWidget {
   const PourBrewingView({
     super.key,
     required this.instruction,
+    required this.nextLabel,
     required this.nextInstruction,
     required this.countdownBuilder,
-    required this.elapsedText,
-    required this.totalText,
     required this.level,
     required this.wavePhase,
     required this.waveAmplitude,
@@ -79,6 +101,9 @@ class PourBrewingView extends StatelessWidget {
   /// The current step's resolved description, already localized.
   final String instruction;
 
+  /// Already-localized label above the next-step preview, e.g. "Next:".
+  final String nextLabel;
+
   /// The next step's description, already localized, or null for the last
   /// step. The slot itself is always present in the tree.
   final String? nextInstruction;
@@ -88,13 +113,7 @@ class PourBrewingView extends StatelessWidget {
   /// of its own — this view applies `stepTimeCounter` to the dry copy.
   final Widget Function(Color color) countdownBuilder;
 
-  /// Already-formatted elapsed brew time, e.g. "02:14".
-  final String elapsedText;
-
-  /// Already-formatted total brew time, e.g. "04:00".
-  final String totalText;
-
-  /// Liquid height, 0 (empty) .. 1 (full).
+  /// Liquid height, 0 (empty) .. 1 (full): progress through the whole brew.
   final double level;
 
   /// Wave surface phase, radians.
@@ -107,8 +126,8 @@ class PourBrewingView extends StatelessWidget {
   /// caller, so both brewing presentations share one colour family.
   final Color fillColor;
 
-  /// Whether the brew is paused. Toggles the paused slot's content between
-  /// [pausedLabel] and an empty box; the slot is always present.
+  /// Whether the brew is paused. Shows [pausedLabel] under the countdown; the
+  /// label's space is reserved either way.
   final bool isPaused;
 
   /// Already-localized "paused" state label.
@@ -121,7 +140,7 @@ class PourBrewingView extends StatelessWidget {
   /// Optional slot for the manual step-back arrow, built in the colour the
   /// copy needs. Always present in the tree; empty when null. It is a builder
   /// for the same reason [countdownBuilder] is: it sits beside the countdown,
-  /// low enough that the liquid reaches it, so a fixed colour would leave it
+  /// where the liquid reaches it, so a fixed colour would leave it
   /// near-black on the coffee once submerged.
   final Widget Function(Color color)? leading;
 
@@ -133,30 +152,30 @@ class PourBrewingView extends StatelessWidget {
   /// button.
   final double bottomClearance;
 
-  /// The instruction is the one deliberate exception to the project type
-  /// ramp, whose top is 32 (`AppTextStyles.display`). This screen has a single
-  /// job — tell you what to do right now — and at 32 the instruction did not
-  /// carry the screen against the liquid. Capped at three lines, so the
-  /// longest real step text still fits.
-  static const double _instructionFontSize = 40.0;
-
   /// How the height above the bottom clearance is split between the
-  /// instruction region and the countdown region. Fixed proportions, so a
-  /// step whose instruction wraps to a different number of lines cannot move
-  /// the countdown.
+  /// countdown, instruction and next-step regions. Fixed proportions, so a
+  /// block that changes size cannot move its neighbours.
   ///
-  /// The instruction takes the larger share because it is what has to fit:
-  /// three lines at 40 logical px, times a 1.5 accessibility text scale, plus
-  /// two lines of next-step, needs ~279px on a 320x690 screen — a 5:6 split
-  /// left only 259 and overflowed.
-  ///
-  /// The countdown region aligns its content to the *top* rather than
-  /// centring it, which is what actually pins the numbers: centring inside
-  /// the lower region would put them at ~77% of the height, back to the
-  /// bottom-heavy look the spacers had. Top-aligned, the countdown sits at
-  /// the boundary — 6/11, about 55% — whatever the instruction above it does.
-  static const int _instructionRegionFlex = 6;
+  /// The countdown/instruction boundary lands at 5/13, about 38% of the
+  /// content height — where the production screen puts its timer ring. The
+  /// instruction region is sized for its worst case, three lines of 32px at
+  /// a 1.5 accessibility text scale on a 320x690 screen; the next-step region
+  /// for its 16/20 two-line preview.
   static const int _countdownRegionFlex = 5;
+  static const int _instructionRegionFlex = 5;
+  static const int _nextRegionFlex = 3;
+
+  /// Secondary text colour for the dry copy (the next-step preview).
+  ///
+  /// The production screen greys its preview with `onSurface` at 55% alpha.
+  /// This is the same colour computed solid — onSurface blended 55% of the way
+  /// from the surface — so it reads identically without being an alpha-faded
+  /// text, and follows the theme into dark mode. `onSurfaceVariant` was tried
+  /// first and is near-black in this app's light scheme, which left the
+  /// preview almost as loud as the instruction it is meant to sit under.
+  static Color _drySecondary(ColorScheme scheme) =>
+      Color.lerp(scheme.surface, scheme.onSurface, _drySecondaryWeight)!;
+  static const double _drySecondaryWeight = 0.55;
 
   /// Secondary text colour for the submerged copy. A warm off-white rather
   /// than a faded white: alpha-faded text is an operator-rejected pattern
@@ -189,7 +208,7 @@ class PourBrewingView extends StatelessWidget {
           Positioned.fill(
             child: _content(
               primary: colorScheme.onSurface,
-              secondary: colorScheme.onSurfaceVariant,
+              secondary: _drySecondary(colorScheme),
               withSemantics: true,
             ),
           ),
@@ -234,73 +253,15 @@ class PourBrewingView extends StatelessWidget {
             left: AppSpacing.base,
             right: AppSpacing.base,
           ),
-          // Two fixed-proportion regions rather than a spacer-balanced list.
-          // With spacers the countdown's position depended on how tall the
-          // instruction happened to be, so a step whose text wrapped to a
-          // different number of lines shifted the numbers as the step
-          // changed. Splitting the height by flex pins each region: the
-          // instruction grows and shrinks inside its own area and nothing
-          // below it moves.
-          //
-          // Both regions have a fixed child count in every state; the
-          // conditional pieces are slots that collapse to SizedBox.shrink(),
-          // never removed children.
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Expanded(
-                flex: _instructionRegionFlex,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // Both blocks are Flexible so the region's fixed height is
-                    // authoritative: at a large accessibility text scale the
-                    // text ellipsises a line earlier instead of overflowing
-                    // the region. Chasing the flex ratio instead would only
-                    // move the scale at which it breaks.
-                    Flexible(
-                      child: wrap(
-                        'brewingStepDescription',
-                        Text(
-                          instruction,
-                          textAlign: TextAlign.center,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          style: AppTextStyles.display.copyWith(
-                            fontSize: _instructionFontSize,
-                            fontWeight: FontWeight.w800,
-                            color: primary,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.sm),
-                    // Ghosted next-step slot: always present, empty box when
-                    // there is no next step. Ghosting is a second solid
-                    // colour, never an alpha fade.
-                    Flexible(
-                      child: nextInstruction == null
-                          ? const SizedBox.shrink()
-                          : Text(
-                              nextInstruction!,
-                              textAlign: TextAlign.center,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: AppTextStyles.caption.copyWith(
-                                height: 1.3,
-                                color: secondary,
-                              ),
-                            ),
-                    ),
-                  ],
-                ),
-              ),
+              // 1. Countdown — bottom-anchored, so it sits on the boundary
+              // with the instruction and never moves.
               Expanded(
                 flex: _countdownRegionFlex,
                 child: Column(
-                  // Top, not centre — see _countdownRegionFlex.
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Row(
@@ -317,34 +278,101 @@ class PourBrewingView extends StatelessWidget {
                         trailing?.call(primary) ?? const SizedBox.shrink(),
                       ],
                     ),
-                    const SizedBox(height: AppSpacing.sm),
-                    Text(
-                      '$elapsedText / $totalText',
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTextStyles.caption.copyWith(
-                        color: primary,
-                        fontFeatures: const [FontFeature.tabularFigures()],
-                      ),
-                    ),
                     const SizedBox(height: AppSpacing.xs),
-                    // Paused slot: always present, empty box when not paused
-                    // — same rule as every other slot here.
+                    // Paused label: its space is reserved even while hidden,
+                    // because the countdown is bottom-anchored above it —
+                    // collapsing it would push the numbers up on every pause.
                     wrap(
                       'brewPausedIndicator',
-                      isPaused
-                          ? Text(
-                              pausedLabel,
-                              textAlign: TextAlign.center,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: AppTextStyles.caption.copyWith(
-                                fontWeight: FontWeight.w600,
-                                color: primary,
-                              ),
-                            )
-                          : const SizedBox.shrink(),
+                      Visibility(
+                        visible: isPaused,
+                        maintainSize: true,
+                        maintainAnimation: true,
+                        maintainState: true,
+                        child: Text(
+                          pausedLabel,
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTextStyles.fieldLabel.copyWith(
+                            color: primary,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: AppSpacing.base),
+              // 2. Instruction — top-anchored under the countdown, so a
+              // longer one grows downward, away from the numbers. Flexible,
+              // so at a large text scale it ellipsises instead of
+              // overflowing its region.
+              Expanded(
+                flex: _instructionRegionFlex,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Flexible(
+                      child: wrap(
+                        'brewingStepDescription',
+                        Text(
+                          instruction,
+                          textAlign: TextAlign.center,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTextStyles.display.copyWith(
+                            color: primary,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // 3. Next step — small, secondary, bottom-left, as on the
+              // production screen. Bottom-anchored, so it grows upward.
+              Expanded(
+                flex: _nextRegionFlex,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Always present; an empty box on the last step. Ghosted
+                    // with a second solid colour, never an alpha fade.
+                    Flexible(
+                      child: nextInstruction == null
+                          ? const SizedBox.shrink()
+                          : Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // 16 / 20, matching the production preview's
+                                // 17 / 20 as closely as the type ramp allows.
+                                Text(
+                                  nextLabel,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppTextStyles.body.copyWith(
+                                    color: secondary,
+                                  ),
+                                ),
+                                const SizedBox(height: AppSpacing.xs),
+                                Flexible(
+                                  child: Text(
+                                    nextInstruction!,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: AppTextStyles.title.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      height: 1.3,
+                                      color: secondary,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                     ),
                   ],
                 ),

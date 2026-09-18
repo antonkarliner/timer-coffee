@@ -729,19 +729,29 @@ void main() {
         await _pumpScreen(tester, stepCount: 2, pourLayout: true);
         await tester.pump(const Duration(seconds: 2));
 
-        expect(find.text('Paused'), findsNothing);
+        // The Pour paused label is a Visibility that keeps its size (so
+        // pausing never shifts the countdown), which means the Text stays in
+        // the tree while hidden. Visibility is what the user sees, so that is
+        // what is asserted — a bare find.text would find the hidden one.
+        bool pausedShown() => tester
+            .widget<Visibility>(
+              find.descendant(
+                of: _semanticsWithId('brewPausedIndicator'),
+                matching: find.byType(Visibility),
+              ),
+            )
+            .visible;
+
+        expect(pausedShown(), isFalse);
         await tester.tap(find.byType(FloatingActionButton));
         await tester.pump();
         await tester.pump(const Duration(milliseconds: 300));
-        // Two copies: the Pour view lays its content out dry and submerged
-        // (the submerged one clipped to the liquid), so the label is two
-        // Text widgets that differ only in colour.
-        expect(find.text('Paused'), findsNWidgets(2));
+        expect(pausedShown(), isTrue);
 
         await tester.tap(find.byType(FloatingActionButton));
         await tester.pump();
         await tester.pump(const Duration(milliseconds: 300));
-        expect(find.text('Paused'), findsNothing);
+        expect(pausedShown(), isFalse);
 
         await _teardownTree(tester);
       },

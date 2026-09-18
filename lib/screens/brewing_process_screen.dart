@@ -1589,6 +1589,12 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   /// Ever-increasing wave phase, radians. Never wraps, so the secondary wave
   /// layer (which advances at 1.3x this) has no seam to jump across — see
   /// [_pourWaveClock].
+  ///
+  /// Deliberately independent of pause: pausing freezes the *level* (it reads
+  /// the step counter while paused) but the surface keeps lapping. The
+  /// operator singled this out as a good touch (2026-09-18) — a paused brew
+  /// still looks like liquid rather than a frozen frame. Do not stop the wave
+  /// clock in `_togglePause`.
   double get _pourWavePhase =>
       (_pourWaveClock.elapsedMicroseconds / _kPourWavePeriodMicros) *
       2 *
@@ -1616,24 +1622,15 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     final bool showManualArrows =
         manualStepControlEnabled && !_isEndBrewAnimating;
 
+    // Same condition the classic layout applies to its next-step preview.
     final String? nextInstruction =
         (currentStepIndex < brewingSteps.length - 1 && !_isEndBrewAnimating)
-            ? '${loc.next}: ${brewingSteps[currentStepIndex + 1].description}'
+            ? brewingSteps[currentStepIndex + 1].description
             : null;
 
-    // Elapsed/total for the row inside the liquid — the same sums
-    // _brewProgressFraction uses.
-    final int elapsedBeforeCurrentStep = brewingSteps
-        .take(currentStepIndex)
-        .fold<int>(0, (sum, step) => sum + step.time.inSeconds);
-    final int totalBrewSeconds = brewingSteps.fold<int>(
-      0,
-      (sum, step) => sum + step.time.inSeconds,
-    );
-    final int elapsedBrewSeconds = math.max(
-      0,
-      elapsedBeforeCurrentStep + currentStepTime,
-    );
+    // No elapsed/total readout. It was a second moving number restating what
+    // the liquid already shows, competing with the step countdown; the
+    // liquid is now the only whole-brew indicator.
 
     return AnimatedBuilder(
       animation: Listenable.merge([
@@ -1689,6 +1686,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
           // No step label in the body: the app bar already shows "Step n/m"
           // and rendering it twice on one screen just repeated itself.
           instruction: brewingSteps[currentStepIndex].description,
+          // Label and text passed separately so the view can set them as the
+          // production screen's two-line preview does.
+          nextLabel: '${loc.next}:',
           nextInstruction: nextInstruction,
           // Built per copy in the colour the view asks for: it renders the
           // content once dry and once submerged, clipping the submerged copy
@@ -1701,24 +1701,8 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
             // settings both overflow a 60px countdown on narrow screens);
             // at ordinary sizes it renders at natural size.
             fit: BoxFit.scaleDown,
-            // The numerals alone, with no unit suffix. The suffix used to sit
-            // beside them in this row, and because the row was centred as a
-            // whole it pushed the digits about 40px left of the screen's
-            // centre. The elapsed/total line directly below already carries
-            // the units.
-            child: LocalizedNumberText(
-              currentNumber: currentStepTime,
-              totalNumber: brewingSteps[currentStepIndex].time.inSeconds,
-              style: TextStyle(
-                fontSize: 60,
-                fontWeight: FontWeight.bold,
-                color: color,
-                fontFeatures: const [FontFeature.tabularFigures()],
-              ),
-            ),
+            child: _pourCountdown(color, loc.secondsAbbreviation),
           ),
-          elapsedText: _formatMmSs(elapsedBrewSeconds),
-          totalText: _formatMmSs(totalBrewSeconds),
           level: level,
           wavePhase: _pourWavePhase,
           waveAmplitude: waveAmplitude,
@@ -1741,12 +1725,52 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     );
   }
 
-  /// mm:ss for the Pour body's elapsed/total row. No new package.
-  String _formatMmSs(int totalSeconds) {
-    final minutes = totalSeconds ~/ 60;
-    final seconds = totalSeconds % 60;
-    return '${minutes.toString().padLeft(2, '0')}:'
-        '${seconds.toString().padLeft(2, '0')}';
+  /// The Pour countdown: step numerals with the seconds unit beside them,
+  /// the numerals centred on the screen.
+  ///
+  /// Putting the unit straight after the numerals in a centred row centres
+  /// the *pair*, which pushed the digits about 40px left of centre — that is
+  /// why the unit was dropped for a while. Here an invisible copy of the unit
+  /// balances the real one on the other side, so the row stays symmetric
+  /// around the numerals and they sit dead centre. `maintainSize` keeps the
+  /// phantom's width without painting it; it is layout, not faded text. In
+  /// RTL the row mirrors and stays symmetric, with the unit on the left.
+  ///
+  /// Baseline-aligned, so the smaller unit sits on the numerals' baseline
+  /// rather than floating at their vertical middle.
+  Widget _pourCountdown(Color color, String unit) {
+    final Widget unitText = Text(
+      unit,
+      style: TextStyle(fontSize: 24, color: color),
+    );
+    const Widget gap = SizedBox(width: AppSpacing.xs);
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.baseline,
+      textBaseline: TextBaseline.alphabetic,
+      children: [
+        Visibility(
+          visible: false,
+          maintainSize: true,
+          maintainAnimation: true,
+          maintainState: true,
+          child: unitText,
+        ),
+        gap,
+        LocalizedNumberText(
+          currentNumber: currentStepTime,
+          totalNumber: brewingSteps[currentStepIndex].time.inSeconds,
+          style: TextStyle(
+            fontSize: 60,
+            fontWeight: FontWeight.bold,
+            color: color,
+            fontFeatures: const [FontFeature.tabularFigures()],
+          ),
+        ),
+        gap,
+        unitText,
+      ],
+    );
   }
 
   @override
