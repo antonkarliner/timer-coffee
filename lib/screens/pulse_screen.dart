@@ -277,7 +277,7 @@ class _PulseScreenState extends State<PulseScreen>
   }) async {
     var query = Supabase.instance.client
         .from('global_stats')
-        .select()
+        .select('id, recipe_id, created_at, water_amount, country_code')
         .gte('water_amount', 50)
         .lte('water_amount', 5000);
 

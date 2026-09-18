@@ -38,7 +38,8 @@ import '../services/moments_service.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import '../widgets/anniversary_celebration.dart';
 import '../widgets/bean_review_nudge_card.dart';
-import '../widgets/brew_diary/brew_detail_sheet.dart' show diaryEntrySourceLabel;
+import '../widgets/brew_diary/brew_detail_sheet.dart'
+    show diaryEntrySourceLabel;
 import '../widgets/falling_beans_overlay.dart';
 import '../widgets/finish/brew_eval_sheet.dart';
 import '../widgets/finish/whats_new_card.dart';
@@ -256,12 +257,9 @@ class _FinishScreenState extends State<FinishScreen> {
     // a failed insert already logs + rethrows inside
     // `insertBrewingDataToAppDatabase`, and the star row simply stays
     // disabled rather than writing to a row that doesn't exist.
-    _insertBrewingDataFuture.then(
-      (_) {
-        if (mounted) setState(() => _ratingRowReady = true);
-      },
-      onError: (Object _, StackTrace _) {},
-    );
+    _insertBrewingDataFuture.then((_) {
+      if (mounted) setState(() => _ratingRowReady = true);
+    }, onError: (Object _, StackTrace _) {});
     _checkAndRequestNotificationPermission();
     _resolveAnniversary();
     _queryInSync();
@@ -376,28 +374,27 @@ class _FinishScreenState extends State<FinishScreen> {
 
       try {
         final res = await Supabase.instance.client
-            .from('global_stats')
-            .select('user_id, country_code')
-            .gte('created_at', start)
-            .lte('created_at', end)
-            .neq('user_id', user.id)
+            .rpc(
+              'get_brew_peers',
+              params: {'p_window_start': start, 'p_window_end': end},
+            )
             .timeout(const Duration(seconds: 3));
 
-        // Dedupe by user_id so a peer with two brews in the window counts
-        // once. Also build a frequency tally of country codes for the
-        // "from …" line.
-        final rows = (res as List).cast<Map<String, dynamic>>();
-        final firstCountryByUser = <String, String?>{};
-        for (final row in rows) {
-          final uid = row['user_id']?.toString();
-          if (uid == null || uid.isEmpty) continue;
-          final raw = row['country_code']?.toString().trim();
-          final code = (raw == null || raw.isEmpty) ? null : raw.toUpperCase();
-          firstCountryByUser.putIfAbsent(uid, () => code);
-        }
-        final count = firstCountryByUser.length;
+        // The RPC dedupes peers server-side and returns at most one country
+        // code per peer. Build the frequency tally for the "from …" line.
+        final row = res is List && res.isNotEmpty && res.first is Map
+            ? res.first as Map
+            : const {};
+        final peerCount = row['peer_count'];
+        final count = peerCount is num ? peerCount.toInt() : 0;
+        final rawCountryCodes = row['country_codes'];
+        final countryCodes = rawCountryCodes is List
+            ? rawCountryCodes
+            : const <dynamic>[];
         final countryTally = <String, int>{};
-        for (final code in firstCountryByUser.values) {
+        for (final countryCode in countryCodes) {
+          final raw = countryCode?.toString().trim();
+          final code = (raw == null || raw.isEmpty) ? null : raw.toUpperCase();
           if (code == null) continue;
           countryTally[code] = (countryTally[code] ?? 0) + 1;
         }
@@ -655,8 +652,9 @@ class _FinishScreenState extends State<FinishScreen> {
       request: request,
       userStatProvider: userStatProvider,
       database: database,
-      scheduleBeanReviewNudge:
-          LocalNotificationSchedulerService.instance.maybeScheduleBeanReviewNudge,
+      scheduleBeanReviewNudge: LocalNotificationSchedulerService
+          .instance
+          .maybeScheduleBeanReviewNudge,
       scheduleRoasterContribNudge: LocalNotificationSchedulerService
           .instance
           .maybeScheduleRoasterContribNudgeOnBrew,
@@ -699,7 +697,10 @@ class _FinishScreenState extends State<FinishScreen> {
           );
         })
         .catchError((Object error) {
-          AppLogger.error('Error saving finish-screen rating', errorObject: error);
+          AppLogger.error(
+            'Error saving finish-screen rating',
+            errorObject: error,
+          );
         });
     await _ratingWrite;
     if (!mounted) return;
