@@ -18,38 +18,96 @@ const double _pourRippleAmplitude = 8.0;
 /// fraction of the width — far enough to reach the screen's edges.
 const double _pourRippleReach = 0.55;
 
-/// Width of each travelling wave packet (Gaussian sigma), px.
+/// Width of each travelling wave packet at impact (Gaussian sigma), px. It
+/// widens as it travels — see [_pourRippleSpread].
 const double _pourRipplePacketWidth = 28.0;
 
-/// Wavelength of the ripple within each packet, px. At 26 (with a 18px
-/// packet) the ripple showed as tight zigzags — crinkles, not water. Longer
-/// and wider, it reads as a couple of smooth swells rolling outward.
+/// Wavelength of the ripple at impact, px. It lengthens as it travels —
+/// see [_pourRippleStretch].
 const double _pourRippleWavelength = 46.0;
+
+/// How much wider each packet is by the time it dies out (1 = twice as
+/// wide). A packet that keeps one fixed shape the whole way read as a
+/// graphic sliding across the surface; real ripples spread and flatten.
+const double _pourRippleSpread = 1.2;
+
+/// How much longer the ripple's wavelength is by the time it dies out.
+const double _pourRippleStretch = 0.5;
+
+/// Peak height of the bob at the impact point, px.
+const double _pourImpactBobAmplitude = 6.0;
+
+/// Width of the impact bob (Gaussian sigma), px.
+const double _pourImpactBobWidth = 16.0;
+
+/// How many times the impact point bobs up and down before it settles.
+const double _pourImpactBobCycles = 2.5;
+
+/// Converts a cup [level] (0 empty .. 1 full) into a fraction of the whole
+/// canvas height, for a cup whose "full" line is [headroom] px below the top
+/// of the canvas. Shared by the painter and the view's text clipper so the
+/// coffee and the text's colour boundary sit at the same height.
+double pourCanvasLevel(double level, double headroom, Size size) {
+  if (size.height <= 0) return level;
+  final double room = headroom.clamp(0.0, size.height);
+  return level * (1 - room / size.height);
+}
 
 /// How much the last drop's ripple raises the liquid surface at [x], px.
 ///
 /// The view is a side-on cross-section of the cup, so the familiar top-down
 /// image of a ring spreading out would not read. Side-on, a drop landing
-/// sends a small wave packet travelling outward in *both* directions from
-/// the impact, each one fading as it goes. That is what this models: two
-/// Gaussian-enveloped packets moving away from the impact point, with an
-/// amplitude that dies away quadratically across [rippleProgress] 0..1.
+/// does two things, and this models both:
+///
+/// * It punches a small dip at the impact point, which springs back as a
+///   bump and bobs a couple of times before settling — a damped oscillation
+///   pinned to the impact.
+/// * It sends a wave packet travelling outward in *both* directions. Each
+///   packet leaves as a trough (the crater's edge), and spreads out and
+///   flattens as it goes — wider, longer-waved and lower — instead of
+///   sliding along as one fixed shape.
+///
+/// Everything dies away to exactly zero at [rippleProgress] 1.
 ///
 /// Shared by [PourLiquidPainter] and the view's text clipper, so the
 /// coffee's surface and the text's colour boundary ripple as one.
 double pourRippleOffset(double x, Size size, double rippleProgress) {
+  final double p = rippleProgress;
   final double impactX = size.width * _pourDropX;
-  final double travelled = size.width * _pourRippleReach * rippleProgress;
-  final double fade = (1 - rippleProgress) * (1 - rippleProgress);
-  final double distance = (x - impactX).abs() - travelled;
+  final double fromImpact = x - impactX;
+
+  // Outgoing packets, spreading as they travel. Height falls as the packet
+  // widens (energy spread over more water), on top of the fade over time.
+  final double width = _pourRipplePacketWidth * (1 + _pourRippleSpread * p);
+  final double wavelength =
+      _pourRippleWavelength * (1 + _pourRippleStretch * p);
+  final double travelled = size.width * _pourRippleReach * p;
+  final double distance = fromImpact.abs() - travelled;
   final double envelope = math.exp(
-    -(distance * distance) /
-        (2 * _pourRipplePacketWidth * _pourRipplePacketWidth),
+    -(distance * distance) / (2 * width * width),
   );
-  return _pourRippleAmplitude *
+  final double spreadLoss = math.sqrt(_pourRipplePacketWidth / width);
+  final double fade = math.pow(1 - p, 1.5).toDouble();
+  final double outgoing =
+      -_pourRippleAmplitude *
       fade *
+      spreadLoss *
       envelope *
-      math.cos(2 * math.pi * distance / _pourRippleWavelength);
+      math.cos(2 * math.pi * distance / wavelength);
+
+  // The impact point bobbing: starts level (the outgoing trough already
+  // makes the dip), springs up, and settles.
+  final double bob =
+      _pourImpactBobAmplitude *
+      (1 - p) *
+      math.exp(-4 * p) *
+      math.exp(
+        -(fromImpact * fromImpact) /
+            (2 * _pourImpactBobWidth * _pourImpactBobWidth),
+      ) *
+      math.sin(2 * math.pi * _pourImpactBobCycles * p);
+
+  return outgoing + bob;
 }
 
 /// Paints the "Pour" brewing layout's liquid: a rectangle of coffee rising
@@ -77,10 +135,15 @@ class PourLiquidPainter extends CustomPainter {
     required this.fillColor,
     this.dropProgress,
     this.rippleProgress,
+    this.headroom = 0,
   });
 
   /// Liquid height, 0 (empty) .. 1 (full). At 0 or below nothing is painted.
+  /// "Full" is [headroom] px below the top of the canvas.
   final double level;
+
+  /// Empty space above a full cup, px. See [pourCanvasLevel].
+  final double headroom;
 
   /// Wave surface phase, radians.
   final double wavePhase;
@@ -103,6 +166,7 @@ class PourLiquidPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     if (level <= 0) return;
+    final double canvasLevel = pourCanvasLevel(level, headroom, size);
 
     final double? ripple = rippleProgress;
     final double Function(double x)? surfaceOffset = ripple == null
@@ -116,7 +180,7 @@ class PourLiquidPainter extends CustomPainter {
     canvas.drawPath(
       buildBrewWavePath(
         size: size,
-        fillLevel: level,
+        fillLevel: canvasLevel,
         waveAmplitude: waveAmplitude,
         phase: wavePhase,
         surfaceOffset: surfaceOffset,
@@ -126,7 +190,7 @@ class PourLiquidPainter extends CustomPainter {
     canvas.drawPath(
       buildBrewWavePath(
         size: size,
-        fillLevel: level,
+        fillLevel: canvasLevel,
         waveAmplitude: waveAmplitude,
         phase: wavePhase + secondaryWavePhaseOffset,
         surfaceOffset: surfaceOffset,
@@ -134,16 +198,21 @@ class PourLiquidPainter extends CustomPainter {
       Paint()..color = fillColor.withValues(alpha: secondaryWaveAlpha),
     );
     final double? drop = dropProgress;
-    if (drop != null) _paintDrop(canvas, size, drop);
+    if (drop != null) _paintDrop(canvas, size, canvasLevel, drop);
     canvas.restore();
   }
 
   /// A teardrop falling under gravity (ease-in) from just above the canvas to
   /// the surface, stretching slightly as it gains speed. The surface is calm
   /// by the time it falls, so the flat-surface height is where it lands.
-  void _paintDrop(Canvas canvas, Size size, double progress) {
+  void _paintDrop(
+    Canvas canvas,
+    Size size,
+    double canvasLevel,
+    double progress,
+  ) {
     final double fall = Curves.easeIn.transform(progress);
-    final double surfaceY = size.height * (1 - level);
+    final double surfaceY = size.height * (1 - canvasLevel);
     final double x = size.width * _pourDropX;
     final double startY = -_pourDropRadius * 3;
     final double endY = surfaceY - _pourDropRadius;
@@ -181,6 +250,7 @@ class PourLiquidPainter extends CustomPainter {
         oldDelegate.waveAmplitude != waveAmplitude ||
         oldDelegate.fillColor != fillColor ||
         oldDelegate.dropProgress != dropProgress ||
-        oldDelegate.rippleProgress != rippleProgress;
+        oldDelegate.rippleProgress != rippleProgress ||
+        oldDelegate.headroom != headroom;
   }
 }

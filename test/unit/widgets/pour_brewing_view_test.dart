@@ -495,10 +495,27 @@ void main() {
       });
     }
 
-    test('the ripple raises the surface near the impact and dies away', () {
+    test('a full cup stops headroom px below the top of the canvas', () {
       const size = Size(400, 800);
-      // At impact, the packet sits on the impact point.
-      expect(pourRippleOffset(200, size, 0.0), greaterThan(0));
+      // Full: the surface sits exactly `headroom` px down.
+      expect(size.height * (1 - pourCanvasLevel(1.0, 32, size)), closeTo(32, 1e-9));
+      // Empty stays empty; halfway is halfway through the fillable height.
+      expect(pourCanvasLevel(0.0, 32, size), 0);
+      expect(
+        size.height * pourCanvasLevel(0.5, 32, size),
+        closeTo((800 - 32) / 2, 1e-9),
+      );
+      // No headroom is the plain level.
+      expect(pourCanvasLevel(0.7, 0, size), 0.7);
+    });
+
+    test('the ripple dips at the impact, spreads out and dies away', () {
+      const size = Size(400, 800);
+      // At impact the drop punches a dip, ringed by raised water.
+      expect(pourRippleOffset(200, size, 0.0), lessThan(0));
+      expect(pourRippleOffset(200 + 23, size, 0.0), greaterThan(0));
+      // Shortly after, the impact point has sprung back up.
+      expect(pourRippleOffset(200, size, 0.1), greaterThan(0));
       // By the end it has faded to nothing everywhere.
       for (final x in [0.0, 100.0, 200.0, 300.0, 400.0]) {
         expect(pourRippleOffset(x, size, 1.0), closeTo(0, 1e-9));
@@ -508,6 +525,12 @@ void main() {
         pourRippleOffset(200 - 100, size, 0.5),
         closeTo(pourRippleOffset(200 + 100, size, 0.5), 1e-9),
       );
+      // The packets flatten as they travel: the highest point on the surface
+      // is lower late on than early.
+      double peak(double p) => [
+        for (double x = 0; x <= 400; x += 1) pourRippleOffset(x, size, p).abs(),
+      ].reduce(math.max);
+      expect(peak(0.6), lessThan(peak(0.2)));
     });
   });
 }

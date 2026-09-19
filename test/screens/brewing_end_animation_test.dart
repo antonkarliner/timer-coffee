@@ -868,7 +868,7 @@ void main() {
         final double levelBefore = view().level;
         expect(
           levelBefore,
-          lessThan(0.85),
+          lessThan(0.9),
           reason: 'the probe needs room to rise, or it proves nothing',
         );
 
@@ -915,9 +915,9 @@ void main() {
         );
         expect(
           levels.last,
-          closeTo(0.85, 0.02),
-          reason: 'the liquid should reach the cap — not the brim, which '
-              'would leave the last drop nowhere to fall',
+          closeTo(1.0, 0.02),
+          reason: 'the liquid should rise to a full cup — the view\'s '
+              'headroom, not the level, keeps room for the last drop',
         );
         // The countdown runs on from where the skip stopped it (2 s into the
         // 60 s step) to the step total, never going backwards — instead of

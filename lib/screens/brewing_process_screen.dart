@@ -593,9 +593,15 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   /// brew that runs out is already at the cap).
   static const double _kPourRiseEnd = 0.33;
 
-  /// Surface goes calm, so the ripple reads against still liquid.
+  /// Surface settles, so the ripple reads against a quieter liquid.
   static const double _kPourCalmStart = 0.28;
   static const double _kPourCalmEnd = 0.42;
+
+  /// How much of the wave is left once the surface has calmed. At 0 the
+  /// surface went dead flat and the drop's ripple crossed a ruled line —
+  /// the most artificial-looking moment of the ending. A little live swell
+  /// underneath makes the ripple read as water.
+  static const double _kPourCalmFloor = 0.3;
 
   /// The drop falls, and lands.
   static const double _kPourDropStart = 0.42;
@@ -1656,10 +1662,12 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   /// sequence's settle beat, before the last drop.
   static const double _kPourWaveAmplitude = 6.0;
 
-  /// The fill tops out here, not at the brim. A brew that runs out is at
-  /// 100% progress, so a full-height cup would put the surface at the top
-  /// edge of the screen and leave the last drop nowhere to fall from.
-  static const double _kPourMaxLevel = 0.85;
+  /// Empty band left under the app bar when the cup is full, px. The whole
+  /// body is the vessel — there is no drawn cup, so a surface stopping
+  /// mid-screen (the earlier 85% cap) read as "not quite done". The band
+  /// keeps the wave crests off the app bar's edge, and the last drop drips
+  /// out from under the app bar across it.
+  static const double _kPourHeadroom = 32;
 
   /// The "Step n/total" label shared by the app bar title and the Pour
   /// body's step label — built once so the two can never drift apart.
@@ -1716,22 +1724,18 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
           _window(t, 0, _kPourRiseEnd),
         );
 
-        // Liquid level. The cup starts empty and fills with the brew, up to
-        // _kPourMaxLevel rather than the brim — the last drop needs room to
-        // fall. PourBrewingView draws its text twice and clips the white
+        // Liquid level, 0 (empty) .. 1 (full). The cup starts empty and
+        // fills with the brew; where "full" sits on screen is the view's
+        // headroom. PourBrewingView draws its text twice and clips the white
         // copy to the liquid, so legibility does not depend on the level.
-        // End sequence: rise from wherever the liquid stood to the cap.
+        // End sequence: rise from wherever the liquid stood to full.
         final double level;
         if (!_isEndBrewAnimating) {
-          level = _brewProgressFraction * _kPourMaxLevel;
+          level = _brewProgressFraction;
         } else if (_reduceMotion) {
-          level = _kPourMaxLevel;
+          level = 1.0;
         } else {
-          level = lerpDouble(
-            _endLevelStartValue * _kPourMaxLevel,
-            _kPourMaxLevel,
-            rise,
-          )!;
+          level = lerpDouble(_endLevelStartValue, 1.0, rise)!;
         }
 
         // The countdown runs on to its total as the ending plays (operator's
@@ -1757,7 +1761,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
         // Wave surface. Amplitude 0 whenever there is no running wave clock
         // — web, or reduced motion (the clock is stopped in
         // didChangeDependencies) — otherwise the full ripple during brewing,
-        // going glassy-calm before the drop so its ripple reads cleanly.
+        // settling to a gentle swell before the drop so its ripple reads.
         final double waveAmplitude;
         if (_pourWaveController == null || _reduceMotion) {
           waveAmplitude = 0.0;
@@ -1765,9 +1769,10 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
           waveAmplitude =
               _kPourWaveAmplitude *
               (1 -
-                  Curves.easeOut.transform(
-                    _window(t, _kPourCalmStart, _kPourCalmEnd),
-                  ));
+                  (1 - _kPourCalmFloor) *
+                      Curves.easeOut.transform(
+                        _window(t, _kPourCalmStart, _kPourCalmEnd),
+                      ));
         } else {
           waveAmplitude = _kPourWaveAmplitude;
         }
@@ -1836,6 +1841,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
               : null,
           bottomClearance:
               _bottomControlClearance + MediaQuery.of(context).padding.bottom,
+          headroom: _kPourHeadroom,
         );
       },
     );

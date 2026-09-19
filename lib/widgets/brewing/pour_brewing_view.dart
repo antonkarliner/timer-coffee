@@ -98,7 +98,15 @@ class PourBrewingView extends StatelessWidget {
     this.bottomClearance = 0,
     this.dropProgress,
     this.rippleProgress,
+    this.headroom = 0,
   });
+
+  /// Empty space above a full cup, px — where the surface stops at level 1.
+  /// The screen passes a thin band under the app bar: with no cup drawn, the
+  /// whole body reads as the vessel, so a full brew should fill it (operator
+  /// call, 2026-09-19 — a mid-screen "brim" read as unfinished). The band
+  /// keeps wave crests off the app bar and gives the last drop its drip.
+  final double headroom;
 
   /// The ending's last drop, falling: 0..1, or null when none is falling.
   final double? dropProgress;
@@ -210,6 +218,7 @@ class PourBrewingView extends StatelessWidget {
                 fillColor: fillColor,
                 dropProgress: dropProgress,
                 rippleProgress: rippleProgress,
+                headroom: headroom,
               ),
             ),
           ),
@@ -232,6 +241,7 @@ class PourBrewingView extends StatelessWidget {
                 wavePhase: wavePhase,
                 waveAmplitude: waveAmplitude,
                 rippleProgress: rippleProgress,
+                headroom: headroom,
               ),
               child: _content(
                 primary: Colors.white,
@@ -409,9 +419,11 @@ class _PourLiquidClipper extends CustomClipper<Path> {
     required this.wavePhase,
     required this.waveAmplitude,
     required this.rippleProgress,
+    required this.headroom,
   });
 
   final double level;
+  final double headroom;
   final double wavePhase;
   final double waveAmplitude;
   final double? rippleProgress;
@@ -424,7 +436,7 @@ class _PourLiquidClipper extends CustomClipper<Path> {
     final double? ripple = rippleProgress;
     return buildBrewWavePath(
       size: size,
-      fillLevel: level,
+      fillLevel: pourCanvasLevel(level, headroom, size),
       waveAmplitude: waveAmplitude,
       phase: wavePhase,
       // The same ripple the painter applies, so the text's colour boundary
@@ -440,6 +452,7 @@ class _PourLiquidClipper extends CustomClipper<Path> {
     return oldClipper.level != level ||
         oldClipper.wavePhase != wavePhase ||
         oldClipper.waveAmplitude != waveAmplitude ||
-        oldClipper.rippleProgress != rippleProgress;
+        oldClipper.rippleProgress != rippleProgress ||
+        oldClipper.headroom != headroom;
   }
 }
