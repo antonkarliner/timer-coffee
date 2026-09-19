@@ -30,18 +30,26 @@ const double secondaryWaveAlpha = 0.5;
 /// edge, along the bottom, and up the left edge.
 ///
 /// Pure geometry — callers own the clipping and the two-layer draw order.
+///
+/// [surfaceOffset], when given, raises the surface by that many px at each x
+/// on top of the wave — Pour uses it for the last drop's ripple. It defaults
+/// to null, and null leaves the path exactly as before, so the ring painter
+/// (which never passes it) is unaffected.
 Path buildBrewWavePath({
   required Size size,
   required double fillLevel,
   required double waveAmplitude,
   required double phase,
+  double Function(double x)? surfaceOffset,
 }) {
   double surfaceY(double x) {
     final double k1 = 2 * math.pi * _waveCyclesPrimary / size.width;
     final double k2 = 2 * math.pi * _waveCyclesSecondary / size.width;
-    return size.height * (1 - fillLevel) -
+    final double y =
+        size.height * (1 - fillLevel) -
         waveAmplitude * math.sin(k1 * x + phase) -
         0.5 * waveAmplitude * math.sin(k2 * x - _secondaryWaveSpeed * phase);
+    return surfaceOffset == null ? y : y - surfaceOffset(x);
   }
 
   final Path path = Path()..moveTo(0, surfaceY(0));

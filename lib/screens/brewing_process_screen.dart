@@ -530,9 +530,15 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   /// land together instead of a beat apart.
   static const double _endHapticAt = 0.898;
 
+  /// Where the haptic lands for the layout in use: classic's accord peak, or
+  /// the moment Pour's last drop hits the surface. Either way felt and seen
+  /// land together. Classic's value is unchanged.
+  double get _endHapticThreshold =>
+      _pourLayout ? _kPourDropImpactAt : _endHapticAt;
+
   void _onEndBrewAnimationTick() {
     if (_endHapticFired) return;
-    if (_endBrewAnimationController.value < _endHapticAt) return;
+    if (_endBrewAnimationController.value < _endHapticThreshold) return;
     _endHapticFired = true;
     if (!kIsWeb && (Platform.isIOS || Platform.isAndroid)) {
       HapticFeedback.heavyImpact();
@@ -563,9 +569,55 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     milliseconds: 250,
   );
 
-  /// How long the end sequence runs, honouring reduced motion.
-  Duration get _endSequenceDuration =>
-      _reduceMotion ? _endSequenceReducedDuration : _endSequenceFullDuration;
+  /// Pour's ending — "the last drop" (operator's pick, 2026-09-18).
+  ///
+  /// Classic ends on the ring's swell-and-collapse; Pour had no beat at all.
+  /// The liquid simply rose the last few percent and the view faded, and by
+  /// the last step the cup is already near the top, so that rise had almost
+  /// no distance to travel — the brew just stopped. Pour now ends on an
+  /// event: the surface goes glassy, a single drop falls into the cup, and a
+  /// ripple runs out from where it lands. Felt and seen land together: the
+  /// haptic fires on impact.
+  ///
+  /// Longer than classic's 2650 ms because the ripple needs time to read —
+  /// but every beat is an event, not a hold, which is what the plan-061
+  /// retime objected to. Classic's timing is untouched: Pour derives its
+  /// beats from the controller value directly rather than editing the shared
+  /// curves.
+  static const Duration _pourEndSequenceFullDuration = Duration(
+    milliseconds: 3200,
+  );
+
+  // Beat boundaries for Pour's ending, as fractions of the one controller.
+  /// Liquid rises to the cap (only has work to do on skip/manual finishes; a
+  /// brew that runs out is already at the cap).
+  static const double _kPourRiseEnd = 0.33;
+
+  /// Surface goes calm, so the ripple reads against still liquid.
+  static const double _kPourCalmStart = 0.28;
+  static const double _kPourCalmEnd = 0.42;
+
+  /// The drop falls, and lands.
+  static const double _kPourDropStart = 0.42;
+  static const double _kPourDropImpactAt = 0.56;
+
+  /// The ripple runs out from the impact.
+  static const double _kPourRippleEnd = 0.90;
+
+  /// The whole view fades out.
+  static const double _kPourFadeStart = 0.84;
+
+  /// How long the end sequence runs, honouring reduced motion and layout.
+  Duration get _endSequenceDuration {
+    if (_reduceMotion) return _endSequenceReducedDuration;
+    return _pourLayout
+        ? _pourEndSequenceFullDuration
+        : _endSequenceFullDuration;
+  }
+
+  /// Progress of [t] through the window [start]..[end], clamped to 0..1.
+  static double _window(double t, double start, double end) =>
+      ((t - start) / (end - start)).clamp(0.0, 1.0);
 
   /// Skip-on-tap during the end sequence (plan 061 R5): jump the master
   /// controller straight to its end value; its `completed` status navigates.
@@ -1600,9 +1652,14 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       2 *
       math.pi;
 
-  /// Wave ripple height during normal brewing, px. Decays to 0 across the
-  /// end sequence's settle beat (see _endAmplitudeDecay).
+  /// Wave ripple height during normal brewing, px. Goes calm across the end
+  /// sequence's settle beat, before the last drop.
   static const double _kPourWaveAmplitude = 6.0;
+
+  /// The fill tops out here, not at the brim. A brew that runs out is at
+  /// 100% progress, so a full-height cup would put the surface at the top
+  /// edge of the screen and leave the last drop nowhere to fall from.
+  static const double _kPourMaxLevel = 0.85;
 
   /// The "Step n/total" label shared by the app bar title and the Pour
   /// body's step label — built once so the two can never drift apart.
@@ -1641,45 +1698,97 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
         // Everything the end sequence animates is derived HERE, inside the
         // builder, not in the enclosing method. The end sequence runs off
         // the controller alone: the brew timer is cancelled the moment it
-        // starts, so no setState fires for its whole 2650 ms and anything
+        // starts, so no setState fires for its whole duration and anything
         // captured in the enclosing scope stays frozen at its last value.
         // Read outside, the liquid never rose and the view never faded —
         // the sequence rendered as a still frame followed by an abrupt cut
         // to the finish screen.
+        //
+        // Pour's beats are read straight off the controller value with
+        // _window rather than through the shared CurvedAnimations, so
+        // classic's ending is untouched. See _pourEndSequenceFullDuration.
+        final double t = _endBrewAnimationController.value;
+        final bool animatingEnd = _isEndBrewAnimating && !_reduceMotion;
 
-        // Liquid level. The cup starts empty and fills with the brew, so
-        // this is simply whole-brew progress; PourBrewingView draws its text
-        // twice and clips the white copy to the liquid, so legibility does
-        // not depend on the level (operator decision, 2026-09-16 — the
-        // earlier fix floored the level instead, which started the brew with
-        // a part-full cup). End sequence: lerp from wherever the liquid
-        // stood when the sequence was triggered up to full — or flat 1.0
-        // under reduced motion, exactly as the ring branch does for its
-        // fill.
-        final double level = _isEndBrewAnimating
-            ? (_reduceMotion
-                  ? 1.0
-                  : lerpDouble(_endLevelStartValue, 1.0, _endFill.value)!)
-            : _brewProgressFraction;
+        // The ending's rise, 0..1 — shared by the liquid and the countdown so
+        // the two reach "done" in the same frame.
+        final double rise = Curves.easeInOutCubic.transform(
+          _window(t, 0, _kPourRiseEnd),
+        );
+
+        // Liquid level. The cup starts empty and fills with the brew, up to
+        // _kPourMaxLevel rather than the brim — the last drop needs room to
+        // fall. PourBrewingView draws its text twice and clips the white
+        // copy to the liquid, so legibility does not depend on the level.
+        // End sequence: rise from wherever the liquid stood to the cap.
+        final double level;
+        if (!_isEndBrewAnimating) {
+          level = _brewProgressFraction * _kPourMaxLevel;
+        } else if (_reduceMotion) {
+          level = _kPourMaxLevel;
+        } else {
+          level = lerpDouble(
+            _endLevelStartValue * _kPourMaxLevel,
+            _kPourMaxLevel,
+            rise,
+          )!;
+        }
+
+        // The countdown runs on to its total as the ending plays (operator's
+        // idea, 2026-09-18). Finishing early — skip, or manual next — used to
+        // freeze it wherever it stood ("26/35"), a number that said "not
+        // done" over a screen saying "done". Now it counts up alongside the
+        // rising liquid and lands on the total with it. currentStepTime is
+        // itself frozen at the trigger value (the brew timer is cancelled at
+        // every end trigger), so it is the start of the count as-is. A brew
+        // that ran out is already at its total; reduced motion snaps there.
+        final int stepTotal = brewingSteps[currentStepIndex].time.inSeconds;
+        final int shownStepTime;
+        if (!_isEndBrewAnimating) {
+          shownStepTime = currentStepTime;
+        } else if (_reduceMotion) {
+          shownStepTime = stepTotal;
+        } else {
+          shownStepTime =
+              currentStepTime +
+              ((stepTotal - currentStepTime) * rise).round();
+        }
 
         // Wave surface. Amplitude 0 whenever there is no running wave clock
         // — web, or reduced motion (the clock is stopped in
-        // didChangeDependencies) — otherwise the full ripple during
-        // brewing, decaying to 0 across the end sequence's settle beat.
+        // didChangeDependencies) — otherwise the full ripple during brewing,
+        // going glassy-calm before the drop so its ripple reads cleanly.
         final double waveAmplitude;
         if (_pourWaveController == null || _reduceMotion) {
           waveAmplitude = 0.0;
         } else if (_isEndBrewAnimating) {
-          waveAmplitude = _kPourWaveAmplitude * (1 - _endAmplitudeDecay.value);
+          waveAmplitude =
+              _kPourWaveAmplitude *
+              (1 -
+                  Curves.easeOut.transform(
+                    _window(t, _kPourCalmStart, _kPourCalmEnd),
+                  ));
         } else {
           waveAmplitude = _kPourWaveAmplitude;
         }
 
-        // Whole-view fade on the closing accord. There is no separate
-        // countdown fade here (unlike the classic ring): the whole view,
-        // countdown included, goes through this opacity.
-        final double opacity = _isEndBrewAnimating && !_reduceMotion
-            ? (1.0 - _endAccordFade.value).clamp(0.0, 1.0)
+        // The last drop: falling, then its ripple. Null outside their
+        // windows, and never under reduced motion.
+        final double? dropProgress =
+            animatingEnd && t >= _kPourDropStart && t < _kPourDropImpactAt
+            ? _window(t, _kPourDropStart, _kPourDropImpactAt)
+            : null;
+        final double? rippleProgress =
+            animatingEnd && t >= _kPourDropImpactAt && t < _kPourRippleEnd
+            ? _window(t, _kPourDropImpactAt, _kPourRippleEnd)
+            : null;
+
+        // Whole-view fade at the very end. There is no separate countdown
+        // fade here (unlike the classic ring): the whole view, countdown
+        // included, goes through this opacity.
+        final double opacity = animatingEnd
+            ? 1.0 -
+                  Curves.easeIn.transform(_window(t, _kPourFadeStart, 1.0))
             : 1.0;
 
         return PourBrewingView(
@@ -1701,12 +1810,19 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
             // settings both overflow a 60px countdown on narrow screens);
             // at ordinary sizes it renders at natural size.
             fit: BoxFit.scaleDown,
-            child: _pourCountdown(color, loc.secondsAbbreviation),
+            child: _pourCountdown(
+              color,
+              loc.secondsAbbreviation,
+              shownStepTime,
+              stepTotal,
+            ),
           ),
           level: level,
           wavePhase: _pourWavePhase,
           waveAmplitude: waveAmplitude,
           fillColor: AppBrewColors.brewFill(Theme.of(context).colorScheme),
+          dropProgress: dropProgress,
+          rippleProgress: rippleProgress,
           isPaused: _isPaused && !_isEndBrewAnimating,
           pausedLabel: loc.liveActivityPaused,
           opacity: opacity,
@@ -1738,7 +1854,10 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   ///
   /// Baseline-aligned, so the smaller unit sits on the numerals' baseline
   /// rather than floating at their vertical middle.
-  Widget _pourCountdown(Color color, String unit) {
+  ///
+  /// [shown] is the step time to display — the live count while brewing, or
+  /// the count running on to [total] during the ending.
+  Widget _pourCountdown(Color color, String unit, int shown, int total) {
     final Widget unitText = Text(
       unit,
       style: TextStyle(fontSize: 24, color: color),
@@ -1758,8 +1877,8 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
         ),
         gap,
         LocalizedNumberText(
-          currentNumber: currentStepTime,
-          totalNumber: brewingSteps[currentStepIndex].time.inSeconds,
+          currentNumber: shown,
+          totalNumber: total,
           style: TextStyle(
             fontSize: 60,
             fontWeight: FontWeight.bold,

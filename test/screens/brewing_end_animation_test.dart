@@ -348,10 +348,12 @@ List<Map<String, dynamic>> _brewFinishedEvents() => AnalyticsService
 
 /// Pumps a 1-step brew past its 60-second step, driving the timer-expiry end
 /// trigger (the tick that sees elapsed == total starts the end sequence),
-/// then pumps the full 2650 ms sequence plus settle frames.
+/// then pumps the longer of the two end sequences — classic's 2650 ms or
+/// Pour's 3200 ms "last drop" — plus settle frames. Waiting past classic's
+/// end is harmless: it has already navigated.
 Future<void> _pumpToFinishViaTimer(WidgetTester tester) async {
   await tester.pump(const Duration(seconds: 61));
-  await tester.pump(const Duration(milliseconds: 2900));
+  await tester.pump(const Duration(milliseconds: 3600));
   await tester.pump(const Duration(milliseconds: 100));
 }
 
@@ -774,9 +776,9 @@ void main() {
         expect(_semanticsWithId('skipLastStepButton'), findsOneWidget);
 
         await tester.tap(find.byType(FloatingActionButton));
-        // Settle the tap frame, then run out the 2650 ms sequence.
+        // Settle the tap frame, then run out Pour's 3200 ms sequence.
         await tester.pump();
-        await tester.pump(const Duration(milliseconds: 2900));
+        await tester.pump(const Duration(milliseconds: 3600));
         await tester.pump(const Duration(milliseconds: 100));
 
         expect(find.byType(FinishScreen), findsOneWidget);
@@ -845,7 +847,7 @@ void main() {
         // Regression guard. Everything the end sequence animates is derived
         // inside _buildPourBody's AnimatedBuilder callback, because the brew
         // timer is cancelled the moment the sequence starts: no setState
-        // fires for its whole 2650 ms. When these values were read in the
+        // fires for its whole duration. When these values were read in the
         // enclosing method instead, they froze at their last setState value
         // — the liquid sat still at 0.678 and the opacity never left 1.0 for
         // the entire sequence, so the "pour complete" beat rendered as a
@@ -860,16 +862,13 @@ void main() {
         await tester.pump(const Duration(seconds: 61));
         await tester.pump(const Duration(seconds: 2));
 
-        double currentLevel() =>
-            tester.widget<PourBrewingView>(find.byType(PourBrewingView)).level;
-        double currentOpacity() => tester
-            .widget<PourBrewingView>(find.byType(PourBrewingView))
-            .opacity;
+        PourBrewingView view() =>
+            tester.widget<PourBrewingView>(find.byType(PourBrewingView));
 
-        final double levelBefore = currentLevel();
+        final double levelBefore = view().level;
         expect(
           levelBefore,
-          lessThan(1.0),
+          lessThan(0.85),
           reason: 'the probe needs room to rise, or it proves nothing',
         );
 
@@ -877,14 +876,36 @@ void main() {
         await tester.tap(find.byType(FloatingActionButton));
         await tester.pump();
 
-        // Sample across the sequence while the view is still mounted.
+        // Sample across the whole 3200 ms sequence while the view is still
+        // mounted, every 50 ms so the drop's short fall cannot slip between
+        // samples.
         final levels = <double>[];
         final opacities = <double>[];
-        for (var i = 0; i < 25; i++) {
+        final shownTimes = <int>[];
+        var sawDrop = false;
+        var sawRipple = false;
+        var sawDropAndRippleTogether = false;
+        for (var i = 0; i < 70; i++) {
           if (find.byType(PourBrewingView).evaluate().isEmpty) break;
-          levels.add(currentLevel());
-          opacities.add(currentOpacity());
-          await tester.pump(const Duration(milliseconds: 100));
+          final PourBrewingView v = view();
+          levels.add(v.level);
+          opacities.add(v.opacity);
+          shownTimes.add(
+            tester
+                .widget<LocalizedNumberText>(
+                  find.descendant(
+                    of: _semanticsWithId('stepTimeCounter'),
+                    matching: find.byType(LocalizedNumberText),
+                  ),
+                )
+                .currentNumber,
+          );
+          if (v.dropProgress != null) sawDrop = true;
+          if (v.rippleProgress != null) sawRipple = true;
+          if (v.dropProgress != null && v.rippleProgress != null) {
+            sawDropAndRippleTogether = true;
+          }
+          await tester.pump(const Duration(milliseconds: 50));
         }
 
         expect(
@@ -894,13 +915,34 @@ void main() {
         );
         expect(
           levels.last,
-          closeTo(1.0, 0.02),
-          reason: 'the liquid should reach full by the end of the fill beat',
+          closeTo(0.85, 0.02),
+          reason: 'the liquid should reach the cap — not the brim, which '
+              'would leave the last drop nowhere to fall',
+        );
+        // The countdown runs on from where the skip stopped it (2 s into the
+        // 60 s step) to the step total, never going backwards — instead of
+        // freezing on a "not done" number over a finished screen.
+        expect(shownTimes.first, 2);
+        expect(shownTimes.last, 60);
+        for (var i = 1; i < shownTimes.length; i++) {
+          expect(
+            shownTimes[i],
+            greaterThanOrEqualTo(shownTimes[i - 1]),
+            reason: 'the countdown ran backwards: $shownTimes',
+          );
+        }
+        expect(sawDrop, isTrue, reason: 'the last drop never fell');
+        expect(sawRipple, isTrue, reason: 'the drop landed with no ripple');
+        expect(
+          sawDropAndRippleTogether,
+          isFalse,
+          reason: 'the ripple must start when the drop lands, not while it '
+              'is still falling',
         );
         expect(
           opacities.last,
           lessThan(1.0),
-          reason: 'the view never started fading on the closing accord',
+          reason: 'the view never started fading',
         );
 
         await tester.pump(const Duration(milliseconds: 600));
@@ -910,6 +952,43 @@ void main() {
         await _teardownTree(tester);
       },
     );
+  });
+
+  group('brewing pour layout — the last drop honours reduced motion', () {
+    testWidgets('with reduced motion there is no drop and no ripple', (
+      tester,
+    ) async {
+      // Reduced motion replaces the whole ending with a short settled hold
+      // (plan 061 R4). The drop is motion for its own sake, so it must not
+      // appear at all.
+      await _pumpScreen(
+        tester,
+        stepCount: 1,
+        pourLayout: true,
+        reduceMotion: true,
+      );
+      await tester.pump(const Duration(seconds: 2));
+      await tester.tap(find.byType(FloatingActionButton));
+      await tester.pump();
+
+      var sawDropOrRipple = false;
+      for (var i = 0; i < 10; i++) {
+        if (find.byType(PourBrewingView).evaluate().isEmpty) break;
+        final PourBrewingView v = tester.widget<PourBrewingView>(
+          find.byType(PourBrewingView),
+        );
+        if (v.dropProgress != null || v.rippleProgress != null) {
+          sawDropOrRipple = true;
+        }
+        await tester.pump(const Duration(milliseconds: 30));
+      }
+      expect(sawDropOrRipple, isFalse);
+
+      await tester.pump(const Duration(milliseconds: 500));
+      expect(find.byType(FinishScreen), findsOneWidget);
+
+      await _teardownTree(tester);
+    });
   });
 
   group('brewing pour layout — text colour follows the liquid line', () {

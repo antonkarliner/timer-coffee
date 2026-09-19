@@ -256,6 +256,51 @@ void main() {
     }
   });
 
+  group('one tap is one tap', () {
+    // The content is laid out twice — a dry copy and a submerged copy on top
+    // of it, clipped to the liquid — so every interactive slot exists twice,
+    // stacked at the same position. A tap must reach exactly one of them, or
+    // a single press on "next step" would skip two steps. Checked with the
+    // arrow dry, straddling the surface, and fully submerged.
+    for (final level in [0.0, 0.5, 1.0]) {
+      testWidgets('a tap on the step arrow fires once at level $level', (
+        tester,
+      ) async {
+        _setSurface(tester, const Size(375, 812));
+        var taps = 0;
+        await tester.pumpWidget(
+          _wrap(
+            PourBrewingView(
+              instruction: _instruction,
+              nextLabel: 'Next:',
+              nextInstruction: _nextInstruction,
+              countdownBuilder: _countdown(),
+              level: level,
+              wavePhase: 1.0,
+              waveAmplitude: 6.0,
+              fillColor: AppBrewColors.brewFill(lightColorScheme),
+              isPaused: false,
+              pausedLabel: 'Paused',
+              opacity: 1.0,
+              trailing: (Color color) => IconButton(
+                onPressed: () => taps++,
+                icon: Icon(Icons.chevron_right, color: color),
+              ),
+            ),
+          ),
+        );
+
+        // Both copies render the icon; they share one position, so tapping
+        // it sends one real pointer event through normal hit testing.
+        expect(find.byIcon(Icons.chevron_right), findsNWidgets(2));
+        await tester.tap(find.byIcon(Icons.chevron_right).first);
+        await tester.pump();
+
+        expect(taps, 1);
+      });
+    }
+  });
+
   group('stable tree shape', () {
     testWidgets(
       'a null nextInstruction yields the same column child count as a '
@@ -393,11 +438,15 @@ void main() {
       double wavePhase = 1.0,
       double waveAmplitude = 6.0,
       Color? fill,
+      double? dropProgress,
+      double? rippleProgress,
     }) => PourLiquidPainter(
       level: level,
       wavePhase: wavePhase,
       waveAmplitude: waveAmplitude,
       fillColor: fill ?? fillColor,
+      dropProgress: dropProgress,
+      rippleProgress: rippleProgress,
     );
 
     test('returns false when nothing changed', () {
@@ -409,6 +458,56 @@ void main() {
       expect(painter(wavePhase: 2.0).shouldRepaint(painter()), isTrue);
       expect(painter(waveAmplitude: 0.0).shouldRepaint(painter()), isTrue);
       expect(painter(fill: otherFill).shouldRepaint(painter()), isTrue);
+      expect(painter(dropProgress: 0.3).shouldRepaint(painter()), isTrue);
+      expect(painter(rippleProgress: 0.3).shouldRepaint(painter()), isTrue);
+    });
+  });
+
+  group('the last drop', () {
+    for (final (label, drop, ripple) in [
+      ('drop falling', 0.5, null),
+      ('drop about to land', 0.99, null),
+      ('ripple just started', null, 0.01),
+      ('ripple spreading', null, 0.5),
+    ]) {
+      testWidgets('paints without throwing: $label', (tester) async {
+        _setSurface(tester, const Size(375, 812));
+        await tester.pumpWidget(
+          _wrap(
+            PourBrewingView(
+              instruction: _instruction,
+              nextLabel: 'Next:',
+              nextInstruction: null,
+              countdownBuilder: _countdown(),
+              level: 0.85,
+              wavePhase: 1.0,
+              waveAmplitude: 0.0,
+              fillColor: AppBrewColors.brewFill(lightColorScheme),
+              isPaused: false,
+              pausedLabel: 'Paused',
+              opacity: 1.0,
+              dropProgress: drop,
+              rippleProgress: ripple,
+            ),
+          ),
+        );
+        expect(tester.takeException(), isNull);
+      });
+    }
+
+    test('the ripple raises the surface near the impact and dies away', () {
+      const size = Size(400, 800);
+      // At impact, the packet sits on the impact point.
+      expect(pourRippleOffset(200, size, 0.0), greaterThan(0));
+      // By the end it has faded to nothing everywhere.
+      for (final x in [0.0, 100.0, 200.0, 300.0, 400.0]) {
+        expect(pourRippleOffset(x, size, 1.0), closeTo(0, 1e-9));
+      }
+      // Mid-way, the two fronts have moved out symmetrically.
+      expect(
+        pourRippleOffset(200 - 100, size, 0.5),
+        closeTo(pourRippleOffset(200 + 100, size, 0.5), 1e-9),
+      );
     });
   });
 }

@@ -96,7 +96,15 @@ class PourBrewingView extends StatelessWidget {
     this.leading,
     this.trailing,
     this.bottomClearance = 0,
+    this.dropProgress,
+    this.rippleProgress,
   });
+
+  /// The ending's last drop, falling: 0..1, or null when none is falling.
+  final double? dropProgress;
+
+  /// The ending's ripple from where the drop landed: 0..1, or null.
+  final double? rippleProgress;
 
   /// The current step's resolved description, already localized.
   final String instruction;
@@ -200,6 +208,8 @@ class PourBrewingView extends StatelessWidget {
                 wavePhase: wavePhase,
                 waveAmplitude: waveAmplitude,
                 fillColor: fillColor,
+                dropProgress: dropProgress,
+                rippleProgress: rippleProgress,
               ),
             ),
           ),
@@ -221,6 +231,7 @@ class PourBrewingView extends StatelessWidget {
                 level: level,
                 wavePhase: wavePhase,
                 waveAmplitude: waveAmplitude,
+                rippleProgress: rippleProgress,
               ),
               child: _content(
                 primary: Colors.white,
@@ -397,22 +408,30 @@ class _PourLiquidClipper extends CustomClipper<Path> {
     required this.level,
     required this.wavePhase,
     required this.waveAmplitude,
+    required this.rippleProgress,
   });
 
   final double level;
   final double wavePhase;
   final double waveAmplitude;
+  final double? rippleProgress;
 
   @override
   Path getClip(Size size) {
     // An empty path clips everything away: with an empty cup the submerged
     // copy contributes nothing and the dry copy is what shows.
     if (level <= 0) return Path();
+    final double? ripple = rippleProgress;
     return buildBrewWavePath(
       size: size,
       fillLevel: level,
       waveAmplitude: waveAmplitude,
       phase: wavePhase,
+      // The same ripple the painter applies, so the text's colour boundary
+      // moves with the surface rather than cutting straight across it.
+      surfaceOffset: ripple == null
+          ? null
+          : (double x) => pourRippleOffset(x, size, ripple),
     );
   }
 
@@ -420,6 +439,7 @@ class _PourLiquidClipper extends CustomClipper<Path> {
   bool shouldReclip(covariant _PourLiquidClipper oldClipper) {
     return oldClipper.level != level ||
         oldClipper.wavePhase != wavePhase ||
-        oldClipper.waveAmplitude != waveAmplitude;
+        oldClipper.waveAmplitude != waveAmplitude ||
+        oldClipper.rippleProgress != rippleProgress;
   }
 }
