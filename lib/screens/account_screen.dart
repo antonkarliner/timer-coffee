@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:coffee_timer/config/moderation_surfaces.dart';
 import 'package:coffee_timer/config/supabase_endpoint_resolver.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coffee_timer/providers/database_provider.dart';
@@ -226,7 +227,7 @@ class _AccountScreenState extends State<AccountScreen> {
       AppLogger.debug("Calling content moderation for display name...");
       final moderationResponse = await supabase.functions.invoke(
         'content-moderation',
-        body: {'text': newName},
+        body: {'text': newName, 'surface': ModerationSurfaces.displayName},
       );
 
       AppLogger.debug(
@@ -857,7 +858,9 @@ class _AccountScreenState extends State<AccountScreen> {
                             child: IconButton(
                               icon: CircleAvatar(
                                 radius: 20,
-                                backgroundColor: Colors.red.withValues(alpha: 0.8),
+                                backgroundColor: Colors.red.withValues(
+                                  alpha: 0.8,
+                                ),
                                 child: const Icon(
                                   Icons.delete,
                                   size: 20,

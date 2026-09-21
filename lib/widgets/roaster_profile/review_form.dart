@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../app_router.gr.dart';
+import '../../config/moderation_surfaces.dart';
 import '../../database/database.dart';
 import '../../l10n/app_localizations.dart';
 import '../../models/bean_review_model.dart';
@@ -368,7 +369,10 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
     if (text.isNotEmpty) {
       try {
         final moderationResponse = await Supabase.instance.client.functions
-            .invoke('content-moderation', body: {'text': text});
+            .invoke(
+              'content-moderation',
+              body: {'text': text, 'surface': ModerationSurfaces.review},
+            );
         if (!mounted) return;
         if (moderationResponse.status == 200 &&
             moderationResponse.data != null) {

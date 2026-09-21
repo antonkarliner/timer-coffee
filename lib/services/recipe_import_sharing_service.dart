@@ -8,6 +8,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 import '../app_router.gr.dart';
+import '../config/moderation_surfaces.dart';
 import '../database/database.dart';
 import '../l10n/app_localizations.dart';
 import '../theme/design_tokens.dart';
@@ -794,7 +795,13 @@ class RecipeImportSharingService {
             );
             // 4. Call Moderation Function
             final moderationResponse = await Supabase.instance.client.functions
-                .invoke('content-moderation', body: {'text': combinedText});
+                .invoke(
+                  'content-moderation',
+                  body: {
+                    'text': combinedText,
+                    'surface': ModerationSurfaces.recipe,
+                  },
+                );
 
             AppLogger.debug(
               "Moderation response status: ${moderationResponse.status}",

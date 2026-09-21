@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math' as math;
 
+import 'package:coffee_timer/config/moderation_surfaces.dart';
 import 'package:coffee_timer/config/network_timeouts.dart';
 import 'package:coffee_timer/database/database.dart';
 import 'package:flutter/foundation.dart';
@@ -2508,7 +2509,13 @@ class DatabaseProvider {
       if (combinedText.isNotEmpty) {
         try {
           final moderationResponse = await Supabase.instance.client.functions
-              .invoke('content-moderation', body: {'text': combinedText})
+              .invoke(
+                'content-moderation',
+                body: {
+                  'text': combinedText,
+                  'surface': ModerationSurfaces.recipe,
+                },
+              )
               .timeout(
                 NetworkTimeouts.smallSync,
               ); // Timeout for moderation call
