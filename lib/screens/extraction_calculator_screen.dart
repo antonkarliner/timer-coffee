@@ -11,6 +11,7 @@ import '../services/date_time_format_service.dart';
 import '../theme/design_tokens.dart';
 import '../utils/extraction_math.dart' as calc;
 import '../utils/icon_utils.dart';
+import '../visual/color_schemes.dart';
 import '../widgets/base_buttons.dart';
 import '../widgets/containers/sticky_action_bar.dart';
 import '../widgets/extraction_calculator/learn_sections.dart';
@@ -451,17 +452,6 @@ class _ResultBlock extends StatelessWidget {
 
   const _ResultBlock({required this.mode, required this.ey, required this.tds});
 
-  Color _bandColor(ColorScheme colorScheme, calc.ExtractionBand band) {
-    switch (band) {
-      case calc.ExtractionBand.under:
-        return Colors.orange;
-      case calc.ExtractionBand.target:
-        return colorScheme.primary;
-      case calc.ExtractionBand.over:
-        return colorScheme.error;
-    }
-  }
-
   String _bandLabel(AppLocalizations l10n, calc.ExtractionBand band) {
     switch (band) {
       case calc.ExtractionBand.under:
@@ -508,7 +498,10 @@ class _ResultBlock extends StatelessWidget {
     }
 
     final band = calc.classifyExtractionYield(ey!);
-    final bandColor = _bandColor(colorScheme, band);
+    final bandColor = AppSemanticColors.extractionYield(
+      band,
+      colorScheme.brightness,
+    ).background;
     final strengthBand = tds != null ? calc.classifyTdsStrength(tds!) : null;
 
     return Container(
@@ -542,7 +535,7 @@ class _ResultBlock extends StatelessWidget {
             style: AppTextStyles.fieldLabel.copyWith(color: bandColor),
           ),
           const SizedBox(height: AppSpacing.sm),
-          _BandIndicator(band: band, colorScheme: colorScheme),
+          _BandIndicator(band: band),
           if (mode == calc.BrewMode.filter && strengthBand != null) ...[
             const SizedBox(height: AppSpacing.base),
             Text(
@@ -561,17 +554,19 @@ class _ResultBlock extends StatelessWidget {
 /// Simple three-segment horizontal band indicator: under / target / over.
 class _BandIndicator extends StatelessWidget {
   final calc.ExtractionBand band;
-  final ColorScheme colorScheme;
 
-  const _BandIndicator({required this.band, required this.colorScheme});
+  const _BandIndicator({required this.band});
 
   @override
   Widget build(BuildContext context) {
     const height = 6.0;
+    final brightness = Theme.of(context).brightness;
     final segmentColors = {
-      calc.ExtractionBand.under: Colors.orange,
-      calc.ExtractionBand.target: colorScheme.primary,
-      calc.ExtractionBand.over: colorScheme.error,
+      for (final segmentBand in calc.ExtractionBand.values)
+        segmentBand: AppSemanticColors.extractionYield(
+          segmentBand,
+          brightness,
+        ).background,
     };
 
     Widget segment(calc.ExtractionBand segmentBand) {

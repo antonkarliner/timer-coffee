@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../theme/design_tokens.dart';
 import 'brew_fill_ring_painter.dart';
 import 'pour_liquid_painter.dart';
+import 'pour_surface.dart';
 
 /// The "Pour" brewing presentation (plan 066): the classic screen's
 /// information, in the classic screen's order, with coffee rising behind it.
@@ -99,6 +100,7 @@ class PourBrewingView extends StatelessWidget {
     this.dropProgress,
     this.rippleProgress,
     this.headroom = 0,
+    this.surface,
   });
 
   /// Empty space above a full cup, px — where the surface stops at level 1.
@@ -168,6 +170,20 @@ class PourBrewingView extends StatelessWidget {
   /// button.
   final double bottomClearance;
 
+  /// The live liquid-frame source, when the caller drives the surface with a
+  /// [PourSurfaceController] instead of rebuilding this view per wave tick.
+  ///
+  /// When non-null, the painter's `repaint` and the clipper's `reclip` are
+  /// wired to it and both read its current [PourSurfaceFrame] at paint time,
+  /// so an animation-only tick repaints the liquid and the submerged text
+  /// layer without rebuilding any content. The level/wavePhase/waveAmplitude/
+  /// dropProgress/rippleProgress constructor fields above remain the geometry
+  /// of record for rebuild-driven callers (they are also kept up to date by
+  /// the screen, so tests reading them off the widget see the live values).
+  /// When null, this view behaves exactly as before: those fields drive the
+  /// painter and the clipper, and shouldRepaint/shouldReclip compare them.
+  final PourSurfaceController? surface;
+
   /// How the height above the bottom clearance is split between the
   /// countdown, instruction and next-step regions. Fixed proportions, so a
   /// block that changes size cannot move its neighbours.
@@ -210,30 +226,39 @@ class PourBrewingView extends StatelessWidget {
       child: Stack(
         children: [
           Positioned.fill(
-            child: CustomPaint(
-              painter: PourLiquidPainter(
-                level: level,
-                wavePhase: wavePhase,
-                waveAmplitude: waveAmplitude,
-                fillColor: fillColor,
-                dropProgress: dropProgress,
-                rippleProgress: rippleProgress,
-                headroom: headroom,
+            // RepaintBoundary: the liquid repaints on every wave tick; the
+            // boundary keeps that churn inside its own layer so the two text
+            // layers never repaint for it.
+            child: RepaintBoundary(
+              child: CustomPaint(
+                painter: PourLiquidPainter(
+                  level: level,
+                  wavePhase: wavePhase,
+                  waveAmplitude: waveAmplitude,
+                  fillColor: fillColor,
+                  dropProgress: dropProgress,
+                  rippleProgress: rippleProgress,
+                  headroom: headroom,
+                  surface: surface,
+                ),
               ),
             ),
           ),
           // Dry copy — reads against the surface, and owns every Semantics
-          // identifier in this view.
+          // identifier in this view. RepaintBoundary: it only changes when
+          // content data changes (a second, a pause, a step), so wave ticks
+          // and clip updates must not drag it along.
           Positioned.fill(
-            child: _content(
-              primary: colorScheme.onSurface,
-              secondary: _drySecondary(colorScheme),
-              withSemantics: true,
+            child: RepaintBoundary(
+              child: _content(
+                primary: colorScheme.onSurface,
+                secondary: _drySecondary(colorScheme),
+                withSemantics: true,
+              ),
             ),
           ),
-          // Submerged copy — identical layout in white, clipped to the same
-          // wave the painter fills with, so the colour boundary *is* the
-          // liquid surface.
+          // Cache the submerged content INSIDE the moving clip: only its
+          // clip changes on wave ticks, so glyphs need not be repainted.
           Positioned.fill(
             child: ClipPath(
               clipper: _PourLiquidClipper(
@@ -242,11 +267,14 @@ class PourBrewingView extends StatelessWidget {
                 waveAmplitude: waveAmplitude,
                 rippleProgress: rippleProgress,
                 headroom: headroom,
+                surface: surface,
               ),
-              child: _content(
-                primary: Colors.white,
-                secondary: _submergedSecondary,
-                withSemantics: false,
+              child: RepaintBoundary(
+                child: _content(
+                  primary: Colors.white,
+                  secondary: _submergedSecondary,
+                  withSemantics: false,
+                ),
               ),
             ),
           ),
@@ -343,9 +371,7 @@ class PourBrewingView extends StatelessWidget {
                           textAlign: TextAlign.center,
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
-                          style: AppTextStyles.display.copyWith(
-                            color: primary,
-                          ),
+                          style: AppTextStyles.display.copyWith(color: primary),
                         ),
                       ),
                     ),
@@ -411,16 +437,26 @@ class PourBrewingView extends StatelessWidget {
 /// wave path [PourLiquidPainter] fills with — so the text's colour boundary
 /// and the coffee's surface are the same curve, not two approximations of it.
 ///
+/// With a [PourSurfaceController] the clip *is* the painter's primary path:
+/// both come from the controller's single-entry cache for the same frame
+/// snapshot and size, so they are literally one [Path] object. The
+/// controller's `reclip` listenable refreshes the clip on every wave tick
+/// without any widget rebuild.
+///
 /// The painter draws a second, translucent layer at a phase offset; the clip
 /// follows the primary layer, which is the edge the eye reads as the surface.
 class _PourLiquidClipper extends CustomClipper<Path> {
-  const _PourLiquidClipper({
+  // Not const: the lazily-built static frame below needs a normal
+  // generative constructor. The view builds a fresh clipper per rebuild
+  // anyway, so const was never exercised.
+  _PourLiquidClipper({
     required this.level,
     required this.wavePhase,
     required this.waveAmplitude,
     required this.rippleProgress,
     required this.headroom,
-  });
+    this.surface,
+  }) : super(reclip: surface);
 
   final double level;
   final double headroom;
@@ -428,31 +464,52 @@ class _PourLiquidClipper extends CustomClipper<Path> {
   final double waveAmplitude;
   final double? rippleProgress;
 
+  /// The live frame source; also wired as this clipper's `reclip` listenable.
+  /// Null means the constructor fields above drive the clip (rebuild mode).
+  final PourSurfaceController? surface;
+
+  /// The static frame built from the constructor fields — what gets used when
+  /// there is no [surface].
+  late final PourSurfaceFrame _staticFrame = PourSurfaceFrame(
+    level: level,
+    wavePhase: wavePhase,
+    waveAmplitude: waveAmplitude,
+    rippleProgress: rippleProgress,
+    headroom: headroom,
+  );
+
   @override
   Path getClip(Size size) {
+    final PourSurfaceFrame frame = surface?.frame ?? _staticFrame;
     // An empty path clips everything away: with an empty cup the submerged
     // copy contributes nothing and the dry copy is what shows.
-    if (level <= 0) return Path();
-    final double? ripple = rippleProgress;
-    return buildBrewWavePath(
-      size: size,
-      fillLevel: pourCanvasLevel(level, headroom, size),
-      waveAmplitude: waveAmplitude,
-      phase: wavePhase,
-      // The same ripple the painter applies, so the text's colour boundary
-      // moves with the surface rather than cutting straight across it.
-      surfaceOffset: ripple == null
-          ? null
-          : (double x) => pourRippleOffset(x, size, ripple),
-    );
+    if (frame.level <= 0) return Path();
+    // Same cache the painter fills with — identical frame and size return
+    // the identical Path object.
+    return surface?.primaryPathFor(frame, size) ??
+        buildBrewWavePath(
+          size: size,
+          fillLevel: pourCanvasLevel(frame.level, frame.headroom, size),
+          waveAmplitude: frame.waveAmplitude,
+          phase: frame.wavePhase,
+          // The same ripple the painter applies, so the text's colour boundary
+          // moves with the surface rather than cutting straight across it.
+          surfaceOffset: frame.rippleProgress == null
+              ? null
+              : PourRippleField.of(size, frame.rippleProgress!).offsetAt,
+        );
   }
 
   @override
   bool shouldReclip(covariant _PourLiquidClipper oldClipper) {
-    return oldClipper.level != level ||
-        oldClipper.wavePhase != wavePhase ||
-        oldClipper.waveAmplitude != waveAmplitude ||
-        oldClipper.rippleProgress != rippleProgress ||
-        oldClipper.headroom != headroom;
+    final PourSurfaceController? oldSurface = oldClipper.surface;
+    final PourSurfaceController? newSurface = surface;
+    if ((oldSurface == null) != (newSurface == null)) return true;
+    if (newSurface != null) {
+      // Live mode: frame changes arrive through the reclip listenable.
+      return oldSurface != newSurface;
+    }
+    // Static mode: the constructor fields are the geometry.
+    return oldClipper._staticFrame != _staticFrame;
   }
 }

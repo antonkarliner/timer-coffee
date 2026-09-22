@@ -7,6 +7,7 @@ import 'package:coffee_timer/providers/user_stat_provider.dart';
 import 'package:coffee_timer/screens/brew_diary_screen.dart';
 import 'package:coffee_timer/services/date_time_format_service.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/visual/color_schemes.dart';
 import 'package:coffee_timer/utils/extraction_math.dart';
 import 'package:coffee_timer/widgets/brew_diary/brew_entry_card.dart';
 import 'package:coffee_timer/widgets/roaster_logo.dart';

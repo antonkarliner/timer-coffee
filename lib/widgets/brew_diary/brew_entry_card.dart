@@ -1,6 +1,7 @@
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/diary_entry.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/visual/color_schemes.dart';
 import 'package:coffee_timer/utils/extraction_math.dart';
 import 'package:coffee_timer/utils/icon_utils.dart';
 import 'package:coffee_timer/utils/temperature_format.dart';

@@ -2,7 +2,7 @@ import 'dart:ui' as ui;
 
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/diary_entry.dart';
-import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/visual/color_schemes.dart';
 import 'package:coffee_timer/widgets/brew_diary/journey_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';

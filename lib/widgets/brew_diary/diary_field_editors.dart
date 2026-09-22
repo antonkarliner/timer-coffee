@@ -1,5 +1,6 @@
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/visual/color_schemes.dart';
 import 'package:coffee_timer/utils/diary_tags.dart';
 import 'package:coffee_timer/widgets/fields/chip_input.dart';
 import 'package:flutter/material.dart';
@@ -36,19 +37,14 @@ class DiaryTasteEditor extends StatelessWidget {
               horizontal: AppSpacing.sm,
               vertical: AppSpacing.xs,
             ),
-            labelPadding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.xs,
-            ),
+            labelPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
             label: Text(
               labels[index],
               maxLines: 1,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: value == index - 1
-                    ? AppSemanticColors.taste(
-                        index - 1,
-                        brightness,
-                      ).foreground
+                    ? AppSemanticColors.taste(index - 1, brightness).foreground
                     : null,
               ),
             ),

@@ -7,6 +7,7 @@ import 'package:coffee_timer/providers/user_stat_provider.dart';
 import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/services/date_time_format_service.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/visual/color_schemes.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:coffee_timer/utils/grind_value.dart';
 import 'package:coffee_timer/utils/icon_utils.dart';

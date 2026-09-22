@@ -1,6 +1,5 @@
 import 'dart:math' as math;
 
-import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/visual/color_schemes.dart';
 import 'package:coffee_timer/widgets/brewing/pour_brewing_view.dart';
 import 'package:coffee_timer/widgets/brewing/pour_liquid_painter.dart';

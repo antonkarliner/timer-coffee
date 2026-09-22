@@ -29,9 +29,11 @@ import '../services/analytics_service.dart';
 import '../services/advanced_features_service.dart';
 import '../services/recipe_expression_service.dart';
 import '../theme/design_tokens.dart';
+import '../visual/color_schemes.dart';
 import '../widgets/brewing/brew_timer_ring.dart';
 import '../widgets/brewing/next_step_preview.dart';
 import '../widgets/brewing/pour_brewing_view.dart';
+import '../widgets/brewing/pour_surface.dart';
 
 class LocalizedNumberText extends StatelessWidget {
   final int currentNumber;
@@ -142,8 +144,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   /// phase 2). Null when the Pour layout is off or on web — on web the
   /// surface stays flat because the Skwasm repaint cost of a ripple is not
   /// worth it. Null (or stopped, under reduced motion) means "flat surface"
-  /// to _buildPourBody. Created in initState; started/stopped in
-  /// didChangeDependencies, where MediaQuery is available.
+  /// to _computePourFrame. Created in initState; started/stopped in
+  /// didChangeDependencies, where MediaQuery is available. Its ticks only
+  /// repaint the liquid now — see [_updatePourSurfaceFrame].
   AnimationController? _pourWaveController;
 
   /// Monotonic clock the wave phase is derived from.
@@ -407,6 +410,15 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     });
     _endBrewAnimationController.addListener(_onEndBrewAnimationTick);
 
+    // The Pour body's live surface frames (see _updatePourSurfaceFrame and
+    // the _pourSurface field comment). Only the Pour layout renders liquid,
+    // so only it allocates the controller. Both clocks feed it: the wave
+    // clock for the continuous ticks, the end-sequence clock for the ending.
+    if (_pourLayout) {
+      _pourSurface = PourSurfaceController();
+      _endBrewAnimationController.addListener(_updatePourSurfaceFrame);
+    }
+
     // The Pour body's wave clock exists only when the Pour layout is on and
     // we are not on web (see the field comment). started/stopped in
     // didChangeDependencies, where MediaQuery — and so the OS reduced-motion
@@ -415,7 +427,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       _pourWaveController = AnimationController(
         vsync: this,
         duration: const Duration(seconds: 4),
-      );
+      )..addListener(_updatePourSurfaceFrame);
     }
 
     brewingSteps = widget.recipe.steps
@@ -516,8 +528,16 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     WakelockPlus.disable();
     _player.dispose();
     _pulseController.dispose();
+    // Listeners off before the controllers go (removeListener after dispose
+    // trips ChangeNotifier's debug assert). The child render objects detach
+    // the painter's and clipper's own listeners while the tree unmounts,
+    // which happens before State.dispose, so the surface controller is quiet
+    // by the time it is disposed here.
+    _pourWaveController?.removeListener(_updatePourSurfaceFrame);
+    _endBrewAnimationController.removeListener(_updatePourSurfaceFrame);
     _endBrewAnimationController.dispose();
     _pourWaveController?.dispose();
+    _pourSurface?.dispose();
     super.dispose();
   }
 
@@ -1513,9 +1533,10 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   /// `currentStepTime` only advances once a second, from the brew timer's
   /// `setState`. Driving the Pour liquid from it made the surface climb in
   /// visible once-a-second steps rather than flowing, so the level is read
-  /// from the wall clock instead: the Pour body rebuilds on every wave-clock
-  /// tick, which turns those jumps into a continuous rise at no extra cost
-  /// (no new timer — the ticker already runs).
+  /// from the wall clock instead: the wave-clock ticks republish the liquid
+  /// frame (see [_updatePourSurfaceFrame]), which turns those jumps into a
+  /// continuous rise at no extra cost (no new timer — the ticker already
+  /// runs).
   ///
   /// Falls back to the integer counter whenever the wall clock is not the
   /// truth: while paused `_brewAnchorUtc` is deliberately not advanced (it is
@@ -1658,6 +1679,103 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       2 *
       math.pi;
 
+  /// The Pour body's live liquid geometry (Pour layout only, so null on
+  /// classic). The wave clock and the end-sequence clock both write one
+  /// immutable [PourSurfaceFrame] here per animation tick — see
+  /// [_updatePourSurfaceFrame] — and the Pour view's painter and text clipper
+  /// repaint/reclip from it directly. That is what takes the content
+  /// (countdown, instruction, next step) off the per-wave-tick rebuild path:
+  /// a wave tick touches only the surface layers, never the widget tree.
+  ///
+  /// Created in initState (where [_pourLayout] is already resolved) and
+  /// disposed in dispose; nothing in the widget tree owns it.
+  PourSurfaceController? _pourSurface;
+
+  /// The end sequence's shared rise, 0..1 — the liquid's climb and the
+  /// countdown's count-up both read it, so the two reach "done" in the same
+  /// frame. Derived from the controller value `t` alone.
+  double _pourRise(double t) =>
+      Curves.easeInOutCubic.transform(_window(t, 0, _kPourRiseEnd));
+
+  /// One coherent snapshot of the liquid geometry for this instant, from the
+  /// clocks and flags this State already owns. The per-frame derivations are
+  /// moved verbatim out of _buildPourBody's old AnimatedBuilder (which used
+  /// to rebuild the whole Pour view on every tick to get these across).
+  ///
+  /// Pour's ending beats are read straight off the controller value with
+  /// _window rather than through the shared CurvedAnimations, so classic's
+  /// ending is untouched.
+  PourSurfaceFrame _computePourFrame() {
+    final double t = _endBrewAnimationController.value;
+    final bool animatingEnd = _isEndBrewAnimating && !_reduceMotion;
+
+    final double rise = _pourRise(t);
+
+    // Liquid level, 0 (empty) .. 1 (full). The cup starts empty and fills
+    // with the brew; where "full" sits on screen is the view's headroom.
+    // End sequence: rise from wherever the liquid stood to full.
+    final double level;
+    if (!_isEndBrewAnimating) {
+      level = _brewProgressFraction;
+    } else if (_reduceMotion) {
+      level = 1.0;
+    } else {
+      level = lerpDouble(_endLevelStartValue, 1.0, rise)!;
+    }
+
+    // Wave surface. Amplitude 0 whenever there is no running wave clock
+    // — web, or reduced motion (the clock is stopped in
+    // didChangeDependencies) — otherwise the full ripple during brewing,
+    // settling to a gentle swell before the drop so its ripple reads.
+    final double waveAmplitude;
+    if (_pourWaveController == null || _reduceMotion) {
+      waveAmplitude = 0.0;
+    } else if (_isEndBrewAnimating) {
+      waveAmplitude =
+          _kPourWaveAmplitude *
+          (1 -
+              (1 - _kPourCalmFloor) *
+                  Curves.easeOut.transform(
+                    _window(t, _kPourCalmStart, _kPourCalmEnd),
+                  ));
+    } else {
+      waveAmplitude = _kPourWaveAmplitude;
+    }
+
+    // The last drop: falling, then its ripple. Null outside their windows,
+    // and never under reduced motion.
+    final double? dropProgress =
+        animatingEnd && t >= _kPourDropStart && t < _kPourDropImpactAt
+        ? _window(t, _kPourDropStart, _kPourDropImpactAt)
+        : null;
+    final double? rippleProgress =
+        animatingEnd && t >= _kPourDropImpactAt && t < _kPourRippleEnd
+        ? _window(t, _kPourDropImpactAt, _kPourRippleEnd)
+        : null;
+
+    return PourSurfaceFrame(
+      level: level,
+      wavePhase: _pourWavePhase,
+      waveAmplitude: waveAmplitude,
+      dropProgress: dropProgress,
+      rippleProgress: rippleProgress,
+      headroom: _kPourHeadroom,
+    );
+  }
+
+  /// Publishes the current liquid geometry to the Pour view's painter and
+  /// text clipper. Runs per animation tick (wave clock, end-sequence clock)
+  /// and on every rebuild of the Pour body — rebuilds are the only frame
+  /// source on web, where there is no wave clock, and they also settle the
+  /// first frame and any reduced-motion flip.
+  ///
+  /// Writing an unchanged frame is a no-op (the controller compares), so the
+  /// rebuild path never causes a redundant repaint on top of the tick that
+  /// already scheduled one in the same animation frame.
+  void _updatePourSurfaceFrame() {
+    _pourSurface?.frame = _computePourFrame();
+  }
+
   /// Wave ripple height during normal brewing, px. Goes calm across the end
   /// sequence's settle beat, before the last drop.
   static const double _kPourWaveAmplitude = 6.0;
@@ -1675,11 +1793,19 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     return '${AppLocalizations.of(context)!.step} ${intl.NumberFormat().format(currentStepIndex + 1)}/${intl.NumberFormat().format(brewingSteps.length)}';
   }
 
-  /// The Pour body (plan 066 phase 2): [PourBrewingView] driven entirely
-  /// from state this screen already owns, wrapped in an AnimatedBuilder on
-  /// the wave clock plus the end-sequence clock — Listenable.merge accepts
-  /// null entries, so this also works when the wave controller was never
-  /// created (classic layout selected, or Pour on web).
+  /// The Pour body (plan 066 phase 2): [PourBrewingView] driven from state
+  /// this screen already owns.
+  ///
+  /// Rebuild/repaint split (the perf pass on this screen): the liquid's
+  /// continuous motion — wave phase, wall-clock level, ending beats — flows
+  /// through [_pourSurface] as frames, so the wave clock's ticks repaint the
+  /// painter and reclip the text clipper without rebuilding this subtree.
+  /// This AnimatedBuilder listens only to the end-sequence clock, the one
+  /// clock whose ticks change *content* (the countdown runs on to its total,
+  /// the whole view fades); everything else — the 1 Hz brew tick, pause,
+  /// step changes, theme — arrives as a normal rebuild and re-publishes the
+  /// frame with [_updatePourSurfaceFrame], which is also the only frame
+  /// source on web, where there is no wave clock.
   Widget _buildPourBody(BuildContext context, bool manualStepControlEnabled) {
     final loc = AppLocalizations.of(context)!;
 
@@ -1698,10 +1824,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     // liquid is now the only whole-brew indicator.
 
     return AnimatedBuilder(
-      animation: Listenable.merge([
-        _pourWaveController,
-        _endBrewAnimationController,
-      ]),
+      animation: _endBrewAnimationController,
       builder: (context, _) {
         // Everything the end sequence animates is derived HERE, inside the
         // builder, not in the enclosing method. The end sequence runs off
@@ -1712,31 +1835,17 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
         // the sequence rendered as a still frame followed by an abrupt cut
         // to the finish screen.
         //
-        // Pour's beats are read straight off the controller value with
-        // _window rather than through the shared CurvedAnimations, so
-        // classic's ending is untouched. See _pourEndSequenceFullDuration.
+        // The liquid's share of those beats (level, amplitude, drop,
+        // ripple) lives in _computePourFrame, fed to the painter/clipper as
+        // frames; what is left here is only what changes *content*. Both
+        // derive from the same controller value in the same frame, and the
+        // rise is shared through _pourRise, so the countdown and the liquid
+        // land together.
+        _updatePourSurfaceFrame();
         final double t = _endBrewAnimationController.value;
         final bool animatingEnd = _isEndBrewAnimating && !_reduceMotion;
-
-        // The ending's rise, 0..1 — shared by the liquid and the countdown so
-        // the two reach "done" in the same frame.
-        final double rise = Curves.easeInOutCubic.transform(
-          _window(t, 0, _kPourRiseEnd),
-        );
-
-        // Liquid level, 0 (empty) .. 1 (full). The cup starts empty and
-        // fills with the brew; where "full" sits on screen is the view's
-        // headroom. PourBrewingView draws its text twice and clips the white
-        // copy to the liquid, so legibility does not depend on the level.
-        // End sequence: rise from wherever the liquid stood to full.
-        final double level;
-        if (!_isEndBrewAnimating) {
-          level = _brewProgressFraction;
-        } else if (_reduceMotion) {
-          level = 1.0;
-        } else {
-          level = lerpDouble(_endLevelStartValue, 1.0, rise)!;
-        }
+        final double rise = _pourRise(t);
+        final PourSurfaceFrame frame = _pourSurface!.frame;
 
         // The countdown runs on to its total as the ending plays (operator's
         // idea, 2026-09-18). Finishing early — skip, or manual next — used to
@@ -1757,36 +1866,6 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
               currentStepTime +
               ((stepTotal - currentStepTime) * rise).round();
         }
-
-        // Wave surface. Amplitude 0 whenever there is no running wave clock
-        // — web, or reduced motion (the clock is stopped in
-        // didChangeDependencies) — otherwise the full ripple during brewing,
-        // settling to a gentle swell before the drop so its ripple reads.
-        final double waveAmplitude;
-        if (_pourWaveController == null || _reduceMotion) {
-          waveAmplitude = 0.0;
-        } else if (_isEndBrewAnimating) {
-          waveAmplitude =
-              _kPourWaveAmplitude *
-              (1 -
-                  (1 - _kPourCalmFloor) *
-                      Curves.easeOut.transform(
-                        _window(t, _kPourCalmStart, _kPourCalmEnd),
-                      ));
-        } else {
-          waveAmplitude = _kPourWaveAmplitude;
-        }
-
-        // The last drop: falling, then its ripple. Null outside their
-        // windows, and never under reduced motion.
-        final double? dropProgress =
-            animatingEnd && t >= _kPourDropStart && t < _kPourDropImpactAt
-            ? _window(t, _kPourDropStart, _kPourDropImpactAt)
-            : null;
-        final double? rippleProgress =
-            animatingEnd && t >= _kPourDropImpactAt && t < _kPourRippleEnd
-            ? _window(t, _kPourDropImpactAt, _kPourRippleEnd)
-            : null;
 
         // Whole-view fade at the very end. There is no separate countdown
         // fade here (unlike the classic ring): the whole view, countdown
@@ -1822,12 +1901,17 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
               stepTotal,
             ),
           ),
-          level: level,
-          wavePhase: _pourWavePhase,
-          waveAmplitude: waveAmplitude,
+          // The constructor fields below mirror the live frame so tests (and
+          // any rebuild-driven reader) see the current values; with `surface`
+          // set, the painter and clipper read the frame from it at paint
+          // time, which is what keeps wave ticks off the rebuild path.
+          level: frame.level,
+          wavePhase: frame.wavePhase,
+          waveAmplitude: frame.waveAmplitude,
           fillColor: AppBrewColors.brewFill(Theme.of(context).colorScheme),
-          dropProgress: dropProgress,
-          rippleProgress: rippleProgress,
+          dropProgress: frame.dropProgress,
+          rippleProgress: frame.rippleProgress,
+          surface: _pourSurface,
           isPaused: _isPaused && !_isEndBrewAnimating,
           pausedLabel: loc.liveActivityPaused,
           opacity: opacity,

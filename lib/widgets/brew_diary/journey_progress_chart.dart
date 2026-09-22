@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/diary_entry.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/visual/color_schemes.dart';
 import 'package:flutter/material.dart';
 
 @immutable

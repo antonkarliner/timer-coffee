@@ -1,6 +1,7 @@
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/diary_group.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/visual/color_schemes.dart';
 import 'package:coffee_timer/widgets/brew_diary/brew_export_action.dart';
 import 'package:coffee_timer/widgets/roaster_logo.dart';
 import 'package:coffeico_plus/coffeico_plus.dart';

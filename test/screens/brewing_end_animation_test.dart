@@ -688,6 +688,36 @@ void main() {
   });
 
   group('brewing pour layout — Pour variant (plan 066 phase 2)', () {
+    testWidgets('wave ticks update the live surface without rebuilding content', (
+      tester,
+    ) async {
+      await _pumpScreen(tester, stepCount: 2, pourLayout: true);
+      await tester.pump(const Duration(seconds: 2));
+      // Freeze the brew level and its 1 Hz rebuilds, while waves must continue.
+      await tester.tap(find.byType(FloatingActionButton));
+      await tester.pump();
+      final view = tester.widget<PourBrewingView>(find.byType(PourBrewingView));
+      final surface = view.surface!;
+      final before = surface.frame;
+      var notifications = 0;
+      void onFrame() => notifications++;
+      surface.addListener(onFrame);
+      for (var i = 0; i < 12; i++) {
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+      expect(notifications, greaterThanOrEqualTo(10));
+      expect(surface.frame.wavePhase, greaterThan(before.wavePhase));
+      expect(surface.frame.level, before.level);
+      expect(
+        identical(view, tester.widget<PourBrewingView>(find.byType(PourBrewingView))),
+        isTrue,
+        reason: 'animation ticks must not rebuild the Pour view',
+      );
+      surface.removeListener(onFrame);
+      await _teardownTree(tester);
+      expect(tester.takeException(), isNull);
+    });
+
     testWidgets(
       'the app bar step title advances as steps complete and the Pour body '
       'shows the resolved step text',
