@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../l10n/app_localizations.dart';
+import '../config/moderation_surfaces.dart';
 import '../models/recipe_model.dart';
 import '../providers/user_recipe_provider.dart';
 import '../providers/recipe_provider.dart';
@@ -80,7 +81,13 @@ class RecipeSaveService {
                   .instance
                   .client
                   .functions
-                  .invoke('content-moderation', body: {'text': combinedText})
+                  .invoke(
+                    'content-moderation',
+                    body: {
+                      'text': combinedText,
+                      'surface': ModerationSurfaces.recipe,
+                    },
+                  )
                   .timeout(const Duration(seconds: 5));
 
               if (moderationResponse.status != 200 ||
