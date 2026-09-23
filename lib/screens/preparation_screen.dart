@@ -147,6 +147,20 @@ class _PreparationScreenState extends State<PreparationScreen> {
                             _setManualStepControl(advancedFeatures, value),
                       ),
                     ),
+                    Semantics(
+                      identifier: 'pourLayoutToggleButton',
+                      toggled: advancedFeatures.pourLayoutEnabled,
+                      child: AppSwitchListTile(
+                        title: appLocalizations.pourLayout,
+                        subtitle: appLocalizations.pourLayoutDescription,
+                        value: advancedFeatures.pourLayoutEnabled,
+                        onChanged: (value) =>
+                            advancedFeatures.setPourLayoutEnabled(
+                              value,
+                              source: 'preparation_settings_sheet',
+                            ),
+                      ),
+                    ),
                   ],
                 ),
               );
