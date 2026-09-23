@@ -1372,5 +1372,6 @@
   "layoutSwitchBackTooDistracting": "Liian häiritsevä",
   "layoutSwitchBackPreferClassic": "Pidän klassisesta ajastimesta",
   "layoutSwitchBackSomethingBroke": "Jokin ei toiminut",
-  "layoutSwitchBackThanks": "Kiitos — tämä auttaa."
+  "layoutSwitchBackThanks": "Kiitos — tämä auttaa.",
+  "layoutSwitchBackReportLink": "Kerro meille, mitä tapahtui"
 }

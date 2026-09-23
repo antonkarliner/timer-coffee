@@ -1691,5 +1691,6 @@
   "layoutSwitchBackTooDistracting": "너무 산만해요",
   "layoutSwitchBackPreferClassic": "클래식 타이머가 더 좋아요",
   "layoutSwitchBackSomethingBroke": "제대로 작동하지 않았어요",
-  "layoutSwitchBackThanks": "감사합니다 — 큰 도움이 돼요."
+  "layoutSwitchBackThanks": "감사합니다 — 큰 도움이 돼요.",
+  "layoutSwitchBackReportLink": "무슨 일이 있었는지 알려주세요"
 }

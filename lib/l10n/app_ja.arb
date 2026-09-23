@@ -1520,5 +1520,6 @@
   "layoutSwitchBackTooDistracting": "気が散りすぎる",
   "layoutSwitchBackPreferClassic": "クラシックなタイマーが好き",
   "layoutSwitchBackSomethingBroke": "うまく動かなかった",
-  "layoutSwitchBackThanks": "ありがとうございます。参考にします。"
+  "layoutSwitchBackThanks": "ありがとうございます。参考にします。",
+  "layoutSwitchBackReportLink": "何があったか教えてください"
 }

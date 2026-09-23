@@ -2860,5 +2860,7 @@
   "layoutSwitchBackSomethingBroke": "Something didn’t work",
   "@layoutSwitchBackSomethingBroke": {"description": "Reason chip: something in the immersive layout did not work."},
   "layoutSwitchBackThanks": "Thanks — that helps.",
-  "@layoutSwitchBackThanks": {"description": "Confirmation shown in place of the reason chips after the user taps one."}
+  "@layoutSwitchBackThanks": {"description": "Confirmation shown in place of the reason chips after the user taps one."},
+  "layoutSwitchBackReportLink": "Tell us what happened",
+  "@layoutSwitchBackReportLink": {"description": "Link under the thanks note, shown only when the tapped reason was “something broke”; opens the mail app with a pre-filled report to support."}
 }

@@ -1520,5 +1520,6 @@
   "layoutSwitchBackTooDistracting": "Çok dikkat dağıtıcı",
   "layoutSwitchBackPreferClassic": "Klasik zamanlayıcıyı tercih ederim",
   "layoutSwitchBackSomethingBroke": "Bir şey çalışmadı",
-  "layoutSwitchBackThanks": "Teşekkürler — bu yardımcı olur."
+  "layoutSwitchBackThanks": "Teşekkürler — bu yardımcı olur.",
+  "layoutSwitchBackReportLink": "Bize ne olduğunu anlatın"
 }

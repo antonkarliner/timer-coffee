@@ -1691,5 +1691,6 @@
   "layoutSwitchBackTooDistracting": "Previše ometajuće",
   "layoutSwitchBackPreferClassic": "Preferiram klasični tajmer",
   "layoutSwitchBackSomethingBroke": "Nešto nije funkcioniralo",
-  "layoutSwitchBackThanks": "Hvala — to pomaže."
+  "layoutSwitchBackThanks": "Hvala — to pomaže.",
+  "layoutSwitchBackReportLink": "Reci nam što se dogodilo"
 }

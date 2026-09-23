@@ -1842,5 +1842,6 @@
   "layoutSwitchBackTooDistracting": "For distraherende",
   "layoutSwitchBackPreferClassic": "Jeg foretrekker den klassiske timeren",
   "layoutSwitchBackSomethingBroke": "Noe fungerte ikke",
-  "layoutSwitchBackThanks": "Takk — det hjelper."
+  "layoutSwitchBackThanks": "Takk — det hjelper.",
+  "layoutSwitchBackReportLink": "Fortell oss hva som skjedde"
 }

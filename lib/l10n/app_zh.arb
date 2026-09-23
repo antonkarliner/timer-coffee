@@ -1520,5 +1520,6 @@
   "layoutSwitchBackTooDistracting": "太容易分心",
   "layoutSwitchBackPreferClassic": "我更喜欢经典计时器",
   "layoutSwitchBackSomethingBroke": "有些地方没起作用",
-  "layoutSwitchBackThanks": "谢谢 — 这很有帮助."
+  "layoutSwitchBackThanks": "谢谢 — 这很有帮助.",
+  "layoutSwitchBackReportLink": "告诉我们发生了什么"
 }

@@ -10,6 +10,7 @@ const _kShownCountKey = 'layout_switch_back_reason_shown_count';
 
 const _promptEn = 'What didn’t work?';
 const _thanksEn = 'Thanks — that helps.';
+const _reportLinkEn = 'Tell us what happened';
 
 /// Pumps the row (hidden or visible per [pourEnabled]) inside a MaterialApp.
 /// Re-pumping with a different [pourEnabled] reuses the row's element, so its
@@ -138,8 +139,67 @@ void main() {
     expect(find.text('Too distracting'), findsNothing);
     expect(find.text('I prefer the classic timer'), findsNothing);
     expect(find.text('Something didn’t work'), findsNothing);
+    expect(find.text(_reportLinkEn), findsNothing,
+        reason: 'the report link is only for the something_broke answer');
     expect(prefs.getBool(_kGivenKey), isTrue);
     expect(prefs.getInt(_kShownCountKey), 1);
+  });
+
+  testWidgets('shows the report link only for the something_broke answer',
+      (tester) async {
+    const cases = [
+      ('Hard to read', false),
+      ('Too distracting', false),
+      ('I prefer the classic timer', false),
+      ('Something didn’t work', true),
+    ];
+    for (final (reasonLabel, expectLink) in cases) {
+      SharedPreferences.setMockInitialValues({});
+      // A distinct key per case remounts the row, so it reloads the fresh
+      // (empty) mock prefs instead of remembering the previous answer.
+      final rowKey = Key('case-$reasonLabel');
+      await pumpRow(tester, pourEnabled: true, rowKey: rowKey);
+      await pumpRow(tester, pourEnabled: false, rowKey: rowKey);
+      await settleToggle(tester);
+
+      // Absent while the chips are up, whatever the answer will be.
+      expect(find.text(_reportLinkEn), findsNothing,
+          reason: 'before answering ($reasonLabel)');
+
+      await tester.tap(find.text(reasonLabel));
+      await settleToggle(tester);
+
+      expect(find.text(_thanksEn), findsOneWidget);
+      expect(
+        find.text(_reportLinkEn),
+        expectLink ? findsOneWidget : findsNothing,
+        reason: 'after answering "$reasonLabel"',
+      );
+    }
+  });
+
+  test('buildReportEmailUri produces a properly encoded mailto:', () {
+    final uri = LayoutSwitchBackReasonRow.buildReportEmailUri(
+      featureName: 'Immersive brewing screen',
+      version: '3.8.2+14',
+      platform: 'ios',
+    );
+
+    expect(uri.scheme, 'mailto');
+    expect(uri.path, 'support@timer.coffee');
+
+    // Raw (still-encoded) query: spaces as %20, never the form-encoding '+'
+    // that mail apps fail to decode — including the '+' inside the version,
+    // which must arrive as %2B.
+    const expectedQuery = 'subject=Immersive%20brewing%20screen'
+        '&body=%0A%0A%E2%80%94%0ATimer.Coffee%203.8.2%2B14%20(ios)';
+    expect(uri.query, expectedQuery);
+    expect(uri.query, isNot(contains('+')));
+    expect(uri.toString(), 'mailto:support@timer.coffee?$expectedQuery');
+
+    // Decoding round-trips to the intended subject and body.
+    expect(uri.queryParameters['subject'], 'Immersive brewing screen');
+    expect(uri.queryParameters['body'], '\n\n—\nTimer.Coffee 3.8.2+14 (ios)');
   });
 
   testWidgets('never appears once the install has answered', (tester) async {

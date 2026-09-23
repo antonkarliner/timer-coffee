@@ -1520,5 +1520,6 @@
   "layoutSwitchBackTooDistracting": "Demasiado distractivo",
   "layoutSwitchBackPreferClassic": "Prefiero el temporizador clásico",
   "layoutSwitchBackSomethingBroke": "Algo no funcionó",
-  "layoutSwitchBackThanks": "Gracias — eso ayuda."
+  "layoutSwitchBackThanks": "Gracias — eso ayuda.",
+  "layoutSwitchBackReportLink": "Cuéntanos qué pasó"
 }

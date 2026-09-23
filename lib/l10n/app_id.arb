@@ -1520,5 +1520,6 @@
   "layoutSwitchBackTooDistracting": "Terlalu mengganggu",
   "layoutSwitchBackPreferClassic": "Saya lebih suka timer klasik",
   "layoutSwitchBackSomethingBroke": "Ada yang tidak berfungsi",
-  "layoutSwitchBackThanks": "Terima kasih — ini membantu."
+  "layoutSwitchBackThanks": "Terima kasih — ini membantu.",
+  "layoutSwitchBackReportLink": "Beri tahu kami apa yang terjadi"
 }

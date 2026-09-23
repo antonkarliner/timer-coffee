@@ -1,11 +1,15 @@
 import 'dart:async';
 
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../services/analytics_service.dart';
 import '../../theme/design_tokens.dart';
+import '../base_buttons.dart';
 
 /// One-tap feedback row shown when the user switches the brewing screen back
 /// from the immersive layout to the classic one (plan 067 Phase 5).
@@ -20,6 +24,10 @@ import '../../theme/design_tokens.dart';
 /// (`layout_switch_back_reason_given`) nor already seen the row twice
 /// (`layout_switch_back_reason_shown_count`). One chip tap records the reason
 /// and swaps the chips for a thanks note in place; there is no free text.
+///
+/// When the tapped reason is `something_broke`, a “Tell us what happened”
+/// link appears under the thanks note and opens the mail app with a
+/// pre-filled report to support.
 class LayoutSwitchBackReasonRow extends StatefulWidget {
   const LayoutSwitchBackReasonRow({
     super.key,
@@ -34,6 +42,33 @@ class LayoutSwitchBackReasonRow extends StatefulWidget {
   /// Analytics `source` for where the toggle was flipped, e.g. `'settings'`
   /// or `'preparation_settings_sheet'`.
   final String source;
+
+  /// Support address the `something_broke` report link writes to.
+  static const String _reportEmail = 'support@timer.coffee';
+
+  /// Builds the `mailto:` URI behind the `something_broke` report link.
+  ///
+  /// Pure — no launching — so tests can assert on address, subject and the
+  /// encoded body without a mail client.
+  @visibleForTesting
+  static Uri buildReportEmailUri({
+    required String featureName,
+    required String version,
+    required String platform,
+  }) {
+    // Two blank lines, an em-dash separator, then the app signature — the
+    // user writes their report above it.
+    final body = '\n\n—\nTimer.Coffee $version ($platform)';
+    // Uri.encodeComponent, NOT queryParameters:, so spaces become %20 —
+    // mail apps do not decode the form-encoding `+` that queryParameters
+    // produces.
+    return Uri(
+      scheme: 'mailto',
+      path: _reportEmail,
+      query: 'subject=${Uri.encodeComponent(featureName)}'
+          '&body=${Uri.encodeComponent(body)}',
+    );
+  }
 
   @override
   State<LayoutSwitchBackReasonRow> createState() =>
@@ -69,6 +104,10 @@ class _LayoutSwitchBackReasonRowState extends State<LayoutSwitchBackReasonRow> {
   /// Whether a reason was tapped this session; swaps the chips for the
   /// thanks note in place.
   bool _answered = false;
+
+  /// The reason tapped this session, or null before an answer. Only
+  /// `something_broke` gets the follow-up report link.
+  String? _selectedReason;
 
   @override
   void initState() {
@@ -129,10 +168,36 @@ class _LayoutSwitchBackReasonRowState extends State<LayoutSwitchBackReasonRow> {
     setState(() {
       _answered = true;
       _given = true;
+      _selectedReason = reasonId;
     });
     final prefs = _prefs;
     if (prefs != null) {
       unawaited(prefs.setBool(_kGivenKey, true));
+    }
+  }
+
+  /// Platform name for the report email signature: `ios`, `android` or `web`.
+  String get _platformName {
+    if (kIsWeb) return 'web';
+    return defaultTargetPlatform.name.toLowerCase();
+  }
+
+  /// Opens the mail app pre-filled for the `something_broke` report. Failure
+  /// is deliberately silent — the thanks note is already showing, and there
+  /// is nothing useful to do about a missing mail client.
+  Future<void> _openReportEmail() async {
+    try {
+      final loc = AppLocalizations.of(context)!;
+      final featureName = loc.pourLayout;
+      final info = await PackageInfo.fromPlatform();
+      final uri = LayoutSwitchBackReasonRow.buildReportEmailUri(
+        featureName: featureName,
+        version: '${info.version}+${info.buildNumber}',
+        platform: _platformName,
+      );
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } catch (_) {
+      // Silent by design (also swallows MissingPluginException in tests).
     }
   }
 
@@ -172,11 +237,31 @@ class _LayoutSwitchBackReasonRowState extends State<LayoutSwitchBackReasonRow> {
                       // Always-present slot; only its contents change, never
                       // this column's shape.
                       _answered
-                          ? Text(
-                              loc.layoutSwitchBackThanks,
-                              style: AppTextStyles.body.copyWith(
-                                color: colorScheme.primary,
-                              ),
+                          ? Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  loc.layoutSwitchBackThanks,
+                                  style: AppTextStyles.body.copyWith(
+                                    color: colorScheme.primary,
+                                  ),
+                                ),
+                                // Always-present slot for the follow-up
+                                // report link; only its contents change
+                                // (SizedBox.shrink when hidden), never the
+                                // shape of this column.
+                                _selectedReason == 'something_broke'
+                                    ? AppTextButton(
+                                        label: loc.layoutSwitchBackReportLink,
+                                        onPressed: _openReportEmail,
+                                        isFullWidth: false,
+                                        height: AppButton.heightSmall,
+                                        padding: AppButton.paddingSmall,
+                                        textStyle: AppTextStyles.caption,
+                                      )
+                                    : const SizedBox.shrink(),
+                              ],
                             )
                           : Wrap(
                               spacing: AppSpacing.xs,

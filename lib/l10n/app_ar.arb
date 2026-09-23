@@ -1520,5 +1520,6 @@
   "layoutSwitchBackTooDistracting": "مشتت للانتباه",
   "layoutSwitchBackPreferClassic": "أفضّل المؤقّت الكلاسيكي",
   "layoutSwitchBackSomethingBroke": "شيء ما لم ينجح",
-  "layoutSwitchBackThanks": "شكرًا — هذا يساعدنا."
+  "layoutSwitchBackThanks": "شكرًا — هذا يساعدنا.",
+  "layoutSwitchBackReportLink": "أخبرنا بما حدث"
 }

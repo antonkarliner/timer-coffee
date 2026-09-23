@@ -1915,5 +1915,6 @@
   "layoutSwitchBackTooDistracting": "Πολύ αποσπαστικό",
   "layoutSwitchBackPreferClassic": "Προτιμώ το κλασικό χρονόμετρο",
   "layoutSwitchBackSomethingBroke": "Κάτι δεν λειτούργησε",
-  "layoutSwitchBackThanks": "Ευχαριστούμε — αυτό βοηθά."
+  "layoutSwitchBackThanks": "Ευχαριστούμε — αυτό βοηθά.",
+  "layoutSwitchBackReportLink": "Πείτε μας τι συνέβη"
 }

@@ -1520,5 +1520,6 @@
   "layoutSwitchBackTooDistracting": "Distraente demais",
   "layoutSwitchBackPreferClassic": "Prefiro o timer clássico",
   "layoutSwitchBackSomethingBroke": "Algo não funcionou",
-  "layoutSwitchBackThanks": "Obrigado — isso ajuda."
+  "layoutSwitchBackThanks": "Obrigado — isso ajuda.",
+  "layoutSwitchBackReportLink": "Conte-nos o que aconteceu"
 }

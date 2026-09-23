@@ -1520,5 +1520,6 @@
   "layoutSwitchBackTooDistracting": "Слишком отвлекает",
   "layoutSwitchBackPreferClassic": "Предпочитаю классический таймер",
   "layoutSwitchBackSomethingBroke": "Что-то не сработало",
-  "layoutSwitchBackThanks": "Спасибо — это помогает."
+  "layoutSwitchBackThanks": "Спасибо — это помогает.",
+  "layoutSwitchBackReportLink": "Расскажите нам, что случилось"
 }

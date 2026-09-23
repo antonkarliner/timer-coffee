@@ -1520,5 +1520,6 @@
   "layoutSwitchBackTooDistracting": "Prea deranjant",
   "layoutSwitchBackPreferClassic": "Prefer cronometrul clasic",
   "layoutSwitchBackSomethingBroke": "Ceva nu a funcționat",
-  "layoutSwitchBackThanks": "Mulțumim — asta ajută."
+  "layoutSwitchBackThanks": "Mulțumim — asta ajută.",
+  "layoutSwitchBackReportLink": "Spune-ne ce s-a întâmplat"
 }

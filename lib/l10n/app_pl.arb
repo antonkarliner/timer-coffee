@@ -1520,5 +1520,6 @@
   "layoutSwitchBackTooDistracting": "Zbyt rozpraszające",
   "layoutSwitchBackPreferClassic": "Wolę klasyczny minutnik",
   "layoutSwitchBackSomethingBroke": "Coś nie zadziałało",
-  "layoutSwitchBackThanks": "Dziękujemy — to pomaga."
+  "layoutSwitchBackThanks": "Dziękujemy — to pomaga.",
+  "layoutSwitchBackReportLink": "Powiedz nam, co się stało"
 }
