@@ -1033,7 +1033,7 @@
   "manualStepControl": "Manuel adım kontrolü",
   "manualStepControlDescription": "Demleme sırasında geri ve atla oklarını göster.",
   "pourLayout": "Sürükleyici demleme ekranı",
-  "pourLayoutDescription": "Demleme ilerledikçe ekran kahveyle dolar. Klasik zamanlayıcı burada kullanılabilir kalır.",
+  "pourLayoutDescription": "Demleme ilerledikçe ekran kahveyle dolar.",
   "layoutPickerTitle": "Nasıl demlemek istersiniz?",
   "layoutPickerSubtitleExisting": "Yeni bir sürükleyici demleme ekranı var. Başlamak için birini seçin — istediğiniz zaman değiştirebilirsiniz.",
   "layoutPickerSubtitleSecondBrew": "Geçen sefer kullandığınız ekranı koruyun ya da diğerini deneyin.",

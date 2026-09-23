@@ -1033,7 +1033,7 @@
   "manualStepControl": "Kontrol langkah manual",
   "manualStepControlDescription": "Tampilkan panah kembali dan lewati saat menyeduh.",
   "pourLayout": "Layar seduh imersif",
-  "pourLayoutDescription": "Layar terisi kopi seiring proses seduh berjalan. Timer klasik tetap tersedia di sini.",
+  "pourLayoutDescription": "Layar terisi kopi seiring proses seduh berjalan.",
   "layoutPickerTitle": "Bagaimana Anda ingin menyeduh?",
   "layoutPickerSubtitleExisting": "Ada layar penyeduhan imersif yang baru. Pilih satu untuk memulai — Anda bisa menggantinya kapan saja.",
   "layoutPickerSubtitleSecondBrew": "Pertahankan layar yang Anda gunakan terakhir kali, atau coba yang lain.",

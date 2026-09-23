@@ -1033,7 +1033,7 @@
   "manualStepControl": "Ręczne sterowanie krokami",
   "manualStepControlDescription": "Pokaż strzałki wstecz i pomiń podczas parzenia.",
   "pourLayout": "Immersyjny ekran parzenia",
-  "pourLayoutDescription": "Ekran wypełnia się kawą w miarę postępu parzenia. Klasyczny minutnik pozostaje tutaj dostępny.",
+  "pourLayoutDescription": "Ekran wypełnia się kawą w miarę postępu parzenia.",
   "layoutPickerTitle": "Jak chcesz parzyć?",
   "layoutPickerSubtitleExisting": "Dostępny jest nowy immersyjny ekran parzenia. Wybierz jeden, aby rozpocząć — w każdej chwili możesz go zmienić.",
   "layoutPickerSubtitleSecondBrew": "Zachowaj ekran z ostatniego parzenia albo wypróbuj drugi.",

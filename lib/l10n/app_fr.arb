@@ -1033,7 +1033,7 @@
   "manualStepControl": "Contrôle manuel des étapes",
   "manualStepControlDescription": "Afficher les flèches retour et passer pendant la préparation.",
   "pourLayout": "Écran de préparation immersif",
-  "pourLayoutDescription": "L’écran se remplit de café à mesure que la préparation avance. Le minuteur classique reste disponible ici.",
+  "pourLayoutDescription": "L’écran se remplit de café à mesure que la préparation avance.",
   "layoutPickerTitle": "Comment voulez-vous préparer ?",
   "layoutPickerSubtitleExisting": "Voici le nouvel écran de préparation immersif. Choisissez-en un pour commencer — vous pourrez changer à tout moment.",
   "layoutPickerSubtitleSecondBrew": "Gardez l’écran de votre dernière préparation, ou essayez l’autre.",

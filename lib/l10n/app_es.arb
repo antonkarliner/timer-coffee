@@ -1033,7 +1033,7 @@
   "manualStepControl": "Control manual de pasos",
   "manualStepControlDescription": "Muestra flechas para volver y saltar durante la preparación.",
   "pourLayout": "Pantalla de preparación inmersiva",
-  "pourLayoutDescription": "La pantalla se llena de café a medida que avanza la preparación. El temporizador clásico sigue disponible aquí.",
+  "pourLayoutDescription": "La pantalla se llena de café a medida que avanza la preparación.",
   "layoutPickerTitle": "¿Cómo quieres preparar?",
   "layoutPickerSubtitleExisting": "Hay una nueva pantalla de preparación inmersiva. Elige una para empezar: puedes cambiar cuando quieras.",
   "layoutPickerSubtitleSecondBrew": "Conserva la pantalla que usaste la última vez o prueba la otra.",

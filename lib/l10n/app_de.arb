@@ -1033,7 +1033,7 @@
   "manualStepControl": "Manuelle Schrittsteuerung",
   "manualStepControlDescription": "Beim Brühen Zurück- und Überspringen-Pfeile anzeigen.",
   "pourLayout": "Immersiver Brühbildschirm",
-  "pourLayoutDescription": "Der Bildschirm füllt sich mit Kaffee, während die Zubereitung fortschreitet. Der klassische Timer bleibt hier verfügbar.",
+  "pourLayoutDescription": "Der Bildschirm füllt sich mit Kaffee, während die Zubereitung fortschreitet.",
   "layoutPickerTitle": "Wie möchtest du brühen?",
   "layoutPickerSubtitleExisting": "Es gibt einen neuen immersiven Brühbildschirm. Wähle einen zum Starten – du kannst jederzeit wechseln.",
   "layoutPickerSubtitleSecondBrew": "Behalte den Bildschirm vom letzten Mal oder probiere den anderen aus.",

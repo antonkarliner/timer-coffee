@@ -1355,7 +1355,7 @@
   "manualStepControl": "Manuell trinnkontroll",
   "manualStepControlDescription": "Vis tilbake- og hopp over-piler under brygging.",
   "pourLayout": "Oppslukende bryggingsskjerm",
-  "pourLayoutDescription": "Skjermen fylles med kaffe etter hvert som bryggingen skrider frem. Den klassiske timeren forblir tilgjengelig her.",
+  "pourLayoutDescription": "Skjermen fylles med kaffe etter hvert som bryggingen skrider frem.",
   "layoutPickerTitle": "Hvordan vil du brygge?",
   "layoutPickerSubtitleExisting": "Det finnes en ny oppslukende bryggeskjerm. Velg en for å starte — du kan bytte når som helst.",
   "layoutPickerSubtitleSecondBrew": "Behold skjermen du brygget med forrige gang, eller prøv den andre.",

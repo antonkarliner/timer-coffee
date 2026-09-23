@@ -1033,7 +1033,7 @@
   "manualStepControl": "تحكم يدوي بالخطوات",
   "manualStepControlDescription": "إظهار أسهم الرجوع والتخطي أثناء التحضير.",
   "pourLayout": "شاشة تحضير غامرة",
-  "pourLayoutDescription": "تمتلئ الشاشة بالقهوة مع تقدم التحضير. يبقى المؤقت الكلاسيكي متاحًا هنا.",
+  "pourLayoutDescription": "تمتلئ الشاشة بالقهوة مع تقدم التحضير.",
   "layoutPickerTitle": "كيف تريد التحضير؟",
   "layoutPickerSubtitleExisting": "تتوفر شاشة تحضير غامرة جديدة. اختر واحدة للبدء — يمكنك التبديل في أي وقت.",
   "layoutPickerSubtitleSecondBrew": "احتفظ بالشاشة التي استخدمتها في آخر مرة، أو جرّب الأخرى.",

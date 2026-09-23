@@ -885,7 +885,7 @@
   "manualStepControl": "Manuaalinen vaiheohjaus",
   "manualStepControlDescription": "Näytä takaisin- ja ohitusnuolet uuton aikana.",
   "pourLayout": "Upottava uutonäyttö",
-  "pourLayoutDescription": "Näyttö täyttyy kahvista uuton edetessä. Klassinen ajastin pysyy täällä saatavilla.",
+  "pourLayoutDescription": "Näyttö täyttyy kahvista uuton edetessä.",
   "layoutPickerTitle": "Miten haluat valmistaa?",
   "layoutPickerSubtitleExisting": "Uusi upottava uutonäyttö on tässä. Valitse yksi aloittaaksesi — voit vaihtaa milloin tahansa.",
   "layoutPickerSubtitleSecondBrew": "Säilytä edellisen kerran näkymä tai kokeile toista.",

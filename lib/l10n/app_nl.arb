@@ -1033,7 +1033,7 @@
   "manualStepControl": "Handmatige stapbediening",
   "manualStepControlDescription": "Toon terug- en overslaanpijlen tijdens het zetten.",
   "pourLayout": "Meeslepend brouwscherm",
-  "pourLayoutDescription": "Het scherm vult zich met koffie naarmate het zetten vordert. De klassieke timer blijft hier beschikbaar.",
+  "pourLayoutDescription": "Het scherm vult zich met koffie naarmate het zetten vordert.",
   "layoutPickerTitle": "Hoe wil je zetten?",
   "layoutPickerSubtitleExisting": "Er is een nieuw meeslepend brouwscherm. Kies er een om te starten — je kunt altijd wisselen.",
   "layoutPickerSubtitleSecondBrew": "Behoud het scherm van je vorige zet, of probeer de andere.",

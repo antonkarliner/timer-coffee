@@ -1515,7 +1515,7 @@
   "manualStepControl": "Manual step control",
   "manualStepControlDescription": "Show back and skip arrows during brewing.",
   "pourLayout": "Immersive brewing screen",
-  "pourLayoutDescription": "The screen fills with coffee as the brew progresses. The classic timer stays available here.",
+  "pourLayoutDescription": "The screen fills with coffee as the brew progresses.",
   "layoutPickerTitle": "How do you want to brew?",
   "@layoutPickerTitle": {
     "description": "Title of the one-time brewing-layout picker shown when starting a brew."

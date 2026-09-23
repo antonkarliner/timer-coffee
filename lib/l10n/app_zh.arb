@@ -1033,7 +1033,7 @@
   "manualStepControl": "手动步骤控制",
   "manualStepControlDescription": "冲煮时显示上一步和跳过箭头。",
   "pourLayout": "沉浸式冲煮界面",
-  "pourLayoutDescription": "随着冲煮进行，界面会逐渐被咖啡填满。经典计时器仍可在此使用。",
+  "pourLayoutDescription": "随着冲煮进行，界面会逐渐被咖啡填满。",
   "layoutPickerTitle": "你想以哪种方式冲煮？",
   "layoutPickerSubtitleExisting": "全新沉浸式冲煮界面已上线。选一个开始——随时可以切换。",
   "layoutPickerSubtitleSecondBrew": "沿用上次的冲煮界面，或试试另一种。",
