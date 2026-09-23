@@ -113,6 +113,7 @@ void main() {
     Future<LaunchPopupModel?>? whatsNewPopupFuture,
     String? locale,
     bool Function(String?)? platformMatches,
+    bool? layoutTryEligible,
   }) {
     return resolver.resolve(
       updateBeanWeightFuture: updateBeanWeightFuture ?? Future.value(false),
@@ -127,6 +128,7 @@ void main() {
       whatsNewPopupFuture: whatsNewPopupFuture,
       locale: locale ?? 'en',
       platformMatches: platformMatches ?? ((_) => true),
+      layoutTryEligible: layoutTryEligible ?? false,
     );
   }
 
@@ -573,6 +575,97 @@ void main() {
       expect(resolution.content.kind, FinishSlotKind.whatsNew);
       expect(prefs.getInt('lastPopupIdSeenAtFinish_en'), isNull);
       expect(prefs.getString('engagement_budget_log'), isNull);
+    });
+  });
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Layout-try candidate (plan 067, Phase 4) — registered between the
+  // review nudge and whats-new (no independent home surface).
+  // ─────────────────────────────────────────────────────────────────────────
+
+  group('layout-try candidate', () {
+    test('eligible with no review nudge → layoutTry, carrying the shared '
+        'decision fields', () async {
+      // No bean seeded → review nudge not eligible → layout-try is free.
+      final resolver = buildResolver();
+      final resolution = await resolveWith(resolver, layoutTryEligible: true);
+
+      expect(resolution.content.kind, FinishSlotKind.layoutTry);
+      expect(resolution.depletedThisBrew, isFalse);
+      // Same shared fields the whats-new branch carries.
+      expect(resolution.promptService, isNotNull);
+    });
+
+    test('an eligible review nudge beats it (perishable ask outranks the '
+        'card that can wait)', () async {
+      await prefs.setString('selectedBeanUuid', 'bean-1');
+      await db.coffeeBeansDao.insertCoffeeBeans(_makeBean(uuid: 'bean-1'));
+      await seedBrews(beansUuid: 'bean-1', count: 5);
+
+      final resolver = buildResolver();
+      final resolution = await resolveWith(resolver, layoutTryEligible: true);
+
+      expect(resolution.content.kind, FinishSlotKind.reviewNudge);
+    });
+
+    test('layoutTryEligible false (default) → whats-new behaves exactly as '
+        'before layout-try existed', () async {
+      await prefs.setBool('launch_popup_first_session_done', true);
+      final resolver = buildResolver();
+      final popup = makePopup(id: 63);
+
+      final resolution = await resolveWith(
+        resolver,
+        whatsNewPopupFuture: Future.value(popup),
+      );
+
+      expect(resolution.content.kind, FinishSlotKind.whatsNew);
+      expect(resolution.content.popup?.id, 63);
+    });
+
+    test('layoutTryEligible false (default) and nothing else → fact, as '
+        'before', () async {
+      final resolver = buildResolver();
+      final resolution = await resolveWith(resolver);
+
+      expect(resolution.content.kind, FinishSlotKind.fact);
+    });
+
+    test('a delight winner still suppresses it', () async {
+      final resolver = buildResolver();
+      final resolution = await resolveWith(
+        resolver,
+        layoutTryEligible: true,
+        showAnniversary: () => true,
+      );
+
+      expect(resolution.content.kind, FinishSlotKind.fact);
+    });
+
+    test('the resolver itself never marks the card shown or records a '
+        'budget entry — both are render-gated on the card', () async {
+      final resolver = buildResolver();
+      final resolution = await resolveWith(resolver, layoutTryEligible: true);
+
+      expect(resolution.content.kind, FinishSlotKind.layoutTry);
+      expect(prefs.getBool('layout_finish_card_shown'), isNull);
+      expect(prefs.getString('engagement_budget_log'), isNull);
+    });
+
+    test('registration sits between reviewNudge and whatsNew with '
+        'resolvesSynchronously false and isAsk true', () {
+      final ids = kFinishSlotCandidates.map((c) => c.id).toList();
+      final reviewIdx = ids.indexOf(FinishSlotCandidateId.reviewNudge);
+      final tryIdx = ids.indexOf(FinishSlotCandidateId.layoutTry);
+      final whatsNewIdx = ids.indexOf(FinishSlotCandidateId.whatsNew);
+
+      expect(tryIdx, reviewIdx + 1, reason: 'layout-try outranks whats-new '
+          'because, unlike the popup, this card has no independent home');
+      expect(tryIdx, lessThan(whatsNewIdx));
+
+      final registration = kFinishSlotCandidates[tryIdx];
+      expect(registration.resolvesSynchronously, isFalse);
+      expect(registration.isAsk, isTrue);
     });
   });
 }

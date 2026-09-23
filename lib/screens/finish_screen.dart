@@ -26,8 +26,10 @@ import '../utils/app_logger.dart';
 import '../utils/country_names.dart';
 import '../widgets/notification_permission_dialog.dart';
 import '../widgets/base_buttons.dart';
+import '../services/advanced_features_service.dart';
 import '../services/engagement_budget_service.dart';
 import '../services/finish_slot_resolver.dart';
+import '../services/layout_choice_prompt_service.dart';
 import '../services/onboarding_service.dart';
 import '../services/analytics_service.dart';
 import '../services/region_service.dart';
@@ -42,6 +44,7 @@ import '../widgets/brew_diary/brew_detail_sheet.dart'
     show diaryEntrySourceLabel;
 import '../widgets/falling_beans_overlay.dart';
 import '../widgets/finish/brew_eval_sheet.dart';
+import '../widgets/finish/layout_try_card.dart';
 import '../widgets/finish/whats_new_card.dart';
 import '../widgets/first_brew_celebration.dart';
 
@@ -222,6 +225,15 @@ class _FinishScreenState extends State<FinishScreen> {
   // `FinishSlotKind.reviewNudge` too.
   SharedPreferences? _prefsForWhatsNew;
   EngagementBudgetService? _budgetForWhatsNew;
+
+  /// Cached during `_resolveSlotDecision` (plan 067 Phase 4) for `build()`'s
+  /// `LayoutTryCard` branch, same reason as the two fields above: the card
+  /// needs the toggle (to flip it on accept) and the experiment arm (to tag
+  /// its analytics), both guaranteed captured before the slot future can
+  /// resolve to `FinishSlotKind.layoutTry`. The card's prefs-backed
+  /// `LayoutChoicePromptService` is constructed from `_prefsForWhatsNew` at
+  /// the call site — same store, no extra field.
+  AdvancedFeaturesService? _advancedForLayoutTry;
 
   @override
   void initState() {
@@ -836,6 +848,16 @@ class _FinishScreenState extends State<FinishScreen> {
     final prefs = await SharedPreferences.getInstance();
     if (!mounted) return _resolveFactContent();
 
+    // Plan 067 Phase 4 — the layout-try candidate's eligibility. Everything
+    // context-bound is read here, before any further await (the next one is
+    // inside `resolver.resolve`), mirroring the `locale` read below. The
+    // toggle and the arm are cached for `build()`'s `LayoutTryCard` branch.
+    final advanced = context.read<AdvancedFeaturesService>();
+    final layoutTryEligible = LayoutChoicePromptService(
+      prefs,
+    ).finishCardEligible(isWeb: kIsWeb, pourEnabled: advanced.pourLayoutEnabled);
+    _advancedForLayoutTry = advanced;
+
     final database = Provider.of<AppDatabase>(context, listen: false);
     final reviewProvider = Provider.of<BeanReviewProvider>(
       context,
@@ -876,6 +898,7 @@ class _FinishScreenState extends State<FinishScreen> {
       isMounted: () => mounted,
       whatsNewPopupFuture: whatsNewPopupFuture,
       locale: locale,
+      layoutTryEligible: layoutTryEligible,
     );
     return resolution.content;
   }
@@ -1195,6 +1218,15 @@ class _FinishScreenState extends State<FinishScreen> {
                                 trigger: content.trigger!,
                                 promptService: content.promptService!,
                                 budgetService: _budgetForWhatsNew,
+                              );
+                            case FinishSlotKind.layoutTry:
+                              return LayoutTryCard(
+                                budgetService: _budgetForWhatsNew!,
+                                promptService: LayoutChoicePromptService(
+                                  _prefsForWhatsNew!,
+                                ),
+                                advancedFeatures: _advancedForLayoutTry!,
+                                arm: _advancedForLayoutTry?.layoutArm ?? 'none',
                               );
                             case FinishSlotKind.whatsNew:
                               return WhatsNewCard(

@@ -16,16 +16,24 @@ import 'package:coffee_timer/services/engagement_budget_service.dart';
 /// log disagree).
 const String kBeanReviewNudgeAskId = 'bean_review_nudge';
 
+/// The [EngagementBudgetService] ask id for the layout-try candidate (plan
+/// 067 Phase 4) — shared between [FinishSlotResolver] (which gates on it via
+/// `allowAsk`) and `LayoutTryCard` (which must `recordAsk` under the exact
+/// same id once it actually paints, or the gate and the log disagree — same
+/// contract as [kBeanReviewNudgeAskId]).
+const String kLayoutTryAskId = 'layout_try';
+
 /// What the single finish-screen card slot ultimately renders once the slot
 /// decision settles: the bean-review nudge card, the what's-new popup card
-/// (plan 039 Phase C2), the coffee fact, or the coffee fact's error state
+/// (plan 039 Phase C2), the layout-try card (plan 067 Phase 4), the coffee
+/// fact, or the coffee fact's error state
 /// (mirrors the previous plain `FutureBuilder<String>` semantics — see
 /// plan 021, "Finish-screen wiring").
 ///
 /// Moved out of `finish_screen.dart` (was private `_FinishSlotKind`) in
 /// plan 039 Phase A0.5, so the slot decision can be unit-tested without
 /// mounting the screen.
-enum FinishSlotKind { reviewNudge, whatsNew, fact, factError }
+enum FinishSlotKind { reviewNudge, layoutTry, whatsNew, fact, factError }
 
 /// See [FinishSlotKind]. Moved out of `finish_screen.dart` (was private
 /// `_FinishSlotContent`) in plan 039 Phase A0.5.
@@ -61,6 +69,14 @@ class FinishSlotContent {
 
   factory FinishSlotContent.whatsNew({required LaunchPopupModel popup}) =>
       FinishSlotContent._(kind: FinishSlotKind.whatsNew, popup: popup);
+
+  /// Plan 067 Phase 4 — the one-time "second chance" offer of the immersive
+  /// layout to a user who swiped the picker away. Carries no payload: the
+  /// card reads its dependencies (budget service, prefs-backed prompt
+  /// service, `AdvancedFeaturesService`, experiment arm) from the screen's
+  /// cached fields, exactly like the whats-new branch's budget/prefs.
+  factory FinishSlotContent.layoutTry() =>
+      FinishSlotContent._(kind: FinishSlotKind.layoutTry);
 
   factory FinishSlotContent.fact(String text) =>
       FinishSlotContent._(kind: FinishSlotKind.fact, factText: text);
@@ -121,12 +137,21 @@ enum FinishSlotCandidateId {
   /// candidate.
   reviewNudge,
 
+  /// The one-time "second chance" offer of the immersive layout (plan 067
+  /// Phase 4) — the third **ask** candidate, ranked between [reviewNudge]
+  /// and [whatsNew] on purpose: unlike the whats-new card, whose content
+  /// also lives on its own home-screen surface (a missed finish exposure
+  /// costs nothing), this card has **no independent home** — it is this
+  /// finish screen or never — so it outranks whats-new while still losing
+  /// to the perishable bean-review ask.
+  layoutTry,
+
   /// The finish-screen duplicate of the home-screen launch popup (plan 039
-  /// Item C, Phase C2) — the second **ask** candidate, ranked below
-  /// [reviewNudge] per decision D3: bean-review eligibility is perishable
-  /// (tied to a bag that gets consumed, expiring against a per-bean
-  /// impression cap), whereas popup content persists across sessions and
-  /// already has an independent home-screen surface.
+  /// Item C, Phase C2) — the second-registered **ask** candidate, ranked
+  /// below [reviewNudge] per decision D3: bean-review eligibility is
+  /// perishable (tied to a bag that gets consumed, expiring against a
+  /// per-bean impression cap), whereas popup content persists across
+  /// sessions and already has an independent home-screen surface.
   whatsNew,
 
   /// Terminal fallback: the coffee-fact card (or its error state).
@@ -162,7 +187,8 @@ class FinishSlotCandidateRegistration {
 
 /// Priority-ordered registration table for the finish-screen slot (plan 039
 /// Phase A1), highest priority first: promo > anniversary > in-sync >
-/// bean-review nudge > whats-new (plan 039 Item C, Phase C2) > coffee fact.
+/// bean-review nudge > layout-try (plan 067 Phase 4) > whats-new (plan 039
+/// Item C, Phase C2) > coffee fact.
 ///
 /// This replaces what used to be the same priority encoded twice — once as
 /// the live `if/else` chain in `finish_screen.dart`'s `build()`, once
@@ -191,6 +217,11 @@ const List<FinishSlotCandidateRegistration> kFinishSlotCandidates = [
   ),
   FinishSlotCandidateRegistration(
     id: FinishSlotCandidateId.reviewNudge,
+    resolvesSynchronously: false,
+    isAsk: true,
+  ),
+  FinishSlotCandidateRegistration(
+    id: FinishSlotCandidateId.layoutTry,
     resolvesSynchronously: false,
     isAsk: true,
   ),
@@ -339,6 +370,13 @@ class FinishSlotResolver {
     Future<LaunchPopupModel?>? whatsNewPopupFuture,
     String locale = 'en',
     bool Function(String?) platformMatches = _defaultPlatformMatches,
+    // Plan 067, Phase 4 — the layout-try candidate. False (the default)
+    // means the caller determined this install isn't owed the one-time
+    // "second chance" immersive-layout offer (web, picker never dismissed,
+    // card already shown, or already brewing immersive); the candidate is
+    // then skipped entirely. Existing callers (and every pre-067 test) that
+    // omit this parameter get identical behavior to before it existed.
+    bool layoutTryEligible = false,
   }) async {
     final depletedThisBrew = await updateBeanWeightFuture;
     await insertBrewingDataFuture;
@@ -368,6 +406,7 @@ class FinishSlotResolver {
             case FinishSlotCandidateId.inSync:
               return inSyncWon();
             case FinishSlotCandidateId.reviewNudge:
+            case FinishSlotCandidateId.layoutTry:
             case FinishSlotCandidateId.whatsNew:
             case FinishSlotCandidateId.fact:
               return false;
@@ -411,6 +450,30 @@ class FinishSlotResolver {
             trigger: decision.trigger!,
             promptService: promptService,
           ),
+          reviewDecision: decision,
+          depletedThisBrew: depletedThisBrew,
+          promptService: promptService,
+        );
+      }
+    }
+
+    // Plan 067, Phase 4 — the layout-try candidate, ranked between the
+    // review nudge and whats-new (see [FinishSlotCandidateId.layoutTry] for
+    // why it sits above whats-new). Same gate shape as the review nudge
+    // above; shadow mode means `allowAsk` always allows today. Like the
+    // whats-new candidate below, the resolver does NOT record the ask or
+    // the shown-state — both are render-gated, owned by `LayoutTryCard`'s
+    // own first frame, so a candidate that wins here but never paints
+    // (e.g. the 4s timeout fires between this return and the rebuild)
+    // doesn't burn its one and only impression.
+    if (layoutTryEligible) {
+      final allowed = await _budget.allowAsk(
+        surface: EngagementSurface.finishSlot,
+        askId: kLayoutTryAskId,
+      );
+      if (allowed) {
+        return FinishSlotResolution(
+          content: FinishSlotContent.layoutTry(),
           reviewDecision: decision,
           depletedThisBrew: depletedThisBrew,
           promptService: promptService,

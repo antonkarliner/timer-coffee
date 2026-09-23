@@ -28,6 +28,7 @@ class LayoutChoicePromptService {
 
   static const _kSeenKey = 'layout_picker_seen';
   static const _kDismissedKey = 'layout_picker_dismissed';
+  static const _kFinishCardShownKey = 'layout_finish_card_shown';
 
   final SharedPreferences _prefs;
 
@@ -38,9 +39,30 @@ class LayoutChoicePromptService {
   /// Whether the picker was shown and dismissed without a choice.
   bool get pickerDismissed => _prefs.getBool(_kDismissedKey) ?? false;
 
+  /// Whether the finish-screen "second chance" card (plan 067 Phase 4) has
+  /// already had its one shot. Shows at most once, ever — the same at-most-once
+  /// contract as the picker itself.
+  bool get finishCardShown => _prefs.getBool(_kFinishCardShownKey) ?? false;
+
   Future<void> markPickerSeen() => _prefs.setBool(_kSeenKey, true);
 
   Future<void> markPickerDismissed() => _prefs.setBool(_kDismissedKey, true);
+
+  Future<void> markFinishCardShown() =>
+      _prefs.setBool(_kFinishCardShownKey, true);
+
+  /// Whether the finish-screen card may offer the immersive layout to a user
+  /// who swiped the picker away without choosing (plan 067 Phase 4). The
+  /// picker never appears before an install's first brew, so [pickerDismissed]
+  /// already implies this is not the install's first finish screen. Web is
+  /// excluded (the picker is a mobile probe, same gate as
+  /// [resolvePickerTrigger]), a card already shown is excluded (at most once,
+  /// ever), and a user already brewing immersive has nothing to be offered.
+  bool finishCardEligible({
+    required bool isWeb,
+    required bool pourEnabled,
+  }) =>
+      !isWeb && pickerDismissed && !finishCardShown && !pourEnabled;
 
   /// Which picker variant to show on this Play tap, if any. Evaluated in a
   /// fixed order — web first, then seen, then the first-brew guard, then the

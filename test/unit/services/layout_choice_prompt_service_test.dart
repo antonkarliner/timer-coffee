@@ -101,6 +101,61 @@ void main() {
     });
   });
 
+  group('finishCardEligible (plan 067 Phase 4)', () {
+    // Convenience defaults matching the "picker was swiped away, nothing
+    // else happened" case.
+    bool eligible({bool isWeb = false, bool pourEnabled = false}) =>
+        service.finishCardEligible(isWeb: isWeb, pourEnabled: pourEnabled);
+
+    test('eligible exactly when dismissed, not shown, not on pour, not web',
+        () async {
+      await reinit(dismissed: true);
+      expect(eligible(), isTrue);
+    });
+
+    test('web never gets the card', () async {
+      await reinit(dismissed: true);
+      expect(eligible(isWeb: true), isFalse);
+    });
+
+    test('a picker that was never dismissed → no card', () async {
+      await reinit();
+      expect(eligible(), isFalse);
+      // Seen (chosen) but somehow not dismissed → still no card.
+      await reinit(seen: true);
+      expect(eligible(), isFalse);
+    });
+
+    test('already shown → never again', () async {
+      // `finishCardShown` is a separate flag from the picker's own seen
+      // state; simulate an install where the card already had its shot.
+      SharedPreferences.setMockInitialValues({
+        'layout_picker_seen': true,
+        'layout_picker_dismissed': true,
+        'layout_finish_card_shown': true,
+      });
+      prefs = await SharedPreferences.getInstance();
+      service = LayoutChoicePromptService(prefs);
+      expect(eligible(), isFalse);
+    });
+
+    test('already brewing immersive → nothing to offer', () async {
+      await reinit(dismissed: true);
+      expect(eligible(pourEnabled: true), isFalse);
+    });
+
+    test('markFinishCardShown persists and flips eligibility off', () async {
+      await reinit(dismissed: true);
+      expect(service.finishCardShown, isFalse);
+      expect(eligible(), isTrue);
+
+      await service.markFinishCardShown();
+      expect(service.finishCardShown, isTrue);
+      expect(prefs.getBool('layout_finish_card_shown'), isTrue);
+      expect(eligible(), isFalse);
+    });
+  });
+
   group('flags and analytics names', () {
     test('markPickerSeen / markPickerDismissed persist', () async {
       await reinit();

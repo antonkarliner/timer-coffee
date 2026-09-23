@@ -1544,6 +1544,26 @@
   "@layoutPickerFooter": {
     "description": "Footer telling the user the choice is not final."
   },
+  "layoutTryCardTitle": "Try the immersive screen next time",
+  "@layoutTryCardTitle": {
+    "description": "Title of the one-time finish-screen card offering the immersive layout to users who dismissed the layout picker."
+  },
+  "layoutTryCardBody": "The screen fills with coffee as your brew progresses.",
+  "@layoutTryCardBody": {
+    "description": "Body of the finish-screen layout-try card; describes the immersive layout."
+  },
+  "layoutTryCardAccept": "Use it next brew",
+  "@layoutTryCardAccept": {
+    "description": "Accept button on the finish-screen layout-try card; enables the immersive layout for the next brew."
+  },
+  "layoutTryCardDecline": "Not now",
+  "@layoutTryCardDecline": {
+    "description": "Decline button on the finish-screen layout-try card; dismisses the card."
+  },
+  "layoutTryCardAccepted": "Done — your next brew uses the immersive screen.",
+  "@layoutTryCardAccepted": {
+    "description": "Confirmation shown on the finish-screen layout-try card after accepting."
+  },
   "previousStep": "Previous step",
   "nextStep": "Next step",
   "brewingSkipStepLabel": "Finish",
