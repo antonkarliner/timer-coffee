@@ -1516,6 +1516,34 @@
   "manualStepControlDescription": "Show back and skip arrows during brewing.",
   "pourLayout": "Immersive brewing screen",
   "pourLayoutDescription": "The screen fills with coffee as the brew progresses. The classic timer stays available here.",
+  "layoutPickerTitle": "How do you want to brew?",
+  "@layoutPickerTitle": {
+    "description": "Title of the one-time brewing-layout picker shown when starting a brew."
+  },
+  "layoutPickerSubtitleExisting": "There’s a new immersive brewing screen. Pick one to start — you can switch anytime.",
+  "@layoutPickerSubtitleExisting": {
+    "description": "Subtitle for existing users seeing the layout picker for the first time."
+  },
+  "layoutPickerSubtitleSecondBrew": "Keep the screen you brewed with last time, or try the other one.",
+  "@layoutPickerSubtitleSecondBrew": {
+    "description": "Subtitle for installs with an assigned layout arm; offers keep or switch."
+  },
+  "layoutPickerClassic": "Classic",
+  "@layoutPickerClassic": {
+    "description": "Label of the classic brewing-layout card."
+  },
+  "layoutPickerImmersive": "Immersive",
+  "@layoutPickerImmersive": {
+    "description": "Label of the immersive brewing-layout card."
+  },
+  "layoutPickerCurrent": "Current",
+  "@layoutPickerCurrent": {
+    "description": "Badge marking the layout currently in use."
+  },
+  "layoutPickerFooter": "Change it anytime with the settings button on this screen.",
+  "@layoutPickerFooter": {
+    "description": "Footer telling the user the choice is not final."
+  },
   "previousStep": "Previous step",
   "nextStep": "Next step",
   "brewingSkipStepLabel": "Finish",

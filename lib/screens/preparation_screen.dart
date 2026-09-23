@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/recipe_model.dart';
@@ -10,12 +11,14 @@ import 'package:just_audio/just_audio.dart';
 import 'package:vibration/vibration.dart';
 import 'package:vibration/vibration_presets.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import '../services/layout_choice_prompt_service.dart';
 import '../services/recipe_expression_service.dart';
 import '../services/advanced_features_service.dart';
 import '../services/analytics_service.dart';
 import '../services/feature_flags/feature_flags_repository.dart';
 import '../services/onboarding_service.dart';
 import '../widgets/app_switch_list_tile.dart';
+import '../widgets/brewing/layout_choice_sheet.dart';
 
 class PreparationScreen extends StatefulWidget {
   final RecipeModel recipe;
@@ -63,21 +66,11 @@ class _PreparationScreenState extends State<PreparationScreen> {
   }
 
   Future<void> _startBrew() async {
+    // Read every provider up front, before the first await.
     final advancedFeatures = context.read<AdvancedFeaturesService>();
     final onboardingService = context.read<OnboardingService>();
     final featureFlags = context.read<FeatureFlagsRepository>();
     final analytics = AnalyticsService.maybeInstance;
-
-    // Sound feedback for modes that include sound
-    if (_notificationMode == NotificationMode.soundOnly) {
-      player.seek(Duration.zero);
-      player.play();
-    }
-
-    // Vibration feedback for modes that include vibration
-    if (_notificationMode == NotificationMode.vibrationOnly) {
-      Vibration.vibrate(preset: VibrationPreset.longAlarmBuzz);
-    }
 
     if (analytics != null) {
       await advancedFeatures.assignLayoutArmIfEligible(
@@ -91,6 +84,118 @@ class _PreparationScreenState extends State<PreparationScreen> {
     }
 
     if (!mounted) return;
+
+    final prefs = await SharedPreferences.getInstance();
+    if (!mounted) return;
+
+    // The layout the picker would be choosing from, read once before any
+    // of the calls below can change it.
+    final String currentLayout = advancedFeatures.pourLayoutEnabled
+        ? 'pour'
+        : 'classic';
+    final String? arm = advancedFeatures.layoutArm;
+
+    final picker = LayoutChoicePromptService(prefs);
+    final LayoutChoiceTrigger? trigger = picker.resolvePickerTrigger(
+      isWeb: kIsWeb,
+      firstBrewDone: onboardingService.firstBrewDone,
+      arm: arm,
+      pourEnabled: advancedFeatures.pourLayoutEnabled,
+    );
+
+    if (trigger == null) {
+      // Already brewing immersive by their own choice (e.g. from the gear
+      // sheet), with no arm: the picker would only ever ask about a choice
+      // already made, so record that it is moot. BrewingProcessScreen reads
+      // the layout once in initState, so nothing here needs to propagate.
+      if (advancedFeatures.pourLayoutEnabled) {
+        await picker.markSeenIfAlreadyOnPour(
+          isWeb: kIsWeb,
+          firstBrewDone: onboardingService.firstBrewDone,
+        );
+      }
+      if (!mounted) return;
+      _pushBrewingScreen();
+      return;
+    }
+
+    // Mark seen on SHOW: an app kill while the sheet is up must never
+    // re-interrupt a later brew with it.
+    await picker.markPickerSeen();
+    analytics?.track(
+      'layout_choice_shown',
+      properties: {
+        'trigger': trigger.analyticsName,
+        'current_layout': currentLayout,
+        'arm': arm ?? 'none',
+      },
+    );
+
+    if (!mounted) return;
+
+    final preview = _layoutPreviewSteps();
+    final choice = await showLayoutChoiceSheet(
+      context,
+      trigger: trigger,
+      current: advancedFeatures.pourLayoutEnabled
+          ? LayoutChoice.pour
+          : LayoutChoice.classic,
+      instruction: preview.instruction,
+      nextInstruction: preview.nextInstruction,
+      stepSeconds: preview.stepSeconds,
+    );
+
+    if (!mounted) return;
+
+    if (choice == null) {
+      await picker.markPickerDismissed();
+      analytics?.track(
+        'layout_choice_made',
+        properties: {
+          'trigger': trigger.analyticsName,
+          'choice': 'dismissed',
+          'previous': currentLayout,
+          'arm': arm ?? 'none',
+        },
+      );
+      // Stay on Preparation; no brew starts.
+      return;
+    }
+
+    // Sets the field and notifies synchronously before its first await, so
+    // the push below always hands BrewingProcessScreen the chosen layout.
+    await advancedFeatures.setPourLayoutEnabled(
+      choice == LayoutChoice.pour,
+      source: 'layout_picker',
+    );
+    analytics?.track(
+      'layout_choice_made',
+      properties: {
+        'trigger': trigger.analyticsName,
+        'choice': choice == LayoutChoice.pour ? 'pour' : 'classic',
+        'previous': currentLayout,
+        'arm': arm ?? 'none',
+      },
+    );
+
+    if (!mounted) return;
+    _pushBrewingScreen();
+  }
+
+  /// Feedback + push, the old tail of [_startBrew]. Both the picker-free
+  /// path and the picker-chosen path end here, with the sound/vibration
+  /// right before the transition either way.
+  void _pushBrewingScreen() {
+    // Sound feedback for modes that include sound
+    if (_notificationMode == NotificationMode.soundOnly) {
+      player.seek(Duration.zero);
+      player.play();
+    }
+
+    // Vibration feedback for modes that include vibration
+    if (_notificationMode == NotificationMode.vibrationOnly) {
+      Vibration.vibrate(preset: VibrationPreset.longAlarmBuzz);
+    }
 
     Navigator.push(
       context,
@@ -106,6 +211,45 @@ class _PreparationScreenState extends State<PreparationScreen> {
           coffeeChroniclerSliderPosition: widget.coffeeChroniclerSliderPosition,
         ),
       ),
+    );
+  }
+
+  /// The recipe's first timed step (and the timed step after it), resolved
+  /// with the same placeholder replacement the preparation list uses —
+  /// BrewingProcessScreen filters to steps with positive time, and the
+  /// layout picker's previews must show what this user is about to brew
+  /// with. Empty instruction and 0 seconds when the recipe has no timed
+  /// step, so the picker never crashes on such a recipe.
+  ({String instruction, String? nextInstruction, int stepSeconds})
+  _layoutPreviewSteps() {
+    final timedSteps = widget.recipe.steps
+        .map(
+          (step) => BrewStepModel(
+            id: step.id,
+            order: step.order,
+            description: replacePlaceholders(
+              step.description,
+              widget.recipe.coffeeAmount,
+              widget.recipe.waterAmount,
+              widget.recipe.sweetnessSliderPosition,
+              widget.recipe.strengthSliderPosition,
+              widget.recipe.coffeeChroniclerSliderPosition,
+            ),
+            time: replaceTimePlaceholder(
+              step.time,
+              widget.recipe.sweetnessSliderPosition,
+              widget.recipe.strengthSliderPosition,
+              widget.recipe.coffeeChroniclerSliderPosition,
+            ),
+          ),
+        )
+        .where((step) => step.time.inSeconds > 0)
+        .toList();
+
+    return (
+      instruction: timedSteps.isNotEmpty ? timedSteps.first.description : '',
+      nextInstruction: timedSteps.length > 1 ? timedSteps[1].description : null,
+      stepSeconds: timedSteps.isNotEmpty ? timedSteps.first.time.inSeconds : 0,
     );
   }
 
