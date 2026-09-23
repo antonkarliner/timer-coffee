@@ -1909,5 +1909,11 @@
   "brewExportNoBeanGroup": "Άλλες παρασκευές",
   "campaignSupportCta": "Υποστηρίξτε το Timer.Coffee",
   "campaignGoalProgress": "{raised} από {goal}",
-  "campaignGoalReached": "Συγκεντρώθηκαν {raised} — ο στόχος επιτεύχθηκε. Ευχαριστούμε!"
+  "campaignGoalReached": "Συγκεντρώθηκαν {raised} — ο στόχος επιτεύχθηκε. Ευχαριστούμε!",
+  "layoutSwitchBackPrompt": "Τι δεν λειτούργησε;",
+  "layoutSwitchBackHardToRead": "Δύσκολο στην ανάγνωση",
+  "layoutSwitchBackTooDistracting": "Πολύ αποσπαστικό",
+  "layoutSwitchBackPreferClassic": "Προτιμώ το κλασικό χρονόμετρο",
+  "layoutSwitchBackSomethingBroke": "Κάτι δεν λειτούργησε",
+  "layoutSwitchBackThanks": "Ευχαριστούμε — αυτό βοηθά."
 }

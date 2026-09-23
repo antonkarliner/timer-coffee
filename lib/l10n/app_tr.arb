@@ -1514,5 +1514,11 @@
   "brewExportNoBeanGroup": "Diğer demlemeler",
   "campaignSupportCta": "Timer.Coffee uygulamasını destekle",
   "campaignGoalProgress": "{raised} / {goal}",
-  "campaignGoalReached": "{raised} toplandı — hedefe ulaşıldı. Teşekkürler!"
+  "campaignGoalReached": "{raised} toplandı — hedefe ulaşıldı. Teşekkürler!",
+  "layoutSwitchBackPrompt": "Sorun neydi?",
+  "layoutSwitchBackHardToRead": "Okuması zor",
+  "layoutSwitchBackTooDistracting": "Çok dikkat dağıtıcı",
+  "layoutSwitchBackPreferClassic": "Klasik zamanlayıcıyı tercih ederim",
+  "layoutSwitchBackSomethingBroke": "Bir şey çalışmadı",
+  "layoutSwitchBackThanks": "Teşekkürler — bu yardımcı olur."
 }

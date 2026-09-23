@@ -1685,5 +1685,11 @@
   "brewExportNoBeanGroup": "Ostale pripreme",
   "campaignSupportCta": "Podržite Timer.Coffee",
   "campaignGoalProgress": "{raised} od {goal}",
-  "campaignGoalReached": "{raised} prikupljeno — cilj je postignut. Hvala!"
+  "campaignGoalReached": "{raised} prikupljeno — cilj je postignut. Hvala!",
+  "layoutSwitchBackPrompt": "Što nije funkcioniralo?",
+  "layoutSwitchBackHardToRead": "Teško za čitanje",
+  "layoutSwitchBackTooDistracting": "Previše ometajuće",
+  "layoutSwitchBackPreferClassic": "Preferiram klasični tajmer",
+  "layoutSwitchBackSomethingBroke": "Nešto nije funkcioniralo",
+  "layoutSwitchBackThanks": "Hvala — to pomaže."
 }

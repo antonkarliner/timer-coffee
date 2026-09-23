@@ -1514,5 +1514,11 @@
   "brewExportNoBeanGroup": "Seduhan lainnya",
   "campaignSupportCta": "Dukung Timer.Coffee",
   "campaignGoalProgress": "{raised} dari {goal}",
-  "campaignGoalReached": "{raised} terkumpul — target tercapai. Terima kasih!"
+  "campaignGoalReached": "{raised} terkumpul — target tercapai. Terima kasih!",
+  "layoutSwitchBackPrompt": "Apa yang tidak berfungsi?",
+  "layoutSwitchBackHardToRead": "Sulit dibaca",
+  "layoutSwitchBackTooDistracting": "Terlalu mengganggu",
+  "layoutSwitchBackPreferClassic": "Saya lebih suka timer klasik",
+  "layoutSwitchBackSomethingBroke": "Ada yang tidak berfungsi",
+  "layoutSwitchBackThanks": "Terima kasih — ini membantu."
 }

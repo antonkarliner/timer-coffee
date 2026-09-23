@@ -1514,5 +1514,11 @@
   "brewExportNoBeanGroup": "その他の抽出",
   "campaignSupportCta": "Timer.Coffeeをサポート",
   "campaignGoalProgress": "{raised} / {goal}",
-  "campaignGoalReached": "{raised}が集まりました — 目標を達成しました。ありがとうございます！"
+  "campaignGoalReached": "{raised}が集まりました — 目標を達成しました。ありがとうございます！",
+  "layoutSwitchBackPrompt": "どんな問題がありましたか？",
+  "layoutSwitchBackHardToRead": "読みにくい",
+  "layoutSwitchBackTooDistracting": "気が散りすぎる",
+  "layoutSwitchBackPreferClassic": "クラシックなタイマーが好き",
+  "layoutSwitchBackSomethingBroke": "うまく動かなかった",
+  "layoutSwitchBackThanks": "ありがとうございます。参考にします。"
 }

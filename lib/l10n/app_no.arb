@@ -1836,5 +1836,11 @@
   "brewExportNoBeanGroup": "Andre brygg",
   "campaignSupportCta": "Støtt Timer.Coffee",
   "campaignGoalProgress": "{raised} av {goal}",
-  "campaignGoalReached": "{raised} samlet inn — målet er nådd. Takk!"
+  "campaignGoalReached": "{raised} samlet inn — målet er nådd. Takk!",
+  "layoutSwitchBackPrompt": "Hva fungerte ikke?",
+  "layoutSwitchBackHardToRead": "Vanskelig å lese",
+  "layoutSwitchBackTooDistracting": "For distraherende",
+  "layoutSwitchBackPreferClassic": "Jeg foretrekker den klassiske timeren",
+  "layoutSwitchBackSomethingBroke": "Noe fungerte ikke",
+  "layoutSwitchBackThanks": "Takk — det hjelper."
 }

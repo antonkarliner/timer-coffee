@@ -5,6 +5,7 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../../services/advanced_features_service.dart';
 import '../../services/analytics_service.dart';
 import '../app_switch_list_tile.dart';
+import 'layout_switch_back_reason_row.dart';
 import 'settings_section_subtitle.dart';
 
 /// Advanced / beta feature toggles for manual step control and the immersive
@@ -71,6 +72,10 @@ class _AdvancedFeaturesSectionState extends State<AdvancedFeaturesSection> {
                 onChanged: (value) {
                   advanced.setPourLayoutEnabled(value, source: 'settings');
                 },
+              ),
+              LayoutSwitchBackReasonRow(
+                pourEnabled: advanced.pourLayoutEnabled,
+                source: 'settings',
               ),
             ],
           ),

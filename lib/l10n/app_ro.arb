@@ -1514,5 +1514,11 @@
   "brewExportNoBeanGroup": "Alte preparări",
   "campaignSupportCta": "Susține Timer.Coffee",
   "campaignGoalProgress": "{raised} din {goal}",
-  "campaignGoalReached": "S-au strâns {raised} — obiectiv atins. Vă mulțumim!"
+  "campaignGoalReached": "S-au strâns {raised} — obiectiv atins. Vă mulțumim!",
+  "layoutSwitchBackPrompt": "Ce nu a funcționat?",
+  "layoutSwitchBackHardToRead": "Greu de citit",
+  "layoutSwitchBackTooDistracting": "Prea deranjant",
+  "layoutSwitchBackPreferClassic": "Prefer cronometrul clasic",
+  "layoutSwitchBackSomethingBroke": "Ceva nu a funcționat",
+  "layoutSwitchBackThanks": "Mulțumim — asta ajută."
 }

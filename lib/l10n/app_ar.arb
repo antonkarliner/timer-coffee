@@ -1514,5 +1514,11 @@
   "brewExportNoBeanGroup": "تحضيرات أخرى",
   "campaignSupportCta": "ادعم Timer.Coffee",
   "campaignGoalProgress": "{raised} من {goal}",
-  "campaignGoalReached": "تم جمع {raised} — تم بلوغ الهدف. شكرًا لك!"
+  "campaignGoalReached": "تم جمع {raised} — تم بلوغ الهدف. شكرًا لك!",
+  "layoutSwitchBackPrompt": "ما الذي لم ينجح؟",
+  "layoutSwitchBackHardToRead": "صعب القراءة",
+  "layoutSwitchBackTooDistracting": "مشتت للانتباه",
+  "layoutSwitchBackPreferClassic": "أفضّل المؤقّت الكلاسيكي",
+  "layoutSwitchBackSomethingBroke": "شيء ما لم ينجح",
+  "layoutSwitchBackThanks": "شكرًا — هذا يساعدنا."
 }

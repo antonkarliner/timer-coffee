@@ -1687,5 +1687,11 @@
   "brewExportNoBeanGroup": "دم‌آوری‌های دیگر",
   "campaignSupportCta": "از Timer.Coffee حمایت کنید",
   "campaignGoalProgress": "{raised} از {goal}",
-  "campaignGoalReached": "{raised} جمع‌آوری شد — به هدف رسیده‌ایم. متشکریم!"
+  "campaignGoalReached": "{raised} جمع‌آوری شد — به هدف رسیده‌ایم. متشکریم!",
+  "layoutSwitchBackPrompt": "چه چیزی کار نکرد؟",
+  "layoutSwitchBackHardToRead": "خوانا نبود",
+  "layoutSwitchBackTooDistracting": "بیش از حد حواس‌پرت‌کننده",
+  "layoutSwitchBackPreferClassic": "تایمر کلاسیک را ترجیح می‌دهم",
+  "layoutSwitchBackSomethingBroke": "چیزی کار نکرد",
+  "layoutSwitchBackThanks": "ممنون — این کمک می‌کند."
 }

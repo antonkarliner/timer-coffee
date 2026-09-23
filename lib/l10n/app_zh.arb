@@ -1514,5 +1514,11 @@
   "brewExportNoBeanGroup": "其他冲煮",
   "campaignSupportCta": "支持 Timer.Coffee",
   "campaignGoalProgress": "{raised} / {goal}",
-  "campaignGoalReached": "已筹集 {raised} — 目标达成。谢谢！"
+  "campaignGoalReached": "已筹集 {raised} — 目标达成。谢谢！",
+  "layoutSwitchBackPrompt": "哪里不好用？",
+  "layoutSwitchBackHardToRead": "难以阅读",
+  "layoutSwitchBackTooDistracting": "太容易分心",
+  "layoutSwitchBackPreferClassic": "我更喜欢经典计时器",
+  "layoutSwitchBackSomethingBroke": "有些地方没起作用",
+  "layoutSwitchBackThanks": "谢谢 — 这很有帮助."
 }

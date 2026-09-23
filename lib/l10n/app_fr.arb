@@ -1514,5 +1514,11 @@
   "brewExportNoBeanGroup": "Autres préparations",
   "campaignSupportCta": "Soutenez Timer.Coffee",
   "campaignGoalProgress": "{raised} sur {goal}",
-  "campaignGoalReached": "{raised} collectés — l’objectif est atteint. Merci !"
+  "campaignGoalReached": "{raised} collectés — l’objectif est atteint. Merci !",
+  "layoutSwitchBackPrompt": "Qu’est-ce qui n’a pas fonctionné ?",
+  "layoutSwitchBackHardToRead": "Difficile à lire",
+  "layoutSwitchBackTooDistracting": "Trop distrayant",
+  "layoutSwitchBackPreferClassic": "Je préfère le minuteur classique",
+  "layoutSwitchBackSomethingBroke": "Quelque chose n’a pas fonctionné",
+  "layoutSwitchBackThanks": "Merci — cela aide."
 }

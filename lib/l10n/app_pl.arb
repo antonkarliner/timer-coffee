@@ -1514,5 +1514,11 @@
   "brewExportNoBeanGroup": "Inne parzenia",
   "campaignSupportCta": "Wesprzyj Timer.Coffee",
   "campaignGoalProgress": "{raised} z {goal}",
-  "campaignGoalReached": "Zebrano {raised} — cel osiągnięty. Dziękujemy!"
+  "campaignGoalReached": "Zebrano {raised} — cel osiągnięty. Dziękujemy!",
+  "layoutSwitchBackPrompt": "Co nie zadziałało?",
+  "layoutSwitchBackHardToRead": "Trudne do odczytania",
+  "layoutSwitchBackTooDistracting": "Zbyt rozpraszające",
+  "layoutSwitchBackPreferClassic": "Wolę klasyczny minutnik",
+  "layoutSwitchBackSomethingBroke": "Coś nie zadziałało",
+  "layoutSwitchBackThanks": "Dziękujemy — to pomaga."
 }

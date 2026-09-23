@@ -2848,5 +2848,17 @@
     "placeholders": {
       "raised": {"type": "String"}
     }
-  }
+  },
+  "layoutSwitchBackPrompt": "What didn’t work?",
+  "@layoutSwitchBackPrompt": {"description": "Prompt above the one-tap reason chips shown when the user switches the brewing screen back from the immersive layout to the classic one (plan 067)."},
+  "layoutSwitchBackHardToRead": "Hard to read",
+  "@layoutSwitchBackHardToRead": {"description": "Reason chip: the immersive layout was hard to read."},
+  "layoutSwitchBackTooDistracting": "Too distracting",
+  "@layoutSwitchBackTooDistracting": {"description": "Reason chip: the immersive layout was too distracting."},
+  "layoutSwitchBackPreferClassic": "I prefer the classic timer",
+  "@layoutSwitchBackPreferClassic": {"description": "Reason chip: the user simply prefers the classic timer."},
+  "layoutSwitchBackSomethingBroke": "Something didn’t work",
+  "@layoutSwitchBackSomethingBroke": {"description": "Reason chip: something in the immersive layout did not work."},
+  "layoutSwitchBackThanks": "Thanks — that helps.",
+  "@layoutSwitchBackThanks": {"description": "Confirmation shown in place of the reason chips after the user taps one."}
 }

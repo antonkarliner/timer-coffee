@@ -1685,5 +1685,11 @@
   "brewExportNoBeanGroup": "기타 추출",
   "campaignSupportCta": "Timer.Coffee 후원하기",
   "campaignGoalProgress": "{raised} / {goal}",
-  "campaignGoalReached": "총 {raised} 모금 — 목표를 달성했습니다. 감사합니다!"
+  "campaignGoalReached": "총 {raised} 모금 — 목표를 달성했습니다. 감사합니다!",
+  "layoutSwitchBackPrompt": "어떤 점이 잘 작동하지 않았나요?",
+  "layoutSwitchBackHardToRead": "읽기 어려워요",
+  "layoutSwitchBackTooDistracting": "너무 산만해요",
+  "layoutSwitchBackPreferClassic": "클래식 타이머가 더 좋아요",
+  "layoutSwitchBackSomethingBroke": "제대로 작동하지 않았어요",
+  "layoutSwitchBackThanks": "감사합니다 — 큰 도움이 돼요."
 }

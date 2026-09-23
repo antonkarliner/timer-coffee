@@ -1514,5 +1514,11 @@
   "brewExportNoBeanGroup": "Другие заваривания",
   "campaignSupportCta": "Поддержите Timer.Coffee",
   "campaignGoalProgress": "{raised} из {goal}",
-  "campaignGoalReached": "Собрано {raised} — цель достигнута. Спасибо!"
+  "campaignGoalReached": "Собрано {raised} — цель достигнута. Спасибо!",
+  "layoutSwitchBackPrompt": "Что не сработало?",
+  "layoutSwitchBackHardToRead": "Сложно читать",
+  "layoutSwitchBackTooDistracting": "Слишком отвлекает",
+  "layoutSwitchBackPreferClassic": "Предпочитаю классический таймер",
+  "layoutSwitchBackSomethingBroke": "Что-то не сработало",
+  "layoutSwitchBackThanks": "Спасибо — это помогает."
 }

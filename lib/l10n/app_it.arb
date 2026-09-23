@@ -1514,5 +1514,11 @@
   "brewExportNoBeanGroup": "Altre estrazioni",
   "campaignSupportCta": "Sostieni Timer.Coffee",
   "campaignGoalProgress": "{raised} di {goal}",
-  "campaignGoalReached": "{raised} raccolti — obiettivo raggiunto. Grazie!"
+  "campaignGoalReached": "{raised} raccolti — obiettivo raggiunto. Grazie!",
+  "layoutSwitchBackPrompt": "Cosa non ha funzionato?",
+  "layoutSwitchBackHardToRead": "Difficile da leggere",
+  "layoutSwitchBackTooDistracting": "Troppo distraente",
+  "layoutSwitchBackPreferClassic": "Preferisco il timer classico",
+  "layoutSwitchBackSomethingBroke": "Qualcosa non ha funzionato",
+  "layoutSwitchBackThanks": "Grazie — questo ci aiuta."
 }

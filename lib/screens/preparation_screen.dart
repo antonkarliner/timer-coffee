@@ -19,6 +19,7 @@ import '../services/feature_flags/feature_flags_repository.dart';
 import '../services/onboarding_service.dart';
 import '../widgets/app_switch_list_tile.dart';
 import '../widgets/brewing/layout_choice_sheet.dart';
+import '../widgets/settings/layout_switch_back_reason_row.dart';
 
 class PreparationScreen extends StatefulWidget {
   final RecipeModel recipe;
@@ -353,6 +354,10 @@ class _PreparationScreenState extends State<PreparationScreen> {
                               source: 'preparation_settings_sheet',
                             ),
                       ),
+                    ),
+                    LayoutSwitchBackReasonRow(
+                      pourEnabled: advancedFeatures.pourLayoutEnabled,
+                      source: 'preparation_settings_sheet',
                     ),
                   ],
                 ),

@@ -1366,5 +1366,11 @@
   "brewExportNoBeanGroup": "Muut valmistukset",
   "campaignSupportCta": "Tue Timer.Coffeea",
   "campaignGoalProgress": "{raised} / {goal}",
-  "campaignGoalReached": "{raised} kerätty — tavoite saavutettu. Kiitos!"
+  "campaignGoalReached": "{raised} kerätty — tavoite saavutettu. Kiitos!",
+  "layoutSwitchBackPrompt": "Mikä ei toiminut?",
+  "layoutSwitchBackHardToRead": "Vaikea lukea",
+  "layoutSwitchBackTooDistracting": "Liian häiritsevä",
+  "layoutSwitchBackPreferClassic": "Pidän klassisesta ajastimesta",
+  "layoutSwitchBackSomethingBroke": "Jokin ei toiminut",
+  "layoutSwitchBackThanks": "Kiitos — tämä auttaa."
 }

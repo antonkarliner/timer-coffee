@@ -1514,5 +1514,11 @@
   "brewExportNoBeanGroup": "Overige zetbeurten",
   "campaignSupportCta": "Steun Timer.Coffee",
   "campaignGoalProgress": "{raised} van {goal}",
-  "campaignGoalReached": "{raised} opgehaald — doel bereikt. Bedankt!"
+  "campaignGoalReached": "{raised} opgehaald — doel bereikt. Bedankt!",
+  "layoutSwitchBackPrompt": "Wat werkte niet?",
+  "layoutSwitchBackHardToRead": "Moeilijk te lezen",
+  "layoutSwitchBackTooDistracting": "Te afleidend",
+  "layoutSwitchBackPreferClassic": "Ik geef de voorkeur aan de klassieke timer",
+  "layoutSwitchBackSomethingBroke": "Er werkte iets niet",
+  "layoutSwitchBackThanks": "Bedankt — dat helpt."
 }
