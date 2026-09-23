@@ -340,7 +340,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     // First statement: the layout is fixed for this brew, and the
     // brew_started event below is the first reader of it (see the
     // _pourLayout field comment for why this must stay a `read`).
-    _pourLayout = context.read<AdvancedFeaturesService>().pourLayoutEnabled;
+    final advancedFeatures = context.read<AdvancedFeaturesService>();
+    _pourLayout = advancedFeatures.pourLayoutEnabled;
+    final layoutArm = advancedFeatures.layoutArm;
     WakelockPlus.enable();
 
     AnalyticsService.instance.track(
@@ -353,6 +355,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
         // Cohort key for the Pour-layout measurement (plan 066). Only this
         // binary emits it; never derive the cohort from a date.
         'layout': _pourLayout ? 'pour' : 'classic',
+        'layout_arm': layoutArm ?? 'none',
       },
     );
 

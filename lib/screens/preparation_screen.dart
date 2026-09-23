@@ -13,6 +13,8 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../services/recipe_expression_service.dart';
 import '../services/advanced_features_service.dart';
 import '../services/analytics_service.dart';
+import '../services/feature_flags/feature_flags_repository.dart';
+import '../services/onboarding_service.dart';
 import '../widgets/app_switch_list_tile.dart';
 
 class PreparationScreen extends StatefulWidget {
@@ -58,6 +60,53 @@ class _PreparationScreenState extends State<PreparationScreen> {
     } catch (e) {
       // Handle loading error if necessary
     }
+  }
+
+  Future<void> _startBrew() async {
+    final advancedFeatures = context.read<AdvancedFeaturesService>();
+    final onboardingService = context.read<OnboardingService>();
+    final featureFlags = context.read<FeatureFlagsRepository>();
+    final analytics = AnalyticsService.maybeInstance;
+
+    // Sound feedback for modes that include sound
+    if (_notificationMode == NotificationMode.soundOnly) {
+      player.seek(Duration.zero);
+      player.play();
+    }
+
+    // Vibration feedback for modes that include vibration
+    if (_notificationMode == NotificationMode.vibrationOnly) {
+      Vibration.vibrate(preset: VibrationPreset.longAlarmBuzz);
+    }
+
+    if (analytics != null) {
+      await advancedFeatures.assignLayoutArmIfEligible(
+        firstBrewDone: onboardingService.firstBrewDone,
+        installId: analytics.installId,
+        experimentActive: featureFlags.isEnabled(
+          FeatureFlagKeys.pourLayoutExperiment,
+          defaultValue: true,
+        ),
+      );
+    }
+
+    if (!mounted) return;
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BrewingProcessScreen(
+          recipe: widget.recipe,
+          coffeeAmount: widget.recipe.coffeeAmount,
+          waterAmount: widget.recipe.waterAmount,
+          sweetnessSliderPosition: widget.recipe.sweetnessSliderPosition,
+          strengthSliderPosition: widget.recipe.strengthSliderPosition,
+          notificationMode: _notificationMode,
+          brewingMethodName: widget.brewingMethodName,
+          coffeeChroniclerSliderPosition: widget.coffeeChroniclerSliderPosition,
+        ),
+      ),
+    );
   }
 
   void _cycleNotificationMode() async {
@@ -281,37 +330,7 @@ class _PreparationScreenState extends State<PreparationScreen> {
             identifier: 'playButton',
             child: FloatingActionButton(
               heroTag: 'playButton',
-              onPressed: () {
-                // Sound feedback for modes that include sound
-                if (_notificationMode == NotificationMode.soundOnly) {
-                  player.seek(Duration.zero);
-                  player.play();
-                }
-
-                // Vibration feedback for modes that include vibration
-                if (_notificationMode == NotificationMode.vibrationOnly) {
-                  Vibration.vibrate(preset: VibrationPreset.longAlarmBuzz);
-                }
-
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => BrewingProcessScreen(
-                      recipe: widget.recipe,
-                      coffeeAmount: widget.recipe.coffeeAmount,
-                      waterAmount: widget.recipe.waterAmount,
-                      sweetnessSliderPosition:
-                          widget.recipe.sweetnessSliderPosition,
-                      strengthSliderPosition:
-                          widget.recipe.strengthSliderPosition,
-                      notificationMode: _notificationMode,
-                      brewingMethodName: widget.brewingMethodName,
-                      coffeeChroniclerSliderPosition:
-                          widget.coffeeChroniclerSliderPosition,
-                    ),
-                  ),
-                );
-              },
+              onPressed: _startBrew,
               child: Icon(
                 Directionality.of(context) == TextDirection.rtl
                     ? Icons.arrow_back_ios_new
