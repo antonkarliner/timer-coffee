@@ -11,7 +11,14 @@ import 'settings_section_subtitle.dart';
 /// Advanced / beta feature toggles for manual step control and the immersive
 /// pour layout on the brewing screen.
 class AdvancedFeaturesSection extends StatefulWidget {
-  const AdvancedFeaturesSection({super.key});
+  const AdvancedFeaturesSection({
+    super.key,
+    this.controller,
+    this.pourLayoutTileKey,
+  });
+
+  final ExpansibleController? controller;
+  final GlobalKey? pourLayoutTileKey;
 
   @override
   State<AdvancedFeaturesSection> createState() =>
@@ -29,6 +36,7 @@ class _AdvancedFeaturesSectionState extends State<AdvancedFeaturesSection> {
         return Semantics(
           identifier: 'advancedFeaturesExpansionTile',
           child: ExpansionTile(
+            controller: widget.controller,
             title: Text(loc.advancedFeatures),
             subtitle: SettingsSectionSubtitle(loc.advancedFeaturesSubtitle),
             onExpansionChanged: (expanded) {
@@ -65,13 +73,16 @@ class _AdvancedFeaturesSectionState extends State<AdvancedFeaturesSection> {
                   );
                 },
               ),
-              AppSwitchListTile(
-                title: loc.pourLayout,
-                subtitle: loc.pourLayoutDescription,
-                value: advanced.pourLayoutEnabled,
-                onChanged: (value) {
-                  advanced.setPourLayoutEnabled(value, source: 'settings');
-                },
+              _withOptionalKey(
+                key: widget.pourLayoutTileKey,
+                child: AppSwitchListTile(
+                  title: loc.pourLayout,
+                  subtitle: loc.pourLayoutDescription,
+                  value: advanced.pourLayoutEnabled,
+                  onChanged: (value) {
+                    advanced.setPourLayoutEnabled(value, source: 'settings');
+                  },
+                ),
               ),
               LayoutSwitchBackReasonRow(
                 pourEnabled: advanced.pourLayoutEnabled,
@@ -82,5 +93,9 @@ class _AdvancedFeaturesSectionState extends State<AdvancedFeaturesSection> {
         );
       },
     );
+  }
+
+  Widget _withOptionalKey({required GlobalKey? key, required Widget child}) {
+    return key == null ? child : KeyedSubtree(key: key, child: child);
   }
 }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:coffee_timer/widgets/base_buttons.dart';
@@ -35,12 +36,18 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  static const _expansionTileDuration = Duration(milliseconds: 200);
+
   late final SettingsController _controller;
 
+  final _listController = ScrollController();
   final _notificationsKey = GlobalKey();
   final _brewingMethodsKey = GlobalKey();
+  final _advancedFeaturesKey = GlobalKey();
+  final _pourLayoutTileKey = GlobalKey();
   final _notificationsController = ExpansibleController();
   final _brewingMethodsController = ExpansibleController();
+  final _advancedFeaturesController = ExpansibleController();
 
   @override
   void initState() {
@@ -51,7 +58,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _controller.initNotificationSettings();
     if (widget.section != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        _scrollToSection(widget.section!);
+        unawaited(_scrollToSection(widget.section!));
       });
     }
   }
@@ -59,8 +66,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void dispose() {
     _controller.dispose();
+    _listController.dispose();
     _notificationsController.dispose();
     _brewingMethodsController.dispose();
+    _advancedFeaturesController.dispose();
     super.dispose();
   }
 
@@ -102,6 +111,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
           body: ListView(
+            controller: _listController,
             children: [
               ThemeLocaleTiles(
                 localizedThemeMode: _getLocalizedThemeModeText(),
@@ -157,7 +167,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               const CollectionsSection(),
               const AnalyticsPrivacySection(),
-              const AdvancedFeaturesSection(),
+              KeyedSubtree(
+                key: _advancedFeaturesKey,
+                child: AdvancedFeaturesSection(
+                  controller: _advancedFeaturesController,
+                  pourLayoutTileKey: _pourLayoutTileKey,
+                ),
+              ),
               _buildAboutSection(context, snowEffectProvider),
               if (SettingsController.showNotifDebugPanel && !kIsWeb)
                 const DebugNotificationPanel(),
@@ -172,7 +188,53 @@ class _SettingsScreenState extends State<SettingsScreen> {
   // Section deep-link scroll/expand
   // ---------------------------------------------------------------------------
 
-  void _scrollToSection(String section) {
+  Future<void> _scrollToSection(String section) async {
+    if (section == 'advancedFeatures' || section == 'immersiveBrewing') {
+      BuildContext? advancedFeaturesContext =
+          _advancedFeaturesKey.currentContext;
+      if (advancedFeaturesContext == null) {
+        if (!_listController.hasClients) return;
+        await _listController.animateTo(
+          _listController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+        if (!mounted) return;
+        await WidgetsBinding.instance.endOfFrame;
+        if (!mounted) return;
+        advancedFeaturesContext = _advancedFeaturesKey.currentContext;
+        if (advancedFeaturesContext == null) return;
+      }
+
+      _advancedFeaturesController.expand();
+      if (section == 'advancedFeatures') {
+        final sectionContext = _advancedFeaturesKey.currentContext;
+        if (sectionContext == null || !sectionContext.mounted) return;
+        await Scrollable.ensureVisible(
+          sectionContext,
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.easeInOut,
+        );
+        if (!mounted) return;
+        return;
+      }
+
+      await Future<void>.delayed(_expansionTileDuration);
+      if (!mounted) return;
+      await WidgetsBinding.instance.endOfFrame;
+      if (!mounted) return;
+      final tileContext = _pourLayoutTileKey.currentContext;
+      if (tileContext == null || !tileContext.mounted) return;
+      await Scrollable.ensureVisible(
+        tileContext,
+        alignment: 0.3,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+      );
+      if (!mounted) return;
+      return;
+    }
+
     GlobalKey? key;
     switch (section) {
       case 'notifications':
