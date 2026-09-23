@@ -65,7 +65,8 @@ class LayoutSwitchBackReasonRow extends StatefulWidget {
     return Uri(
       scheme: 'mailto',
       path: _reportEmail,
-      query: 'subject=${Uri.encodeComponent(featureName)}'
+      query:
+          'subject=${Uri.encodeComponent(featureName)}'
           '&body=${Uri.encodeComponent(body)}',
     );
   }
@@ -252,13 +253,22 @@ class _LayoutSwitchBackReasonRowState extends State<LayoutSwitchBackReasonRow> {
                                 // (SizedBox.shrink when hidden), never the
                                 // shape of this column.
                                 _selectedReason == 'something_broke'
-                                    ? AppTextButton(
-                                        label: loc.layoutSwitchBackReportLink,
-                                        onPressed: _openReportEmail,
-                                        isFullWidth: false,
-                                        height: AppButton.heightSmall,
-                                        padding: AppButton.paddingSmall,
-                                        textStyle: AppTextStyles.caption,
+                                    // A filled button with a mail icon: as a
+                                    // text button it read as plain text on
+                                    // device and nobody could tell it was
+                                    // tappable.
+                                    ? Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: AppSpacing.sm,
+                                        ),
+                                        child: AppElevatedButton(
+                                          label: loc.layoutSwitchBackReportLink,
+                                          icon: Icons.mail_outline,
+                                          onPressed: _openReportEmail,
+                                          isFullWidth: false,
+                                          height: AppButton.heightSmall,
+                                          padding: AppButton.paddingSmall,
+                                        ),
                                       )
                                     : const SizedBox.shrink(),
                               ],
