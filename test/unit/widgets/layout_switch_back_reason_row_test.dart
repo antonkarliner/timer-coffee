@@ -22,8 +22,9 @@ Future<void> pumpRow(
   Brightness brightness = Brightness.light,
   Key? rowKey,
 }) async {
-  final scheme =
-      brightness == Brightness.light ? lightColorScheme : darkColorScheme;
+  final scheme = brightness == Brightness.light
+      ? lightColorScheme
+      : darkColorScheme;
   await tester.pumpWidget(
     MaterialApp(
       theme: ThemeData(colorScheme: scheme),
@@ -133,20 +134,27 @@ void main() {
     await settleToggle(tester);
 
     expect(find.text(_thanksEn), findsOneWidget);
-    expect(find.text(_promptEn), findsOneWidget,
-        reason: 'only the chips are replaced by the thanks note');
+    expect(
+      find.text(_promptEn),
+      findsOneWidget,
+      reason: 'only the chips are replaced by the thanks note',
+    );
     expect(find.text('Hard to read'), findsNothing);
     expect(find.text('Too distracting'), findsNothing);
     expect(find.text('I prefer the classic timer'), findsNothing);
     expect(find.text('Something didn’t work'), findsNothing);
-    expect(find.text(_reportLinkEn), findsNothing,
-        reason: 'the report link is only for the something_broke answer');
+    expect(
+      find.text(_reportLinkEn),
+      findsNothing,
+      reason: 'the report link is only for the something_broke answer',
+    );
     expect(prefs.getBool(_kGivenKey), isTrue);
     expect(prefs.getInt(_kShownCountKey), 1);
   });
 
-  testWidgets('shows the report link only for the something_broke answer',
-      (tester) async {
+  testWidgets('shows the report link only for the something_broke answer', (
+    tester,
+  ) async {
     const cases = [
       ('Hard to read', false),
       ('Too distracting', false),
@@ -163,8 +171,11 @@ void main() {
       await settleToggle(tester);
 
       // Absent while the chips are up, whatever the answer will be.
-      expect(find.text(_reportLinkEn), findsNothing,
-          reason: 'before answering ($reasonLabel)');
+      expect(
+        find.text(_reportLinkEn),
+        findsNothing,
+        reason: 'before answering ($reasonLabel)',
+      );
 
       await tester.tap(find.text(reasonLabel));
       await settleToggle(tester);
@@ -191,7 +202,8 @@ void main() {
     // Raw (still-encoded) query: spaces as %20, never the form-encoding '+'
     // that mail apps fail to decode — including the '+' inside the version,
     // which must arrive as %2B.
-    const expectedQuery = 'subject=Immersive%20brewing%20screen'
+    const expectedQuery =
+        'subject=Immersive%20brewing%20screen'
         '&body=%0A%0A%E2%80%94%0ATimer.Coffee%203.8.2%2B14%20(ios)';
     expect(uri.query, expectedQuery);
     expect(uri.query, isNot(contains('+')));
@@ -211,8 +223,11 @@ void main() {
     await settleToggle(tester);
 
     expect(find.text(_promptEn), findsNothing);
-    expect(prefs.getInt(_kShownCountKey), isNull,
-        reason: 'the shown count must not tick for ineligible installs');
+    expect(
+      prefs.getInt(_kShownCountKey),
+      isNull,
+      reason: 'the shown count must not tick for ineligible installs',
+    );
   });
 
   testWidgets('stops appearing after being shown twice', (tester) async {
@@ -258,8 +273,11 @@ void main() {
     await settleToggle(tester);
     expect(find.text(_promptEn), findsNothing);
     expect(find.text('Hard to read'), findsNothing);
-    expect(prefs.getBool(_kGivenKey), isNull,
-        reason: 'hiding without an answer must not persist one');
+    expect(
+      prefs.getBool(_kGivenKey),
+      isNull,
+      reason: 'hiding without an answer must not persist one',
+    );
   });
 
   testWidgets('renders in light and dark at 375 wide without overflow', (
@@ -271,20 +289,11 @@ void main() {
 
     for (final brightness in Brightness.values) {
       SharedPreferences.setMockInitialValues({});
-      await pumpRow(
-        tester,
-        pourEnabled: true,
-        brightness: brightness,
-      );
-      await pumpRow(
-        tester,
-        pourEnabled: false,
-        brightness: brightness,
-      );
+      await pumpRow(tester, pourEnabled: true, brightness: brightness);
+      await pumpRow(tester, pourEnabled: false, brightness: brightness);
       await settleToggle(tester);
 
-      expect(tester.takeException(), isNull,
-          reason: '$brightness at 375 wide');
+      expect(tester.takeException(), isNull, reason: '$brightness at 375 wide');
       expect(find.text(_promptEn), findsOneWidget);
     }
   });

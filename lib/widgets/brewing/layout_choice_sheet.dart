@@ -182,7 +182,9 @@ class _LayoutChoiceSheet extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppRadius.card),
             border: Border.all(
-              color: isCurrent ? colorScheme.primary : colorScheme.outlineVariant,
+              color: isCurrent
+                  ? colorScheme.primary
+                  : colorScheme.outlineVariant,
               width: isCurrent ? AppStroke.focus : AppStroke.border,
             ),
           ),
@@ -215,12 +217,12 @@ class _LayoutChoiceSheet extends StatelessWidget {
               const SizedBox(height: AppSpacing.sm),
               // Excluded: the card's Semantics already carries this label,
               // so it would otherwise be read twice.
-              ExcludeSemantics(child: Text(label, style: AppTextStyles.fieldLabel)),
+              ExcludeSemantics(
+                child: Text(label, style: AppTextStyles.fieldLabel),
+              ),
               // Always present, so the two cards keep the same shape.
               const SizedBox(height: AppSpacing.xs),
-              isCurrent
-                  ? _currentBadge(context)
-                  : const SizedBox.shrink(),
+              isCurrent ? _currentBadge(context) : const SizedBox.shrink(),
             ],
           ),
         ),
@@ -263,7 +265,10 @@ class _LayoutChoiceSheet extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
           children: [
-            Text('$stepSeconds', style: AppTextStyles.display.copyWith(color: color)),
+            Text(
+              '$stepSeconds',
+              style: AppTextStyles.display.copyWith(color: color),
+            ),
             const SizedBox(width: AppSpacing.xs),
             Text(
               loc.secondsAbbreviation,

@@ -59,33 +59,43 @@ Future<void> _openSheet(
 
 void main() {
   group('layout choice sheet', () {
-    testWidgets('renders both cards without overflow on small and large screens in light and dark', (
+    testWidgets(
+      'renders both cards without overflow on small and large screens in light and dark',
+      (tester) async {
+        for (final size in const [Size(375, 667), Size(430, 932)]) {
+          for (final scheme in const [lightColorScheme, darkColorScheme]) {
+            tester.view.physicalSize = size;
+            tester.view.devicePixelRatio = 1.0;
+            addTearDown(tester.view.reset);
+
+            await _openSheet(
+              tester,
+              scheme: scheme,
+              picked: [],
+              appKey: '$size / ${scheme.brightness}',
+            );
+
+            expect(
+              tester.takeException(),
+              isNull,
+              reason: '$size ${scheme.brightness}',
+            );
+            expect(_semanticsWithId('layoutChoiceClassicCard'), findsOneWidget);
+            expect(
+              _semanticsWithId('layoutChoiceImmersiveCard'),
+              findsOneWidget,
+            );
+            expect(find.text('Classic'), findsOneWidget);
+            expect(find.text('Immersive'), findsOneWidget);
+            expect(find.text('How do you want to brew?'), findsOneWidget);
+          }
+        }
+      },
+    );
+
+    testWidgets('tapping the Immersive card pops LayoutChoice.pour', (
       tester,
     ) async {
-      for (final size in const [Size(375, 667), Size(430, 932)]) {
-        for (final scheme in const [lightColorScheme, darkColorScheme]) {
-          tester.view.physicalSize = size;
-          tester.view.devicePixelRatio = 1.0;
-          addTearDown(tester.view.reset);
-
-          await _openSheet(
-            tester,
-            scheme: scheme,
-            picked: [],
-            appKey: '$size / ${scheme.brightness}',
-          );
-
-          expect(tester.takeException(), isNull, reason: '$size ${scheme.brightness}');
-          expect(_semanticsWithId('layoutChoiceClassicCard'), findsOneWidget);
-          expect(_semanticsWithId('layoutChoiceImmersiveCard'), findsOneWidget);
-          expect(find.text('Classic'), findsOneWidget);
-          expect(find.text('Immersive'), findsOneWidget);
-          expect(find.text('How do you want to brew?'), findsOneWidget);
-        }
-      }
-    });
-
-    testWidgets('tapping the Immersive card pops LayoutChoice.pour', (tester) async {
       final picked = <LayoutChoice?>[];
       await _openSheet(tester, scheme: lightColorScheme, picked: picked);
 
@@ -96,7 +106,9 @@ void main() {
       expect(find.text('Immersive'), findsNothing);
     });
 
-    testWidgets('tapping the Classic card pops LayoutChoice.classic', (tester) async {
+    testWidgets('tapping the Classic card pops LayoutChoice.classic', (
+      tester,
+    ) async {
       final picked = <LayoutChoice?>[];
       await _openSheet(tester, scheme: lightColorScheme, picked: picked);
 
@@ -106,7 +118,9 @@ void main() {
       expect(picked, [LayoutChoice.classic]);
     });
 
-    testWidgets('the Current badge sits on the current card only', (tester) async {
+    testWidgets('the Current badge sits on the current card only', (
+      tester,
+    ) async {
       for (final current in LayoutChoice.values) {
         final picked = <LayoutChoice?>[];
         await _openSheet(
@@ -128,12 +142,20 @@ void main() {
               : 'layoutChoiceClassicCard',
         );
 
-        expect(find.descendant(of: currentCard, matching: find.text('Current')), findsOneWidget);
-        expect(find.descendant(of: otherCard, matching: find.text('Current')), findsNothing);
+        expect(
+          find.descendant(of: currentCard, matching: find.text('Current')),
+          findsOneWidget,
+        );
+        expect(
+          find.descendant(of: otherCard, matching: find.text('Current')),
+          findsNothing,
+        );
       }
     });
 
-    testWidgets('cards are buttons in semantics, selected only when current', (tester) async {
+    testWidgets('cards are buttons in semantics, selected only when current', (
+      tester,
+    ) async {
       final picked = <LayoutChoice?>[];
       await _openSheet(
         tester,
@@ -142,35 +164,45 @@ void main() {
         current: LayoutChoice.pour,
       );
 
-      final classic = tester.widget<Semantics>(_semanticsWithId('layoutChoiceClassicCard'));
+      final classic = tester.widget<Semantics>(
+        _semanticsWithId('layoutChoiceClassicCard'),
+      );
       expect(classic.properties.button, isTrue);
       expect(classic.properties.selected, isFalse);
 
-      final pour = tester.widget<Semantics>(_semanticsWithId('layoutChoiceImmersiveCard'));
+      final pour = tester.widget<Semantics>(
+        _semanticsWithId('layoutChoiceImmersiveCard'),
+      );
       expect(pour.properties.button, isTrue);
       expect(pour.properties.selected, isTrue);
     });
 
-    testWidgets('the live previews emit no brewing identifiers into the semantics tree', (
-      tester,
-    ) async {
-      final semantics = tester.ensureSemantics();
+    testWidgets(
+      'the live previews emit no brewing identifiers into the semantics tree',
+      (tester) async {
+        final semantics = tester.ensureSemantics();
 
-      await _openSheet(tester, scheme: lightColorScheme, picked: []);
+        await _openSheet(tester, scheme: lightColorScheme, picked: []);
 
-      // Positive control: the cards themselves are in the semantics tree.
-      expect(find.bySemanticsIdentifier('layoutChoiceClassicCard'), findsOneWidget);
-      // The previews embed the real brewing widgets, whose identifiers
-      // (`brewingStepDescription`, `stepTimeCounter`, …) the brewing tests
-      // rely on — ExcludeSemantics must keep every one of them inside.
-      expect(
-        find.bySemanticsIdentifier(
-          RegExp('brewingStepDescription|brewingStepsContent|stepTimeCounter|brewPausedIndicator|circularProgressIndicator'),
-        ),
-        findsNothing,
-      );
+        // Positive control: the cards themselves are in the semantics tree.
+        expect(
+          find.bySemanticsIdentifier('layoutChoiceClassicCard'),
+          findsOneWidget,
+        );
+        // The previews embed the real brewing widgets, whose identifiers
+        // (`brewingStepDescription`, `stepTimeCounter`, …) the brewing tests
+        // rely on — ExcludeSemantics must keep every one of them inside.
+        expect(
+          find.bySemanticsIdentifier(
+            RegExp(
+              'brewingStepDescription|brewingStepsContent|stepTimeCounter|brewPausedIndicator|circularProgressIndicator',
+            ),
+          ),
+          findsNothing,
+        );
 
-      semantics.dispose();
-    });
+        semantics.dispose();
+      },
+    );
   });
 }
