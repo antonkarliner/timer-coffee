@@ -29,6 +29,12 @@ class LayoutChoicePromptService {
   static const _kSeenKey = 'layout_picker_seen';
   static const _kDismissedKey = 'layout_picker_dismissed';
   static const _kFinishCardShownKey = 'layout_finish_card_shown';
+  static const _kFinishesSinceDismissalKey = 'layout_finishes_since_dismissal';
+
+  /// Number of finish screens after dismissal before the second-chance card
+  /// may appear. The immediate next finish is usually only minutes after the
+  /// user declined the picker, so that finish is deliberately skipped.
+  static const int kFinishesBeforeLayoutTry = 2;
 
   final SharedPreferences _prefs;
 
@@ -44,6 +50,11 @@ class LayoutChoicePromptService {
   /// contract as the picker itself.
   bool get finishCardShown => _prefs.getBool(_kFinishCardShownKey) ?? false;
 
+  /// Finish screens recorded since the picker was dismissed, while the
+  /// second-chance card still has an opportunity to appear.
+  int get finishesSinceDismissal =>
+      _prefs.getInt(_kFinishesSinceDismissalKey) ?? 0;
+
   Future<void> markPickerSeen() => _prefs.setBool(_kSeenKey, true);
 
   Future<void> markPickerDismissed() => _prefs.setBool(_kDismissedKey, true);
@@ -51,18 +62,30 @@ class LayoutChoicePromptService {
   Future<void> markFinishCardShown() =>
       _prefs.setBool(_kFinishCardShownKey, true);
 
+  /// Records a finish only for users who dismissed the picker and have not
+  /// already been shown the second-chance card. Keeping the counter scoped to
+  /// that window prevents it growing for users who cannot see the card.
+  Future<void> recordFinishForLayoutTry() async {
+    if (!pickerDismissed || finishCardShown) return;
+    await _prefs.setInt(
+      _kFinishesSinceDismissalKey,
+      finishesSinceDismissal + 1,
+    );
+  }
+
   /// Whether the finish-screen card may offer the immersive layout to a user
   /// who swiped the picker away without choosing (plan 067 Phase 4). The
-  /// picker never appears before an install's first brew, so [pickerDismissed]
-  /// already implies this is not the install's first finish screen. Web is
-  /// excluded (the picker is a mobile probe, same gate as
+  /// immediate next finish is commonly only minutes after the user
+  /// declined, so eligibility starts on the second recorded finish after
+  /// dismissal. Web is excluded (the picker is a mobile probe, same gate as
   /// [resolvePickerTrigger]), a card already shown is excluded (at most once,
   /// ever), and a user already brewing immersive has nothing to be offered.
-  bool finishCardEligible({
-    required bool isWeb,
-    required bool pourEnabled,
-  }) =>
-      !isWeb && pickerDismissed && !finishCardShown && !pourEnabled;
+  bool finishCardEligible({required bool isWeb, required bool pourEnabled}) =>
+      !isWeb &&
+      pickerDismissed &&
+      !finishCardShown &&
+      !pourEnabled &&
+      finishesSinceDismissal >= kFinishesBeforeLayoutTry;
 
   /// Which picker variant to show on this Play tap, if any. Evaluated in a
   /// fixed order — web first, then seen, then the first-brew guard, then the

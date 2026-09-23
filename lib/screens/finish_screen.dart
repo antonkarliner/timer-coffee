@@ -848,14 +848,19 @@ class _FinishScreenState extends State<FinishScreen> {
     final prefs = await SharedPreferences.getInstance();
     if (!mounted) return _resolveFactContent();
 
+    final layoutChoicePrompt = LayoutChoicePromptService(prefs);
+    await layoutChoicePrompt.recordFinishForLayoutTry();
+    if (!mounted) return _resolveFactContent();
+
     // Plan 067 Phase 4 — the layout-try candidate's eligibility. Everything
     // context-bound is read here, before any further await (the next one is
     // inside `resolver.resolve`), mirroring the `locale` read below. The
     // toggle and the arm are cached for `build()`'s `LayoutTryCard` branch.
     final advanced = context.read<AdvancedFeaturesService>();
-    final layoutTryEligible = LayoutChoicePromptService(
-      prefs,
-    ).finishCardEligible(isWeb: kIsWeb, pourEnabled: advanced.pourLayoutEnabled);
+    final layoutTryEligible = layoutChoicePrompt.finishCardEligible(
+      isWeb: kIsWeb,
+      pourEnabled: advanced.pourLayoutEnabled,
+    );
     _advancedForLayoutTry = advanced;
 
     final database = Provider.of<AppDatabase>(context, listen: false);

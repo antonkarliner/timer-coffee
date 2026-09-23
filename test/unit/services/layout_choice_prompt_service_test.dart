@@ -8,10 +8,17 @@ void main() {
 
   // Sets the mock store first, then grabs an instance sharing it, so the
   // service's reads/writes and the test's assertions see the same store.
-  Future<void> reinit({bool seen = false, bool dismissed = false}) async {
+  Future<void> reinit({
+    bool seen = false,
+    bool dismissed = false,
+    bool finishCardShown = false,
+    int finishesSinceDismissal = 0,
+  }) async {
     SharedPreferences.setMockInitialValues({
       'layout_picker_seen': seen,
       'layout_picker_dismissed': dismissed,
+      'layout_finish_card_shown': finishCardShown,
+      'layout_finishes_since_dismissal': finishesSinceDismissal,
     });
     prefs = await SharedPreferences.getInstance();
     service = LayoutChoicePromptService(prefs);
@@ -51,10 +58,16 @@ void main() {
       expect(resolve(firstBrewDone: false, arm: 'pour'), isNull);
     });
 
-    test('an assigned arm beats pourEnabled: arm + pour on → secondBrew', () async {
-      await reinit();
-      expect(resolve(arm: 'pour', pourEnabled: true), LayoutChoiceTrigger.secondBrew);
-    });
+    test(
+      'an assigned arm beats pourEnabled: arm + pour on → secondBrew',
+      () async {
+        await reinit();
+        expect(
+          resolve(arm: 'pour', pourEnabled: true),
+          LayoutChoiceTrigger.secondBrew,
+        );
+      },
+    );
 
     test('any assigned arm routes to secondBrew', () async {
       await reinit();
@@ -62,18 +75,24 @@ void main() {
       expect(resolve(arm: 'pour'), LayoutChoiceTrigger.secondBrew);
     });
 
-    test('already on immersive with no arm → null, and is the mark-seen case', () async {
-      await reinit();
-      expect(resolve(pourEnabled: true), isNull);
+    test(
+      'already on immersive with no arm → null, and is the mark-seen case',
+      () async {
+        await reinit();
+        expect(resolve(pourEnabled: true), isNull);
 
-      // The contract: the caller must mark the picker seen here, or a later
-      // brew that IS eligible would be interrupted about a choice already
-      // made from the gear sheet.
-      expect(service.pickerSeen, isFalse);
-      await service.markSeenIfAlreadyOnPour(isWeb: false, firstBrewDone: true);
-      expect(service.pickerSeen, isTrue);
-      expect(prefs.getBool('layout_picker_seen'), isTrue);
-    });
+        // The contract: the caller must mark the picker seen here, or a later
+        // brew that IS eligible would be interrupted about a choice already
+        // made from the gear sheet.
+        expect(service.pickerSeen, isFalse);
+        await service.markSeenIfAlreadyOnPour(
+          isWeb: false,
+          firstBrewDone: true,
+        );
+        expect(service.pickerSeen, isTrue);
+        expect(prefs.getBool('layout_picker_seen'), isTrue);
+      },
+    );
 
     test('an eligible existing user gets existingUser', () async {
       await reinit();
@@ -102,19 +121,30 @@ void main() {
   });
 
   group('finishCardEligible (plan 067 Phase 4)', () {
-    // Convenience defaults matching the "picker was swiped away, nothing
-    // else happened" case.
+    // Convenience defaults for the finish-card gates.
     bool eligible({bool isWeb = false, bool pourEnabled = false}) =>
         service.finishCardEligible(isWeb: isWeb, pourEnabled: pourEnabled);
 
-    test('eligible exactly when dismissed, not shown, not on pour, not web',
-        () async {
-      await reinit(dismissed: true);
-      expect(eligible(), isTrue);
-    });
+    test(
+      'first finish after dismissal is skipped; second is eligible',
+      () async {
+        await reinit(dismissed: true);
+        await service.recordFinishForLayoutTry();
+        expect(service.finishesSinceDismissal, 1);
+        expect(eligible(), isFalse);
+
+        await service.recordFinishForLayoutTry();
+        expect(service.finishesSinceDismissal, 2);
+        expect(eligible(), isTrue);
+      },
+    );
 
     test('web never gets the card', () async {
-      await reinit(dismissed: true);
+      await reinit(
+        dismissed: true,
+        finishesSinceDismissal:
+            LayoutChoicePromptService.kFinishesBeforeLayoutTry,
+      );
       expect(eligible(isWeb: true), isFalse);
     });
 
@@ -127,25 +157,31 @@ void main() {
     });
 
     test('already shown → never again', () async {
-      // `finishCardShown` is a separate flag from the picker's own seen
-      // state; simulate an install where the card already had its shot.
-      SharedPreferences.setMockInitialValues({
-        'layout_picker_seen': true,
-        'layout_picker_dismissed': true,
-        'layout_finish_card_shown': true,
-      });
-      prefs = await SharedPreferences.getInstance();
-      service = LayoutChoicePromptService(prefs);
+      await reinit(
+        seen: true,
+        dismissed: true,
+        finishCardShown: true,
+        finishesSinceDismissal:
+            LayoutChoicePromptService.kFinishesBeforeLayoutTry,
+      );
       expect(eligible(), isFalse);
     });
 
     test('already brewing immersive → nothing to offer', () async {
-      await reinit(dismissed: true);
+      await reinit(
+        dismissed: true,
+        finishesSinceDismissal:
+            LayoutChoicePromptService.kFinishesBeforeLayoutTry,
+      );
       expect(eligible(pourEnabled: true), isFalse);
     });
 
     test('markFinishCardShown persists and flips eligibility off', () async {
-      await reinit(dismissed: true);
+      await reinit(
+        dismissed: true,
+        finishesSinceDismissal:
+            LayoutChoicePromptService.kFinishesBeforeLayoutTry,
+      );
       expect(service.finishCardShown, isFalse);
       expect(eligible(), isTrue);
 
@@ -154,6 +190,31 @@ void main() {
       expect(prefs.getBool('layout_finish_card_shown'), isTrue);
       expect(eligible(), isFalse);
     });
+
+    test('counter does not increment before dismissal', () async {
+      await reinit();
+
+      await service.recordFinishForLayoutTry();
+
+      expect(service.finishesSinceDismissal, 0);
+      expect(prefs.getInt('layout_finishes_since_dismissal'), 0);
+    });
+
+    test('counter does not increment after the card was shown', () async {
+      await reinit(
+        dismissed: true,
+        finishCardShown: true,
+        finishesSinceDismissal:
+            LayoutChoicePromptService.kFinishesBeforeLayoutTry,
+      );
+
+      await service.recordFinishForLayoutTry();
+
+      expect(
+        service.finishesSinceDismissal,
+        LayoutChoicePromptService.kFinishesBeforeLayoutTry,
+      );
+    });
   });
 
   group('flags and analytics names', () {
@@ -161,6 +222,7 @@ void main() {
       await reinit();
       expect(service.pickerSeen, isFalse);
       expect(service.pickerDismissed, isFalse);
+      expect(service.finishesSinceDismissal, 0);
 
       await service.markPickerSeen();
       expect(service.pickerSeen, isTrue);
