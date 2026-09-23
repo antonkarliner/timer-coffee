@@ -40,6 +40,7 @@ class PreparationScreen extends StatefulWidget {
 class _PreparationScreenState extends State<PreparationScreen> {
   late AudioPlayer player;
   NotificationMode _notificationMode = NotificationMode.soundOnly;
+  bool _startingBrew = false;
 
   @override
   void initState() {
@@ -67,120 +68,126 @@ class _PreparationScreenState extends State<PreparationScreen> {
   }
 
   Future<void> _startBrew() async {
-    // Read every provider up front, before the first await.
-    final advancedFeatures = context.read<AdvancedFeaturesService>();
-    final onboardingService = context.read<OnboardingService>();
-    final featureFlags = context.read<FeatureFlagsRepository>();
-    final analytics = AnalyticsService.maybeInstance;
+    if (_startingBrew) return;
+    _startingBrew = true;
+    try {
+      // Read every provider up front, before the first await.
+      final advancedFeatures = context.read<AdvancedFeaturesService>();
+      final onboardingService = context.read<OnboardingService>();
+      final featureFlags = context.read<FeatureFlagsRepository>();
+      final analytics = AnalyticsService.maybeInstance;
 
-    if (analytics != null) {
-      await advancedFeatures.assignLayoutArmIfEligible(
-        firstBrewDone: onboardingService.firstBrewDone,
-        installId: analytics.installId,
-        experimentActive: featureFlags.isEnabled(
-          FeatureFlagKeys.pourLayoutExperiment,
-          defaultValue: true,
-        ),
-      );
-    }
-
-    if (!mounted) return;
-
-    final prefs = await SharedPreferences.getInstance();
-    if (!mounted) return;
-
-    // The layout the picker would be choosing from, read once before any
-    // of the calls below can change it.
-    final String currentLayout = advancedFeatures.pourLayoutEnabled
-        ? 'pour'
-        : 'classic';
-    final String? arm = advancedFeatures.layoutArm;
-
-    final picker = LayoutChoicePromptService(prefs);
-    final LayoutChoiceTrigger? trigger = picker.resolvePickerTrigger(
-      isWeb: kIsWeb,
-      firstBrewDone: onboardingService.firstBrewDone,
-      arm: arm,
-      pourEnabled: advancedFeatures.pourLayoutEnabled,
-    );
-
-    if (trigger == null) {
-      // Already brewing immersive by their own choice (e.g. from the gear
-      // sheet), with no arm: the picker would only ever ask about a choice
-      // already made, so record that it is moot. BrewingProcessScreen reads
-      // the layout once in initState, so nothing here needs to propagate.
-      if (advancedFeatures.pourLayoutEnabled) {
-        await picker.markSeenIfAlreadyOnPour(
-          isWeb: kIsWeb,
+      if (analytics != null) {
+        await advancedFeatures.assignLayoutArmIfEligible(
           firstBrewDone: onboardingService.firstBrewDone,
+          installId: analytics.installId,
+          experimentActive: featureFlags.isEnabled(
+            FeatureFlagKeys.pourLayoutExperiment,
+            defaultValue: true,
+          ),
         );
       }
+
       if (!mounted) return;
-      _pushBrewingScreen();
-      return;
-    }
 
-    // Mark seen on SHOW: an app kill while the sheet is up must never
-    // re-interrupt a later brew with it.
-    await picker.markPickerSeen();
-    analytics?.track(
-      'layout_choice_shown',
-      properties: {
-        'trigger': trigger.analyticsName,
-        'current_layout': currentLayout,
-        'arm': arm ?? 'none',
-      },
-    );
+      final prefs = await SharedPreferences.getInstance();
+      if (!mounted) return;
 
-    if (!mounted) return;
+      // The layout the picker would be choosing from, read once before any
+      // of the calls below can change it.
+      final String currentLayout = advancedFeatures.pourLayoutEnabled
+          ? 'pour'
+          : 'classic';
+      final String? arm = advancedFeatures.layoutArm;
 
-    final preview = _layoutPreviewSteps();
-    final choice = await showLayoutChoiceSheet(
-      context,
-      trigger: trigger,
-      current: advancedFeatures.pourLayoutEnabled
-          ? LayoutChoice.pour
-          : LayoutChoice.classic,
-      instruction: preview.instruction,
-      nextInstruction: preview.nextInstruction,
-      stepSeconds: preview.stepSeconds,
-    );
+      final picker = LayoutChoicePromptService(prefs);
+      final LayoutChoiceTrigger? trigger = picker.resolvePickerTrigger(
+        isWeb: kIsWeb,
+        firstBrewDone: onboardingService.firstBrewDone,
+        arm: arm,
+        pourEnabled: advancedFeatures.pourLayoutEnabled,
+      );
 
-    if (!mounted) return;
+      if (trigger == null) {
+        // Already brewing immersive by their own choice (e.g. from the gear
+        // sheet), with no arm: the picker would only ever ask about a choice
+        // already made, so record that it is moot. BrewingProcessScreen reads
+        // the layout once in initState, so nothing here needs to propagate.
+        if (advancedFeatures.pourLayoutEnabled) {
+          await picker.markSeenIfAlreadyOnPour(
+            isWeb: kIsWeb,
+            firstBrewDone: onboardingService.firstBrewDone,
+          );
+        }
+        if (!mounted) return;
+        _pushBrewingScreen();
+        return;
+      }
 
-    if (choice == null) {
-      await picker.markPickerDismissed();
+      // Mark seen on SHOW: an app kill while the sheet is up must never
+      // re-interrupt a later brew with it.
+      await picker.markPickerSeen();
+      analytics?.track(
+        'layout_choice_shown',
+        properties: {
+          'trigger': trigger.analyticsName,
+          'current_layout': currentLayout,
+          'arm': arm ?? 'none',
+        },
+      );
+
+      if (!mounted) return;
+
+      final preview = _layoutPreviewSteps();
+      final choice = await showLayoutChoiceSheet(
+        context,
+        trigger: trigger,
+        current: advancedFeatures.pourLayoutEnabled
+            ? LayoutChoice.pour
+            : LayoutChoice.classic,
+        instruction: preview.instruction,
+        nextInstruction: preview.nextInstruction,
+        stepSeconds: preview.stepSeconds,
+      );
+
+      if (!mounted) return;
+
+      if (choice == null) {
+        await picker.markPickerDismissed();
+        analytics?.track(
+          'layout_choice_made',
+          properties: {
+            'trigger': trigger.analyticsName,
+            'choice': 'dismissed',
+            'previous': currentLayout,
+            'arm': arm ?? 'none',
+          },
+        );
+        // Stay on Preparation; no brew starts.
+        return;
+      }
+
+      // Sets the field and notifies synchronously before its first await, so
+      // the push below always hands BrewingProcessScreen the chosen layout.
+      await advancedFeatures.setPourLayoutEnabled(
+        choice == LayoutChoice.pour,
+        source: 'layout_picker',
+      );
       analytics?.track(
         'layout_choice_made',
         properties: {
           'trigger': trigger.analyticsName,
-          'choice': 'dismissed',
+          'choice': choice == LayoutChoice.pour ? 'pour' : 'classic',
           'previous': currentLayout,
           'arm': arm ?? 'none',
         },
       );
-      // Stay on Preparation; no brew starts.
-      return;
+
+      if (!mounted) return;
+      _pushBrewingScreen();
+    } finally {
+      _startingBrew = false;
     }
-
-    // Sets the field and notifies synchronously before its first await, so
-    // the push below always hands BrewingProcessScreen the chosen layout.
-    await advancedFeatures.setPourLayoutEnabled(
-      choice == LayoutChoice.pour,
-      source: 'layout_picker',
-    );
-    analytics?.track(
-      'layout_choice_made',
-      properties: {
-        'trigger': trigger.analyticsName,
-        'choice': choice == LayoutChoice.pour ? 'pour' : 'classic',
-        'previous': currentLayout,
-        'arm': arm ?? 'none',
-      },
-    );
-
-    if (!mounted) return;
-    _pushBrewingScreen();
   }
 
   /// Feedback + push, the old tail of [_startBrew]. Both the picker-free

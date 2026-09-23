@@ -126,6 +126,82 @@ void main() {
       expect(prefs.getString(AdvancedFeaturesService.kLayoutArmKey), isNull);
     });
 
+    for (final MapEntry(key: installId, value: expectedLayout) in const {
+      '550e8400-e29b-41d4-a716-446655440000': true,
+      '550e8400-e29b-41d4-a716-446655440080': true,
+    }.entries) {
+      test(
+        'explicit toggle prevents ${AdvancedFeaturesService.armForInstallId(installId)} assignment',
+        () async {
+          await reinit({});
+          await service.setPourLayoutEnabled(
+            expectedLayout,
+            source: 'preparation_settings_sheet',
+          );
+
+          await service.assignLayoutArmIfEligible(
+            firstBrewDone: false,
+            installId: installId,
+            experimentActive: true,
+          );
+
+          expect(service.layoutArm, isNull);
+          expect(service.pourLayoutEnabled, expectedLayout);
+          expect(
+            prefs.getString(AdvancedFeaturesService.kLayoutArmKey),
+            isNull,
+          );
+          expect(
+            prefs.getBool(AdvancedFeaturesService.kPourLayoutKey),
+            expectedLayout,
+          );
+        },
+      );
+    }
+
+    test('toggling on then off still prevents assignment', () async {
+      await reinit({});
+      await service.setPourLayoutEnabled(
+        true,
+        source: 'preparation_settings_sheet',
+      );
+      await service.setPourLayoutEnabled(
+        false,
+        source: 'preparation_settings_sheet',
+      );
+
+      await service.assignLayoutArmIfEligible(
+        firstBrewDone: false,
+        installId: '550e8400-e29b-41d4-a716-446655440000',
+        experimentActive: true,
+      );
+
+      expect(service.layoutArm, isNull);
+      expect(service.pourLayoutEnabled, isFalse);
+      expect(prefs.getString(AdvancedFeaturesService.kLayoutArmKey), isNull);
+      expect(prefs.getBool(AdvancedFeaturesService.kPourLayoutKey), isFalse);
+    });
+
+    for (final persistedValue in [true, false]) {
+      test('persisted $persistedValue layout prevents assignment', () async {
+        await reinit({AdvancedFeaturesService.kPourLayoutKey: persistedValue});
+
+        await service.assignLayoutArmIfEligible(
+          firstBrewDone: false,
+          installId: '550e8400-e29b-41d4-a716-446655440000',
+          experimentActive: true,
+        );
+
+        expect(service.layoutArm, isNull);
+        expect(service.pourLayoutEnabled, persistedValue);
+        expect(prefs.getString(AdvancedFeaturesService.kLayoutArmKey), isNull);
+        expect(
+          prefs.getBool(AdvancedFeaturesService.kPourLayoutKey),
+          persistedValue,
+        );
+      });
+    }
+
     test(
       'pour arm updates memory synchronously and persists both prefs',
       () async {

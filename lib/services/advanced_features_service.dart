@@ -17,6 +17,10 @@ class AdvancedFeaturesService extends ChangeNotifier {
 
   bool _manualStepControlEnabled = false;
   bool _pourLayoutEnabled = false;
+
+  /// Arms are defaults only for users who have not chosen; excluding these
+  /// users is install-ID-independent and therefore cannot bias either arm.
+  bool _pourLayoutExplicitlySet = false;
   String? _layoutArm;
 
   bool get manualStepControlEnabled => _manualStepControlEnabled;
@@ -30,6 +34,7 @@ class AdvancedFeaturesService extends ChangeNotifier {
   Future<void> init() async {
     final prefs = await SharedPreferences.getInstance();
     _manualStepControlEnabled = prefs.getBool(_kManualStepControlKey) ?? false;
+    _pourLayoutExplicitlySet = prefs.containsKey(kPourLayoutKey);
     _pourLayoutEnabled = prefs.getBool(kPourLayoutKey) ?? false;
     final persistedArm = prefs.get(kLayoutArmKey);
     _layoutArm =
@@ -60,7 +65,11 @@ class AdvancedFeaturesService extends ChangeNotifier {
     required String installId,
     required bool experimentActive,
   }) async {
-    if (_isWeb || firstBrewDone || _layoutArm != null || !experimentActive) {
+    if (_isWeb ||
+        firstBrewDone ||
+        _layoutArm != null ||
+        !experimentActive ||
+        _pourLayoutExplicitlySet) {
       return;
     }
 
@@ -106,6 +115,9 @@ class AdvancedFeaturesService extends ChangeNotifier {
   }) async {
     if (_pourLayoutEnabled == enabled) return;
     _pourLayoutEnabled = enabled;
+    if (source != 'experiment_assignment') {
+      _pourLayoutExplicitlySet = true;
+    }
     notifyListeners();
     AnalyticsService.maybeInstance?.track(
       'beta_feature_toggled',
