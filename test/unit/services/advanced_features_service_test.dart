@@ -43,7 +43,7 @@ void main() {
       var notifications = 0;
       service.addListener(() => notifications++);
 
-      await service.setPourLayoutEnabled(true);
+      await service.setPourLayoutEnabled(true, source: 'test');
 
       expect(service.pourLayoutEnabled, isTrue);
       expect(notifications, 1);
@@ -56,7 +56,7 @@ void main() {
       var notifications = 0;
       service.addListener(() => notifications++);
 
-      await service.setPourLayoutEnabled(false);
+      await service.setPourLayoutEnabled(false, source: 'test');
 
       expect(service.pourLayoutEnabled, isFalse);
       expect(notifications, 0);
@@ -92,7 +92,7 @@ void main() {
       var notifications = 0;
       service.addListener(() => notifications++);
 
-      await service.setPourLayoutEnabled(true);
+      await service.setPourLayoutEnabled(true, source: 'test');
       expect(service.pourLayoutEnabled, isTrue);
       expect(service.manualStepControlEnabled, isFalse);
 

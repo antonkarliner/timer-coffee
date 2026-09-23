@@ -622,6 +622,10 @@ void main() async {
     properties: {
       'locale': initialLocale.languageCode,
       'is_first_launch': isFirstLaunch,
+      'pour_layout_enabled':
+          prefs.getBool(AdvancedFeaturesService.kPourLayoutKey) ?? false,
+      'layout_arm':
+          prefs.getString(AdvancedFeaturesService.kLayoutArmKey) ?? 'none',
     },
   );
 

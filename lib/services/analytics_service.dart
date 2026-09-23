@@ -36,7 +36,9 @@ import '../utils/app_logger.dart';
 ///   screen engagement budget (plan 039, shadow mode) events
 ///   engagement_ask_shown, engagement_ask_suppressed, and the launch popup
 ///   events popup_shown, popup_dismissed, popup_link_tapped, and the
-///   deletion events user_recipe_deleted, delete_undo_tapped
+///   layout adoption events layout_arm_assigned, layout_choice_shown,
+///   layout_choice_made, layout_switch_back_reason, and the deletion events
+///   user_recipe_deleted, delete_undo_tapped
 class AnalyticsService extends ChangeNotifier {
   AnalyticsService._();
 
@@ -150,6 +152,11 @@ class AnalyticsService extends ChangeNotifier {
     'notification_setting_toggled': 'general',
     // Advanced / beta feature toggles
     'beta_feature_toggled': 'general',
+    // Immersive layout adoption (plan 067)
+    'layout_arm_assigned': 'general',
+    'layout_choice_shown': 'general',
+    'layout_choice_made': 'general',
+    'layout_switch_back_reason': 'general',
     // Moments (surprise-and-delight / easter eggs)
     'moment_shown': 'general',
     'moment_interacted': 'general',

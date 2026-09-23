@@ -7,8 +7,8 @@ import '../../services/analytics_service.dart';
 import '../app_switch_list_tile.dart';
 import 'settings_section_subtitle.dart';
 
-/// Advanced / beta feature toggles. Currently exposes manual step control on
-/// the brewing screen. Add future beta toggles as additional children.
+/// Advanced / beta feature toggles for manual step control and the immersive
+/// pour layout on the brewing screen.
 class AdvancedFeaturesSection extends StatefulWidget {
   const AdvancedFeaturesSection({super.key});
 
@@ -59,6 +59,7 @@ class _AdvancedFeaturesSectionState extends State<AdvancedFeaturesSection> {
                     properties: {
                       'feature': 'manual_step_control',
                       'enabled': value,
+                      'source': 'settings',
                     },
                   );
                 },
@@ -68,14 +69,7 @@ class _AdvancedFeaturesSectionState extends State<AdvancedFeaturesSection> {
                 subtitle: loc.pourLayoutDescription,
                 value: advanced.pourLayoutEnabled,
                 onChanged: (value) {
-                  advanced.setPourLayoutEnabled(value);
-                  AnalyticsService.instance.track(
-                    'beta_feature_toggled',
-                    properties: {
-                      'feature': 'pour_layout',
-                      'enabled': value,
-                    },
-                  );
+                  advanced.setPourLayoutEnabled(value, source: 'settings');
                 },
               ),
             ],

@@ -1,14 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'analytics_service.dart';
+
 /// Holds opt-in toggles for advanced / beta features.
 ///
-/// Currently exposes manual step control and the immersive pour layout on the
-/// brewing screen. Add future beta toggles as sibling boolean fields following
-/// the same pattern.
+/// Exposes manual step control and the immersive pour layout, persisting both
+/// choices and centralizing analytics for immersive-layout changes.
 class AdvancedFeaturesService extends ChangeNotifier {
   static const _kManualStepControlKey = 'advanced_manual_step_control_enabled';
-  static const _kPourLayoutKey = 'advanced_pour_layout_enabled';
+  static const kPourLayoutKey = 'advanced_pour_layout_enabled';
+  static const kLayoutArmKey = 'advanced_layout_arm';
 
   bool _manualStepControlEnabled = false;
   bool _pourLayoutEnabled = false;
@@ -22,7 +24,7 @@ class AdvancedFeaturesService extends ChangeNotifier {
   Future<void> init() async {
     final prefs = await SharedPreferences.getInstance();
     _manualStepControlEnabled = prefs.getBool(_kManualStepControlKey) ?? false;
-    _pourLayoutEnabled = prefs.getBool(_kPourLayoutKey) ?? false;
+    _pourLayoutEnabled = prefs.getBool(kPourLayoutKey) ?? false;
     notifyListeners();
   }
 
@@ -34,11 +36,22 @@ class AdvancedFeaturesService extends ChangeNotifier {
     await prefs.setBool(_kManualStepControlKey, enabled);
   }
 
-  Future<void> setPourLayoutEnabled(bool enabled) async {
+  Future<void> setPourLayoutEnabled(
+    bool enabled, {
+    required String source,
+  }) async {
     if (_pourLayoutEnabled == enabled) return;
     _pourLayoutEnabled = enabled;
     notifyListeners();
+    AnalyticsService.maybeInstance?.track(
+      'beta_feature_toggled',
+      properties: {
+        'feature': 'pour_layout',
+        'enabled': enabled,
+        'source': source,
+      },
+    );
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_kPourLayoutKey, enabled);
+    await prefs.setBool(kPourLayoutKey, enabled);
   }
 }
