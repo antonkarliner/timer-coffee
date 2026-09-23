@@ -135,6 +135,7 @@ class FeatureFlagKeys {
   static const analyticsEnabled = 'analytics_enabled';
   static const roasterBackendColor = 'roaster_backend_color';
   static const helpCenter = 'help_center';
+  static const String pourLayoutExperiment = 'pour_layout_experiment';
 }
 
 extension FeatureFlagsX on FeatureFlagsRepository {

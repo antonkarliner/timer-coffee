@@ -257,7 +257,7 @@ Future<void> _pumpScreen(
     // Must be set before the screen builds: the screen captures
     // pourLayoutEnabled once in initState with context.read, it never
     // watches the service for it.
-    await advanced.setPourLayoutEnabled(true);
+    await advanced.setPourLayoutEnabled(true, source: 'test');
   }
   final onboarding = OnboardingService(prefs);
   addTearDown(onboarding.dispose);

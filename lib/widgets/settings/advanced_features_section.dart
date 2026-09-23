@@ -5,12 +5,20 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../../services/advanced_features_service.dart';
 import '../../services/analytics_service.dart';
 import '../app_switch_list_tile.dart';
+import 'layout_switch_back_reason_row.dart';
 import 'settings_section_subtitle.dart';
 
-/// Advanced / beta feature toggles. Currently exposes manual step control on
-/// the brewing screen. Add future beta toggles as additional children.
+/// Advanced / beta feature toggles for manual step control and the immersive
+/// pour layout on the brewing screen.
 class AdvancedFeaturesSection extends StatefulWidget {
-  const AdvancedFeaturesSection({super.key});
+  const AdvancedFeaturesSection({
+    super.key,
+    this.controller,
+    this.pourLayoutTileKey,
+  });
+
+  final ExpansibleController? controller;
+  final GlobalKey? pourLayoutTileKey;
 
   @override
   State<AdvancedFeaturesSection> createState() =>
@@ -28,6 +36,7 @@ class _AdvancedFeaturesSectionState extends State<AdvancedFeaturesSection> {
         return Semantics(
           identifier: 'advancedFeaturesExpansionTile',
           child: ExpansionTile(
+            controller: widget.controller,
             title: Text(loc.advancedFeatures),
             subtitle: SettingsSectionSubtitle(loc.advancedFeaturesSubtitle),
             onExpansionChanged: (expanded) {
@@ -59,29 +68,34 @@ class _AdvancedFeaturesSectionState extends State<AdvancedFeaturesSection> {
                     properties: {
                       'feature': 'manual_step_control',
                       'enabled': value,
+                      'source': 'settings',
                     },
                   );
                 },
               ),
-              AppSwitchListTile(
-                title: loc.pourLayout,
-                subtitle: loc.pourLayoutDescription,
-                value: advanced.pourLayoutEnabled,
-                onChanged: (value) {
-                  advanced.setPourLayoutEnabled(value);
-                  AnalyticsService.instance.track(
-                    'beta_feature_toggled',
-                    properties: {
-                      'feature': 'pour_layout',
-                      'enabled': value,
-                    },
-                  );
-                },
+              _withOptionalKey(
+                key: widget.pourLayoutTileKey,
+                child: AppSwitchListTile(
+                  title: loc.pourLayout,
+                  subtitle: loc.pourLayoutDescription,
+                  value: advanced.pourLayoutEnabled,
+                  onChanged: (value) {
+                    advanced.setPourLayoutEnabled(value, source: 'settings');
+                  },
+                ),
+              ),
+              LayoutSwitchBackReasonRow(
+                pourEnabled: advanced.pourLayoutEnabled,
+                source: 'settings',
               ),
             ],
           ),
         );
       },
     );
+  }
+
+  Widget _withOptionalKey({required GlobalKey? key, required Widget child}) {
+    return key == null ? child : KeyedSubtree(key: key, child: child);
   }
 }

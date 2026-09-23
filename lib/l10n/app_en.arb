@@ -1510,12 +1510,60 @@
   "settingsAnalyticsBeans": "Share bean analytics",
   "settingsAnalyticsGeneral": "Share general usage analytics",
   "advancedFeatures": "Advanced / Beta Features",
-  "advancedFeaturesSubtitle": "Manual step control",
+  "advancedFeaturesSubtitle": "Manual step control and immersive brewing screen",
   "advancedFeaturesDescription": "These features are experimental and may sometimes be unstable.",
   "manualStepControl": "Manual step control",
   "manualStepControlDescription": "Show back and skip arrows during brewing.",
   "pourLayout": "Immersive brewing screen",
-  "pourLayoutDescription": "The screen fills with coffee as the brew progresses. The classic timer stays available here.",
+  "pourLayoutDescription": "The screen fills with coffee as the brew progresses.",
+  "layoutPickerTitle": "How do you want to brew?",
+  "@layoutPickerTitle": {
+    "description": "Title of the one-time brewing-layout picker shown when starting a brew."
+  },
+  "layoutPickerSubtitleExisting": "There’s a new immersive brewing screen. Pick one to start — you can switch anytime.",
+  "@layoutPickerSubtitleExisting": {
+    "description": "Subtitle for existing users seeing the layout picker for the first time."
+  },
+  "layoutPickerSubtitleSecondBrew": "Keep the screen you brewed with last time, or try the other one.",
+  "@layoutPickerSubtitleSecondBrew": {
+    "description": "Subtitle for installs with an assigned layout arm; offers keep or switch."
+  },
+  "layoutPickerClassic": "Classic",
+  "@layoutPickerClassic": {
+    "description": "Label of the classic brewing-layout card."
+  },
+  "layoutPickerImmersive": "Immersive",
+  "@layoutPickerImmersive": {
+    "description": "Label of the immersive brewing-layout card."
+  },
+  "layoutPickerCurrent": "Current",
+  "@layoutPickerCurrent": {
+    "description": "Badge marking the layout currently in use."
+  },
+  "layoutPickerFooter": "Change it anytime with the settings button on this screen.",
+  "@layoutPickerFooter": {
+    "description": "Footer telling the user the choice is not final."
+  },
+  "layoutTryCardTitle": "Try the immersive screen next time",
+  "@layoutTryCardTitle": {
+    "description": "Title of the one-time finish-screen card offering the immersive layout to users who dismissed the layout picker."
+  },
+  "layoutTryCardBody": "The screen fills with coffee as your brew progresses.",
+  "@layoutTryCardBody": {
+    "description": "Body of the finish-screen layout-try card; describes the immersive layout."
+  },
+  "layoutTryCardAccept": "Use it next brew",
+  "@layoutTryCardAccept": {
+    "description": "Accept button on the finish-screen layout-try card; enables the immersive layout for the next brew."
+  },
+  "layoutTryCardDecline": "Not now",
+  "@layoutTryCardDecline": {
+    "description": "Decline button on the finish-screen layout-try card; dismisses the card."
+  },
+  "layoutTryCardAccepted": "Done — your next brew uses the immersive screen.",
+  "@layoutTryCardAccepted": {
+    "description": "Confirmation shown on the finish-screen layout-try card after accepting."
+  },
   "previousStep": "Previous step",
   "nextStep": "Next step",
   "brewingSkipStepLabel": "Finish",
@@ -2800,5 +2848,19 @@
     "placeholders": {
       "raised": {"type": "String"}
     }
-  }
+  },
+  "layoutSwitchBackPrompt": "What didn’t work?",
+  "@layoutSwitchBackPrompt": {"description": "Prompt above the one-tap reason chips shown when the user switches the brewing screen back from the immersive layout to the classic one (plan 067)."},
+  "layoutSwitchBackHardToRead": "Hard to read",
+  "@layoutSwitchBackHardToRead": {"description": "Reason chip: the immersive layout was hard to read."},
+  "layoutSwitchBackTooDistracting": "Too distracting",
+  "@layoutSwitchBackTooDistracting": {"description": "Reason chip: the immersive layout was too distracting."},
+  "layoutSwitchBackPreferClassic": "I prefer the classic timer",
+  "@layoutSwitchBackPreferClassic": {"description": "Reason chip: the user simply prefers the classic timer."},
+  "layoutSwitchBackSomethingBroke": "Something didn’t work",
+  "@layoutSwitchBackSomethingBroke": {"description": "Reason chip: something in the immersive layout did not work."},
+  "layoutSwitchBackThanks": "Thanks — that helps.",
+  "@layoutSwitchBackThanks": {"description": "Confirmation shown in place of the reason chips after the user taps one."},
+  "layoutSwitchBackReportLink": "Tell us what happened",
+  "@layoutSwitchBackReportLink": {"description": "Link under the thanks note, shown only when the tapped reason was “something broke”; opens the mail app with a pre-filled report to support."}
 }
