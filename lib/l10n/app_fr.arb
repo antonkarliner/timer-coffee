@@ -1028,7 +1028,7 @@
   "settingsAnalyticsBeans": "Partager les analyses des grains",
   "settingsAnalyticsGeneral": "Partager les analyses d'utilisation générale",
   "advancedFeatures": "Fonctions avancées / bêta",
-  "advancedFeaturesSubtitle": "Contrôle manuel des étapes",
+  "advancedFeaturesSubtitle": "Contrôle manuel des étapes et écran de préparation immersif",
   "advancedFeaturesDescription": "Ces fonctions sont expérimentales et peuvent parfois être instables.",
   "manualStepControl": "Contrôle manuel des étapes",
   "manualStepControlDescription": "Afficher les flèches retour et passer pendant la préparation.",

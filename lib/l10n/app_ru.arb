@@ -1028,7 +1028,7 @@
   "settingsAnalyticsBeans": "Поделиться аналитикой по зёрнам",
   "settingsAnalyticsGeneral": "Поделиться общей аналитикой использования",
   "advancedFeatures": "Расширенные / бета-функции",
-  "advancedFeaturesSubtitle": "Ручное управление шагами",
+  "advancedFeaturesSubtitle": "Ручное управление шагами и иммерсивный экран заваривания",
   "advancedFeaturesDescription": "Эти функции экспериментальные и иногда могут работать нестабильно.",
   "manualStepControl": "Ручное управление шагами",
   "manualStepControlDescription": "Показывать стрелки назад и пропустить во время заваривания.",

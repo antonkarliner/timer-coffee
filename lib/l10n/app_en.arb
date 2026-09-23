@@ -1510,7 +1510,7 @@
   "settingsAnalyticsBeans": "Share bean analytics",
   "settingsAnalyticsGeneral": "Share general usage analytics",
   "advancedFeatures": "Advanced / Beta Features",
-  "advancedFeaturesSubtitle": "Manual step control",
+  "advancedFeaturesSubtitle": "Manual step control and immersive brewing screen",
   "advancedFeaturesDescription": "These features are experimental and may sometimes be unstable.",
   "manualStepControl": "Manual step control",
   "manualStepControlDescription": "Show back and skip arrows during brewing.",

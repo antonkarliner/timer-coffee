@@ -880,7 +880,7 @@
   "settingsAnalyticsBeans": "Jaa papujen analytiikka",
   "settingsAnalyticsGeneral": "Jaa yleiset käyttötiedot",
   "advancedFeatures": "Lisä- / betaominaisuudet",
-  "advancedFeaturesSubtitle": "Manuaalinen vaiheohjaus",
+  "advancedFeaturesSubtitle": "Manuaalinen vaiheohjaus ja upottava uutonäyttö",
   "advancedFeaturesDescription": "Nämä ominaisuudet ovat kokeellisia ja voivat joskus olla epävakaita.",
   "manualStepControl": "Manuaalinen vaiheohjaus",
   "manualStepControlDescription": "Näytä takaisin- ja ohitusnuolet uuton aikana.",

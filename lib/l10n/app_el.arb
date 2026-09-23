@@ -1423,7 +1423,7 @@
   "settingsAnalyticsBeans": "Κοινοποίηση αναλυτικών στοιχείων κόκκων",
   "settingsAnalyticsGeneral": "Κοινοποίηση γενικών αναλυτικών στοιχείων χρήσης",
   "advancedFeatures": "Προηγμένες / beta λειτουργίες",
-  "advancedFeaturesSubtitle": "Χειροκίνητος έλεγχος βημάτων",
+  "advancedFeaturesSubtitle": "Χειροκίνητος έλεγχος βημάτων και εμβυθιστική οθόνη παρασκευής",
   "advancedFeaturesDescription": "Αυτές οι λειτουργίες είναι πειραματικές και ενδέχεται μερικές φορές να είναι ασταθείς.",
   "manualStepControl": "Χειροκίνητος έλεγχος βημάτων",
   "manualStepControlDescription": "Εμφάνιση βελών επιστροφής και παράλειψης κατά την παρασκευή.",

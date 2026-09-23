@@ -1350,7 +1350,7 @@
   "settingsAnalyticsBeans": "Del bønneanalyse",
   "settingsAnalyticsGeneral": "Del generell bruksanalyse",
   "advancedFeatures": "Avanserte / betafunksjoner",
-  "advancedFeaturesSubtitle": "Manuell trinnkontroll",
+  "advancedFeaturesSubtitle": "Manuell trinnkontroll og oppslukende bryggingsskjerm",
   "advancedFeaturesDescription": "Disse funksjonene er eksperimentelle og kan av og til være ustabile.",
   "manualStepControl": "Manuell trinnkontroll",
   "manualStepControlDescription": "Vis tilbake- og hopp over-piler under brygging.",

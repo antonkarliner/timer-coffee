@@ -1028,7 +1028,7 @@
   "settingsAnalyticsBeans": "Поділитися аналітикою зерен",
   "settingsAnalyticsGeneral": "Поділитися загальною аналітикою використання",
   "advancedFeatures": "Розширені / бета-функції",
-  "advancedFeaturesSubtitle": "Ручне керування кроками",
+  "advancedFeaturesSubtitle": "Ручне керування кроками та імерсивний екран заварювання",
   "advancedFeaturesDescription": "Ці функції експериментальні й іноді можуть бути нестабільними.",
   "manualStepControl": "Ручне керування кроками",
   "manualStepControlDescription": "Показувати стрілки назад і пропустити під час заварювання.",

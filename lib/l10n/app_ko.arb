@@ -1199,7 +1199,7 @@
   "settingsAnalyticsBeans": "원두 분석 공유",
   "settingsAnalyticsGeneral": "일반 사용 분석 공유",
   "advancedFeatures": "고급 / 베타 기능",
-  "advancedFeaturesSubtitle": "수동 단계 제어",
+  "advancedFeaturesSubtitle": "수동 단계 제어 및 몰입형 추출 화면",
   "advancedFeaturesDescription": "이 기능은 실험적이며 가끔 불안정할 수 있습니다.",
   "manualStepControl": "수동 단계 제어",
   "manualStepControlDescription": "추출 중 이전 및 건너뛰기 화살표를 표시합니다.",

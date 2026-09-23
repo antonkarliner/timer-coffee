@@ -1028,7 +1028,7 @@
   "settingsAnalyticsBeans": "Çekirdek analizlerini paylaş",
   "settingsAnalyticsGeneral": "Genel kullanım analizlerini paylaş",
   "advancedFeatures": "Gelişmiş / beta özellikler",
-  "advancedFeaturesSubtitle": "Manuel adım kontrolü",
+  "advancedFeaturesSubtitle": "Manuel adım kontrolü ve sürükleyici demleme ekranı",
   "advancedFeaturesDescription": "Bu özellikler deneyseldir ve bazen kararsız olabilir.",
   "manualStepControl": "Manuel adım kontrolü",
   "manualStepControlDescription": "Demleme sırasında geri ve atla oklarını göster.",
