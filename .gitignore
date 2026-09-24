@@ -134,3 +134,6 @@ memory-bank/
 # slash: that pattern matches directories only, and git treats a symlink as a
 # file, so `plans/` would fail to ignore it.
 plans
+
+# Local icon evaluation scratch output
+ios/_iconeval/

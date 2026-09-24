@@ -21,6 +21,7 @@ platform :ios do
     translate_gpt_release_notes(
       master_locale: 'en-US',
       platform: 'ios',
+      jev_check: true,
       context: 'Timer.Coffee is a coffee brew timer app, please pay special attention to correct usage of coffee-related terms. Do not include the symbols count or any warnings/observations in your response',
       model_name: 'gpt-5.6-terra',
       temperature: 1.0,
