@@ -954,7 +954,12 @@ class _FinishScreenState extends State<FinishScreen> {
 
     AnalyticsService.instance.track(
       'notification_permission_shown',
-      properties: {'brew_count': 1, 'source': 'finish_screen'},
+      properties: {
+        'brew_count': 1,
+        'source': 'finish_screen',
+        'copy': 'v2',
+        'ask_index': 1,
+      },
     );
     await prefs.setBool(shownKey, true);
     if (!mounted) return;
@@ -979,6 +984,8 @@ class _FinishScreenState extends State<FinishScreen> {
             properties: {
               'result': granted ? 'granted' : 'denied',
               'source': 'finish_screen',
+              'copy': 'v2',
+              'ask_index': 1,
             },
           );
         }
@@ -987,7 +994,12 @@ class _FinishScreenState extends State<FinishScreen> {
     } else if (result == false) {
       AnalyticsService.instance.track(
         'notification_permission_result',
-        properties: {'result': 'skipped', 'source': 'finish_screen'},
+        properties: {
+          'result': 'skipped',
+          'source': 'finish_screen',
+          'copy': 'v2',
+          'ask_index': 1,
+        },
       );
     }
   }
