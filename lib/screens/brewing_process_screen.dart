@@ -21,6 +21,7 @@ import 'package:vibration/vibration_presets.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:intl/intl.dart' as intl; // Corrected import statement
 import '../utils/app_logger.dart'; // Import AppLogger
+import '../utils/text_wrapping.dart';
 import '../services/live_activity_service.dart';
 import '../services/android_live_update_service.dart';
 import '../services/live_activity_sync_service.dart';
@@ -1881,11 +1882,15 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
         return PourBrewingView(
           // No step label in the body: the app bar already shows "Step n/m"
           // and rendering it twice on one screen just repeated itself.
-          instruction: brewingSteps[currentStepIndex].description,
+          instruction: keepNumbersWithUnits(
+            brewingSteps[currentStepIndex].description,
+          ),
           // Label and text passed separately so the view can set them as the
           // production screen's two-line preview does.
           nextLabel: '${loc.next}:',
-          nextInstruction: nextInstruction,
+          nextInstruction: nextInstruction == null
+              ? null
+              : keepNumbersWithUnits(nextInstruction),
           // Built per copy in the colour the view asks for: it renders the
           // content once dry and once submerged, clipping the submerged copy
           // to the liquid. No Semantics here — the view owns the
@@ -2272,8 +2277,10 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                                     child: _isEndBrewAnimating
                                         ? const SizedBox.shrink()
                                         : Text(
-                                            brewingSteps[currentStepIndex]
-                                                .description,
+                                            keepNumbersWithUnits(
+                                              brewingSteps[currentStepIndex]
+                                                  .description,
+                                            ),
                                             textAlign: TextAlign.center,
                                             style: const TextStyle(
                                               fontSize: 28,
@@ -2307,8 +2314,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                   ),
                   child: NextStepPreview(
                     label: '${AppLocalizations.of(context)!.next}:',
-                    description:
-                        brewingSteps[currentStepIndex + 1].description,
+                    description: keepNumbersWithUnits(
+                      brewingSteps[currentStepIndex + 1].description,
+                    ),
                   ),
                 ),
             ],
