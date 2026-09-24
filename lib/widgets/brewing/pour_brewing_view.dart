@@ -190,9 +190,9 @@ class PourBrewingView extends StatelessWidget {
   ///
   /// The countdown/instruction boundary lands at 5/13, about 38% of the
   /// content height — where the production screen puts its timer ring. The
-  /// instruction region is sized for its worst case, three lines of 32px at
-  /// a 1.5 accessibility text scale on a 320x690 screen; the next-step region
-  /// for its 16/20 two-line preview.
+  /// instruction region keeps that boundary fixed while its text scales down
+  /// only as far as the field-label size to reveal longer steps; the next-step
+  /// region is sized for its 16/20 two-line preview.
   static const int _countdownRegionFlex = 5;
   static const int _instructionRegionFlex = 5;
   static const int _nextRegionFlex = 3;
@@ -354,28 +354,37 @@ class PourBrewingView extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.base),
               // 2. Instruction — top-anchored under the countdown, so a
-              // longer one grows downward, away from the numbers. Flexible,
-              // so at a large text scale it ellipsises instead of
-              // overflowing its region.
+              // longer one grows downward, away from the numbers. Its type
+              // scales within this fixed region so the whole step remains
+              // visible without shifting either neighbour.
               Expanded(
                 flex: _instructionRegionFlex,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Flexible(
-                      child: wrap(
-                        'brewingStepDescription',
-                        Text(
-                          instruction,
-                          textAlign: TextAlign.center,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          style: AppTextStyles.display.copyWith(color: primary),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final typography = _instructionTypography(
+                      context,
+                      constraints,
+                      primary,
+                    );
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Flexible(
+                          child: wrap(
+                            'brewingStepDescription',
+                            Text(
+                              instruction,
+                              textAlign: TextAlign.center,
+                              maxLines: typography.maxLines,
+                              overflow: typography.overflow,
+                              style: typography.style,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ],
+                      ],
+                    );
+                  },
                 ),
               ),
               // 3. Next step — small, secondary, bottom-left, as on the
@@ -429,6 +438,63 @@ class PourBrewingView extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  /// The largest display-weight size, 32 down to the field-label floor, at
+  /// which the whole [instruction] fits its region — measured with the same
+  /// default style, text scaler and direction the `Text` renders with, so
+  /// the measurement and the paint agree. Derived from constraints alone, so
+  /// the dry and submerged copies always land on the same size. Only a step
+  /// too long even at the floor falls back to an ellipsis.
+  ({TextStyle style, int? maxLines, TextOverflow? overflow})
+  _instructionTypography(
+    BuildContext context,
+    BoxConstraints constraints,
+    Color color,
+  ) {
+    final displaySize = AppTextStyles.display.fontSize!;
+    final minimumSize = AppTextStyles.fieldLabel.fontSize!;
+    final defaultStyle = DefaultTextStyle.of(context).style;
+    final textScaler = MediaQuery.textScalerOf(context);
+    final textDirection = Directionality.of(context);
+
+    TextPainter measure(TextStyle style) {
+      final painter = TextPainter(
+        text: TextSpan(text: instruction, style: defaultStyle.merge(style)),
+        textAlign: TextAlign.center,
+        textDirection: textDirection,
+        textScaler: textScaler,
+      )..layout(maxWidth: constraints.maxWidth);
+      return painter;
+    }
+
+    for (var fontSize = displaySize; fontSize >= minimumSize; fontSize--) {
+      final style = AppTextStyles.display.copyWith(
+        color: color,
+        fontSize: fontSize,
+      );
+      final painter = measure(style);
+      final fits = painter.size.height <= constraints.maxHeight;
+      painter.dispose();
+      if (fits) {
+        return (style: style, maxLines: null, overflow: null);
+      }
+    }
+
+    final floorStyle = AppTextStyles.display.copyWith(
+      color: color,
+      fontSize: minimumSize,
+    );
+    final floorPainter = measure(floorStyle);
+    final maxLines = (constraints.maxHeight / floorPainter.preferredLineHeight)
+        .floor()
+        .clamp(1, 1 << 20);
+    floorPainter.dispose();
+    return (
+      style: floorStyle,
+      maxLines: maxLines,
+      overflow: TextOverflow.ellipsis,
     );
   }
 }

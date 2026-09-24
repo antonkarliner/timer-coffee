@@ -4,6 +4,7 @@ import 'package:coffee_timer/visual/color_schemes.dart';
 import 'package:coffee_timer/widgets/brewing/pour_brewing_view.dart';
 import 'package:coffee_timer/widgets/brewing/pour_liquid_painter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 // Deliberately short: the FlutterTest font uses wide fixed-advance glyphs,
@@ -13,6 +14,10 @@ const _longInstruction =
     'Slowly pour in a circular motion, keeping the water level consistent, '
     'then wait for the drawdown to finish before starting the next pour and '
     'make sure the coffee bed stays perfectly flat throughout the whole brew';
+const _veryLongInstruction =
+    'Pour to 60 g in slow rings, pause for the bloom, then pour to 120 g. '
+    'Keep the stream low and even, move from the center to the rim and back, '
+    'then let the water drain until the coffee bed is flat before the next pour.';
 const _nextInstruction = 'Wait for the drawdown to finish';
 
 // The FlutterTest font's glyphs advance a full em, so three digits at 72px
@@ -24,14 +29,14 @@ const _nextInstruction = 'Wait for the drawdown to finish';
 // the colour that reads against what is behind it there.
 Widget Function(Color) _countdown({double fontSize = 72}) =>
     (Color color) => Text(
-          '128',
-          style: TextStyle(
-            fontSize: fontSize,
-            fontWeight: FontWeight.bold,
-            color: color,
-            fontFeatures: const [FontFeature.tabularFigures()],
-          ),
-        );
+      '128',
+      style: TextStyle(
+        fontSize: fontSize,
+        fontWeight: FontWeight.bold,
+        color: color,
+        fontFeatures: const [FontFeature.tabularFigures()],
+      ),
+    );
 
 PourBrewingView _view({
   String? nextInstruction = _nextInstruction,
@@ -175,6 +180,48 @@ void main() {
         expect(tester.takeException(), isNull);
       },
     );
+
+    testWidgets('a short instruction keeps the display font size', (
+      tester,
+    ) async {
+      _setSurface(tester, const Size(375, 812));
+      await tester.pumpWidget(_wrap(_view()));
+
+      final text = tester.widget<Text>(_dryText(_instruction));
+      expect(text.style?.fontSize, 32);
+    });
+
+    testWidgets('a very long instruction shrinks and remains fully visible', (
+      tester,
+    ) async {
+      _setSurface(tester, const Size(375, 812));
+      await tester.pumpWidget(_wrap(_view(instruction: _veryLongInstruction)));
+
+      final text = tester.widget<Text>(_dryText(_veryLongInstruction));
+      final paragraph = tester.renderObject<RenderParagraph>(
+        _dryText(_veryLongInstruction),
+      );
+      expect(text.style?.fontSize, lessThan(32));
+      expect(
+        paragraph.didExceedMaxLines,
+        isFalse,
+        reason:
+            'fontSize=${text.style?.fontSize}, size=${paragraph.size}, '
+            'constraints=${paragraph.constraints}',
+      );
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('dry and submerged instructions use the same font size', (
+      tester,
+    ) async {
+      _setSurface(tester, const Size(375, 812));
+      await tester.pumpWidget(_wrap(_view(instruction: _veryLongInstruction)));
+
+      final copies = tester.widgetList<Text>(find.text(_veryLongInstruction));
+      expect(copies, hasLength(2));
+      expect(copies.first.style?.fontSize, copies.last.style?.fontSize);
+    });
 
     testWidgets('renders the instruction and the next-step preview', (
       tester,
@@ -353,7 +400,8 @@ void main() {
       expect(
         mounts,
         mountsAfterFirstBuild,
-        reason: 'toggling the next-step slot remounted the countdown — the '
+        reason:
+            'toggling the next-step slot remounted the countdown — the '
             'slot must collapse to SizedBox.shrink(), never be removed',
       );
     });
@@ -497,7 +545,10 @@ void main() {
     test('a full cup stops headroom px below the top of the canvas', () {
       const size = Size(400, 800);
       // Full: the surface sits exactly `headroom` px down.
-      expect(size.height * (1 - pourCanvasLevel(1.0, 32, size)), closeTo(32, 1e-9));
+      expect(
+        size.height * (1 - pourCanvasLevel(1.0, 32, size)),
+        closeTo(32, 1e-9),
+      );
       // Empty stays empty; halfway is halfway through the fillable height.
       expect(pourCanvasLevel(0.0, 32, size), 0);
       expect(
