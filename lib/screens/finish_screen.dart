@@ -235,6 +235,16 @@ class _FinishScreenState extends State<FinishScreen> {
   /// the call site — same store, no extra field.
   AdvancedFeaturesService? _advancedForLayoutTry;
 
+  /// Whether this brew is the install's very first one, captured in
+  /// `initState` *before* the post-frame `_recordBrewForOnboarding` flips
+  /// `OnboardingService.firstBrewDone` — reading it later would race that
+  /// write.
+  ///
+  /// On the first brew the [FirstBrewCelebration] card owns the screen: it
+  /// renders only then, and the single-card slot below the rating row stays
+  /// empty (no fact, moment, or whats-new card stacked under it).
+  late final bool _isFirstBrew;
+
   @override
   void initState() {
     super.initState();
@@ -261,6 +271,10 @@ class _FinishScreenState extends State<FinishScreen> {
     ).getRandomCoffeeFactFromDB();
     _inSyncThreshold =
         kInSyncThresholdByHour[_brewCompletedAt.toUtc().hour] ?? 3;
+    _isFirstBrew = !Provider.of<OnboardingService>(
+      context,
+      listen: false,
+    ).firstBrewDone;
     requestReview();
     _statUuid = _uuid.v7();
     // The Completer-backed future exists as soon as `_completionWrites` is
@@ -273,8 +287,17 @@ class _FinishScreenState extends State<FinishScreen> {
       if (mounted) setState(() => _ratingRowReady = true);
     }, onError: (Object _, StackTrace _) {});
     _checkAndRequestNotificationPermission();
-    _resolveAnniversary();
-    _queryInSync();
+    // Both moment lookups track `moment_shown` when they resolve, not when
+    // they render — so on the first brew, whose slot stays empty, skip them
+    // rather than log an impression for a card nobody sees. Completing the
+    // completers keeps the slot resolver's awaits from stalling.
+    if (_isFirstBrew) {
+      _anniversaryCompleter.complete();
+      _inSyncCompleter.complete();
+    } else {
+      _resolveAnniversary();
+      _queryInSync();
+    }
     // Kicks off once here (not in build) — races the review-nudge
     // eligibility decision against the moment resolutions + a soft 3s
     // deadline, falling back to the coffee fact. Safe during initState:
@@ -884,12 +907,15 @@ class _FinishScreenState extends State<FinishScreen> {
     // .fetchLatestLaunchPopup`, a pass-through to `DatabaseProvider`'s
     // cached model), so this never triggers a second remote fetch. `locale`
     // must be read before any further await here so it stays consistent
-    // with the seen-state key `WhatsNewCard` writes.
+    // with the seen-state key `WhatsNewCard` writes. Skipped entirely on the
+    // first brew (a null future opts the candidate out) — see [_isFirstBrew].
     final locale = Localizations.localeOf(context).languageCode;
-    final whatsNewPopupFuture = Provider.of<RecipeProvider>(
-      context,
-      listen: false,
-    ).fetchLatestLaunchPopup(locale);
+    final whatsNewPopupFuture = _isFirstBrew
+        ? null
+        : Provider.of<RecipeProvider>(
+            context,
+            listen: false,
+          ).fetchLatestLaunchPopup(locale);
 
     final resolution = await resolver.resolve(
       updateBeanWeightFuture: _updateBeanWeightFuture,
@@ -1205,13 +1231,17 @@ class _FinishScreenState extends State<FinishScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    FirstBrewCelebration(
-                      brewingMethodId: widget.recipe.brewingMethodId,
-                    ),
+                    _isFirstBrew
+                        ? FirstBrewCelebration(
+                            brewingMethodId: widget.recipe.brewingMethodId,
+                          )
+                        : const SizedBox.shrink(),
                     const SizedBox(height: AppSpacing.base),
                     _buildRatingRow(context),
                     const SizedBox(height: AppSpacing.base),
-                    if (syncWinner == FinishSlotCandidateId.promo)
+                    if (_isFirstBrew)
+                      const SizedBox.shrink()
+                    else if (syncWinner == FinishSlotCandidateId.promo)
                       _buildNativeAppPromoCard(context)
                     else if (syncWinner == FinishSlotCandidateId.anniversary)
                       const AnniversaryCelebration(shouldShow: true)

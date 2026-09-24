@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../app_router.gr.dart';
 import '../services/analytics_service.dart';
-import '../services/onboarding_service.dart';
 import '../theme/design_tokens.dart';
 import '../utils/icon_utils.dart';
 import 'base_buttons.dart';
 
 /// Celebratory card shown on the finish screen after the user's very first brew.
+///
+/// The caller decides when it renders — `FinishScreen` mounts it only when
+/// no brew was recorded before this one. (It used to gate itself on
+/// `OnboardingService.completedMilestoneCount == 1`, which stayed true across
+/// repeat brews of the same recipe and so re-showed the card every time.)
 class FirstBrewCelebration extends StatefulWidget {
-  const FirstBrewCelebration({
-    super.key,
-    required this.brewingMethodId,
-  });
+  const FirstBrewCelebration({super.key, required this.brewingMethodId});
 
   final String brewingMethodId;
 
@@ -29,11 +29,6 @@ class _FirstBrewCelebrationState extends State<FirstBrewCelebration> {
 
   @override
   Widget build(BuildContext context) {
-    final onboarding = Provider.of<OnboardingService>(context, listen: false);
-    if (onboarding.completedMilestoneCount != 1) {
-      return const SizedBox.shrink();
-    }
-
     if (!_impressionLogged) {
       _impressionLogged = true;
       AnalyticsService.maybeInstance?.track(
@@ -55,10 +50,7 @@ class _FirstBrewCelebrationState extends State<FirstBrewCelebration> {
             mainAxisSize: MainAxisSize.min,
             children: [
               IconTheme(
-                data: IconThemeData(
-                  color: theme.colorScheme.primary,
-                  size: 40,
-                ),
+                data: IconThemeData(color: theme.colorScheme.primary, size: 40),
                 child: getIconByBrewingMethod(widget.brewingMethodId),
               ),
               const SizedBox(height: AppSpacing.sm),
