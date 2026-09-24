@@ -1,0 +1,12 @@
+New:
+• Immersive brewing screen that fills with coffee as you brew. Turn it on via the gear icon before a brew.
+• Undo after deleting a brew, bean or recipe.
+• Suggested a roaster? We’ll thank you when they go live.
+
+Improved:
+• The timer ring fills like a cup at the end.
+• A Finish button on the last step.
+• Rebuilt freshness reminders.
+
+Fixed:
+• Deleting a recipe no longer deletes its brews.

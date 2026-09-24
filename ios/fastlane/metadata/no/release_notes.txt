@@ -1,6 +1,18 @@
+Hva er nytt:
+• En oppslukende bryggingsskjerm: hele skjermen fylles med kaffe mens bryggingen skrider frem, og brygget avsluttes med en siste dråpe. Slå den på fra tannhjulikonet før du starter et brygg, eller i Innstillinger → Avanserte / betafunksjoner. Den klassiske timeren er fortsatt der når du vil ha den.
+• Angre en sletting: Etter at du har slettet et brygg, en bønne eller en oppskrift, får du noen sekunder til å hente det tilbake.
+• Foreslo du et brenneri vi ikke hadde ennå? Når det er på Timer.Coffee, får du en takk med en lenke til siden deres.
+• Vurder en skannet pose direkte i bønneskjemaet, i stedet for på en separat skjerm.
+
 Forbedringer:
-• Kaffeposer oppgir ofte en brenningsdato uten årstall – «02/08» kan bety 8. februar eller 2. august. Når etiketten er uklar, eller bildet ditt ikke viser noen dato i det hele tatt, viser en skanning nå nøyaktig hva som sto på etiketten og ber deg bekrefte det, i stedet for å velge én tolkning uten videre. Datoen den leste er allerede fylt ut, så det holder med ett trykk å bekrefte, og hvis du vil rette den åpnes den vanlige datovelgeren.
-• Skanningsoppsummeringen markerer nå også en uklar brenningsdato, slik at du kan oppdage den uten å måtte bla nedover i skjemaet.
+• En ny avslutning for den klassiske timeren: Ringen lukkes og fylles som en kopp i stedet for å riste.
+• I det siste steget står det nå «Fullfør» på knappen, og den vises med en gang.
+• Ferskhetspåminnelsene er bygget på nytt. De minner deg nå på en pose du ikke har brygget ennå når den er på sitt beste, eller en du har sluttet å brygge før den beste tiden er over, og aldri måneder etter brenning.
+• En tydeligere oppsettskjerm for oppskrifter og en forhåndsvisning av neste steg som er enklere å lese under brygging.
+• Tall blir stående på samme linje som enhetene sine i bryggesteg.
 
 Feilrettinger:
-• Rettet en feil der bryggedatoen ble tom når du la til en trakting manuelt i bryggedagboken.
+• Rettet en feil der sletting av en tilpasset oppskrift også slettet alle brygg du hadde logget med den. Bryggdagboken din beholder nå disse oppføringene.
+• Rettet en feil der sletting av en bønne fjernet navnet fra tidligere brygg.
+• Rettet en feil der ferskhetspåminnelser nesten aldri kom frem.
+• Rettet en feil der gratulasjonen for «første brygg» ble vist igjen ved senere brygg.

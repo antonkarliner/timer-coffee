@@ -1,6 +1,18 @@
+Neuigkeiten:
+• Ein immersiver Brühbildschirm: Der gesamte Bildschirm füllt sich mit Kaffee, während deine Zubereitung fortschreitet, und der Brühvorgang endet mit einem letzten Tropfen. Aktiviere ihn über das Zahnradsymbol, bevor du mit dem Brühen beginnst, oder unter Einstellungen → Erweiterte / Beta-Funktionen. Der klassische Timer ist weiterhin verfügbar, wann immer du ihn möchtest.
+• Löschen rückgängig machen: Nachdem du einen Brühvorgang, eine Bohne oder ein Rezept gelöscht hast, hast du ein paar Sekunden Zeit, ihn bzw. sie wiederherzustellen.
+• Hast du eine Rösterei vorgeschlagen, die wir noch nicht hatten? Sobald sie auf Timer.Coffee verfügbar ist, siehst du ein Dankeschön mit einem Link zu ihrer Seite.
+• Bewerte eine gescannte Packung direkt im Bohnenformular, statt auf einem separaten Bildschirm.
+
 Verbesserungen:
-• Auf Kaffeetüten ist das Röstdatum oft ohne Jahresangabe aufgedruckt – „02/08“ könnte den 8. Februar oder den 2. August bedeuten. Wenn das Etikett unklar ist oder dein Foto gar kein Datum zeigt, zeigt dir ein Scan jetzt genau, was aufgedruckt war, und bittet dich um Bestätigung, statt stillschweigend eine Interpretation auszuwählen. Das erkannte Datum ist bereits eingetragen, sodass die Bestätigung nur einen Tipp erfordert und du über die übliche Datumsauswahl Korrekturen vornehmen kannst.
-• Die Scan-Zusammenfassung markiert jetzt auch ein unklares Röstdatum, damit du es siehst, ohne im Formular nach unten scrollen zu müssen.
+• Ein neues Ende für den klassischen Timer: Der Ring schließt sich und füllt sich wie eine Tasse, statt zu wackeln.
+• Beim letzten Schritt heißt die Schaltfläche jetzt „Fertig“ und wird sofort angezeigt.
+• Die Frische-Erinnerungen wurden überarbeitet. Sie erinnern dich jetzt an eine Packung, die du noch nicht gebrüht hast, wenn sie ihren besten Zeitpunkt erreicht, oder an eine, die du nicht mehr brühst, bevor ihr bester Zeitpunkt vorbei ist – aber nie erst Monate nach der Röstung.
+• Ein übersichtlicherer Bildschirm zur Rezepteinrichtung und eine besser lesbare Vorschau des nächsten Schritts während des Brühens.
+• Zahlen bleiben in Brühschritten in derselben Zeile wie ihre Einheiten.
 
 Fehlerbehebungen:
-• Es wurde behoben, dass das Brühdatum leer blieb, wenn du eine Zubereitung manuell zu deinem Brühtagebuch hinzufügst.
+• Es wurde ein Fehler behoben, durch den beim Löschen eines benutzerdefinierten Rezepts auch alle damit protokollierten Brühvorgänge gelöscht wurden. Dein Brühtagebuch behält diese Einträge jetzt.
+• Es wurde ein Fehler behoben, durch den beim Löschen einer Bohne ihr Name aus vergangenen Brühvorgängen entfernt wurde.
+• Es wurde ein Fehler behoben, durch den Frische-Erinnerungen fast nie ankamen.
+• Es wurde ein Fehler behoben, durch den die Glückwünsche zum „ersten Brühvorgang“ bei späteren Brühvorgängen erneut angezeigt wurden.

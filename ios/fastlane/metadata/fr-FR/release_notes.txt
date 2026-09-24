@@ -1,6 +1,18 @@
+Nouveautés :
+• Un écran de préparation immersif : tout l’écran se remplit de café au fur et à mesure de votre préparation, qui se termine par une dernière goutte. Activez-le depuis l’icône de réglages avant de lancer une préparation, ou dans Paramètres → Fonctions avancées / bêta. Le minuteur classique reste disponible quand vous le souhaitez.
+• Annuler une suppression : après avoir supprimé une préparation, un grain ou une recette, vous avez quelques secondes pour le restaurer.
+• Vous avez suggéré un torréfacteur que nous n’avions pas encore ? Une fois qu’il sera sur Timer.Coffee, vous verrez un message de remerciement avec un lien vers sa page.
+• Donnez votre avis sur un paquet scanné directement dans le formulaire des grains, plutôt que sur un écran séparé.
+
 Améliorations :
-• Les sacs de café indiquent souvent une date de torréfaction sans année — « 02/08 » peut signifier le 8 février ou le 2 août. Lorsque l’étiquette n’est pas claire, ou que votre photo ne montre aucune date, un scan vous indique désormais exactement ce qui est imprimé et vous demande de le confirmer, au lieu de choisir discrètement une interprétation. La date lue est déjà renseignée, donc la confirmation ne prend qu’une pression, et sa correction ouvre le sélecteur de date habituel.
-• Le résumé du scan signale désormais aussi une date de torréfaction ambiguë, afin que vous puissiez la repérer sans faire défiler le formulaire.
+• Une nouvelle fin pour le minuteur classique : l’anneau se referme et se remplit comme une tasse, au lieu de trembler.
+• Lors de la dernière étape, le bouton affiche désormais « Terminer » et apparaît immédiatement.
+• Les rappels de fraîcheur ont été repensés. Ils vous rappellent désormais d’utiliser un paquet que vous n’avez pas encore préparé lorsqu’il atteint son apogée, ou un paquet que vous avez cessé de préparer avant la fin de son apogée, et jamais des mois après la torréfaction.
+• Un écran de configuration des recettes plus clair et un aperçu de l’étape suivante plus facile à lire pendant la préparation.
+• Les nombres restent sur la même ligne que leurs unités dans les étapes de préparation.
 
 Corrections de bugs :
-• Correction d’un problème où la date de préparation était vide lorsque vous ajoutiez manuellement une préparation à votre journal.
+• Correction d’un problème qui faisait que la suppression d’une recette personnalisée supprimait également toutes les préparations que vous aviez enregistrées avec elle. Votre journal de préparation conserve désormais ces entrées.
+• Correction d’un problème qui faisait que la suppression d’un grain retirait son nom de vos préparations passées.
+• Correction d’un problème qui empêchait presque toujours les rappels de fraîcheur d’arriver.
+• Correction d’un problème qui faisait réapparaître les félicitations pour la « première préparation » lors de préparations ultérieures.

@@ -1,0 +1,12 @@
+Nowości:
+• Immersyjny ekran parzenia wypełniający się kawą podczas parzenia. Włącz go ikoną koła zębatego przed parzeniem.
+• Cofnij usunięcie parzenia, ziarna lub przepisu.
+• Zasugerowano palarnię? Podziękujemy, gdy ruszy.
+
+Ulepszenia:
+• Pierścień minutnika wypełnia się jak filiżanka pod koniec.
+• Przycisk Zakończ w ostatnim kroku.
+• Przebudowane przypomnienia o świeżości.
+
+Poprawki:
+• Usunięcie przepisu nie usuwa już jego parzeń.

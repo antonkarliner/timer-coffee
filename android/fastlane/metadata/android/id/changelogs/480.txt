@@ -1,0 +1,12 @@
+Baru:
+• Layar seduh imersif yang terisi kopi saat Anda menyeduh. Aktifkan lewat ikon roda gigi sebelum menyeduh.
+• Urungkan setelah menghapus seduhan, biji kopi, atau resep.
+• Menyarankan roaster? Kami akan berterima kasih saat mereka tersedia.
+
+Ditingkatkan:
+• Cincin timer terisi seperti cangkir di akhir.
+• Tombol Selesai pada langkah terakhir.
+• Pengingat kesegaran dibuat ulang.
+
+Diperbaiki:
+• Menghapus resep tidak lagi menghapus seduhannya.

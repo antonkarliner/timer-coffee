@@ -1,6 +1,18 @@
+Uutta:
+• Upottava uutonäyttö: koko näyttö täyttyy kahvista valmistuksen edetessä, ja uutto päättyy viimeiseen pisaraan. Ota se käyttöön rataskuvakkeesta ennen uuton aloittamista tai kohdasta Asetukset → Lisä- / betaominaisuudet. Klassinen ajastin on edelleen käytettävissäsi milloin haluat.
+• Kumoa poisto: kun poistat uuton, kahvipavun tai reseptin, sinulla on muutama sekunti aikaa palauttaa se.
+• Ehdotitko paahtimoa, jota meillä ei vielä ollut? Kun se on lisätty Timer.Coffeeen, näet kiitoksen ja linkin sen sivulle.
+• Arvostele skannattu pussi suoraan kahvipapulomakkeella erillisen näkymän sijaan.
+
 Parannukset:
-• Kahvipakkauksissa paahtopäivä ilmoitetaan usein ilman vuotta — ”02/08” voi tarkoittaa 8. helmikuuta tai 2. elokuuta. Kun etiketti on epäselvä tai kuvassasi ei näy päivämäärää lainkaan, skannaus näyttää nyt tarkalleen, mitä etiketissä lukee, ja pyytää sinua vahvistamaan sen sen sijaan, että valitsisi tulkinnan huomaamatta. Luettu päivämäärä on jo täytetty, joten vahvistaminen onnistuu yhdellä napautuksella ja sen korjaaminen avaa tavallisen päivämäärävalitsimen.
-• Skannauksen yhteenveto ilmoittaa nyt myös epäselvästä paahtopäivästä, joten huomaat sen ilman lomakkeen selaamista alaspäin.
+• Klassisen ajastimen uusi lopetus: rengas sulkeutuu ja täyttyy kuin kuppi sen sijaan, että se tärisisi.
+• Viimeisessä vaiheessa painikkeessa lukee nyt ”Valmis”, ja se näkyy heti.
+• Tuoreusmuistutukset on uudistettu. Ne muistuttavat nyt pussista, jota et ole vielä uuttanut, sen saavuttaessa parhaimman hetkensä, tai pussista, jonka uuttamisen olet lopettanut ennen kuin sen paras hetki on ohi — eivätkä koskaan kuukausia paahtamisen jälkeen.
+• Selkeämpi reseptin määritysnäyttö ja helpommin luettava seuraavan vaiheen esikatselu uuton aikana.
+• Numerot pysyvät samalla rivillä yksikköjensä kanssa uuttovaiheissa.
 
 Virheenkorjaukset:
-• Korjattu ongelma, jossa valmistuspäivä jäi tyhjäksi, kun lisäsit valmistuksen Uuttopäiväkirjaan käsin.
+• Korjattu ongelma, jossa mukautetun reseptin poistaminen poisti myös kaikki sillä kirjaamasi uutot. Uuttopäiväkirjasi säilyttää nyt nämä merkinnät.
+• Korjattu ongelma, jossa kahvipavun poistaminen poisti sen nimen aiemmista uutoistasi.
+• Korjattu ongelma, jossa tuoreusmuistutukset saapuivat lähes koskaan.
+• Korjattu ongelma, jossa ”ensimmäisen uuton” onnittelu näkyi uudelleen myöhemmillä uutoilla.

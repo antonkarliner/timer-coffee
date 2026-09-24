@@ -1,0 +1,12 @@
+Novo:
+• Tela de preparo imersiva que se enche de café. Ative-a pelo ícone de engrenagem antes de preparar.
+• Desfazer após excluir um preparo, grão ou receita.
+• Sugeriu uma torrefação? Agradeceremos quando ela entrar no ar.
+
+Melhorias:
+• O anel do temporizador se enche como uma xícara ao final.
+• Botão Finalizar no último passo.
+• Lembretes de frescor reformulados.
+
+Correções:
+• Excluir uma receita não exclui mais seus preparos.

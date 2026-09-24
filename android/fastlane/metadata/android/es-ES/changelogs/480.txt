@@ -1,0 +1,12 @@
+Nuevo:
+• Pantalla de preparación inmersiva que se llena de café mientras preparas. Actívala con el icono de engranaje antes de preparar.
+• Deshacer tras eliminar una preparación, grano o receta.
+• ¿Sugeriste una tostaduría? Te lo agradeceremos cuando esté disponible.
+
+Mejorado:
+• El anillo del temporizador se llena como una taza al final.
+• Botón Finalizar en el último paso.
+• Recordatorios de frescura renovados.
+
+Corregido:
+• Eliminar una receta ya no elimina sus preparaciones.

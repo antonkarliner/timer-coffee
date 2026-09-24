@@ -1,0 +1,12 @@
+Yeni:
+• Demlerken kahveyle dolan sürükleyici demleme ekranı. Demleme öncesi dişli simgesinden açın.
+• Demleme, çekirdek veya tarif silindikten sonra geri alma.
+• Bir kahve kavurucusu önerdiniz mi? Yayına geçtiğinde teşekkür edeceğiz.
+
+İyileştirildi:
+• Zamanlayıcı halkası sonunda fincan gibi dolar.
+• Son adımda Bitir düğmesi.
+• Tazelik hatırlatıcıları yeniden oluşturuldu.
+
+Düzeltildi:
+• Tarif silmek artık demlemelerini silmiyor.

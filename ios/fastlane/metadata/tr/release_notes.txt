@@ -1,6 +1,18 @@
+Yenilikler:
+• Sürükleyici bir demleme ekranı: demlemeniz ilerledikçe tüm ekran kahveyle dolar ve demleme son bir damlayla biter. Demlemeye başlamadan önce dişli simgesinden veya Ayarlar → Gelişmiş / beta özellikler bölümünden açabilirsiniz. İstediğiniz zaman kullanabileceğiniz klasik zamanlayıcı da hâlâ mevcut.
+• Silme işlemini geri alma: bir demlemeyi, çekirdeği veya tarifi sildikten sonra geri getirmek için birkaç saniyeniz olur.
+• Henüz listemizde olmayan bir kahve kavurucusu mu önerdiniz? Timer.Coffee'a eklendiklerinde, sayfalarına bağlantı içeren bir teşekkür mesajı göreceksiniz.
+• Taranan bir paketi, ayrı bir ekranda yerine doğrudan çekirdek formunda değerlendirin.
+
 İyileştirmeler:
-• Kahve paketlerinde genellikle yıl bilgisi olmadan bir kavurma tarihi yazılır — “02/08”, 8 Şubat veya 2 Ağustos anlamına gelebilir. Etiket net olmadığında ya da fotoğrafınızda hiç tarih görünmediğinde, tarama artık sessizce bir yorumu seçmek yerine size tam olarak ne yazdığını gösteriyor ve onaylamanızı istiyor. Okuduğu tarih zaten doldurulmuş olur; böylece onaylamak tek dokunuşla yapılır, düzeltmek ise her zamanki tarih seçiciyi açar.
-• Tarama özeti artık belirsiz bir kavurma tarihini de işaretliyor; böylece formu aşağı kaydırmadan fark edebilirsiniz.
+• Klasik zamanlayıcı için yeni bir bitiş: halka sallanmak yerine kapanır ve fincan gibi dolar.
+• Son adımda düğme artık “Bitir” yazıyor ve hemen görünüyor.
+• Tazelik hatırlatmaları yeniden tasarlandı. Artık henüz demlemediğiniz bir paket en iyi zamanına ulaştığında veya en iyi dönemi bitmeden demlemeyi bıraktığınızda sizi hatırlatır; kavrulmadan aylar sonra asla hatırlatma göndermez.
+• Daha anlaşılır bir tarif kurulum ekranı ve demleme sırasında daha kolay okunabilen bir sonraki adım önizlemesi.
+• Demleme adımlarında sayılar birimleriyle aynı satırda kalır.
 
 Hata Düzeltmeleri:
-• Demleme günlüğünüze elle bir demleme eklediğinizde demleme tarihinin boş görünmesine neden olan sorun düzeltildi.
+• Özel bir tarifi silmenin, onunla kaydettiğiniz tüm demlemeleri de silmesine neden olan sorun düzeltildi. Demleme günlüğünüz artık bu kayıtları koruyor.
+• Bir çekirdeği silmenin, geçmiş demlemelerinizden adını kaldırmasına neden olan sorun düzeltildi.
+• Tazelik hatırlatmalarının neredeyse hiç gelmemesine neden olan sorun düzeltildi.
+• “İlk demleme” tebrik mesajının sonraki demlemelerde yeniden görünmesine neden olan sorun düzeltildi.

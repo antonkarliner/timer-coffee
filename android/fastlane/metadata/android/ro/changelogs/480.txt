@@ -1,0 +1,12 @@
+Nou:
+• Ecran de preparare imersiv care se umple cu cafea pe măsură ce prepari. Activează-l din pictograma rotiță înainte de preparare.
+• Anulează după ștergerea unei preparări, a unui bob sau a unei rețete.
+• Ai sugerat o prăjitorie? Îți vom mulțumi când devine activă.
+
+Îmbunătățit:
+• Inelul cronometrului se umple ca o ceașcă la final.
+• Butonul Finalizează la ultimul pas.
+• Mementouri de prospețime refăcute.
+
+Remediat:
+• Ștergerea unei rețete nu mai șterge preparările acesteia.

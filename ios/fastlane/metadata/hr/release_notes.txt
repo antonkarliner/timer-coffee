@@ -1,6 +1,18 @@
-Poboljšanja:
-• Vrećice kave često navode datum prženja bez godine — „02/08” može značiti 8. veljače ili 2. kolovoza. Kada naljepnica nije jasna ili fotografija uopće ne prikazuje datum, skeniranje sada pokazuje točno što je ispisano i traži da to potvrdite, umjesto da neprimjetno odabere jedno tumačenje. Pročitani datum već je popunjen, pa je za potvrdu dovoljan jedan dodir, a ispravljanje otvara uobičajeni birač datuma.
-• Sažetak skeniranja sada također označava nejasan datum prženja, tako da ga možete uočiti bez pomicanja prema dolje po obrascu.
+Što je novo:
+• Uranjajući ekran pripreme: cijeli se ekran puni kavom kako priprema napreduje, a priprema završava posljednjom kapi. Uključi ga putem ikone zupčanika prije početka pripreme ili u odjeljku Postavke → Napredne / beta značajke. Klasični tajmer i dalje je dostupan kad god ga želiš.
+• Poništi brisanje: nakon što izbrišeš pripremu, zrno ili recept, imaš nekoliko sekundi da ih vratiš.
+• Predložio/la si pržionicu koju još nismo imali? Kad se pojavi na Timer.Coffeeu, vidjet ćeš zahvalu s poveznicom na njihovu stranicu.
+• Ocijeni skeniranu vrećicu izravno u obrascu zrna, umjesto na zasebnom zaslonu.
 
-Ispravci grešaka:
-• Ispravljena je greška zbog koje je datum pripreme ostajao prazan kada ručno dodate pripremu u svoj dnevnik.
+Poboljšanja:
+• Novi završetak za klasični tajmer: prsten se zatvara i puni poput šalice, umjesto da se trese.
+• U posljednjem koraku gumb sada glasi „Završi” i prikazuje se odmah.
+• Podsjetnici o svježini su obnovljeni. Sada te podsjećaju na vrećicu iz koje još nisi pripremao/la kavu dok doseže vrhunac ili na onu iz koje si prestao/la pripremati prije nego što joj je prošao vrhunac, a nikad mjesecima nakon prženja.
+• Jasniji zaslon za postavljanje recepta i lakše čitljiv pregled sljedećeg koraka tijekom pripreme.
+• Brojevi ostaju u istom retku sa svojim mjernim jedinicama u koracima pripreme.
+
+Ispravci pogrešaka:
+• Ispravljeno je brisanje prilagođenog recepta koje je također brisalo sve pripreme zabilježene s njim. Tvoj Dnevnik pripreme sada zadržava te unose.
+• Ispravljeno je brisanje zrna koje je uklanjalo njegov naziv iz prošlih priprema.
+• Ispravljeni su podsjetnici o svježini koji gotovo nikada nisu stizali.
+• Ispravljeno je ponovno prikazivanje čestitke za „prvu pripremu” pri kasnijim pripremama.

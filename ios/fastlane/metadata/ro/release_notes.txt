@@ -1,6 +1,18 @@
+Noutăți:
+• Un ecran de preparare imersiv: întregul ecran se umple cu cafea pe măsură ce prepararea avansează, iar prepararea se încheie cu ultima picătură. Activează-l din pictograma roată dințată înainte de a începe o preparare sau din Setări → Funcții avansate / beta. Cronometrul clasic rămâne disponibil oricând îl preferi.
+• Anulează o ștergere: după ce ștergi o preparare, un pachet de boabe sau o rețetă, ai câteva secunde să le restaurezi.
+• Ai sugerat o prăjitorie pe care încă nu o aveam? Odată ce apare pe Timer.Coffee, vei vedea un mesaj de mulțumire cu un link către pagina ei.
+• Recenzează un pachet scanat direct în formularul boabelor, în loc să folosești un ecran separat.
+
 Îmbunătățiri:
-• Pungile de cafea afișează adesea o dată a prăjirii fără an — „02/08” poate însemna 8 februarie sau 2 august. Când eticheta este neclară sau fotografia ta nu afișează deloc o dată, o scanare îți arată acum exact ce era tipărit și îți cere să confirmi, în loc să aleagă automat o interpretare. Data citită este deja completată, astfel încât confirmarea necesită o singură atingere, iar corectarea ei deschide selectorul obișnuit de date.
-• Rezumatul scanării semnalează acum și o dată a prăjirii neclară, astfel încât o poți observa fără să derulezi în jos în formular.
+• Un nou final pentru cronometrul clasic: cercul se închide și se umple ca o ceașcă, în loc să se zguduie.
+• La ultimul pas, butonul afișează acum „Finalizează” și apare imediat.
+• Mementourile de prospețime au fost refăcute. Acum îți amintesc despre un pachet pe care nu l-ai preparat încă atunci când ajunge la apogeu sau despre unul pe care ai încetat să-l prepari înainte să-i treacă apogeul și niciodată la luni după prăjire.
+• Un ecran mai clar pentru configurarea rețetei și o previzualizare mai ușor de citit a pasului următor în timpul preparării.
+• Numerele rămân pe aceeași linie cu unitățile lor în pașii de preparare.
 
 Remedieri de erori:
-• S-a remediat problema în care data preparării apărea goală când adăugai manual o preparare în jurnal.
+• Am remediat problema prin care ștergerea unei rețete personalizate ștergea și toate preparările înregistrate cu aceasta. Jurnalul tău de preparare păstrează acum aceste înregistrări.
+• Am remediat problema prin care ștergerea unui pachet de boabe îi elimina numele din preparările anterioare.
+• Am remediat problema prin care mementourile de prospețime aproape că nu ajungeau niciodată.
+• Am remediat problema prin care felicitarea pentru „prima preparare” apărea din nou la preparările ulterioare.

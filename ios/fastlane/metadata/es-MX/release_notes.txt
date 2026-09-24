@@ -1,6 +1,18 @@
+Novedades:
+• Una pantalla de preparación inmersiva: toda la pantalla se llena de café a medida que avanza tu preparación, y termina con una última gota. Actívala desde el ícono de engrane antes de iniciar una preparación o en Configuración → Funciones avanzadas / beta. El temporizador clásico sigue disponible cuando quieras usarlo.
+• Deshacer una eliminación: después de eliminar una preparación, una bolsa de granos o una receta, tienes unos segundos para recuperarla.
+• ¿Sugeriste una tostaduría que aún no teníamos? Cuando esté en Timer.Coffee, verás un agradecimiento con un enlace a su página.
+• Reseña una bolsa escaneada directamente en el formulario de granos, en lugar de hacerlo en una pantalla separada.
+
 Mejoras:
-• Las bolsas de café suelen indicar una fecha de tueste sin año — «02/08» podría significar el 8 de febrero o el 2 de agosto. Cuando la etiqueta no es clara o tu foto no muestra ninguna fecha, un escaneo ahora te muestra exactamente lo que se imprimió y te pide que lo confirmes, en lugar de elegir una interpretación en silencio. La fecha que leyó ya está rellenada, así que confirmarla requiere un toque y corregirla abre el selector de fecha habitual.
-• El resumen del escaneo ahora también señala una fecha de tueste poco clara, para que puedas verla sin desplazarte hacia abajo en el formulario.
+• Un nuevo final para el temporizador clásico: el anillo se cierra y se llena como una taza en lugar de sacudirse.
+• En el último paso, el botón ahora dice “Finalizar” y aparece de inmediato.
+• Se renovaron los recordatorios de frescura. Ahora te recuerdan una bolsa que aún no has preparado cuando alcanza su mejor momento, o una que dejaste de preparar antes de que pasara su mejor momento, y nunca meses después del tueste.
+• Una pantalla de configuración de recetas más clara y una vista previa del siguiente paso más fácil de leer durante la preparación.
+• Los números permanecen en la misma línea que sus unidades en los pasos de preparación.
 
 Correcciones de errores:
-• Se corrigió que la fecha de preparación apareciera vacía al añadir manualmente una preparación a tu diario.
+• Se corrigió un problema por el que eliminar una receta personalizada también eliminaba todas las preparaciones que habías registrado con ella. Tu diario de preparaciones ahora conserva esas entradas.
+• Se corrigió un problema por el que eliminar una bolsa de granos quitaba su nombre de tus preparaciones anteriores.
+• Se corrigió un problema por el que los recordatorios de frescura casi nunca llegaban.
+• Se corrigió un problema por el que las felicitaciones por la “primera preparación” volvían a mostrarse en preparaciones posteriores.

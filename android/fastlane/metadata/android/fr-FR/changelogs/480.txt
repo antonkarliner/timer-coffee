@@ -1,0 +1,12 @@
+Nouveau :
+• Écran immersif se remplissant de café pendant l’infusion. Activez-le avec l’icône d’engrenage avant une préparation.
+• Annulez la suppression d’une infusion, d’un grain ou d’une recette.
+• Vous avez suggéré un torréfacteur ? Nous vous remercierons à son lancement.
+
+Améliorations :
+• L’anneau du minuteur se remplit comme une tasse à la fin.
+• Bouton Terminer à la dernière étape.
+• Rappels de fraîcheur repensés.
+
+Corrections :
+• Supprimer une recette ne supprime plus ses infusions.

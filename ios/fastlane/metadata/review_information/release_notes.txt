@@ -1,6 +1,18 @@
+What’s New:
+• An immersive brewing screen: the whole screen fills with coffee as your brew goes on, and the brew ends with a last drop. Turn it on from the gear icon before you start a brew, or in Settings → Advanced / Beta Features. The classic timer is still there whenever you want it.
+• Undo a delete: after deleting a brew, a bean or a recipe you get a few seconds to bring it back.
+• Suggested a roaster we didn’t have yet? Once they’re on Timer.Coffee, you’ll see a thank-you with a link to their page.
+• Review a scanned bag right on the bean form, instead of on a separate screen.
+
 Improvements:
-• Coffee bags often print a roast date with no year — “02/08” could mean 8 February or 2 August. When the label is unclear, or your photo doesn’t show a date at all, a scan now shows you exactly what was printed and asks you to confirm it, instead of quietly picking one reading. The date it read is already filled in, so confirming takes one tap and correcting it opens the usual date picker.
-• The scan summary now flags an unclear roast date too, so you can spot it without scrolling down the form.
+• A new ending for the classic timer: the ring closes and fills like a cup instead of shaking.
+• On the last step, the button now reads “Finish” and shows up right away.
+• Freshness reminders are rebuilt. They now nudge you about a bag you haven’t brewed yet as it reaches its peak, or one you’ve stopped brewing before its peak is over, and never months after roasting.
+• A clearer recipe setup screen and an easier-to-read next-step preview while brewing.
+• Numbers stay on the same line as their units in brew steps.
 
 Bug Fixes:
-• Fixed the brew date coming up empty when you add a brew to your diary by hand.
+• Fixed deleting a custom recipe also deleting every brew you had logged with it. Your brew diary now keeps those entries.
+• Fixed deleting a bean removing its name from your past brews.
+• Fixed freshness reminders almost never arriving.
+• Fixed the “first brew” congratulations showing again on later brews.

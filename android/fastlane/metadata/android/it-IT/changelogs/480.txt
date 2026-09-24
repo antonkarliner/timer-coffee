@@ -1,0 +1,12 @@
+Novità:
+• Schermata immersiva che si riempie di caffè durante la preparazione. Attivala dall’icona ingranaggio prima della preparazione.
+• Annulla eliminazione di preparazioni, chicchi o ricette.
+• Hai suggerito una torrefazione? Ti ringrazieremo quando sarà online.
+
+Miglioramenti:
+• L’anello del timer si riempie come una tazza alla fine.
+• Pulsante Termina nell’ultimo passaggio.
+• Promemoria freschezza rinnovati.
+
+Correzioni:
+• Eliminare una ricetta non elimina più le sue preparazioni.

@@ -1,0 +1,12 @@
+Uutta:
+• Upottava uutonäyttö täyttyy kahvista uuton edetessä. Ota se käyttöön rataskuvakkeesta ennen uuttoa.
+• Kumoa uuton, kahvipavun tai reseptin poistaminen.
+• Ehdotitko paahtimoa? Kiitämme sinua, kun se julkaistaan.
+
+Parannettu:
+• Ajastinrengas täyttyy lopussa kuin kuppi.
+• Viimeisessä vaiheessa on Valmis-painike.
+• Tuoreusmuistutukset uudistettu.
+
+Korjattu:
+• Reseptin poistaminen ei enää poista sen uuttoja.

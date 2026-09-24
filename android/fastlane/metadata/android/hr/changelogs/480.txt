@@ -1,0 +1,12 @@
+Novo:
+• Uranjajući ekran pripreme puni se kavom tijekom pripreme. Uključite ga ikonom zupčanika prije pripreme.
+• Poništi brisanje pripreme, zrna ili recepta.
+• Predložili ste pržionicu? Zahvalit ćemo vam kad postane dostupna.
+
+Poboljšano:
+• Prsten mjerača vremena na kraju se puni poput šalice.
+• Gumb Završi u zadnjem koraku.
+• Obnovljeni podsjetnici o svježini.
+
+Ispravljeno:
+• Brisanje recepta više ne briše njegove pripreme.

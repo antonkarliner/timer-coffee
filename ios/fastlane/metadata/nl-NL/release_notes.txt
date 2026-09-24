@@ -1,6 +1,18 @@
+Wat is er nieuw:
+• Een meeslepend brouwscherm: het hele scherm vult zich met koffie terwijl je brouwsel vordert, en de zetbeurt eindigt met een laatste druppel. Schakel het in via het tandwielpictogram voordat je een zetbeurt start, of via Instellingen → Geavanceerde / bètafuncties. De klassieke timer blijft beschikbaar wanneer je die wilt.
+• Een verwijdering ongedaan maken: nadat je een zetbeurt, boon of recept hebt verwijderd, heb je een paar seconden om deze terug te halen.
+• Heb je een branderij voorgesteld die we nog niet hadden? Zodra deze op Timer.Coffee staat, zie je een bedankje met een link naar hun pagina.
+• Beoordeel een gescande zak direct in het bonenformulier, in plaats van op een apart scherm.
+
 Verbeteringen:
-• Op koffiezakken staat vaak een branddatum zonder jaartal — “02/08” kan 8 februari of 2 augustus betekenen. Wanneer het etiket onduidelijk is of je foto helemaal geen datum toont, laat een scan nu precies zien wat er gedrukt staat en vraagt deze je om bevestiging, in plaats van stilletjes één interpretatie te kiezen. De gelezen datum is al ingevuld, dus bevestigen kost één tik en corrigeren opent de gebruikelijke datumkiezer.
-• De scansamenvatting markeert nu ook een onduidelijke branddatum, zodat je deze kunt zien zonder door het formulier te scrollen.
+• Een nieuw einde voor de klassieke timer: de ring sluit en vult zich als een kopje, in plaats van te schudden.
+• Bij de laatste stap staat er nu meteen de knop „Klaar”.
+• Versheidsherinneringen zijn opnieuw opgebouwd. Ze herinneren je nu aan een zak waarmee je nog niet hebt gezet wanneer die op zijn best komt, of aan een zak waarmee je bent gestopt voordat de beste periode voorbij is, en nooit maanden na het branden.
+• Een duidelijker scherm voor het instellen van recepten en een beter leesbaar voorbeeld van de volgende stap tijdens het zetten.
+• Getallen blijven op dezelfde regel als hun eenheden in zetstappen.
 
 Bugfixes:
-• Opgelost dat de zetdatum leeg was wanneer je handmatig een zetting aan je brouwdagboek toevoegt.
+• Opgelost dat het verwijderen van een aangepast recept ook elke zetbeurt verwijderde die je ermee had geregistreerd. Je brouwdagboek behoudt deze vermeldingen nu.
+• Opgelost dat het verwijderen van een boon de naam uit je eerdere zetbeurten verwijderde.
+• Opgelost dat versheidsherinneringen bijna nooit aankwamen.
+• Opgelost dat de felicitatie voor je „eerste zetbeurt” opnieuw werd getoond bij latere zetbeurten.

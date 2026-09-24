@@ -1,6 +1,18 @@
+Yang Baru:
+• Layar seduh imersif: seluruh layar terisi kopi seiring seduhan Anda berlangsung, dan seduhan berakhir dengan tetesan terakhir. Aktifkan dari ikon roda gigi sebelum mulai menyeduh, atau di Pengaturan → Fitur lanjutan / beta. Timer klasik tetap tersedia kapan pun Anda menginginkannya.
+• Urungkan penghapusan: setelah menghapus seduhan, biji kopi, atau resep, Anda memiliki beberapa detik untuk mengembalikannya.
+• Menyarankan roaster yang belum kami miliki? Setelah roaster tersebut tersedia di Timer.Coffee, Anda akan melihat ucapan terima kasih dengan tautan ke halamannya.
+• Beri ulasan pada kantong yang dipindai langsung di formulir biji kopi, alih-alih di layar terpisah.
+
 Peningkatan:
-• Kemasan kopi sering mencantumkan tanggal sangrai tanpa tahun — “02/08” bisa berarti 8 Februari atau 2 Agustus. Saat label tidak jelas, atau foto Anda sama sekali tidak menampilkan tanggal, pemindaian kini menunjukkan dengan tepat apa yang tercetak dan meminta Anda untuk mengonfirmasinya, alih-alih diam-diam memilih salah satu interpretasi. Tanggal yang terbaca sudah diisi, jadi konfirmasi hanya memerlukan satu ketukan dan memperbaikinya akan membuka pemilih tanggal seperti biasa.
-• Ringkasan pemindaian kini juga menandai tanggal sangrai yang tidak jelas, sehingga Anda dapat mengetahuinya tanpa menggulir ke bawah formulir.
+• Akhir baru untuk timer klasik: cincin menutup dan terisi seperti cangkir, bukan bergetar.
+• Pada langkah terakhir, tombol kini bertuliskan “Selesai” dan langsung muncul.
+• Pengingat kesegaran telah diperbarui. Kini, pengingat akan mengingatkan Anda tentang kantong yang belum diseduh saat mencapai masa terbaiknya, atau kantong yang sudah berhenti Anda seduh sebelum masa terbaiknya berakhir, dan tidak pernah berbulan-bulan setelah penyangraian.
+• Layar pengaturan resep yang lebih jelas dan pratinjau langkah berikutnya yang lebih mudah dibaca saat menyeduh.
+• Angka tetap berada pada baris yang sama dengan satuannya dalam langkah seduh.
 
 Perbaikan Bug:
-• Memperbaiki tanggal seduhan yang kosong saat Anda menambahkan seduhan ke diari secara manual.
+• Memperbaiki masalah ketika menghapus resep kustom juga menghapus setiap seduhan yang telah Anda catat dengannya. Diari seduhan Anda kini menyimpan entri tersebut.
+• Memperbaiki masalah ketika menghapus biji kopi menghilangkan namanya dari seduhan terdahulu Anda.
+• Memperbaiki masalah pengingat kesegaran yang hampir tidak pernah tiba.
+• Memperbaiki masalah ucapan selamat “seduhan pertama” yang muncul kembali pada seduhan berikutnya.

@@ -1,6 +1,18 @@
+Novità:
+• Una schermata di preparazione immersiva: l’intera schermata si riempie di caffè man mano che la preparazione procede e termina con un’ultima goccia. Attivala dall’icona dell’ingranaggio prima di iniziare una preparazione oppure da Impostazioni → Funzioni avanzate / beta. Il timer classico resta disponibile ogni volta che lo desideri.
+• Annulla un’eliminazione: dopo aver eliminato una preparazione, un chicco o una ricetta, hai qualche secondo per ripristinarli.
+• Hai suggerito una torrefazione che non avevamo ancora? Quando sarà disponibile su Timer.Coffee, vedrai un ringraziamento con un link alla sua pagina.
+• Recensisci un sacchetto scansionato direttamente nel modulo dei chicchi, anziché in una schermata separata.
+
 Miglioramenti:
-• Le confezioni di caffè spesso riportano una data di tostatura senza l’anno — “02/08” potrebbe significare l’8 febbraio o il 2 agosto. Quando l’etichetta non è chiara, o la foto non mostra alcuna data, una scansione ora ti mostra esattamente ciò che è stampato e ti chiede di confermarlo, invece di scegliere silenziosamente un’interpretazione. La data rilevata è già compilata, quindi per confermarla basta un tocco; per correggerla si apre il consueto selettore della data.
-• Il riepilogo della scansione ora segnala anche una data di tostatura non chiara, così puoi individuarla senza scorrere il modulo.
+• Una nuova conclusione per il timer classico: l’anello si chiude e si riempie come una tazza invece di tremare.
+• Nell’ultimo passaggio, il pulsante ora indica “Termina” e viene visualizzato subito.
+• I promemoria freschezza sono stati ricostruiti. Ora ti ricordano un sacchetto da cui non hai ancora preparato caffè quando raggiunge il suo massimo, oppure uno che hai smesso di usare prima che passi il momento migliore, e mai mesi dopo la tostatura.
+• Una schermata di configurazione della ricetta più chiara e un’anteprima del passaggio successivo più facile da leggere durante la preparazione.
+• Nei passaggi di preparazione, i numeri restano sulla stessa riga delle loro unità.
 
 Correzioni di bug:
-• Risolto un problema per cui la data di preparazione risultava vuota quando aggiungevi manualmente una preparazione al tuo diario.
+• Corretto un problema per cui l’eliminazione di una ricetta personalizzata eliminava anche tutte le preparazioni registrate con essa. Il tuo Diario del caffè ora conserva queste voci.
+• Corretto un problema per cui l’eliminazione di un chicco rimuoveva il suo nome dalle preparazioni passate.
+• Corretto un problema per cui i promemoria freschezza non arrivavano quasi mai.
+• Corretto un problema per cui le congratulazioni per la “prima preparazione” comparivano di nuovo nelle preparazioni successive.

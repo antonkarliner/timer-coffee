@@ -1,6 +1,18 @@
+Co nowego:
+• Immersyjny ekran parzenia: cały ekran wypełnia się kawą w miarę postępu parzenia, a parzenie kończy się ostatnią kroplą. Włącz go za pomocą ikony koła zębatego przed rozpoczęciem parzenia lub w Ustawienia → Funkcje zaawansowane / beta. Klasyczny minutnik jest nadal dostępny, kiedy tylko zechcesz.
+• Cofanie usunięcia: po usunięciu parzenia, ziarna lub przepisu masz kilka sekund, aby je przywrócić.
+• Zaproponowałeś palarnię, której jeszcze nie mieliśmy? Gdy pojawi się w Timer.Coffee, zobaczysz podziękowanie z linkiem do jej strony.
+• Oceniaj zeskanowaną paczkę bezpośrednio w formularzu ziarna, zamiast na osobnym ekranie.
+
 Ulepszenia:
-• Na opakowaniach kawy często drukowana jest data palenia bez roku — „02/08” może oznaczać 8 lutego lub 2 sierpnia. Gdy etykieta jest niejednoznaczna albo na zdjęciu w ogóle nie widać daty, skan pokazuje teraz dokładnie to, co zostało wydrukowane, i prosi o potwierdzenie, zamiast po cichu wybierać jedną interpretację. Odczytana data jest już uzupełniona, więc potwierdzenie wymaga jednego stuknięcia, a jej poprawienie otwiera standardowy wybór daty.
-• Podsumowanie skanowania wskazuje teraz również niejednoznaczną datę palenia, dzięki czemu możesz ją zauważyć bez przewijania formularza w dół.
+• Nowe zakończenie klasycznego minutnika: pierścień zamyka się i wypełnia jak filiżanka, zamiast się trząść.
+• W ostatnim kroku przycisk ma teraz napis „Zakończ” i pojawia się od razu.
+• Przypomnienia o świeżości zostały przebudowane. Teraz przypominają o paczce, z której jeszcze nie parzyłeś, gdy osiąga najlepszy moment, lub o paczce, z której przestałeś parzyć, zanim minął jej najlepszy moment — i nigdy wiele miesięcy po paleniu.
+• Czytelniejszy ekran konfiguracji przepisu i łatwiejszy do odczytania podgląd następnego kroku podczas parzenia.
+• Liczby pozostają w tej samej linii co ich jednostki w krokach parzenia.
 
 Poprawki błędów:
-• Naprawiono problem z pustą datą parzenia podczas ręcznego dodawania parzenia do dziennika.
+• Naprawiono błąd, przez który usunięcie niestandardowego przepisu usuwało również wszystkie zapisane z nim parzenia. Dziennik parzeń zachowuje teraz te wpisy.
+• Naprawiono błąd, przez który usunięcie ziarna usuwało jego nazwę z wcześniejszych parzeń.
+• Naprawiono błąd, przez który przypomnienia o świeżości prawie nigdy nie przychodziły.
+• Naprawiono błąd, przez który gratulacje z okazji „pierwszego parzenia” pojawiały się ponownie przy kolejnych parzeniach.

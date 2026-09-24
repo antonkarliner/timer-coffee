@@ -1,0 +1,12 @@
+Nytt:
+• Oppslukende bryggingsskjerm som fylles med kaffe mens du brygger. Slå den på via tannhjulikonet før et brygg.
+• Angre etter at du har slettet et brygg, en bønne eller en oppskrift.
+• Foreslått et brenneri? Vi takker deg når det lanseres.
+
+Forbedret:
+• Tidtakerringen fylles som en kopp på slutten.
+• En Fullfør-knapp i siste steg.
+• Ferskhetspåminnelsene er bygget om.
+
+Fikset:
+• Sletting av en oppskrift sletter ikke lenger bryggene dens.

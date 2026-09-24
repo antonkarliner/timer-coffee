@@ -1,6 +1,18 @@
+Novidades:
+• Uma tela de preparo imersiva: toda a tela se enche de café conforme o preparo avança, e o preparo termina com uma última gota. Ative-a pelo ícone de engrenagem antes de começar um preparo ou em Configurações → Recursos avançados / beta. O timer clássico continua disponível sempre que você quiser.
+• Desfaça uma exclusão: depois de excluir um preparo, um grão ou uma receita, você tem alguns segundos para restaurá-lo.
+• Sugeriu uma torrefação que ainda não tínhamos? Quando ela estiver no Timer.Coffee, você verá um agradecimento com um link para a página dela.
+• Avalie um pacote digitalizado diretamente no formulário do grão, em vez de em uma tela separada.
+
 Melhorias:
-• As embalagens de café geralmente exibem uma data de torrefação sem o ano — “02/08” pode significar 8 de fevereiro ou 2 de agosto. Quando o rótulo não estiver claro, ou quando sua foto não mostrar uma data, o escaneamento agora mostra exatamente o que foi impresso e pede que você confirme, em vez de escolher silenciosamente uma interpretação. A data lida já vem preenchida, então basta um toque para confirmar, e corrigi-la abre o seletor de data usual.
-• O resumo do escaneamento agora também sinaliza uma data de torrefação pouco clara, para que você possa identificá-la sem rolar o formulário para baixo.
+• Um novo final para o timer clássico: o anel se fecha e se enche como uma xícara, em vez de tremer.
+• No último passo, o botão agora exibe “Finalizar” e aparece imediatamente.
+• Os lembretes de frescor foram reformulados. Agora, eles avisam sobre um pacote que você ainda não preparou quando ele está chegando ao auge ou sobre um que você deixou de preparar antes que o auge passasse, e nunca meses após a torra.
+• Uma tela de configuração de receita mais clara e uma prévia da próxima etapa mais fácil de ler durante o preparo.
+• Os números permanecem na mesma linha que suas unidades nos passos de preparo.
 
 Correções de bugs:
-• Corrigido o problema em que a data de preparo ficava em branco ao adicionar manualmente um preparo ao seu diário.
+• Corrigido um problema em que excluir uma receita personalizada também excluía todos os preparos registrados com ela. Agora, seu diário de preparo mantém essas entradas.
+• Corrigido um problema em que excluir um grão removia o nome dele dos seus preparos anteriores.
+• Corrigido um problema em que os lembretes de frescor quase nunca chegavam.
+• Corrigido um problema em que a mensagem de parabéns pelo “primeiro preparo” aparecia novamente em preparos posteriores.

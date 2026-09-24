@@ -1,0 +1,12 @@
+Novidades:
+• Ecrã de preparação imersivo que se enche de café durante a preparação. Ative-o pelo ícone de engrenagem antes de preparar.
+• Desfazer após eliminar uma preparação, grão ou receita.
+• Sugeriu uma torrefação? Agradeceremos quando estiver disponível.
+
+Melhorias:
+• O anel do temporizador enche-se como uma chávena no fim.
+• Botão Finalizar no último passo.
+• Lembretes de frescura reformulados.
+
+Correções:
+• Eliminar uma receita já não elimina as suas preparações.

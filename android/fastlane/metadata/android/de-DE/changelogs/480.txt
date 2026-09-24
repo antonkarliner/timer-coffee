@@ -1,0 +1,12 @@
+Neu:
+• Immersiver Brühbildschirm, der sich beim Brühen mit Kaffee füllt. Aktiviere ihn vor dem Brühen über das Zahnradsymbol.
+• Rückgängig nach dem Löschen eines Brühvorgangs, einer Bohne oder eines Rezepts.
+• Eine Rösterei vorgeschlagen? Wir danken dir, wenn sie live geht.
+
+Verbessert:
+• Der Timerring füllt sich am Ende wie eine Tasse.
+• Ein „Fertig“-Button im letzten Schritt.
+• Frische-Erinnerungen überarbeitet.
+
+Behoben:
+• Das Löschen eines Rezepts löscht nicht mehr dessen Brühvorgänge.

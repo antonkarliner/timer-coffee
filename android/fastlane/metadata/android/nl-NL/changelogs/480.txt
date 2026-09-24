@@ -1,0 +1,12 @@
+Nieuw:
+• Meeslepend brouwscherm dat zich tijdens het zetten met koffie vult. Schakel het vóór een zetbeurt in via het tandwielpictogram.
+• Ongedaan maken na verwijderen van een zetbeurt, boon of recept.
+• Een branderij voorgesteld? We bedanken je wanneer die live gaat.
+
+Verbeterd:
+• De timerring vult zich aan het einde als een kopje.
+• Een knop Klaar bij de laatste stap.
+• Versheidsherinneringen vernieuwd.
+
+Opgelost:
+• Het verwijderen van een recept verwijdert niet langer de zetsessies.
