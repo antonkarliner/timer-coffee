@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "990890928826",
+    "project_id": "timer-coffee",
+    "storage_bucket": "timer-coffee.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:990890928826:android:9954f7788df18fd24db083",
+        "android_client_info": {
+          "package_name": "com.coffee.timer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "990890928826-mgvgf22cqahmdcv9e99t9iapks78j4ni.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_2puWEbKwN6Nfkn43taOocR_pLneuQNM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "990890928826-mgvgf22cqahmdcv9e99t9iapks78j4ni.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "990890928826-pp04ai3erpt5qumsfe6ca1pn35m0lsti.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "timer.coffee",
+                "app_store_id": "6449322787"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

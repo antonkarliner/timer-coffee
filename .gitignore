@@ -94,6 +94,12 @@ project_docs.txt
 *.json
 !/ios-universal-links-aasa-config.json
 !/ios/Runner/Assets.xcassets/Legacy.appiconset/Contents.json
+# Build inputs caught by the blanket `*.json` above: the bundled offline seed
+# (pubspec `assets/data/seed/`), the widget extension's asset catalog, and the
+# Firebase config the Android google-services Gradle plugin requires.
+!/assets/data/seed/*.json
+!/ios/TimerCoffeeWidgetExtension/Assets.xcassets/**/Contents.json
+!/android/app/google-services.json
 android/app/.cxx
 untranslated.txt
 memory-bank/activeContext.md
