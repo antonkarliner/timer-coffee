@@ -4,7 +4,7 @@ import Photos
 import flutter_local_notifications
 
 @main
-@objc class AppDelegate: FlutterAppDelegate {
+@objc class AppDelegate: FlutterAppDelegate, FlutterImplicitEngineDelegate {
 
   private let pendingExternalUrlKey = "pending_external_url"
 
@@ -25,90 +25,109 @@ import flutter_local_notifications
       UNUserNotificationCenter.current().delegate = self as UNUserNotificationCenterDelegate
     }
 
-    // Set up MethodChannel for background task management
-    let controller = window?.rootViewController as! FlutterViewController
-    let bgTaskChannel = FlutterMethodChannel(
-      name: "com.coffee.timer/background_task",
-      binaryMessenger: controller.binaryMessenger
-    )
+    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+  }
 
-    bgTaskChannel.setMethodCallHandler { [weak self] (call, result) in
-      guard let self = self else {
-        result(FlutterError(code: "UNAVAILABLE", message: "AppDelegate deallocated", details: nil))
-        return
-      }
-      switch call.method {
-      case "startBrewingBackgroundTask":
-        self.startBrewingBackgroundTask()
-        result(true)
-      case "stopBrewingBackgroundTask":
-        self.stopBrewingBackgroundTask()
-        result(true)
-      default:
-        result(FlutterMethodNotImplemented)
-      }
-    }
+  func didInitializeImplicitFlutterEngine(_ engineBridge: FlutterImplicitEngineBridge) {
+    GeneratedPluginRegistrant.register(with: engineBridge.pluginRegistry)
 
-    let photoPickerChannel = FlutterMethodChannel(
-      name: "com.coffee.timer/inline_photo_picker",
-      binaryMessenger: controller.binaryMessenger
-    )
+    if let backgroundTaskRegistrar = engineBridge.pluginRegistry.registrar(
+      forPlugin: "TimerCoffeeBackgroundTask"
+    ) {
+      let bgTaskChannel = FlutterMethodChannel(
+        name: "com.coffee.timer/background_task",
+        binaryMessenger: backgroundTaskRegistrar.messenger()
+      )
 
-    photoPickerChannel.setMethodCallHandler { [weak self, weak controller] call, result in
-      guard let self = self, let controller = controller else {
-        result(FlutterError(code: "UNAVAILABLE", message: "Photo picker unavailable", details: nil))
-        return
-      }
-      guard call.method == "pickImages" else {
-        result(FlutterMethodNotImplemented)
-        return
-      }
-      guard self.inlinePhotoPickerCoordinator == nil else {
-        result(FlutterError(code: "ALREADY_ACTIVE", message: "Photo picker is already open", details: nil))
-        return
-      }
-
-      let arguments = call.arguments as? [String: Any]
-      let selectionLimit = arguments?["selectionLimit"] as? Int ?? 2
-      let coordinator = InlinePhotoPickerCoordinator()
-      self.inlinePhotoPickerCoordinator = coordinator
-
-      coordinator.present(from: controller, selectionLimit: selectionLimit) { [weak self] pickerResult in
-        self?.inlinePhotoPickerCoordinator = nil
-        switch pickerResult {
-        case .success(let paths):
-          result(paths)
-        case .failure(let error):
-          result(FlutterError(code: "PHOTO_LOAD_FAILED", message: error.localizedDescription, details: nil))
+      bgTaskChannel.setMethodCallHandler { [weak self] (call, result) in
+        guard let self = self else {
+          result(FlutterError(code: "UNAVAILABLE", message: "AppDelegate deallocated", details: nil))
+          return
+        }
+        switch call.method {
+        case "startBrewingBackgroundTask":
+          self.startBrewingBackgroundTask()
+          result(true)
+        case "stopBrewingBackgroundTask":
+          self.stopBrewingBackgroundTask()
+          result(true)
+        default:
+          result(FlutterMethodNotImplemented)
         }
       }
+    } else {
+      print("❌ AppDelegate: Background task registrar unavailable")
     }
 
-    let photoLibraryChannel = FlutterMethodChannel(
-      name: "com.coffee.timer/photo_library",
-      binaryMessenger: controller.binaryMessenger
-    )
+    if let photoPickerRegistrar = engineBridge.pluginRegistry.registrar(
+      forPlugin: "TimerCoffeeInlinePhotoPicker"
+    ) {
+      let photoPickerChannel = FlutterMethodChannel(
+        name: "com.coffee.timer/inline_photo_picker",
+        binaryMessenger: photoPickerRegistrar.messenger()
+      )
 
-    photoLibraryChannel.setMethodCallHandler { [weak self] call, result in
-      guard call.method == "saveImages" else {
-        result(FlutterMethodNotImplemented)
-        return
-      }
-      guard let self = self else {
-        result(FlutterError(code: "UNAVAILABLE", message: "Photo library unavailable", details: nil))
-        return
-      }
-      let arguments = call.arguments as? [String: Any]
-      guard let paths = arguments?["paths"] as? [String], !paths.isEmpty else {
-        result(["status": "failed", "savedCount": 0, "failedCount": 0])
-        return
-      }
+      photoPickerChannel.setMethodCallHandler { [weak self] call, result in
+        guard let self = self, let controller = photoPickerRegistrar.viewController else {
+          result(FlutterError(code: "UNAVAILABLE", message: "Photo picker unavailable", details: nil))
+          return
+        }
+        guard call.method == "pickImages" else {
+          result(FlutterMethodNotImplemented)
+          return
+        }
+        guard self.inlinePhotoPickerCoordinator == nil else {
+          result(FlutterError(code: "ALREADY_ACTIVE", message: "Photo picker is already open", details: nil))
+          return
+        }
 
-      self.saveImagesToPhotoLibrary(paths: paths, result: result)
+        let arguments = call.arguments as? [String: Any]
+        let selectionLimit = arguments?["selectionLimit"] as? Int ?? 2
+        let coordinator = InlinePhotoPickerCoordinator()
+        self.inlinePhotoPickerCoordinator = coordinator
+
+        coordinator.present(from: controller, selectionLimit: selectionLimit) { [weak self] pickerResult in
+          self?.inlinePhotoPickerCoordinator = nil
+          switch pickerResult {
+          case .success(let paths):
+            result(paths)
+          case .failure(let error):
+            result(FlutterError(code: "PHOTO_LOAD_FAILED", message: error.localizedDescription, details: nil))
+          }
+        }
+      }
+    } else {
+      print("❌ AppDelegate: Inline photo picker registrar unavailable")
     }
 
-    GeneratedPluginRegistrant.register(with: self)
-    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+    if let photoLibraryRegistrar = engineBridge.pluginRegistry.registrar(
+      forPlugin: "TimerCoffeePhotoLibrary"
+    ) {
+      let photoLibraryChannel = FlutterMethodChannel(
+        name: "com.coffee.timer/photo_library",
+        binaryMessenger: photoLibraryRegistrar.messenger()
+      )
+
+      photoLibraryChannel.setMethodCallHandler { [weak self] call, result in
+        guard call.method == "saveImages" else {
+          result(FlutterMethodNotImplemented)
+          return
+        }
+        guard let self = self else {
+          result(FlutterError(code: "UNAVAILABLE", message: "Photo library unavailable", details: nil))
+          return
+        }
+        let arguments = call.arguments as? [String: Any]
+        guard let paths = arguments?["paths"] as? [String], !paths.isEmpty else {
+          result(["status": "failed", "savedCount": 0, "failedCount": 0])
+          return
+        }
+
+        self.saveImagesToPhotoLibrary(paths: paths, result: result)
+      }
+    } else {
+      print("❌ AppDelegate: Photo library registrar unavailable")
+    }
   }
 
   private func startBrewingBackgroundTask() {
@@ -282,7 +301,7 @@ import flutter_local_notifications
             !s.isEmpty,
             let url = URL(string: s) else { continue }
 
-      if openInBrowser || linkType == "external_url" || shouldOpenExternally(url) {
+      if openInBrowser || linkType == "external_url" || ExternalLinkRouting.shouldOpenExternally(url) {
         return url.absoluteString
       }
     }
@@ -301,64 +320,4 @@ import flutter_local_notifications
     return nil
   }
 
-  // MARK: - Universal Links handling (your existing logic)
-
-  override func application(
-    _ application: UIApplication,
-    continue userActivity: NSUserActivity,
-    restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void
-  ) -> Bool {
-
-    guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
-          let incomingURL = userActivity.webpageURL else {
-      return super.application(application, continue: userActivity, restorationHandler: restorationHandler)
-    }
-
-    print("🔍 AppDelegate: Received Universal Link - \(incomingURL.absoluteString)")
-
-    if shouldOpenExternally(incomingURL) {
-      print("🌐 AppDelegate: Redirecting external URL to Safari - \(incomingURL.absoluteString)")
-
-      UIApplication.shared.open(incomingURL, options: [:]) { success in
-        if success {
-          print("✅ AppDelegate: Successfully opened URL in Safari")
-        } else {
-          print("❌ AppDelegate: Failed to open URL in Safari")
-        }
-      }
-      return true
-    }
-
-    print("📱 AppDelegate: Passing internal URL to Flutter - \(incomingURL.absoluteString)")
-    return super.application(application, continue: userActivity, restorationHandler: restorationHandler)
-  }
-
-  // Determine if a URL should be opened externally (in Safari) rather than in the app
-  private func shouldOpenExternally(_ url: URL) -> Bool {
-    let urlString = url.absoluteString.lowercased()
-
-    // If the URL contains external_url parameter or open_in_browser flag, open externally
-    if urlString.contains("external_url=") || urlString.contains("open_in_browser=true") {
-      return true
-    }
-
-    // Common external domains that should always open in browser
-    let externalDomains = [
-      "www.timer.coffee",
-      "instagram.com",
-      "facebook.com",
-      "twitter.com",
-      "x.com",
-      "youtube.com"
-    ]
-
-    for domain in externalDomains {
-      if urlString.contains(domain) {
-        print("🌐 AppDelegate: External domain detected - \(domain)")
-        return true
-      }
-    }
-
-    return false
-  }
 }
