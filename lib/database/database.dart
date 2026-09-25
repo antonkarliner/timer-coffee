@@ -788,6 +788,8 @@ class AppDatabase extends _$AppDatabase {
           );
         },
         from18To19: (m, schema) async {
+          // Historical migration uses Drift's experimental TableMigration API.
+          // ignore: experimental_member_use
           await m.alterTable(TableMigration(schema.recipes));
         },
         from19To20: (m, schema) async {
@@ -807,6 +809,8 @@ class AppDatabase extends _$AppDatabase {
           );
         },
         from22To23: (m, schema) async {
+          // Historical migration uses Drift's experimental TableMigration API.
+          // ignore: experimental_member_use
           await m.alterTable(TableMigration(schema.userStats));
         },
         from23To24: (m, schema) async {

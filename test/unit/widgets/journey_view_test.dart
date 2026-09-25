@@ -277,7 +277,7 @@ void main() {
 
     expect(card, findsOneWidget);
     expect(
-      find.descendant(of: card, matching: find.byType(BrewEntryCard)),
+      find.ancestor(of: card, matching: find.byType(BrewEntryCard)),
       findsOneWidget,
     );
     expect(

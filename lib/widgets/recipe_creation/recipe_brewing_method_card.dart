@@ -203,34 +203,42 @@ class _BrewingMethodOverlayState extends State<_BrewingMethodOverlay>
                   constraints: BoxConstraints(
                     maxHeight: mediaQuery.size.height - appBarHeight - 32,
                   ),
-                  child: ListView.builder(
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    itemCount: widget.brewingMethods.length,
-                    itemBuilder: (context, index) {
-                      final method = widget.brewingMethods[index];
-                      final isSelected =
-                          method.brewingMethodId == widget.selectedMethodId;
-                      return ListTile(
-                        title: Text(
-                          method.brewingMethod,
-                          style: TextStyle(
-                            fontWeight: isSelected
-                                ? FontWeight.bold
-                                : FontWeight.normal,
-                          ),
-                        ),
-                        trailing: isSelected
-                            ? Icon(
-                                Icons.check,
-                                color: Theme.of(context).colorScheme.primary,
-                              )
-                            : null,
-                        onTap: () {
-                          widget.onMethodSelected(method.brewingMethodId);
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(AppRadius.large),
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: ListView.builder(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        itemCount: widget.brewingMethods.length,
+                        itemBuilder: (context, index) {
+                          final method = widget.brewingMethods[index];
+                          final isSelected =
+                              method.brewingMethodId == widget.selectedMethodId;
+                          return ListTile(
+                            title: Text(
+                              method.brewingMethod,
+                              style: TextStyle(
+                                fontWeight: isSelected
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                              ),
+                            ),
+                            trailing: isSelected
+                                ? Icon(
+                                    Icons.check,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
+                                  )
+                                : null,
+                            onTap: () {
+                              widget.onMethodSelected(method.brewingMethodId);
+                            },
+                          );
                         },
-                      );
-                    },
+                      ),
+                    ),
                   ),
                 ),
               ),

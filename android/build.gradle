@@ -15,6 +15,20 @@ rootProject.buildDir = '../build'
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
+// Old plugins like advanced_in_app_review pin compileSdk 33.
+subprojects { project ->
+    project.afterEvaluate {
+        if (project.plugins.hasPlugin('com.android.library')) {
+            def currentCompileSdk = project.android.compileSdk
+            def currentCompileSdkVersion = currentCompileSdk instanceof Number
+                ? currentCompileSdk.intValue()
+                : currentCompileSdk.toString().replaceFirst(/^android-/, '').toInteger()
+            if (currentCompileSdkVersion < 36) {
+                project.android.compileSdk = 36
+            }
+        }
+    }
+}
 subprojects {
     project.evaluationDependsOn(':app')
 }

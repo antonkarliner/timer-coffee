@@ -11,7 +11,7 @@ dependencies:
     sdk: flutter
   flutter_web_plugins:
     sdk: flutter
-  app_settings: ^6.1.1
+  app_settings: ^7.0.0
   # Pure-Dart URL parser used by BrewNoteText to linkify private brew notes.
   # NOT flutter_linkify — its Linkify/SelectableLinkify widgets still reference
   # the removed Material 2 `TextTheme.bodyText2` and do not compile against the
