@@ -30,7 +30,7 @@ dependencies:
   device_info_plus: ^12.2.0
   flutter_markdown: ^0.7.7+1
   cupertino_icons: ^1.0.0
-  just_audio: ^0.9.36
+  just_audio: ^0.10.6
   auto_route: ^10.1.2
   share_plus: ^11.0.0
   flutter_native_splash: ^2.4.6
@@ -81,7 +81,7 @@ dependencies:
   animated_toggle_switch: ^0.8.7
   material_symbols_icons: ^4.2928.1
   live_activities: ^2.4.6
-  audio_session: ^0.1.21
+  audio_session: ^0.2.4
   font_awesome_flutter: ^11.0.0
   l10n_countries: ^2.0.2
 
