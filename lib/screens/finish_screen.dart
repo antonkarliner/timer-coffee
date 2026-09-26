@@ -5,7 +5,6 @@ import 'package:coffee_timer/providers/recipe_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee_timer/services/notification_service.dart';
 import 'package:provider/provider.dart';
-import 'package:advanced_in_app_review/advanced_in_app_review.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../app_router.gr.dart';
@@ -32,6 +31,7 @@ import '../services/finish_slot_resolver.dart';
 import '../services/layout_choice_prompt_service.dart';
 import '../services/onboarding_service.dart';
 import '../services/analytics_service.dart';
+import '../services/review_prompt_service.dart';
 import '../services/region_service.dart';
 import '../services/local_notification_scheduler_service.dart';
 import '../services/brew_recording_service.dart';
@@ -157,7 +157,7 @@ class _FinishScreenState extends State<FinishScreen> {
   static const Duration _analyticsFlushTimeout = Duration(seconds: 1);
 
   late Future<String> coffeeFact;
-  final AdvancedInAppReview advancedInAppReview = AdvancedInAppReview();
+  final ReviewPromptService _reviewPromptService = ReviewPromptService();
   final Uuid _uuid = Uuid();
   late final String _statUuid;
   bool _permissionRequestInProgress = false;
@@ -1061,14 +1061,40 @@ class _FinishScreenState extends State<FinishScreen> {
     }
   }
 
+  /// Gates and records our OS review request, not whether Apple or Play shows
+  /// it (they may silently drop it), hence `native_review_requested`, not
+  /// "shown". Plan 070 D1/D2 keeps the budget in shadow mode while
+  /// [EngagementBudgetService.enforcementEnabled] is false, producing
+  /// `engagement_ask_suppressed` data without changing behavior.
   Future<void> requestReview() async {
-    if (!kIsWeb) {
-      advancedInAppReview
-          .setMinDaysBeforeRemind(7)
-          .setMinDaysAfterInstall(2)
-          .setMinLaunchTimes(2)
-          .setMinSecondsBeforeShowDialog(4);
-      advancedInAppReview.monitor();
+    if (kIsWeb) return;
+
+    final prefs = await SharedPreferences.getInstance();
+    final budget = EngagementBudgetService(prefs: prefs);
+    final outcome = await _reviewPromptService.onFinishScreenShown(
+      stillOnFinishScreen: () =>
+          mounted && (ModalRoute.of(context)?.isCurrent ?? false),
+      allowRequest: () => budget.allowAsk(
+        surface: EngagementSurface.nativeReviewPrompt,
+        askId: kNativeReviewAskId,
+      ),
+    );
+
+    if (outcome == ReviewPromptOutcome.requested ||
+        outcome == ReviewPromptOutcome.unavailable) {
+      AnalyticsService.instance.track(
+        'native_review_requested',
+        properties: {
+          'is_available': outcome == ReviewPromptOutcome.requested,
+          'brew_count': _reviewPromptService.lastBrewCount,
+        },
+      );
+    }
+    if (outcome == ReviewPromptOutcome.requested) {
+      await budget.recordAsk(
+        surface: EngagementSurface.nativeReviewPrompt,
+        askId: kNativeReviewAskId,
+      );
     }
   }
 

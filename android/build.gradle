@@ -15,7 +15,12 @@ rootProject.buildDir = '../build'
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
-// Old plugins like advanced_in_app_review pin compileSdk 33.
+// Floor every Android library module at compileSdk 36. Some plugins still
+// declare a compileSdk below what their AndroidX dependencies require, which
+// fails :<plugin>:checkDebugAarMetadata. Plan 070 removed the hook and
+// flutter_keyboard_visibility (31) failed first; image_cropper (33) is also
+// below 34, and a dozen more sit at 34-35. Remove once none fall below the
+// AndroidX floor (plan 069).
 subprojects { project ->
     project.afterEvaluate {
         if (project.plugins.hasPlugin('com.android.library')) {

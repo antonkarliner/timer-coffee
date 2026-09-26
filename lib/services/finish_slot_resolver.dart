@@ -242,7 +242,7 @@ const List<FinishSlotCandidateRegistration> kFinishSlotCandidates = [
 /// `_resolveFactContent` (plan 039 Phase A0.5) so the priority logic —
 /// previously encoded a second time as a live `if/else` chain in
 /// `finish_screen.dart`'s `build()` — is unit-testable without mounting the
-/// widget (which reaches Supabase, `AdvancedInAppReview`,
+/// widget (which reaches Supabase, `ReviewPromptService`,
 /// `NotificationService`, and six providers via `BuildContext`).
 ///
 /// As of Phase A1, the priority order below is read from

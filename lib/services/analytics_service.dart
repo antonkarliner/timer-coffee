@@ -34,7 +34,8 @@ import '../utils/app_logger.dart';
 ///   _submitted/_dismissed, the "moments" (surprise-and-delight) events
 ///   moment_shown, moment_interacted, moment_discovered, the finish-
 ///   screen engagement budget (plan 039, shadow mode) events
-///   engagement_ask_shown, engagement_ask_suppressed, and the launch popup
+///   engagement_ask_shown, engagement_ask_suppressed, the store-review
+///   request event native_review_requested (plan 070), and the launch popup
 ///   events popup_shown, popup_dismissed, popup_link_tapped, and the
 ///   layout adoption events layout_arm_assigned, layout_choice_shown,
 ///   layout_choice_made, layout_switch_back_reason, and the deletion events
@@ -164,6 +165,8 @@ class AnalyticsService extends ChangeNotifier {
     // Engagement budget (plan 039, shadow mode)
     'engagement_ask_shown': 'general',
     'engagement_ask_suppressed': 'general',
+    // Our OS store-review request, not whether the sheet showed (plan 070)
+    'native_review_requested': 'general',
     // Launch popup analytics (plan 039, Item C)
     'popup_shown': 'general',
     'popup_dismissed': 'general',

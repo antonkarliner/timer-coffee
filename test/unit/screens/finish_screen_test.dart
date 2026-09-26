@@ -1,6 +1,6 @@
 // Unit tests for a few finish-screen helpers extracted so they're testable
 // without mounting `FinishScreen` (which reaches Supabase,
-// `AdvancedInAppReview`, `NotificationService`, and six providers via
+// `ReviewPromptService`, `NotificationService`, and six providers via
 // `BuildContext`):
 //
 // - `writeFinishScreenStarRating` (plan 039 triage item 7): the star row's
