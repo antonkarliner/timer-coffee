@@ -114,12 +114,18 @@ dev_dependencies:
   # clause, so it must be depended on directly.
   share_plus_platform_interface: ^6.1.0
 
+# Splash images are rendered by tool/icons/render_icons.py splash (plan 071).
 flutter_native_splash:
   color: "#ffffff"
-  image: assets/icons/ic_launcher_fg.png
-  image_dark: assets/icons/ic_launcher_fg_dark.png
+  image: assets/icons/splash_light.png
+  image_dark: assets/icons/splash_dark.png
   color_dark: "303030"
   fullscreen: true
+  android_12:
+    image: assets/icons/splash_android12_light.png
+    color: "#ffffff"
+    image_dark: assets/icons/splash_android12_dark.png
+    color_dark: "#303030"
 
 flutter:
   uses-material-design: true
