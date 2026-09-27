@@ -101,6 +101,8 @@ project_docs.txt
 !/assets/data/seed/*.json
 !/ios/TimerCoffeeWidgetExtension/Assets.xcassets/**/Contents.json
 !/android/app/google-services.json
+# The icon renderer (plan 071), caught by the blanket `*.py` near the top.
+!/tool/icons/*.py
 android/app/.cxx
 untranslated.txt
 memory-bank/activeContext.md
