@@ -97,7 +97,7 @@ class BrewingLiveUpdateService(private val context: Context) {
         )
 
         val builder = Notification.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.mipmap.ic_launcher)
+            .setSmallIcon(R.drawable.ic_stat_timer_coffee)
             .setContentTitle(recipeName)
             .setContentText(contentText)
             .setOngoing(true)

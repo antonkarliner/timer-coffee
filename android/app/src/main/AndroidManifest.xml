@@ -130,6 +130,13 @@
             </intent-filter>
         </service>
 
+        <!-- Status-bar icon for FCM pushes shown by the system (plan 071).
+             Without it FCM falls back to the full-colour launcher icon,
+             which Android draws as a solid white disc. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_stat_timer_coffee"/>
+
         <!-- Flutter plug-in marker -->
         <meta-data android:name="flutterEmbedding" android:value="2"/>
     </application>

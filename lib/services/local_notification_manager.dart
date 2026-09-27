@@ -31,7 +31,7 @@ class LocalNotificationManager {
   Future<void> initialize() async {
     try {
       const androidSettings =
-          AndroidInitializationSettings('@mipmap/ic_launcher');
+          AndroidInitializationSettings('@drawable/ic_stat_timer_coffee');
 
       // CRITICAL: Explicitly disable all auto-permission requests on iOS
       // This prevents the iOS system dialog from showing during app startup
