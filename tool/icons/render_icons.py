@@ -6,20 +6,26 @@ with the icon.json transforms (every group translated [10, 10] pt, the tick
 group scaled 0.9 about the canvas centre) into a flat translation: same
 geometry, no glass.
 
-    python3 tool/icons/render_icons.py [android] [notification] [splash] [web]
+    python3 tool/icons/render_icons.py [android] [notification] [splash] [web] [landing]
 
 PNGs are rasterised with headless Google Chrome (exact SVG strokes, nothing
 to install); VectorDrawables are written as XML directly. Re-run after any
 change to the .icon rather than editing the outputs by hand.
+
+`landing` writes into another repo ($LANDING_REPO/public/brand/v2, landing
+plan 013), so it only runs when named; run `web` first, since it copies
+web/icons/apple-touch-icon.png.
 """
 import math
 import os
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
 
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+LANDING = os.environ.get('LANDING_REPO', '/Users/antonkarliner/GitHub/timer-coffee-landing-2')
 LAYERS = os.path.join(REPO, 'ios', 'AppIcon.icon', 'Assets')
 RES = os.path.join(REPO, 'android', 'app', 'src', 'main', 'res')
 CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
@@ -333,6 +339,18 @@ def svg_tile(inner):
             f'<rect width="1024" height="1024" fill="url(#tb)"/>{inner}</g>')
 
 
+def _write_ico(art, out):
+    frames = []
+    for px in (16, 32, 48):
+        frame = os.path.join(tempfile.gettempdir(), f'tc-favicon-{px}.png')
+        render_png(svg_doc(art, px, (0, 0, 1024, 1024)), frame, px)
+        frames.append(frame)
+    subprocess.run(['magick', *frames, out], check=True)
+    for frame in frames:
+        os.unlink(frame)
+    print('wrote', f'{os.path.relpath(out, REPO)} (16, 32, 48)')
+
+
 def web():
     small = svg_tile(svg_small_mark('#000'))
     full = svg_tile(svg_mark('#000'))
@@ -340,15 +358,7 @@ def web():
         f.write('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">'
                 f'{small}</svg>\n')
     print('wrote web/icons/favicon.svg')
-    frames = []
-    for px in (16, 32, 48):
-        out = os.path.join(tempfile.gettempdir(), f'tc-favicon-{px}.png')
-        render_png(svg_doc(small, px, (0, 0, 1024, 1024)), out, px)
-        frames.append(out)
-    subprocess.run(['magick', *frames, os.path.join(WEB, 'favicon.ico')], check=True)
-    for frame in frames:
-        os.unlink(frame)
-    print('wrote web/icons/favicon.ico (16, 32, 48)')
+    _write_ico(small, os.path.join(WEB, 'favicon.ico'))
     render_png(svg_doc(small, 32, (0, 0, 1024, 1024)), os.path.join(WEB, 'favicon-32x32.png'), 32)
     render_png(svg_doc(full, 96, (0, 0, 1024, 1024)), os.path.join(WEB, 'favicon-96x96.png'), 96)
 
@@ -368,10 +378,35 @@ def web():
                    os.path.join(WEB, f'web-app-icon-{px}x{px}.png'), px)
 
 
-TARGETS = {'android': android, 'notification': notification, 'splash': splash, 'web': web}
+# Landing site (plan 013). Logos are bare marks; favicons use splash-style
+# plates so they remain distinct from the site's surrounding background.
+LANDING_BRAND = os.path.join(LANDING, 'public', 'brand', 'v2')
+
+
+def landing():
+    os.makedirs(LANDING_BRAND, exist_ok=True)
+    light = svg_plate(SPLASH['light']['plate'], shadow=False) + svg_mark(SPLASH['light']['mark'])
+    # Use #4D4D4D, not SPLASH dark's #383838, which vanishes on the site's #3B3B3B background.
+    dark = svg_plate('#4D4D4D', shadow=False) + svg_mark('#FFF')
+    svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">{}</svg>\n'
+
+    write(os.path.join(LANDING_BRAND, 'logo-light.svg'), svg.format(svg_mark('#000')))
+    write(os.path.join(LANDING_BRAND, 'logo-dark.svg'), svg.format(svg_mark('#FFF')))
+    write(os.path.join(LANDING_BRAND, 'favicon-light.svg'), svg.format(light))
+    write(os.path.join(LANDING_BRAND, 'favicon-dark.svg'), svg.format(dark))
+    _write_ico(light, os.path.join(LANDING_BRAND, 'favicon.ico'))
+    for name, px in (('favicon-32x32.png', 32), ('favicon-96x96.png', 96), ('logo-512.png', 512)):
+        render_png(svg_doc(light, px, (0, 0, 1024, 1024)), os.path.join(LANDING_BRAND, name), px)
+    apple_touch = os.path.join(LANDING_BRAND, 'apple-touch-icon.png')
+    shutil.copyfile(os.path.join(WEB, 'apple-touch-icon.png'), apple_touch)
+    print('wrote', os.path.relpath(apple_touch, REPO))
+
+
+TARGETS = {'android': android, 'notification': notification, 'splash': splash, 'web': web,
+           'landing': landing}
 
 if __name__ == '__main__':
-    names = sys.argv[1:] or sorted(TARGETS)
+    names = sys.argv[1:] or sorted(set(TARGETS) - {'landing'})
     for n in names:
         if n not in TARGETS:
             sys.exit(f'unknown target {n!r}; choose from {sorted(TARGETS)}')
