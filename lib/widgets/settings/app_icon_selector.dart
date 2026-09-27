@@ -24,9 +24,11 @@ class AppIconSelector extends StatelessWidget {
     Image preview(String asset) =>
         Image.asset(asset, width: 40, height: 40, fit: BoxFit.contain);
 
-    final defaultAsset = Platform.isIOS && isDark
-        ? 'assets/icons/timer-coffee-icon-new-dark.png'
-        : 'assets/icons/timer-coffee-icon-new-light.png';
+    final defaultAsset = Platform.isAndroid
+        ? 'assets/icons/timer-coffee-icon-android.png'
+        : isDark
+            ? 'assets/icons/timer-coffee-icon-new-dark.png'
+            : 'assets/icons/timer-coffee-icon-new-light.png';
 
     final legacyAsset = Platform.isIOS && isDark
         ? 'assets/icons/ic_launcher_legacy_dark.png'
