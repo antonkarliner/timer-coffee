@@ -1,15 +1,12 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:sign_in_button/sign_in_button.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:crypto/crypto.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'auth/native_auth_credentials.dart';
 import '../utils/input_validator.dart';
 import '../utils/app_logger.dart';
 import '../widgets/recipe_detail/authentication_dialogs.dart';
@@ -332,28 +329,11 @@ class AuthenticationService {
 
   /// Native Apple sign-in for iOS/macOS
   static Future<void> _nativeSignInWithApple() async {
-    final rawNonce = Supabase.instance.client.auth.generateRawNonce();
-    final hashedNonce = sha256.convert(utf8.encode(rawNonce)).toString();
-
-    final credential = await SignInWithApple.getAppleIDCredential(
-      scopes: [
-        AppleIDAuthorizationScopes.email,
-        AppleIDAuthorizationScopes.fullName,
-      ],
-      nonce: hashedNonce,
-    );
-
-    final idToken = credential.identityToken;
-    if (idToken == null) {
-      throw const AuthException(
-        'Could not find ID Token from generated credential.',
-      );
-    }
-
+    final tokens = await const NativeAuthCredentials().apple();
     await Supabase.instance.client.auth.signInWithIdToken(
       provider: OAuthProvider.apple,
-      idToken: idToken,
-      nonce: rawNonce,
+      idToken: tokens.idToken,
+      nonce: tokens.rawNonce,
     );
   }
 
@@ -385,35 +365,12 @@ class AuthenticationService {
 
   /// Native Google sign-in for mobile platforms
   static Future<bool> _nativeGoogleSignIn() async {
-    const webClientId =
-        '158450410168-i70d1cqrp1kkg9abet7nv835cbf8hmfn.apps.googleusercontent.com';
-    const iosClientId =
-        '158450410168-8o2bk6r3e4ik8i413ua66bc50iug45na.apps.googleusercontent.com';
-
-    final GoogleSignIn googleSignIn = GoogleSignIn(
-      clientId: iosClientId,
-      serverClientId: webClientId,
-    );
-
-    final googleUser = await googleSignIn.signIn();
-    if (googleUser == null) {
-      return false;
-    }
-    final googleAuth = await googleUser.authentication;
-    final accessToken = googleAuth.accessToken;
-    final idToken = googleAuth.idToken;
-
-    if (accessToken == null) {
-      throw 'No Access Token found.';
-    }
-    if (idToken == null) {
-      throw 'No ID Token found.';
-    }
-
+    final tokens = await const NativeAuthCredentials().google();
+    if (tokens == null) return false;
     await Supabase.instance.client.auth.signInWithIdToken(
       provider: OAuthProvider.google,
-      idToken: idToken,
-      accessToken: accessToken,
+      idToken: tokens.idToken,
+      accessToken: tokens.accessToken,
     );
 
     return true;
