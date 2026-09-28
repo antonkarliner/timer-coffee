@@ -24,10 +24,12 @@ import '../utils/app_material_symbols.dart';
 import '../widgets/base_buttons.dart';
 import '../widgets/account_avatar_inline.dart';
 import '../widgets/coffee_journey_card.dart';
+import '../services/authentication_service.dart';
 import '../services/onboarding_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../database/database.dart';
 import 'pulse_screen.dart';
+
 // Added import
 // Import http package
 // Import for RecipeCreationScreen
@@ -49,6 +51,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
   late UserRecipeProvider _userRecipeProvider;
   late RecipeProvider _recipeProvider;
   String? _initialUserId;
+  String? _initialAccessToken;
   // Removed _currentUserId as StreamBuilder provides session info
 
   @override
@@ -71,11 +74,18 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
   Future<void> _determineInitialUserId() async {
     final user = Supabase.instance.client.auth.currentUser;
     // No need to call setState here as StreamBuilder handles UI updates
-    _initialUserId = user?.id;
+    await _captureAnonymousMigrationSession();
     AppLogger.debug('Initial User ID: $_initialUserId');
     if (user != null && !user.isAnonymous) {
       await _updateFcmToken();
     }
+  }
+
+  Future<void> _captureAnonymousMigrationSession() async {
+    final migrationSession =
+        await AuthenticationService.captureAnonymousMigrationSession();
+    _initialUserId = migrationSession.userId;
+    _initialAccessToken = migrationSession.accessToken;
   }
 
   // _loadUserData is no longer needed as StreamBuilder handles UI updates
@@ -88,44 +98,44 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
     try {
       final newUser = Supabase.instance.client.auth.currentUser;
       final newUserId = newUser?.id;
+      final oldUserId = _initialUserId;
+      final oldAccessToken = _initialAccessToken;
 
-      AppLogger.debug('Initial User ID: $_initialUserId');
+      AppLogger.debug('Initial User ID: $oldUserId');
       AppLogger.debug('New User ID: $newUserId');
 
-      if (_initialUserId != null &&
-          newUserId != null &&
-          _initialUserId != newUserId) {
+      if (oldUserId != null && newUserId != null && oldUserId != newUserId) {
         AppLogger.debug(
-          'User ID changed from $_initialUserId to $newUserId. Updating local recipe IDs...',
+          'User ID changed from $oldUserId to $newUserId. Updating local recipe IDs...',
         );
         // Update local recipe IDs BEFORE calling the edge function or syncing
         await _userRecipeProvider.updateUserRecipeIdsAfterLogin(
-          _initialUserId!,
+          oldUserId,
           newUserId,
         );
 
         AppLogger.debug('Attempting to update user ID via Edge Function...');
-        // Invoke the Supabase Edge Function to update user ID
-        final res = await Supabase.instance.client.functions.invoke(
-          'update-id-after-signin',
-          body: {'oldUserId': _initialUserId, 'newUserId': newUserId},
-        );
+        try {
+          final res = await Supabase.instance.client.functions.invoke(
+            'update-id-after-signin',
+            body: {
+              'oldUserId': oldUserId,
+              'newUserId': newUserId,
+              'oldAccessToken': ?oldAccessToken,
+            },
+          );
 
-        AppLogger.debug('Edge Function Response: ${res.data}');
-
-        if (res.status != 200) {
-          throw Exception('Failed to update user ID: ${res.data}');
+          if (res.status != 200) {
+            throw Exception('Failed to update user ID (status ${res.status})');
+          }
+        } catch (e) {
+          AppLogger.error(
+            'Failed to migrate anonymous user data after sign-in',
+            errorObject: e,
+          );
         }
-
-        AppLogger.info('User ID updated successfully');
-        // Update _initialUserId after successful sync/ID change
-        _initialUserId = newUserId;
       } else {
         AppLogger.debug('User ID update not required');
-        // Ensure _initialUserId reflects the current user if it was null initially
-        if (_initialUserId == null && newUserId != null) {
-          _initialUserId = newUserId;
-        }
       }
 
       await _databaseProvider.uploadUserPreferencesToSupabase();
@@ -158,6 +168,8 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
       // Returning user detection: auto-complete milestones based on synced data.
       await _reconcileMilestonesAfterSync();
 
+      _initialUserId = null;
+      _initialAccessToken = null;
       AppLogger.info('Data synchronization completed successfully');
     } catch (e) {
       AppLogger.error('Error syncing user data', errorObject: e);
@@ -383,11 +395,14 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
     );
   }
 
-  void _showSignInOptions(BuildContext context) {
+  Future<void> _showSignInOptions(BuildContext context) async {
+    await _captureAnonymousMigrationSession();
+    if (!mounted || !context.mounted) return;
+
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final l10n = AppLocalizations.of(context)!; // Get localizations
 
-    showModalBottomSheet(
+    await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       shape: RoundedRectangleBorder(

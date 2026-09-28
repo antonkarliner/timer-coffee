@@ -688,10 +688,7 @@ class _AccountScreenState extends State<AccountScreen> {
     final userId = widget.userId;
 
     try {
-      // Sign out the current user
-      await Supabase.instance.client.auth.signOut();
-
-      // Call the clean-before-deletion function
+      // Delete server-side data while the user's JWT is still available.
       final response = await Supabase.instance.client.functions.invoke(
         'clean-before-deletion',
         body: {'user_id': userId},
@@ -699,6 +696,17 @@ class _AccountScreenState extends State<AccountScreen> {
 
       if (response.status != 200) {
         throw Exception('Failed to clean user data: ${response.data}');
+      }
+
+      // The user no longer exists after successful deletion, so a remote
+      // sign-out failure must not prevent creation of a new anonymous session.
+      try {
+        await Supabase.instance.client.auth.signOut();
+      } catch (e) {
+        AppLogger.error(
+          'Error signing out after account deletion',
+          errorObject: e,
+        );
       }
 
       // Sign in anonymously

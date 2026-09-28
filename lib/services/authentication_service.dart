@@ -35,8 +35,10 @@ class AuthenticationService {
     final l10n = AppLocalizations.of(context)!;
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    final String? initialUserId =
-        Supabase.instance.client.auth.currentUser?.id; // Store initial ID
+    final migrationSession = await captureAnonymousMigrationSession();
+    if (!context.mounted) return false;
+    final initialUserId = migrationSession.userId;
+    final initialAccessToken = migrationSession.accessToken;
 
     AppLogger.debug("Showing sign-in modal with direct execution");
     final SignInMethod? chosenMethod = await showModalBottomSheet<SignInMethod>(
@@ -141,7 +143,12 @@ class AuthenticationService {
         final String? newUserId = Supabase.instance.client.auth.currentUser?.id;
         if (newUserId != null && newUserId != initialUserId) {
           if (context.mounted) {
-            await syncDataAfterLogin(context, initialUserId, newUserId);
+            await syncDataAfterLogin(
+              context,
+              initialUserId,
+              newUserId,
+              oldAccessToken: initialAccessToken,
+            );
           }
           return true;
         } else if (newUserId != null) {
@@ -164,6 +171,47 @@ class AuthenticationService {
       }
       return false;
     }
+  }
+
+  /// Captures the current user as the source for `update-id-after-signin`,
+  /// but only when that user is anonymous: a registered account must never be
+  /// migrated into another one. Also returns the anonymous session's access
+  /// token (refreshed if it expires within 10 minutes) as proof of the old
+  /// session. Both fields are null for registered or signed-out users.
+  static Future<({String? userId, String? accessToken})>
+  captureAnonymousMigrationSession() async {
+    final auth = Supabase.instance.client.auth;
+    final user = auth.currentUser;
+    if (user == null || !user.isAnonymous) {
+      return (userId: null, accessToken: null);
+    }
+
+    var session = auth.currentSession;
+    final expiresAt = session?.expiresAt;
+    final nowInSeconds = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    if (expiresAt != null && expiresAt <= nowInSeconds + 600) {
+      try {
+        final response = await auth.refreshSession();
+        session = response.session ?? auth.currentSession;
+      } catch (e) {
+        AppLogger.error(
+          'Failed to refresh anonymous session before sign-in',
+          errorObject: e,
+        );
+      }
+    }
+
+    final currentUser = auth.currentUser;
+    if (currentUser == null ||
+        !currentUser.isAnonymous ||
+        currentUser.id != user.id) {
+      return (userId: null, accessToken: null);
+    }
+
+    return (
+      userId: user.id,
+      accessToken: session?.user.id == user.id ? session?.accessToken : null,
+    );
   }
 
   /// Shows sign-in options and executes the chosen method
@@ -458,8 +506,9 @@ class AuthenticationService {
   static Future<void> syncDataAfterLogin(
     BuildContext context,
     String? oldUserId,
-    String newUserId,
-  ) async {
+    String newUserId, {
+    String? oldAccessToken,
+  }) async {
     final l10n = AppLocalizations.of(context)!;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
 
@@ -500,21 +549,25 @@ class AuthenticationService {
         );
 
         AppLogger.debug('Attempting to update user ID via Edge Function...');
-        // Invoke the Supabase Edge Function to update user ID
-        final res = await Supabase.instance.client.functions.invoke(
-          'update-id-after-signin',
-          body: {'oldUserId': oldUserId, 'newUserId': newUserId},
-        );
+        try {
+          final res = await Supabase.instance.client.functions.invoke(
+            'update-id-after-signin',
+            body: {
+              'oldUserId': oldUserId,
+              'newUserId': newUserId,
+              'oldAccessToken': ?oldAccessToken,
+            },
+          );
 
-        AppLogger.debug(
-          'Edge Function Response: ${AppLogger.sanitize(res.data)}',
-        );
-
-        if (res.status != 200) {
-          throw Exception('Failed to update user ID: ${res.data}');
+          if (res.status != 200) {
+            throw Exception('Failed to update user ID (status ${res.status})');
+          }
+        } catch (e) {
+          AppLogger.error(
+            'Failed to migrate anonymous user data after sign-in',
+            errorObject: e,
+          );
         }
-
-        AppLogger.debug('User ID updated successfully');
       } else {
         AppLogger.debug('User ID update not required');
       }
