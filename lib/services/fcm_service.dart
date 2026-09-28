@@ -467,6 +467,22 @@ class FcmService {
     }
   }
 
+  /// Delete this device's token row for [userId]. Must run while [userId] is
+  /// still signed in: RLS only lets the owner delete it. Otherwise the row
+  /// stays with the old account, which keeps receiving this device's
+  /// notifications and blocks the next account's upsert of the same token.
+  Future<void> deleteTokenForUser({
+    required String userId,
+    required String token,
+  }) async {
+    await Supabase.instance.client
+        .schema('service')
+        .from('user_fcm_tokens')
+        .delete()
+        .eq('user_id', userId)
+        .eq('token', token);
+  }
+
   String? _extractNotificationLink(Map<String, dynamic> data) {
     // NEW: Prioritize external_url field for external links
     // This ensures external URLs open in browser immediately

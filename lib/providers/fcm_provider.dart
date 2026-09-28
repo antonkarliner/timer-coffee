@@ -537,6 +537,26 @@ class FcmProvider {
     }
   }
 
+  /// Release this device's token from [userId] before signing that user out.
+  /// Best effort: never throws, so sign-out always proceeds.
+  Future<void> unregisterDeviceToken(String userId) async {
+    if (kIsWeb) return;
+    try {
+      final token = await getToken();
+      if (token == null) return;
+      await _fcmService
+          .deleteTokenForUser(userId: userId, token: token)
+          .timeout(
+            const Duration(seconds: 3),
+            onTimeout: () {
+              AppLogger.warning('Unregister FCM token timed out');
+            },
+          );
+    } catch (e) {
+      AppLogger.error('Error unregistering FCM token', errorObject: e);
+    }
+  }
+
   /// Dispose all streams and resources
   void dispose() {
     _notificationTapSubscription?.cancel();

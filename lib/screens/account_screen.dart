@@ -14,6 +14,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image/image.dart' as img; // Use prefix to avoid conflicts
 import '../app_router.gr.dart';
+import '../services/notification_service.dart';
 import '../theme/design_tokens.dart';
 import '../widgets/confirm_delete_dialog.dart';
 import '../utils/app_logger.dart'; // Import AppLogger
@@ -624,6 +625,13 @@ class _AccountScreenState extends State<AccountScreen> {
     setState(() => _isLoading = true); // Show loading indicator
 
     try {
+      // Release this device's push token while still signed in (RLS only lets
+      // the owner delete it), so the next account on this device can claim it
+      // and this account stops receiving the device's notifications.
+      await NotificationService.instance.fcm.unregisterDeviceToken(
+        widget.userId,
+      );
+
       // Sign out the user
       await Supabase.instance.client.auth.signOut();
 

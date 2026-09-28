@@ -159,10 +159,19 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
 
       // Update FCM token after user ID transition
       // This ensures FCM tokens are associated with the new registered user ID
+      // Push registration is not user data: a failure here must not report
+      // the (already completed) sync as failed or skip milestone reconciliation.
       if (newUserId != null) {
         AppLogger.debug('Updating FCM token after user ID transition...');
-        await _updateFcmToken();
-        AppLogger.info('FCM token updated successfully for new user ID');
+        try {
+          await _updateFcmToken();
+          AppLogger.info('FCM token updated successfully for new user ID');
+        } catch (e) {
+          AppLogger.error(
+            'Failed to update FCM token after sign-in',
+            errorObject: e,
+          );
+        }
       }
 
       // Returning user detection: auto-complete milestones based on synced data.
