@@ -26,10 +26,10 @@ void main() {
       ],
     );
 
-    expect(find.text('email@example.com'), findsOneWidget);
+    expect(_displayedEmail('email@example.com'), findsOneWidget);
     expect(find.text('Change'), findsOneWidget);
     expect(find.text('Google'), findsOneWidget);
-    expect(find.text('google@example.com'), findsOneWidget);
+    expect(_displayedEmail('google@example.com'), findsOneWidget);
     expect(find.byIcon(Icons.more_vert), findsOneWidget);
     expect(find.text('Apple'), findsOneWidget);
     expect(find.text('Link'), findsOneWidget);
@@ -65,7 +65,7 @@ void main() {
     expect(find.byIcon(Icons.email_outlined), findsNothing);
     expect(find.text('Change'), findsNothing);
     expect(find.text('Google'), findsOneWidget);
-    expect(find.text('google-only@example.com'), findsOneWidget);
+    expect(_displayedEmail('google-only@example.com'), findsOneWidget);
     expect(find.byIcon(Icons.more_vert), findsNothing);
     expect(find.text('Apple'), findsOneWidget);
     expect(find.text('Link'), findsOneWidget);
@@ -195,3 +195,8 @@ http.Response _jsonResponse(int statusCode, Map<String, dynamic> body) {
     headers: {'content-type': 'application/json'},
   );
 }
+
+/// The section inserts a zero-width space after the @ so a long address
+/// wraps at a natural point; match the address as it is displayed.
+Finder _displayedEmail(String email) =>
+    find.text(email.replaceFirst('@', '@\u200B'));

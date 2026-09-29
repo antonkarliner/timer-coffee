@@ -248,10 +248,12 @@ class _SignInMethodsSectionState extends State<SignInMethodsSection> {
                 size: AppIconSize.medium,
                 color: colorScheme.onSurfaceVariant,
               ),
-              title: email,
+              title: _wrappableEmail(email),
               subtitle: pendingEmail == null
                   ? null
-                  : l10n.accountSignInPendingEmail(pendingEmail),
+                  : l10n.accountSignInPendingEmail(
+                      _wrappableEmail(pendingEmail),
+                    ),
               trailing: AppTextButton(
                 label: pendingEmail == null
                     ? l10n.accountSignInChange
@@ -385,10 +387,18 @@ class _SignInMethodsSectionState extends State<SignInMethodsSection> {
       title: providerName,
       subtitle: identity == null
           ? null
-          : email ?? l10n.accountIdentityLinkedStatus,
+          : (email == null
+                ? l10n.accountIdentityLinkedStatus
+                : _wrappableEmail(email)),
       trailing: trailing,
     );
   }
+
+  /// An address has no spaces, so when it must wrap Flutter splits it at the
+  /// last character that fits ("…necub.co" / "m"). A zero-width space after
+  /// the @ gives it a natural break point instead. Display only.
+  static String _wrappableEmail(String email) =>
+      email.replaceFirst('@', '@\u200B');
 
   UserIdentity? _identityFor(List<UserIdentity> identities, String provider) {
     for (final identity in identities) {
@@ -437,9 +447,11 @@ class _SignInMethodRow extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Two lines, not one: in longer locales (de "Fortsetzen") the
+              // trailing button squeezed the account email to "…necub.c…".
               Text(
                 data.title,
-                maxLines: 1,
+                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: AppTextStyles.fieldLabel,
               ),
@@ -449,7 +461,9 @@ class _SignInMethodRow extends StatelessWidget {
                     ? const SizedBox.shrink()
                     : Text(
                         data.subtitle!,
-                        maxLines: 2,
+                        // Three: "pending change to" + an address beside a
+                        // wide localized button (uk "Продовжити") needs it.
+                        maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         style: AppTextStyles.caption.copyWith(
                           color: colorScheme.onSurfaceVariant,
