@@ -19,14 +19,10 @@ enum ToggleNotificationResult { success, permissionDenied, error }
 
 /// Central controller for the Settings screen.
 ///
-/// Owns notification state, icon state, user/auth state, and all stream
-/// subscriptions. UI subscribes via ChangeNotifier.
+/// Owns notification state, icon state, and all stream subscriptions.
+/// UI subscribes via ChangeNotifier.
 /// Follows the same pattern as [CoffeeBeansController] and [StatsController].
 class SettingsController extends ChangeNotifier {
-  // ── User / auth state ──
-  bool isAnonymous = true;
-  String? userId;
-
   // ── Icon state ──
   static const MethodChannel _iconChannel =
       MethodChannel('com.coffee.timer/icon');
@@ -64,14 +60,6 @@ class SettingsController extends ChangeNotifier {
   // ---------------------------------------------------------------------------
   // Initialization
   // ---------------------------------------------------------------------------
-
-  /// Loads auth state from Supabase.
-  void loadUserData() {
-    final user = Supabase.instance.client.auth.currentUser;
-    isAnonymous = user?.isAnonymous ?? true;
-    userId = user?.id;
-    notifyListeners();
-  }
 
   /// Initializes the icon API. Platform-specific: Android uses native
   /// MethodChannel, iOS uses FlutterDynamicIconPlus plugin.
@@ -250,7 +238,7 @@ class SettingsController extends ChangeNotifier {
 
       await _notificationService.updateMasterToggle(
         enabled: enabled,
-        userId: userId,
+        userId: Supabase.instance.client.auth.currentUser?.id,
       );
 
       masterNotificationsEnabled = enabled;

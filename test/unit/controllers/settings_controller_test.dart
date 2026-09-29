@@ -14,14 +14,6 @@ void main() {
   });
 
   group('initial state', () {
-    test('isAnonymous defaults to true', () {
-      expect(controller.isAnonymous, isTrue);
-    });
-
-    test('userId defaults to null', () {
-      expect(controller.userId, isNull);
-    });
-
     test('icon state defaults to unavailable', () {
       expect(controller.iconApiAvailable, isFalse);
       expect(controller.currentIconName, isNull);

@@ -89,8 +89,6 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
     _initialAccessToken = migrationSession.accessToken;
   }
 
-  // _loadUserData is no longer needed as StreamBuilder handles UI updates
-
   Future<void> _syncDataAfterLogin() async {
     // Ensure context is valid before proceeding
     if (!mounted) return;
@@ -495,7 +493,6 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
         await _supabaseSignInWithApple();
       }
 
-      // No need to call _loadUserData here, StreamBuilder handles UI update
       await _syncDataAfterLogin(); // Sync data after login attempt
       // Check mounted again before showing SnackBar
       if (mounted) {
@@ -568,7 +565,6 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
         return;
       }
 
-      // No need to call _loadUserData here, StreamBuilder handles UI update
       await _syncDataAfterLogin(); // Sync data after login attempt
       // Check mounted again before showing SnackBar
       if (mounted) {
@@ -778,7 +774,6 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
       navigator.pop();
 
       if (res.session != null) {
-        // No need to call _loadUserData here, StreamBuilder handles UI update
         await _syncDataAfterLogin(); // Sync data after successful verification
         // Check mounted again before showing SnackBar
         if (mounted) {
@@ -809,7 +804,6 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
     }
   }
 
-  // Removed _signOut method as it's now handled in AccountScreen
 }
 
 class _HubSection extends StatelessWidget {

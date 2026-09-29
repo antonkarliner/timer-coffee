@@ -17,7 +17,6 @@ import '../controllers/settings_controller.dart';
 import '../database/database.dart';
 import '../models/brewing_method_model.dart';
 import '../providers/recipe_provider.dart';
-import '../providers/snow_provider.dart';
 import '../providers/theme_provider.dart';
 import '../services/notification_service.dart';
 import '../services/onboarding_service.dart';
@@ -53,7 +52,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void initState() {
     super.initState();
     _controller = SettingsController();
-    _controller.loadUserData();
     _controller.initIconApi();
     _controller.initNotificationSettings();
     if (widget.section != null) {
@@ -77,7 +75,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     final recipeProvider = Provider.of<RecipeProvider>(context);
     Provider.of<ThemeProvider>(context); // listen for theme changes
-    final snowEffectProvider = Provider.of<SnowEffectProvider>(context);
 
     // Prepare brewing methods data
     final allBrewingMethods = Provider.of<List<BrewingMethodModel>>(
@@ -174,7 +171,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   pourLayoutTileKey: _pourLayoutTileKey,
                 ),
               ),
-              _buildAboutSection(context, snowEffectProvider),
               if (SettingsController.showNotifDebugPanel && !kIsWeb)
                 const DebugNotificationPanel(),
             ],
@@ -255,20 +251,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
         curve: Curves.easeInOut,
       );
     }
-  }
-
-  // ---------------------------------------------------------------------------
-  // About (placeholder — empty section)
-  // ---------------------------------------------------------------------------
-
-  Widget _buildAboutSection(
-    BuildContext context,
-    SnowEffectProvider snowEffectProvider,
-  ) {
-    return Semantics(
-      identifier: 'aboutSection',
-      child: Column(children: []),
-    );
   }
 
   // ---------------------------------------------------------------------------
