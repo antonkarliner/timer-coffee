@@ -1554,5 +1554,6 @@
   "accountIdentityLinkingDisabled": "关联功能当前不可用。",
   "accountIdentityUnlinkTitle": "要取消关联 {provider} 吗？",
   "accountIdentityUnlinkContent": "您将无法再使用 {provider} 登录。",
+  "accountIdentityUnlinkEmailChange": "您的账户邮箱将变更为 {email}。",
   "accountIdentityUnlinkedMessage": "{provider} 已取消关联"
 }

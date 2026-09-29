@@ -1725,5 +1725,6 @@
   "accountIdentityLinkingDisabled": "Povezivanje trenutačno nije dostupno.",
   "accountIdentityUnlinkTitle": "Ukloniti povezivanje za {provider}?",
   "accountIdentityUnlinkContent": "Više nećeš moći koristiti {provider} za prijavu.",
+  "accountIdentityUnlinkEmailChange": "E-pošta tvog računa promijenit će se u {email}.",
   "accountIdentityUnlinkedMessage": "{provider} više nije povezan"
 }

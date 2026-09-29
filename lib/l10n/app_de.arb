@@ -1554,5 +1554,6 @@
   "accountIdentityLinkingDisabled": "Das Verknüpfen ist derzeit nicht verfügbar.",
   "accountIdentityUnlinkTitle": "Verknüpfung mit {provider} aufheben?",
   "accountIdentityUnlinkContent": "Du kannst dich nicht mehr mit {provider} anmelden.",
+  "accountIdentityUnlinkEmailChange": "Deine Konto-E-Mail wird zu {email} geändert.",
   "accountIdentityUnlinkedMessage": "Verknüpfung mit {provider} aufgehoben"
 }

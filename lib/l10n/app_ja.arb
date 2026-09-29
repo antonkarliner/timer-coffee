@@ -1554,5 +1554,6 @@
   "accountIdentityLinkingDisabled": "現在、連携はご利用いただけません。",
   "accountIdentityUnlinkTitle": "{provider}の連携を解除しますか？",
   "accountIdentityUnlinkContent": "{provider}ではサインインできなくなります。",
+  "accountIdentityUnlinkEmailChange": "アカウントのメールアドレスは {email} に変更されます。",
   "accountIdentityUnlinkedMessage": "{provider}の連携を解除しました"
 }

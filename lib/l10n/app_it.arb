@@ -1554,5 +1554,6 @@
   "accountIdentityLinkingDisabled": "Il collegamento non è disponibile al momento.",
   "accountIdentityUnlinkTitle": "Scollegare {provider}?",
   "accountIdentityUnlinkContent": "Non potrai più accedere con {provider}.",
+  "accountIdentityUnlinkEmailChange": "L’email del tuo account diventerà {email}.",
   "accountIdentityUnlinkedMessage": "{provider} scollegato"
 }

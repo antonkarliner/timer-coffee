@@ -1949,5 +1949,6 @@
   "accountIdentityLinkingDisabled": "Η σύνδεση δεν είναι διαθέσιμη προς το παρόν.",
   "accountIdentityUnlinkTitle": "Κατάργηση σύνδεσης {provider};",
   "accountIdentityUnlinkContent": "Δεν θα μπορείς πλέον να συνδεθείς με {provider}.",
+  "accountIdentityUnlinkEmailChange": "Το email του λογαριασμού σου θα αλλάξει σε {email}.",
   "accountIdentityUnlinkedMessage": "Καταργήθηκε η σύνδεση του {provider}"
 }

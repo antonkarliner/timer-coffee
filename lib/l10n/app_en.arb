@@ -2927,6 +2927,8 @@
   "@accountIdentityUnlinkTitle": {"description": "Title of the confirmation dialog for unlinking a sign-in provider.", "placeholders": {"provider": {"type": "String", "example": "Google"}}},
   "accountIdentityUnlinkContent": "You won’t be able to sign in with {provider} anymore.",
   "@accountIdentityUnlinkContent": {"description": "Warning shown before unlinking a sign-in provider.", "placeholders": {"provider": {"type": "String", "example": "Google"}}},
+  "accountIdentityUnlinkEmailChange": "Your account email will change to {email}.",
+  "@accountIdentityUnlinkEmailChange": {"description": "Additional warning shown when unlinking a sign-in provider will change the account email.", "placeholders": {"email": {"type": "String", "example": "new@example.com"}}},
   "accountIdentityUnlinkedMessage": "{provider} unlinked",
   "@accountIdentityUnlinkedMessage": {"description": "Confirmation shown after a sign-in provider is unlinked from the current account.", "placeholders": {"provider": {"type": "String", "example": "Google"}}}
 }

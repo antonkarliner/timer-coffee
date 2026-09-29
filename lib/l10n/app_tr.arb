@@ -1554,5 +1554,6 @@
   "accountIdentityLinkingDisabled": "Bağlama şu anda kullanılamıyor.",
   "accountIdentityUnlinkTitle": "{provider} bağlantısı kaldırılsın mı?",
   "accountIdentityUnlinkContent": "Artık {provider} ile oturum açamayacaksın.",
+  "accountIdentityUnlinkEmailChange": "Hesabının e-postası {email} olarak değişecek.",
   "accountIdentityUnlinkedMessage": "{provider} bağlantısı kaldırıldı"
 }

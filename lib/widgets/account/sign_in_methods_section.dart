@@ -184,11 +184,23 @@ class _SignInMethodsSectionState extends State<SignInMethodsSection> {
     if (_operationInFlight) return;
 
     final l10n = AppLocalizations.of(context)!;
+    final user = _service.auth.currentUser;
+    final identities =
+        _identities ?? user?.identities ?? const <UserIdentity>[];
+    final emailAfterUnlink = AccountIdentityService.accountEmailAfterUnlink(
+      currentEmail: user?.email,
+      removing: identity,
+      all: identities,
+    );
+    final unlinkContent = emailAfterUnlink == null
+        ? l10n.accountIdentityUnlinkContent(providerName)
+        : '${l10n.accountIdentityUnlinkContent(providerName)}\n\n'
+              '${l10n.accountIdentityUnlinkEmailChange(emailAfterUnlink)}';
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (_) => ConfirmDeleteDialog(
         title: l10n.accountIdentityUnlinkTitle(providerName),
-        content: l10n.accountIdentityUnlinkContent(providerName),
+        content: unlinkContent,
         confirmLabel: l10n.accountIdentityUnlink,
         cancelLabel: l10n.cancel,
       ),
@@ -233,13 +245,14 @@ class _SignInMethodsSectionState extends State<SignInMethodsSection> {
         final rows = <_SignInMethodRowData>[];
         final email = user?.email;
 
-        // From the same (fresh) identity list as the provider rows, so the
-        // card never shows a mixed state right after a link or unlink.
-        final hasEmailIdentity = identities.any(
-          (identity) => identity.provider == 'email',
-        );
-        if (hasEmailIdentity && email != null) {
-          final pendingEmail = user?.newEmail;
+        // Email-code sign-in is keyed on the confirmed account email, so this
+        // is a real sign-in method even when no email identity exists.
+        if (user != null &&
+            !user.isAnonymous &&
+            email != null &&
+            email.trim().isNotEmpty &&
+            user.emailConfirmedAt != null) {
+          final pendingEmail = user.newEmail;
           rows.add(
             _SignInMethodRowData(
               id: 'email',
@@ -258,7 +271,7 @@ class _SignInMethodsSectionState extends State<SignInMethodsSection> {
                 label: pendingEmail == null
                     ? l10n.accountSignInChange
                     : l10n.accountSignInContinue,
-                onPressed: _operationInFlight
+                onPressed: _operationInFlight || !_service.canChangeEmail
                     ? null
                     : () => showChangeEmailSheet(
                         context,

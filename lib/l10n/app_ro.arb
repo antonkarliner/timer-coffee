@@ -1554,5 +1554,6 @@
   "accountIdentityLinkingDisabled": "Conectarea nu este disponibilă momentan.",
   "accountIdentityUnlinkTitle": "Deconectezi {provider}?",
   "accountIdentityUnlinkContent": "Nu te vei mai putea autentifica cu {provider}.",
+  "accountIdentityUnlinkEmailChange": "Adresa de e-mail a contului tău se va schimba în {email}.",
   "accountIdentityUnlinkedMessage": "{provider} a fost deconectat"
 }

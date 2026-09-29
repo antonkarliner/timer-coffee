@@ -52,7 +52,7 @@ void main() {
     expect(find.text('Apple'), findsNothing);
   });
 
-  testWidgets('does not duplicate email for a Google-only account on iOS', (
+  testWidgets('shows changeable email for a Google-only account on iOS', (
     tester,
   ) async {
     await _pumpSection(
@@ -62,10 +62,10 @@ void main() {
       identities: [_identityJson('google', email: 'google-only@example.com')],
     );
 
-    expect(find.byIcon(Icons.email_outlined), findsNothing);
-    expect(find.text('Change'), findsNothing);
+    expect(find.byIcon(Icons.email_outlined), findsOneWidget);
+    expect(find.text('Change'), findsOneWidget);
     expect(find.text('Google'), findsOneWidget);
-    expect(_displayedEmail('google-only@example.com'), findsOneWidget);
+    expect(_displayedEmail('google-only@example.com'), findsNWidgets(2));
     expect(find.text('Unlink'), findsNothing);
     expect(find.text('Apple'), findsOneWidget);
     expect(find.text('Link'), findsOneWidget);
@@ -79,7 +79,8 @@ void main() {
       identities: [_identityJson('apple')],
     );
 
-    expect(find.byIcon(Icons.email_outlined), findsNothing);
+    expect(find.byIcon(Icons.email_outlined), findsOneWidget);
+    expect(find.text('Change'), findsOneWidget);
     expect(find.text('Google'), findsOneWidget);
     expect(find.text('Apple'), findsOneWidget);
     expect(find.text('Linked'), findsOneWidget);
@@ -105,6 +106,70 @@ void main() {
     expect(
       find.text('You won’t be able to sign in with Google anymore.'),
       findsOneWidget,
+    );
+  });
+
+  testWidgets('warns when unlinking Google will change the account email', (
+    tester,
+  ) async {
+    await _pumpSection(
+      tester,
+      platform: TargetPlatform.iOS,
+      email: 'g@example.com',
+      identities: [
+        _identityJson(
+          'google',
+          email: 'g@example.com',
+          emailVerified: true,
+          createdAt: '2026-01-01T00:00:00.000Z',
+        ),
+        _identityJson(
+          'apple',
+          email: 'a@example.com',
+          emailVerified: true,
+          createdAt: '2026-01-02T00:00:00.000Z',
+        ),
+      ],
+    );
+
+    await tester.tap(find.text('Unlink').first);
+    await tester.pumpAndSettle();
+
+    expect(
+      find.textContaining('Your account email will change to a@example.com.'),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('does not warn when unlinking Apple keeps the account email', (
+    tester,
+  ) async {
+    await _pumpSection(
+      tester,
+      platform: TargetPlatform.iOS,
+      email: 'g@example.com',
+      identities: [
+        _identityJson(
+          'google',
+          email: 'g@example.com',
+          emailVerified: true,
+          createdAt: '2026-01-01T00:00:00.000Z',
+        ),
+        _identityJson(
+          'apple',
+          email: 'a@example.com',
+          emailVerified: true,
+          createdAt: '2026-01-02T00:00:00.000Z',
+        ),
+      ],
+    );
+
+    await tester.tap(find.text('Unlink').last);
+    await tester.pumpAndSettle();
+
+    expect(
+      find.textContaining('Your account email will change to'),
+      findsNothing,
     );
   });
 }
@@ -166,6 +231,7 @@ Map<String, dynamic> _userJson({
     'id': _userId,
     'aud': 'authenticated',
     'email': email,
+    'email_confirmed_at': '2026-01-01T00:00:00.000Z',
     'app_metadata': <String, dynamic>{},
     'user_metadata': <String, dynamic>{},
     'created_at': '2026-01-01T00:00:00.000Z',
@@ -173,14 +239,23 @@ Map<String, dynamic> _userJson({
   };
 }
 
-Map<String, dynamic> _identityJson(String provider, {String? email}) {
+Map<String, dynamic> _identityJson(
+  String provider, {
+  String? email,
+  bool emailVerified = false,
+  String createdAt = '2026-01-01T00:00:00.000Z',
+}) {
   return {
     'identity_id': '$provider-identity',
     'id': '$provider-id',
     'user_id': _userId,
     'provider': provider,
-    'identity_data': <String, dynamic>{'provider': provider, 'email': ?email},
-    'created_at': '2026-01-01T00:00:00.000Z',
+    'identity_data': <String, dynamic>{
+      'provider': provider,
+      'email': ?email,
+      'email_verified': emailVerified,
+    },
+    'created_at': createdAt,
     'last_sign_in_at': '2026-01-01T00:00:00.000Z',
     'updated_at': '2026-01-01T00:00:00.000Z',
   };

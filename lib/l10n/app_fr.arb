@@ -1554,5 +1554,6 @@
   "accountIdentityLinkingDisabled": "La liaison n’est pas disponible pour le moment.",
   "accountIdentityUnlinkTitle": "Délier {provider} ?",
   "accountIdentityUnlinkContent": "Vous ne pourrez plus vous connecter avec {provider}.",
+  "accountIdentityUnlinkEmailChange": "L’adresse e-mail de votre compte deviendra {email}.",
   "accountIdentityUnlinkedMessage": "{provider} a été délié"
 }

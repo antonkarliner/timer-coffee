@@ -12,6 +12,35 @@ const _authUrl = 'https://example.test/auth/v1';
 const _userId = '11111111-1111-1111-1111-111111111111';
 
 void main() {
+  group('email eligibility', () {
+    test('confirmed Google-only account can change email', () async {
+      final requests = <_RecordedRequest>[];
+      final auth = await _seededAuth(
+        requests,
+        _unexpected,
+        user: _userJson(
+          identities: [_identityJson('google', email: 'google@example.com')],
+        ),
+      );
+
+      expect(_service(auth).canChangeEmail, isTrue);
+    });
+
+    test('account without email confirmation cannot change email', () async {
+      final requests = <_RecordedRequest>[];
+      final auth = await _seededAuth(
+        requests,
+        _unexpected,
+        user: _userJson(
+          emailConfirmed: false,
+          identities: [_identityJson('google', email: 'google@example.com')],
+        ),
+      );
+
+      expect(_service(auth).canChangeEmail, isFalse);
+    });
+  });
+
   group('email changes', () {
     test('secure flow accepts the first code and completes the second', () async {
       var verificationCount = 0;
@@ -203,7 +232,11 @@ void main() {
           LinkOutcome.linked,
         );
         expect(credentials.googleForceAccountChooser, isTrue);
-        final body = jsonDecode(requests.single.body) as Map<String, dynamic>;
+        final linkRequest = requests.firstWhere((request) {
+          final body = jsonDecode(request.body) as Map<String, dynamic>;
+          return body['provider'] == 'google';
+        });
+        final body = jsonDecode(linkRequest.body) as Map<String, dynamic>;
         expect(body['provider'], 'google');
         expect(body['link_identity'], isTrue);
       },
@@ -296,6 +329,97 @@ void main() {
   });
 
   group('unlinking', () {
+    test('predicts the account email selected after unlink', () {
+      final email = _identity('email', email: 'g@example.com');
+      final googleOlder = _identity(
+        'google',
+        email: 'g@example.com',
+        emailVerified: true,
+        createdAt: '2026-01-01T00:00:00.000Z',
+      );
+      final appleNewer = _identity(
+        'apple',
+        email: 'a@example.com',
+        emailVerified: true,
+        createdAt: '2026-01-02T00:00:00.000Z',
+      );
+
+      expect(
+        AccountIdentityService.accountEmailAfterUnlink(
+          currentEmail: 'g@example.com',
+          removing: googleOlder,
+          all: [email, googleOlder],
+        ),
+        isNull,
+      );
+      expect(
+        AccountIdentityService.accountEmailAfterUnlink(
+          currentEmail: 'g@example.com',
+          removing: googleOlder,
+          all: [googleOlder, appleNewer],
+        ),
+        'a@example.com',
+      );
+      expect(
+        AccountIdentityService.accountEmailAfterUnlink(
+          currentEmail: 'g@example.com',
+          removing: appleNewer,
+          all: [googleOlder, appleNewer],
+        ),
+        isNull,
+      );
+
+      final googleNewer = _identity(
+        'google',
+        email: 'g@example.com',
+        emailVerified: true,
+        createdAt: '2026-01-02T00:00:00.000Z',
+      );
+      final appleOlder = _identity(
+        'apple',
+        email: 'a@example.com',
+        emailVerified: true,
+        createdAt: '2026-01-01T00:00:00.000Z',
+      );
+      expect(
+        AccountIdentityService.accountEmailAfterUnlink(
+          currentEmail: 'x@example.com',
+          removing: googleNewer,
+          all: [googleNewer, appleOlder],
+        ),
+        'a@example.com',
+      );
+
+      final removing = _identity('email');
+      final unverifiedOlder = _identity(
+        'apple',
+        email: 'a@example.com',
+        createdAt: '2026-01-01T00:00:00.000Z',
+      );
+      final verifiedNewer = _identity(
+        'google',
+        email: 'g@example.com',
+        emailVerified: true,
+        createdAt: '2026-01-02T00:00:00.000Z',
+      );
+      expect(
+        AccountIdentityService.accountEmailAfterUnlink(
+          currentEmail: 'x@example.com',
+          removing: removing,
+          all: [removing, unverifiedOlder, verifiedNewer],
+        ),
+        'g@example.com',
+      );
+      expect(
+        AccountIdentityService.accountEmailAfterUnlink(
+          currentEmail: 'G@EXAMPLE.COM',
+          removing: appleNewer,
+          all: [googleOlder, appleNewer],
+        ),
+        isNull,
+      );
+    });
+
     test('canUnlink protects email and the last identity', () async {
       final requests = <_RecordedRequest>[];
       final auth = await _seededAuth(requests, _unexpected);
@@ -324,7 +448,30 @@ void main() {
       expect(requests.where((request) => request.method == 'DELETE'), isEmpty);
     });
 
-    test('Google identity is deleted and the user is refreshed', () async {
+    test('maps email conflict to notAllowed', () async {
+      final requests = <_RecordedRequest>[];
+      final auth = await _seededAuth(requests, (request) async {
+        if (request.method == 'GET' && request.url.path.endsWith('/user')) {
+          return _jsonResponse(200, _userJson());
+        }
+        if (request.method == 'DELETE' &&
+            request.url.path.endsWith('/user/identities/google-identity')) {
+          return _authError(
+            422,
+            'email_conflict_identity_not_deletable',
+            'Identity cannot be deleted because its email conflicts',
+          );
+        }
+        return _unexpected(request);
+      });
+
+      expect(
+        await _service(auth).unlink(_identity('google')),
+        UnlinkOutcome.notAllowed,
+      );
+    });
+
+    test('successful unlink refreshes the session', () async {
       final requests = <_RecordedRequest>[];
       final auth = await _seededAuth(requests, (request) async {
         if (request.method == 'GET' && request.url.path.endsWith('/user')) {
@@ -333,6 +480,11 @@ void main() {
         if (request.method == 'DELETE' &&
             request.url.path.endsWith('/user/identities/google-identity')) {
           return _jsonResponse(200, <String, dynamic>{});
+        }
+        if (request.method == 'POST' &&
+            request.url.path.endsWith('/token') &&
+            request.url.queryParameters['grant_type'] == 'refresh_token') {
+          return _jsonResponse(200, _sessionJson());
         }
         return _unexpected(request);
       });
@@ -346,8 +498,13 @@ void main() {
         hasLength(1),
       );
       expect(
-        requests.where((request) => request.method == 'GET'),
-        hasLength(2),
+        requests.where(
+          (request) =>
+              request.method == 'POST' &&
+              request.path.endsWith('/token') &&
+              request.uri.queryParameters['grant_type'] == 'refresh_token',
+        ),
+        hasLength(1),
       );
     });
   });
@@ -403,8 +560,9 @@ AccountIdentityService _service(
 
 Future<GoTrueClient> _seededAuth(
   List<_RecordedRequest> requests,
-  Future<http.Response> Function(http.Request request) handler,
-) async {
+  Future<http.Response> Function(http.Request request) handler, {
+  Map<String, dynamic>? user,
+}) async {
   final auth = GoTrueClient(
     url: _authUrl,
     httpClient: MockClient((request) async {
@@ -420,48 +578,80 @@ Future<GoTrueClient> _seededAuth(
     }),
     autoRefreshToken: false,
   );
-  await auth.recoverSession(jsonEncode(_sessionJson()));
+  await auth.recoverSession(jsonEncode(_sessionJson(user)));
   return auth;
 }
 
-Map<String, dynamic> _sessionJson() {
+Map<String, dynamic> _sessionJson([Map<String, dynamic>? user]) {
   return {
     'access_token': 'test-access-token',
     'refresh_token': 'test-refresh-token',
     'token_type': 'bearer',
     'expires_in': 3600,
     'expires_at': 4102444800,
-    'user': _userJson(),
+    'user': user ?? _userJson(),
   };
 }
 
-Map<String, dynamic> _userJson({String email = 'old@example.com'}) {
+Map<String, dynamic> _userJson({
+  String email = 'old@example.com',
+  bool emailConfirmed = true,
+  bool isAnonymous = false,
+  List<Map<String, dynamic>>? identities,
+}) {
   return {
     'id': _userId,
     'aud': 'authenticated',
     'email': email,
+    'email_confirmed_at': emailConfirmed ? '2026-01-01T00:00:00.000Z' : null,
+    'is_anonymous': isAnonymous,
     'app_metadata': <String, dynamic>{},
     'user_metadata': <String, dynamic>{},
     'created_at': '2026-01-01T00:00:00.000Z',
-    'identities': [_identityJson('email'), _identityJson('google')],
+    'identities':
+        identities ?? [_identityJson('email'), _identityJson('google')],
   };
 }
 
-Map<String, dynamic> _identityJson(String provider) {
+Map<String, dynamic> _identityJson(
+  String provider, {
+  String? email,
+  bool emailVerified = false,
+  String createdAt = '2026-01-01T00:00:00.000Z',
+  String? identityId,
+}) {
   return {
-    'identity_id': '$provider-identity',
+    'identity_id': identityId ?? '$provider-identity',
     'id': '$provider-id',
     'user_id': _userId,
     'provider': provider,
-    'identity_data': <String, dynamic>{'provider': provider},
-    'created_at': '2026-01-01T00:00:00.000Z',
+    'identity_data': <String, dynamic>{
+      'provider': provider,
+      'email': ?email,
+      'email_verified': emailVerified,
+    },
+    'created_at': createdAt,
     'last_sign_in_at': '2026-01-01T00:00:00.000Z',
     'updated_at': '2026-01-01T00:00:00.000Z',
   };
 }
 
-UserIdentity _identity(String provider) {
-  return UserIdentity.fromMap(_identityJson(provider));
+UserIdentity _identity(
+  String provider, {
+  String? email,
+  bool emailVerified = false,
+  String createdAt = '2026-01-01T00:00:00.000Z',
+  String? identityId,
+}) {
+  return UserIdentity.fromMap(
+    _identityJson(
+      provider,
+      email: email,
+      emailVerified: emailVerified,
+      createdAt: createdAt,
+      identityId: identityId,
+    ),
+  );
 }
 
 http.Response _jsonResponse(int statusCode, Map<String, dynamic> body) {

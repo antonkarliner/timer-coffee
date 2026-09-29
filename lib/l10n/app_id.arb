@@ -1554,5 +1554,6 @@
   "accountIdentityLinkingDisabled": "Penautan saat ini tidak tersedia.",
   "accountIdentityUnlinkTitle": "Putuskan tautan {provider}?",
   "accountIdentityUnlinkContent": "Anda tidak akan bisa masuk dengan {provider} lagi.",
+  "accountIdentityUnlinkEmailChange": "Email akun Anda akan berubah menjadi {email}.",
   "accountIdentityUnlinkedMessage": "Tautan {provider} diputus"
 }

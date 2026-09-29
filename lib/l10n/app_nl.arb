@@ -1554,5 +1554,6 @@
   "accountIdentityLinkingDisabled": "Koppelen is momenteel niet beschikbaar.",
   "accountIdentityUnlinkTitle": "{provider} ontkoppelen?",
   "accountIdentityUnlinkContent": "U kunt niet meer met {provider} aanmelden.",
+  "accountIdentityUnlinkEmailChange": "Het e-mailadres van uw account wordt gewijzigd naar {email}.",
   "accountIdentityUnlinkedMessage": "{provider} ontkoppeld"
 }

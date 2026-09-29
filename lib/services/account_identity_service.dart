@@ -59,6 +59,8 @@ class AccountIdentityService {
   static const _otpExpiredCode = 'otp_expired';
   static const _singleIdentityNotDeletableCode =
       'single_identity_not_deletable';
+  static const _emailConflictIdentityNotDeletableCode =
+      'email_conflict_identity_not_deletable';
 
   final GoTrueClient? _injectedAuth;
   final NativeAuthCredentials _credentials;
@@ -77,9 +79,56 @@ class AccountIdentityService {
 
   Future<List<UserIdentity>> identities() => _auth.getUserIdentities();
 
-  bool get canChangeEmail =>
-      _auth.currentUser?.identities?.any((item) => item.provider == 'email') ??
-      false;
+  /// Whether the current non-anonymous account has a confirmed account email.
+  ///
+  /// Email-code sign-in and secure email changes use the account email, so an
+  /// email identity is not required.
+  bool get canChangeEmail {
+    final user = _auth.currentUser;
+    return user != null &&
+        !user.isAnonymous &&
+        (user.email?.trim().isNotEmpty ?? false) &&
+        user.emailConfirmedAt != null;
+  }
+
+  /// Returns the account email selected by GoTrue after [removing], or `null`
+  /// when the account email will stay unchanged.
+  static String? accountEmailAfterUnlink({
+    required String? currentEmail,
+    required UserIdentity removing,
+    required List<UserIdentity> all,
+  }) {
+    final remaining = all
+        .where((identity) => identity.identityId != removing.identityId)
+        .toList();
+    if (remaining.isEmpty) return null;
+
+    final normalizedCurrentEmail = currentEmail?.trim().toLowerCase();
+    if (normalizedCurrentEmail != null &&
+        normalizedCurrentEmail.isNotEmpty &&
+        remaining.any(
+          (identity) =>
+              _identityEmail(identity)?.toLowerCase() == normalizedCurrentEmail,
+        )) {
+      return null;
+    }
+
+    remaining.sort((left, right) {
+      final rankComparison = _identityEmailRank(
+        left,
+      ).compareTo(_identityEmailRank(right));
+      if (rankComparison != 0) return rankComparison;
+
+      // Mirrors GoTrue v2.197.0 UpdateUserEmailFromIdentities: oldest first,
+      // then the identity row id (identity_id, not the provider's id).
+      final createdAtComparison = _createdAt(left).compareTo(_createdAt(right));
+      if (createdAtComparison != 0) return createdAtComparison;
+
+      return left.identityId.compareTo(right.identityId);
+    });
+
+    return _identityEmail(remaining.first);
+  }
 
   Future<EmailChangeRequest> requestEmailChange(String newEmail) async {
     final email = _validatedEmail(newEmail);
@@ -175,6 +224,7 @@ class AccountIdentityService {
         idToken: tokens.idToken,
         accessToken: tokens.accessToken,
       );
+      await _refreshSession('Google linked but session refresh failed');
       return LinkOutcome.linked;
     } on AuthException catch (error) {
       return _mapLinkError(error);
@@ -203,6 +253,7 @@ class AccountIdentityService {
         idToken: tokens.idToken,
         nonce: tokens.rawNonce,
       );
+      await _refreshSession('Apple linked but session refresh failed');
       return LinkOutcome.linked;
     } on SignInWithAppleAuthorizationException catch (error) {
       if (error.code == AuthorizationErrorCode.canceled) {
@@ -229,10 +280,11 @@ class AccountIdentityService {
       if (!canUnlink(identity, all)) return UnlinkOutcome.notAllowed;
 
       await _auth.unlinkIdentity(identity);
-      await _refreshUser('Identity unlinked but user refresh failed');
+      await _refreshSession('Identity unlinked but session refresh failed');
       return UnlinkOutcome.unlinked;
     } on AuthException catch (error) {
-      if (error.code == _singleIdentityNotDeletableCode) {
+      if (error.code == _singleIdentityNotDeletableCode ||
+          error.code == _emailConflictIdentityNotDeletableCode) {
         return UnlinkOutcome.notAllowed;
       }
       AppLogger.warning('Identity unlink failed');
@@ -279,5 +331,28 @@ class AccountIdentityService {
     } catch (error) {
       AppLogger.warning(failureMessage, errorObject: error);
     }
+  }
+
+  Future<void> _refreshSession(String failureMessage) async {
+    try {
+      await _auth.refreshSession();
+    } catch (error) {
+      AppLogger.warning(failureMessage, errorObject: error);
+    }
+  }
+
+  static String? _identityEmail(UserIdentity identity) {
+    final email = identity.identityData?['email'];
+    if (email is! String || email.trim().isEmpty) return null;
+    return email.trim();
+  }
+
+  static DateTime _createdAt(UserIdentity identity) =>
+      DateTime.tryParse(identity.createdAt ?? '') ??
+      DateTime.fromMillisecondsSinceEpoch(0, isUtc: true);
+
+  static int _identityEmailRank(UserIdentity identity) {
+    if (_identityEmail(identity) == null) return 2;
+    return identity.identityData?['email_verified'] == true ? 0 : 1;
   }
 }

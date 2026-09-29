@@ -1876,5 +1876,6 @@
   "accountIdentityLinkingDisabled": "Kobling er ikke tilgjengelig akkurat nå.",
   "accountIdentityUnlinkTitle": "Koble fra {provider}?",
   "accountIdentityUnlinkContent": "Du kan ikke lenger logge inn med {provider}.",
+  "accountIdentityUnlinkEmailChange": "E-posten til kontoen din endres til {email}.",
   "accountIdentityUnlinkedMessage": "{provider} er koblet fra"
 }

@@ -1727,5 +1727,6 @@
   "accountIdentityLinkingDisabled": "اتصال در حال حاضر در دسترس نیست.",
   "accountIdentityUnlinkTitle": "قطع اتصال {provider}؟",
   "accountIdentityUnlinkContent": "دیگر نمی‌توانید با {provider} وارد شوید.",
+  "accountIdentityUnlinkEmailChange": "ایمیل حساب شما به {email} تغییر خواهد کرد.",
   "accountIdentityUnlinkedMessage": "اتصال {provider} قطع شد"
 }

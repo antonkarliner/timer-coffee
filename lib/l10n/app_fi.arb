@@ -1406,5 +1406,6 @@
   "accountIdentityLinkingDisabled": "Yhdistäminen ei ole juuri nyt mahdollista.",
   "accountIdentityUnlinkTitle": "Poistetaanko {provider}-yhdistys?",
   "accountIdentityUnlinkContent": "Et voi enää kirjautua sisään {provider}-tilillä.",
+  "accountIdentityUnlinkEmailChange": "Tilisi sähköpostiosoite vaihtuu osoitteeksi {email}.",
   "accountIdentityUnlinkedMessage": "{provider}-yhdistys poistettu"
 }

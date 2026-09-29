@@ -1554,5 +1554,6 @@
   "accountIdentityLinkingDisabled": "الربط غير متاح حاليًا.",
   "accountIdentityUnlinkTitle": "إلغاء ربط {provider}؟",
   "accountIdentityUnlinkContent": "لن تتمكن من تسجيل الدخول باستخدام {provider} بعد الآن.",
+  "accountIdentityUnlinkEmailChange": "سيتغير البريد الإلكتروني لحسابك إلى {email}.",
   "accountIdentityUnlinkedMessage": "تم إلغاء ربط {provider}"
 }

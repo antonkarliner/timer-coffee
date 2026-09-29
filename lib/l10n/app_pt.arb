@@ -1554,5 +1554,6 @@
   "accountIdentityLinkingDisabled": "A vinculação não está disponível no momento.",
   "accountIdentityUnlinkTitle": "Desvincular {provider}?",
   "accountIdentityUnlinkContent": "Você não poderá mais entrar com {provider}.",
+  "accountIdentityUnlinkEmailChange": "O e-mail da sua conta mudará para {email}.",
   "accountIdentityUnlinkedMessage": "{provider} desvinculado"
 }

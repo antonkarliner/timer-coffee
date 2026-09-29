@@ -1554,5 +1554,6 @@
   "accountIdentityLinkingDisabled": "Підключення зараз недоступне.",
   "accountIdentityUnlinkTitle": "Відключити {provider}?",
   "accountIdentityUnlinkContent": "Ви більше не зможете входити за допомогою {provider}.",
+  "accountIdentityUnlinkEmailChange": "Адреса електронної пошти вашого облікового запису зміниться на {email}.",
   "accountIdentityUnlinkedMessage": "{provider} відключено"
 }
