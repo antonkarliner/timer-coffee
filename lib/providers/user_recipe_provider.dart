@@ -739,6 +739,8 @@ class UserRecipeProvider with ChangeNotifier {
 
     try {
       await _database.transaction(() async {
+        await _database.customStatement('PRAGMA defer_foreign_keys = ON');
+
         // Find recipes belonging to the old anonymous user
         final userRecipesToUpdate = await (_database.select(
           _database.recipes,
@@ -755,14 +757,15 @@ class UserRecipeProvider with ChangeNotifier {
           );
 
           // Extract timestamp part from the old ID
-          final idParts = oldRecipeId.split('-');
-          if (idParts.length != 3 || idParts[0] != 'usr') {
+          final expectedPrefix = 'usr-$oldUserId-';
+          if (!oldRecipeId.startsWith(expectedPrefix) ||
+              oldRecipeId.length == expectedPrefix.length) {
             AppLogger.warning(
               'Skipping invalid recipe ID format: ${AppLogger.sanitize(oldRecipeId)}',
             );
             continue; // Skip if the ID format is unexpected
           }
-          final timestampPart = idParts[2];
+          final timestampPart = oldRecipeId.substring(expectedPrefix.length);
           final newRecipeId = 'usr-$newUserId-$timestampPart';
 
           AppLogger.debug(
@@ -794,10 +797,44 @@ class UserRecipeProvider with ChangeNotifier {
             '  Updated $updatedStepsCount steps for recipe ${AppLogger.sanitize(oldRecipeId)}',
           );
 
-          // 3. Update Recipes table (update ID and vendorId)
-          // IMPORTANT: Update the recipe ID *last* to avoid foreign key constraint issues
-          // if RecipeLocalizations or Steps were updated first referencing the old ID.
-          // The transaction ensures this is safe.
+          // 3. Update UserRecipePreferences table
+          final updatedPreferencesCount =
+              await (_database.update(
+                _database.userRecipePreferences,
+              )..where((tbl) => tbl.recipeId.equals(oldRecipeId))).write(
+                UserRecipePreferencesCompanion(
+                  recipeId: drift.Value(newRecipeId),
+                ),
+              );
+          AppLogger.debug(
+            '  Updated $updatedPreferencesCount preferences for recipe ${AppLogger.sanitize(oldRecipeId)}',
+          );
+
+          // 4. Update UserStats table
+          final updatedStatsCount =
+              await (_database.update(
+                _database.userStats,
+              )..where((tbl) => tbl.recipeId.equals(oldRecipeId))).write(
+                UserStatsCompanion(recipeId: drift.Value(newRecipeId)),
+              );
+          AppLogger.debug(
+            '  Updated $updatedStatsCount stats for recipe ${AppLogger.sanitize(oldRecipeId)}',
+          );
+
+          // 5. Update RecipeCollectionMembers table
+          final updatedCollectionMembersCount =
+              await (_database.update(
+                _database.recipeCollectionMembers,
+              )..where((tbl) => tbl.recipeId.equals(oldRecipeId))).write(
+                RecipeCollectionMembersCompanion(
+                  recipeId: drift.Value(newRecipeId),
+                ),
+              );
+          AppLogger.debug(
+            '  Updated $updatedCollectionMembersCount collection members for recipe ${AppLogger.sanitize(oldRecipeId)}',
+          );
+
+          // 6. Update Recipes table (update ID and vendorId)
           final updatedRecipesCount =
               await (_database.update(
                 _database.recipes,
@@ -831,7 +868,7 @@ class UserRecipeProvider with ChangeNotifier {
         'Error updating user recipe IDs after login',
         errorObject: e,
       );
-      // Consider re-throwing or handling the error more gracefully
+      rethrow;
     }
   }
 
