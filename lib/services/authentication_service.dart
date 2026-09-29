@@ -1,180 +1,292 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
-import 'package:provider/provider.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:sign_in_button/sign_in_button.dart';
+
 import 'package:coffee_timer/l10n/app_localizations.dart';
-import 'auth/native_auth_credentials.dart';
-import '../utils/input_validator.dart';
-import '../utils/app_logger.dart';
-import '../widgets/recipe_detail/authentication_dialogs.dart';
-import '../providers/user_recipe_provider.dart';
-import '../providers/recipe_provider.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sign_in_button/sign_in_button.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../database/database.dart';
 import '../providers/coffee_beans_provider.dart';
 import '../providers/database_provider.dart';
+import '../providers/recipe_provider.dart';
+import '../providers/user_recipe_provider.dart';
 import '../providers/user_stat_provider.dart';
+import '../theme/design_tokens.dart';
+import '../utils/app_logger.dart';
+import '../utils/input_validator.dart';
+import '../widgets/base_buttons.dart';
+import '../widgets/recipe_detail/authentication_dialogs.dart';
+import 'analytics_service.dart';
+import 'auth/native_auth_credentials.dart';
+import 'notification_service.dart';
+import 'onboarding_service.dart';
 
-// Enum for sign-in method
 enum SignInMethod { apple, google, email, cancel }
 
-/// Authentication service that handles all sign-in operations
-/// Provides static methods for easy integration across the app
+@visibleForTesting
+class PostSignInSteps {
+  const PostSignInSteps({
+    required this.updateRecipeIds,
+    required this.migrate,
+    required this.syncData,
+    required this.registerFcmToken,
+    required this.reconcileMilestones,
+    this.onDataSyncError,
+  });
+
+  final Future<void> Function(String oldUserId, String newUserId)
+  updateRecipeIds;
+  final Future<void> Function(String oldUserId, String newUserId) migrate;
+  final Future<void> Function() syncData;
+  final Future<void> Function() registerFcmToken;
+  final Future<void> Function() reconcileMilestones;
+  final void Function(Object error)? onDataSyncError;
+}
+
+class _SignInSession {
+  const _SignInSession({
+    required this.oldUserId,
+    required this.oldAccessToken,
+    required this.source,
+    required this.l10n,
+    required this.scaffoldMessenger,
+    required this.navigator,
+    required this.databaseProvider,
+    required this.userRecipeProvider,
+    required this.recipeProvider,
+    required this.userStatProvider,
+    required this.coffeeBeansProvider,
+    required this.onboardingService,
+    required this.database,
+  });
+
+  final String? oldUserId;
+  final String? oldAccessToken;
+  final String source;
+  final AppLocalizations l10n;
+  final ScaffoldMessengerState? scaffoldMessenger;
+  final NavigatorState navigator;
+  final DatabaseProvider? databaseProvider;
+  final UserRecipeProvider? userRecipeProvider;
+  final RecipeProvider? recipeProvider;
+  final UserStatProvider? userStatProvider;
+  final CoffeeBeansProvider? coffeeBeansProvider;
+  final OnboardingService? onboardingService;
+  final AppDatabase? database;
+}
+
+/// Authentication service that handles all sign-in operations.
 class AuthenticationService {
-  /// Prompts the user to sign in with a modal bottom sheet
-  /// Returns true if sign-in was successful, false otherwise
+  static const _webRedirect = 'https://app.timer.coffee/';
+  static const _nativeRedirect = 'timercoffee://';
+
+  /// Prompts the user to sign in with a modal bottom sheet.
+  ///
+  /// Returns the same immediate result as the previous flow. In particular,
+  /// choosing email can return `true` while the email-code flow is still open.
   static Future<bool> promptSignIn(
     BuildContext context, {
+    String? title,
     String? bodyText,
+    String source = 'unknown',
   }) async {
-    AppLogger.debug("AuthenticationService.promptSignIn() called");
+    AppLogger.debug('AuthenticationService.promptSignIn() called');
+
+    // Capture every context-bound dependency before the first await. Email
+    // verification can finish after the screen that opened this flow is gone.
     final l10n = AppLocalizations.of(context)!;
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final scaffoldMessenger = ScaffoldMessenger.maybeOf(context);
+    final navigator = Navigator.of(context);
+    final databaseProvider = _maybeProvider<DatabaseProvider>(context);
+    final userRecipeProvider = _maybeProvider<UserRecipeProvider>(context);
+    final recipeProvider = _maybeProvider<RecipeProvider>(context);
+    final userStatProvider = _maybeProvider<UserStatProvider>(context);
+    final coffeeBeansProvider = _maybeProvider<CoffeeBeansProvider>(context);
+    final onboardingService = _maybeProvider<OnboardingService>(context);
+    final database = _maybeProvider<AppDatabase>(context);
 
     final migrationSession = await captureAnonymousMigrationSession();
     if (!context.mounted) return false;
-    final initialUserId = migrationSession.userId;
-    final initialAccessToken = migrationSession.accessToken;
 
-    AppLogger.debug("Showing sign-in modal with direct execution");
-    final SignInMethod? chosenMethod = await showModalBottomSheet<SignInMethod>(
+    final session = _SignInSession(
+      oldUserId: migrationSession.userId,
+      oldAccessToken: migrationSession.accessToken,
+      source: source,
+      l10n: l10n,
+      scaffoldMessenger: scaffoldMessenger,
+      navigator: navigator,
+      databaseProvider: databaseProvider,
+      userRecipeProvider: userRecipeProvider,
+      recipeProvider: recipeProvider,
+      userStatProvider: userStatProvider,
+      coffeeBeansProvider: coffeeBeansProvider,
+      onboardingService: onboardingService,
+      database: database,
+    );
+
+    _track('sign_in_prompt_shown', {'source': source});
+    final chosenMethod = await showModalBottomSheet<SignInMethod>(
       context: context,
-      builder: (BuildContext context) {
-        return SafeArea(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(
-              16.0,
-              16.0,
-              16.0,
-              16.0 + MediaQuery.of(context).viewInsets.bottom,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text(
-                  l10n.signInRequiredTitle,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  bodyText ?? l10n.signInRequiredBodyShare,
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 24),
-                if (!kIsWeb && (Platform.isIOS || Platform.isMacOS)) ...[
-                  SignInButton(
-                    isDarkMode ? Buttons.apple : Buttons.appleDark,
-                    text: l10n.signInWithApple,
-                    onPressed: () => Navigator.pop(context, SignInMethod.apple),
+      builder: (sheetContext) {
+        // Full width: without it the sheet shrinks to its content.
+        return SizedBox(
+          width: double.infinity,
+          child: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(
+                AppSpacing.base,
+                AppSpacing.base,
+                AppSpacing.base,
+                AppSpacing.base + MediaQuery.of(sheetContext).viewInsets.bottom,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(
+                    title ?? l10n.signInRequiredTitle,
+                    style: Theme.of(sheetContext).textTheme.titleLarge,
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppSpacing.sm),
+                  Text(
+                    bodyText ?? l10n.signInRequiredBodyShare,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                  if (!kIsWeb && (Platform.isIOS || Platform.isMacOS)) ...[
+                    SignInButton(
+                      isDarkMode ? Buttons.apple : Buttons.appleDark,
+                      text: l10n.signInWithApple,
+                      onPressed: () =>
+                          Navigator.pop(sheetContext, SignInMethod.apple),
+                    ),
+                    const SizedBox(height: AppSpacing.base),
+                  ],
+                  SignInButton(
+                    isDarkMode ? Buttons.google : Buttons.googleDark,
+                    text: l10n.signInWithGoogle,
+                    onPressed: () =>
+                        Navigator.pop(sheetContext, SignInMethod.google),
+                  ),
+                  const SizedBox(height: AppSpacing.base),
+                  SignInButtonBuilder(
+                    text: l10n.signInWithEmail,
+                    icon: Icons.email,
+                    onPressed: () =>
+                        Navigator.pop(sheetContext, SignInMethod.email),
+                    backgroundColor: isDarkMode
+                        ? Colors.white
+                        : Colors.blueGrey.shade700,
+                    textColor: isDarkMode ? Colors.black87 : Colors.white,
+                    iconColor: isDarkMode ? Colors.black87 : Colors.white,
+                  ),
+                  const SizedBox(height: AppSpacing.base),
+                  AppTextButton(
+                    label: l10n.dialogCancel,
+                    onPressed: () =>
+                        Navigator.pop(sheetContext, SignInMethod.cancel),
+                    isFullWidth: false,
+                    height: AppButton.heightSmall,
+                    padding: AppButton.paddingSmall,
+                  ),
+                  const SizedBox(height: AppSpacing.base),
                 ],
-                SignInButton(
-                  isDarkMode ? Buttons.google : Buttons.googleDark,
-                  text: l10n.signInWithGoogle,
-                  onPressed: () => Navigator.pop(context, SignInMethod.google),
-                ),
-                const SizedBox(height: 16),
-                SignInButtonBuilder(
-                  text: l10n.signInWithEmail,
-                  icon: Icons.email,
-                  onPressed: () => Navigator.pop(context, SignInMethod.email),
-                  backgroundColor: isDarkMode
-                      ? Colors.white
-                      : Colors.blueGrey.shade700,
-                  textColor: isDarkMode ? Colors.black87 : Colors.white,
-                  iconColor: isDarkMode ? Colors.black87 : Colors.white,
-                ),
-                const SizedBox(height: 16),
-                TextButton(
-                  child: Text(l10n.dialogCancel),
-                  onPressed: () => Navigator.pop(context, SignInMethod.cancel),
-                ),
-                const SizedBox(height: 16),
-              ],
+              ),
             ),
           ),
         );
       },
     );
 
-    AppLogger.debug("Sign-in modal closed with method: $chosenMethod");
-
-    if (!context.mounted) return false;
-
-    try {
-      bool signInSuccess = false;
-      switch (chosenMethod) {
-        case SignInMethod.apple:
-          AppLogger.debug("Executing Apple sign-in");
-          await signInWithApple();
-          signInSuccess = true;
-          break;
-        case SignInMethod.google:
-          AppLogger.debug("Executing Google sign-in");
-          signInSuccess = await signInWithGoogle();
-          if (!signInSuccess) {
-            AppLogger.debug("Google sign-in cancelled");
-            return false;
-          }
-          break;
-        case SignInMethod.email:
-          AppLogger.debug("Executing Email sign-in");
-          if (context.mounted) {
-            AuthenticationDialogs.showEmailSignInDialog(
-              context,
-              (email) => signInWithEmail(context, email),
-            );
-          }
-          signInSuccess = true;
-          break;
-        case SignInMethod.cancel:
-        default:
-          AppLogger.debug("Sign-in cancelled");
-          return false;
-      }
-
-      if (signInSuccess) {
-        await Future.delayed(const Duration(milliseconds: 500));
-        final String? newUserId = Supabase.instance.client.auth.currentUser?.id;
-        if (newUserId != null && newUserId != initialUserId) {
-          if (context.mounted) {
-            await syncDataAfterLogin(
-              context,
-              initialUserId,
-              newUserId,
-              oldAccessToken: initialAccessToken,
-            );
-          }
-          return true;
-        } else if (newUserId != null) {
-          return true;
-        }
-      }
-      return false;
-    } catch (e) {
-      AppLogger.error("Sign-in error", errorObject: e);
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              chosenMethod == SignInMethod.google
-                  ? l10n.signInErrorGoogle
-                  : l10n.signInError,
-            ),
-          ),
-        );
-      }
+    AppLogger.debug('Sign-in modal closed with method: $chosenMethod');
+    if (chosenMethod == null || chosenMethod == SignInMethod.cancel) {
       return false;
     }
+
+    final method = chosenMethod.name;
+    _track('sign_in_method_chosen', {'source': source, 'method': method});
+
+    switch (chosenMethod) {
+      case SignInMethod.apple:
+        try {
+          await signInWithApple();
+        } catch (error) {
+          final cancelled =
+              error is SignInWithAppleAuthorizationException &&
+              error.code == AuthorizationErrorCode.canceled;
+          _trackSignInFailed(
+            session,
+            method: method,
+            stage: 'provider',
+            reason: cancelled ? 'cancelled' : 'error',
+          );
+          AppLogger.error('Error signing in with Apple', errorObject: error);
+          if (!cancelled) {
+            _showSnackBar(session, l10n.signInError);
+          }
+          return false;
+        }
+        break;
+      case SignInMethod.google:
+        try {
+          final didSignIn = await signInWithGoogle();
+          if (!didSignIn) {
+            _trackSignInFailed(
+              session,
+              method: method,
+              stage: 'provider',
+              reason: 'cancelled',
+            );
+            return false;
+          }
+        } catch (error) {
+          _trackSignInFailed(
+            session,
+            method: method,
+            stage: 'provider',
+            reason: 'error',
+          );
+          AppLogger.error('Error signing in with Google', errorObject: error);
+          _showSnackBar(session, l10n.signInErrorGoogle);
+          return false;
+        }
+        break;
+      case SignInMethod.email:
+        if (!session.navigator.mounted) return false;
+        AuthenticationDialogs.showEmailSignInDialog(
+          session.navigator.context,
+          (email) => unawaited(_signInWithEmail(session, email)),
+          onCancel: () => _trackSignInFailed(
+            session,
+            method: method,
+            stage: 'code_send',
+            reason: 'cancelled',
+          ),
+        );
+        break;
+      case SignInMethod.cancel:
+        return false;
+    }
+
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+    final newUser = Supabase.instance.client.auth.currentUser;
+    if (chosenMethod != SignInMethod.email &&
+        !kIsWeb &&
+        newUser != null &&
+        newUser.id != session.oldUserId) {
+      await _completeSignIn(session, method);
+      return true;
+    }
+
+    return newUser != null;
   }
 
-  /// Captures the current user as the source for `update-id-after-signin`,
-  /// but only when that user is anonymous: a registered account must never be
-  /// migrated into another one. Also returns the anonymous session's access
-  /// token (refreshed if it expires within 10 minutes) as proof of the old
-  /// session. Both fields are null for registered or signed-out users.
+  /// Captures the anonymous user and access token used for data migration.
   static Future<({String? userId, String? accessToken})>
   captureAnonymousMigrationSession() async {
     final auth = Supabase.instance.client.auth;
@@ -183,17 +295,17 @@ class AuthenticationService {
       return (userId: null, accessToken: null);
     }
 
-    var session = auth.currentSession;
-    final expiresAt = session?.expiresAt;
+    var authSession = auth.currentSession;
+    final expiresAt = authSession?.expiresAt;
     final nowInSeconds = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     if (expiresAt != null && expiresAt <= nowInSeconds + 600) {
       try {
         final response = await auth.refreshSession();
-        session = response.session ?? auth.currentSession;
-      } catch (e) {
+        authSession = response.session ?? auth.currentSession;
+      } catch (error) {
         AppLogger.error(
           'Failed to refresh anonymous session before sign-in',
-          errorObject: e,
+          errorObject: error,
         );
       }
     }
@@ -207,57 +319,38 @@ class AuthenticationService {
 
     return (
       userId: user.id,
-      accessToken: session?.user.id == user.id ? session?.accessToken : null,
+      accessToken: authSession?.user.id == user.id
+          ? authSession?.accessToken
+          : null,
     );
   }
 
-  /// Signs in with Apple using the appropriate method based on platform
   static Future<void> signInWithApple() async {
     if (!kIsWeb && (Platform.isIOS || Platform.isMacOS)) {
-      await _nativeSignInWithApple();
-    } else {
-      await _supabaseSignInWithApple();
+      final tokens = await const NativeAuthCredentials().apple();
+      await Supabase.instance.client.auth.signInWithIdToken(
+        provider: OAuthProvider.apple,
+        idToken: tokens.idToken,
+        nonce: tokens.rawNonce,
+      );
+      return;
     }
-  }
 
-  /// Native Apple sign-in for iOS/macOS
-  static Future<void> _nativeSignInWithApple() async {
-    final tokens = await const NativeAuthCredentials().apple();
-    await Supabase.instance.client.auth.signInWithIdToken(
-      provider: OAuthProvider.apple,
-      idToken: tokens.idToken,
-      nonce: tokens.rawNonce,
-    );
-  }
-
-  /// Supabase Apple sign-in for web and other platforms
-  static Future<void> _supabaseSignInWithApple() async {
     await Supabase.instance.client.auth.signInWithOAuth(
       OAuthProvider.apple,
-      redirectTo: kIsWeb ? null : 'timercoffee://',
+      redirectTo: kIsWeb ? _webRedirect : _nativeRedirect,
     );
   }
 
-  /// Signs in with Google using the appropriate method based on platform
   static Future<bool> signInWithGoogle() async {
     if (kIsWeb) {
-      await _webSignInWithGoogle();
+      await Supabase.instance.client.auth.signInWithOAuth(
+        OAuthProvider.google,
+        redirectTo: _webRedirect,
+      );
       return true;
-    } else {
-      return await _nativeGoogleSignIn();
     }
-  }
 
-  /// Web Google sign-in
-  static Future<void> _webSignInWithGoogle() async {
-    await Supabase.instance.client.auth.signInWithOAuth(
-      OAuthProvider.google,
-      redirectTo: null,
-    );
-  }
-
-  /// Native Google sign-in for mobile platforms
-  static Future<bool> _nativeGoogleSignIn() async {
     final tokens = await const NativeAuthCredentials().google();
     if (tokens == null) return false;
     await Supabase.instance.client.auth.signInWithIdToken(
@@ -265,186 +358,399 @@ class AuthenticationService {
       idToken: tokens.idToken,
       accessToken: tokens.accessToken,
     );
-
     return true;
   }
 
-  /// Signs in with email using OTP
+  /// Starts the email-code flow directly for legacy callers.
   static Future<void> signInWithEmail(
     BuildContext context,
     String email,
   ) async {
     final l10n = AppLocalizations.of(context)!;
-
-    // Validate and sanitize email
-    final String? validatedEmail = InputValidator.validateAndSanitizeEmail(
-      email,
-    );
+    final scaffoldMessenger = ScaffoldMessenger.maybeOf(context);
+    final validatedEmail = InputValidator.validateAndSanitizeEmail(email);
     if (validatedEmail == null) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(l10n.invalidEmailFormat)));
+      if (scaffoldMessenger != null && scaffoldMessenger.mounted) {
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.invalidEmailFormat)),
+        );
       }
+      _track('sign_in_failed', {
+        'source': 'unknown',
+        'method': 'email',
+        'stage': 'code_send',
+        'reason': 'invalid_email',
+      });
       return;
     }
 
+    final navigator = Navigator.of(context);
+    final databaseProvider = _maybeProvider<DatabaseProvider>(context);
+    final userRecipeProvider = _maybeProvider<UserRecipeProvider>(context);
+    final recipeProvider = _maybeProvider<RecipeProvider>(context);
+    final userStatProvider = _maybeProvider<UserStatProvider>(context);
+    final coffeeBeansProvider = _maybeProvider<CoffeeBeansProvider>(context);
+    final onboardingService = _maybeProvider<OnboardingService>(context);
+    final database = _maybeProvider<AppDatabase>(context);
+    final migrationSession = await captureAnonymousMigrationSession();
+
+    final session = _SignInSession(
+      oldUserId: migrationSession.userId,
+      oldAccessToken: migrationSession.accessToken,
+      source: 'unknown',
+      l10n: l10n,
+      scaffoldMessenger: scaffoldMessenger,
+      navigator: navigator,
+      databaseProvider: databaseProvider,
+      userRecipeProvider: userRecipeProvider,
+      recipeProvider: recipeProvider,
+      userStatProvider: userStatProvider,
+      coffeeBeansProvider: coffeeBeansProvider,
+      onboardingService: onboardingService,
+      database: database,
+    );
+    await _signInWithEmail(session, validatedEmail);
+  }
+
+  static Future<void> _signInWithEmail(
+    _SignInSession session,
+    String email,
+  ) async {
+    final validatedEmail = InputValidator.validateAndSanitizeEmail(email);
+    if (validatedEmail == null) {
+      _showSnackBar(session, session.l10n.invalidEmailFormat);
+      _trackSignInFailed(
+        session,
+        method: 'email',
+        stage: 'code_send',
+        reason: 'invalid_email',
+      );
+      return;
+    }
+
+    if (!session.navigator.mounted) return;
     AuthenticationDialogs.showOTPVerificationDialog(
-      context,
+      session.navigator.context,
       validatedEmail,
-      (email, token) => verifyOTP(context, email, token),
+      (submittedEmail, token) =>
+          unawaited(_verifyOtp(session, submittedEmail, token)),
+      onCancel: () => _trackSignInFailed(
+        session,
+        method: 'email',
+        stage: 'code_verify',
+        reason: 'cancelled',
+      ),
     );
 
     try {
       await Supabase.instance.client.auth.signInWithOtp(
         email: validatedEmail,
-        emailRedirectTo: kIsWeb ? null : 'timercoffee://',
+        emailRedirectTo: _webRedirect,
       );
-    } catch (e) {
-      if (context.mounted) {
-        Navigator.of(context).pop();
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(l10n.otpSendError)));
+    } catch (error) {
+      AppLogger.error('Error sending OTP', errorObject: error);
+      if (session.navigator.mounted && session.navigator.canPop()) {
+        session.navigator.pop();
       }
+      _showSnackBar(session, session.l10n.otpSendError);
+      _trackSignInFailed(
+        session,
+        method: 'email',
+        stage: 'code_send',
+        reason: 'error',
+      );
     }
   }
 
-  /// Verifies OTP for email sign-in
-  static Future<void> verifyOTP(
-    BuildContext context,
+  static Future<void> _verifyOtp(
+    _SignInSession session,
     String email,
     String token,
   ) async {
-    final l10n = AppLocalizations.of(context)!;
-
-    // Sanitize email input
     final sanitizedEmail = InputValidator.sanitizeInput(email);
-    Navigator.of(context).pop();
+    if (session.navigator.mounted && session.navigator.canPop()) {
+      session.navigator.pop();
+    }
 
     try {
-      final AuthResponse res = await Supabase.instance.client.auth.verifyOTP(
+      final response = await Supabase.instance.client.auth.verifyOTP(
         email: sanitizedEmail,
         token: token,
         type: OtpType.email,
       );
+      if (response.session == null) {
+        _showSnackBar(session, session.l10n.invalidOTP);
+        _trackSignInFailed(
+          session,
+          method: 'email',
+          stage: 'code_verify',
+          reason: 'invalid_code',
+        );
+        return;
+      }
 
-      if (res.session != null) {
-        if (context.mounted) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(l10n.signInSuccessfulEmail)));
-        }
-      } else {
-        if (context.mounted) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(l10n.invalidOTP)));
-        }
-      }
-    } catch (e) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(l10n.otpVerificationError)));
-      }
+      await _completeSignIn(session, 'email');
+    } on AuthException catch (error) {
+      AppLogger.error('Error verifying OTP', errorObject: error);
+      final invalidCode = _isInvalidOrExpiredOtp(error);
+      _showSnackBar(
+        session,
+        invalidCode
+            ? session.l10n.invalidOTP
+            : session.l10n.otpVerificationError,
+      );
+      _trackSignInFailed(
+        session,
+        method: 'email',
+        stage: 'code_verify',
+        reason: invalidCode ? 'invalid_code' : 'error',
+      );
+    } catch (error) {
+      AppLogger.error('Error verifying OTP', errorObject: error);
+      _showSnackBar(session, session.l10n.otpVerificationError);
+      _trackSignInFailed(
+        session,
+        method: 'email',
+        stage: 'code_verify',
+        reason: 'error',
+      );
     }
   }
 
-  /// Syncs data after successful login
-  /// Handles user ID changes and synchronizes all user data
-  static Future<void> syncDataAfterLogin(
-    BuildContext context,
-    String? oldUserId,
-    String newUserId, {
-    String? oldAccessToken,
-  }) async {
-    final l10n = AppLocalizations.of(context)!;
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
+  static bool _isInvalidOrExpiredOtp(AuthException error) {
+    final code = error.code?.toLowerCase() ?? '';
+    final message = error.message.toLowerCase();
+    return code.contains('invalid') ||
+        code.contains('expired') ||
+        message.contains('invalid') ||
+        message.contains('expired');
+  }
 
-    try {
-      AppLogger.debug(
-        'syncDataAfterLogin - Initial User ID: ${AppLogger.sanitize(oldUserId)}',
-      );
-      AppLogger.debug(
-        'syncDataAfterLogin - New User ID: ${AppLogger.sanitize(newUserId)}',
-      );
+  static Future<void> _completeSignIn(
+    _SignInSession session,
+    String method,
+  ) async {
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null) return;
+    final newUserId = user.id;
 
-      final dbProvider = Provider.of<DatabaseProvider>(context, listen: false);
-      final userRecipeProvider = Provider.of<UserRecipeProvider>(
-        context,
-        listen: false,
-      );
-      final recipeProvider = Provider.of<RecipeProvider>(
-        context,
-        listen: false,
-      );
-      final userStatProvider = Provider.of<UserStatProvider>(
-        context,
-        listen: false,
-      );
-      final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
-        context,
-        listen: false,
-      );
-
-      if (oldUserId != null && oldUserId != newUserId) {
-        AppLogger.debug(
-          'User ID changed from ${AppLogger.sanitize(oldUserId)} to ${AppLogger.sanitize(newUserId)}. Updating local recipe IDs...',
+    final steps = PostSignInSteps(
+      updateRecipeIds: (oldUserId, migratedUserId) async {
+        final provider = session.userRecipeProvider;
+        if (provider == null) {
+          throw StateError('UserRecipeProvider is unavailable');
+        }
+        await provider.updateUserRecipeIdsAfterLogin(oldUserId, migratedUserId);
+      },
+      migrate: (oldUserId, migratedUserId) async {
+        final response = await Supabase.instance.client.functions.invoke(
+          'update-id-after-signin',
+          body: {
+            'oldUserId': oldUserId,
+            'newUserId': migratedUserId,
+            'oldAccessToken': ?session.oldAccessToken,
+          },
         );
-        // Update local recipe IDs BEFORE calling the edge function or syncing
-        await userRecipeProvider.updateUserRecipeIdsAfterLogin(
-          oldUserId,
-          newUserId,
-        );
-
-        AppLogger.debug('Attempting to update user ID via Edge Function...');
-        try {
-          final res = await Supabase.instance.client.functions.invoke(
-            'update-id-after-signin',
-            body: {
-              'oldUserId': oldUserId,
-              'newUserId': newUserId,
-              'oldAccessToken': ?oldAccessToken,
-            },
-          );
-
-          if (res.status != 200) {
-            throw Exception('Failed to update user ID (status ${res.status})');
-          }
-        } catch (e) {
-          AppLogger.error(
-            'Failed to migrate anonymous user data after sign-in',
-            errorObject: e,
+        if (response.status != 200) {
+          throw Exception(
+            'Failed to update user ID (status ${response.status})',
           );
         }
-      } else {
-        AppLogger.debug('User ID update not required');
-      }
+      },
+      syncData: () async {
+        final databaseProvider = session.databaseProvider;
+        final recipeProvider = session.recipeProvider;
+        final userStatProvider = session.userStatProvider;
+        final coffeeBeansProvider = session.coffeeBeansProvider;
+        if (databaseProvider == null ||
+            recipeProvider == null ||
+            userStatProvider == null ||
+            coffeeBeansProvider == null) {
+          throw StateError('Post-sign-in providers are unavailable');
+        }
+        await databaseProvider.uploadUserPreferencesToSupabase();
+        await databaseProvider.fetchAndInsertUserPreferencesFromSupabase();
+        await databaseProvider.syncUserRecipes(newUserId);
+        await databaseProvider.syncImportedRecipes(newUserId);
+        await recipeProvider.fetchAllRecipes();
+        await userStatProvider.syncUserStats();
+        await coffeeBeansProvider.syncCoffeeBeans();
+      },
+      registerFcmToken: registerFcmTokenForCurrentUser,
+      reconcileMilestones: () => _reconcileMilestonesAfterSync(session),
+      onDataSyncError: (error) => _showSnackBar(
+        session,
+        session.l10n.errorSyncingData(error.toString()),
+      ),
+    );
 
-      await dbProvider.uploadUserPreferencesToSupabase();
-      await dbProvider.fetchAndInsertUserPreferencesFromSupabase();
-
-      // Sync recipes first to satisfy FK constraints for stats
-      await dbProvider.syncUserRecipes(newUserId);
-      await dbProvider.syncImportedRecipes(newUserId);
-
-      // Reload recipes into the provider state after sync
-      await recipeProvider.fetchAllRecipes();
-
-      // Stats rely on recipes being present locally
-      await userStatProvider.syncUserStats();
-
-      await coffeeBeansProvider.syncCoffeeBeans();
-      AppLogger.debug('RecipeProvider state refreshed.');
-
-      AppLogger.debug('Data synchronization completed successfully');
-      scaffoldMessenger.showSnackBar(SnackBar(content: Text(l10n.syncSuccess)));
-    } catch (e) {
-      AppLogger.error('Error syncing user data', errorObject: e);
-      scaffoldMessenger.showSnackBar(
-        SnackBar(content: Text(l10n.errorSyncingData(e.toString()))),
+    try {
+      await runPostSignIn(
+        steps: steps,
+        oldUserId: session.oldUserId,
+        newUserId: newUserId,
+        source: session.source,
+        method: method,
+        userCreatedAt: DateTime.tryParse(user.createdAt),
+      );
+    } catch (error) {
+      // Migration, data sync, and FCM failures are handled by the seam. The
+      // only remaining production step is milestone reconciliation.
+      AppLogger.error(
+        'Failed to reconcile milestones after sign-in',
+        errorObject: error,
       );
     }
+
+    final successMessage = switch (method) {
+      'google' => session.l10n.signInSuccessfulGoogle,
+      'email' => session.l10n.signInSuccessfulEmail,
+      _ => session.l10n.signInSuccessful,
+    };
+    _showSnackBar(session, successMessage);
+  }
+
+  @visibleForTesting
+  static Future<void> runPostSignIn({
+    required PostSignInSteps steps,
+    required String? oldUserId,
+    required String newUserId,
+    required String source,
+    required String method,
+    required DateTime? userCreatedAt,
+    DateTime? now,
+  }) async {
+    var migrated = false;
+    if (oldUserId != null && oldUserId != newUserId) {
+      // A failed local rename must not skip the server-side migration.
+      try {
+        await steps.updateRecipeIds(oldUserId, newUserId);
+      } catch (error) {
+        AppLogger.error(
+          'Failed to rename anonymous recipes after sign-in',
+          errorObject: error,
+        );
+        _track('sign_in_sync_failed', {'source': source, 'step': 'recipe_ids'});
+      }
+      try {
+        await steps.migrate(oldUserId, newUserId);
+        migrated = true;
+      } catch (error) {
+        AppLogger.error(
+          'Failed to migrate anonymous user data after sign-in',
+          errorObject: error,
+        );
+        _track('sign_in_sync_failed', {'source': source, 'step': 'migration'});
+      }
+    }
+
+    final referenceTime = now ?? DateTime.now();
+    final accountAge = userCreatedAt == null
+        ? null
+        : referenceTime.difference(userCreatedAt).abs();
+    _track('sign_in_completed', {
+      'source': source,
+      'method': method,
+      'is_new_account':
+          accountAge != null && accountAge <= const Duration(minutes: 5),
+      'migrated': migrated,
+    });
+
+    try {
+      await steps.syncData();
+    } catch (error) {
+      AppLogger.error('Error syncing user data', errorObject: error);
+      _track('sign_in_sync_failed', {'source': source, 'step': 'data_sync'});
+      steps.onDataSyncError?.call(error);
+    }
+
+    try {
+      await steps.registerFcmToken();
+    } catch (error) {
+      AppLogger.error(
+        'Failed to update FCM token after sign-in',
+        errorObject: error,
+      );
+    }
+
+    await steps.reconcileMilestones();
+  }
+
+  /// Registers the current user's FCM token without affecting sign-in sync.
+  static Future<void> registerFcmTokenForCurrentUser() async {
+    try {
+      final user = Supabase.instance.client.auth.currentUser;
+      if (user == null || kIsWeb) return;
+
+      final notificationService = NotificationService.instance;
+      final token = await notificationService.fcm.getToken();
+      if (token != null) {
+        await notificationService.fcm.storeFcmToken(user.id, token);
+      }
+      notificationService.fcm.onTokenRefresh((newToken) async {
+        await notificationService.fcm.storeFcmToken(user.id, newToken);
+      });
+    } catch (error) {
+      AppLogger.error(
+        'Failed to register FCM token for current user',
+        errorObject: error,
+      );
+    }
+  }
+
+  static Future<void> _reconcileMilestonesAfterSync(
+    _SignInSession session,
+  ) async {
+    final database = session.database;
+    final onboardingService = session.onboardingService;
+    if (database == null || onboardingService == null) {
+      throw StateError('Milestone reconciliation providers are unavailable');
+    }
+    final prefs = await SharedPreferences.getInstance();
+    final snapshot = await OnboardingReconciliationSnapshot.fromPersistence(
+      database: database,
+      prefs: prefs,
+      isFirstLaunch: false,
+      previousAppVersion: prefs.getString('previous_app_version'),
+    );
+    await onboardingService.reconcileState(snapshot);
+    AppLogger.debug(
+      'Returning user milestones reconciled: '
+      '${onboardingService.completedMilestoneCount}/'
+      '${OnboardingService.totalMilestones}',
+    );
+  }
+
+  static T? _maybeProvider<T>(BuildContext context) {
+    try {
+      return Provider.of<T>(context, listen: false);
+    } on ProviderNotFoundException {
+      return null;
+    }
+  }
+
+  static void _showSnackBar(_SignInSession session, String message) {
+    final messenger = session.scaffoldMessenger;
+    if (messenger != null && messenger.mounted) {
+      messenger.showSnackBar(SnackBar(content: Text(message)));
+    }
+  }
+
+  static void _trackSignInFailed(
+    _SignInSession session, {
+    required String method,
+    required String stage,
+    required String reason,
+  }) {
+    _track('sign_in_failed', {
+      'source': session.source,
+      'method': method,
+      'stage': stage,
+      'reason': reason,
+    });
+  }
+
+  static void _track(String name, Map<String, dynamic> properties) {
+    AnalyticsService.maybeInstance?.track(name, properties: properties);
   }
 }
