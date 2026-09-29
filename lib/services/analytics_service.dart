@@ -114,6 +114,9 @@ class AnalyticsService extends ChangeNotifier {
     // General
     'app_opened': 'general',
     'screen_viewed': 'general',
+    'account_email_change_requested': 'general',
+    'account_email_changed': 'general',
+    'account_email_change_failed': 'general',
     'recipe_created': 'general',
     'recipe_shared': 'general',
     'collection_card_tapped': 'general',

@@ -19,6 +19,7 @@ import '../theme/design_tokens.dart';
 import '../widgets/confirm_delete_dialog.dart';
 import '../utils/app_logger.dart'; // Import AppLogger
 import '../widgets/base_buttons.dart';
+import '../widgets/account/sign_in_methods_section.dart';
 
 // --- Top-level function for image processing in isolate ---
 Future<Uint8List> _processImageIsolate(Uint8List imageBytes) async {
@@ -916,6 +917,8 @@ class _AccountScreenState extends State<AccountScreen> {
                           ),
                       ],
                     ),
+                    const SizedBox(height: AppSpacing.lg),
+                    const SignInMethodsSection(),
                     const SizedBox(height: 30),
                   ],
                 ),
