@@ -4,6 +4,7 @@ import 'package:sign_in_button/sign_in_button.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
+import 'package:coffee_timer/widgets/fields/otp_code_field.dart';
 import 'dart:io';
 
 // Enum for sign-in method
@@ -174,7 +175,7 @@ class EmailSignInDialog extends StatelessWidget {
 }
 
 /// Widget that shows the OTP verification dialog
-class OTPVerificationDialog extends StatelessWidget {
+class OTPVerificationDialog extends StatefulWidget {
   final String email;
   final Function(String, String) onOTPSubmitted;
 
@@ -185,22 +186,36 @@ class OTPVerificationDialog extends StatelessWidget {
   });
 
   @override
+  State<OTPVerificationDialog> createState() => _OTPVerificationDialogState();
+}
+
+class _OTPVerificationDialogState extends State<OTPVerificationDialog> {
+  final TextEditingController _otpController = TextEditingController();
+
+  @override
+  void dispose() {
+    _otpController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final TextEditingController otpController = TextEditingController();
 
     return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppRadius.card),
+      ),
       title: Text(l10n.enterOTP),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(l10n.otpSentMessage),
-          TextField(
-            controller: otpController,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              hintText: l10n.otpHint2,
-            ),
+          const SizedBox(height: AppSpacing.base),
+          OtpCodeField(
+            controller: _otpController,
+            label: l10n.otpHint2,
+            autofocus: true,
           ),
         ],
       ),
@@ -215,7 +230,7 @@ class OTPVerificationDialog extends StatelessWidget {
         AppTextButton(
           label: l10n.verify,
           onPressed: () {
-            onOTPSubmitted(email, otpController.text);
+            widget.onOTPSubmitted(widget.email, _otpController.text);
           },
           isFullWidth: false,
           height: AppButton.heightSmall,

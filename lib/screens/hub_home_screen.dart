@@ -22,6 +22,7 @@ import '../utils/app_logger.dart'; // Import AppLogger
 import '../utils/blog_launcher.dart';
 import '../utils/app_material_symbols.dart';
 import '../widgets/base_buttons.dart';
+import '../widgets/fields/otp_code_field.dart';
 import '../widgets/account_avatar_inline.dart';
 import '../widgets/coffee_journey_card.dart';
 import '../services/authentication_service.dart';
@@ -717,10 +718,11 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(l10n.otpSentMessage),
-              TextField(
+              const SizedBox(height: AppSpacing.base),
+              OtpCodeField(
                 controller: otpController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(hintText: l10n.otpHint2),
+                label: l10n.otpHint2,
+                autofocus: true,
               ),
             ],
           ),
