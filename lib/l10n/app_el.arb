@@ -1941,7 +1941,6 @@
   "accountIdentityLinkedStatus": "Συνδεδεμένο",
   "accountIdentityLink": "Σύνδεση",
   "accountIdentityUnlink": "Κατάργηση σύνδεσης",
-  "accountIdentityMoreActions": "Περισσότερες ενέργειες",
   "accountIdentityLinkedMessage": "{provider} συνδέθηκε. Πλέον μπορείς να συνδεθείς με αυτό.",
   "accountIdentityAlreadyUsedTitle": "Το {provider} χρησιμοποιείται ήδη",
   "accountIdentityAlreadyUsedContent": "Αυτός ο λογαριασμός {provider} έχει ήδη τον δικό του λογαριασμό Timer.Coffee. Για να τον συνδέσεις εδώ, συνδέσου με {provider}, διαγράψε εκείνον τον λογαριασμό (Λογαριασμός → Διαγραφή λογαριασμού), στη συνέχεια συνδέσου ξανά με το email σου και συνδέσε τον πάλι. Επικοινώνησε με την υποστήριξη.",

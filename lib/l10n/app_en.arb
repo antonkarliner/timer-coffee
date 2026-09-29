@@ -2911,8 +2911,6 @@
   "@accountIdentityLink": {"description": "Button label for linking a sign-in provider to the current account."},
   "accountIdentityUnlink": "Unlink",
   "@accountIdentityUnlink": {"description": "Menu item and confirmation button label for unlinking a sign-in provider from the current account."},
-  "accountIdentityMoreActions": "More actions",
-  "@accountIdentityMoreActions": {"description": "Tooltip for the overflow menu on a linked sign-in provider row."},
   "accountIdentityLinkedMessage": "{provider} linked. You can now sign in with it.",
   "@accountIdentityLinkedMessage": {"description": "Confirmation shown after a sign-in provider is linked to the current account.", "placeholders": {"provider": {"type": "String", "example": "Google"}}},
   "accountIdentityAlreadyUsedTitle": "{provider} is already in use",

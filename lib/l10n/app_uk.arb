@@ -1546,7 +1546,6 @@
   "accountIdentityLinkedStatus": "Підключено",
   "accountIdentityLink": "Підключити",
   "accountIdentityUnlink": "Відключити",
-  "accountIdentityMoreActions": "Інші дії",
   "accountIdentityLinkedMessage": "{provider} підключено. Тепер ви можете входити за його допомогою.",
   "accountIdentityAlreadyUsedTitle": "{provider} уже використовується",
   "accountIdentityAlreadyUsedContent": "Цей обліковий запис {provider} уже має власний обліковий запис Timer.Coffee. Щоб підключити його тут, увійдіть за допомогою {provider}, видаліть цей запис (Обліковий запис → Видалити обліковий запис), потім знову увійдіть за допомогою своєї адреси електронної пошти та підключіть повторно. Або зверніться до підтримки.",

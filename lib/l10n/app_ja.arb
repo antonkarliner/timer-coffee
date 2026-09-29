@@ -1546,7 +1546,6 @@
   "accountIdentityLinkedStatus": "連携済み",
   "accountIdentityLink": "連携する",
   "accountIdentityUnlink": "連携を解除",
-  "accountIdentityMoreActions": "その他の操作",
   "accountIdentityLinkedMessage": "{provider}を連携しました。今後はこのアカウントでサインインできます。",
   "accountIdentityAlreadyUsedTitle": "{provider}はすでに使用中",
   "accountIdentityAlreadyUsedContent": "この{provider}アカウントには、すでに専用のTimer.Coffeeアカウントがあります。ここで連携するには、{provider}でサインインし、そのアカウントを削除し（アカウント → アカウントを削除）、その後メールアドレスでもう一度サインインして連携し直してください。または、サポートにお問い合わせください。",

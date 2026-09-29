@@ -1546,7 +1546,6 @@
   "accountIdentityLinkedStatus": "Gekoppeld",
   "accountIdentityLink": "Koppelen",
   "accountIdentityUnlink": "Ontkoppelen",
-  "accountIdentityMoreActions": "Meer acties",
   "accountIdentityLinkedMessage": "{provider} gekoppeld. U kunt er nu mee aanmelden.",
   "accountIdentityAlreadyUsedTitle": "{provider} is al in gebruik",
   "accountIdentityAlreadyUsedContent": "Dit {provider}-account heeft al een eigen Timer.Coffee-account. Om het hier te koppelen: meld u aan met {provider}, verwijder dat account (Account → Account verwijderen), meld u daarna opnieuw aan met uw e-mailadres en koppel het opnieuw. Of neem contact op met support.",

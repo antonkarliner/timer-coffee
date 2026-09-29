@@ -1546,7 +1546,6 @@
   "accountIdentityLinkedStatus": "已关联",
   "accountIdentityLink": "关联",
   "accountIdentityUnlink": "取消关联",
-  "accountIdentityMoreActions": "更多操作",
   "accountIdentityLinkedMessage": "{provider} 已关联。现在您可以使用它登录。",
   "accountIdentityAlreadyUsedTitle": "{provider} 已在使用中",
   "accountIdentityAlreadyUsedContent": "该 {provider} 账户已拥有自己的 Timer.Coffee 账户。要在此处关联，请使用 {provider} 登录，删除该账户（账户 → 删除账户），然后使用您的邮箱重新登录并再次关联。或联系支持团队。",

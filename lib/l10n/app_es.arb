@@ -1546,7 +1546,6 @@
   "accountIdentityLinkedStatus": "Vinculado",
   "accountIdentityLink": "Vincular",
   "accountIdentityUnlink": "Desvincular",
-  "accountIdentityMoreActions": "Más acciones",
   "accountIdentityLinkedMessage": "{provider} vinculado. Ya puedes iniciar sesión con él.",
   "accountIdentityAlreadyUsedTitle": "{provider} ya está en uso",
   "accountIdentityAlreadyUsedContent": "Esta cuenta de {provider} ya tiene su propia cuenta de Timer.Coffee. Para vincularla aquí, inicia sesión con {provider}, borra esa cuenta (Cuenta → Borrar cuenta), vuelve a iniciar sesión con tu correo y vincúlala de nuevo. O contacta con soporte.",

@@ -1546,7 +1546,6 @@
   "accountIdentityLinkedStatus": "Połączono",
   "accountIdentityLink": "Połącz",
   "accountIdentityUnlink": "Odłącz",
-  "accountIdentityMoreActions": "Więcej opcji",
   "accountIdentityLinkedMessage": "Połączono {provider}. Możesz się teraz zalogować za jego pomocą.",
   "accountIdentityAlreadyUsedTitle": "{provider} jest już w użyciu",
   "accountIdentityAlreadyUsedContent": "To konto {provider} ma już własne konto Timer.Coffee. Aby połączyć je tutaj, zaloguj się przez {provider}, usuń to konto (Konto → Usuń konto), potem zaloguj się ponownie za pomocą swojego e-maila i połącz je jeszcze raz. Możesz też skontaktować się z pomocą techniczną.",

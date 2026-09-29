@@ -30,7 +30,7 @@ void main() {
     expect(find.text('Change'), findsOneWidget);
     expect(find.text('Google'), findsOneWidget);
     expect(_displayedEmail('google@example.com'), findsOneWidget);
-    expect(find.byIcon(Icons.more_vert), findsOneWidget);
+    expect(find.text('Unlink'), findsOneWidget);
     expect(find.text('Apple'), findsOneWidget);
     expect(find.text('Link'), findsOneWidget);
   });
@@ -66,7 +66,7 @@ void main() {
     expect(find.text('Change'), findsNothing);
     expect(find.text('Google'), findsOneWidget);
     expect(_displayedEmail('google-only@example.com'), findsOneWidget);
-    expect(find.byIcon(Icons.more_vert), findsNothing);
+    expect(find.text('Unlink'), findsNothing);
     expect(find.text('Apple'), findsOneWidget);
     expect(find.text('Link'), findsOneWidget);
   });
@@ -84,7 +84,7 @@ void main() {
     expect(find.text('Apple'), findsOneWidget);
     expect(find.text('Linked'), findsOneWidget);
     expect(find.text('Link'), findsOneWidget);
-    expect(find.byIcon(Icons.more_vert), findsNothing);
+    expect(find.text('Unlink'), findsNothing);
   });
 
   testWidgets('Google overflow opens the unlink confirmation', (tester) async {
@@ -98,8 +98,6 @@ void main() {
       ],
     );
 
-    await tester.tap(find.byIcon(Icons.more_vert));
-    await tester.pumpAndSettle();
     await tester.tap(find.text('Unlink'));
     await tester.pumpAndSettle();
 

@@ -360,20 +360,18 @@ class _SignInMethodsSectionState extends State<SignInMethodsSection> {
         padding: AppButton.paddingSmall,
       );
     } else if (_service.canUnlink(identity, identities)) {
-      trailing = PopupMenuButton<String>(
-        enabled: !_operationInFlight,
-        icon: const Icon(Icons.more_vert),
-        iconSize: AppIconSize.medium,
-        tooltip: l10n.accountIdentityMoreActions,
-        onSelected: (_) {
-          unawaited(_confirmUnlink(identity, provider, providerName));
-        },
-        itemBuilder: (_) => [
-          PopupMenuItem<String>(
-            value: 'unlink',
-            child: Text(l10n.accountIdentityUnlink, style: AppTextStyles.body),
-          ),
-        ],
+      // Inline, in the slot where "Link" sits when unlinked, so the action
+      // simply flips; error color marks it as the destructive one. The
+      // confirmation dialog still guards it.
+      trailing = AppTextButton(
+        label: l10n.accountIdentityUnlink,
+        onPressed: _operationInFlight
+            ? null
+            : () => _confirmUnlink(identity, provider, providerName),
+        foregroundColor: colorScheme.error,
+        isFullWidth: false,
+        height: AppButton.heightSmall,
+        padding: AppButton.paddingSmall,
       );
     }
 

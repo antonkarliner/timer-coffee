@@ -1398,7 +1398,6 @@
   "accountIdentityLinkedStatus": "Yhdistetty",
   "accountIdentityLink": "Yhdistä",
   "accountIdentityUnlink": "Poista yhdistys",
-  "accountIdentityMoreActions": "Lisätoiminnot",
   "accountIdentityLinkedMessage": "{provider} yhdistetty. Voit nyt kirjautua sisään sen avulla.",
   "accountIdentityAlreadyUsedTitle": "{provider} on jo käytössä",
   "accountIdentityAlreadyUsedContent": "Tällä {provider}-tilillä on jo oma Timer.Coffee-tili. Yhdistääksesi sen tähän, kirjaudu sisään {provider}-tilillä, poista kyseinen tili (Tili → Poista tili), kirjaudu sitten uudelleen sähköpostiosoitteellasi ja yhdistä uudelleen. Tai ota yhteyttä tukeen.",

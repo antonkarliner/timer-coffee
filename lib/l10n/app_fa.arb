@@ -1719,7 +1719,6 @@
   "accountIdentityLinkedStatus": "متصل",
   "accountIdentityLink": "اتصال",
   "accountIdentityUnlink": "قطع اتصال",
-  "accountIdentityMoreActions": "اقدامات بیشتر",
   "accountIdentityLinkedMessage": "{provider} متصل شد. اکنون می‌توانید با آن وارد شوید.",
   "accountIdentityAlreadyUsedTitle": "{provider} قبلاً در حال استفاده است",
   "accountIdentityAlreadyUsedContent": "این حساب {provider} حساب جداگانه خودش را در Timer.Coffee دارد. برای اتصال آن به اینجا، با {provider} وارد شوید، آن حساب را حذف کنید (حساب → حذف حساب)، سپس با ایمیل خود دوباره وارد شوید و دوباره آن را متصل کنید. یا با پشتیبانی تماس بگیرید.",

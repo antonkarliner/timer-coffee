@@ -1546,7 +1546,6 @@
   "accountIdentityLinkedStatus": "Conectat",
   "accountIdentityLink": "Conectează",
   "accountIdentityUnlink": "Deconectează",
-  "accountIdentityMoreActions": "Mai multe acțiuni",
   "accountIdentityLinkedMessage": "{provider} conectat. Acum te poți autentifica cu el.",
   "accountIdentityAlreadyUsedTitle": "{provider} este deja folosit",
   "accountIdentityAlreadyUsedContent": "Acest cont {provider} are deja un cont propriu Timer.Coffee. Pentru a-l conecta aici, autentifică-te cu {provider}, șterge acel cont (Cont → Șterge contul), apoi autentifică-te din nou cu adresa ta de e-mail și conectează-l din nou. Sau contactează asistența.",

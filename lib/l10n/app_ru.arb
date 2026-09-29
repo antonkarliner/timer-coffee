@@ -1546,7 +1546,6 @@
   "accountIdentityLinkedStatus": "Подключено",
   "accountIdentityLink": "Подключить",
   "accountIdentityUnlink": "Отключить",
-  "accountIdentityMoreActions": "Другие действия",
   "accountIdentityLinkedMessage": "{provider} подключен. Теперь вы можете входить с его помощью.",
   "accountIdentityAlreadyUsedTitle": "{provider} уже используется",
   "accountIdentityAlreadyUsedContent": "У этого аккаунта {provider} уже есть собственный аккаунт Timer.Coffee. Чтобы подключить его здесь, войдите через {provider}, удалите тот аккаунт (Аккаунт → Удалить учетную запись), затем снова войдите со своим адресом электронной почты и подключите еще раз. Или обратитесь в поддержку.",

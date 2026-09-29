@@ -1546,7 +1546,6 @@
   "accountIdentityLinkedStatus": "Collegato",
   "accountIdentityLink": "Collega",
   "accountIdentityUnlink": "Scollega",
-  "accountIdentityMoreActions": "Altre azioni",
   "accountIdentityLinkedMessage": "{provider} collegato. Ora puoi accedere con questo account.",
   "accountIdentityAlreadyUsedTitle": "{provider} è già in uso",
   "accountIdentityAlreadyUsedContent": "Questo account {provider} ha già un proprio account Timer.Coffee. Per collegarlo qui, accedi con {provider}, elimina quell’account (Account → Elimina account), poi accedi di nuovo con la tua email e collegalo di nuovo. Oppure contatta l’assistenza.",

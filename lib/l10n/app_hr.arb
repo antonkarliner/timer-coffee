@@ -1717,7 +1717,6 @@
   "accountIdentityLinkedStatus": "Povezano",
   "accountIdentityLink": "Poveži",
   "accountIdentityUnlink": "Ukloni povezivanje",
-  "accountIdentityMoreActions": "Dodatne radnje",
   "accountIdentityLinkedMessage": "{provider} je povezan. Sada se možeš prijaviti putem njega.",
   "accountIdentityAlreadyUsedTitle": "{provider} je već u upotrebi",
   "accountIdentityAlreadyUsedContent": "Ovaj {provider} račun već ima vlastiti Timer.Coffee račun. Da ga povežeš ovdje, koristi {provider} za prijavu, izbriši taj račun (Račun → Izbriši račun), a zatim se ponovno prijavi sa svojom e-poštom i poveži ga ponovno. Ili se obrati podršci.",
