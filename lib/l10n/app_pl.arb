@@ -1542,5 +1542,18 @@
   "accountEmailCantAccess": "Nie masz dostępu do {email}?",
   "accountEmailSupportSubject": "Pomoc dotycząca zmiany adresu e-mail konta",
   "accountEmailDoneMessage": "Adres e-mail Twojego konta to teraz {email}. Użyj go przy następnym logowaniu.",
-  "accountEmailDone": "Gotowe"
+  "accountEmailDone": "Gotowe",
+  "accountIdentityLinkedStatus": "Połączono",
+  "accountIdentityLink": "Połącz",
+  "accountIdentityUnlink": "Odłącz",
+  "accountIdentityMoreActions": "Więcej opcji",
+  "accountIdentityLinkedMessage": "Połączono {provider}. Możesz się teraz zalogować za jego pomocą.",
+  "accountIdentityAlreadyUsedTitle": "{provider} jest już w użyciu",
+  "accountIdentityAlreadyUsedContent": "To konto {provider} ma już własne konto Timer.Coffee. Aby połączyć je tutaj, zaloguj się przez {provider}, usuń to konto (Konto → Usuń konto), potem zaloguj się ponownie za pomocą swojego e-maila i połącz je jeszcze raz. Możesz też skontaktować się z pomocą techniczną.",
+  "accountIdentityContactSupport": "Skontaktuj się z pomocą techniczną",
+  "accountIdentitySupportSubject": "Pomoc dotycząca łączenia metody logowania",
+  "accountIdentityLinkingDisabled": "Łączenie jest obecnie niedostępne.",
+  "accountIdentityUnlinkTitle": "Odłączyć {provider}?",
+  "accountIdentityUnlinkContent": "Nie będziesz już móc logować się przez {provider}.",
+  "accountIdentityUnlinkedMessage": "Odłączono {provider}"
 }

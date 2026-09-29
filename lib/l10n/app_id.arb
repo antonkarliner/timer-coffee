@@ -1542,5 +1542,18 @@
   "accountEmailCantAccess": "Tidak bisa mengakses {email}?",
   "accountEmailSupportSubject": "Bantuan mengubah email akun",
   "accountEmailDoneMessage": "Email akun Anda sekarang {email}. Gunakan itu saat masuk berikutnya.",
-  "accountEmailDone": "Selesai"
+  "accountEmailDone": "Selesai",
+  "accountIdentityLinkedStatus": "Tertaut",
+  "accountIdentityLink": "Tautkan",
+  "accountIdentityUnlink": "Putuskan tautan",
+  "accountIdentityMoreActions": "Tindakan lainnya",
+  "accountIdentityLinkedMessage": "{provider} berhasil ditautkan. Sekarang Anda dapat masuk dengannya.",
+  "accountIdentityAlreadyUsedTitle": "{provider} sudah digunakan",
+  "accountIdentityAlreadyUsedContent": "Akun {provider} ini sudah memiliki akun Timer.Coffee sendiri. Untuk menautkannya di sini, masuk dengan {provider}, hapus akun tersebut (Akun → Hapus akun), lalu masuk lagi dengan email Anda dan tautkan kembali. Atau hubungi dukungan.",
+  "accountIdentityContactSupport": "Hubungi dukungan",
+  "accountIdentitySupportSubject": "Bantuan menautkan metode masuk",
+  "accountIdentityLinkingDisabled": "Penautan saat ini tidak tersedia.",
+  "accountIdentityUnlinkTitle": "Putuskan tautan {provider}?",
+  "accountIdentityUnlinkContent": "Anda tidak akan bisa masuk dengan {provider} lagi.",
+  "accountIdentityUnlinkedMessage": "Tautan {provider} diputus"
 }

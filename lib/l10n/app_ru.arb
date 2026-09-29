@@ -1542,5 +1542,18 @@
   "accountEmailCantAccess": "Нет доступа к {email}?",
   "accountEmailSupportSubject": "Помощь со сменой адреса электронной почты",
   "accountEmailDoneMessage": "Адрес электронной почты вашего аккаунта теперь {email}. Используйте его при следующем входе.",
-  "accountEmailDone": "Готово"
+  "accountEmailDone": "Готово",
+  "accountIdentityLinkedStatus": "Подключено",
+  "accountIdentityLink": "Подключить",
+  "accountIdentityUnlink": "Отключить",
+  "accountIdentityMoreActions": "Другие действия",
+  "accountIdentityLinkedMessage": "{provider} подключен. Теперь вы можете входить с его помощью.",
+  "accountIdentityAlreadyUsedTitle": "{provider} уже используется",
+  "accountIdentityAlreadyUsedContent": "У этого аккаунта {provider} уже есть собственный аккаунт Timer.Coffee. Чтобы подключить его здесь, войдите через {provider}, удалите тот аккаунт (Аккаунт → Удалить учетную запись), затем снова войдите со своим адресом электронной почты и подключите еще раз. Или обратитесь в поддержку.",
+  "accountIdentityContactSupport": "Обратиться в поддержку",
+  "accountIdentitySupportSubject": "Помощь с подключением способа входа",
+  "accountIdentityLinkingDisabled": "Подключение сейчас недоступно.",
+  "accountIdentityUnlinkTitle": "Отключить {provider}?",
+  "accountIdentityUnlinkContent": "Вы больше не сможете входить через {provider}.",
+  "accountIdentityUnlinkedMessage": "{provider} отключен"
 }

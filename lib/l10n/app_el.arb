@@ -1937,5 +1937,18 @@
   "accountEmailCantAccess": "Δεν έχεις πρόσβαση στο {email};",
   "accountEmailSupportSubject": "Βοήθεια για την αλλαγή του email του λογαριασμού μου",
   "accountEmailDoneMessage": "Το email του λογαριασμού σου είναι τώρα {email}. Χρησιμοποίησέ το την επόμενη φορά που θα συνδεθείς.",
-  "accountEmailDone": "Τέλος"
+  "accountEmailDone": "Τέλος",
+  "accountIdentityLinkedStatus": "Συνδεδεμένο",
+  "accountIdentityLink": "Σύνδεση",
+  "accountIdentityUnlink": "Κατάργηση σύνδεσης",
+  "accountIdentityMoreActions": "Περισσότερες ενέργειες",
+  "accountIdentityLinkedMessage": "{provider} συνδέθηκε. Πλέον μπορείς να συνδεθείς με αυτό.",
+  "accountIdentityAlreadyUsedTitle": "Το {provider} χρησιμοποιείται ήδη",
+  "accountIdentityAlreadyUsedContent": "Αυτός ο λογαριασμός {provider} έχει ήδη τον δικό του λογαριασμό Timer.Coffee. Για να τον συνδέσεις εδώ, συνδέσου με {provider}, διαγράψε εκείνον τον λογαριασμό (Λογαριασμός → Διαγραφή λογαριασμού), στη συνέχεια συνδέσου ξανά με το email σου και συνδέσε τον πάλι. Επικοινώνησε με την υποστήριξη.",
+  "accountIdentityContactSupport": "Επικοινώνησε με την υποστήριξη",
+  "accountIdentitySupportSubject": "Βοήθεια για τη σύνδεση μεθόδου πρόσβασης",
+  "accountIdentityLinkingDisabled": "Η σύνδεση δεν είναι διαθέσιμη προς το παρόν.",
+  "accountIdentityUnlinkTitle": "Κατάργηση σύνδεσης {provider};",
+  "accountIdentityUnlinkContent": "Δεν θα μπορείς πλέον να συνδεθείς με {provider}.",
+  "accountIdentityUnlinkedMessage": "Καταργήθηκε η σύνδεση του {provider}"
 }

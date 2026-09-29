@@ -1542,5 +1542,18 @@
   "accountEmailCantAccess": "Немає доступу до {email}?",
   "accountEmailSupportSubject": "Допомога зі зміною адреси електронної пошти",
   "accountEmailDoneMessage": "Адреса електронної пошти вашого облікового запису тепер {email}. Використовуйте її під час наступного входу.",
-  "accountEmailDone": "Готово"
+  "accountEmailDone": "Готово",
+  "accountIdentityLinkedStatus": "Підключено",
+  "accountIdentityLink": "Підключити",
+  "accountIdentityUnlink": "Відключити",
+  "accountIdentityMoreActions": "Інші дії",
+  "accountIdentityLinkedMessage": "{provider} підключено. Тепер ви можете входити за його допомогою.",
+  "accountIdentityAlreadyUsedTitle": "{provider} уже використовується",
+  "accountIdentityAlreadyUsedContent": "Цей обліковий запис {provider} уже має власний обліковий запис Timer.Coffee. Щоб підключити його тут, увійдіть за допомогою {provider}, видаліть цей запис (Обліковий запис → Видалити обліковий запис), потім знову увійдіть за допомогою своєї адреси електронної пошти та підключіть повторно. Або зверніться до підтримки.",
+  "accountIdentityContactSupport": "Звернутися до підтримки",
+  "accountIdentitySupportSubject": "Допомога з підключенням способу входу",
+  "accountIdentityLinkingDisabled": "Підключення зараз недоступне.",
+  "accountIdentityUnlinkTitle": "Відключити {provider}?",
+  "accountIdentityUnlinkContent": "Ви більше не зможете входити за допомогою {provider}.",
+  "accountIdentityUnlinkedMessage": "{provider} відключено"
 }

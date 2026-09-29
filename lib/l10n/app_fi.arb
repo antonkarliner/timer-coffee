@@ -1394,5 +1394,18 @@
   "accountEmailCantAccess": "Etkö pääse osoitteeseen {email}?",
   "accountEmailSupportSubject": "Ohjeita tilin sähköpostin vaihtamiseen",
   "accountEmailDoneMessage": "Tilisi sähköpostiosoite on nyt {email}. Käytä sitä seuraavalla kirjautumiskerralla.",
-  "accountEmailDone": "Valmis"
+  "accountEmailDone": "Valmis",
+  "accountIdentityLinkedStatus": "Yhdistetty",
+  "accountIdentityLink": "Yhdistä",
+  "accountIdentityUnlink": "Poista yhdistys",
+  "accountIdentityMoreActions": "Lisätoiminnot",
+  "accountIdentityLinkedMessage": "{provider} yhdistetty. Voit nyt kirjautua sisään sen avulla.",
+  "accountIdentityAlreadyUsedTitle": "{provider} on jo käytössä",
+  "accountIdentityAlreadyUsedContent": "Tällä {provider}-tilillä on jo oma Timer.Coffee-tili. Yhdistääksesi sen tähän, kirjaudu sisään {provider}-tilillä, poista kyseinen tili (Tili → Poista tili), kirjaudu sitten uudelleen sähköpostiosoitteellasi ja yhdistä uudelleen. Tai ota yhteyttä tukeen.",
+  "accountIdentityContactSupport": "Ota yhteyttä tukeen",
+  "accountIdentitySupportSubject": "Ohjeita kirjautumistavan yhdistämiseen",
+  "accountIdentityLinkingDisabled": "Yhdistäminen ei ole juuri nyt mahdollista.",
+  "accountIdentityUnlinkTitle": "Poistetaanko {provider}-yhdistys?",
+  "accountIdentityUnlinkContent": "Et voi enää kirjautua sisään {provider}-tilillä.",
+  "accountIdentityUnlinkedMessage": "{provider}-yhdistys poistettu"
 }

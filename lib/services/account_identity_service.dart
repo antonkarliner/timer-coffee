@@ -65,7 +65,15 @@ class AccountIdentityService {
   final bool _isWeb;
   final TargetPlatform _platform;
 
-  GoTrueClient get _auth => _injectedAuth ?? Supabase.instance.client.auth;
+  GoTrueClient get auth => _injectedAuth ?? Supabase.instance.client.auth;
+
+  GoTrueClient get _auth => auth;
+
+  bool get canLinkGoogle => true;
+
+  bool get canLinkApple =>
+      !_isWeb &&
+      (_platform == TargetPlatform.iOS || _platform == TargetPlatform.macOS);
 
   Future<List<UserIdentity>> identities() => _auth.getUserIdentities();
 

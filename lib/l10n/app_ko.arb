@@ -1713,5 +1713,18 @@
   "accountEmailCantAccess": "{email}에 접근할 수 없나요?",
   "accountEmailSupportSubject": "계정 이메일 변경 도움말",
   "accountEmailDoneMessage": "이제 계정 이메일은 {email}입니다. 다음 로그인 때 이 이메일을 사용하세요.",
-  "accountEmailDone": "완료"
+  "accountEmailDone": "완료",
+  "accountIdentityLinkedStatus": "연결됨",
+  "accountIdentityLink": "연결",
+  "accountIdentityUnlink": "연결 해제",
+  "accountIdentityMoreActions": "더보기",
+  "accountIdentityLinkedMessage": "{provider} 연결이 완료되었습니다. 이제 이 계정으로 로그인할 수 있습니다.",
+  "accountIdentityAlreadyUsedTitle": "{provider} 계정이 이미 사용 중입니다",
+  "accountIdentityAlreadyUsedContent": "이 {provider} 계정에는 이미 별도의 Timer.Coffee 계정이 있습니다. 여기에 연결하려면 {provider}로 로그인한 후 해당 계정을 삭제하고(계정 → 계정 삭제), 다시 이메일로 로그인한 다음 연결하세요. 또는 지원팀에 문의하세요.",
+  "accountIdentityContactSupport": "지원팀에 문의",
+  "accountIdentitySupportSubject": "로그인 방법 연결 도움말",
+  "accountIdentityLinkingDisabled": "지금은 연결을 사용할 수 없습니다.",
+  "accountIdentityUnlinkTitle": "{provider} 연결을 해제할까요?",
+  "accountIdentityUnlinkContent": "{provider}로 더 이상 로그인할 수 없게 됩니다.",
+  "accountIdentityUnlinkedMessage": "{provider} 연결이 해제되었습니다"
 }

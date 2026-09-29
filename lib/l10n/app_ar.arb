@@ -1542,5 +1542,18 @@
   "accountEmailCantAccess": "هل فقدت الوصول إلى {email}؟",
   "accountEmailSupportSubject": "مساعدة في تغيير البريد الإلكتروني لحسابي",
   "accountEmailDoneMessage": "البريد الإلكتروني لحسابك هو الآن {email}. استخدمه في المرة القادمة التي تسجّل فيها الدخول.",
-  "accountEmailDone": "تم"
+  "accountEmailDone": "تم",
+  "accountIdentityLinkedStatus": "مرتبط",
+  "accountIdentityLink": "ربط",
+  "accountIdentityUnlink": "إلغاء الربط",
+  "accountIdentityMoreActions": "مزيد من الإجراءات",
+  "accountIdentityLinkedMessage": "تم ربط {provider}. يمكنك الآن تسجيل الدخول باستخدامه.",
+  "accountIdentityAlreadyUsedTitle": "{provider} قيد الاستخدام بالفعل",
+  "accountIdentityAlreadyUsedContent": "هذا الحساب على {provider} لديه بالفعل حسابه الخاص على Timer.Coffee. لربطه هنا، سجّل الدخول باستخدام {provider}، واحذف ذلك الحساب (الحساب → حذف الحساب)، ثم سجّل الدخول مرة أخرى ببريدك الإلكتروني واربطه مجددًا. أو تواصل مع الدعم.",
+  "accountIdentityContactSupport": "التواصل مع الدعم",
+  "accountIdentitySupportSubject": "مساعدة في ربط طريقة تسجيل الدخول",
+  "accountIdentityLinkingDisabled": "الربط غير متاح حاليًا.",
+  "accountIdentityUnlinkTitle": "إلغاء ربط {provider}؟",
+  "accountIdentityUnlinkContent": "لن تتمكن من تسجيل الدخول باستخدام {provider} بعد الآن.",
+  "accountIdentityUnlinkedMessage": "تم إلغاء ربط {provider}"
 }

@@ -1542,5 +1542,18 @@
   "accountEmailCantAccess": "Nu poți accesa {email}?",
   "accountEmailSupportSubject": "Ajutor pentru schimbarea e-mailului contului",
   "accountEmailDoneMessage": "Adresa de e-mail a contului tău este acum {email}. Folosește-o data viitoare când te autentifici.",
-  "accountEmailDone": "Gata"
+  "accountEmailDone": "Gata",
+  "accountIdentityLinkedStatus": "Conectat",
+  "accountIdentityLink": "Conectează",
+  "accountIdentityUnlink": "Deconectează",
+  "accountIdentityMoreActions": "Mai multe acțiuni",
+  "accountIdentityLinkedMessage": "{provider} conectat. Acum te poți autentifica cu el.",
+  "accountIdentityAlreadyUsedTitle": "{provider} este deja folosit",
+  "accountIdentityAlreadyUsedContent": "Acest cont {provider} are deja un cont propriu Timer.Coffee. Pentru a-l conecta aici, autentifică-te cu {provider}, șterge acel cont (Cont → Șterge contul), apoi autentifică-te din nou cu adresa ta de e-mail și conectează-l din nou. Sau contactează asistența.",
+  "accountIdentityContactSupport": "Contactează asistența",
+  "accountIdentitySupportSubject": "Ajutor pentru conectarea unei metode de autentificare",
+  "accountIdentityLinkingDisabled": "Conectarea nu este disponibilă momentan.",
+  "accountIdentityUnlinkTitle": "Deconectezi {provider}?",
+  "accountIdentityUnlinkContent": "Nu te vei mai putea autentifica cu {provider}.",
+  "accountIdentityUnlinkedMessage": "{provider} a fost deconectat"
 }

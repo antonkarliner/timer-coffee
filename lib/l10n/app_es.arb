@@ -1542,5 +1542,18 @@
   "accountEmailCantAccess": "¿No puedes acceder a {email}?",
   "accountEmailSupportSubject": "Ayuda para cambiar el correo de mi cuenta",
   "accountEmailDoneMessage": "El correo de tu cuenta ahora es {email}. Úsalo la próxima vez que inicies sesión.",
-  "accountEmailDone": "Listo"
+  "accountEmailDone": "Listo",
+  "accountIdentityLinkedStatus": "Vinculado",
+  "accountIdentityLink": "Vincular",
+  "accountIdentityUnlink": "Desvincular",
+  "accountIdentityMoreActions": "Más acciones",
+  "accountIdentityLinkedMessage": "{provider} vinculado. Ya puedes iniciar sesión con él.",
+  "accountIdentityAlreadyUsedTitle": "{provider} ya está en uso",
+  "accountIdentityAlreadyUsedContent": "Esta cuenta de {provider} ya tiene su propia cuenta de Timer.Coffee. Para vincularla aquí, inicia sesión con {provider}, borra esa cuenta (Cuenta → Borrar cuenta), vuelve a iniciar sesión con tu correo y vincúlala de nuevo. O contacta con soporte.",
+  "accountIdentityContactSupport": "Contactar con soporte",
+  "accountIdentitySupportSubject": "Ayuda para vincular un método de inicio de sesión",
+  "accountIdentityLinkingDisabled": "La vinculación no está disponible en este momento.",
+  "accountIdentityUnlinkTitle": "¿Desvincular {provider}?",
+  "accountIdentityUnlinkContent": "Ya no podrás iniciar sesión con {provider}.",
+  "accountIdentityUnlinkedMessage": "{provider} desvinculado"
 }

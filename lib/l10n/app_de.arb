@@ -1542,5 +1542,18 @@
   "accountEmailCantAccess": "Kein Zugriff mehr auf {email}?",
   "accountEmailSupportSubject": "Hilfe beim Ändern meiner Konto-E-Mail",
   "accountEmailDoneMessage": "Deine Konto-E-Mail ist jetzt {email}. Verwende sie, wenn du dich das nächste Mal anmeldest.",
-  "accountEmailDone": "Fertig"
+  "accountEmailDone": "Fertig",
+  "accountIdentityLinkedStatus": "Verknüpft",
+  "accountIdentityLink": "Verknüpfen",
+  "accountIdentityUnlink": "Verknüpfung aufheben",
+  "accountIdentityMoreActions": "Weitere Aktionen",
+  "accountIdentityLinkedMessage": "{provider} verknüpft. Du kannst dich jetzt damit anmelden.",
+  "accountIdentityAlreadyUsedTitle": "{provider} wird bereits verwendet",
+  "accountIdentityAlreadyUsedContent": "Dieses {provider}-Konto hat bereits ein eigenes Timer.Coffee-Konto. Um es hier zu verknüpfen, melde dich mit {provider} an, lösche dieses Konto (Konto → Konto löschen), melde dich danach wieder mit deiner E-Mail-Adresse an und verknüpfe es erneut. Oder wende dich an den Support.",
+  "accountIdentityContactSupport": "Support kontaktieren",
+  "accountIdentitySupportSubject": "Hilfe beim Verknüpfen einer Anmeldemethode",
+  "accountIdentityLinkingDisabled": "Das Verknüpfen ist derzeit nicht verfügbar.",
+  "accountIdentityUnlinkTitle": "Verknüpfung mit {provider} aufheben?",
+  "accountIdentityUnlinkContent": "Du kannst dich nicht mehr mit {provider} anmelden.",
+  "accountIdentityUnlinkedMessage": "Verknüpfung mit {provider} aufgehoben"
 }

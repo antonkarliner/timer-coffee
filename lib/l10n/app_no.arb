@@ -1864,5 +1864,18 @@
   "accountEmailCantAccess": "Får du ikke tilgang til {email}?",
   "accountEmailSupportSubject": "Hjelp med å endre e-posten til kontoen",
   "accountEmailDoneMessage": "E-posten til kontoen din er nå {email}. Bruk den neste gang du logger inn.",
-  "accountEmailDone": "Ferdig"
+  "accountEmailDone": "Ferdig",
+  "accountIdentityLinkedStatus": "Koblet",
+  "accountIdentityLink": "Koble til",
+  "accountIdentityUnlink": "Koble fra",
+  "accountIdentityMoreActions": "Flere handlinger",
+  "accountIdentityLinkedMessage": "{provider} er koblet. Du kan nå logge inn med den.",
+  "accountIdentityAlreadyUsedTitle": "{provider} er allerede i bruk",
+  "accountIdentityAlreadyUsedContent": "Denne {provider}-kontoen har allerede sin egen Timer.Coffee-konto. For å koble den til her, logg inn med {provider}, slett den kontoen (Konto → Slett konto), logg deretter inn på nytt med e-posten din og koble til igjen. Eller ta kontakt med support.",
+  "accountIdentityContactSupport": "Kontakt support",
+  "accountIdentitySupportSubject": "Hjelp med å koble til en innloggingsmetode",
+  "accountIdentityLinkingDisabled": "Kobling er ikke tilgjengelig akkurat nå.",
+  "accountIdentityUnlinkTitle": "Koble fra {provider}?",
+  "accountIdentityUnlinkContent": "Du kan ikke lenger logge inn med {provider}.",
+  "accountIdentityUnlinkedMessage": "{provider} er koblet fra"
 }

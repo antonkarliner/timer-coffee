@@ -1542,5 +1542,18 @@
   "accountEmailCantAccess": "{email} adresine erişemiyor musun?",
   "accountEmailSupportSubject": "Hesap e-postamı değiştirme yardımı",
   "accountEmailDoneMessage": "Hesabının e-postası artık {email}. Bir sonraki girişinde bunu kullan.",
-  "accountEmailDone": "Tamam"
+  "accountEmailDone": "Tamam",
+  "accountIdentityLinkedStatus": "Bağlı",
+  "accountIdentityLink": "Bağla",
+  "accountIdentityUnlink": "Bağlantıyı Kaldır",
+  "accountIdentityMoreActions": "Diğer işlemler",
+  "accountIdentityLinkedMessage": "{provider} bağlandı. Artık bununla oturum açabilirsin.",
+  "accountIdentityAlreadyUsedTitle": "{provider} zaten kullanımda",
+  "accountIdentityAlreadyUsedContent": "Bu {provider} hesabının zaten kendi Timer.Coffee hesabı var. Buradan bağlamak için {provider} ile oturum aç, o hesabı sil (Hesap → Hesabı Sil), ardından e-posta adresinle yeniden oturum aç ve tekrar bağla. Ya da destek ekibiyle iletişime geç.",
+  "accountIdentityContactSupport": "Destek ile iletişime geç",
+  "accountIdentitySupportSubject": "Oturum açma yöntemi bağlama yardımı",
+  "accountIdentityLinkingDisabled": "Bağlama şu anda kullanılamıyor.",
+  "accountIdentityUnlinkTitle": "{provider} bağlantısı kaldırılsın mı?",
+  "accountIdentityUnlinkContent": "Artık {provider} ile oturum açamayacaksın.",
+  "accountIdentityUnlinkedMessage": "{provider} bağlantısı kaldırıldı"
 }

@@ -1542,5 +1542,18 @@
   "accountEmailCantAccess": "Non riesci ad accedere a {email}?",
   "accountEmailSupportSubject": "Aiuto per cambiare l’email del mio account",
   "accountEmailDoneMessage": "L’email del tuo account ora è {email}. Usala al prossimo accesso.",
-  "accountEmailDone": "Fatto"
+  "accountEmailDone": "Fatto",
+  "accountIdentityLinkedStatus": "Collegato",
+  "accountIdentityLink": "Collega",
+  "accountIdentityUnlink": "Scollega",
+  "accountIdentityMoreActions": "Altre azioni",
+  "accountIdentityLinkedMessage": "{provider} collegato. Ora puoi accedere con questo account.",
+  "accountIdentityAlreadyUsedTitle": "{provider} è già in uso",
+  "accountIdentityAlreadyUsedContent": "Questo account {provider} ha già un proprio account Timer.Coffee. Per collegarlo qui, accedi con {provider}, elimina quell’account (Account → Elimina account), poi accedi di nuovo con la tua email e collegalo di nuovo. Oppure contatta l’assistenza.",
+  "accountIdentityContactSupport": "Contatta l’assistenza",
+  "accountIdentitySupportSubject": "Aiuto per collegare un metodo di accesso",
+  "accountIdentityLinkingDisabled": "Il collegamento non è disponibile al momento.",
+  "accountIdentityUnlinkTitle": "Scollegare {provider}?",
+  "accountIdentityUnlinkContent": "Non potrai più accedere con {provider}.",
+  "accountIdentityUnlinkedMessage": "{provider} scollegato"
 }

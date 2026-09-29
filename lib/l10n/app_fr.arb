@@ -1542,5 +1542,18 @@
   "accountEmailCantAccess": "Impossible d’accéder à {email} ?",
   "accountEmailSupportSubject": "Aide pour changer l’adresse e-mail de mon compte",
   "accountEmailDoneMessage": "L’adresse e-mail de votre compte est maintenant {email}. Utilisez-la lors de votre prochaine connexion.",
-  "accountEmailDone": "Terminé"
+  "accountEmailDone": "Terminé",
+  "accountIdentityLinkedStatus": "Lié",
+  "accountIdentityLink": "Lier",
+  "accountIdentityUnlink": "Délier",
+  "accountIdentityMoreActions": "Plus d’actions",
+  "accountIdentityLinkedMessage": "{provider} est lié. Vous pouvez désormais vous connecter avec ce compte.",
+  "accountIdentityAlreadyUsedTitle": "{provider} est déjà utilisé",
+  "accountIdentityAlreadyUsedContent": "Ce compte {provider} possède déjà son propre compte Timer.Coffee. Pour le lier ici, connectez-vous avec {provider}, supprimez ce compte (Compte → Supprimer le compte), reconnectez-vous ensuite avec votre e-mail et liez-le à nouveau. Ou contactez le support.",
+  "accountIdentityContactSupport": "Contacter le support",
+  "accountIdentitySupportSubject": "Aide pour lier une méthode de connexion",
+  "accountIdentityLinkingDisabled": "La liaison n’est pas disponible pour le moment.",
+  "accountIdentityUnlinkTitle": "Délier {provider} ?",
+  "accountIdentityUnlinkContent": "Vous ne pourrez plus vous connecter avec {provider}.",
+  "accountIdentityUnlinkedMessage": "{provider} a été délié"
 }
