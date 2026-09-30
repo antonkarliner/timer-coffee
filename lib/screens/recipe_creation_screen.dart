@@ -383,6 +383,7 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
       final l10n = AppLocalizations.of(context)!;
       final signedIn = await AuthenticationService.promptSignIn(
         context,
+        source: 'recipe_creation',
         bodyText: l10n.recipeCreationAiReviewUnavailable,
       );
       if (!mounted || !signedIn || !_isAiReviewAvailable()) {

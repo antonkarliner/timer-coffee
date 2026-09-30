@@ -449,6 +449,8 @@ class RecipeImportSharingService {
           // Show prompt; may return before user completes email/OTP
           final promptResult = await AuthenticationService.promptSignIn(
             context,
+            source: 'recipe_share',
+            bodyText: l10n.signInRequiredBodyShare,
           );
           if (!promptResult) {
             AppLogger.debug('Sign-in cancelled by user. Aborting share.');

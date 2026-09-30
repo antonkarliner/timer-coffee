@@ -603,6 +603,8 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
                   onPressed: () async {
                     final signedIn = await AuthenticationService.promptSignIn(
                       context,
+                      source: 'roaster_review',
+                      bodyText: l10n.signInToReview,
                     );
                     if (signedIn && mounted) {
                       setState(() {});

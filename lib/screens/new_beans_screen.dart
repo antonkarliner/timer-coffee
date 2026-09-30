@@ -1381,7 +1381,11 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
               )
             else
               GestureDetector(
-                onTap: () => AuthenticationService.promptSignIn(context),
+                onTap: () => AuthenticationService.promptSignIn(
+                  context,
+                  source: 'new_beans',
+                  bodyText: loc.beanCoverPhotoSignInPrompt,
+                ),
                 child: Container(
                   height: 80,
                   width: double.infinity,

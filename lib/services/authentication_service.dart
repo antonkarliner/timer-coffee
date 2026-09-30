@@ -92,8 +92,8 @@ class AuthenticationService {
   static Future<bool> promptSignIn(
     BuildContext context, {
     String? title,
-    String? bodyText,
-    String source = 'unknown',
+    required String bodyText,
+    required String source,
   }) async {
     AppLogger.debug('AuthenticationService.promptSignIn() called');
 
@@ -154,7 +154,7 @@ class AuthenticationService {
                   ),
                   const SizedBox(height: AppSpacing.sm),
                   Text(
-                    bodyText ?? l10n.signInRequiredBodyShare,
+                    bodyText,
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: AppSpacing.lg),
