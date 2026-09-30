@@ -355,7 +355,6 @@ class _DropdownSearchFieldState extends State<DropdownSearchField> {
             validator: widget.validator,
             enabled: widget.enabled,
             required: widget.required,
-            semanticIdentifier: widget.semanticIdentifier,
             focusNode: _focusNode,
             controller: _controller,
             showClearButton: widget.showClearButton,

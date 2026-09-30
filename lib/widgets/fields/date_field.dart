@@ -241,7 +241,6 @@ class _DateFieldState extends State<DateField> {
         initialValue: _displayValue,
         enabled: widget.enabled,
         required: widget.required,
-        semanticIdentifier: widget.semanticIdentifier,
         suffixIcon: _buildSuffixIcon(),
         // Make it read-only by preventing keyboard input
         // We're using the LabeledField as a base but overriding its behavior

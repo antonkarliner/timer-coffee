@@ -217,6 +217,98 @@ class _LabeledFieldState extends State<LabeledField> {
           : Colors.grey.shade300;
     }
 
+    final textField = TextFormField(
+      controller: _controller,
+      focusNode: _focusNode,
+      autofocus: widget.autofocus,
+      enabled: widget.enabled,
+      obscureText: widget.obscureText,
+      keyboardType: widget.keyboardType,
+      textCapitalization: widget.textCapitalization,
+      textInputAction: widget.textInputAction,
+      inputFormatters: widget.inputFormatters,
+      maxLength: widget.maxLength,
+      maxLines: widget.isMultiline ? widget.maxLines : 1,
+      minLines: widget.isMultiline ? widget.minLines : null,
+      validator: widget.validator,
+      onChanged: widget.onChanged,
+      onFieldSubmitted: widget.onSubmitted,
+      style: widget.style ?? theme.textTheme.bodyLarge,
+      readOnly: widget.readOnly,
+      // Add tap handler when field is read-only
+      onTap: widget.readOnly && widget.onTap != null ? widget.onTap : null,
+      decoration: InputDecoration(
+        labelText: widget.labelInsideField
+            ? '${widget.label}${widget.required ? ' *' : ''}'
+            : null,
+        labelStyle: widget.labelStyle,
+        hintText: widget.hintText,
+        helperText: widget.helperText,
+        helperMaxLines: 5,
+        errorText: widget.errorText,
+        errorMaxLines: 5,
+        prefixIcon: widget.prefixIcon,
+        suffixIcon: _buildSuffixIcon(),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.cardPadding,
+          vertical: AppSpacing.sm,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.field),
+          borderSide: BorderSide(
+            color: borderColor,
+            width: AppStroke.border,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.field),
+          borderSide: BorderSide(
+            color: theme.brightness == Brightness.dark
+                ? Colors.grey.shade500
+                : Colors.grey.shade300,
+            width: AppStroke.border,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.field),
+          borderSide: BorderSide(
+            color: theme.brightness == Brightness.dark
+                ? Colors.grey.shade300
+                : Colors.grey.shade700,
+            width: AppStroke.focus,
+          ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.field),
+          borderSide: const BorderSide(
+            color: Colors.red,
+            width: AppStroke.border,
+          ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.field),
+          borderSide: const BorderSide(
+            color: Colors.red,
+            width: AppStroke.focus,
+          ),
+        ),
+        hintStyle: AppTextStyles.body.copyWith(color: Colors.grey.shade600),
+        // Use the provided style for the input text
+        // This ensures the style is applied correctly
+        helperStyle: AppTextStyles.body.copyWith(
+          color: Colors.grey.shade600,
+        ),
+        errorStyle: AppTextStyles.body.copyWith(color: Colors.red),
+      ),
+    );
+
+    final field = widget.semanticIdentifier == null
+        ? textField
+        : Semantics(
+            identifier: widget.semanticIdentifier,
+            child: textField,
+          );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -251,98 +343,7 @@ class _LabeledFieldState extends State<LabeledField> {
         ],
 
         // Text Field
-        TextFormField(
-          controller: _controller,
-          focusNode: _focusNode,
-          autofocus: widget.autofocus,
-          enabled: widget.enabled,
-          obscureText: widget.obscureText,
-          keyboardType: widget.keyboardType,
-          textCapitalization: widget.textCapitalization,
-          textInputAction: widget.textInputAction,
-          inputFormatters: widget.inputFormatters,
-          maxLength: widget.maxLength,
-          maxLines: widget.isMultiline ? widget.maxLines : 1,
-          minLines: widget.isMultiline ? widget.minLines : null,
-          validator: widget.validator,
-          onChanged: widget.onChanged,
-          onFieldSubmitted: widget.onSubmitted,
-          style: widget.style ?? theme.textTheme.bodyLarge,
-          readOnly: widget.readOnly,
-          // Add tap handler when field is read-only
-          onTap: widget.readOnly && widget.onTap != null ? widget.onTap : null,
-          decoration: InputDecoration(
-            labelText: widget.labelInsideField
-                ? '${widget.label}${widget.required ? ' *' : ''}'
-                : null,
-            labelStyle: widget.labelStyle,
-            hintText: widget.hintText,
-            helperText: widget.helperText,
-            errorText: widget.errorText,
-            prefixIcon: widget.prefixIcon,
-            suffixIcon: _buildSuffixIcon(),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.cardPadding,
-              vertical: AppSpacing.sm,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppRadius.field),
-              borderSide: BorderSide(
-                color: borderColor,
-                width: AppStroke.border,
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppRadius.field),
-              borderSide: BorderSide(
-                color: theme.brightness == Brightness.dark
-                    ? Colors.grey.shade500
-                    : Colors.grey.shade300,
-                width: AppStroke.border,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppRadius.field),
-              borderSide: BorderSide(
-                color: theme.brightness == Brightness.dark
-                    ? Colors.grey.shade300
-                    : Colors.grey.shade700,
-                width: AppStroke.focus,
-              ),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppRadius.field),
-              borderSide: const BorderSide(
-                color: Colors.red,
-                width: AppStroke.border,
-              ),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppRadius.field),
-              borderSide: const BorderSide(
-                color: Colors.red,
-                width: AppStroke.focus,
-              ),
-            ),
-            hintStyle: AppTextStyles.body.copyWith(color: Colors.grey.shade600),
-            // Use the provided style for the input text
-            // This ensures the style is applied correctly
-            helperStyle: AppTextStyles.body.copyWith(
-              color: Colors.grey.shade600,
-            ),
-            errorStyle: AppTextStyles.body.copyWith(color: Colors.red),
-          ),
-        ),
-
-        // Error message (if not shown in the field)
-        if (widget.errorText != null && widget.errorText!.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.only(top: AppSpacing.xs),
-            child: Text(
-              widget.errorText!,
-              style: AppTextStyles.body.copyWith(color: Colors.red),
-            ),
-          ),
+        field,
       ],
     );
   }
