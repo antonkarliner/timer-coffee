@@ -1155,6 +1155,12 @@
   "settingsResetToDefault": "Przywróć domyślne",
   "settingsResetBrewingMethodsConfirm": "Pokazać ponownie wszystkie metody parzenia, które mają przepisy? Dokonane tutaj wybory zostaną wyczyszczone.",
   "settingsMethodsShownCount": "{total, plural, one{Metody: {shown} z {total}} few{Metody: {shown} z {total}} many{Metody: {shown} z {total}} other{Metody: {shown} z {total}}}",
+  "settingsPrivacyDataTitle": "Prywatność i dane",
+  "settingsUsageAnalyticsHeader": "Analityka użytkowania",
+  "settingsYourDataHeader": "Twoje dane",
+  "settingsAnalyticsSummaryOn": "Analityka włączona",
+  "settingsAnalyticsSummaryPartial": "Analityka częściowo włączona",
+  "settingsAnalyticsSummaryOff": "Analityka wyłączona",
   "daysAgo": "{count, plural, one{1 dzień temu} few{{count} dni temu} many{{count} dni temu} other{{count} dni temu}}",
   "@daysAgo": {
     "placeholders": {

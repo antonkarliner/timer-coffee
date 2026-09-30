@@ -1155,6 +1155,12 @@
   "settingsResetToDefault": "Varsayılana sıfırla",
   "settingsResetBrewingMethodsConfirm": "Tarifi olan tüm demleme yöntemleri yeniden gösterilsin mi? Buradaki seçimleriniz silinecek.",
   "settingsMethodsShownCount": "{total, plural, other{{shown} / {total} yöntem}}",
+  "settingsPrivacyDataTitle": "Gizlilik ve veriler",
+  "settingsUsageAnalyticsHeader": "Kullanım analizleri",
+  "settingsYourDataHeader": "Verileriniz",
+  "settingsAnalyticsSummaryOn": "Analizler açık",
+  "settingsAnalyticsSummaryPartial": "Analizler kısmen açık",
+  "settingsAnalyticsSummaryOff": "Analizler kapalı",
   "daysAgo": "{count, plural, one{1 gün önce} other{{count} gün önce}}",
   "@daysAgo": {
     "placeholders": {

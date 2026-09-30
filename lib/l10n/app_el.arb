@@ -1550,6 +1550,12 @@
   "settingsResetToDefault": "Επαναφορά προεπιλογής",
   "settingsResetBrewingMethodsConfirm": "Να εμφανιστούν ξανά όλες οι μέθοδοι παρασκευής που έχουν συνταγές; Οι επιλογές σας εδώ θα διαγραφούν.",
   "settingsMethodsShownCount": "{total, plural, one{{shown} από {total} μέθοδο} other{{shown} από {total} μεθόδους}}",
+  "settingsPrivacyDataTitle": "Απόρρητο και δεδομένα",
+  "settingsUsageAnalyticsHeader": "Αναλυτικά στοιχεία χρήσης",
+  "settingsYourDataHeader": "Τα δεδομένα σου",
+  "settingsAnalyticsSummaryOn": "Αναλυτικά στοιχεία ενεργά",
+  "settingsAnalyticsSummaryPartial": "Αναλυτικά στοιχεία μερικώς ενεργά",
+  "settingsAnalyticsSummaryOff": "Αναλυτικά στοιχεία ανενεργά",
   "daysAgo": "{count, plural, one{πριν 1 ημέρα} other{πριν {count} ημέρες}}",
   "@daysAgo": {
     "placeholders": {

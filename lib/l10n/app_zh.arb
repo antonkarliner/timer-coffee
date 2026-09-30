@@ -1155,6 +1155,12 @@
   "settingsResetToDefault": "恢复默认设置",
   "settingsResetBrewingMethodsConfirm": "重新显示所有有配方的冲煮方法？你在此处所做的选择将被清除。",
   "settingsMethodsShownCount": "{total, plural, other{冲煮方法：{shown} / {total}}}",
+  "settingsPrivacyDataTitle": "隐私与数据",
+  "settingsUsageAnalyticsHeader": "使用情况分析",
+  "settingsYourDataHeader": "您的数据",
+  "settingsAnalyticsSummaryOn": "分析已开启",
+  "settingsAnalyticsSummaryPartial": "分析部分开启",
+  "settingsAnalyticsSummaryOff": "分析已关闭",
   "daysAgo": "{count, plural, other{{count}天前}}",
   "@daysAgo": {
     "placeholders": {

@@ -1326,6 +1326,12 @@
   "settingsResetToDefault": "기본값으로 재설정",
   "settingsResetBrewingMethodsConfirm": "레시피가 있는 모든 추출 방법을 다시 표시할까요? 여기서의 선택은 초기화됩니다.",
   "settingsMethodsShownCount": "{total, plural, other{추출 방법: {shown} / {total}}}",
+  "settingsPrivacyDataTitle": "개인정보 및 데이터",
+  "settingsUsageAnalyticsHeader": "사용 분석",
+  "settingsYourDataHeader": "내 데이터",
+  "settingsAnalyticsSummaryOn": "분석 켜짐",
+  "settingsAnalyticsSummaryPartial": "분석 일부 켜짐",
+  "settingsAnalyticsSummaryOff": "분석 꺼짐",
   "daysAgo": "{count, plural, other{{count}일 전}}",
   "@daysAgo": {
     "placeholders": {

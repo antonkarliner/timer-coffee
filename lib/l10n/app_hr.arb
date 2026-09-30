@@ -1326,6 +1326,12 @@
   "settingsResetToDefault": "Vrati na zadano",
   "settingsResetBrewingMethodsConfirm": "Ponovno prikazati sve načine pripreme koji imaju recepte? Vaši odabiri ovdje bit će obrisani.",
   "settingsMethodsShownCount": "{total, plural, one{Metode: {shown} od {total}} few{Metode: {shown} od {total}} other{Metode: {shown} od {total}}}",
+  "settingsPrivacyDataTitle": "Privatnost i podaci",
+  "settingsUsageAnalyticsHeader": "Analitika korištenja",
+  "settingsYourDataHeader": "Vaši podaci",
+  "settingsAnalyticsSummaryOn": "Analitika uključena",
+  "settingsAnalyticsSummaryPartial": "Analitika djelomično uključena",
+  "settingsAnalyticsSummaryOff": "Analitika isključena",
   "daysAgo": "{count, plural, one{prije 1 dan} few{prije {count} dana} other{prije {count} dana}}",
   "@daysAgo": {
     "placeholders": {

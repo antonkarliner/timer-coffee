@@ -5,6 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/database/database.dart';
+import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/services/data_export_service.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
@@ -44,7 +45,13 @@ class DataExportSection extends StatelessWidget {
   Future<void> _startExportFlow(BuildContext context) async {
     final database = Provider.of<AppDatabase>(context, listen: false);
     final service = DataExportService(database: database);
-    final initialEmail = Supabase.instance.client.auth.currentUser?.email ?? '';
+    final user = Supabase.instance.client.auth.currentUser;
+    final initialEmail = user?.email ?? '';
+    // Funnel start. `signed_in` only — never the address itself.
+    AnalyticsService.maybeInstance?.track(
+      'data_export_started',
+      properties: {'signed_in': user != null && !user.isAnonymous},
+    );
 
     final email = await showDialog<String>(
       context: context,
@@ -121,6 +128,35 @@ String _dataExportErrorMessage(AppLocalizations loc, DataExportResult result) {
   };
 }
 
+/// Stable lowerCamel analytics name for every [DataExportResult] variant.
+/// Exhaustive on purpose: adding a variant breaks compilation here so it
+/// cannot ship unreported. Deliberately not `runtimeType.toString()` —
+/// minification mangles class names.
+/// Never called for [DataExportSuccess] (see [_trackExportFailed]); mapped
+/// to the empty string only to keep the switch exhaustive.
+String _dataExportFailureReason(DataExportResult result) {
+  return switch (result) {
+    DataExportSuccess() => '',
+    DataExportInvalidEmail() => 'invalidEmail',
+    DataExportRateLimited() => 'rateLimited',
+    DataExportIncorrectCode() => 'incorrectCode',
+    DataExportExpiredOrNoRequest() => 'expiredOrNoRequest',
+    DataExportPayloadTooLarge() => 'payloadTooLarge',
+    DataExportNetworkError() => 'networkError',
+    DataExportUnknownError() => 'unknownError',
+  };
+}
+
+/// Emits `data_export_failed` for a non-success [result] from [stage]
+/// (`request` or `confirm`). Only the stage and a stable reason name are
+/// reported — never the email, the code, or attempt counts.
+void _trackExportFailed(String stage, DataExportResult result) {
+  AnalyticsService.maybeInstance?.track(
+    'data_export_failed',
+    properties: {'stage': stage, 'reason': _dataExportFailureReason(result)},
+  );
+}
+
 // ---------------------------------------------------------------------------
 // Step 1 — destination email dialog
 // ---------------------------------------------------------------------------
@@ -171,8 +207,10 @@ class _DataExportEmailDialogState extends State<_DataExportEmailDialog> {
 
     switch (result) {
       case DataExportSuccess():
+        AnalyticsService.maybeInstance?.track('data_export_code_sent');
         Navigator.of(context).pop(email);
       default:
+        _trackExportFailed('request', result);
         setState(() {
           _submitting = false;
           _errorText = _dataExportErrorMessage(loc, result);
@@ -288,8 +326,10 @@ class _DataExportCodeDialogState extends State<_DataExportCodeDialog> {
 
     switch (result) {
       case DataExportSuccess():
+        AnalyticsService.maybeInstance?.track('data_export_completed');
         Navigator.of(context).pop(true);
       default:
+        _trackExportFailed('confirm', result);
         // Never dismiss on a wrong/expired code — let the user retry.
         setState(() {
           _submitting = false;

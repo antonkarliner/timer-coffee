@@ -1328,6 +1328,12 @@
   "settingsResetToDefault": "بازگردانی به پیش‌فرض",
   "settingsResetBrewingMethodsConfirm": "همه روش‌های دمی که دستور دارند دوباره نمایش داده شوند؟ انتخاب‌های شما در اینجا پاک خواهند شد.",
   "settingsMethodsShownCount": "{total, plural, other{{shown} از {total} روش}}",
+  "settingsPrivacyDataTitle": "حریم خصوصی و داده‌ها",
+  "settingsUsageAnalyticsHeader": "تحلیل‌های استفاده",
+  "settingsYourDataHeader": "داده‌های شما",
+  "settingsAnalyticsSummaryOn": "تحلیل‌ها فعال",
+  "settingsAnalyticsSummaryPartial": "تحلیل‌ها تا حدی فعال",
+  "settingsAnalyticsSummaryOff": "تحلیل‌ها غیرفعال",
   "daysAgo": "{count, plural, other{{count} روز پیش}}",
   "@daysAgo": {
     "placeholders": {

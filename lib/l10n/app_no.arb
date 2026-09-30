@@ -1477,6 +1477,12 @@
   "settingsResetToDefault": "Tilbakestill til standard",
   "settingsResetBrewingMethodsConfirm": "Vise alle bryggemetoder som har oppskrifter igjen? Valgene dine her blir nullstilt.",
   "settingsMethodsShownCount": "{total, plural, one{{shown} av {total} metode} other{{shown} av {total} metoder}}",
+  "settingsPrivacyDataTitle": "Personvern og data",
+  "settingsUsageAnalyticsHeader": "Bruksanalyse",
+  "settingsYourDataHeader": "Dataene dine",
+  "settingsAnalyticsSummaryOn": "Analyse på",
+  "settingsAnalyticsSummaryPartial": "Analyse delvis på",
+  "settingsAnalyticsSummaryOff": "Analyse av",
   "daysAgo": "{count, plural, one{for 1 dag siden} other{for {count} dager siden}}",
   "@daysAgo": {
     "placeholders": {

@@ -1155,6 +1155,12 @@
   "settingsResetToDefault": "Restablecer valores predeterminados",
   "settingsResetBrewingMethodsConfirm": "¿Volver a mostrar todos los métodos de preparación que tienen recetas? Tus elecciones aquí se borrarán.",
   "settingsMethodsShownCount": "{total, plural, one{{shown} de {total} método} other{{shown} de {total} métodos}}",
+  "settingsPrivacyDataTitle": "Privacidad y datos",
+  "settingsUsageAnalyticsHeader": "Análisis de uso",
+  "settingsYourDataHeader": "Tus datos",
+  "settingsAnalyticsSummaryOn": "Análisis activados",
+  "settingsAnalyticsSummaryPartial": "Análisis parcialmente activados",
+  "settingsAnalyticsSummaryOff": "Análisis desactivados",
   "daysAgo": "{count, plural, one{hace 1 día} other{hace {count} días}}",
   "@daysAgo": {
     "placeholders": {

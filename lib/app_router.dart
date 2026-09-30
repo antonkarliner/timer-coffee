@@ -97,6 +97,10 @@ class AppRouter extends RootStackRouter {
           path: '/settings/home',
         ),
         AutoRoute(
+          page: SettingsPrivacyDataRoute.page,
+          path: '/settings/privacy',
+        ),
+        AutoRoute(
           page: FavoriteRecipesRoute.page,
           path: '/favorites',
         ),

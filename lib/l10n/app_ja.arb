@@ -1155,6 +1155,12 @@
   "settingsResetToDefault": "デフォルトにリセット",
   "settingsResetBrewingMethodsConfirm": "レシピがあるすべての抽出方法をもう一度表示しますか？ここでの選択はリセットされます。",
   "settingsMethodsShownCount": "{total, plural, other{抽出方法: {shown} / {total}}}",
+  "settingsPrivacyDataTitle": "プライバシーとデータ",
+  "settingsUsageAnalyticsHeader": "利用状況の分析",
+  "settingsYourDataHeader": "あなたのデータ",
+  "settingsAnalyticsSummaryOn": "分析オン",
+  "settingsAnalyticsSummaryPartial": "分析は一部オン",
+  "settingsAnalyticsSummaryOff": "分析オフ",
   "daysAgo": "{count, plural, other{{count}日前}}",
   "@daysAgo": {
     "placeholders": {

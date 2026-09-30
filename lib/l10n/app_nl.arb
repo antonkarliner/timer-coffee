@@ -1155,6 +1155,12 @@
   "settingsResetToDefault": "Standaardwaarden herstellen",
   "settingsResetBrewingMethodsConfirm": "Alle zetmethoden met recepten weer tonen? Je keuzes hier worden gewist.",
   "settingsMethodsShownCount": "{total, plural, one{{shown} van {total} methode} other{{shown} van {total} methoden}}",
+  "settingsPrivacyDataTitle": "Privacy en gegevens",
+  "settingsUsageAnalyticsHeader": "Gebruiksanalyses",
+  "settingsYourDataHeader": "Je gegevens",
+  "settingsAnalyticsSummaryOn": "Analyses aan",
+  "settingsAnalyticsSummaryPartial": "Analyses deels aan",
+  "settingsAnalyticsSummaryOff": "Analyses uit",
   "daysAgo": "{count, plural, one{1 dag geleden} other{{count} dagen geleden}}",
   "@daysAgo": {
     "placeholders": {

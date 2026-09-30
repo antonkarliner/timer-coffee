@@ -1155,6 +1155,12 @@
   "settingsResetToDefault": "Setel ulang ke default",
   "settingsResetBrewingMethodsConfirm": "Tampilkan lagi semua metode seduh yang punya resep? Pilihan Anda di sini akan dihapus.",
   "settingsMethodsShownCount": "{total, plural, other{{shown} dari {total} metode}}",
+  "settingsPrivacyDataTitle": "Privasi & data",
+  "settingsUsageAnalyticsHeader": "Analitik penggunaan",
+  "settingsYourDataHeader": "Data Anda",
+  "settingsAnalyticsSummaryOn": "Analitik aktif",
+  "settingsAnalyticsSummaryPartial": "Analitik sebagian aktif",
+  "settingsAnalyticsSummaryOff": "Analitik nonaktif",
   "daysAgo": "{count, plural, other{{count} hari yang lalu}}",
   "@daysAgo": {
     "placeholders": {

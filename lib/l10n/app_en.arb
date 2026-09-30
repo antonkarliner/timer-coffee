@@ -1772,6 +1772,30 @@
       "total": {"type": "int"}
     }
   },
+  "settingsPrivacyDataTitle": "Privacy & data",
+  "@settingsPrivacyDataTitle": {
+    "description": "Settings category and page title for the privacy & data page (usage analytics switches, data export, privacy policy)"
+  },
+  "settingsUsageAnalyticsHeader": "Usage analytics",
+  "@settingsUsageAnalyticsHeader": {
+    "description": "Section header above the three usage-analytics switches on the Settings privacy & data page"
+  },
+  "settingsYourDataHeader": "Your data",
+  "@settingsYourDataHeader": {
+    "description": "Section header above data export and the privacy policy on the Settings privacy & data page"
+  },
+  "settingsAnalyticsSummaryOn": "Analytics on",
+  "@settingsAnalyticsSummaryOn": {
+    "description": "Summary for the Settings root row when all three usage-analytics switches are on"
+  },
+  "settingsAnalyticsSummaryPartial": "Analytics partly on",
+  "@settingsAnalyticsSummaryPartial": {
+    "description": "Summary for the Settings root row when some but not all usage-analytics switches are on"
+  },
+  "settingsAnalyticsSummaryOff": "Analytics off",
+  "@settingsAnalyticsSummaryOff": {
+    "description": "Summary for the Settings root row when all three usage-analytics switches are off"
+  },
   "daysAgo": "{count, plural, one{1 day ago} other{{count} days ago}}",
   "@daysAgo": {
     "placeholders": {
