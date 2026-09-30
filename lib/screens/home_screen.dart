@@ -497,12 +497,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'Timer.Coffee stands with Palestine', // Skipped localization as requested
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.surface,
-                          fontWeight: FontWeight.bold,
+                      // Flexible so a narrow window wraps the text instead of
+                      // overflowing the row.
+                      Flexible(
+                        child: Text(
+                          'Timer.Coffee stands with Palestine', // Skipped localization as requested
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.surface,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       const SizedBox(
