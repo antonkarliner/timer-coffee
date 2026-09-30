@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/launch_popup_model.dart';
-import 'package:coffee_timer/providers/snow_provider.dart';
 import '../widgets/smart_back_button.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,6 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -65,7 +63,6 @@ class _InfoScreenState extends State<InfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final snowEffectProvider = Provider.of<SnowEffectProvider>(context);
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
@@ -260,11 +257,6 @@ class _InfoScreenState extends State<InfoScreen> {
           ExpansionTile(
             title: Text(l10n.seasonspecials),
             children: [
-              ListTile(
-                leading: const Icon(Icons.ac_unit),
-                title: Text(l10n.snow),
-                onTap: () => snowEffectProvider.toggleSnowEffect(),
-              ),
               ListTile(
                 leading: const Icon(Icons.card_giftcard),
                 title: Text(l10n.holidayGiftBoxTitle),

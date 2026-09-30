@@ -205,8 +205,7 @@ class _SettingsLanguageRegionScreenState
           current: fmtService.timeStyle,
           onChanged: _changeTimeStyle,
         ),
-        // Live preview — today's date and time in the current choices,
-        // styled like the preview in `date_time_format_section.dart`.
+        // Live preview — today's date and time in the current choices.
         Padding(
           padding: const EdgeInsetsDirectional.symmetric(
             horizontal: AppSpacing.base,

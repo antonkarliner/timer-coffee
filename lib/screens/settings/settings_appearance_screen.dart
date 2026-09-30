@@ -228,7 +228,8 @@ class _SettingsAppearanceScreenState extends State<SettingsAppearanceScreen> {
     );
   }
 
-  /// Same asset and platform/dark-mode logic as `app_icon_selector.dart`.
+  /// Preview asset per icon: Android shows its adaptive icon; iOS picks the
+  /// dark or light rendering to match the current theme.
   String _assetFor(String iconName, bool isDark) {
     if (iconName == 'Default') {
       return defaultTargetPlatform == TargetPlatform.android

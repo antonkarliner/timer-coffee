@@ -1018,7 +1018,6 @@
     "description": "Confirm button label in the dismiss-collections dialog"
   },
   "settingsHomeScreenTitle": "Home Screen",
-  "settingsHomeScreenSubtitle": "Collections",
   "collectionsShowOnHomeTitle": "Show Collections on Home",
   "@collectionsShowOnHomeTitle": {
     "description": "Settings toggle title that controls visibility of the Collections section on the home screen"
@@ -1193,8 +1192,6 @@
   "updatePictureSuccess": "Profile picture updated successfully!",
   "deletePictureTooltip": "Delete Picture",
   "account": "Account",
-  "settingsBrewingMethodsTitle": "Home Screen Brewing Methods",
-  "settingsBrewingMethodsSubtitle": "Choose which methods appear on Home",
   "filter": "Filter",
   "@filter": {
     "description": "Label for the filter button in the coffee beans screen"
@@ -1508,14 +1505,9 @@
   "beanCoverPhotoUploading": "Uploading photo…",
   "beanCoverPhotoError": "Failed to upload photo",
   "beanCoverPhotoSignInPrompt": "Sign in to add a cover photo",
-  "settingsAnalyticsTitle": "Privacy & Analytics",
-  "settingsAnalyticsSubtitle": "Control usage data sharing",
   "settingsAnalyticsBrews": "Share brewing analytics",
   "settingsAnalyticsBeans": "Share bean analytics",
   "settingsAnalyticsGeneral": "Share general usage analytics",
-  "advancedFeatures": "Advanced / Beta Features",
-  "advancedFeaturesSubtitle": "Manual step control and immersive brewing screen",
-  "advancedFeaturesDescription": "These features are experimental and may sometimes be unstable.",
   "manualStepControl": "Manual step control",
   "manualStepControlDescription": "Show back and skip arrows during brewing.",
   "pourLayout": "Immersive brewing screen",

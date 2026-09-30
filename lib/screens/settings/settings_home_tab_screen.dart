@@ -37,9 +37,9 @@ class SettingsHomeTabScreen extends StatelessWidget {
     await prefs.setDismissed(!visible);
   }
 
-  /// The shared shown/hidden/has-recipes value logic of
-  /// `brewing_methods_section.dart`: an explicit user choice wins; without
-  /// one, a method is on exactly when it has recipes.
+  /// Whether a method's Home switch is on: an explicit user choice wins;
+  /// without one, a method is on exactly when it has recipes. The Settings
+  /// root counts shown methods with the same rule — keep the two in sync.
   bool _switchValue(
     String methodId,
     Set<String> shownIds,
