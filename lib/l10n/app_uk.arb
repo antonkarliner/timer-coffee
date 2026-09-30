@@ -1151,6 +1151,10 @@
   "settingsBrewAlertsSilent": "Без звуку",
   "settingsBrewAlertsVibration": "Вібрація",
   "settingsBrewAlertsSound": "Звук",
+  "settingsBrewingMethodsHeader": "Методи заварювання",
+  "settingsResetToDefault": "Скинути до типових",
+  "settingsResetBrewingMethodsConfirm": "Знову показувати всі методи заварювання, для яких є рецепти? Ваші налаштування тут буде скинуто.",
+  "settingsMethodsShownCount": "{total, plural, one{Методи: {shown} із {total}} few{Методи: {shown} із {total}} many{Методи: {shown} із {total}} other{Методи: {shown} із {total}}}",
   "daysAgo": "{count, plural, one{{count} день тому} few{{count} дні тому} many{{count} днів тому} other{{count} дня тому}}",
   "@daysAgo": {
     "placeholders": {

@@ -1151,6 +1151,10 @@
   "settingsBrewAlertsSilent": "静音",
   "settingsBrewAlertsVibration": "振动",
   "settingsBrewAlertsSound": "声音",
+  "settingsBrewingMethodsHeader": "冲煮方法",
+  "settingsResetToDefault": "恢复默认设置",
+  "settingsResetBrewingMethodsConfirm": "重新显示所有有配方的冲煮方法？你在此处所做的选择将被清除。",
+  "settingsMethodsShownCount": "{total, plural, other{冲煮方法：{shown} / {total}}}",
   "daysAgo": "{count, plural, other{{count}天前}}",
   "@daysAgo": {
     "placeholders": {

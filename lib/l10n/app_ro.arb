@@ -1151,6 +1151,10 @@
   "settingsBrewAlertsSilent": "Silențios",
   "settingsBrewAlertsVibration": "Vibrație",
   "settingsBrewAlertsSound": "Sunet",
+  "settingsBrewingMethodsHeader": "Metode de preparare",
+  "settingsResetToDefault": "Resetează la valorile implicite",
+  "settingsResetBrewingMethodsConfirm": "Să se afișeze din nou toate metodele de preparare care au rețete? Alegerile făcute aici vor fi șterse.",
+  "settingsMethodsShownCount": "{total, plural, one{Metode: {shown} din {total}} few{Metode: {shown} din {total}} other{Metode: {shown} din {total}}}",
   "daysAgo": "{count, plural, one{acum 1 zi} few{acum {count} zile} other{acum {count} de zile}}",
   "@daysAgo": {
     "placeholders": {

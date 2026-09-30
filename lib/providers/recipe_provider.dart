@@ -88,6 +88,28 @@ class RecipeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Clears every explicit shown/hidden brewing-method choice, so the Home
+  /// screen falls back to "shown if the method has recipes".
+  ///
+  /// Returns true when something was actually cleared, so callers can skip
+  /// the analytics event for a no-op reset.
+  Future<bool> resetBrewingMethodPreferences() async {
+    final hadShown = _shownBrewingMethodIds.value.isNotEmpty;
+    final hadHidden = _hiddenBrewingMethodIds.value.isNotEmpty;
+    if (!hadShown && !hadHidden) {
+      return false;
+    }
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('shownBrewingMethodIds', <String>[]);
+    await prefs.setStringList('hiddenBrewingMethodIds', <String>[]);
+
+    _shownBrewingMethodIds.value = <String>{};
+    _hiddenBrewingMethodIds.value = <String>{};
+    notifyListeners();
+    return true;
+  }
+
   Future<void> fetchAllRecipes() async {
     // Use languageCode to match DB locale keys like 'en', 'ru', etc.
     final String localeKey = _locale.languageCode;

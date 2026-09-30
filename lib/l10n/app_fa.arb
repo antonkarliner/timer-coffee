@@ -1324,6 +1324,10 @@
   "settingsBrewAlertsSilent": "بی‌صدا",
   "settingsBrewAlertsVibration": "لرزش",
   "settingsBrewAlertsSound": "صدا",
+  "settingsBrewingMethodsHeader": "روش‌های دم",
+  "settingsResetToDefault": "بازگردانی به پیش‌فرض",
+  "settingsResetBrewingMethodsConfirm": "همه روش‌های دمی که دستور دارند دوباره نمایش داده شوند؟ انتخاب‌های شما در اینجا پاک خواهند شد.",
+  "settingsMethodsShownCount": "{total, plural, other{{shown} از {total} روش}}",
   "daysAgo": "{count, plural, other{{count} روز پیش}}",
   "@daysAgo": {
     "placeholders": {

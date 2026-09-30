@@ -1151,6 +1151,10 @@
   "settingsBrewAlertsSilent": "Sessiz",
   "settingsBrewAlertsVibration": "Titreşim",
   "settingsBrewAlertsSound": "Ses",
+  "settingsBrewingMethodsHeader": "Demleme Yöntemleri",
+  "settingsResetToDefault": "Varsayılana sıfırla",
+  "settingsResetBrewingMethodsConfirm": "Tarifi olan tüm demleme yöntemleri yeniden gösterilsin mi? Buradaki seçimleriniz silinecek.",
+  "settingsMethodsShownCount": "{total, plural, other{{shown} / {total} yöntem}}",
   "daysAgo": "{count, plural, one{1 gün önce} other{{count} gün önce}}",
   "@daysAgo": {
     "placeholders": {

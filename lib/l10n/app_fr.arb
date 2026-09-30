@@ -1151,6 +1151,10 @@
   "settingsBrewAlertsSilent": "Silencieux",
   "settingsBrewAlertsVibration": "Vibration",
   "settingsBrewAlertsSound": "Son",
+  "settingsBrewingMethodsHeader": "Méthodes d'extraction",
+  "settingsResetToDefault": "Rétablir les valeurs par défaut",
+  "settingsResetBrewingMethodsConfirm": "Afficher à nouveau toutes les méthodes d'extraction qui ont des recettes ? Vos choix ici seront effacés.",
+  "settingsMethodsShownCount": "{total, plural, one{{shown} sur {total} méthode} other{{shown} sur {total} méthodes}}",
   "daysAgo": "{count, plural, one{il y a 1 jour} other{il y a {count} jours}}",
   "@daysAgo": {
     "placeholders": {

@@ -1151,6 +1151,10 @@
   "settingsBrewAlertsSilent": "Без звука",
   "settingsBrewAlertsVibration": "Вибрация",
   "settingsBrewAlertsSound": "Звук",
+  "settingsBrewingMethodsHeader": "Методы заваривания",
+  "settingsResetToDefault": "Сбросить до значений по умолчанию",
+  "settingsResetBrewingMethodsConfirm": "Снова показывать все методы заваривания, у которых есть рецепты? Ваши настройки здесь будут сброшены.",
+  "settingsMethodsShownCount": "{total, plural, one{Методы: {shown} из {total}} few{Методы: {shown} из {total}} many{Методы: {shown} из {total}} other{Методы: {shown} из {total}}}",
   "daysAgo": "{count, plural, one{{count} день назад} few{{count} дня назад} many{{count} дней назад} other{{count} дня назад}}",
   "@daysAgo": {
     "placeholders": {

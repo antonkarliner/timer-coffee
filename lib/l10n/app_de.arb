@@ -1151,6 +1151,10 @@
   "settingsBrewAlertsSilent": "Lautlos",
   "settingsBrewAlertsVibration": "Vibration",
   "settingsBrewAlertsSound": "Ton",
+  "settingsBrewingMethodsHeader": "Brühmethoden",
+  "settingsResetToDefault": "Auf Standard zurücksetzen",
+  "settingsResetBrewingMethodsConfirm": "Alle Brühmethoden mit Rezepten wieder anzeigen? Deine Auswahl hier wird gelöscht.",
+  "settingsMethodsShownCount": "{total, plural, one{{shown} von {total} Methode} other{{shown} von {total} Methoden}}",
   "daysAgo": "{count, plural, one{vor 1 Tag} other{vor {count} Tagen}}",
   "@daysAgo": {
     "placeholders": {

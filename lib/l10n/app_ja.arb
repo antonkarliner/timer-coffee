@@ -1151,6 +1151,10 @@
   "settingsBrewAlertsSilent": "サイレント",
   "settingsBrewAlertsVibration": "振動",
   "settingsBrewAlertsSound": "サウンド",
+  "settingsBrewingMethodsHeader": "抽出方法",
+  "settingsResetToDefault": "デフォルトにリセット",
+  "settingsResetBrewingMethodsConfirm": "レシピがあるすべての抽出方法をもう一度表示しますか？ここでの選択はリセットされます。",
+  "settingsMethodsShownCount": "{total, plural, other{抽出方法: {shown} / {total}}}",
   "daysAgo": "{count, plural, other{{count}日前}}",
   "@daysAgo": {
     "placeholders": {

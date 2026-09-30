@@ -1151,6 +1151,10 @@
   "settingsBrewAlertsSilent": "صامت",
   "settingsBrewAlertsVibration": "اهتزاز",
   "settingsBrewAlertsSound": "صوت",
+  "settingsBrewingMethodsHeader": "طرق التحضير",
+  "settingsResetToDefault": "إعادة التعيين إلى الافتراضي",
+  "settingsResetBrewingMethodsConfirm": "هل تريد إظهار كل طرق التحضير التي تحتوي على وصفات مرة أخرى؟ سيتم مسح اختياراتك هنا.",
+  "settingsMethodsShownCount": "{total, plural, zero{الطرق: {shown} من {total}} one{الطرق: {shown} من {total}} two{الطرق: {shown} من {total}} few{الطرق: {shown} من {total}} many{الطرق: {shown} من {total}} other{الطرق: {shown} من {total}}}",
   "daysAgo": "{count, plural, zero{منذ ٠ يوم} one{منذ يوم} two{منذ يومين} few{منذ {count} أيام} many{منذ {count} يوم} other{منذ {count} يوم}}",
   "@daysAgo": {
     "placeholders": {

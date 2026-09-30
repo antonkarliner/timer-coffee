@@ -191,6 +191,15 @@ class MockRecipeProvider extends _i1.Mock implements _i7.RecipeProvider {
           as _i9.Future<void>);
 
   @override
+  _i9.Future<bool> resetBrewingMethodPreferences() =>
+      (super.noSuchMethod(
+            Invocation.method(#resetBrewingMethodPreferences, []),
+            returnValue: _i9.Future<bool>.value(false),
+            returnValueForMissingStub: _i9.Future<bool>.value(false),
+          )
+          as _i9.Future<bool>);
+
+  @override
   _i9.Future<void> fetchAllRecipes() =>
       (super.noSuchMethod(
             Invocation.method(#fetchAllRecipes, []),

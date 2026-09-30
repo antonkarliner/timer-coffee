@@ -1752,6 +1752,26 @@
   "@settingsBrewAlertsSound": {
     "description": "Brew-alert option: play a sound on a step change"
   },
+  "settingsBrewingMethodsHeader": "Brewing methods",
+  "@settingsBrewingMethodsHeader": {
+    "description": "Section header above the per-method visibility switches on the Settings Home screen page"
+  },
+  "settingsResetToDefault": "Reset to default",
+  "@settingsResetToDefault": {
+    "description": "Text button and confirm-dialog title that restores the default set of brewing methods on Home"
+  },
+  "settingsResetBrewingMethodsConfirm": "Show every brewing method that has recipes again? Your choices here will be cleared.",
+  "@settingsResetBrewingMethodsConfirm": {
+    "description": "Body of the confirmation dialog shown before brewing-method visibility choices are reset"
+  },
+  "settingsMethodsShownCount": "{total, plural, one{{shown} of {total} method} other{{shown} of {total} methods}}",
+  "@settingsMethodsShownCount": {
+    "description": "Summary for the Settings root row: how many brewing methods are shown out of the total (e.g. 12 of 30 methods)",
+    "placeholders": {
+      "shown": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
   "daysAgo": "{count, plural, one{1 day ago} other{{count} days ago}}",
   "@daysAgo": {
     "placeholders": {

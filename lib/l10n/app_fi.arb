@@ -1003,6 +1003,10 @@
   "settingsBrewAlertsSilent": "Äänetön",
   "settingsBrewAlertsVibration": "Värinä",
   "settingsBrewAlertsSound": "Ääni",
+  "settingsBrewingMethodsHeader": "Valmistusmenetelmät",
+  "settingsResetToDefault": "Palauta oletusarvot",
+  "settingsResetBrewingMethodsConfirm": "Näytetäänkö kaikki reseptejä sisältävät valmistusmenetelmät uudelleen? Tähän tehdyt valinnat tyhjennetään.",
+  "settingsMethodsShownCount": "{total, plural, one{{shown} / {total} menetelmä} other{{shown} / {total} menetelmää}}",
   "daysAgo": "{count, plural, one{1 päivä sitten} other{{count} päivää sitten}}",
   "@daysAgo": {
     "placeholders": {

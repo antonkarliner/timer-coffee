@@ -1151,6 +1151,10 @@
   "settingsBrewAlertsSilent": "Silenzioso",
   "settingsBrewAlertsVibration": "Vibrazione",
   "settingsBrewAlertsSound": "Suono",
+  "settingsBrewingMethodsHeader": "Metodi di preparazione",
+  "settingsResetToDefault": "Ripristina predefiniti",
+  "settingsResetBrewingMethodsConfirm": "Mostrare di nuovo tutti i metodi di preparazione che hanno ricette? Le scelte fatte qui verranno cancellate.",
+  "settingsMethodsShownCount": "{total, plural, one{{shown} di {total} metodo} other{{shown} di {total} metodi}}",
   "daysAgo": "{count, plural, one{1 giorno fa} other{{count} giorni fa}}",
   "@daysAgo": {
     "placeholders": {

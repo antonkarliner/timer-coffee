@@ -1151,6 +1151,10 @@
   "settingsBrewAlertsSilent": "Senyap",
   "settingsBrewAlertsVibration": "Getaran",
   "settingsBrewAlertsSound": "Suara",
+  "settingsBrewingMethodsHeader": "Metode seduh",
+  "settingsResetToDefault": "Setel ulang ke default",
+  "settingsResetBrewingMethodsConfirm": "Tampilkan lagi semua metode seduh yang punya resep? Pilihan Anda di sini akan dihapus.",
+  "settingsMethodsShownCount": "{total, plural, other{{shown} dari {total} metode}}",
   "daysAgo": "{count, plural, other{{count} hari yang lalu}}",
   "@daysAgo": {
     "placeholders": {
