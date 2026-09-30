@@ -104,6 +104,8 @@
   "settingsthemedark": "다크",
   "settingsthemesystem": "시스템",
   "settingslang": "언어",
+  "settingsAppearanceTitle": "모양",
+  "settingsLanguageRegionTitle": "언어 및 지역",
   "settingsDateTimeFormat": "날짜 및 시간 형식",
   "settingsDateFormatLabel": "날짜 형식",
   "settingsTimeFormatLabel": "시간 형식",

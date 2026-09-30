@@ -89,6 +89,8 @@
   "settingsthemedark": "Dunkel",
   "settingsthemesystem": "System",
   "settingslang": "Sprache",
+  "settingsAppearanceTitle": "Erscheinungsbild",
+  "settingsLanguageRegionTitle": "Sprache & Region",
   "settingsDateTimeFormat": "Datums- und Uhrzeitformat",
   "settingsDateFormatLabel": "Datumsformat",
   "settingsTimeFormatLabel": "Uhrzeitformat",

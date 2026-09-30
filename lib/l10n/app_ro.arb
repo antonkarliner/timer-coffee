@@ -89,6 +89,8 @@
   "settingsthemedark": "Întunecat",
   "settingsthemesystem": "Sistem",
   "settingslang": "Limbă",
+  "settingsAppearanceTitle": "Aspect",
+  "settingsLanguageRegionTitle": "Limbă și regiune",
   "settingsDateTimeFormat": "Format dată și oră",
   "settingsDateFormatLabel": "Format dată",
   "settingsTimeFormatLabel": "Format oră",

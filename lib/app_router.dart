@@ -77,6 +77,14 @@ class AppRouter extends RootStackRouter {
           path: '/settings',
         ),
         AutoRoute(
+          page: SettingsAppearanceRoute.page,
+          path: '/settings/appearance',
+        ),
+        AutoRoute(
+          page: SettingsLanguageRegionRoute.page,
+          path: '/settings/language',
+        ),
+        AutoRoute(
           page: FavoriteRecipesRoute.page,
           path: '/favorites',
         ),

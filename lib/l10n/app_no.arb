@@ -104,6 +104,8 @@
   "settingsthemedark": "Mørk",
   "settingsthemesystem": "System",
   "settingslang": "Språk",
+  "settingsAppearanceTitle": "Utseende",
+  "settingsLanguageRegionTitle": "Språk og region",
   "settingsDateTimeFormat": "Dato- og klokkeslettformat",
   "settingsDateFormatLabel": "Datoformat",
   "settingsTimeFormatLabel": "Tidsformat",

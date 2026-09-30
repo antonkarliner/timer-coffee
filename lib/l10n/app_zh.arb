@@ -89,6 +89,8 @@
   "settingsthemedark": "深色",
   "settingsthemesystem": "系统",
   "settingslang": "语言",
+  "settingsAppearanceTitle": "外观",
+  "settingsLanguageRegionTitle": "语言与地区",
   "settingsDateTimeFormat": "日期和时间格式",
   "settingsDateFormatLabel": "日期格式",
   "settingsTimeFormatLabel": "时间格式",

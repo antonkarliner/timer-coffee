@@ -89,6 +89,8 @@
   "settingsthemedark": "Koyu",
   "settingsthemesystem": "Sistem",
   "settingslang": "Dil",
+  "settingsAppearanceTitle": "Görünüm",
+  "settingsLanguageRegionTitle": "Dil ve bölge",
   "settingsDateTimeFormat": "Tarih ve saat biçimi",
   "settingsDateFormatLabel": "Tarih biçimi",
   "settingsTimeFormatLabel": "Saat biçimi",

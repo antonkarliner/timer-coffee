@@ -97,6 +97,8 @@
   "settingsthemedark": "تیره",
   "settingsthemesystem": "سیستم",
   "settingslang": "زبان",
+  "settingsAppearanceTitle": "ظاهر",
+  "settingsLanguageRegionTitle": "زبان و منطقه",
   "settingsDateTimeFormat": "فرمت تاریخ و زمان",
   "settingsDateFormatLabel": "فرمت تاریخ",
   "settingsTimeFormatLabel": "فرمت زمان",

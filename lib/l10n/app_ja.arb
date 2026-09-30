@@ -89,6 +89,8 @@
   "settingsthemedark": "ダーク",
   "settingsthemesystem": "システム",
   "settingslang": "言語",
+  "settingsAppearanceTitle": "外観",
+  "settingsLanguageRegionTitle": "言語と地域",
   "settingsDateTimeFormat": "日付と時刻の形式",
   "settingsDateFormatLabel": "日付形式",
   "settingsTimeFormatLabel": "時刻形式",

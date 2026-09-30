@@ -104,6 +104,8 @@
   "settingsthemedark": "Σκούρο",
   "settingsthemesystem": "Σύστημα",
   "settingslang": "Γλώσσα",
+  "settingsAppearanceTitle": "Εμφάνιση",
+  "settingsLanguageRegionTitle": "Γλώσσα & περιοχή",
   "settingsDateTimeFormat": "Μορφοποίηση ημερομηνίας και ώρας",
   "settingsDateFormatLabel": "Μορφή ημερομηνίας",
   "settingsTimeFormatLabel": "Μορφή ώρας",

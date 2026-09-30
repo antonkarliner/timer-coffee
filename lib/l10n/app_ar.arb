@@ -83,6 +83,8 @@
   "settingsthemedark": "داكن",
   "settingsthemesystem": "مطابقة النظام",
   "settingslang": "اللغة",
+  "settingsAppearanceTitle": "المظهر",
+  "settingsLanguageRegionTitle": "اللغة والمنطقة",
   "settingsDateTimeFormat": "تنسيق التاريخ والوقت",
   "settingsDateFormatLabel": "تنسيق التاريخ",
   "settingsTimeFormatLabel": "تنسيق الوقت",

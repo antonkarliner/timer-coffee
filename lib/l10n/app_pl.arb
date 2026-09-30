@@ -89,6 +89,8 @@
   "settingsthemedark": "Ciemny",
   "settingsthemesystem": "System",
   "settingslang": "Język",
+  "settingsAppearanceTitle": "Wygląd",
+  "settingsLanguageRegionTitle": "Język i region",
   "settingsDateTimeFormat": "Format daty i czasu",
   "settingsDateFormatLabel": "Format daty",
   "settingsTimeFormatLabel": "Format czasu",

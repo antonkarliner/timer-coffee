@@ -327,6 +327,8 @@
   "settingsthemedark": "Tumma",
   "settingsthemesystem": "Järjestelmä",
   "settingslang": "Kieli",
+  "settingsAppearanceTitle": "Ulkoasu",
+  "settingsLanguageRegionTitle": "Kieli ja alue",
   "settingsDateTimeFormat": "Päivämäärän ja ajan muoto",
   "settingsDateFormatLabel": "Päivämäärämuoto",
   "settingsTimeFormatLabel": "Ajan muoto",

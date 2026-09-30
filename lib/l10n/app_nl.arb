@@ -89,6 +89,8 @@
   "settingsthemedark": "Donker",
   "settingsthemesystem": "Systeem",
   "settingslang": "Taal",
+  "settingsAppearanceTitle": "Uiterlijk",
+  "settingsLanguageRegionTitle": "Taal & regio",
   "settingsDateTimeFormat": "Datum- en tijdnotatie",
   "settingsDateFormatLabel": "Datumnotatie",
   "settingsTimeFormatLabel": "Tijdnotatie",

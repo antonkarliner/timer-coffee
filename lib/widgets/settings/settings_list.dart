@@ -2,8 +2,9 @@
 ///
 /// 1. Root rows only navigate. No `ExpansionTile` anywhere in Settings.
 /// 2. There are three control types: a switch row (`AppSwitchListTile`); a
-///    choice row (value on the right, opening a bottom sheet that checks the
-///    current option); and a navigation row (chevron, opening a page or flow).
+///    choice row (current value under the title, opening a bottom sheet that
+///    checks the current option); and a navigation row (chevron, opening a
+///    page or flow).
 ///    The App icon grid is the one sanctioned exception because its options
 ///    are images.
 /// 3. A choice row shows its current value; a switch subtitle is a one-line
@@ -239,21 +240,19 @@ class SettingsChoiceRow<T> extends StatelessWidget {
         ),
         leading: icon == null ? null : Icon(icon, size: AppIconSize.medium),
         title: Text(title, style: AppTextStyles.body),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Flexible(
-              child: Text(
-                currentLabel ?? '',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: AppTextStyles.caption,
-              ),
+        // The value sits under the title, not in `trailing`: ListTile gives
+        // trailing its intrinsic width, so a long translated value ("Automatisch
+        // (an Sprache angepasst)") squeezed the title until it broke mid-word.
+        subtitle: Padding(
+          padding: const EdgeInsetsDirectional.only(top: AppSpacing.xs),
+          child: Text(
+            currentLabel ?? '',
+            style: AppTextStyles.caption.copyWith(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
-            const SizedBox(width: AppSpacing.sm),
-            const Icon(Icons.chevron_right, size: AppIconSize.medium),
-          ],
+          ),
         ),
+        trailing: const Icon(Icons.chevron_right, size: AppIconSize.medium),
         onTap: () async {
           final value = await showSettingsChoiceSheet<T>(
             context: context,

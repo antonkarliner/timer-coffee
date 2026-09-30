@@ -98,6 +98,8 @@
   "settingsthemedark": "Gelap",
   "settingsthemesystem": "Sistem",
   "settingslang": "Bahasa",
+  "settingsAppearanceTitle": "Tampilan",
+  "settingsLanguageRegionTitle": "Bahasa & wilayah",
   "settingsDateTimeFormat": "Format tanggal & waktu",
   "settingsDateFormatLabel": "Format tanggal",
   "settingsTimeFormatLabel": "Format waktu",

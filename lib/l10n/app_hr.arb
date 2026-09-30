@@ -104,6 +104,8 @@
   "settingsthemedark": "Tamna",
   "settingsthemesystem": "Sustav",
   "settingslang": "Jezik",
+  "settingsAppearanceTitle": "Izgled",
+  "settingsLanguageRegionTitle": "Jezik i regija",
   "settingsDateTimeFormat": "Format datuma i vremena",
   "settingsDateFormatLabel": "Format datuma",
   "settingsTimeFormatLabel": "Format vremena",

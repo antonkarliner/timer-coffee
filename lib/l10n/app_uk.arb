@@ -89,6 +89,8 @@
   "settingsthemedark": "Темна",
   "settingsthemesystem": "Системна",
   "settingslang": "Мова",
+  "settingsAppearanceTitle": "Оформлення",
+  "settingsLanguageRegionTitle": "Мова і регіон",
   "settingsDateTimeFormat": "Формат дати та часу",
   "settingsDateFormatLabel": "Формат дати",
   "settingsTimeFormatLabel": "Формат часу",
