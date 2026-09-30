@@ -1141,6 +1141,9 @@
   "settingsWeeklySummarySubtitle": "Récapitulatif de vos préparations le dimanche soir",
   "settingsBeanFreshness": "Rappels de fraîcheur",
   "settingsBeanFreshnessSubtitle": "Vous rappelle d’utiliser vos grains quand ils sont à leur meilleur",
+  "settingsNotificationsRemindersHeader": "Rappels",
+  "settingsNotificationsSummaryOn": "{count, plural, =0{Activé} one{Activé · {count} rappel} other{Activé · {count} rappels}}",
+  "settingsNotificationsSummaryBlocked": "Bloqué dans les paramètres système",
   "daysAgo": "{count, plural, one{il y a 1 jour} other{il y a {count} jours}}",
   "@daysAgo": {
     "placeholders": {

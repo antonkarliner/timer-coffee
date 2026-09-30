@@ -1312,6 +1312,9 @@
   "settingsWeeklySummarySubtitle": "일요일 저녁에 보는 이번 주 커피 요약",
   "settingsBeanFreshness": "신선도 알림",
   "settingsBeanFreshnessSubtitle": "원두가 가장 맛있을 때 내려 마시도록 알려줍니다",
+  "settingsNotificationsRemindersHeader": "리마인더",
+  "settingsNotificationsSummaryOn": "{count, plural, =0{켜짐} other{켜짐 · 리마인더 {count}개}}",
+  "settingsNotificationsSummaryBlocked": "시스템 설정에서 차단됨",
   "daysAgo": "{count, plural, other{{count}일 전}}",
   "@daysAgo": {
     "placeholders": {

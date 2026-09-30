@@ -1312,6 +1312,9 @@
   "settingsWeeklySummarySubtitle": "Nedjeljni večernji pregled tvojih priprema",
   "settingsBeanFreshness": "Podsjetnici o svježini",
   "settingsBeanFreshnessSubtitle": "Podsjeća te da skuhaš zrna dok su na vrhuncu",
+  "settingsNotificationsRemindersHeader": "Podsjetnici",
+  "settingsNotificationsSummaryOn": "{count, plural, =0{Uključeno} one{Uključeno · {count} podsjetnik} few{Uključeno · {count} podsjetnika} many{Uključeno · {count} podsjetnika} other{Uključeno · {count} podsjetnika}}",
+  "settingsNotificationsSummaryBlocked": "Blokirano u sistemskim postavkama",
   "daysAgo": "{count, plural, one{prije 1 dan} few{prije {count} dana} other{prije {count} dana}}",
   "@daysAgo": {
     "placeholders": {

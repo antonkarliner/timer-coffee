@@ -1141,6 +1141,9 @@
   "settingsWeeklySummarySubtitle": "Краткая сводка по вашим завариваниям в воскресенье вечером",
   "settingsBeanFreshness": "Напоминания о свежести",
   "settingsBeanFreshnessSubtitle": "Напомним заварить зёрна, пока они на пике вкуса",
+  "settingsNotificationsRemindersHeader": "Напоминания",
+  "settingsNotificationsSummaryOn": "{count, plural, =0{Вкл} one{Вкл · {count} напоминание} few{Вкл · {count} напоминания} many{Вкл · {count} напоминаний} other{Вкл · {count} напоминания}}",
+  "settingsNotificationsSummaryBlocked": "Заблокировано в системных настройках",
   "daysAgo": "{count, plural, one{{count} день назад} few{{count} дня назад} many{{count} дней назад} other{{count} дня назад}}",
   "@daysAgo": {
     "placeholders": {

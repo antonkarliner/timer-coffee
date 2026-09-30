@@ -1497,6 +1497,162 @@ void main() {
     });
   });
 
+  group('bean review nudge — setting off retirement', () {
+    Map<String, dynamic> inflightNudges() {
+      final raw = prefs.getString('notif_bean_review_inflight_v1');
+      return raw == null
+          ? <String, dynamic>{}
+          : (jsonDecode(raw) as Map).cast<String, dynamic>();
+    }
+
+    int presumedDeliveredCount() => AnalyticsService
+        .instance.bufferedEventsForTesting
+        .where((event) =>
+            event['event_name'] == 'notification_presumed_delivered' &&
+            (event['properties'] as Map?)?['notification_type'] ==
+                'bean_review_nudge')
+        .length;
+
+    Iterable<({int id, String? payload})> scheduledReviewNudges() =>
+        LocalNotificationSchedulerService.testScheduled
+            .where((call) => call.id >= 1601 && call.id <= 1610);
+
+    Future<DateTime> seedNudge({required bool fireInFuture}) async {
+      final decidedAt = fireInFuture
+          ? DateTime.now()
+          : DateTime.now().subtract(const Duration(hours: 36));
+      final fireAt = fireInFuture
+          ? DateTime.now().add(const Duration(days: 1))
+          : DateTime.now().subtract(const Duration(hours: 1));
+      await db.coffeeBeansDao.insertCoffeeBeans(
+        _makeBean(uuid: 'bean-x', name: 'X').copyWith(
+          reviewNudgeScheduledAt: decidedAt,
+        ),
+      );
+      await prefs.setString(
+        'notif_bean_review_inflight_v1',
+        jsonEncode({
+          'bean-x': {
+            't': 'depletion',
+            'f': fireAt.millisecondsSinceEpoch,
+            'i': 1601,
+          },
+        }),
+      );
+      return decidedAt;
+    }
+
+    test('disabled setting retires a future in-flight nudge', () async {
+      await seedNudge(fireInFuture: true);
+      await NotificationSettingsService.instance
+          .setBeanReviewNudgeEnabled(false);
+
+      await runScheduler();
+
+      expect(inflightNudges(), isNot(contains('bean-x')));
+      final bean = await db.coffeeBeansDao.fetchCoffeeBeansByUuid('bean-x');
+      expect(
+        DateTime.now().difference(bean!.reviewNudgeScheduledAt!),
+        greaterThanOrEqualTo(const Duration(days: 2) -
+            const Duration(seconds: 1)),
+      );
+      expect(presumedDeliveredCount(), 0);
+    });
+
+    test('disabled setting flushes a past-due in-flight nudge first',
+        () async {
+      final decidedAt = await seedNudge(fireInFuture: false);
+      await NotificationSettingsService.instance
+          .setBeanReviewNudgeEnabled(false);
+
+      await runScheduler();
+
+      expect(inflightNudges(), isNot(contains('bean-x')));
+      final bean = await db.coffeeBeansDao.fetchCoffeeBeansByUuid('bean-x');
+      expect(
+        bean!.reviewNudgeScheduledAt!.millisecondsSinceEpoch ~/ 1000,
+        decidedAt.millisecondsSinceEpoch ~/ 1000,
+        reason: 'past-due entries are delivered, not retired as cancellations',
+      );
+    });
+
+    test('disabled setting retires a legacy pending nudge without in-flight state',
+        () async {
+      await db.coffeeBeansDao.insertCoffeeBeans(
+        _makeBean(uuid: 'bean-x', name: 'X').copyWith(
+          reviewNudgeScheduledAt: DateTime.now(),
+        ),
+      );
+      await NotificationSettingsService.instance
+          .setBeanReviewNudgeEnabled(false);
+
+      await runScheduler();
+
+      final bean = await db.coffeeBeansDao.fetchCoffeeBeansByUuid('bean-x');
+      expect(
+        DateTime.now().difference(bean!.reviewNudgeScheduledAt!),
+        greaterThanOrEqualTo(const Duration(days: 2) -
+            const Duration(seconds: 1)),
+      );
+      expect(inflightNudges(), isEmpty);
+    });
+
+    test('re-enabling before the original fire time does not resurrect a nudge',
+        () async {
+      await seedNudge(fireInFuture: true);
+      await NotificationSettingsService.instance
+          .setBeanReviewNudgeEnabled(false);
+      await runScheduler();
+
+      await NotificationSettingsService.instance
+          .setBeanReviewNudgeEnabled(true);
+      LocalNotificationSchedulerService.resetTestState();
+      await runScheduler();
+
+      expect(scheduledReviewNudges(), isEmpty);
+      expect(presumedDeliveredCount(), 0);
+    });
+
+    test('re-enabling after the original fire time does not resurrect a nudge',
+        () async {
+      await seedNudge(fireInFuture: false);
+      await NotificationSettingsService.instance
+          .setBeanReviewNudgeEnabled(false);
+      await runScheduler();
+
+      await NotificationSettingsService.instance
+          .setBeanReviewNudgeEnabled(true);
+      LocalNotificationSchedulerService.resetTestState();
+      await runScheduler();
+
+      expect(scheduledReviewNudges(), isEmpty);
+      expect(presumedDeliveredCount(), 0);
+    });
+
+    test('retiring while disabled is idempotent', () async {
+      await seedNudge(fireInFuture: true);
+      await NotificationSettingsService.instance
+          .setBeanReviewNudgeEnabled(false);
+      await runScheduler();
+      final firstInflight = prefs.getString('notif_bean_review_inflight_v1');
+      final firstBean =
+          await db.coffeeBeansDao.fetchCoffeeBeansByUuid('bean-x');
+      final firstEventCount =
+          AnalyticsService.instance.bufferedEventsForTesting.length;
+
+      await runScheduler();
+
+      final secondBean =
+          await db.coffeeBeansDao.fetchCoffeeBeansByUuid('bean-x');
+      expect(prefs.getString('notif_bean_review_inflight_v1'), firstInflight);
+      expect(secondBean!.reviewNudgeScheduledAt,
+          firstBean!.reviewNudgeScheduledAt);
+      expect(AnalyticsService.instance.bufferedEventsForTesting.length,
+          firstEventCount);
+      expect(scheduledReviewNudges(), isEmpty);
+    });
+  });
+
   group('bean review nudge — cancel on review', () {
     Future<void> seedBrews(String beansUuid, int count) async {
       for (var i = 0; i < count; i++) {

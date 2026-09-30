@@ -1141,6 +1141,9 @@
   "settingsWeeklySummarySubtitle": "Niedzielne wieczorne podsumowanie Twoich parzeń",
   "settingsBeanFreshness": "Przypomnienia o świeżości",
   "settingsBeanFreshnessSubtitle": "Przypomina, by zaparzyć ziarna, gdy są w najlepszej formie",
+  "settingsNotificationsRemindersHeader": "Przypomnienia",
+  "settingsNotificationsSummaryOn": "{count, plural, =0{Włączone} one{Włączone · {count} przypomnienie} few{Włączone · {count} przypomnienia} many{Włączone · {count} przypomnień} other{Włączone · {count} przypomnienia}}",
+  "settingsNotificationsSummaryBlocked": "Zablokowane w ustawieniach systemu",
   "daysAgo": "{count, plural, one{1 dzień temu} few{{count} dni temu} many{{count} dni temu} other{{count} dni temu}}",
   "@daysAgo": {
     "placeholders": {

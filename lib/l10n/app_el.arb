@@ -1536,6 +1536,9 @@
   "settingsWeeklySummarySubtitle": "Κυριακάτικη βραδινή ανακεφαλαίωση των παρασκευών σου",
   "settingsBeanFreshness": "Υπενθυμίσεις φρεσκάδας",
   "settingsBeanFreshnessSubtitle": "Σου θυμίζει να φτιάξεις τον καφέ σου όσο οι κόκκοι είναι στα καλύτερά τους",
+  "settingsNotificationsRemindersHeader": "Υπενθυμίσεις",
+  "settingsNotificationsSummaryOn": "{count, plural, =0{Ενεργές} one{Ενεργές · {count} υπενθύμιση} other{Ενεργές · {count} υπενθυμίσεις}}",
+  "settingsNotificationsSummaryBlocked": "Μπλοκαρισμένες στις ρυθμίσεις συστήματος",
   "daysAgo": "{count, plural, one{πριν 1 ημέρα} other{πριν {count} ημέρες}}",
   "@daysAgo": {
     "placeholders": {

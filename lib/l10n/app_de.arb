@@ -1141,6 +1141,9 @@
   "settingsWeeklySummarySubtitle": "Sonntagabend-Zusammenfassung deiner Brühvorgänge",
   "settingsBeanFreshness": "Frische-Erinnerungen",
   "settingsBeanFreshnessSubtitle": "Erinnert dich daran, deine Bohnen zu brühen, solange sie am besten schmecken",
+  "settingsNotificationsRemindersHeader": "Erinnerungen",
+  "settingsNotificationsSummaryOn": "{count, plural, =0{An} one{An · {count} Erinnerung} other{An · {count} Erinnerungen}}",
+  "settingsNotificationsSummaryBlocked": "In Systemeinstellungen blockiert",
   "daysAgo": "{count, plural, one{vor 1 Tag} other{vor {count} Tagen}}",
   "@daysAgo": {
     "placeholders": {

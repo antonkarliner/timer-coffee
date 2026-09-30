@@ -1314,6 +1314,9 @@
   "settingsWeeklySummarySubtitle": "مرور دم‌آوری‌های هفته در یکشنبه شب",
   "settingsBeanFreshness": "یادآوری‌های تازگی",
   "settingsBeanFreshnessSubtitle": "یادآوری می‌کند قهوه‌ات را وقتی در بهترین حالت است دم کنی",
+  "settingsNotificationsRemindersHeader": "یادآوری‌ها",
+  "settingsNotificationsSummaryOn": "{count, plural, =0{فعال} other{فعال · {count} یادآوری}}",
+  "settingsNotificationsSummaryBlocked": "در تنظیمات سیستم مسدود شده",
   "daysAgo": "{count, plural, other{{count} روز پیش}}",
   "@daysAgo": {
     "placeholders": {

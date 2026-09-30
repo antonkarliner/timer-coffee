@@ -1141,6 +1141,9 @@
   "settingsWeeklySummarySubtitle": "Короткий підсумок ваших заварювань у неділю ввечері",
   "settingsBeanFreshness": "Нагадування про свіжість",
   "settingsBeanFreshnessSubtitle": "Нагадаємо заварити зерна, поки вони на піку смаку",
+  "settingsNotificationsRemindersHeader": "Нагадування",
+  "settingsNotificationsSummaryOn": "{count, plural, =0{Увімкнено} one{Увімкнено · {count} нагадування} few{Увімкнено · {count} нагадування} many{Увімкнено · {count} нагадувань} other{Увімкнено · {count} нагадування}}",
+  "settingsNotificationsSummaryBlocked": "Заблоковано в системних налаштуваннях",
   "daysAgo": "{count, plural, one{{count} день тому} few{{count} дні тому} many{{count} днів тому} other{{count} дня тому}}",
   "@daysAgo": {
     "placeholders": {

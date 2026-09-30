@@ -1141,6 +1141,9 @@
   "settingsWeeklySummarySubtitle": "Recapitulare a preparărilor tale duminică seara",
   "settingsBeanFreshness": "Mementouri de prospețime",
   "settingsBeanFreshnessSubtitle": "Îți amintește să prepari boabele cât sunt la apogeu",
+  "settingsNotificationsRemindersHeader": "Memento-uri",
+  "settingsNotificationsSummaryOn": "{count, plural, =0{Activat} one{Activat · {count} memento} few{Activat · {count} memento-uri} other{Activat · {count} de memento-uri}}",
+  "settingsNotificationsSummaryBlocked": "Blocat în setările sistemului",
   "daysAgo": "{count, plural, one{acum 1 zi} few{acum {count} zile} other{acum {count} de zile}}",
   "@daysAgo": {
     "placeholders": {

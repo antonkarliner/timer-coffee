@@ -993,6 +993,9 @@
   "settingsWeeklySummarySubtitle": "Sunnuntai-illan yhteenveto viikon valmistuksista",
   "settingsBeanFreshness": "Tuoreusmuistutukset",
   "settingsBeanFreshnessSubtitle": "Muistuttaa keittämään pavut, kun ne ovat parhaimmillaan",
+  "settingsNotificationsRemindersHeader": "Muistutukset",
+  "settingsNotificationsSummaryOn": "{count, plural, =0{Käytössä} one{Käytössä · {count} muistutus} other{Käytössä · {count} muistutusta}}",
+  "settingsNotificationsSummaryBlocked": "Estetty järjestelmäasetuksissa",
   "daysAgo": "{count, plural, one{1 päivä sitten} other{{count} päivää sitten}}",
   "@daysAgo": {
     "placeholders": {

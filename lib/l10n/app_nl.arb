@@ -1141,6 +1141,9 @@
   "settingsWeeklySummarySubtitle": "Zondagavondoverzicht van je zetbeurten",
   "settingsBeanFreshness": "Versheidsherinneringen",
   "settingsBeanFreshnessSubtitle": "Herinnert je eraan je bonen te zetten wanneer ze op hun best zijn",
+  "settingsNotificationsRemindersHeader": "Herinneringen",
+  "settingsNotificationsSummaryOn": "{count, plural, =0{Aan} one{Aan · {count} herinnering} other{Aan · {count} herinneringen}}",
+  "settingsNotificationsSummaryBlocked": "Geblokkeerd in systeeminstellingen",
   "daysAgo": "{count, plural, one{1 dag geleden} other{{count} dagen geleden}}",
   "@daysAgo": {
     "placeholders": {

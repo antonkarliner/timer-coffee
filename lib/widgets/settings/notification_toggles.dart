@@ -5,7 +5,13 @@ import 'package:coffee_timer/theme/design_tokens.dart';
 import '../app_switch_list_tile.dart';
 
 /// Optional notification toggles: morning reminder, weekly summary, bean
-/// freshness. Returns a list of widgets for spreading into a parent.
+/// freshness and (when [beanReviewNudgeEnabled] /
+/// [onBeanReviewNudgeChanged] are supplied) bean review. Returns a list of
+/// widgets for spreading into a parent.
+///
+/// The two bean-review parameters are optional so screens that predate the
+/// fourth switch (the current Settings root) keep rendering the original
+/// three; the dedicated notifications page passes both and gets all four.
 class NotificationToggles extends StatelessWidget {
   const NotificationToggles({
     super.key,
@@ -17,12 +23,20 @@ class NotificationToggles extends StatelessWidget {
     required this.onWeeklyChanged,
     required this.onBeanFreshnessChanged,
     required this.onPickMorningTime,
+    this.beanReviewNudgeEnabled,
+    this.onBeanReviewNudgeChanged,
   });
 
   final bool morningReminderEnabled;
   final TimeOfDay morningReminderTime;
   final bool weeklySummaryEnabled;
   final bool beanFreshnessEnabled;
+
+  /// Nullable — the fourth switch renders only when both this and
+  /// [onBeanReviewNudgeChanged] are non-null.
+  final bool? beanReviewNudgeEnabled;
+  final ValueChanged<bool>? onBeanReviewNudgeChanged;
+
   final ValueChanged<bool> onMorningChanged;
   final ValueChanged<bool> onWeeklyChanged;
   final ValueChanged<bool> onBeanFreshnessChanged;
@@ -30,8 +44,14 @@ class NotificationToggles extends StatelessWidget {
 
   /// Builds the list of toggle widgets. Use this to spread into a parent
   /// widget's children list.
+  ///
+  /// The morning-time row sits in an always-present slot (see
+  /// `settings_list.dart` rule 5) so the widget type at that tree position
+  /// stays stable when the morning reminder is switched off.
   List<Widget> buildToggles(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final showBeanReview = beanReviewNudgeEnabled != null &&
+        onBeanReviewNudgeChanged != null;
     return [
       AppSwitchListTile(
         title: l10n.settingsMorningReminder,
@@ -39,19 +59,12 @@ class NotificationToggles extends StatelessWidget {
         value: morningReminderEnabled,
         onChanged: onMorningChanged,
       ),
-      if (morningReminderEnabled)
-        ListTile(
-          contentPadding: const EdgeInsets.only(
-            left: AppSpacing.xl,
-            right: AppSpacing.base,
-          ),
-          title: Text(l10n.settingsMorningReminderTime),
-          trailing: Text(
-            morningReminderTime.format(context),
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-          onTap: onPickMorningTime,
-        ),
+      MorningTimeSlot(
+        visible: morningReminderEnabled,
+        label: l10n.settingsMorningReminderTime,
+        formattedTime: morningReminderTime.format(context),
+        onTap: onPickMorningTime,
+      ),
       AppSwitchListTile(
         title: l10n.settingsWeeklySummary,
         subtitle: l10n.settingsWeeklySummarySubtitle,
@@ -64,6 +77,13 @@ class NotificationToggles extends StatelessWidget {
         value: beanFreshnessEnabled,
         onChanged: onBeanFreshnessChanged,
       ),
+      if (showBeanReview)
+        AppSwitchListTile(
+          title: l10n.settingsBeanReviewNudge,
+          subtitle: l10n.settingsBeanReviewNudgeSubtitle,
+          value: beanReviewNudgeEnabled!,
+          onChanged: onBeanReviewNudgeChanged,
+        ),
     ];
   }
 
@@ -72,6 +92,44 @@ class NotificationToggles extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: buildToggles(context),
+    );
+  }
+}
+
+/// Always-present slot for the morning-reminder time row. Renders
+/// [SizedBox.shrink] when the morning reminder is off so the widget type at
+/// this tree position never changes (a type change would recreate the child
+/// element and re-run `initState`).
+@visibleForTesting
+class MorningTimeSlot extends StatelessWidget {
+  const MorningTimeSlot({
+    super.key,
+    required this.visible,
+    required this.label,
+    required this.formattedTime,
+    required this.onTap,
+  });
+
+  final bool visible;
+  final String label;
+  final String formattedTime;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!visible) return const SizedBox.shrink();
+
+    return ListTile(
+      contentPadding: const EdgeInsetsDirectional.only(
+        start: AppSpacing.xl,
+        end: AppSpacing.base,
+      ),
+      title: Text(label),
+      trailing: Text(
+        formattedTime,
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
+      onTap: onTap,
     );
   }
 }

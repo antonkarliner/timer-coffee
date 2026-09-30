@@ -43,6 +43,18 @@ class SettingsController extends ChangeNotifier {
   bool weeklySummaryEnabled = false;
   bool beanFreshnessEnabled = false;
 
+  /// Bean review nudge (product decision D4: defaults on, no migration).
+  bool beanReviewNudgeEnabled = true;
+
+  /// Number of optional reminders currently switched on (morning, weekly
+  /// summary, bean freshness, bean review). Drives the Settings root row
+  /// summary ("On · N reminders").
+  int get enabledReminderCount =>
+      (morningReminderEnabled ? 1 : 0) +
+      (weeklySummaryEnabled ? 1 : 0) +
+      (beanFreshnessEnabled ? 1 : 0) +
+      (beanReviewNudgeEnabled ? 1 : 0);
+
   // ── Debug flag ──
   static const showNotifDebugPanel =
       bool.fromEnvironment('NOTIF_DEBUG', defaultValue: kDebugMode);
@@ -56,6 +68,7 @@ class SettingsController extends ChangeNotifier {
   StreamSubscription<TimeOfDay>? _morningTimeSub;
   StreamSubscription<bool>? _weeklySub;
   StreamSubscription<bool>? _beanFreshnessSub;
+  StreamSubscription<bool>? _beanReviewNudgeSub;
 
   // ---------------------------------------------------------------------------
   // Initialization
@@ -136,7 +149,7 @@ class SettingsController extends ChangeNotifier {
   // ---------------------------------------------------------------------------
 
   /// Initializes notification settings: loads persisted state, checks
-  /// system permissions, and subscribes to 6 reactive streams.
+  /// system permissions, and subscribes to 7 reactive streams.
   Future<void> initNotificationSettings() async {
     if (kIsWeb) {
       isLoading = false;
@@ -165,6 +178,8 @@ class SettingsController extends ChangeNotifier {
       morningReminderTime = await settingsService.getMorningReminderTime();
       weeklySummaryEnabled = await settingsService.isWeeklySummaryEnabled();
       beanFreshnessEnabled = await settingsService.isBeanFreshnessEnabled();
+      beanReviewNudgeEnabled =
+          await settingsService.isBeanReviewNudgeEnabled();
 
       notifyListeners();
 
@@ -199,6 +214,11 @@ class SettingsController extends ChangeNotifier {
       _beanFreshnessSub =
           settingsService.beanFreshnessChanges.listen((enabled) {
         beanFreshnessEnabled = enabled;
+        notifyListeners();
+      });
+      _beanReviewNudgeSub =
+          settingsService.beanReviewNudgeChanges.listen((enabled) {
+        beanReviewNudgeEnabled = enabled;
         notifyListeners();
       });
     } catch (e) {
@@ -296,6 +316,7 @@ class SettingsController extends ChangeNotifier {
     _morningTimeSub?.cancel();
     _weeklySub?.cancel();
     _beanFreshnessSub?.cancel();
+    _beanReviewNudgeSub?.cancel();
     super.dispose();
   }
 }

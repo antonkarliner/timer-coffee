@@ -1141,6 +1141,9 @@
   "settingsWeeklySummarySubtitle": "周日晚上回顾本周的冲煮",
   "settingsBeanFreshness": "新鲜度提醒",
   "settingsBeanFreshnessSubtitle": "在咖啡豆风味最佳时提醒你冲煮",
+  "settingsNotificationsRemindersHeader": "提醒",
+  "settingsNotificationsSummaryOn": "{count, plural, =0{已开启} other{已开启 · {count} 个提醒}}",
+  "settingsNotificationsSummaryBlocked": "已被系统设置阻止",
   "daysAgo": "{count, plural, other{{count}天前}}",
   "@daysAgo": {
     "placeholders": {

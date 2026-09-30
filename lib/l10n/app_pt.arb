@@ -1141,6 +1141,9 @@
   "settingsWeeklySummarySubtitle": "Resumo dos seus preparos no domingo à noite",
   "settingsBeanFreshness": "Lembretes de frescor",
   "settingsBeanFreshnessSubtitle": "Lembra você de preparar seus grãos quando estão no melhor momento",
+  "settingsNotificationsRemindersHeader": "Lembretes",
+  "settingsNotificationsSummaryOn": "{count, plural, =0{Ativado} one{Ativado · {count} lembrete} other{Ativado · {count} lembretes}}",
+  "settingsNotificationsSummaryBlocked": "Bloqueado nas configurações do sistema",
   "daysAgo": "{count, plural, one{há 1 dia} other{há {count} dias}}",
   "@daysAgo": {
     "placeholders": {

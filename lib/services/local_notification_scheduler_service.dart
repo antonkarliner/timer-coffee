@@ -1055,11 +1055,55 @@ class LocalNotificationSchedulerService {
     AppLocalizations l10n,
     SharedPreferences prefs,
   ) async {
-    // When disabled, the band was already cancelled by [_cancelAll]; leave it.
-    if (!await settings.isBeanReviewNudgeEnabled()) return;
+    // The OS band was already cancelled by [_cancelAll]. Retire its durable
+    // state too, so cancelled nudges are neither counted as delivered nor
+    // recreated if the setting is enabled again.
+    if (!await settings.isBeanReviewNudgeEnabled()) {
+      await _retireBeanReviewNudgesOnDisable(coffeeBeansDao, prefs);
+      return;
+    }
     await _flushPresumedDeliveries(prefs);
     await _runBeanReviewBacklogScan(coffeeBeansDao, userStatsDao, prefs);
     await _materializeBeanReviewNudges(dao: coffeeBeansDao, l10n: l10n);
+  }
+
+  Future<void> _retireBeanReviewNudgesOnDisable(
+    CoffeeBeansDao dao,
+    SharedPreferences prefs,
+  ) async {
+    await _flushPresumedDeliveries(prefs);
+
+    final now = DateTime.now();
+    final inflight = _readInflightNudges(prefs);
+    final triggersByUuid = <String, String>{};
+    inflight.forEach((uuid, value) {
+      final entry = (value as Map).cast<String, dynamic>();
+      triggersByUuid[uuid] = entry['t'] as String? ?? 'unknown';
+    });
+
+    final pending = await _pendingBeanReviewNudges(dao, now: now);
+    for (final item in pending) {
+      triggersByUuid.putIfAbsent(item.bean.beansUuid, () => 'unknown');
+    }
+    if (triggersByUuid.isEmpty) return;
+
+    final terminalAt = now.subtract(const Duration(days: 2));
+    for (final entry in triggersByUuid.entries) {
+      await dao.updateReviewNudgeScheduledAt(entry.key, terminalAt);
+      inflight.remove(entry.key);
+      if (!testMode) {
+        AnalyticsService.instance.track(
+          'notification_cancelled',
+          properties: {
+            'notification_type': 'bean_review_nudge',
+            'trigger': entry.value,
+            'reason': 'setting_off',
+            'bean_uuid': entry.key,
+          },
+        );
+      }
+    }
+    await prefs.setString(_keyBeanReviewInflight, jsonEncode(inflight));
   }
 
   /// One-shot backlog scan + 7-day drip for existing eligible beans. Only stamps

@@ -1463,6 +1463,9 @@
   "settingsWeeklySummarySubtitle": "Søndag kveldsoppsummering av bryggene dine",
   "settingsBeanFreshness": "Ferskhetspåminnelser",
   "settingsBeanFreshnessSubtitle": "Minner deg på å brygge bønnene mens de er på sitt beste",
+  "settingsNotificationsRemindersHeader": "Påminnelser",
+  "settingsNotificationsSummaryOn": "{count, plural, =0{På} one{På · {count} påminnelse} other{På · {count} påminnelser}}",
+  "settingsNotificationsSummaryBlocked": "Blokkert i systeminnstillingene",
   "daysAgo": "{count, plural, one{for 1 dag siden} other{for {count} dager siden}}",
   "@daysAgo": {
     "placeholders": {

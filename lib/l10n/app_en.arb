@@ -1707,6 +1707,23 @@
   "settingsWeeklySummarySubtitle": "Sunday evening recap of your brews",
   "settingsBeanFreshness": "Freshness reminders",
   "settingsBeanFreshnessSubtitle": "Remind you to brew your beans while they’re at their best",
+  "settingsNotificationsRemindersHeader": "Reminders",
+  "@settingsNotificationsRemindersHeader": {
+    "description": "Section header above the optional reminder switches on the notifications settings page"
+  },
+  "settingsNotificationsSummaryOn": "{count, plural, =0{On} one{On · {count} reminder} other{On · {count} reminders}}",
+  "@settingsNotificationsSummaryOn": {
+    "description": "Summary for the Settings root row when notifications are on; plural on the number of optional reminders switched on",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsNotificationsSummaryBlocked": "Blocked in system settings",
+  "@settingsNotificationsSummaryBlocked": {
+    "description": "Subtitle for the Settings root row when the OS has denied notification permission"
+  },
   "daysAgo": "{count, plural, one{1 day ago} other{{count} days ago}}",
   "@daysAgo": {
     "placeholders": {

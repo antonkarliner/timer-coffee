@@ -85,6 +85,10 @@ class AppRouter extends RootStackRouter {
           path: '/settings/language',
         ),
         AutoRoute(
+          page: SettingsNotificationsRoute.page,
+          path: '/settings/notifications',
+        ),
+        AutoRoute(
           page: FavoriteRecipesRoute.page,
           path: '/favorites',
         ),
