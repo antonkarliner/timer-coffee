@@ -7,6 +7,7 @@ import '../../controllers/settings_controller.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/snow_provider.dart';
 import '../../providers/theme_provider.dart';
+import '../../services/analytics_service.dart';
 import '../../services/settings_analytics.dart';
 import '../../theme/design_tokens.dart';
 import '../../widgets/app_switch_list_tile.dart';
@@ -24,6 +25,8 @@ class SettingsAppearanceScreen extends StatefulWidget {
 }
 
 class _SettingsAppearanceScreenState extends State<SettingsAppearanceScreen> {
+  static const Duration _analyticsFlushTimeout = Duration(seconds: 2);
+
   late final SettingsController _iconController;
 
   @override
@@ -66,19 +69,42 @@ class _SettingsAppearanceScreenState extends State<SettingsAppearanceScreen> {
 
   Future<void> _handleIconSelected(String iconName) async {
     final l10n = AppLocalizations.of(context)!;
-    final previous =
-        _iconController.localIconState == 'Legacy' ? 'legacy' : 'default';
-    final success = await _iconController.setIcon(iconName);
-    if (!mounted) return;
-    if (success) {
+    final messenger = ScaffoldMessenger.of(context);
+    final previous = _iconController.localIconState == 'Legacy'
+        ? 'legacy'
+        : 'default';
+    final value = iconName.toLowerCase();
+    final isAndroid =
+        !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
+
+    if (isAndroid) {
+      // A failed Android switch may still be reported so buffered events survive.
       SettingsAnalytics.settingChanged(
         key: SettingKey.appIcon,
-        value: iconName.toLowerCase(),
+        value: value,
         previous: previous,
         source: SettingSource.settings,
       );
+      try {
+        await AnalyticsService.maybeInstance?.flushNow().timeout(
+          _analyticsFlushTimeout,
+        );
+      } catch (_) {}
+    }
+
+    final success = await _iconController.setIcon(iconName);
+    if (!mounted) return;
+    if (success) {
+      if (!isAndroid) {
+        SettingsAnalytics.settingChanged(
+          key: SettingKey.appIcon,
+          value: value,
+          previous: previous,
+          source: SettingSource.settings,
+        );
+      }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
+      messenger.showSnackBar(
         SnackBar(content: Text(l10n.iconChangeFailed(iconName))),
       );
     }
