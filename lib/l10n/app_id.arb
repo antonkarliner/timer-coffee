@@ -1144,6 +1144,13 @@
   "settingsNotificationsRemindersHeader": "Pengingat",
   "settingsNotificationsSummaryOn": "{count, plural, =0{Aktif} other{Aktif · {count} pengingat}}",
   "settingsNotificationsSummaryBlocked": "Diblokir di pengaturan sistem",
+  "settingsBrewingTitle": "Seduh",
+  "settingsBrewingScreenLayout": "Layar seduh",
+  "settingsLayoutClassicDescription": "Daftar langkah dengan timer besar.",
+  "settingsBrewAlerts": "Peringatan pergantian langkah",
+  "settingsBrewAlertsSilent": "Senyap",
+  "settingsBrewAlertsVibration": "Getaran",
+  "settingsBrewAlertsSound": "Suara",
   "daysAgo": "{count, plural, other{{count} hari yang lalu}}",
   "@daysAgo": {
     "placeholders": {

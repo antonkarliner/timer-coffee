@@ -1144,6 +1144,13 @@
   "settingsNotificationsRemindersHeader": "Recordatorios",
   "settingsNotificationsSummaryOn": "{count, plural, =0{Activado} one{Activado · {count} recordatorio} other{Activado · {count} recordatorios}}",
   "settingsNotificationsSummaryBlocked": "Bloqueado en la configuración del sistema",
+  "settingsBrewingTitle": "Preparación",
+  "settingsBrewingScreenLayout": "Pantalla de preparación",
+  "settingsLayoutClassicDescription": "Lista de pasos con un temporizador grande.",
+  "settingsBrewAlerts": "Avisos de cambio de paso",
+  "settingsBrewAlertsSilent": "Silencio",
+  "settingsBrewAlertsVibration": "Vibración",
+  "settingsBrewAlertsSound": "Sonido",
   "daysAgo": "{count, plural, one{hace 1 día} other{hace {count} días}}",
   "@daysAgo": {
     "placeholders": {

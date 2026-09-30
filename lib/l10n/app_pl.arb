@@ -1144,6 +1144,13 @@
   "settingsNotificationsRemindersHeader": "Przypomnienia",
   "settingsNotificationsSummaryOn": "{count, plural, =0{Włączone} one{Włączone · {count} przypomnienie} few{Włączone · {count} przypomnienia} many{Włączone · {count} przypomnień} other{Włączone · {count} przypomnienia}}",
   "settingsNotificationsSummaryBlocked": "Zablokowane w ustawieniach systemu",
+  "settingsBrewingTitle": "Parzenie",
+  "settingsBrewingScreenLayout": "Ekran parzenia",
+  "settingsLayoutClassicDescription": "Lista kroków z dużym minutnikiem.",
+  "settingsBrewAlerts": "Alerty zmiany kroku",
+  "settingsBrewAlertsSilent": "Cicho",
+  "settingsBrewAlertsVibration": "Wibracje",
+  "settingsBrewAlertsSound": "Dźwięk",
   "daysAgo": "{count, plural, one{1 dzień temu} few{{count} dni temu} many{{count} dni temu} other{{count} dni temu}}",
   "@daysAgo": {
     "placeholders": {

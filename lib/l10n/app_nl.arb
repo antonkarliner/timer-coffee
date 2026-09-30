@@ -1144,6 +1144,13 @@
   "settingsNotificationsRemindersHeader": "Herinneringen",
   "settingsNotificationsSummaryOn": "{count, plural, =0{Aan} one{Aan · {count} herinnering} other{Aan · {count} herinneringen}}",
   "settingsNotificationsSummaryBlocked": "Geblokkeerd in systeeminstellingen",
+  "settingsBrewingTitle": "Brouwen",
+  "settingsBrewingScreenLayout": "Brouwscherm",
+  "settingsLayoutClassicDescription": "Stappenlijst met een grote timer.",
+  "settingsBrewAlerts": "Melding bij stapwissel",
+  "settingsBrewAlertsSilent": "Stil",
+  "settingsBrewAlertsVibration": "Trillen",
+  "settingsBrewAlertsSound": "Geluid",
   "daysAgo": "{count, plural, one{1 dag geleden} other{{count} dagen geleden}}",
   "@daysAgo": {
     "placeholders": {

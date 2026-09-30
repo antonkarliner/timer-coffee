@@ -1144,6 +1144,13 @@
   "settingsNotificationsRemindersHeader": "Promemoria",
   "settingsNotificationsSummaryOn": "{count, plural, =0{Attivo} one{Attivo · {count} promemoria} other{Attivo · {count} promemoria}}",
   "settingsNotificationsSummaryBlocked": "Bloccato nelle impostazioni di sistema",
+  "settingsBrewingTitle": "Preparazione",
+  "settingsBrewingScreenLayout": "Schermata di preparazione",
+  "settingsLayoutClassicDescription": "Elenco di passaggi con un timer grande.",
+  "settingsBrewAlerts": "Avvisi al cambio di passaggio",
+  "settingsBrewAlertsSilent": "Silenzioso",
+  "settingsBrewAlertsVibration": "Vibrazione",
+  "settingsBrewAlertsSound": "Suono",
   "daysAgo": "{count, plural, one{1 giorno fa} other{{count} giorni fa}}",
   "@daysAgo": {
     "placeholders": {

@@ -89,6 +89,10 @@ class AppRouter extends RootStackRouter {
           path: '/settings/notifications',
         ),
         AutoRoute(
+          page: SettingsBrewingRoute.page,
+          path: '/settings/brewing',
+        ),
+        AutoRoute(
           page: FavoriteRecipesRoute.page,
           path: '/favorites',
         ),

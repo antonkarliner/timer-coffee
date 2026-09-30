@@ -1144,6 +1144,13 @@
   "settingsNotificationsRemindersHeader": "リマインダー",
   "settingsNotificationsSummaryOn": "{count, plural, =0{オン} other{オン · {count}件のリマインダー}}",
   "settingsNotificationsSummaryBlocked": "システム設定でブロック中",
+  "settingsBrewingTitle": "抽出",
+  "settingsBrewingScreenLayout": "抽出画面",
+  "settingsLayoutClassicDescription": "大きなタイマー付きのステップリスト。",
+  "settingsBrewAlerts": "ステップ切り替えの通知",
+  "settingsBrewAlertsSilent": "サイレント",
+  "settingsBrewAlertsVibration": "振動",
+  "settingsBrewAlertsSound": "サウンド",
   "daysAgo": "{count, plural, other{{count}日前}}",
   "@daysAgo": {
     "placeholders": {

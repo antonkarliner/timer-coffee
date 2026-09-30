@@ -1144,6 +1144,13 @@
   "settingsNotificationsRemindersHeader": "Lembretes",
   "settingsNotificationsSummaryOn": "{count, plural, =0{Ativado} one{Ativado · {count} lembrete} other{Ativado · {count} lembretes}}",
   "settingsNotificationsSummaryBlocked": "Bloqueado nas configurações do sistema",
+  "settingsBrewingTitle": "Preparo",
+  "settingsBrewingScreenLayout": "Tela de preparo",
+  "settingsLayoutClassicDescription": "Lista de passos com um cronômetro grande.",
+  "settingsBrewAlerts": "Alertas de mudança de etapa",
+  "settingsBrewAlertsSilent": "Silencioso",
+  "settingsBrewAlertsVibration": "Vibração",
+  "settingsBrewAlertsSound": "Som",
   "daysAgo": "{count, plural, one{há 1 dia} other{há {count} dias}}",
   "@daysAgo": {
     "placeholders": {

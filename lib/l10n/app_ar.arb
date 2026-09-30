@@ -1144,6 +1144,13 @@
   "settingsNotificationsRemindersHeader": "تذكيرات",
   "settingsNotificationsSummaryOn": "{count, plural, =0{مفعّل} one{مفعّل · {count} تذكير} two{مفعّل · {count} تذكيران} few{مفعّل · {count} تذكيرات} many{مفعّل · {count} تذكيرًا} other{مفعّل · {count} تذكير}}",
   "settingsNotificationsSummaryBlocked": "محظور في إعدادات النظام",
+  "settingsBrewingTitle": "التحضير",
+  "settingsBrewingScreenLayout": "شاشة التحضير",
+  "settingsLayoutClassicDescription": "قائمة خطوات مع مؤقت كبير.",
+  "settingsBrewAlerts": "تنبيهات تغيير الخطوة",
+  "settingsBrewAlertsSilent": "صامت",
+  "settingsBrewAlertsVibration": "اهتزاز",
+  "settingsBrewAlertsSound": "صوت",
   "daysAgo": "{count, plural, zero{منذ ٠ يوم} one{منذ يوم} two{منذ يومين} few{منذ {count} أيام} many{منذ {count} يوم} other{منذ {count} يوم}}",
   "@daysAgo": {
     "placeholders": {

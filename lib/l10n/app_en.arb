@@ -1724,6 +1724,34 @@
   "@settingsNotificationsSummaryBlocked": {
     "description": "Subtitle for the Settings root row when the OS has denied notification permission"
   },
+  "settingsBrewingTitle": "Brewing",
+  "@settingsBrewingTitle": {
+    "description": "Settings category and page title for brewing-screen options; also the title and tooltip of the Preparation screen’s gear sheet"
+  },
+  "settingsBrewingScreenLayout": "Brewing screen",
+  "@settingsBrewingScreenLayout": {
+    "description": "Section header and choice-row title for choosing the brewing timer layout"
+  },
+  "settingsLayoutClassicDescription": "Step list with a large timer.",
+  "@settingsLayoutClassicDescription": {
+    "description": "One-line description of the classic brewing layout, shown under Classic"
+  },
+  "settingsBrewAlerts": "Step change alerts",
+  "@settingsBrewAlerts": {
+    "description": "Choice-row title: how the app signals the move to the next step while brewing (silent / vibration / sound)."
+  },
+  "settingsBrewAlertsSilent": "Silent",
+  "@settingsBrewAlertsSilent": {
+    "description": "Brew-alert option: no vibration or sound on a step change"
+  },
+  "settingsBrewAlertsVibration": "Vibration",
+  "@settingsBrewAlertsVibration": {
+    "description": "Brew-alert option: vibrate on a step change"
+  },
+  "settingsBrewAlertsSound": "Sound",
+  "@settingsBrewAlertsSound": {
+    "description": "Brew-alert option: play a sound on a step change"
+  },
   "daysAgo": "{count, plural, one{1 day ago} other{{count} days ago}}",
   "@daysAgo": {
     "placeholders": {

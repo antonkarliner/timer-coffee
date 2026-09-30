@@ -1144,6 +1144,13 @@
   "settingsNotificationsRemindersHeader": "提醒",
   "settingsNotificationsSummaryOn": "{count, plural, =0{已开启} other{已开启 · {count} 个提醒}}",
   "settingsNotificationsSummaryBlocked": "已被系统设置阻止",
+  "settingsBrewingTitle": "冲煮",
+  "settingsBrewingScreenLayout": "冲煮界面",
+  "settingsLayoutClassicDescription": "带有大计时器的步骤列表。",
+  "settingsBrewAlerts": "步骤切换提醒",
+  "settingsBrewAlertsSilent": "静音",
+  "settingsBrewAlertsVibration": "振动",
+  "settingsBrewAlertsSound": "声音",
   "daysAgo": "{count, plural, other{{count}天前}}",
   "@daysAgo": {
     "placeholders": {

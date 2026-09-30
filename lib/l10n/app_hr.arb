@@ -1315,6 +1315,13 @@
   "settingsNotificationsRemindersHeader": "Podsjetnici",
   "settingsNotificationsSummaryOn": "{count, plural, =0{Uključeno} one{Uključeno · {count} podsjetnik} few{Uključeno · {count} podsjetnika} many{Uključeno · {count} podsjetnika} other{Uključeno · {count} podsjetnika}}",
   "settingsNotificationsSummaryBlocked": "Blokirano u sistemskim postavkama",
+  "settingsBrewingTitle": "Priprema",
+  "settingsBrewingScreenLayout": "Ekran pripreme",
+  "settingsLayoutClassicDescription": "Popis koraka s velikim tajmerom.",
+  "settingsBrewAlerts": "Upozorenja pri promjeni koraka",
+  "settingsBrewAlertsSilent": "Bez zvuka",
+  "settingsBrewAlertsVibration": "Vibracija",
+  "settingsBrewAlertsSound": "Zvuk",
   "daysAgo": "{count, plural, one{prije 1 dan} few{prije {count} dana} other{prije {count} dana}}",
   "@daysAgo": {
     "placeholders": {

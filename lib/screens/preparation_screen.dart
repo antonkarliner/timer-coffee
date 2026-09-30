@@ -15,6 +15,8 @@ import '../services/layout_choice_prompt_service.dart';
 import '../services/recipe_expression_service.dart';
 import '../services/advanced_features_service.dart';
 import '../services/analytics_service.dart';
+import '../services/brew_alert_preference.dart';
+import '../services/settings_analytics.dart';
 import '../services/feature_flags/feature_flags_repository.dart';
 import '../services/onboarding_service.dart';
 import '../widgets/app_switch_list_tile.dart';
@@ -39,23 +41,26 @@ class PreparationScreen extends StatefulWidget {
 
 class _PreparationScreenState extends State<PreparationScreen> {
   late AudioPlayer player;
-  NotificationMode _notificationMode = NotificationMode.soundOnly;
+  // Initialised from the shared preference, not a hardcoded mode: the stored
+  // default is none, and starting at soundOnly flashed the wrong first frame.
+  NotificationMode _notificationMode = BrewAlertPreference.instance.mode.value;
   bool _startingBrew = false;
 
   @override
   void initState() {
     super.initState();
     player = AudioPlayer();
-    _loadNotificationSetting();
+    // Same notifier the Settings brewing page listens to, so a mode changed
+    // there while this screen sits below on the stack still shows here.
+    BrewAlertPreference.instance.mode.addListener(_onBrewAlertModeChanged);
+    BrewAlertPreference.instance.load();
     _preloadAudio();
   }
 
-  Future<void> _loadNotificationSetting() async {
-    final prefs = await SharedPreferences.getInstance();
-    final notificationModeIndex =
-        prefs.getInt('notificationMode') ?? 0; // Default to none
+  void _onBrewAlertModeChanged() {
+    if (!mounted) return;
     setState(() {
-      _notificationMode = NotificationMode.fromValue(notificationModeIndex);
+      _notificationMode = BrewAlertPreference.instance.mode.value;
     });
   }
 
@@ -262,18 +267,23 @@ class _PreparationScreenState extends State<PreparationScreen> {
   }
 
   void _cycleNotificationMode() async {
-    final prefs = await SharedPreferences.getInstance();
-    final currentModeIndex = _notificationMode.value;
-    final nextModeIndex = (currentModeIndex + 1) % 3;
+    final currentMode = _notificationMode;
+    final nextMode =
+        NotificationMode.fromValue((currentMode.value + 1) % 3);
 
-    setState(() {
-      _notificationMode = NotificationMode.fromValue(nextModeIndex);
-    });
+    // Updates the shared notifier synchronously; the listener above mirrors
+    // it into _notificationMode before the first await.
+    await BrewAlertPreference.instance.set(nextMode);
 
-    await prefs.setInt('notificationMode', nextModeIndex);
+    SettingsAnalytics.settingChanged(
+      key: SettingKey.brewAlerts,
+      value: nextMode.wireName,
+      previous: currentMode.wireName,
+      source: SettingSource.preparationScreen,
+    );
 
     // Provide feedback based on the new mode
-    switch (_notificationMode) {
+    switch (nextMode) {
       case NotificationMode.vibrationOnly:
         Vibration.vibrate(preset: VibrationPreset.longAlarmBuzz);
         break;
@@ -332,7 +342,7 @@ class _PreparationScreenState extends State<PreparationScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Text(
-                        appLocalizations.advancedFeatures,
+                        appLocalizations.settingsBrewingTitle,
                         style: Theme.of(sheetContext).textTheme.titleLarge,
                       ),
                     ),
@@ -394,7 +404,7 @@ class _PreparationScreenState extends State<PreparationScreen> {
             identifier: 'preparationAdvancedFeaturesButton',
             child: IconButton(
               icon: const Icon(Icons.settings),
-              tooltip: appLocalizations.advancedFeatures,
+              tooltip: appLocalizations.settingsBrewingTitle,
               onPressed: () => _openAdvancedFeaturesSheet(context),
             ),
           ),
@@ -501,6 +511,7 @@ class _PreparationScreenState extends State<PreparationScreen> {
 
   @override
   void dispose() {
+    BrewAlertPreference.instance.mode.removeListener(_onBrewAlertModeChanged);
     player.dispose();
     super.dispose();
   }

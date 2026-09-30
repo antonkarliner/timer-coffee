@@ -1315,6 +1315,13 @@
   "settingsNotificationsRemindersHeader": "리마인더",
   "settingsNotificationsSummaryOn": "{count, plural, =0{켜짐} other{켜짐 · 리마인더 {count}개}}",
   "settingsNotificationsSummaryBlocked": "시스템 설정에서 차단됨",
+  "settingsBrewingTitle": "추출",
+  "settingsBrewingScreenLayout": "추출 화면",
+  "settingsLayoutClassicDescription": "큰 타이머가 있는 단계 목록.",
+  "settingsBrewAlerts": "단계 전환 알림",
+  "settingsBrewAlertsSilent": "무음",
+  "settingsBrewAlertsVibration": "진동",
+  "settingsBrewAlertsSound": "소리",
   "daysAgo": "{count, plural, other{{count}일 전}}",
   "@daysAgo": {
     "placeholders": {
