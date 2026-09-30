@@ -1144,6 +1144,8 @@
   "settingsBrewAlertsVibration": "Getaran",
   "settingsBrewAlertsSound": "Suara",
   "settingsBrewingMethodsHeader": "Metode seduh",
+  "settingsAllBrewingSettings": "Semua pengaturan penyeduhan",
+  "brewMethodsShowOrHide": "Tampilkan atau sembunyikan metode",
   "settingsResetToDefault": "Setel ulang ke default",
   "settingsResetBrewingMethodsConfirm": "Tampilkan lagi semua metode seduh yang punya resep? Pilihan Anda di sini akan dihapus.",
   "settingsMethodsShownCount": "{total, plural, other{{shown} dari {total} metode}}",

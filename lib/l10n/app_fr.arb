@@ -1144,6 +1144,8 @@
   "settingsBrewAlertsVibration": "Vibration",
   "settingsBrewAlertsSound": "Son",
   "settingsBrewingMethodsHeader": "Méthodes d'extraction",
+  "settingsAllBrewingSettings": "Tous les paramètres de préparation",
+  "brewMethodsShowOrHide": "Afficher ou masquer les méthodes",
   "settingsResetToDefault": "Rétablir les valeurs par défaut",
   "settingsResetBrewingMethodsConfirm": "Afficher à nouveau toutes les méthodes d'extraction qui ont des recettes ? Vos choix ici seront effacés.",
   "settingsMethodsShownCount": "{total, plural, one{{shown} sur {total} méthode} other{{shown} sur {total} méthodes}}",

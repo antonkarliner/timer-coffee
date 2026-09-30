@@ -14,6 +14,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image/image.dart' as img; // Use prefix to avoid conflicts
 import '../app_router.gr.dart';
+import '../services/analytics_service.dart';
 import '../services/notification_service.dart';
 import '../theme/design_tokens.dart';
 import '../widgets/confirm_delete_dialog.dart';
@@ -37,6 +38,16 @@ Future<Uint8List> _processImageIsolate(Uint8List imageBytes) async {
 // --- End top-level function ---
 
 enum _ProfileLoadError { userNotFound, cachedData }
+
+/// Reason reported with `account_deletion_failed`: `server` when the deletion
+/// edge function itself rejected the request — supabase throws
+/// [FunctionException] for non-2xx responses — and `error` for everything
+/// else (network, auth, …). Enumerated values only; the event never carries
+/// the error text. Pure, so the classification is unit-testable without a
+/// live Supabase.
+@visibleForTesting
+String accountDeletionFailureReason(Object error) =>
+    error is FunctionException ? 'server' : 'error';
 
 @RoutePage()
 class AccountScreen extends StatefulWidget {
@@ -224,6 +235,10 @@ class _AccountScreenState extends State<AccountScreen> {
 
     setState(() => _isLoading = true); // Show loading indicator
 
+    // Set when this attempt already reported its `profile_updated` outcome,
+    // so exactly one event is emitted per attempt.
+    var reported = false;
+
     try {
       // 1. Moderation Check
       AppLogger.debug("Calling content moderation for display name...");
@@ -247,6 +262,15 @@ class _AccountScreenState extends State<AccountScreen> {
             moderationResult['reason'] as String? ??
             l10n.moderationReasonDefault;
         setState(() => _isLoading = false);
+        AnalyticsService.maybeInstance?.track(
+          'profile_updated',
+          properties: const {
+            'field': 'display_name',
+            'action': 'set',
+            'result': 'moderation_rejected',
+          },
+        );
+        reported = true;
         if (mounted) {
           await showDialog<void>(
             context: context,
@@ -288,6 +312,16 @@ class _AccountScreenState extends State<AccountScreen> {
           .update({'display_name': newName})
           .eq('user_id', userId);
 
+      AnalyticsService.maybeInstance?.track(
+        'profile_updated',
+        properties: const {
+          'field': 'display_name',
+          'action': 'set',
+          'result': 'ok',
+        },
+      );
+      reported = true;
+
       // 3. Update SharedPreferences
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('user_display_name', newName);
@@ -303,6 +337,16 @@ class _AccountScreenState extends State<AccountScreen> {
         ); // Use localization
       }
     } catch (e) {
+      if (!reported) {
+        AnalyticsService.maybeInstance?.track(
+          'profile_updated',
+          properties: const {
+            'field': 'display_name',
+            'action': 'set',
+            'result': 'error',
+          },
+        );
+      }
       AppLogger.error("Error updating display name", errorObject: e);
       if (mounted) {
         scaffoldMessenger.showSnackBar(
@@ -387,6 +431,11 @@ class _AccountScreenState extends State<AccountScreen> {
 
     setState(() => _isLoading = true);
 
+    // Set when this attempt already reported its `profile_updated` outcome,
+    // so exactly one event is emitted per attempt (the moderation-unsafe
+    // branch below throws into the shared catch).
+    var reported = false;
+
     try {
       // Read bytes
       final imageBytes = await croppedFile.readAsBytes();
@@ -422,6 +471,15 @@ class _AccountScreenState extends State<AccountScreen> {
         final reason =
             moderationResult['reason'] ??
             l10n.moderationReasonDefault; // Use localization
+        AnalyticsService.maybeInstance?.track(
+          'profile_updated',
+          properties: const {
+            'field': 'photo',
+            'action': 'set',
+            'result': 'moderation_rejected',
+          },
+        );
+        reported = true;
         throw Exception(l10n.moderationFailedBody(reason)); // Use localization
       }
       AppLogger.debug("Moderation passed for profile picture.");
@@ -462,6 +520,16 @@ class _AccountScreenState extends State<AccountScreen> {
       // Persist the user id alongside the URL to avoid showing another user's avatar
       await prefs.setString('user_profile_picture_user_id', userId);
 
+      AnalyticsService.maybeInstance?.track(
+        'profile_updated',
+        properties: const {
+          'field': 'photo',
+          'action': 'set',
+          'result': 'ok',
+        },
+      );
+      reported = true;
+
       // Update local state
       if (mounted) {
         setState(() {
@@ -473,6 +541,16 @@ class _AccountScreenState extends State<AccountScreen> {
         ); // Use localization
       }
     } catch (e) {
+      if (!reported) {
+        AnalyticsService.maybeInstance?.track(
+          'profile_updated',
+          properties: const {
+            'field': 'photo',
+            'action': 'set',
+            'result': 'error',
+          },
+        );
+      }
       AppLogger.error("Error processing/uploading image", errorObject: e);
       if (mounted) {
         scaffoldMessenger.showSnackBar(
@@ -591,6 +669,15 @@ class _AccountScreenState extends State<AccountScreen> {
       await prefs.remove('user_profile_picture_url');
       await prefs.remove('user_profile_picture_user_id');
 
+      AnalyticsService.maybeInstance?.track(
+        'profile_updated',
+        properties: const {
+          'field': 'photo',
+          'action': 'removed',
+          'result': 'ok',
+        },
+      );
+
       // Update local state
       if (mounted) {
         setState(() {
@@ -602,6 +689,14 @@ class _AccountScreenState extends State<AccountScreen> {
         ); // Use localization
       }
     } catch (e) {
+      AnalyticsService.maybeInstance?.track(
+        'profile_updated',
+        properties: const {
+          'field': 'photo',
+          'action': 'removed',
+          'result': 'error',
+        },
+      );
       AppLogger.error("Error deleting picture", errorObject: e);
       if (mounted) {
         scaffoldMessenger.showSnackBar(
@@ -635,6 +730,8 @@ class _AccountScreenState extends State<AccountScreen> {
 
       // Sign out the user
       await Supabase.instance.client.auth.signOut();
+
+      AnalyticsService.maybeInstance?.track('signed_out');
 
       // Clear cached user-specific avatar info so it does not persist after sign-out
       try {
@@ -696,6 +793,11 @@ class _AccountScreenState extends State<AccountScreen> {
     final l10n = AppLocalizations.of(context)!;
     final userId = widget.userId;
 
+    // Set when this attempt already reported its outcome, so exactly one
+    // event is emitted per attempt (the non-200 branch below throws into the
+    // shared catch).
+    var reported = false;
+
     try {
       // Delete server-side data while the user's JWT is still available.
       final response = await Supabase.instance.client.functions.invoke(
@@ -704,8 +806,16 @@ class _AccountScreenState extends State<AccountScreen> {
       );
 
       if (response.status != 200) {
+        AnalyticsService.maybeInstance?.track(
+          'account_deletion_failed',
+          properties: const {'reason': 'server'},
+        );
+        reported = true;
         throw Exception('Failed to clean user data: ${response.data}');
       }
+
+      AnalyticsService.maybeInstance?.track('account_deleted');
+      reported = true;
 
       // The user no longer exists after successful deletion, so a remote
       // sign-out failure must not prevent creation of a new anonymous session.
@@ -733,6 +843,12 @@ class _AccountScreenState extends State<AccountScreen> {
       // Navigate back to root after successful deletion
       context.router.popUntilRoot();
     } catch (e) {
+      if (!reported) {
+        AnalyticsService.maybeInstance?.track(
+          'account_deletion_failed',
+          properties: {'reason': accountDeletionFailureReason(e)},
+        );
+      }
       // Show error
       if (!mounted) return;
       ScaffoldMessenger.of(

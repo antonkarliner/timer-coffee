@@ -1748,6 +1748,14 @@
   "@settingsBrewingMethodsHeader": {
     "description": "Section header above the per-method visibility switches on the Settings Home screen page"
   },
+  "settingsAllBrewingSettings": "All brewing settings",
+  "@settingsAllBrewingSettings": {
+    "description": "Row at the bottom of the Preparation screen’s gear sheet that opens Settings → Brewing (layout, manual step control, step change alerts)"
+  },
+  "brewMethodsShowOrHide": "Show or hide methods",
+  "@brewMethodsShowOrHide": {
+    "description": "Secondary row at the end of the brewing-method list on the Home (Brew Coffee) tab that opens Settings → Home screen, where methods can be shown or hidden"
+  },
   "settingsResetToDefault": "Reset to default",
   "@settingsResetToDefault": {
     "description": "Text button and confirm-dialog title that restores the default set of brewing methods on Home"

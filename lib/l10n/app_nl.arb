@@ -1144,6 +1144,8 @@
   "settingsBrewAlertsVibration": "Trillen",
   "settingsBrewAlertsSound": "Geluid",
   "settingsBrewingMethodsHeader": "Zetmethoden",
+  "settingsAllBrewingSettings": "Alle brouwinstellingen",
+  "brewMethodsShowOrHide": "Methoden tonen of verbergen",
   "settingsResetToDefault": "Standaardwaarden herstellen",
   "settingsResetBrewingMethodsConfirm": "Alle zetmethoden met recepten weer tonen? Je keuzes hier worden gewist.",
   "settingsMethodsShownCount": "{total, plural, one{{shown} van {total} methode} other{{shown} van {total} methoden}}",

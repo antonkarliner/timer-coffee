@@ -1144,6 +1144,8 @@
   "settingsBrewAlertsVibration": "Вібрація",
   "settingsBrewAlertsSound": "Звук",
   "settingsBrewingMethodsHeader": "Методи заварювання",
+  "settingsAllBrewingSettings": "Усі налаштування заварювання",
+  "brewMethodsShowOrHide": "Показати або приховати методи",
   "settingsResetToDefault": "Скинути до типових",
   "settingsResetBrewingMethodsConfirm": "Знову показувати всі методи заварювання, для яких є рецепти? Ваші налаштування тут буде скинуто.",
   "settingsMethodsShownCount": "{total, plural, one{Методи: {shown} із {total}} few{Методи: {shown} із {total}} many{Методи: {shown} із {total}} other{Методи: {shown} із {total}}}",

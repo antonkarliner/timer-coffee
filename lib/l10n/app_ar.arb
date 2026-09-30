@@ -1144,6 +1144,8 @@
   "settingsBrewAlertsVibration": "اهتزاز",
   "settingsBrewAlertsSound": "صوت",
   "settingsBrewingMethodsHeader": "طرق التحضير",
+  "settingsAllBrewingSettings": "جميع إعدادات التحضير",
+  "brewMethodsShowOrHide": "إظهار الطرق أو إخفاؤها",
   "settingsResetToDefault": "إعادة التعيين إلى الافتراضي",
   "settingsResetBrewingMethodsConfirm": "هل تريد إظهار كل طرق التحضير التي تحتوي على وصفات مرة أخرى؟ سيتم مسح اختياراتك هنا.",
   "settingsMethodsShownCount": "{total, plural, zero{الطرق: {shown} من {total}} one{الطرق: {shown} من {total}} two{الطرق: {shown} من {total}} few{الطرق: {shown} من {total}} many{الطرق: {shown} من {total}} other{الطرق: {shown} من {total}}}",

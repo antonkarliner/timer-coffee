@@ -1144,6 +1144,8 @@
   "settingsBrewAlertsVibration": "Titreşim",
   "settingsBrewAlertsSound": "Ses",
   "settingsBrewingMethodsHeader": "Demleme Yöntemleri",
+  "settingsAllBrewingSettings": "Tüm demleme ayarları",
+  "brewMethodsShowOrHide": "Yöntemleri göster veya gizle",
   "settingsResetToDefault": "Varsayılana sıfırla",
   "settingsResetBrewingMethodsConfirm": "Tarifi olan tüm demleme yöntemleri yeniden gösterilsin mi? Buradaki seçimleriniz silinecek.",
   "settingsMethodsShownCount": "{total, plural, other{{shown} / {total} yöntem}}",

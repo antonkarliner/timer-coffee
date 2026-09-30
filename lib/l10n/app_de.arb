@@ -1144,6 +1144,8 @@
   "settingsBrewAlertsVibration": "Vibration",
   "settingsBrewAlertsSound": "Ton",
   "settingsBrewingMethodsHeader": "Brühmethoden",
+  "settingsAllBrewingSettings": "Alle Brüheinstellungen",
+  "brewMethodsShowOrHide": "Methoden ein- oder ausblenden",
   "settingsResetToDefault": "Auf Standard zurücksetzen",
   "settingsResetBrewingMethodsConfirm": "Alle Brühmethoden mit Rezepten wieder anzeigen? Deine Auswahl hier wird gelöscht.",
   "settingsMethodsShownCount": "{total, plural, one{{shown} von {total} Methode} other{{shown} von {total} Methoden}}",

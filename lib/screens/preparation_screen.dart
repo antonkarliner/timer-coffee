@@ -1,6 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../app_router.gr.dart';
 import '../models/recipe_model.dart';
 import '../models/brew_step_model.dart';
 import '../models/notification_mode.dart';
@@ -375,6 +377,26 @@ class _PreparationScreenState extends State<PreparationScreen> {
                     LayoutSwitchBackReasonRow(
                       pourEnabled: advancedFeatures.pourLayoutEnabled,
                       source: 'preparation_settings_sheet',
+                    ),
+                    Semantics(
+                      identifier: 'preparationAllBrewingSettingsRow',
+                      child: ListTile(
+                        leading: const Icon(Icons.tune),
+                        title: Text(appLocalizations.settingsAllBrewingSettings),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () {
+                          // Captured before the pop — the sheet's context
+                          // dies with it — and there is no async gap between
+                          // this lookup and the push below.
+                          final router = context.router;
+                          Navigator.of(sheetContext).pop();
+                          SettingsAnalytics.shortcutTapped(
+                            source: ShortcutSource.preparationSheet,
+                            target: SettingsTarget.brewing,
+                          );
+                          router.push(const SettingsBrewingRoute());
+                        },
+                      ),
                     ),
                   ],
                 ),

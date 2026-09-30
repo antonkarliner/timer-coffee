@@ -1466,6 +1466,8 @@
   "settingsBrewAlertsVibration": "Vibrasjon",
   "settingsBrewAlertsSound": "Lyd",
   "settingsBrewingMethodsHeader": "Bryggemetoder",
+  "settingsAllBrewingSettings": "Alle bryggeinnstillinger",
+  "brewMethodsShowOrHide": "Vis eller skjul metoder",
   "settingsResetToDefault": "Tilbakestill til standard",
   "settingsResetBrewingMethodsConfirm": "Vise alle bryggemetoder som har oppskrifter igjen? Valgene dine her blir nullstilt.",
   "settingsMethodsShownCount": "{total, plural, one{{shown} av {total} metode} other{{shown} av {total} metoder}}",

@@ -996,6 +996,8 @@
   "settingsBrewAlertsVibration": "Värinä",
   "settingsBrewAlertsSound": "Ääni",
   "settingsBrewingMethodsHeader": "Valmistusmenetelmät",
+  "settingsAllBrewingSettings": "Kaikki uuttoasetukset",
+  "brewMethodsShowOrHide": "Näytä tai piilota menetelmät",
   "settingsResetToDefault": "Palauta oletusarvot",
   "settingsResetBrewingMethodsConfirm": "Näytetäänkö kaikki reseptejä sisältävät valmistusmenetelmät uudelleen? Tähän tehdyt valinnat tyhjennetään.",
   "settingsMethodsShownCount": "{total, plural, one{{shown} / {total} menetelmä} other{{shown} / {total} menetelmää}}",

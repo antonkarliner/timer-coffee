@@ -1315,6 +1315,8 @@
   "settingsBrewAlertsVibration": "Vibracija",
   "settingsBrewAlertsSound": "Zvuk",
   "settingsBrewingMethodsHeader": "Načini pripreme",
+  "settingsAllBrewingSettings": "Sve postavke pripreme",
+  "brewMethodsShowOrHide": "Prikaži ili sakrij načine",
   "settingsResetToDefault": "Vrati na zadano",
   "settingsResetBrewingMethodsConfirm": "Ponovno prikazati sve načine pripreme koji imaju recepte? Vaši odabiri ovdje bit će obrisani.",
   "settingsMethodsShownCount": "{total, plural, one{Metode: {shown} od {total}} few{Metode: {shown} od {total}} other{Metode: {shown} od {total}}}",

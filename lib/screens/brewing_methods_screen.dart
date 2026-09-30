@@ -9,6 +9,7 @@ import '../app_router.gr.dart';
 import '../services/analytics_service.dart';
 import '../services/moments_service.dart';
 import '../services/onboarding_service.dart';
+import '../services/settings_analytics.dart';
 import '../theme/design_tokens.dart';
 import '../utils/icon_utils.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
@@ -116,6 +117,37 @@ class _BrewingMethodsScreenState extends State<BrewingMethodsScreen> {
                 padding: EdgeInsets.only(bottom: bottomPadding),
                 sliver: SliverList(
                   delegate: SliverChildBuilderDelegate((context, index) {
+                    // One extra trailing row after the methods: "Show or hide
+                    // methods", the in-context shortcut into Settings → Home
+                    // screen. It lives inside this same padded sliver so it
+                    // stays above the nav bar.
+                    if (index == filteredBrewingMethods.length) {
+                      final l10n = AppLocalizations.of(context)!;
+                      final onSurfaceVariant =
+                          Theme.of(context).colorScheme.onSurfaceVariant;
+                      return Semantics(
+                        identifier: 'brewMethodsShowOrHideRow',
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.tune,
+                            color: onSurfaceVariant,
+                          ),
+                          title: Text(
+                            l10n.brewMethodsShowOrHide,
+                            // Visually secondary to the method rows (which
+                            // are w600): default weight, muted colour.
+                            style: TextStyle(color: onSurfaceVariant),
+                          ),
+                          onTap: () {
+                            SettingsAnalytics.shortcutTapped(
+                              source: ShortcutSource.brewMethodList,
+                              target: SettingsTarget.homeScreen,
+                            );
+                            context.router.push(const SettingsHomeTabRoute());
+                          },
+                        ),
+                      );
+                    }
                     final brewingMethod = filteredBrewingMethods[index];
                     return Semantics(
                       identifier:
@@ -138,7 +170,7 @@ class _BrewingMethodsScreenState extends State<BrewingMethodsScreen> {
                         },
                       ),
                     );
-                  }, childCount: filteredBrewingMethods.length),
+                  }, childCount: filteredBrewingMethods.length + 1),
                 ),
               ),
             ],

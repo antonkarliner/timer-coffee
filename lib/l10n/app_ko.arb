@@ -1315,6 +1315,8 @@
   "settingsBrewAlertsVibration": "진동",
   "settingsBrewAlertsSound": "소리",
   "settingsBrewingMethodsHeader": "추출 방법",
+  "settingsAllBrewingSettings": "모든 추출 설정",
+  "brewMethodsShowOrHide": "방법 표시 또는 숨기기",
   "settingsResetToDefault": "기본값으로 재설정",
   "settingsResetBrewingMethodsConfirm": "레시피가 있는 모든 추출 방법을 다시 표시할까요? 여기서의 선택은 초기화됩니다.",
   "settingsMethodsShownCount": "{total, plural, other{추출 방법: {shown} / {total}}}",

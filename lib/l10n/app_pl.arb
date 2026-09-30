@@ -1144,6 +1144,8 @@
   "settingsBrewAlertsVibration": "Wibracje",
   "settingsBrewAlertsSound": "Dźwięk",
   "settingsBrewingMethodsHeader": "Metody parzenia",
+  "settingsAllBrewingSettings": "Wszystkie ustawienia parzenia",
+  "brewMethodsShowOrHide": "Pokazuj lub ukrywaj metody",
   "settingsResetToDefault": "Przywróć domyślne",
   "settingsResetBrewingMethodsConfirm": "Pokazać ponownie wszystkie metody parzenia, które mają przepisy? Dokonane tutaj wybory zostaną wyczyszczone.",
   "settingsMethodsShownCount": "{total, plural, one{Metody: {shown} z {total}} few{Metody: {shown} z {total}} many{Metody: {shown} z {total}} other{Metody: {shown} z {total}}}",

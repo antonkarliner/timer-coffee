@@ -1144,6 +1144,8 @@
   "settingsBrewAlertsVibration": "Vibrație",
   "settingsBrewAlertsSound": "Sunet",
   "settingsBrewingMethodsHeader": "Metode de preparare",
+  "settingsAllBrewingSettings": "Toate setările de preparare",
+  "brewMethodsShowOrHide": "Afișează sau ascunde metodele",
   "settingsResetToDefault": "Resetează la valorile implicite",
   "settingsResetBrewingMethodsConfirm": "Să se afișeze din nou toate metodele de preparare care au rețete? Alegerile făcute aici vor fi șterse.",
   "settingsMethodsShownCount": "{total, plural, one{Metode: {shown} din {total}} few{Metode: {shown} din {total}} other{Metode: {shown} din {total}}}",

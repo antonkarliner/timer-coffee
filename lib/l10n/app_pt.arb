@@ -1144,6 +1144,8 @@
   "settingsBrewAlertsVibration": "Vibração",
   "settingsBrewAlertsSound": "Som",
   "settingsBrewingMethodsHeader": "Métodos de preparo",
+  "settingsAllBrewingSettings": "Todas as configurações de preparo",
+  "brewMethodsShowOrHide": "Mostrar ou ocultar métodos",
   "settingsResetToDefault": "Restaurar padrão",
   "settingsResetBrewingMethodsConfirm": "Mostrar novamente todos os métodos de preparo que têm receitas? Suas escolhas aqui serão apagadas.",
   "settingsMethodsShownCount": "{total, plural, one{{shown} de {total} método} other{{shown} de {total} métodos}}",

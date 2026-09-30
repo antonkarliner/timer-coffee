@@ -1539,6 +1539,8 @@
   "settingsBrewAlertsVibration": "Δόνηση",
   "settingsBrewAlertsSound": "Ήχος",
   "settingsBrewingMethodsHeader": "Μέθοδοι παρασκευής",
+  "settingsAllBrewingSettings": "Όλες οι ρυθμίσεις παρασκευής",
+  "brewMethodsShowOrHide": "Εμφάνιση ή απόκρυψη μεθόδων",
   "settingsResetToDefault": "Επαναφορά προεπιλογής",
   "settingsResetBrewingMethodsConfirm": "Να εμφανιστούν ξανά όλες οι μέθοδοι παρασκευής που έχουν συνταγές; Οι επιλογές σας εδώ θα διαγραφούν.",
   "settingsMethodsShownCount": "{total, plural, one{{shown} από {total} μέθοδο} other{{shown} από {total} μεθόδους}}",

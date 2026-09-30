@@ -1317,6 +1317,8 @@
   "settingsBrewAlertsVibration": "لرزش",
   "settingsBrewAlertsSound": "صدا",
   "settingsBrewingMethodsHeader": "روش‌های دم",
+  "settingsAllBrewingSettings": "تمام تنظیمات دم‌آوری",
+  "brewMethodsShowOrHide": "نمایش یا پنهان کردن روش‌ها",
   "settingsResetToDefault": "بازگردانی به پیش‌فرض",
   "settingsResetBrewingMethodsConfirm": "همه روش‌های دمی که دستور دارند دوباره نمایش داده شوند؟ انتخاب‌های شما در اینجا پاک خواهند شد.",
   "settingsMethodsShownCount": "{total, plural, other{{shown} از {total} روش}}",
