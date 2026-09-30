@@ -16,9 +16,6 @@ import '../../widgets/smart_back_button.dart';
 /// Privacy & data settings page (Settings → Privacy & data): the three
 /// usage-analytics switches, the self-serve data export entry point and the
 /// bundled privacy policy.
-///
-/// Not yet linked from the root Settings screen; reachable by route/deep
-/// link only.
 @RoutePage()
 class SettingsPrivacyDataScreen extends StatelessWidget {
   const SettingsPrivacyDataScreen({super.key});

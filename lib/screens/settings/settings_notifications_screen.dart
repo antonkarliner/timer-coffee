@@ -22,8 +22,7 @@ import '../../widgets/settings/settings_list.dart';
 ///
 /// Replicates the notification behaviour of the legacy Settings screen
 /// (master toggle, permission warning, optional reminders, debug panel) on
-/// the shared Settings scaffold. Not yet linked from the root Settings
-/// screen; reachable by route/deep link only.
+/// the shared Settings scaffold.
 ///
 /// On web the page renders just the scaffold: there are no notification
 /// controls there (the root hides this row on web in a later phase).

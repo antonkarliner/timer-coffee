@@ -14,9 +14,6 @@ import '../../widgets/settings/settings_list.dart';
 
 /// Brewing settings page (Settings → Brewing): the brewing-screen layout
 /// (classic vs. immersive), manual step control and the brew alerts.
-///
-/// Not yet linked from the root Settings screen; reachable by route/deep
-/// link only.
 @RoutePage()
 class SettingsBrewingScreen extends StatefulWidget {
   const SettingsBrewingScreen({super.key});

@@ -16,9 +16,6 @@ import '../../widgets/settings/settings_list.dart';
 /// Home-screen settings page (Settings → Home screen): the Collections
 /// visibility switch and one visibility switch per brewing method, plus a
 /// reset that falls back to "shown if the method has recipes".
-///
-/// Not yet linked from the root Settings screen; reachable by route/deep
-/// link only.
 @RoutePage()
 class SettingsHomeTabScreen extends StatelessWidget {
   const SettingsHomeTabScreen({super.key});
