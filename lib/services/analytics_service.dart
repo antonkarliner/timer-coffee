@@ -189,6 +189,18 @@ class AnalyticsService extends ChangeNotifier {
     // Deletion + undo instrumentation (plan 056 Phase 5)
     'user_recipe_deleted': 'general',
     'delete_undo_tapped': 'general',
+    // Settings reorganization (plan 074 Part B)
+    'setting_changed': 'general',
+    'settings_shortcut_tapped': 'general',
+    'account_entry_tapped': 'general',
+    'profile_updated': 'general',
+    'signed_out': 'general',
+    'account_deleted': 'general',
+    'account_deletion_failed': 'general',
+    'data_export_started': 'general',
+    'data_export_code_sent': 'general',
+    'data_export_completed': 'general',
+    'data_export_failed': 'general',
   };
 
   // ──────────────────── State ────────────────────
