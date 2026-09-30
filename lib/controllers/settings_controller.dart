@@ -63,6 +63,7 @@ class SettingsController extends ChangeNotifier {
   final NotificationService _notificationService = NotificationService.instance;
 
   StreamSubscription<bool>? _notifStateSub;
+  StreamSubscription<bool>? _masterSub;
   StreamSubscription<bool>? _permSub;
   StreamSubscription<bool>? _morningSub;
   StreamSubscription<TimeOfDay>? _morningTimeSub;
@@ -149,7 +150,7 @@ class SettingsController extends ChangeNotifier {
   // ---------------------------------------------------------------------------
 
   /// Initializes notification settings: loads persisted state, checks
-  /// system permissions, and subscribes to 7 reactive streams.
+  /// system permissions, and subscribes to 8 reactive streams.
   Future<void> initNotificationSettings() async {
     if (kIsWeb) {
       isLoading = false;
@@ -184,6 +185,13 @@ class SettingsController extends ChangeNotifier {
       notifyListeners();
 
       // Subscribe to live updates
+      // The master switch itself: a controller that didn't flip it (the
+      // Settings root, while the Notifications page did) must still see it.
+      _masterSub = settingsService.masterChanges.listen((enabled) {
+        if (masterNotificationsEnabled == enabled) return;
+        masterNotificationsEnabled = enabled;
+        notifyListeners();
+      });
       _notifStateSub =
           _notificationService.notificationStateStream.listen((state) {
         notificationsEnabled = state;
@@ -311,6 +319,7 @@ class SettingsController extends ChangeNotifier {
   @override
   void dispose() {
     _notifStateSub?.cancel();
+    _masterSub?.cancel();
     _permSub?.cancel();
     _morningSub?.cancel();
     _morningTimeSub?.cancel();

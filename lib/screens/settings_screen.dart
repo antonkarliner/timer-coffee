@@ -1,28 +1,52 @@
 import 'dart:async';
-import 'dart:io';
 
-import 'package:coffee_timer/widgets/base_buttons.dart';
-import '../widgets/smart_back_button.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:auto_route/auto_route.dart';
-import 'package:app_settings/app_settings.dart';
-import 'package:coffee_timer/l10n/app_localizations.dart';
-import 'package:coffee_timer/theme/design_tokens.dart';
 
 import '../app_router.gr.dart';
 import '../controllers/settings_controller.dart';
-import '../database/database.dart';
+import '../l10n/app_localizations.dart';
 import '../models/brewing_method_model.dart';
+import '../models/notification_mode.dart';
 import '../providers/recipe_provider.dart';
 import '../providers/theme_provider.dart';
-import '../services/notification_service.dart';
-import '../services/onboarding_service.dart';
-import '../utils/app_logger.dart';
-import '../widgets/fields/time_field.dart';
-import '../widgets/settings/index.dart';
+import '../services/analytics_service.dart';
+import '../services/advanced_features_service.dart';
+import '../services/brew_alert_preference.dart';
+import '../services/date_time_format_service.dart';
+import '../services/settings_analytics.dart';
+import '../theme/design_tokens.dart';
+import '../widgets/account/account_entry_tile.dart';
+import '../widgets/settings/settings_list.dart';
+
+/// Maps a legacy `?section=` deep-link value to the Settings category page
+/// that now owns that section (`timercoffee:///settings?section=…`).
+///
+/// Returns null when there is no target — unknown values, and
+/// `notifications` on web, where the notifications page has no content — so
+/// the caller stays on the root and reports nothing.
+@visibleForTesting
+SettingsTarget? settingsTargetForLegacySection(
+  String section, {
+  required bool isWeb,
+}) {
+  switch (section) {
+    case 'notifications':
+      return isWeb ? null : SettingsTarget.notifications;
+    case 'brewingMethods':
+      return SettingsTarget.homeScreen;
+    case 'advancedFeatures':
+    case 'immersiveBrewing':
+      // The layout row is the first row of the brewing page, so the old
+      // scroll-to-tile behaviour needs no replacement.
+      return SettingsTarget.brewing;
+    default:
+      return null;
+  }
+}
 
 @RoutePage()
 class SettingsScreen extends StatefulWidget {
@@ -35,18 +59,15 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  static const _expansionTileDuration = Duration(milliseconds: 200);
-
+  /// Owns the notification and app-icon state behind two of the row
+  /// subtitles. Its streams keep it current while a subpage changes values,
+  /// so re-running `initNotificationSettings()` on return is not needed.
   late final SettingsController _controller;
 
-  final _listController = ScrollController();
-  final _notificationsKey = GlobalKey();
-  final _brewingMethodsKey = GlobalKey();
-  final _advancedFeaturesKey = GlobalKey();
-  final _pourLayoutTileKey = GlobalKey();
-  final _notificationsController = ExpansibleController();
-  final _brewingMethodsController = ExpansibleController();
-  final _advancedFeaturesController = ExpansibleController();
+  /// Locale code the cached language-name future was started for, so the
+  /// future is re-resolved only when the locale actually changes.
+  String? _languageNameFutureCode;
+  Future<String>? _languageNameFuture;
 
   @override
   void initState() {
@@ -54,9 +75,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _controller = SettingsController();
     _controller.initIconApi();
     _controller.initNotificationSettings();
+    // The brewing row renders the stored alert mode; the shared
+    // ValueListenable keeps it live after this initial load too.
+    BrewAlertPreference.instance.load();
     if (widget.section != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        unawaited(_scrollToSection(widget.section!));
+        _forwardLegacySection();
+      });
+    }
+  }
+
+  @override
+  void didUpdateWidget(SettingsScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // A `?section=` link opened while Settings is already on top reuses this
+    // State instead of running initState again; forward that one too.
+    if (widget.section != null && widget.section != oldWidget.section) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _forwardLegacySection();
       });
     }
   }
@@ -64,447 +100,289 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void dispose() {
     _controller.dispose();
-    _listController.dispose();
-    _notificationsController.dispose();
-    _brewingMethodsController.dispose();
-    _advancedFeaturesController.dispose();
     super.dispose();
   }
 
+  // ---------------------------------------------------------------------------
+  // Legacy ?section= forwarding
+  // ---------------------------------------------------------------------------
+
+  /// Pushes the page that now owns the legacy section on top of the root,
+  /// reporting the shortcut once per screen instance. Runs post-frame from
+  /// initState; guards `mounted` because the screen can be gone by then.
+  void _forwardLegacySection() {
+    final section = widget.section;
+    if (section == null) return;
+    final target = settingsTargetForLegacySection(section, isWeb: kIsWeb);
+    if (target == null || !mounted) return;
+    SettingsAnalytics.shortcutTapped(
+      source: ShortcutSource.deepLink,
+      target: target,
+      section: section,
+    );
+    switch (target) {
+      case SettingsTarget.notifications:
+        unawaited(context.router.push(const SettingsNotificationsRoute()));
+      case SettingsTarget.homeScreen:
+        unawaited(context.router.push(const SettingsHomeTabRoute()));
+      case SettingsTarget.brewing:
+        unawaited(context.router.push(const SettingsBrewingRoute()));
+      default:
+        break;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Build
+  // ---------------------------------------------------------------------------
+
   @override
   Widget build(BuildContext context) {
-    final recipeProvider = Provider.of<RecipeProvider>(context);
-    Provider.of<ThemeProvider>(context); // listen for theme changes
-
-    // Prepare brewing methods data
-    final allBrewingMethods = Provider.of<List<BrewingMethodModel>>(
-      context,
-      listen: false,
-    );
-    final methodsWithRecipes = <String>{};
-    for (var recipe in recipeProvider.recipes) {
-      methodsWithRecipes.add(recipe.brewingMethodId);
-    }
-
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, _) {
-        return Scaffold(
-          appBar: AppBar(
-            leading: Semantics(
-              identifier: 'settingsBackButton',
-              child: const SmartBackButton(),
-            ),
-            title: Semantics(
-              identifier: 'settingsTitle',
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.settings),
-                  const SizedBox(width: 8),
-                  Text(AppLocalizations.of(context)!.settings),
-                ],
-              ),
-            ),
-          ),
-          body: ListView(
-            controller: _listController,
-            children: [
-              ThemeLocaleTiles(
-                localizedThemeMode: _getLocalizedThemeModeText(),
-                languageNameFuture: _getLanguageName(
-                  recipeProvider.currentLocale,
-                ),
-                onThemeTap: _changeTheme,
-                onLocaleTap: _changeLocale,
-              ),
-              const DateTimeFormatSection(),
-              if (!kIsWeb)
-                KeyedSubtree(
-                  key: _notificationsKey,
-                  child: NotificationsSection(
-                    controller: _notificationsController,
-                    isLoading: _controller.isLoading,
-                    masterNotificationsEnabled:
-                        _controller.masterNotificationsEnabled,
-                    systemPermissionDenied: _controller.systemPermissionDenied,
-                    statusText: _getNotificationStatusText(),
-                    onMasterToggled: _handleToggleNotifications,
-                    onOpenNotificationSettings: _openNotificationSettings,
-                    notificationToggles:
-                        _controller.masterNotificationsEnabled &&
-                            !_controller.isLoading
-                        ? _buildNotificationToggles(context)
-                        : [],
-                  ),
-                ),
-              if (!kIsWeb &&
-                  (Platform.isAndroid || Platform.isIOS) &&
-                  _controller.iconApiAvailable)
-                AppIconSelector(
-                  isDefaultIcon: _controller.isDefaultIcon,
-                  localIconState: _controller.localIconState,
-                  onIconSelected: _handleIconSelected,
-                ),
-              KeyedSubtree(
-                key: _brewingMethodsKey,
-                child: BrewingMethodsSection(
-                  controller: _brewingMethodsController,
-                  allBrewingMethods: allBrewingMethods,
-                  methodsWithRecipes: methodsWithRecipes,
-                  shownIds: recipeProvider.shownBrewingMethodIds.value,
-                  hiddenIds: recipeProvider.hiddenBrewingMethodIds.value,
-                  onPreferenceChanged: (methodId, value) {
-                    recipeProvider.setUserBrewingMethodPreference(
-                      methodId,
-                      value,
-                    );
-                  },
-                ),
-              ),
-              const CollectionsSection(),
-              const AnalyticsPrivacySection(),
-              KeyedSubtree(
-                key: _advancedFeaturesKey,
-                child: AdvancedFeaturesSection(
-                  controller: _advancedFeaturesController,
-                  pourLayoutTileKey: _pourLayoutTileKey,
-                ),
-              ),
-              if (SettingsController.showNotifDebugPanel && !kIsWeb)
-                const DebugNotificationPanel(),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  // ---------------------------------------------------------------------------
-  // Section deep-link scroll/expand
-  // ---------------------------------------------------------------------------
-
-  Future<void> _scrollToSection(String section) async {
-    if (section == 'advancedFeatures' || section == 'immersiveBrewing') {
-      BuildContext? advancedFeaturesContext =
-          _advancedFeaturesKey.currentContext;
-      if (advancedFeaturesContext == null) {
-        if (!_listController.hasClients) return;
-        await _listController.animateTo(
-          _listController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
-        if (!mounted) return;
-        await WidgetsBinding.instance.endOfFrame;
-        if (!mounted) return;
-        advancedFeaturesContext = _advancedFeaturesKey.currentContext;
-        if (advancedFeaturesContext == null) return;
-      }
-
-      _advancedFeaturesController.expand();
-      if (section == 'advancedFeatures') {
-        final sectionContext = _advancedFeaturesKey.currentContext;
-        if (sectionContext == null || !sectionContext.mounted) return;
-        await Scrollable.ensureVisible(
-          sectionContext,
-          duration: const Duration(milliseconds: 400),
-          curve: Curves.easeInOut,
-        );
-        if (!mounted) return;
-        return;
-      }
-
-      await Future<void>.delayed(_expansionTileDuration);
-      if (!mounted) return;
-      await WidgetsBinding.instance.endOfFrame;
-      if (!mounted) return;
-      final tileContext = _pourLayoutTileKey.currentContext;
-      if (tileContext == null || !tileContext.mounted) return;
-      await Scrollable.ensureVisible(
-        tileContext,
-        alignment: 0.3,
-        duration: const Duration(milliseconds: 400),
-        curve: Curves.easeInOut,
-      );
-      if (!mounted) return;
-      return;
-    }
-
-    GlobalKey? key;
-    switch (section) {
-      case 'notifications':
-        if (!kIsWeb) {
-          _notificationsController.expand();
-          key = _notificationsKey;
-        }
-        break;
-      case 'brewingMethods':
-        _brewingMethodsController.expand();
-        key = _brewingMethodsKey;
-        break;
-    }
-    if (key?.currentContext != null) {
-      Scrollable.ensureVisible(
-        key!.currentContext!,
-        duration: const Duration(milliseconds: 400),
-        curve: Curves.easeInOut,
-      );
-    }
-  }
-
-  // ---------------------------------------------------------------------------
-  // Theme / Locale (bottom sheet dialogs require BuildContext)
-  // ---------------------------------------------------------------------------
-
-  void _changeTheme() async {
-    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
-    final result = await showModalBottomSheet<ThemeMode>(
-      context: context,
-      builder: (BuildContext context) {
-        return SafeArea(
-          child: ListView(
-            shrinkWrap: true,
-            children: <Widget>[
-              Semantics(
-                identifier: 'themeLightListTile',
-                child: ListTile(
-                  leading: const Icon(Icons.light_mode),
-                  title: Text(AppLocalizations.of(context)!.settingsthemelight),
-                  onTap: () => Navigator.pop(context, ThemeMode.light),
-                ),
-              ),
-              Semantics(
-                identifier: 'themeDarkListTile',
-                child: ListTile(
-                  leading: const Icon(Icons.dark_mode),
-                  title: Text(AppLocalizations.of(context)!.settingsthemedark),
-                  onTap: () => Navigator.pop(context, ThemeMode.dark),
-                ),
-              ),
-              Semantics(
-                identifier: 'themeSystemListTile',
-                child: ListTile(
-                  leading: const Icon(Icons.brightness_medium),
-                  title: Text(
-                    AppLocalizations.of(context)!.settingsthemesystem,
-                  ),
-                  onTap: () => Navigator.pop(context, ThemeMode.system),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-
-    if (result != null) {
-      themeProvider.setThemeMode(result);
-    }
-  }
-
-  void _changeLocale() async {
-    final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
-    final supportedLocales = await recipeProvider.fetchAllSupportedLocales();
-    if (!mounted) return;
-
-    final result = await showModalBottomSheet<Locale>(
-      context: context,
-      builder: (BuildContext context) {
-        return SafeArea(
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: supportedLocales.length,
-            itemBuilder: (BuildContext context, int index) {
-              final localeModel = supportedLocales[index];
-              return Semantics(
-                identifier: 'locale${localeModel.locale}ListTile',
-                child: ListTile(
-                  leading: const Icon(Icons.language),
-                  title: Text(localeModel.localeName),
-                  onTap: () =>
-                      Navigator.pop(context, Locale(localeModel.locale)),
-                ),
-              );
-            },
-          ),
-        );
-      },
-    );
-
-    if (result != null) {
-      _setLocale(result);
-    }
-  }
-
-  String _getLocalizedThemeModeText() {
-    var themeMode = Provider.of<ThemeProvider>(
-      context,
-      listen: false,
-    ).themeMode;
-    switch (themeMode) {
-      case ThemeMode.light:
-        return AppLocalizations.of(context)!.settingsthemelight;
-      case ThemeMode.dark:
-        return AppLocalizations.of(context)!.settingsthemedark;
-      case ThemeMode.system:
-        return AppLocalizations.of(context)!.settingsthemesystem;
-    }
-  }
-
-  Future<String> _getLanguageName(Locale locale) async {
-    return Provider.of<RecipeProvider>(
-      context,
-      listen: false,
-    ).getLocaleName(locale.languageCode);
-  }
-
-  void _setLocale(Locale newLocale) async {
-    final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('locale', newLocale.languageCode);
-
-    recipeProvider.setLocale(newLocale);
-
-    if (mounted) context.router.replace(SettingsRoute());
-  }
-
-  // ---------------------------------------------------------------------------
-  // Icon handler
-  // ---------------------------------------------------------------------------
-
-  Future<void> _handleIconSelected(String iconName) async {
     final l10n = AppLocalizations.of(context)!;
-    final success = await _controller.setIcon(iconName);
-    if (!success && mounted) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(l10n.iconChangeFailed(iconName))));
-    }
-  }
+    // Every row subtitle reads one of these; watching them here is what makes
+    // a subtitle refresh when the value changes on a subpage and the user
+    // comes back (the providers notify, the root rebuilds).
+    final recipeProvider = context.watch<RecipeProvider>();
+    context.watch<ThemeProvider>(); // appearance row: theme label
+    context.watch<AdvancedFeaturesService>(); // brewing row: layout label
+    context.watch<AnalyticsService>(); // privacy row: analytics summary
+    context.watch<DateTimeFormatService>(); // language row: date pattern
+    final methods = Provider.of<List<BrewingMethodModel>>(context);
 
-  // ---------------------------------------------------------------------------
-  // Notifications (dialog/snackbar logic stays in screen)
-  // ---------------------------------------------------------------------------
-
-  String _getNotificationStatusText() {
-    if (_controller.isLoading) return '';
-    return _controller.masterNotificationsEnabled
-        ? AppLocalizations.of(context)!.notificationsEnabled
-        : AppLocalizations.of(context)!.notificationsDisabled;
-  }
-
-  Future<void> _handleToggleNotifications(bool enabled) async {
-    final result = await _controller.toggleNotifications(enabled);
-    if (result == ToggleNotificationResult.permissionDenied && mounted) {
-      _showSettingsDialog();
-    }
-  }
-
-  List<Widget> _buildNotificationToggles(BuildContext context) {
-    final notificationService = NotificationService.instance;
-
-    return NotificationToggles(
-      morningReminderEnabled: _controller.morningReminderEnabled,
-      morningReminderTime: _controller.morningReminderTime,
-      weeklySummaryEnabled: _controller.weeklySummaryEnabled,
-      beanFreshnessEnabled: _controller.beanFreshnessEnabled,
-      onMorningChanged: (value) => _onOptionalToggleChanged(
-        value,
-        notificationService.settings.setMorningReminderEnabled,
-      ),
-      onWeeklyChanged: (value) => _onOptionalToggleChanged(
-        value,
-        notificationService.settings.setWeeklySummaryEnabled,
-      ),
-      onBeanFreshnessChanged: (value) => _onOptionalToggleChanged(
-        value,
-        notificationService.settings.setBeanFreshnessEnabled,
-      ),
-      onPickMorningTime: _pickMorningReminderTime,
-    ).buildToggles(context);
-  }
-
-  Future<void> _pickMorningReminderTime() async {
-    final picked = await showAppTimePicker(
-      context: context,
-      initialTime: _controller.morningReminderTime,
-    );
-    if (picked == null || !mounted) return;
-    final database = Provider.of<AppDatabase>(context, listen: false);
-    final onboarding = Provider.of<OnboardingService>(context, listen: false);
-    final locale = Localizations.localeOf(context).languageCode;
-    await _controller.updateMorningReminderTime(
-      picked,
-      database: database,
-      onboarding: onboarding,
-      locale: locale,
+    return SettingsPageScaffold(
+      title: l10n.settings,
+      children: [
+        Semantics(
+          identifier: 'settingsAccountCard',
+          container: true,
+          child: const AccountEntryTile(source: AccountEntrySource.settings),
+        ),
+        const Divider(indent: AppSpacing.base),
+        _brewingRow(context, l10n),
+        _homeScreenRow(context, l10n, recipeProvider, methods),
+        _notificationsRowSlot(context, l10n),
+        _appearanceRowSlot(context, l10n),
+        _languageRegionRow(context, l10n, recipeProvider),
+        _privacyDataRow(context, l10n),
+      ],
     );
   }
 
-  Future<void> _onOptionalToggleChanged(
-    bool value,
-    Future<void> Function(bool) setter,
-  ) async {
-    final database = Provider.of<AppDatabase>(context, listen: false);
-    final onboarding = Provider.of<OnboardingService>(context, listen: false);
-    final locale = Localizations.localeOf(context).languageCode;
-    await _controller.onOptionalToggleChanged(
-      value,
-      setter,
-      database: database,
-      onboarding: onboarding,
-      locale: locale,
+  /// Brewing row. The layout half comes from the watched service; the alert
+  /// half from the shared notifier, so a mode changed on the Preparation
+  /// screen refreshes this subtitle too.
+  Widget _brewingRow(BuildContext context, AppLocalizations l10n) {
+    return ValueListenableBuilder<NotificationMode>(
+      valueListenable: BrewAlertPreference.instance.mode,
+      builder: (context, mode, _) => SettingsNavRow(
+        identifier: 'settingsBrewingRow',
+        icon: Icons.coffee_maker_outlined,
+        title: l10n.settingsBrewingTitle,
+        subtitle: '${_layoutLabel(context, l10n)} · ${_alertLabel(l10n, mode)}',
+        onTap: () => context.router.push(const SettingsBrewingRoute()),
+      ),
     );
   }
 
-  void _showSettingsDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        final l10n = AppLocalizations.of(context)!;
-        return AlertDialog(
-          title: Text(l10n.notificationsDisabledDialogTitle),
-          content: Text(l10n.notificationsDisabledDialogContent),
-          actions: [
-            AppTextButton(
-              label: l10n.cancel,
-              onPressed: () => Navigator.of(context).pop(),
-              isFullWidth: false,
-              height: AppButton.heightMedium,
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            ),
-            AppElevatedButton(
-              label: l10n.openSettings,
-              onPressed: () async {
-                Navigator.of(context).pop();
-                await _openNotificationSettings();
-              },
-              isFullWidth: false,
-              height: AppButton.heightMedium,
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              foregroundColor: Theme.of(context).colorScheme.onPrimary,
-            ),
-          ],
+  String _layoutLabel(BuildContext context, AppLocalizations l10n) {
+    final advanced = Provider.of<AdvancedFeaturesService>(
+      context,
+      listen: false,
+    );
+    return advanced.pourLayoutEnabled
+        ? l10n.layoutPickerImmersive
+        : l10n.layoutPickerClassic;
+  }
+
+  String _alertLabel(AppLocalizations l10n, NotificationMode mode) {
+    return switch (mode) {
+      NotificationMode.none => l10n.settingsBrewAlertsSilent,
+      NotificationMode.vibrationOnly => l10n.settingsBrewAlertsVibration,
+      NotificationMode.soundOnly => l10n.settingsBrewAlertsSound,
+    };
+  }
+
+  /// Home-screen row: how many brewing methods are shown on the Home tab.
+  /// Nested ValueListenableBuilders so an explicit preference change made on
+  /// the subpage refreshes the subtitle even without a provider notify.
+  Widget _homeScreenRow(
+    BuildContext context,
+    AppLocalizations l10n,
+    RecipeProvider recipeProvider,
+    List<BrewingMethodModel> methods,
+  ) {
+    return ValueListenableBuilder<Set<String>>(
+      valueListenable: recipeProvider.shownBrewingMethodIds,
+      builder: (context, shownIds, _) {
+        return ValueListenableBuilder<Set<String>>(
+          valueListenable: recipeProvider.hiddenBrewingMethodIds,
+          builder: (context, hiddenIds, _) {
+            // Same rule as `SettingsHomeTabScreen._switchValue`
+            // (lib/screens/settings/settings_home_tab_screen.dart): an
+            // explicit user choice wins; without one, a method is shown
+            // exactly when it has recipes. Kept local on purpose — keep the
+            // two in sync.
+            final methodsWithRecipes = <String>{
+              for (final recipe in recipeProvider.recipes)
+                recipe.brewingMethodId,
+            };
+            final shown = methods
+                .where(
+                  (method) =>
+                      shownIds.contains(method.brewingMethodId) ||
+                      (!hiddenIds.contains(method.brewingMethodId) &&
+                          methodsWithRecipes.contains(method.brewingMethodId)),
+                )
+                .length;
+            return SettingsNavRow(
+              identifier: 'settingsHomeScreenRow',
+              icon: Icons.home_outlined,
+              title: l10n.settingsHomeScreenTitle,
+              subtitle: l10n.settingsMethodsShownCount(shown, methods.length),
+              onTap: () => context.router.push(const SettingsHomeTabRoute()),
+            );
+          },
         );
       },
     );
   }
 
-  Future<void> _openNotificationSettings() async {
-    try {
-      await AppSettings.openAppSettings(type: AppSettingsType.notification);
-    } catch (e) {
-      AppLogger.error('Error opening notification settings', errorObject: e);
-      try {
-        await AppSettings.openAppSettings();
-      } catch (fallbackError) {
-        AppLogger.error(
-          'Error opening general app settings',
-          errorObject: fallbackError,
+  /// Notifications row in an always-present slot (settings_list.dart rule 5):
+  /// on web the slot renders an empty box, on native the row renders with no
+  /// subtitle while the controller loads — the widget type at this tree
+  /// position only ever differs across platforms, never across states.
+  Widget _notificationsRowSlot(BuildContext context, AppLocalizations l10n) {
+    return ListenableBuilder(
+      listenable: _controller,
+      builder: (context, _) {
+        if (kIsWeb) return const SizedBox.shrink();
+
+        final String? subtitle;
+        Color? subtitleColor;
+        if (_controller.isLoading) {
+          subtitle = null;
+        } else if (_controller.systemPermissionDenied &&
+            _controller.masterNotificationsEnabled) {
+          subtitle = l10n.settingsNotificationsSummaryBlocked;
+          subtitleColor = Theme.of(context).colorScheme.error;
+        } else if (!_controller.masterNotificationsEnabled) {
+          subtitle = l10n.notificationsDisabled;
+        } else {
+          subtitle = l10n.settingsNotificationsSummaryOn(
+            _controller.enabledReminderCount,
+          );
+        }
+
+        return SettingsNavRow(
+          identifier: 'settingsNotificationsRow',
+          icon: Icons.notifications_outlined,
+          title: l10n.notifications,
+          subtitle: subtitle,
+          subtitleColor: subtitleColor,
+          onTap: () => context.router.push(const SettingsNotificationsRoute()),
         );
-      }
+      },
+    );
+  }
+
+  /// Appearance row in an always-present ListenableBuilder slot so the app
+  /// icon suffix can appear once the icon API reports in without changing
+  /// the tree shape.
+  Widget _appearanceRowSlot(BuildContext context, AppLocalizations l10n) {
+    return ListenableBuilder(
+      listenable: _controller,
+      builder: (context, _) {
+        final themeMode = Provider.of<ThemeProvider>(
+          context,
+          listen: false,
+        ).themeMode;
+        var subtitle = switch (themeMode) {
+          ThemeMode.light => l10n.settingsthemelight,
+          ThemeMode.dark => l10n.settingsthemedark,
+          ThemeMode.system => l10n.settingsthemesystem,
+        };
+        if (!kIsWeb && _controller.iconApiAvailable) {
+          subtitle +=
+              ' · ${_controller.isDefaultIcon ? l10n.settingsAppIconDefault : l10n.settingsAppIconLegacy}';
+        }
+        return SettingsNavRow(
+          identifier: 'settingsAppearanceRow',
+          icon: Icons.palette_outlined,
+          title: l10n.settingsAppearanceTitle,
+          subtitle: subtitle,
+          onTap: () async {
+            await context.router.push(const SettingsAppearanceRoute());
+            // The Appearance page changes the icon through its own
+            // controller, so re-read it here for this row's subtitle.
+            if (mounted) unawaited(_controller.initIconApi());
+          },
+        );
+      },
+    );
+  }
+
+  /// Language & region row: "language · today". The language name is async
+  /// (cached future, re-resolved only when the locale changes), so the date
+  /// alone shows until it resolves.
+  Widget _languageRegionRow(
+    BuildContext context,
+    AppLocalizations l10n,
+    RecipeProvider recipeProvider,
+  ) {
+    final fmtService = Provider.of<DateTimeFormatService>(
+      context,
+      listen: false,
+    );
+    final today = DateFormat(
+      fmtService.datePattern(l10n.dateFormat),
+    ).format(DateTime.now());
+
+    return FutureBuilder<String>(
+      future: _languageName(recipeProvider),
+      builder: (context, snapshot) {
+        final languageName = snapshot.data;
+        return SettingsNavRow(
+          identifier: 'settingsLanguageRegionRow',
+          icon: Icons.language,
+          title: l10n.settingsLanguageRegionTitle,
+          subtitle: languageName == null ? today : '$languageName · $today',
+          onTap: () => context.router.push(const SettingsLanguageRegionRoute()),
+        );
+      },
+    );
+  }
+
+  Future<String> _languageName(RecipeProvider recipeProvider) {
+    final code = recipeProvider.currentLocale.languageCode;
+    if (_languageNameFutureCode != code) {
+      _languageNameFutureCode = code;
+      _languageNameFuture = recipeProvider.getLocaleName(code);
     }
+    return _languageNameFuture!;
+  }
+
+  /// Privacy & data row: a one-line summary of the three usage-analytics
+  /// switches.
+  Widget _privacyDataRow(BuildContext context, AppLocalizations l10n) {
+    final analytics = Provider.of<AnalyticsService>(context, listen: false);
+    final allOn =
+        analytics.brewsEnabled &&
+        analytics.beansEnabled &&
+        analytics.generalEnabled;
+    final allOff =
+        !analytics.brewsEnabled &&
+        !analytics.beansEnabled &&
+        !analytics.generalEnabled;
+    return SettingsNavRow(
+      identifier: 'settingsPrivacyDataRow',
+      icon: Icons.shield_outlined,
+      title: l10n.settingsPrivacyDataTitle,
+      subtitle: allOn
+          ? l10n.settingsAnalyticsSummaryOn
+          : allOff
+          ? l10n.settingsAnalyticsSummaryOff
+          : l10n.settingsAnalyticsSummaryPartial,
+      onTap: () => context.router.push(const SettingsPrivacyDataRoute()),
+    );
   }
 }

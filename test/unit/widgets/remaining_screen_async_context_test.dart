@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:coffee_timer/database/database.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/brewing_method_model.dart';
-import 'package:coffee_timer/models/supported_locale_model.dart';
 import 'package:coffee_timer/providers/coffee_beans_provider.dart';
 import 'package:coffee_timer/providers/recipe_provider.dart';
 import 'package:coffee_timer/providers/snow_provider.dart';
@@ -66,7 +65,7 @@ void main() {
     when(analytics.generalEnabled).thenReturn(true);
   });
 
-  Widget buildSettings() {
+  Widget buildSettings({String? section}) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<RecipeProvider>.value(value: recipeProvider),
@@ -94,46 +93,38 @@ void main() {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         locale: const Locale('en'),
-        home: const SettingsScreen(),
+        home: SettingsScreen(section: section),
       ),
     );
   }
 
-  testWidgets('theme selection applies the returned mode', (tester) async {
-    when(
-      recipeProvider.fetchAllSupportedLocales(),
-    ).thenAnswer((_) async => const []);
+  testWidgets('locale name completion is ignored after disposal', (
+    tester,
+  ) async {
+    final localeName = Completer<String>();
+    when(recipeProvider.getLocaleName('en')).thenAnswer(
+      (_) => localeName.future,
+    );
     await tester.pumpWidget(buildSettings());
     await tester.pump();
 
-    expect(find.text('System'), findsOneWidget);
-    await tester.tap(find.text('Theme'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Dark'));
-    await tester.pumpAndSettle();
+    await tester.pumpWidget(const SizedBox.shrink());
+    localeName.complete('English');
+    await tester.pump();
 
-    expect(themeProvider.themeMode, ThemeMode.dark);
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('locale loading completion is ignored after disposal', (
+  testWidgets('unknown legacy section never reaches the router', (
     tester,
   ) async {
-    final locales = Completer<List<SupportedLocaleModel>>();
-    when(
-      recipeProvider.fetchAllSupportedLocales(),
-    ).thenAnswer((_) => locales.future);
-    await tester.pumpWidget(buildSettings());
-    await tester.pump();
+    // No AutoRoute ancestor here on purpose: if the legacy-section
+    // forwarding touched `context.router` for a value that has no target
+    // page, this pump would throw a router lookup error.
+    await tester.pumpWidget(buildSettings(section: 'theme'));
+    await tester.pumpAndSettle();
 
-    await tester.tap(find.text('Language'));
-    await tester.pump();
-    await tester.pumpWidget(const SizedBox.shrink());
-    locales.complete([
-      SupportedLocaleModel(locale: 'en', localeName: 'English'),
-    ]);
-    await tester.pump();
-
+    expect(find.text('Settings'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 }

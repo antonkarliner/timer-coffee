@@ -4,11 +4,12 @@ import '../app_router.gr.dart'; // Ensure this import is correct
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../theme/design_tokens.dart'; // Import design tokens for AppRadius
-import '../utils/app_logger.dart'; // Import AppLogger
 import '../utils/blog_launcher.dart';
 import '../utils/app_material_symbols.dart';
-import '../widgets/account_avatar_inline.dart';
+import '../services/settings_analytics.dart';
+import '../widgets/account/account_entry_tile.dart';
 import '../widgets/coffee_journey_card.dart';
+import '../widgets/settings/settings_list.dart';
 import '../services/authentication_service.dart';
 import 'pulse_screen.dart';
 
@@ -134,7 +135,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
           ),
           _HubSection(
             title: l10n.account,
-            children: [_buildAccountTile(context, l10n)],
+            children: [const AccountEntryTile(source: AccountEntrySource.hub)],
           ),
           _HubSection(
             title: l10n.hubSectionApp,
@@ -176,49 +177,6 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
     );
   }
 
-  Widget _buildAccountTile(BuildContext context, AppLocalizations l10n) {
-    return StreamBuilder<AuthState>(
-      stream: Supabase.instance.client.auth.onAuthStateChange,
-      builder: (context, snapshot) {
-        final session = snapshot.data?.session;
-        final isLoggedIn = session != null && !session.user.isAnonymous;
-
-        if (isLoggedIn) {
-          return _HubListTile(
-            identifier: 'account',
-            label: l10n.account,
-            icon: Icons.account_circle,
-            leading: const AccountAvatarInline(size: 24),
-            title: l10n.account,
-            subtitle: l10n.hubAccountSubtitle,
-            onTap: () {
-              final userId = Supabase.instance.client.auth.currentUser?.id;
-              AppLogger.debug(
-                'Navigating to AccountRoute with userId: $userId',
-              );
-              if (userId != null) {
-                context.router.push(AccountRoute(userId: userId));
-              }
-            },
-          );
-        }
-
-        return _HubListTile(
-          identifier: 'signIn',
-          label: l10n.signInCreate,
-          icon: Icons.login,
-          title: l10n.signInCreate,
-          subtitle: l10n.hubSignInCreateSubtitle,
-          onTap: () => AuthenticationService.promptSignIn(
-            context,
-            source: 'hub',
-            title: l10n.signInCreate,
-            bodyText: l10n.hubSignInCreateSubtitle,
-          ),
-        );
-      },
-    );
-  }
 }
 
 class _HubSection extends StatelessWidget {
@@ -229,29 +187,14 @@ class _HubSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.base),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(
-              AppSpacing.base,
-              AppSpacing.sm,
-              AppSpacing.base,
-              AppSpacing.xs,
-            ),
-            child: Text(
-              title,
-              style: theme.textTheme.labelSmall?.copyWith(
-                color: theme.colorScheme.primary,
-                fontWeight: FontWeight.w700,
-                letterSpacing: 0,
-              ),
-            ),
-          ),
+          // Same padding and style the Hub headers always had — the shared
+          // widget was extracted from this very one.
+          SettingsSectionHeader(title: title),
           Column(mainAxisSize: MainAxisSize.min, children: children),
         ],
       ),
@@ -267,7 +210,6 @@ class _HubListTile extends StatelessWidget {
     required this.onTap,
     this.icon,
     this.iconWidget,
-    this.leading,
     this.subtitle,
     this.isCompact = false,
   });
@@ -276,7 +218,6 @@ class _HubListTile extends StatelessWidget {
   final String label;
   final IconData? icon;
   final Widget? iconWidget;
-  final Widget? leading;
   final String title;
   final String? subtitle;
   final VoidCallback onTap;
@@ -292,7 +233,7 @@ class _HubListTile extends StatelessWidget {
       child: ListTile(
         dense: isCompact,
         visualDensity: isCompact ? VisualDensity.compact : null,
-        leading: leading ?? iconWidget ?? Icon(icon),
+        leading: iconWidget ?? Icon(icon),
         title: Text(
           title,
           style: theme.textTheme.bodyLarge?.copyWith(
