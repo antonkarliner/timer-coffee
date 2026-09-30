@@ -47,6 +47,7 @@ import 'package:coffee_timer/services/notification_migration_service.dart';
 import 'services/feature_flags/feature_flags_repository.dart';
 import 'services/onboarding_service.dart';
 import 'services/analytics_service.dart';
+import 'services/authentication_service.dart';
 import 'services/local_notification_scheduler_service.dart';
 import 'services/date_time_format_service.dart';
 import 'services/advanced_features_service.dart';
@@ -699,12 +700,16 @@ class CoffeeTimerApp extends StatefulWidget {
 class _CoffeeTimerAppState extends State<CoffeeTimerApp>
     with WidgetsBindingObserver {
   StreamSubscription<String?>? _notificationTapSubscription;
+  StreamSubscription<AuthState>? _authStateSubscription;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _setupNotificationTapHandler();
+    if (kIsWeb) {
+      _setupPendingWebSignInResume();
+    }
   }
 
   @override
@@ -720,8 +725,49 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _notificationTapSubscription?.cancel();
+    _authStateSubscription?.cancel();
     widget.featureFlagsRepository.dispose();
     super.dispose();
+  }
+
+  void _setupPendingWebSignInResume() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _resumePendingWebSignIn(finalCheck: true);
+    });
+
+    _authStateSubscription = Supabase.instance.client.auth.onAuthStateChange
+        .listen((authState) {
+          if (authState.event == AuthChangeEvent.signedIn) {
+            _resumePendingWebSignIn(finalCheck: false);
+          }
+        });
+  }
+
+  void _resumePendingWebSignIn({
+    required bool finalCheck,
+    int framesLeft = 10,
+  }) {
+    if (!mounted) return;
+    final context = widget.appRouter.navigatorKey.currentContext;
+    if (context == null || !context.mounted) {
+      // The signedIn event is replayed before the navigator exists, so the
+      // post-frame check is the one that must land: retry for a few frames.
+      if (finalCheck && framesLeft > 0) {
+        WidgetsBinding.instance.addPostFrameCallback(
+          (_) => _resumePendingWebSignIn(
+            finalCheck: true,
+            framesLeft: framesLeft - 1,
+          ),
+        );
+      }
+      return;
+    }
+    unawaited(
+      AuthenticationService.resumePendingWebSignIn(
+        context,
+        finalCheck: finalCheck,
+      ),
+    );
   }
 
   void _setupNotificationTapHandler() {

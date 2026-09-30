@@ -23,6 +23,7 @@ import '../widgets/base_buttons.dart';
 import '../widgets/recipe_detail/authentication_dialogs.dart';
 import 'analytics_service.dart';
 import 'auth/native_auth_credentials.dart';
+import 'auth/pending_web_sign_in.dart';
 import 'notification_service.dart';
 import 'onboarding_service.dart';
 
@@ -80,10 +81,45 @@ class _SignInSession {
   final AppDatabase? database;
 }
 
+class _SignInContext {
+  const _SignInContext({
+    required this.l10n,
+    required this.isDarkMode,
+    required this.scaffoldMessenger,
+    required this.navigator,
+    required this.databaseProvider,
+    required this.userRecipeProvider,
+    required this.recipeProvider,
+    required this.userStatProvider,
+    required this.coffeeBeansProvider,
+    required this.onboardingService,
+    required this.database,
+  });
+
+  final AppLocalizations l10n;
+  final bool isDarkMode;
+  final ScaffoldMessengerState? scaffoldMessenger;
+  final NavigatorState navigator;
+  final DatabaseProvider? databaseProvider;
+  final UserRecipeProvider? userRecipeProvider;
+  final RecipeProvider? recipeProvider;
+  final UserStatProvider? userStatProvider;
+  final CoffeeBeansProvider? coffeeBeansProvider;
+  final OnboardingService? onboardingService;
+  final AppDatabase? database;
+}
+
 /// Authentication service that handles all sign-in operations.
 class AuthenticationService {
-  static const _webRedirect = 'https://app.timer.coffee/';
   static const _nativeRedirect = 'timercoffee://';
+  static const _productionWebUrl = 'https://app.timer.coffee/';
+  static bool _webResumeInFlight = false;
+
+  /// The web app's own origin, so a local or staging build returns to itself
+  /// (the origin must be in Supabase's allowed redirect URLs, otherwise the
+  /// project Site URL is used). `Uri.base.origin` throws off the web.
+  static String get _webRedirect =>
+      kIsWeb ? '${Uri.base.origin}/' : _productionWebUrl;
 
   /// Prompts the user to sign in with a modal bottom sheet.
   ///
@@ -99,35 +135,18 @@ class AuthenticationService {
 
     // Capture every context-bound dependency before the first await. Email
     // verification can finish after the screen that opened this flow is gone.
-    final l10n = AppLocalizations.of(context)!;
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final scaffoldMessenger = ScaffoldMessenger.maybeOf(context);
-    final navigator = Navigator.of(context);
-    final databaseProvider = _maybeProvider<DatabaseProvider>(context);
-    final userRecipeProvider = _maybeProvider<UserRecipeProvider>(context);
-    final recipeProvider = _maybeProvider<RecipeProvider>(context);
-    final userStatProvider = _maybeProvider<UserStatProvider>(context);
-    final coffeeBeansProvider = _maybeProvider<CoffeeBeansProvider>(context);
-    final onboardingService = _maybeProvider<OnboardingService>(context);
-    final database = _maybeProvider<AppDatabase>(context);
+    final signInContext = _captureSignInContext(context);
+    final l10n = signInContext.l10n;
+    final isDarkMode = signInContext.isDarkMode;
 
     final migrationSession = await captureAnonymousMigrationSession();
     if (!context.mounted) return false;
 
-    final session = _SignInSession(
+    final session = _buildSignInSession(
+      signInContext: signInContext,
       oldUserId: migrationSession.userId,
       oldAccessToken: migrationSession.accessToken,
       source: source,
-      l10n: l10n,
-      scaffoldMessenger: scaffoldMessenger,
-      navigator: navigator,
-      databaseProvider: databaseProvider,
-      userRecipeProvider: userRecipeProvider,
-      recipeProvider: recipeProvider,
-      userStatProvider: userStatProvider,
-      coffeeBeansProvider: coffeeBeansProvider,
-      onboardingService: onboardingService,
-      database: database,
     );
 
     _track('sign_in_prompt_shown', {'source': source});
@@ -153,10 +172,7 @@ class AuthenticationService {
                     style: Theme.of(sheetContext).textTheme.titleLarge,
                   ),
                   const SizedBox(height: AppSpacing.sm),
-                  Text(
-                    bodyText,
-                    textAlign: TextAlign.center,
-                  ),
+                  Text(bodyText, textAlign: TextAlign.center),
                   const SizedBox(height: AppSpacing.lg),
                   if (!kIsWeb && (Platform.isIOS || Platform.isMacOS)) ...[
                     SignInButton(
@@ -214,8 +230,18 @@ class AuthenticationService {
     switch (chosenMethod) {
       case SignInMethod.apple:
         try {
+          if (kIsWeb) {
+            await PendingWebSignIn(
+              oldUserId: session.oldUserId,
+              oldAccessToken: session.oldAccessToken,
+              source: source,
+              method: method,
+              createdAtMs: DateTime.now().millisecondsSinceEpoch,
+            ).save();
+          }
           await signInWithApple();
         } catch (error) {
+          if (kIsWeb) await PendingWebSignIn.clear();
           final cancelled =
               error is SignInWithAppleAuthorizationException &&
               error.code == AuthorizationErrorCode.canceled;
@@ -234,6 +260,15 @@ class AuthenticationService {
         break;
       case SignInMethod.google:
         try {
+          if (kIsWeb) {
+            await PendingWebSignIn(
+              oldUserId: session.oldUserId,
+              oldAccessToken: session.oldAccessToken,
+              source: source,
+              method: method,
+              createdAtMs: DateTime.now().millisecondsSinceEpoch,
+            ).save();
+          }
           final didSignIn = await signInWithGoogle();
           if (!didSignIn) {
             _trackSignInFailed(
@@ -245,6 +280,7 @@ class AuthenticationService {
             return false;
           }
         } catch (error) {
+          if (kIsWeb) await PendingWebSignIn.clear();
           _trackSignInFailed(
             session,
             method: method,
@@ -284,6 +320,65 @@ class AuthenticationService {
     }
 
     return newUser != null;
+  }
+
+  /// Finishes a web Apple/Google sign-in after its full-page redirect: the
+  /// page reload loses the in-memory session, so [promptSignIn] saved a
+  /// [PendingWebSignIn] before leaving. Only a [finalCheck] (after the first
+  /// frame) may conclude the user cancelled; an auth-event call only resumes.
+  static Future<void> resumePendingWebSignIn(
+    BuildContext context, {
+    bool finalCheck = true,
+  }) async {
+    if (!kIsWeb || _webResumeInFlight || !context.mounted) return;
+
+    final signInContext = _captureSignInContext(context);
+    _webResumeInFlight = true;
+    try {
+      final pending = await PendingWebSignIn.load();
+      final currentUser = Supabase.instance.client.auth.currentUser;
+      final action = decidePendingWebSignIn(
+        pending: pending,
+        currentUserId: currentUser?.id,
+        currentUserIsAnonymous: currentUser?.isAnonymous ?? false,
+        now: DateTime.now(),
+      );
+
+      if (!finalCheck && action != PendingWebSignInAction.resume) return;
+
+      switch (action) {
+        case PendingWebSignInAction.none:
+          return;
+        case PendingWebSignInAction.expired:
+          await PendingWebSignIn.clear();
+          return;
+        case PendingWebSignInAction.cancelled:
+          // Still anonymous with an OAuth code in the URL: the exchange has
+          // not finished (Supabase init can time out before it does). Leave
+          // the record for the signedIn event; the TTL clears it otherwise.
+          if (Uri.base.queryParameters.containsKey('code')) return;
+          await PendingWebSignIn.clear();
+          _track('sign_in_failed', {
+            'source': pending!.source,
+            'method': pending.method,
+            'stage': 'provider',
+            'reason': 'cancelled',
+          });
+          return;
+        case PendingWebSignInAction.resume:
+          await PendingWebSignIn.clear();
+          if (!context.mounted) return;
+          final session = _buildSignInSession(
+            signInContext: signInContext,
+            oldUserId: pending!.oldUserId,
+            oldAccessToken: pending.oldAccessToken,
+            source: pending.source,
+          );
+          await _completeSignIn(session, pending.method);
+      }
+    } finally {
+      _webResumeInFlight = false;
+    }
   }
 
   /// Captures the anonymous user and access token used for data migration.
@@ -366,8 +461,9 @@ class AuthenticationService {
     BuildContext context,
     String email,
   ) async {
-    final l10n = AppLocalizations.of(context)!;
-    final scaffoldMessenger = ScaffoldMessenger.maybeOf(context);
+    final signInContext = _captureSignInContext(context);
+    final l10n = signInContext.l10n;
+    final scaffoldMessenger = signInContext.scaffoldMessenger;
     final validatedEmail = InputValidator.validateAndSanitizeEmail(email);
     if (validatedEmail == null) {
       if (scaffoldMessenger != null && scaffoldMessenger.mounted) {
@@ -384,30 +480,14 @@ class AuthenticationService {
       return;
     }
 
-    final navigator = Navigator.of(context);
-    final databaseProvider = _maybeProvider<DatabaseProvider>(context);
-    final userRecipeProvider = _maybeProvider<UserRecipeProvider>(context);
-    final recipeProvider = _maybeProvider<RecipeProvider>(context);
-    final userStatProvider = _maybeProvider<UserStatProvider>(context);
-    final coffeeBeansProvider = _maybeProvider<CoffeeBeansProvider>(context);
-    final onboardingService = _maybeProvider<OnboardingService>(context);
-    final database = _maybeProvider<AppDatabase>(context);
     final migrationSession = await captureAnonymousMigrationSession();
+    if (!context.mounted) return;
 
-    final session = _SignInSession(
+    final session = _buildSignInSession(
+      signInContext: signInContext,
       oldUserId: migrationSession.userId,
       oldAccessToken: migrationSession.accessToken,
       source: 'unknown',
-      l10n: l10n,
-      scaffoldMessenger: scaffoldMessenger,
-      navigator: navigator,
-      databaseProvider: databaseProvider,
-      userRecipeProvider: userRecipeProvider,
-      recipeProvider: recipeProvider,
-      userStatProvider: userStatProvider,
-      coffeeBeansProvider: coffeeBeansProvider,
-      onboardingService: onboardingService,
-      database: database,
     );
     await _signInWithEmail(session, validatedEmail);
   }
@@ -727,6 +807,45 @@ class AuthenticationService {
     } on ProviderNotFoundException {
       return null;
     }
+  }
+
+  static _SignInContext _captureSignInContext(BuildContext context) {
+    return _SignInContext(
+      l10n: AppLocalizations.of(context)!,
+      isDarkMode: Theme.of(context).brightness == Brightness.dark,
+      scaffoldMessenger: ScaffoldMessenger.maybeOf(context),
+      navigator: Navigator.of(context),
+      databaseProvider: _maybeProvider<DatabaseProvider>(context),
+      userRecipeProvider: _maybeProvider<UserRecipeProvider>(context),
+      recipeProvider: _maybeProvider<RecipeProvider>(context),
+      userStatProvider: _maybeProvider<UserStatProvider>(context),
+      coffeeBeansProvider: _maybeProvider<CoffeeBeansProvider>(context),
+      onboardingService: _maybeProvider<OnboardingService>(context),
+      database: _maybeProvider<AppDatabase>(context),
+    );
+  }
+
+  static _SignInSession _buildSignInSession({
+    required _SignInContext signInContext,
+    required String? oldUserId,
+    required String? oldAccessToken,
+    required String source,
+  }) {
+    return _SignInSession(
+      oldUserId: oldUserId,
+      oldAccessToken: oldAccessToken,
+      source: source,
+      l10n: signInContext.l10n,
+      scaffoldMessenger: signInContext.scaffoldMessenger,
+      navigator: signInContext.navigator,
+      databaseProvider: signInContext.databaseProvider,
+      userRecipeProvider: signInContext.userRecipeProvider,
+      recipeProvider: signInContext.recipeProvider,
+      userStatProvider: signInContext.userStatProvider,
+      coffeeBeansProvider: signInContext.coffeeBeansProvider,
+      onboardingService: signInContext.onboardingService,
+      database: signInContext.database,
+    );
   }
 
   static void _showSnackBar(_SignInSession session, String message) {
