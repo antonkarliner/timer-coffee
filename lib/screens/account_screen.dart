@@ -760,11 +760,6 @@ class _AccountScreenState extends State<AccountScreen> {
           ), // Use localization
         );
       }
-    } finally {
-      // No need to set isLoading to false if we are navigating away
-      // if (mounted) {
-      //   setState(() => _isLoading = false);
-      // }
     }
   }
   // --- End Sign Out ---
@@ -831,7 +826,6 @@ class _AccountScreenState extends State<AccountScreen> {
       // Sign in anonymously
       await Supabase.instance.client.auth.signInAnonymously();
 
-      // Update state
       if (!mounted) return;
       // Note: We don't update state here since this screen will be popped
 
@@ -857,11 +851,6 @@ class _AccountScreenState extends State<AccountScreen> {
     }
   }
   // --- End Delete Account ---
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -898,7 +887,7 @@ class _AccountScreenState extends State<AccountScreen> {
           children: [
             const Icon(Icons.account_circle), // Add the icon
             const SizedBox(width: 8), // Add spacing
-            Text(l10n.account), // Keep the original text
+            Text(l10n.account),
           ],
         ),
         actions: [
