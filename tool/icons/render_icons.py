@@ -6,7 +6,7 @@ with the icon.json transforms (every group translated [10, 10] pt, the tick
 group scaled 0.9 about the canvas centre) into a flat translation: same
 geometry, no glass.
 
-    python3 tool/icons/render_icons.py [android] [notification] [splash] [web] [landing]
+    python3 tool/icons/render_icons.py [android] [notification] [splash] [web] [previews] [landing]
 
 PNGs are rasterised with headless Google Chrome (exact SVG strokes, nothing
 to install); VectorDrawables are written as XML directly. Re-run after any
@@ -44,6 +44,8 @@ LAYER_SCALE = 72 / 108
 # survives as a VectorDrawable (no blur).
 BG_TOP, BG_BOTTOM = '#EEEEEE', '#DEDEDE'
 SHADOW_ALPHA, SHADOW_SPREAD, SHADOW_DY = 0.16, 22, 8
+IOS_LIGHT_BG_TOP, IOS_LIGHT_BG_BOTTOM = '#FFFFFF', '#F1F1F1'
+IOS_DARK_BG_TOP, IOS_DARK_BG_BOTTOM = '#1F1F1F', '#0E0E0E'
 
 
 def _paths(name, ids=None):
@@ -323,6 +325,46 @@ def splash():
                    os.path.join(REPO, 'assets', 'icons', f'splash_android12_{mode}.png'), 1152)
 
 
+def _svg_ios_preview(bg_top, bg_bottom, plate, mark):
+    bg = (f'<defs><linearGradient id="ibg" x1="0" y1="0" x2="0" y2="1">'
+          f'<stop offset="0" stop-color="{bg_top}"/>'
+          f'<stop offset="1" stop-color="{bg_bottom}"/></linearGradient></defs>'
+          f'<rect width="1024" height="1024" fill="url(#ibg)"/>')
+    # svg_plate already sits at the shifted centre (502 + SHIFT), like the mark.
+    return bg + svg_plate(plate) + svg_mark(mark)
+
+
+def previews():
+    out = os.path.join(REPO, 'assets', 'icons', 'previews')
+    os.makedirs(out, exist_ok=True)
+
+    window = (VIS_O, VIS_O, VISIBLE, VISIBLE)
+    render_png(svg_doc(svg_android_layer(), 512, window),
+               os.path.join(out, 'default_android.png'), 512)
+
+    appearances = {
+        'light': (IOS_LIGHT_BG_TOP, IOS_LIGHT_BG_BOTTOM, '#FFFFFF', '#000000'),
+        'dark': (IOS_DARK_BG_TOP, IOS_DARK_BG_BOTTOM, '#383838', '#FFFFFF'),
+    }
+    for mode, colors in appearances.items():
+        art = _svg_ios_preview(*colors)
+        render_png(svg_doc(art, 512, (0, 0, 1024, 1024)),
+                   os.path.join(out, f'default_{mode}.png'), 512)
+
+    # Legacy.appiconset's 1024.png has a soft rounded-square vignette baked
+    # in; ic_launcher_legacy.png is the same art without it. Its few
+    # antialiased corner pixels fall outside the in-app mask.
+    legacy = {
+        'light': os.path.join(REPO, 'assets', 'icons', 'ic_launcher_legacy.png'),
+        'dark': os.path.join(REPO, 'assets', 'icons', 'ic_launcher_legacy_dark.png'),
+    }
+    for mode, source in legacy.items():
+        destination = os.path.join(out, f'legacy_{mode}.png')
+        subprocess.run(['sips', '-z', '512', '512', source, '--out', destination],
+                       check=True, capture_output=True)
+        print('wrote', os.path.relpath(destination, REPO))
+
+
 # Web (plan 071 Phase 5). Tab favicons sit on a light rounded tile like the
 # iOS icon's system-light fill: the small mark up to 48 px, the full mark from
 # 96 px. Install icons (apple-touch, PWA) use the Android look (B'), since they
@@ -333,7 +375,8 @@ TILE_R = 0.2237 * 1024
 
 def svg_tile(inner):
     return (f'<defs><linearGradient id="tb" x1="0" y1="0" x2="0" y2="1">'
-            f'<stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F1F1F1"/>'
+            f'<stop offset="0" stop-color="{IOS_LIGHT_BG_TOP}"/>'
+            f'<stop offset="1" stop-color="{IOS_LIGHT_BG_BOTTOM}"/>'
             f'</linearGradient><clipPath id="tc"><rect width="1024" height="1024" '
             f'rx="{TILE_R:.1f}"/></clipPath></defs><g clip-path="url(#tc)">'
             f'<rect width="1024" height="1024" fill="url(#tb)"/>{inner}</g>')
@@ -403,7 +446,7 @@ def landing():
 
 
 TARGETS = {'android': android, 'notification': notification, 'splash': splash, 'web': web,
-           'landing': landing}
+           'previews': previews, 'landing': landing}
 
 if __name__ == '__main__':
     names = sys.argv[1:] or sorted(set(TARGETS) - {'landing'})
