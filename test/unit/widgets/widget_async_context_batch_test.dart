@@ -295,6 +295,9 @@ void main() {
           ChangeNotifierProvider<UserStatProvider>.value(
             value: userStatProvider,
           ),
+          ChangeNotifierProvider<DateTimeFormatService>.value(
+            value: DateTimeFormatService(),
+          ),
         ],
         child: localizedApp(NewBeansScreen(imageController: imageController)),
       ),
@@ -366,6 +369,9 @@ void main() {
           ),
           ChangeNotifierProvider<UserStatProvider>.value(
             value: userStatProvider,
+          ),
+          ChangeNotifierProvider<DateTimeFormatService>.value(
+            value: DateTimeFormatService(),
           ),
         ],
         child: localizedApp(NewBeansScreen(imageController: imageController)),

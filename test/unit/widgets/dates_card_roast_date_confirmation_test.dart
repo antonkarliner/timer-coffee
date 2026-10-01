@@ -5,6 +5,7 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/providers/coffee_beans_provider.dart';
 import 'package:coffee_timer/providers/user_stat_provider.dart';
 import 'package:coffee_timer/screens/new_beans_screen.dart';
+import 'package:coffee_timer/services/date_time_format_service.dart';
 import 'package:coffee_timer/services/photo_library_service.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:coffee_timer/widgets/fields/date_field.dart';
@@ -46,11 +47,14 @@ import 'brew_flow_async_context_test.mocks.dart' as brew_mocks;
 ///      regression in the actual null-safe reads would fail this test.
 void main() {
   Widget host(Widget child) {
-    return MaterialApp(
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      locale: const Locale('en'),
-      home: Scaffold(body: SingleChildScrollView(child: child)),
+    return ChangeNotifierProvider<DateTimeFormatService>(
+      create: (_) => DateTimeFormatService(),
+      child: MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: const Locale('en'),
+        home: Scaffold(body: SingleChildScrollView(child: child)),
+      ),
     );
   }
 
@@ -229,7 +233,10 @@ void main() {
       );
 
       // The roast date field itself is still present and shows the date.
-      final expectedDisplay = DateFormat.yMd(loc.localeName).format(roastDate);
+      final expectedDisplay = DateFormat(
+        loc.dateFormat,
+        loc.localeName,
+      ).format(roastDate);
       expect(
         find.descendant(
           of: find.byType(DatesCard),
@@ -350,7 +357,8 @@ void main() {
         // was destroyed and recreated with a non-null initialValue,
         // tripping the AppLocalizations-in-initState bug and rendering
         // blank ("Select Roast Date") instead of the parsed date.
-        final expectedDisplay = DateFormat.yMd(
+        final expectedDisplay = DateFormat(
+          loc.dateFormat,
           loc.localeName,
         ).format(DateTime(2026, 8, 2));
         expect(
@@ -398,6 +406,8 @@ void main() {
               body: DateField(
                 label: 'Roast Date',
                 initialValue: DateTime(2026, 8, 2).toIso8601String(),
+                // English app date style.
+                datePattern: 'MMM d, yyyy',
               ),
             ),
           ),
@@ -410,7 +420,8 @@ void main() {
         final loc = AppLocalizations.of(
           tester.element(find.byType(DateField)),
         )!;
-        final expectedDisplay = DateFormat.yMd(
+        final expectedDisplay = DateFormat(
+          'MMM d, yyyy',
           loc.localeName,
         ).format(DateTime(2026, 8, 2));
 
@@ -703,6 +714,9 @@ void main() {
               ChangeNotifierProvider<UserStatProvider>.value(
                 value: userStatProvider,
               ),
+              ChangeNotifierProvider<DateTimeFormatService>(
+                create: (_) => DateTimeFormatService(),
+              ),
             ],
             child: localizedApp(
               NewBeansScreen(imageController: imageController),
@@ -750,7 +764,8 @@ void main() {
           findsNothing,
         );
 
-        final expectedDisplay = DateFormat.yMd(
+        final expectedDisplay = DateFormat(
+          loc.dateFormat,
           loc.localeName,
         ).format(legacyRoastDate);
         expect(

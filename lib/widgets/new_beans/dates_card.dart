@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:coffee_timer/services/date_time_format_service.dart';
+import 'package:provider/provider.dart';
 import '../containers/section_card.dart';
 import '../fields/date_field.dart';
 import '../../theme/design_tokens.dart';
@@ -42,6 +44,9 @@ class _DatesCardState extends State<DatesCard> {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
+    final datePattern = Provider.of<DateTimeFormatService>(
+      context,
+    ).datePattern(loc.dateFormat);
 
     return SectionCard(
       title: loc.importantDates,
@@ -58,11 +63,11 @@ class _DatesCardState extends State<DatesCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: _buildHarvestDateField(context, loc),
+                  child: _buildHarvestDateField(context, loc, datePattern),
                 ),
                 const SizedBox(width: AppSpacing.fieldGap),
                 Expanded(
-                  child: _buildRoastDateField(context, loc),
+                  child: _buildRoastDateField(context, loc, datePattern),
                 ),
               ],
             );
@@ -70,9 +75,9 @@ class _DatesCardState extends State<DatesCard> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildHarvestDateField(context, loc),
+                _buildHarvestDateField(context, loc, datePattern),
                 const SizedBox(height: AppSpacing.fieldGap),
-                _buildRoastDateField(context, loc),
+                _buildRoastDateField(context, loc, datePattern),
               ],
             );
           }
@@ -81,7 +86,11 @@ class _DatesCardState extends State<DatesCard> {
     );
   }
 
-  Widget _buildHarvestDateField(BuildContext context, AppLocalizations loc) {
+  Widget _buildHarvestDateField(
+    BuildContext context,
+    AppLocalizations loc,
+    String datePattern,
+  ) {
     return DateField(
       label: loc.harvestDate,
       initialValue: widget.harvestDate?.toIso8601String(),
@@ -91,10 +100,15 @@ class _DatesCardState extends State<DatesCard> {
       },
       semanticIdentifier: 'harvestDatePickerButton',
       hintText: loc.selectHarvestDate,
+      datePattern: datePattern,
     );
   }
 
-  Widget _buildRoastDateField(BuildContext context, AppLocalizations loc) {
+  Widget _buildRoastDateField(
+    BuildContext context,
+    AppLocalizations loc,
+    String datePattern,
+  ) {
     final dateField = DateField(
       label: loc.roastDate,
       initialValue: widget.roastDate?.toIso8601String(),
@@ -104,6 +118,7 @@ class _DatesCardState extends State<DatesCard> {
       },
       semanticIdentifier: 'roastDatePickerButton',
       hintText: loc.selectRoastDate,
+      datePattern: datePattern,
     );
 
     final hint = _buildRoastDateHint(context, loc);

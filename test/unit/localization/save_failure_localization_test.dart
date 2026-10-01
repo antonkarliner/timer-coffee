@@ -69,6 +69,9 @@ void main() {
           ChangeNotifierProvider<UserStatProvider>.value(
             value: userStatProvider,
           ),
+          ChangeNotifierProvider<DateTimeFormatService>(
+            create: (_) => DateTimeFormatService(),
+          ),
         ],
         child: localizedApp(const NewBeansScreen()),
       ),
@@ -115,6 +118,9 @@ void main() {
           ),
           ChangeNotifierProvider<UserStatProvider>.value(
             value: userStatProvider,
+          ),
+          ChangeNotifierProvider<DateTimeFormatService>(
+            create: (_) => DateTimeFormatService(),
           ),
         ],
         child: localizedApp(const NewBeansScreen(uuid: 'bean-1')),

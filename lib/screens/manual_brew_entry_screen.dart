@@ -637,6 +637,8 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
                                 child: DateField(
                                   label: loc.brewDate,
                                   initialValue: _selectedDate.toIso8601String(),
+                                  datePattern:
+                                      fmtSvc.datePattern(loc.dateFormat),
                                   firstDate: DateTime(2020),
                                   lastDate: DateTime.now(),
                                   showClearButton: false,

@@ -151,11 +151,11 @@ void main() {
       );
       expect(dateFieldFinder, findsOneWidget);
 
-      // Format the date the same way the widget does — `DateFormat.yMd`
-      // with the app's current locale — from a `DateTime.now()` sampled in
-      // this test, not a hardcoded date, so this cannot flake at midnight
-      // or on a different locale's date order.
-      final expectedDisplay = DateFormat.yMd(l10n.localeName).format(now);
+      // The field uses the app's Auto date style (`loc.dateFormat`) with the
+      // current locale. Use a `DateTime.now()` sampled in this test, not a
+      // hardcoded date, so this cannot flake at midnight.
+      final expectedDisplay =
+          DateFormat(l10n.dateFormat, l10n.localeName).format(now);
 
       // Assert on the field's actual controller text, not `find.text`.
       // Material's `InputDecorator` keeps the hint `Text` in the tree at

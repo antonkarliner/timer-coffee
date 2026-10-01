@@ -9,8 +9,8 @@ import 'labeled_field.dart';
 /// interface for date selection using the app's design system.
 ///
 /// This component displays as a read-only field with a calendar icon that
-/// opens a date picker when tapped. It handles locale-aware date formatting
-/// and returns ISO string format for consistent data storage.
+/// opens a date picker when tapped. It displays dates with the caller's
+/// resolved app date pattern and returns ISO strings for consistent storage.
 class DateField extends StatefulWidget {
   /// The label text displayed above the field
   final String label;
@@ -26,6 +26,11 @@ class DateField extends StatefulWidget {
 
   /// The initial date value as an ISO string
   final String? initialValue;
+
+  /// The pattern to display, resolved by the caller through
+  /// `DateTimeFormatService.datePattern(loc.dateFormat)` (CLAUDE.md Date/Time
+  /// Formatting).
+  final String datePattern;
 
   /// Callback when the date value changes
   final ValueChanged<String?>? onChanged;
@@ -61,6 +66,7 @@ class DateField extends StatefulWidget {
     this.helperText,
     this.errorText,
     this.initialValue,
+    required this.datePattern,
     this.onChanged,
     this.validator,
     this.enabled = true,
@@ -107,6 +113,8 @@ class _DateFieldState extends State<DateField> {
     if (oldWidget.initialValue != widget.initialValue) {
       _parseInitialValue();
       _updateDisplayValue();
+    } else if (oldWidget.datePattern != widget.datePattern) {
+      _updateDisplayValue();
     }
   }
 
@@ -137,7 +145,8 @@ class _DateFieldState extends State<DateField> {
     if (_selectedDate != null) {
       final loc = AppLocalizations.of(context)!;
       final localeName = loc.localeName;
-      _displayValue = DateFormat.yMd(localeName).format(_selectedDate!);
+      _displayValue =
+          DateFormat(widget.datePattern, localeName).format(_selectedDate!);
       _controller.text = _displayValue!;
     } else {
       _displayValue = null;

@@ -4,6 +4,7 @@ import 'package:coffee_timer/models/coffee_beans_model.dart';
 import 'package:coffee_timer/providers/coffee_beans_provider.dart';
 import 'package:coffee_timer/providers/user_stat_provider.dart';
 import 'package:coffee_timer/screens/new_beans_screen.dart';
+import 'package:coffee_timer/services/date_time_format_service.dart';
 import 'package:coffee_timer/services/photo_library_service.dart';
 import 'dart:async';
 
@@ -113,6 +114,9 @@ void main() {
           ),
           ChangeNotifierProvider<UserStatProvider>.value(
             value: userStatProvider,
+          ),
+          ChangeNotifierProvider<DateTimeFormatService>(
+            create: (_) => DateTimeFormatService(),
           ),
         ],
         child: MaterialApp(
@@ -268,7 +272,10 @@ void main() {
       expect(find.text(loc.roastDateConfirmPrompt('3/2024')), findsNWidgets(2));
 
       // The parsed date itself is retained in the field, not cleared.
-      final expectedDisplay = DateFormat.yMd('en').format(DateTime(2026, 3, 1));
+      final expectedDisplay = DateFormat(
+        loc.dateFormat,
+        loc.localeName,
+      ).format(DateTime(2026, 3, 1));
       expect(find.text(expectedDisplay), findsOneWidget);
 
       // The attention's action scrolls the existing DatesCard into view.
@@ -365,7 +372,10 @@ void main() {
       expect(find.bySemanticsIdentifier('scanReviewSection'), findsNothing);
       expect(
         find.text(
-          DateFormat.yMd('en').format(DateTime.now().copyWith(day: 15)),
+          DateFormat(
+            loc.dateFormat,
+            loc.localeName,
+          ).format(DateTime.now().copyWith(day: 15)),
         ),
         findsOneWidget,
       );
@@ -419,7 +429,10 @@ void main() {
         'roastDate': '2026-03-01T00:00:00.000',
       },
     );
-    final expectedDisplay = DateFormat.yMd('en').format(DateTime(2026, 3, 1));
+    final expectedDisplay = DateFormat(
+      loc.dateFormat,
+      loc.localeName,
+    ).format(DateTime(2026, 3, 1));
     expect(find.text(expectedDisplay), findsOneWidget);
 
     controller.data(<String, dynamic>{

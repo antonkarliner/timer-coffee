@@ -61,7 +61,11 @@ void main() {
 
   testWidgets('DateField exposes its semantic identifier once', (tester) async {
     await tester.pumpWidget(
-      host(const DateField(label: 'Date', semanticIdentifier: 'myDateField')),
+      host(const DateField(
+        label: 'Date',
+        datePattern: 'MMM d, yyyy',
+        semanticIdentifier: 'myDateField',
+      )),
     );
 
     expect(find.bySemanticsIdentifier('myDateField'), findsOneWidget);
