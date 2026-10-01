@@ -1,6 +1,7 @@
 import 'package:coffee_timer/database/database.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/screens/settings/settings_notifications_screen.dart';
+import 'package:coffee_timer/services/date_time_format_service.dart';
 import 'package:coffee_timer/services/onboarding_service.dart';
 import 'package:coffee_timer/widgets/app_switch_list_tile.dart';
 import 'package:coffee_timer/widgets/settings/debug_notification_panel.dart';
@@ -22,6 +23,7 @@ import '../../helpers/test_database.dart';
 /// and are covered on-device.
 void main() {
   late AppDatabase database;
+  late DateTimeFormatService dateTimeFormatService;
   late OnboardingService onboarding;
   late SharedPreferences prefs;
 
@@ -29,17 +31,22 @@ void main() {
     SharedPreferences.setMockInitialValues({});
     prefs = await SharedPreferences.getInstance();
     database = openTestDatabase();
+    dateTimeFormatService = DateTimeFormatService();
     onboarding = OnboardingService(prefs);
   });
 
   tearDown(() async {
     await database.close();
+    dateTimeFormatService.dispose();
     onboarding.dispose();
   });
 
   Widget app() => MultiProvider(
         providers: [
           Provider<AppDatabase>.value(value: database),
+          ChangeNotifierProvider<DateTimeFormatService>.value(
+            value: dateTimeFormatService,
+          ),
           ChangeNotifierProvider<OnboardingService>.value(value: onboarding),
         ],
         child: MaterialApp(

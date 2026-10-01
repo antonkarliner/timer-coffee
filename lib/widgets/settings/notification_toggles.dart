@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:intl/intl.dart';
 
 import '../app_switch_list_tile.dart';
 
@@ -17,6 +18,7 @@ class NotificationToggles extends StatelessWidget {
     super.key,
     required this.morningReminderEnabled,
     required this.morningReminderTime,
+    required this.use24HourFormat,
     required this.weeklySummaryEnabled,
     required this.beanFreshnessEnabled,
     required this.onMorningChanged,
@@ -29,6 +31,12 @@ class NotificationToggles extends StatelessWidget {
 
   final bool morningReminderEnabled;
   final TimeOfDay morningReminderTime;
+
+  /// Resolved by the caller through `DateTimeFormatService.use24Hour`, per
+  /// CLAUDE.md "Date/Time Formatting"; this widget has no provider lookup so
+  /// it stays pumpable in tests.
+  final bool use24HourFormat;
+
   final bool weeklySummaryEnabled;
   final bool beanFreshnessEnabled;
 
@@ -62,7 +70,15 @@ class NotificationToggles extends StatelessWidget {
       MorningTimeSlot(
         visible: morningReminderEnabled,
         label: l10n.settingsMorningReminderTime,
-        formattedTime: morningReminderTime.format(context),
+        formattedTime: DateFormat(use24HourFormat ? 'HH:mm' : 'hh:mm a').format(
+          DateTime(
+            2000,
+            1,
+            1,
+            morningReminderTime.hour,
+            morningReminderTime.minute,
+          ),
+        ),
         onTap: onPickMorningTime,
       ),
       AppSwitchListTile(

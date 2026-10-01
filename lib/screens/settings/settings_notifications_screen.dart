@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../../controllers/settings_controller.dart';
 import '../../database/database.dart';
 import '../../l10n/app_localizations.dart';
+import '../../services/date_time_format_service.dart';
 import '../../services/notification_settings_service.dart';
 import '../../services/onboarding_service.dart';
 import '../../theme/design_tokens.dart';
@@ -149,10 +150,15 @@ class _SettingsNotificationsScreenState
     // through it directly keeps the page constructible in widget tests,
     // where NotificationService.initialize() cannot run.
     final notificationSettings = NotificationSettingsService.instance;
+    final fmtSvc = Provider.of<DateTimeFormatService>(context);
+    final is24h = fmtSvc.use24Hour(
+      MediaQuery.of(context).alwaysUse24HourFormat,
+    );
 
     return NotificationToggles(
       morningReminderEnabled: _controller.morningReminderEnabled,
       morningReminderTime: _controller.morningReminderTime,
+      use24HourFormat: is24h,
       weeklySummaryEnabled: _controller.weeklySummaryEnabled,
       beanFreshnessEnabled: _controller.beanFreshnessEnabled,
       beanReviewNudgeEnabled: _controller.beanReviewNudgeEnabled,

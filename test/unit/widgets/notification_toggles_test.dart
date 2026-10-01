@@ -6,13 +6,16 @@ import 'package:coffee_timer/widgets/settings/notification_toggles.dart';
 
 NotificationToggles _toggles({
   bool morning = false,
+  bool use24HourFormat = false,
+  TimeOfDay time = const TimeOfDay(hour: 8, minute: 30),
   bool? beanReview = true,
   ValueChanged<bool>? onMorning,
   ValueChanged<bool>? onBeanReview,
 }) {
   return NotificationToggles(
     morningReminderEnabled: morning,
-    morningReminderTime: const TimeOfDay(hour: 8, minute: 30),
+    morningReminderTime: time,
+    use24HourFormat: use24HourFormat,
     weeklySummaryEnabled: false,
     beanFreshnessEnabled: false,
     onMorningChanged: onMorning ?? (_) {},
@@ -66,7 +69,39 @@ void main() {
     // On: same slot type at the same tree position, now showing the row.
     expect(find.byType(MorningTimeSlot), findsOneWidget);
     expect(find.text('Reminder time'), findsOneWidget);
-    expect(find.text('8:30 AM'), findsOneWidget);
+    expect(find.text('08:30 AM'), findsOneWidget);
+  });
+
+  testWidgets('formats the morning time in 24-hour format', (tester) async {
+    await tester.pumpWidget(
+      _app(_toggles(morning: true, use24HourFormat: true)),
+    );
+
+    expect(find.text('08:30'), findsOneWidget);
+  });
+
+  testWidgets('formats an afternoon time in 12-hour format', (tester) async {
+    await tester.pumpWidget(
+      _app(
+        _toggles(morning: true, time: const TimeOfDay(hour: 20, minute: 15)),
+      ),
+    );
+
+    expect(find.text('08:15 PM'), findsOneWidget);
+  });
+
+  testWidgets('formats an afternoon time in 24-hour format', (tester) async {
+    await tester.pumpWidget(
+      _app(
+        _toggles(
+          morning: true,
+          use24HourFormat: true,
+          time: const TimeOfDay(hour: 20, minute: 15),
+        ),
+      ),
+    );
+
+    expect(find.text('20:15'), findsOneWidget);
   });
 
   testWidgets('tapping the morning switch fires onMorningChanged',
