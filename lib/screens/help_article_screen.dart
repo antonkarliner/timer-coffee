@@ -11,6 +11,7 @@ import '../models/help_models.dart';
 import '../providers/database_provider.dart';
 import '../theme/design_tokens.dart';
 import '../widgets/base_buttons.dart';
+import '../widgets/markdown/app_markdown_style.dart';
 import '../widgets/smart_back_button.dart';
 
 @RoutePage()
@@ -115,34 +116,7 @@ class _HelpArticleScreenState extends State<HelpArticleScreen> {
         AppSpacing.base,
         AppSpacing.lg,
       ),
-      styleSheet: MarkdownStyleSheet.fromTheme(theme).copyWith(
-        a: AppTextStyles.body.copyWith(
-          color: theme.colorScheme.primary,
-          decoration: TextDecoration.underline,
-          decorationColor: theme.colorScheme.primary,
-        ),
-        p: AppTextStyles.body.copyWith(height: 1.5),
-        pPadding: const EdgeInsets.only(bottom: AppSpacing.sm),
-        h1: AppTextStyles.headline,
-        h1Padding: const EdgeInsets.only(
-          top: AppSpacing.sm,
-          bottom: AppSpacing.base,
-        ),
-        h2: AppTextStyles.title,
-        h2Padding: const EdgeInsets.only(
-          top: AppSpacing.base,
-          bottom: AppSpacing.sm,
-        ),
-        h3: AppTextStyles.fieldLabel,
-        h3Padding: const EdgeInsets.only(
-          top: AppSpacing.sm,
-          bottom: AppSpacing.xs,
-        ),
-        blockSpacing: AppSpacing.base,
-        listIndent: AppSpacing.lg,
-        listBullet: AppTextStyles.body,
-        listBulletPadding: const EdgeInsets.only(right: AppSpacing.sm),
-      ),
+      styleSheet: appMarkdownStyleSheet(theme),
       softLineBreak: true,
       onTapLink: (text, href, title) => _onTapLink(href),
       sizedImageBuilder: (config) {

@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:coffee_timer/app_router.gr.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:coffee_timer/models/brew_step_model.dart';
 import 'package:coffee_timer/models/brewing_method_model.dart';
+import 'package:coffee_timer/models/recipe_model.dart';
 import 'package:coffee_timer/providers/recipe_provider.dart';
 import 'package:coffee_timer/providers/theme_provider.dart';
 import 'package:coffee_timer/services/analytics_service.dart';
@@ -31,6 +33,25 @@ void main() {
     BrewingMethodModel(brewingMethodId: 'v60', brewingMethod: 'V60'),
     BrewingMethodModel(brewingMethodId: 'chemex', brewingMethod: 'Chemex'),
   ];
+
+  RecipeModel recipeFor(String methodId) => RecipeModel(
+    id: 'recipe-$methodId',
+    name: 'Recipe',
+    brewingMethodId: methodId,
+    coffeeAmount: 15,
+    waterAmount: 250,
+    grindSize: 'medium',
+    brewTime: const Duration(minutes: 3),
+    shortDescription: '',
+    steps: [
+      BrewStepModel(
+        id: 'step-1',
+        order: 1,
+        description: 'Bloom',
+        time: const Duration(seconds: 45),
+      ),
+    ],
+  );
 
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
@@ -130,6 +151,7 @@ void main() {
   testWidgets('the show-or-hide row is the last row of the method list', (
     tester,
   ) async {
+    when(recipeProvider.recipes).thenReturn([recipeFor('v60')]);
     await pumpApp(tester);
 
     final showHideRow = find.bySemanticsIdentifier('brewMethodsShowOrHideRow');
@@ -158,6 +180,7 @@ void main() {
   testWidgets('tapping it pushes the Home screen page and reports once', (
     tester,
   ) async {
+    when(recipeProvider.recipes).thenReturn([recipeFor('v60')]);
     final router = await pumpApp(tester);
     final eventsBefore =
         AnalyticsService.instance.bufferedEventsForTesting.length;
@@ -175,6 +198,50 @@ void main() {
       'source': ShortcutSource.brewMethodList.wireName,
       'target': SettingsTarget.homeScreen.wireName,
     });
+  });
+
+  testWidgets('the row is absent until recipes load', (tester) async {
+    await pumpApp(tester);
+
+    expect(
+      find.bySemanticsIdentifier('brewMethodsShowOrHideRow'),
+      findsNothing,
+    );
+
+    when(recipeProvider.recipes).thenReturn([recipeFor('v60')]);
+    await pumpApp(tester);
+
+    expect(
+      find.bySemanticsIdentifier('brewMethodsShowOrHideRow'),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('the row remains when every method is hidden', (tester) async {
+    when(recipeProvider.recipes).thenReturn([recipeFor('v60')]);
+    when(
+      recipeProvider.shownBrewingMethodIds,
+    ).thenReturn(ValueNotifier<Set<String>>({}));
+    when(
+      recipeProvider.hiddenBrewingMethodIds,
+    ).thenReturn(ValueNotifier<Set<String>>({'v60', 'chemex'}));
+
+    await pumpApp(tester);
+
+    expect(find.bySemanticsIdentifier('brewingMethod_v60'), findsNothing);
+    expect(find.bySemanticsIdentifier('brewingMethod_chemex'), findsNothing);
+    expect(
+      find.bySemanticsIdentifier('brewMethodsShowOrHideRow'),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('the row title has no explicit colour', (tester) async {
+    when(recipeProvider.recipes).thenReturn([recipeFor('v60')]);
+    await pumpApp(tester);
+
+    final title = tester.widget<Text>(find.text('Show or hide methods'));
+    expect(title.style?.color, isNull);
   });
 }
 

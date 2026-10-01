@@ -122,21 +122,22 @@ class _BrewingMethodsScreenState extends State<BrewingMethodsScreen> {
                     // screen. It lives inside this same padded sliver so it
                     // stays above the nav bar.
                     if (index == filteredBrewingMethods.length) {
+                      // Before recipes load no method passes the filter, so
+                      // the row would render alone on a cold start.
+                      if (recipeProvider.recipes.isEmpty) {
+                        return const SizedBox.shrink();
+                      }
                       final l10n = AppLocalizations.of(context)!;
-                      final onSurfaceVariant =
-                          Theme.of(context).colorScheme.onSurfaceVariant;
                       return Semantics(
                         identifier: 'brewMethodsShowOrHideRow',
                         child: ListTile(
-                          leading: Icon(
-                            Icons.tune,
-                            color: onSurfaceVariant,
-                          ),
+                          leading: const Icon(Icons.tune),
                           title: Text(
                             l10n.brewMethodsShowOrHide,
-                            // Visually secondary to the method rows (which
-                            // are w600): default weight, muted colour.
-                            style: TextStyle(color: onSurfaceVariant),
+                            // The default weight keeps it secondary to the
+                            // w600 method rows. No colour override:
+                            // onSurfaceVariant is as dark as onSurface in
+                            // this app's schemes.
                           ),
                           onTap: () {
                             SettingsAnalytics.shortcutTapped(
