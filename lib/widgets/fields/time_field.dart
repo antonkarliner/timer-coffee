@@ -9,8 +9,8 @@ import 'labeled_field.dart';
 ///
 /// Mirrors [DateField] in structure and styling. Displays as a read-only field
 /// with a clock icon that opens a custom scroll-wheel time picker dialog when
-/// tapped. Respects the supplied 24h/12h format preference, falling back to the
-/// device preference when none is supplied.
+/// tapped. The caller resolves the supplied 24h/12h format preference through
+/// `DateTimeFormatService`.
 class TimeField extends StatefulWidget {
   /// The label text displayed above the field
   final String label;
@@ -36,10 +36,8 @@ class TimeField extends StatefulWidget {
   /// Whether to use 24-hour time.
   ///
   /// Callers should resolve this through `DateTimeFormatService.use24Hour` as
-  /// described in CLAUDE.md's Date/Time Formatting section. A `null` value
-  /// falls back to the device setting for now; this becomes required once every
-  /// caller passes it.
-  final bool? use24HourFormat;
+  /// described in CLAUDE.md's Date/Time Formatting section.
+  final bool use24HourFormat;
 
   const TimeField({
     super.key,
@@ -50,7 +48,7 @@ class TimeField extends StatefulWidget {
     this.initialValue,
     this.onChanged,
     this.enabled = true,
-    this.use24HourFormat,
+    required this.use24HourFormat,
   });
 
   @override
@@ -93,12 +91,9 @@ class _TimeFieldState extends State<TimeField> {
 
   void _updateDisplayValue() {
     if (_selectedTime != null) {
-      final is24h =
-          widget.use24HourFormat ??
-          MediaQuery.of(context).alwaysUse24HourFormat;
       final time = _selectedTime!;
       _controller.text = DateFormat(
-        is24h ? 'HH:mm' : 'hh:mm a',
+        widget.use24HourFormat ? 'HH:mm' : 'hh:mm a',
         Localizations.localeOf(context).toString(),
       ).format(DateTime(2000, 1, 1, time.hour, time.minute));
     } else {
@@ -192,7 +187,7 @@ class _TimeFieldState extends State<TimeField> {
 Future<TimeOfDay?> showAppTimePicker({
   required BuildContext context,
   required TimeOfDay initialTime,
-  bool? use24HourFormat,
+  required bool use24HourFormat,
 }) {
   return showDialog<TimeOfDay>(
     context: context,
@@ -210,9 +205,12 @@ Future<TimeOfDay?> showAppTimePicker({
 
 class _TimePickerDialog extends StatefulWidget {
   final TimeOfDay initialTime;
-  final bool? use24HourFormat;
+  final bool use24HourFormat;
 
-  const _TimePickerDialog({required this.initialTime, this.use24HourFormat});
+  const _TimePickerDialog({
+    required this.initialTime,
+    required this.use24HourFormat,
+  });
 
   @override
   State<_TimePickerDialog> createState() => _TimePickerDialogState();
@@ -233,10 +231,7 @@ class _TimePickerDialogState extends State<_TimePickerDialog> {
     _hour = widget.initialTime.hour;
     _minute = widget.initialTime.minute;
     _isAm = _hour < 12;
-    // Use platform dispatcher for the fallback in initState (no context needed).
-    _use24h =
-        widget.use24HourFormat ??
-        WidgetsBinding.instance.platformDispatcher.alwaysUse24HourFormat;
+    _use24h = widget.use24HourFormat;
     final displayHour = _use24h
         ? _hour
         : (_hour == 0
@@ -248,15 +243,6 @@ class _TimePickerDialogState extends State<_TimePickerDialog> {
       initialItem: _use24h ? _hour : (displayHour - 1),
     );
     _minuteController = FixedExtentScrollController(initialItem: _minute);
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // Update the fallback for rendering; controllers are NOT recreated.
-    if (widget.use24HourFormat == null) {
-      _use24h = MediaQuery.of(context).alwaysUse24HourFormat;
-    }
   }
 
   @override

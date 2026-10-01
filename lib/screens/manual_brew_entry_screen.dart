@@ -16,6 +16,7 @@ import '../theme/design_tokens.dart';
 import '../widgets/base_buttons.dart';
 import '../widgets/roaster_logo.dart';
 import '../services/roaster_logo_service.dart';
+import '../services/date_time_format_service.dart';
 import '../widgets/unsaved_changes_dialog.dart';
 import '../widgets/fields/chip_input.dart';
 import '../widgets/fields/date_field.dart';
@@ -444,6 +445,9 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
+    final fmtSvc = Provider.of<DateTimeFormatService>(context);
+    // The aspect lookup keeps keyboard insets from rebuilding the whole form.
+    final is24h = fmtSvc.use24Hour(MediaQuery.alwaysUse24HourFormatOf(context));
 
     return PopScope(
       canPop: !_hasUnsavedChanges,
@@ -645,6 +649,7 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
                                   label: loc.brewTime,
                                   initialValue: _selectedTime,
                                   onChanged: _onTimeChanged,
+                                  use24HourFormat: is24h,
                                 ),
                               ),
                             ],

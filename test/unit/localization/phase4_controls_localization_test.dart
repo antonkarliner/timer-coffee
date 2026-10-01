@@ -226,6 +226,7 @@ void main() {
           child: TimeField(
             label: 'time',
             initialValue: TimeOfDay(hour: 9, minute: 5),
+            use24HourFormat: false,
           ),
         ),
         locale: const Locale('zh'),

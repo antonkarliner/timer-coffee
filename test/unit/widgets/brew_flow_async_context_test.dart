@@ -85,8 +85,13 @@ void main() {
     ).thenAnswer((_) => methods.future);
 
     await tester.pumpWidget(
-      Provider<AppDatabase>.value(
-        value: database,
+      MultiProvider(
+        providers: [
+          Provider<AppDatabase>.value(value: database),
+          ChangeNotifierProvider<DateTimeFormatService>(
+            create: (_) => DateTimeFormatService(),
+          ),
+        ],
         child: localizedApp(const ManualBrewEntryScreen()),
       ),
     );

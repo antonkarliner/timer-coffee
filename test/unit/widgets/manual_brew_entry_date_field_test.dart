@@ -6,6 +6,7 @@ import 'package:coffee_timer/providers/coffee_beans_provider.dart';
 import 'package:coffee_timer/providers/recipe_provider.dart';
 import 'package:coffee_timer/providers/user_stat_provider.dart';
 import 'package:coffee_timer/screens/manual_brew_entry_screen.dart';
+import 'package:coffee_timer/services/date_time_format_service.dart';
 import 'package:coffee_timer/widgets/fields/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -107,6 +108,9 @@ void main() {
             ),
             ChangeNotifierProvider<CoffeeBeansProvider>.value(
               value: coffeeBeansProvider,
+            ),
+            ChangeNotifierProvider<DateTimeFormatService>(
+              create: (_) => DateTimeFormatService(),
             ),
           ],
           child: localizedApp(const ManualBrewEntryScreen()),
