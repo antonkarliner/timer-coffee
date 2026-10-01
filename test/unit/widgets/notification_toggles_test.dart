@@ -27,10 +27,10 @@ NotificationToggles _toggles({
   );
 }
 
-Widget _app(Widget child) => MaterialApp(
+Widget _app(Widget child, {Locale locale = const Locale('en')}) => MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: const Locale('en'),
+      locale: locale,
       home: Scaffold(body: child),
     );
 
@@ -102,6 +102,18 @@ void main() {
     );
 
     expect(find.text('20:15'), findsOneWidget);
+  });
+
+  testWidgets('writes the 12-hour day period in the app language',
+      (tester) async {
+    await tester.pumpWidget(
+      _app(
+        _toggles(morning: true, time: const TimeOfDay(hour: 20, minute: 15)),
+        locale: const Locale('zh'),
+      ),
+    );
+
+    expect(find.text('08:15 下午'), findsOneWidget);
   });
 
   testWidgets('tapping the morning switch fires onMorningChanged',

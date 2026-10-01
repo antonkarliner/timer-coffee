@@ -215,9 +215,14 @@ class _SettingsNotificationsScreenState
     final database = Provider.of<AppDatabase>(context, listen: false);
     final onboarding = Provider.of<OnboardingService>(context, listen: false);
     final locale = Localizations.localeOf(context).languageCode;
+    final fmtSvc = Provider.of<DateTimeFormatService>(context, listen: false);
+    final is24h = fmtSvc.use24Hour(
+      MediaQuery.of(context).alwaysUse24HourFormat,
+    );
     final picked = await showAppTimePicker(
       context: context,
       initialTime: _controller.morningReminderTime,
+      use24HourFormat: is24h,
     );
     if (picked == null) return;
     await _controller.updateMorningReminderTime(

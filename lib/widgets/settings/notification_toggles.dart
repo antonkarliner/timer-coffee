@@ -70,15 +70,19 @@ class NotificationToggles extends StatelessWidget {
       MorningTimeSlot(
         visible: morningReminderEnabled,
         label: l10n.settingsMorningReminderTime,
-        formattedTime: DateFormat(use24HourFormat ? 'HH:mm' : 'hh:mm a').format(
-          DateTime(
-            2000,
-            1,
-            1,
-            morningReminderTime.hour,
-            morningReminderTime.minute,
-          ),
-        ),
+        formattedTime:
+            DateFormat(
+              use24HourFormat ? 'HH:mm' : 'hh:mm a',
+              Localizations.localeOf(context).toString(),
+            ).format(
+              DateTime(
+                2000,
+                1,
+                1,
+                morningReminderTime.hour,
+                morningReminderTime.minute,
+              ),
+            ),
         onTap: onPickMorningTime,
       ),
       AppSwitchListTile(
