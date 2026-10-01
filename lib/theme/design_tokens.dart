@@ -214,6 +214,12 @@ class AppTextStyles {
     fontWeight: FontWeight.w500,
   );
 
+  /// Item title (16px, 600 weight) — list and Settings row titles, Hub tiles
+  static const TextStyle itemTitle = TextStyle(
+    fontSize: 16.0,
+    fontWeight: FontWeight.w600,
+  );
+
   /// Body/helper text style (16px, 400 weight) - Increased for better readability
   static const TextStyle body = TextStyle(
     fontSize: 16.0,

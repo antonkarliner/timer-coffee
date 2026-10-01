@@ -44,30 +44,50 @@ class AppSwitchListTile extends StatelessWidget {
               ),
             )
           : null,
-      trailing: AnimatedToggleSwitch<bool>.dual(
-        current: value,
-        first: false,
-        second: true,
-        height: 30,
-        spacing: 5,
-        indicatorSize: const Size(22, 22),
-        borderWidth: 1.5,
-        // Horizontal gap between thumb and track edge; vertical kept tight.
-        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-        styleBuilder: (v) => ToggleStyle(
-          // Track: transparent + outline when off, primary filled when on
-          backgroundColor: v ? colorScheme.primary : Colors.transparent,
-          borderColor: v ? colorScheme.primary : colorScheme.outline,
-          // Thumb: white when on, muted when off
-          indicatorColor: v
-              ? colorScheme.onPrimary
-              : colorScheme.outlineVariant,
-          borderRadius: BorderRadius.circular(15),
-          indicatorBorderRadius: BorderRadius.circular(11),
-        ),
-        onChanged: onChanged != null ? (v) => onChanged!(v) : null,
-      ),
+      trailing: AppToggleSwitch(value: value, onChanged: onChanged),
       onTap: onChanged != null ? () => onChanged!(!value) : null,
+    );
+  }
+}
+
+/// The app's toggle, shared by [AppSwitchListTile] and the Settings switch
+/// rows so both look and behave the same.
+class AppToggleSwitch extends StatelessWidget {
+  final bool value;
+  final ValueChanged<bool>? onChanged;
+
+  const AppToggleSwitch({
+    super.key,
+    required this.value,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return AnimatedToggleSwitch<bool>.dual(
+      current: value,
+      first: false,
+      second: true,
+      height: 30,
+      spacing: 5,
+      indicatorSize: const Size(22, 22),
+      borderWidth: 1.5,
+      // Horizontal gap between thumb and track edge; vertical kept tight.
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+      styleBuilder: (v) => ToggleStyle(
+        // Track: transparent + outline when off, primary filled when on
+        backgroundColor: v ? colorScheme.primary : Colors.transparent,
+        borderColor: v ? colorScheme.primary : colorScheme.outline,
+        // Thumb: white when on, muted when off
+        indicatorColor: v
+            ? colorScheme.onPrimary
+            : colorScheme.outlineVariant,
+        borderRadius: BorderRadius.circular(15),
+        indicatorBorderRadius: BorderRadius.circular(11),
+      ),
+      onChanged: onChanged != null ? (v) => onChanged!(v) : null,
     );
   }
 }
