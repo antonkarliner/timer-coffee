@@ -91,7 +91,7 @@ void main() {
       'false for an anonymous session', (tester) async {
     await pumpSection(tester);
 
-    await tester.tap(find.text('Export my data'));
+    await tester.tap(find.text('Export your data'));
     await tester.pumpAndSettle();
 
     final started = eventsNamed('data_export_started');
@@ -109,7 +109,7 @@ void main() {
       'the address itself', (tester) async {
     await pumpSection(tester);
 
-    await tester.tap(find.text('Export my data'));
+    await tester.tap(find.text('Export your data'));
     await tester.pumpAndSettle();
 
     // The dialog's field is the only TextField on screen.

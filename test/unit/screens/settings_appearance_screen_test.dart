@@ -58,7 +58,7 @@ void main() {
     expect(find.bySemanticsIdentifier('settingsSnowSwitch'), findsOneWidget);
     // The icon API is unavailable in the test environment, so the whole
     // section (header included) stays hidden.
-    expect(find.text('App Icon'), findsNothing);
+    expect(find.text('App icon'), findsNothing);
     expect(find.bySemanticsIdentifier('appIconDefaultTile'), findsNothing);
     expect(find.bySemanticsIdentifier('appIconLegacyTile'), findsNothing);
   });

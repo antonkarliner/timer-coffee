@@ -80,7 +80,8 @@ void main() {
     // identifier does not exist (an empty slot produces no semantics node).
     expect(find.bySemanticsIdentifier('notificationsPermissionBanner'),
         findsNothing);
-    expect(find.text('Disabled in system settings'), findsNothing);
+    expect(find.text('Notifications are off in system settings'),
+        findsNothing);
 
     // Debug builds render the debug panel slot.
     expect(find.byType(DebugNotificationPanel), findsOneWidget);

@@ -79,13 +79,13 @@ void main() {
 
     expect(find.byType(DataExportSection), findsOneWidget);
     expect(find.bySemanticsIdentifier('dataExportListTile'), findsOneWidget);
-    expect(find.text('Export my data'), findsOneWidget);
+    expect(find.text('Export your data'), findsOneWidget);
 
     expect(
       find.bySemanticsIdentifier('settingsPrivacyPolicyRow'),
       findsOneWidget,
     );
-    expect(find.text('Privacy Policy'), findsOneWidget);
+    expect(find.text('Privacy policy'), findsOneWidget);
     expect(allEvents(), isEmpty);
   });
 
@@ -167,7 +167,7 @@ void main() {
     await tester.pumpWidget(app());
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('Privacy Policy'));
+    await tester.tap(find.text('Privacy policy'));
     await tester.pumpAndSettle();
 
     expect(tester.takeException(), isNull);
@@ -177,7 +177,7 @@ void main() {
     expect(
       find.descendant(
         of: find.byType(AppBar),
-        matching: find.text('Privacy Policy'),
+        matching: find.text('Privacy policy'),
       ),
       findsOneWidget,
     );

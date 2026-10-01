@@ -158,7 +158,7 @@ void main() {
       findsOneWidget,
     );
     expect(find.text('Brewing'), findsOneWidget);
-    expect(find.text('Home Screen'), findsOneWidget);
+    expect(find.text('Home screen'), findsOneWidget);
     expect(find.text('Notifications'), findsOneWidget);
     expect(find.text('Appearance'), findsOneWidget);
     expect(find.text('Language & region'), findsOneWidget);
@@ -202,7 +202,7 @@ void main() {
 
   testWidgets('appearance subtitle shows the theme label', (tester) async {
     await pumpRoot(tester);
-    expect(find.text('System'), findsOneWidget);
+    expect(find.text('Automatic'), findsOneWidget);
 
     await pumpRoot(tester, themeMode: ThemeMode.dark);
     expect(find.text('Dark'), findsOneWidget);
