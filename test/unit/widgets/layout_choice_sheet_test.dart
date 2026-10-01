@@ -1,7 +1,11 @@
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:coffee_timer/models/brew_step_model.dart';
+import 'package:coffee_timer/models/recipe_model.dart';
 import 'package:coffee_timer/services/layout_choice_prompt_service.dart';
+import 'package:coffee_timer/utils/recipe_step_resolution.dart';
 import 'package:coffee_timer/visual/color_schemes.dart';
 import 'package:coffee_timer/widgets/brewing/layout_choice_sheet.dart';
+import 'package:coffee_timer/widgets/brewing/layout_preview_cards.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -11,6 +15,65 @@ Finder _semanticsWithId(String identifier) => find.byWidgetPredicate(
 
 const _instruction = 'Pour 50 grams of water';
 const _nextInstruction = 'Wait for the drawdown';
+
+RecipeModel _recipe(
+  List<BrewStepModel> steps, {
+  double coffeeAmount = 18,
+  double waterAmount = 300,
+}) {
+  return RecipeModel(
+    id: 'recipe',
+    name: 'Test recipe',
+    brewingMethodId: 'method',
+    coffeeAmount: coffeeAmount,
+    waterAmount: waterAmount,
+    grindSize: 'Medium',
+    brewTime: const Duration(minutes: 3),
+    shortDescription: 'Test',
+    steps: steps,
+  );
+}
+
+Future<void> _pumpPreviewCards(
+  WidgetTester tester, {
+  required LayoutChoice current,
+  required ValueChanged<LayoutChoice> onSelected,
+  TextScaler textScaler = TextScaler.noScaling,
+}) async {
+  await tester.pumpWidget(
+    MaterialApp(
+      theme: ThemeData(colorScheme: lightColorScheme),
+      locale: const Locale('en'),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      builder: (context, child) => MediaQuery(
+        data: MediaQuery.of(context).copyWith(textScaler: textScaler),
+        child: child!,
+      ),
+      home: Scaffold(
+        body: Center(
+          child: SizedBox(
+            width: 390,
+            child: LayoutPreviewCards(
+              current: current,
+              onSelected: onSelected,
+              instruction: _instruction,
+              nextInstruction: _nextInstruction,
+              stepSeconds: 45,
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+BoxDecoration _cardDecoration(WidgetTester tester, Finder card) {
+  final semantics = tester.widget<Semantics>(card);
+  final inkWell = semantics.child! as InkWell;
+  final container = inkWell.child! as Container;
+  return container.decoration! as BoxDecoration;
+}
 
 /// Pumps a minimal app and opens the sheet from a button, recording what
 /// the sheet resolved with into [picked]. Pass a distinct [appKey] when
@@ -118,7 +181,7 @@ void main() {
       expect(picked, [LayoutChoice.classic]);
     });
 
-    testWidgets('the Current badge sits on the current card only', (
+    testWidgets('the selection check sits on the current card only', (
       tester,
     ) async {
       for (final current in LayoutChoice.values) {
@@ -143,11 +206,17 @@ void main() {
         );
 
         expect(
-          find.descendant(of: currentCard, matching: find.text('Current')),
+          find.descendant(
+            of: currentCard,
+            matching: find.byType(SelectionCheckBadge),
+          ),
           findsOneWidget,
         );
         expect(
-          find.descendant(of: otherCard, matching: find.text('Current')),
+          find.descendant(
+            of: otherCard,
+            matching: find.byType(SelectionCheckBadge),
+          ),
           findsNothing,
         );
       }
@@ -204,5 +273,140 @@ void main() {
         semantics.dispose();
       },
     );
+  });
+
+  group('LayoutPreviewCards', () {
+    testWidgets('tapping each card reports its layout choice', (tester) async {
+      final selected = <LayoutChoice>[];
+      await _pumpPreviewCards(
+        tester,
+        current: LayoutChoice.classic,
+        onSelected: selected.add,
+      );
+
+      await tester.tap(_semanticsWithId('layoutChoiceClassicCard'));
+      await tester.tap(_semanticsWithId('layoutChoiceImmersiveCard'));
+
+      expect(selected, [LayoutChoice.classic, LayoutChoice.pour]);
+    });
+
+    testWidgets('uses selected and unselected borders', (tester) async {
+      await _pumpPreviewCards(
+        tester,
+        current: LayoutChoice.pour,
+        onSelected: (_) {},
+      );
+
+      final classicDecoration = _cardDecoration(
+        tester,
+        _semanticsWithId('layoutChoiceClassicCard'),
+      );
+      final immersiveDecoration = _cardDecoration(
+        tester,
+        _semanticsWithId('layoutChoiceImmersiveCard'),
+      );
+      final classicBorder = classicDecoration.border! as Border;
+      final immersiveBorder = immersiveDecoration.border! as Border;
+
+      expect(classicBorder.top.color, lightColorScheme.outlineVariant);
+      expect(classicBorder.top.width, 1);
+      expect(immersiveBorder.top.color, lightColorScheme.primary);
+      expect(immersiveBorder.top.width, 2);
+    });
+
+    testWidgets('large text does not overflow or change card heights', (
+      tester,
+    ) async {
+      await _pumpPreviewCards(
+        tester,
+        current: LayoutChoice.classic,
+        onSelected: (_) {},
+        textScaler: const TextScaler.linear(1.3),
+      );
+
+      expect(tester.takeException(), isNull);
+      expect(
+        tester.getSize(_semanticsWithId('layoutChoiceClassicCard')).height,
+        tester.getSize(_semanticsWithId('layoutChoiceImmersiveCard')).height,
+      );
+    });
+  });
+
+  group('layoutPreviewStepsFor', () {
+    test('skips preparation steps with zero time', () {
+      final preview = layoutPreviewStepsFor(
+        _recipe([
+          BrewStepModel(
+            id: 'prep',
+            order: 1,
+            description: 'Prepare the brewer',
+            time: Duration.zero,
+          ),
+          BrewStepModel(
+            id: 'first',
+            order: 2,
+            description: 'First pour',
+            time: const Duration(seconds: 30),
+          ),
+          BrewStepModel(
+            id: 'second',
+            order: 3,
+            description: 'Second pour',
+            time: const Duration(seconds: 45),
+          ),
+        ]),
+      );
+
+      expect(preview.instruction, 'First pour');
+      expect(preview.nextInstruction, 'Second pour');
+      expect(preview.stepSeconds, 30);
+    });
+
+    test('has no next instruction with only one timed step', () {
+      final preview = layoutPreviewStepsFor(
+        _recipe([
+          BrewStepModel(
+            id: 'only',
+            order: 1,
+            description: 'Only pour',
+            time: const Duration(seconds: 20),
+          ),
+        ]),
+      );
+
+      expect(preview.nextInstruction, isNull);
+    });
+
+    test('returns an empty preview when there is no timed step', () {
+      final preview = layoutPreviewStepsFor(
+        _recipe([
+          BrewStepModel(
+            id: 'prep',
+            order: 1,
+            description: 'Prepare the brewer',
+            time: Duration.zero,
+          ),
+        ]),
+      );
+
+      expect(preview, (instruction: '', nextInstruction: null, stepSeconds: 0));
+    });
+
+    test('resolves final coffee and water amount placeholders', () {
+      final preview = layoutPreviewStepsFor(
+        _recipe([
+          BrewStepModel(
+            id: 'pour',
+            order: 1,
+            description:
+                'Use <final_coffee_amount>g coffee and '
+                '<final_water_amount>g water',
+            time: const Duration(seconds: 25),
+          ),
+        ]),
+      );
+
+      expect(preview.instruction, 'Use 18g coffee and 300g water');
+    });
   });
 }
