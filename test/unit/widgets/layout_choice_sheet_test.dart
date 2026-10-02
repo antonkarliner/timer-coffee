@@ -4,8 +4,10 @@ import 'package:coffee_timer/models/recipe_model.dart';
 import 'package:coffee_timer/services/layout_choice_prompt_service.dart';
 import 'package:coffee_timer/utils/recipe_step_resolution.dart';
 import 'package:coffee_timer/visual/color_schemes.dart';
+import 'package:coffee_timer/widgets/brewing/brew_timer_ring.dart';
 import 'package:coffee_timer/widgets/brewing/layout_choice_sheet.dart';
 import 'package:coffee_timer/widgets/brewing/layout_preview_cards.dart';
+import 'package:coffee_timer/widgets/brewing/localized_number_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -39,6 +41,7 @@ Future<void> _pumpPreviewCards(
   required LayoutChoice current,
   required ValueChanged<LayoutChoice> onSelected,
   TextScaler textScaler = TextScaler.noScaling,
+  int stepSeconds = 45,
 }) async {
   await tester.pumpWidget(
     MaterialApp(
@@ -59,7 +62,7 @@ Future<void> _pumpPreviewCards(
               onSelected: onSelected,
               instruction: _instruction,
               nextInstruction: _nextInstruction,
-              stepSeconds: 45,
+              stepSeconds: stepSeconds,
             ),
           ),
         ),
@@ -264,7 +267,7 @@ void main() {
         expect(
           find.bySemanticsIdentifier(
             RegExp(
-              'brewingStepDescription|brewingStepsContent|stepTimeCounter|brewPausedIndicator|circularProgressIndicator',
+              'brewingStepDescription|brewingStepsContent|stepTimeCounter|brewPausedIndicator|circularProgressIndicator|localizedNumberText_',
             ),
           ),
           findsNothing,
@@ -276,6 +279,56 @@ void main() {
   });
 
   group('LayoutPreviewCards', () {
+    for (final sample in [
+      (seconds: 10, elapsed: 4),
+      (seconds: 30, elapsed: 11),
+      (seconds: 0, elapsed: 0),
+    ]) {
+      testWidgets('both cards show ${sample.elapsed}/${sample.seconds}', (
+        tester,
+      ) async {
+        await _pumpPreviewCards(
+          tester,
+          current: LayoutChoice.classic,
+          onSelected: (_) {},
+          stepSeconds: sample.seconds,
+        );
+
+        expect(tester.takeException(), isNull);
+        for (final identifier in [
+          'layoutChoiceClassicCard',
+          'layoutChoiceImmersiveCard',
+        ]) {
+          // The immersive view paints its countdown twice (dry, and clipped
+          // to the liquid), so a card holds one or two copies — all equal.
+          final countdown = find.descendant(
+            of: _semanticsWithId(identifier),
+            matching: find.byType(LocalizedNumberText),
+          );
+          expect(countdown, findsWidgets);
+          for (final numberText in tester.widgetList<LocalizedNumberText>(
+            countdown,
+          )) {
+            expect(numberText.currentNumber, sample.elapsed);
+            expect(numberText.totalNumber, sample.seconds);
+          }
+          expect(
+            find.descendant(
+              of: countdown.first,
+              matching: find.text('${sample.elapsed}/${sample.seconds}'),
+            ),
+            findsOneWidget,
+          );
+        }
+        if (sample.seconds == 10) {
+          expect(
+            tester.widget<BrewTimerRing>(find.byType(BrewTimerRing)).progress,
+            0.4,
+          );
+        }
+      });
+    }
+
     testWidgets('tapping each card reports its layout choice', (tester) async {
       final selected = <LayoutChoice>[];
       await _pumpPreviewCards(

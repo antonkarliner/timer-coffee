@@ -32,35 +32,10 @@ import '../services/recipe_expression_service.dart';
 import '../theme/design_tokens.dart';
 import '../visual/color_schemes.dart';
 import '../widgets/brewing/brew_timer_ring.dart';
+import '../widgets/brewing/localized_number_text.dart';
 import '../widgets/brewing/next_step_preview.dart';
 import '../widgets/brewing/pour_brewing_view.dart';
 import '../widgets/brewing/pour_surface.dart';
-
-class LocalizedNumberText extends StatelessWidget {
-  final int currentNumber;
-  final int totalNumber;
-  final TextStyle? style;
-
-  const LocalizedNumberText({
-    super.key,
-    required this.currentNumber,
-    required this.totalNumber,
-    this.style,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    var isRTL = Directionality.of(context) == TextDirection.rtl;
-    var formattedText = isRTL
-        ? '${intl.NumberFormat().format(currentNumber)}\\${intl.NumberFormat().format(totalNumber)}'
-        : '${intl.NumberFormat().format(currentNumber)}/${intl.NumberFormat().format(totalNumber)}';
-
-    return Semantics(
-      identifier: 'localizedNumberText_${currentNumber}_of_$totalNumber',
-      child: Text(formattedText, style: style, textAlign: TextAlign.center),
-    );
-  }
-}
 
 class BrewingProcessScreen extends StatefulWidget {
   final RecipeModel recipe;

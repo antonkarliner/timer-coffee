@@ -66,6 +66,7 @@ import 'package:coffee_timer/services/moments_service.dart';
 import 'package:coffee_timer/services/onboarding_service.dart';
 import 'package:coffee_timer/widgets/brewing/brew_fill_ring_painter.dart';
 import 'package:coffee_timer/widgets/brewing/brew_timer_ring.dart';
+import 'package:coffee_timer/widgets/brewing/localized_number_text.dart';
 import 'package:coffee_timer/widgets/brewing/pour_brewing_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

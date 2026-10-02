@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../theme/design_tokens.dart';
 import '../../visual/color_schemes.dart';
 import 'brew_timer_ring.dart';
+import 'localized_number_text.dart';
 import 'next_step_preview.dart';
 import 'pour_brewing_view.dart';
 
@@ -50,9 +51,15 @@ class LayoutPreviewCards extends StatelessWidget {
   /// (brewTimerRingDiameterForWidth at 390).
   static const double _previewRingDiameter = 132;
 
+  // Freeze the frame about a third into the step.
+  static const double _previewElapsedFraction = 0.35;
+
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
+    final elapsed = stepSeconds <= 0
+        ? 0
+        : (stepSeconds * _previewElapsedFraction).round().clamp(1, stepSeconds);
 
     return IntrinsicHeight(
       child: Row(
@@ -64,7 +71,7 @@ class LayoutPreviewCards extends StatelessWidget {
               choice: LayoutChoice.classic,
               label: loc.layoutPickerClassic,
               identifier: 'layoutChoiceClassicCard',
-              preview: _classicPreview(context, loc),
+              preview: _classicPreview(context, loc, elapsed),
             ),
           ),
           const SizedBox(width: AppSpacing.sm),
@@ -74,7 +81,7 @@ class LayoutPreviewCards extends StatelessWidget {
               choice: LayoutChoice.pour,
               label: loc.layoutPickerImmersive,
               identifier: 'layoutChoiceImmersiveCard',
-              preview: _immersivePreview(context, loc),
+              preview: _immersivePreview(context, loc, elapsed),
             ),
           ),
         ],
@@ -168,7 +175,11 @@ class LayoutPreviewCards extends StatelessWidget {
   /// ~55% full, a small wave, the real countdown/instruction/next-step
   /// content. `surface` stays null, so the painter and clipper fall back to
   /// the static frame built from the constructor values.
-  Widget _immersivePreview(BuildContext context, AppLocalizations loc) {
+  Widget _immersivePreview(
+    BuildContext context,
+    AppLocalizations loc,
+    int elapsed,
+  ) {
     return PourBrewingView(
       instruction: instruction,
       nextLabel: '${loc.next}:',
@@ -180,14 +191,33 @@ class LayoutPreviewCards extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
           children: [
-            Text(
-              '$stepSeconds',
-              style: AppTextStyles.display.copyWith(color: color),
+            Visibility(
+              visible: false,
+              maintainSize: true,
+              maintainAnimation: true,
+              maintainState: true,
+              child: Text(
+                loc.secondsAbbreviation,
+                style: AppTextStyles.caption.copyWith(color: color),
+              ),
+            ),
+            const SizedBox(width: AppSpacing.xs),
+            LocalizedNumberText(
+              currentNumber: elapsed,
+              totalNumber: stepSeconds,
+              // Production's 60 / 24 doesn't fit the card's short countdown
+              // slot at large text scales; display / caption keeps its
+              // number-to-unit proportion at the card's size.
+              style: AppTextStyles.display.copyWith(
+                fontWeight: FontWeight.bold,
+                color: color,
+                fontFeatures: const [FontFeature.tabularFigures()],
+              ),
             ),
             const SizedBox(width: AppSpacing.xs),
             Text(
               loc.secondsAbbreviation,
-              style: AppTextStyles.headline.copyWith(color: color),
+              style: AppTextStyles.caption.copyWith(color: color),
             ),
           ],
         ),
@@ -204,9 +234,13 @@ class LayoutPreviewCards extends StatelessWidget {
 
   /// The classic body's stack — ring with the step time inside, the current
   /// instruction under it, then the next-step preview — mirroring the
-  /// production layout without extracting anything from
-  /// brewing_process_screen.dart.
-  Widget _classicPreview(BuildContext context, AppLocalizations loc) {
+  /// production layout; only the countdown text ([LocalizedNumberText]) is
+  /// shared with brewing_process_screen.dart.
+  Widget _classicPreview(
+    BuildContext context,
+    AppLocalizations loc,
+    int elapsed,
+  ) {
     final colorScheme = Theme.of(context).colorScheme;
     final Color trackColor = Theme.of(context).brightness == Brightness.dark
         ? const Color(0xFF5A5A5A)
@@ -218,7 +252,9 @@ class LayoutPreviewCards extends StatelessWidget {
         children: [
           BrewTimerRing(
             diameter: _previewRingDiameter,
-            progress: 0.35,
+            progress: stepSeconds > 0
+                ? elapsed / stepSeconds
+                : _previewElapsedFraction,
             fillLevel: 0,
             wavePhase: 0,
             waveAmplitude: 0,
@@ -227,25 +263,35 @@ class LayoutPreviewCards extends StatelessWidget {
             fillColor: AppBrewColors.brewFill(colorScheme),
             strokeWidth: 8,
             countdownOpacity: 1,
-            countdown: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  '$stepSeconds',
-                  style: TextStyle(
-                    fontSize: _previewRingDiameter / 6,
-                    fontWeight: FontWeight.bold,
-                    color: colorScheme.onSurface,
-                  ),
+            // "elapsed/total" is wider than the old total alone; a long step
+            // ("45/180") would overflow this small ring, so it scales down
+            // inside the ring's inner width instead.
+            countdown: SizedBox(
+              width: _previewRingDiameter - 2 * AppSpacing.base,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    LocalizedNumberText(
+                      currentNumber: elapsed,
+                      totalNumber: stepSeconds,
+                      style: TextStyle(
+                        fontSize: _previewRingDiameter / 6,
+                        fontWeight: FontWeight.bold,
+                        color: colorScheme.onSurface,
+                      ),
+                    ),
+                    Text(
+                      ' ${loc.secondsAbbreviation}',
+                      style: TextStyle(
+                        fontSize: _previewRingDiameter / 7.5,
+                        color: colorScheme.onSurface.withValues(alpha: 0.7),
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  ' ${loc.secondsAbbreviation}',
-                  style: TextStyle(
-                    fontSize: _previewRingDiameter / 7.5,
-                    color: colorScheme.onSurface,
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
           const SizedBox(height: AppSpacing.base),

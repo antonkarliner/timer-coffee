@@ -146,7 +146,8 @@ void main() {
     // The first timed step (and the one after it), in both cards.
     expect(find.text('Bloom with 60 g'), findsWidgets);
     expect(find.text('Pour to 250 g'), findsWidgets);
-    expect(find.text('45'), findsWidgets);
+    // Frozen about a third into the step, as the brewing screens show it.
+    expect(find.text('16/45'), findsWidgets);
     // Not the sample.
     expect(find.text('Bloom with 50 g of water'), findsNothing);
   });
@@ -158,7 +159,7 @@ void main() {
 
     expect(find.text('Bloom with 50 g of water'), findsWidgets);
     expect(find.text('Pour to 150 g'), findsWidgets);
-    expect(find.text('30'), findsWidgets);
+    expect(find.text('11/30'), findsWidgets);
   });
 
   testWidgets(
