@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' hide TextDirection;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -207,10 +207,15 @@ class _InfoScreenState extends State<InfoScreen> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
-                          child: Markdown(
-                            data: snapshot.data!,
-                            styleSheet: MarkdownStyleSheet(
-                              p: Theme.of(context).textTheme.bodyLarge!,
+                          // The document is English-only, so it keeps
+                          // English direction.
+                          child: Directionality(
+                            textDirection: TextDirection.ltr,
+                            child: Markdown(
+                              data: snapshot.data!,
+                              styleSheet: MarkdownStyleSheet(
+                                p: Theme.of(context).textTheme.bodyLarge!,
+                              ),
                             ),
                           ),
                         ),

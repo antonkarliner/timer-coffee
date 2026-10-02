@@ -7,6 +7,7 @@ import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/widgets/settings/data_export_section.dart';
 import 'package:coffee_timer/widgets/settings/settings_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -33,6 +34,10 @@ void main() {
   tearDown(() {
     AnalyticsService.resetForTesting();
     initialPrefs = const {};
+    // rootBundle caches the policy's load future; one created in an earlier
+    // test's fake-async zone never completes in the next, so the page would
+    // spin forever.
+    rootBundle.clear();
   });
 
   List<Map<String, dynamic>> allEvents() =>
@@ -41,15 +46,16 @@ void main() {
   List<Map<String, dynamic>> eventsNamed(String name) =>
       allEvents().where((event) => event['event_name'] == name).toList();
 
-  Widget app() => ChangeNotifierProvider<AnalyticsService>.value(
-    value: AnalyticsService.instance,
-    child: MaterialApp(
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      locale: const Locale('en'),
-      home: const SettingsPrivacyDataScreen(),
-    ),
-  );
+  Widget app({Locale locale = const Locale('en')}) =>
+      ChangeNotifierProvider<AnalyticsService>.value(
+        value: AnalyticsService.instance,
+        child: MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: locale,
+          home: const SettingsPrivacyDataScreen(),
+        ),
+      );
 
   testWidgets('renders both sections, the three switches with their '
       'subtitles, the export row and the policy row', (tester) async {
@@ -233,5 +239,26 @@ void main() {
         (h1RichText.text as TextSpan).children!.whereType<TextSpan>().single;
     expect(h1Span.style?.fontSize, AppTextStyles.headline.fontSize);
     expect(h1Span.style?.fontWeight, AppTextStyles.headline.fontWeight);
+  });
+
+  testWidgets('English policy stays LTR while the Persian app bar stays RTL', (
+    tester,
+  ) async {
+    await tester.pumpWidget(app(locale: const Locale('fa')));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.bySemanticsIdentifier('settingsPrivacyPolicyRow'));
+    await tester.pumpAndSettle();
+
+    expect(tester.takeException(), isNull);
+    expect(find.byType(Markdown), findsOneWidget);
+    expect(
+      Directionality.of(tester.element(find.byType(Markdown))),
+      TextDirection.ltr,
+    );
+    expect(
+      Directionality.of(tester.element(find.byType(AppBar))),
+      TextDirection.rtl,
+    );
   });
 }

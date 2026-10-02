@@ -157,15 +157,19 @@ class _PrivacyPolicyPageState extends State<_PrivacyPolicyPage> {
             // Markdown scrolls itself (shrinkWrap defaults to false), so it
             // shows the whole document, not the Info screen's half cap. The
             // sheet is the Help Center article style, with the same padding.
-            return Markdown(
-              data: snapshot.data!,
-              padding: const EdgeInsets.fromLTRB(
-                AppSpacing.base,
-                AppSpacing.sm,
-                AppSpacing.base,
-                AppSpacing.lg,
+            // The document is English-only, so it keeps English direction.
+            return Directionality(
+              textDirection: TextDirection.ltr,
+              child: Markdown(
+                data: snapshot.data!,
+                padding: const EdgeInsets.fromLTRB(
+                  AppSpacing.base,
+                  AppSpacing.sm,
+                  AppSpacing.base,
+                  AppSpacing.lg,
+                ),
+                styleSheet: appMarkdownStyleSheet(Theme.of(context)),
               ),
-              styleSheet: appMarkdownStyleSheet(Theme.of(context)),
             );
           }
           if (snapshot.hasError) {

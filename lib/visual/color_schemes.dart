@@ -43,8 +43,9 @@ const darkColorScheme = ColorScheme(
   onSecondary: Color(0xFF3A3A3A),
   tertiary: Color(0xFFA3B39C),
   onTertiary: Color(0xFF3A3A3A),
-  error: Color(0xFFB71C1C),
-  onError: Colors.white,
+  // Error is also read as text on dark surfaces, so it needs a light red.
+  error: Color(0xFFF2B8B5),
+  onError: Color(0xFF601410),
   surface: Color.fromRGBO(58, 58, 58, 1),
   onSurface: Colors.white,
   onSurfaceVariant: Colors.white,
