@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:coffee_timer/env/env.dart';
-import 'package:coffeico_plus/coffeico_plus.dart';
 import 'package:auto_size_text_plus/auto_size_text_plus.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
@@ -17,10 +16,10 @@ import '../app_router.gr.dart'; // Ensure this import is correct
 import '../webhelper/web_helper.dart' as web;
 import '../purchase_manager.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import '../providers/user_recipe_provider.dart'; // Import UserRecipeProvider
 import '../theme/design_tokens.dart';
 import '../widgets/base_buttons.dart';
+import '../widgets/home_tab_bar.dart';
 // Added import
 import 'package:http/http.dart' as http; // Import http package
 import 'package:coffee_timer/services/feature_flags/feature_flags_repository.dart';
@@ -524,19 +523,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             ],
           ),
           // active tab's content
-          bottomNavigationBar: ConvexAppBar.builder(
-            count: 3,
-            controller: tabController, // <-- keep bar & swipes in sync
-            backgroundColor: Theme.of(context).colorScheme.onSurface,
-            itemBuilder: _CustomTabBuilder([
-              TabItem(
-                icon: Coffeico.coffee_maker,
-                title: l10n.homescreenbrewcoffee,
-              ),
-              TabItem(icon: Coffeico.bag_with_bean, title: l10n.myBeans),
-              TabItem(icon: Icons.dashboard, title: l10n.homescreenmore),
-            ], context),
-            onTap: tabsRouter.setActiveIndex, // taps still change page
+          bottomNavigationBar: HomeTabBar(
+            controller: tabController,
+            onTap: tabsRouter.setActiveIndex,
           ),
         );
       },
@@ -562,40 +551,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         foregroundColor: Theme.of(context).appBarTheme.foregroundColor,
       );
     }
-  }
-}
-
-class _CustomTabBuilder extends DelegateBuilder {
-  final List<TabItem> items;
-  final BuildContext context;
-
-  _CustomTabBuilder(this.items, this.context);
-
-  @override
-  Widget build(BuildContext context, int index, bool active) {
-    Color activeColor = Theme.of(context).brightness == Brightness.light
-        ? Colors.white
-        : Colors.black;
-    Color inactiveColor = Theme.of(context).brightness == Brightness.light
-        ? Colors.white.withAlpha((255 * 0.5).round())
-        : Colors.black.withAlpha((255 * 0.5).round());
-
-    var item = items[index];
-    return Semantics(
-      identifier: 'tabItem_$index',
-      label: item.title ?? "",
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Icon(item.icon, color: active ? activeColor : inactiveColor),
-          Text(
-            item.title ?? "",
-            style: TextStyle(color: active ? activeColor : inactiveColor),
-          ),
-        ],
-      ),
-    );
   }
 }
 
