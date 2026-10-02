@@ -20,10 +20,12 @@ import '../services/brew_alert_preference.dart';
 import '../services/settings_analytics.dart';
 import '../services/feature_flags/feature_flags_repository.dart';
 import '../services/onboarding_service.dart';
-import '../widgets/app_switch_list_tile.dart';
-import '../widgets/brewing/layout_choice_sheet.dart';
-import '../widgets/settings/layout_switch_back_reason_row.dart';
+import '../theme/design_tokens.dart';
 import '../utils/recipe_step_resolution.dart';
+import '../widgets/brewing/layout_choice_sheet.dart';
+import '../widgets/brewing/layout_preview_cards.dart';
+import '../widgets/settings/layout_switch_back_reason_row.dart';
+import '../widgets/settings/settings_list.dart';
 
 class PreparationScreen extends StatefulWidget {
   final RecipeModel recipe;
@@ -292,72 +294,81 @@ class _PreparationScreenState extends State<PreparationScreen> {
     showModalBottomSheet<void>(
       context: context,
       showDragHandle: true,
+      // The content still scrolls if a large text scale outgrows the screen.
+      isScrollControlled: true,
       builder: (sheetContext) {
         return SafeArea(
           child: Consumer<AdvancedFeaturesService>(
             builder: (context, advancedFeatures, _) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 16),
+              // This recipe's first timed step (and the one after it),
+              // resolved fresh on every sheet rebuild.
+              final preview = layoutPreviewStepsFor(widget.recipe);
+              return SingleChildScrollView(
+                padding: const EdgeInsets.only(bottom: AppSpacing.base),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.base,
+                      ),
                       child: Text(
                         appLocalizations.settingsBrewingTitle,
-                        style: Theme.of(sheetContext).textTheme.titleLarge,
+                        style: AppTextStyles.title,
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    Semantics(
-                      identifier: 'manualStepControlToggleButton',
-                      toggled: advancedFeatures.manualStepControlEnabled,
-                      child: AppSwitchListTile(
-                        title: appLocalizations.manualStepControl,
-                        subtitle: appLocalizations.manualStepControlDescription,
-                        value: advancedFeatures.manualStepControlEnabled,
-                        onChanged: (value) =>
-                            _setManualStepControl(advancedFeatures, value),
+                    const SizedBox(height: AppSpacing.sm),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.base,
                       ),
-                    ),
-                    Semantics(
-                      identifier: 'pourLayoutToggleButton',
-                      toggled: advancedFeatures.pourLayoutEnabled,
-                      child: AppSwitchListTile(
-                        title: appLocalizations.pourLayout,
-                        subtitle: appLocalizations.pourLayoutDescription,
-                        value: advancedFeatures.pourLayoutEnabled,
-                        onChanged: (value) =>
+                      child: LayoutPreviewCards(
+                        current: advancedFeatures.pourLayoutEnabled
+                            ? LayoutChoice.pour
+                            : LayoutChoice.classic,
+                        onSelected: (choice) =>
                             advancedFeatures.setPourLayoutEnabled(
-                              value,
+                              choice == LayoutChoice.pour,
                               source: 'preparation_settings_sheet',
                             ),
+                        instruction: preview.instruction,
+                        nextInstruction: preview.nextInstruction,
+                        stepSeconds: preview.stepSeconds,
                       ),
                     ),
+                    const SizedBox(height: AppSpacing.sm),
+                    // Reacts to the immersive → classic flip, so it must sit
+                    // directly under the layout control and receive the live
+                    // service value on every rebuild. Always present; hides
+                    // itself via SizedBox.shrink().
                     LayoutSwitchBackReasonRow(
                       pourEnabled: advancedFeatures.pourLayoutEnabled,
                       source: 'preparation_settings_sheet',
                     ),
-                    Semantics(
+                    SettingsSwitchRow(
+                      identifier: 'manualStepControlToggleButton',
+                      title: appLocalizations.manualStepControl,
+                      subtitle: appLocalizations.manualStepControlDescription,
+                      value: advancedFeatures.manualStepControlEnabled,
+                      onChanged: (value) =>
+                          _setManualStepControl(advancedFeatures, value),
+                    ),
+                    SettingsNavRow(
                       identifier: 'preparationAllBrewingSettingsRow',
-                      child: ListTile(
-                        leading: const Icon(Icons.tune),
-                        title: Text(appLocalizations.settingsAllBrewingSettings),
-                        trailing: const Icon(Icons.chevron_right),
-                        onTap: () {
-                          // Captured before the pop — the sheet's context
-                          // dies with it — and there is no async gap between
-                          // this lookup and the push below.
-                          final router = context.router;
-                          Navigator.of(sheetContext).pop();
-                          SettingsAnalytics.shortcutTapped(
-                            source: ShortcutSource.preparationSheet,
-                            target: SettingsTarget.brewing,
-                          );
-                          router.push(const SettingsBrewingRoute());
-                        },
-                      ),
+                      title: appLocalizations.settingsAllBrewingSettings,
+                      onTap: () {
+                        // Captured before the pop — the sheet's context
+                        // dies with it — and there is no async gap between
+                        // this lookup and the push below.
+                        final router = context.router;
+                        Navigator.of(sheetContext).pop();
+                        SettingsAnalytics.shortcutTapped(
+                          source: ShortcutSource.preparationSheet,
+                          target: SettingsTarget.brewing,
+                        );
+                        router.push(const SettingsBrewingRoute());
+                      },
                     ),
                   ],
                 ),

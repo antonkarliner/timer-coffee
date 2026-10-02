@@ -65,6 +65,9 @@ void main() {
     when(recipeProvider.recipes).thenReturn(const []);
     when(recipeProvider.currentLocale).thenReturn(const Locale('en'));
     when(recipeProvider.getLocaleName('en')).thenAnswer((_) async => 'English');
+    // The pushed Settings → Brewing page resolves its layout-preview cards
+    // from the last-used recipe.
+    when(recipeProvider.getLastUsedRecipe()).thenAnswer((_) async => null);
     when(
       recipeProvider.shownBrewingMethodIds,
     ).thenReturn(ValueNotifier<Set<String>>({}));
