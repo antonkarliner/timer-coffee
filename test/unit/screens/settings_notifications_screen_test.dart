@@ -3,8 +3,8 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/screens/settings/settings_notifications_screen.dart';
 import 'package:coffee_timer/services/date_time_format_service.dart';
 import 'package:coffee_timer/services/onboarding_service.dart';
-import 'package:coffee_timer/widgets/app_switch_list_tile.dart';
 import 'package:coffee_timer/widgets/settings/debug_notification_panel.dart';
+import 'package:coffee_timer/widgets/settings/settings_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -70,7 +70,19 @@ void main() {
     expect(find.text('Enable notifications'), findsOneWidget);
     expect(find.text('Reminders'), findsOneWidget);
     // Master switch + the four optional reminder switches.
-    expect(find.byType(AppSwitchListTile), findsNWidgets(5));
+    expect(find.byType(SettingsSwitchRow), findsNWidgets(5));
+    expect(
+        find.bySemanticsIdentifier('settingsMorningReminderSwitch'),
+        findsOneWidget);
+    expect(
+        find.bySemanticsIdentifier('settingsWeeklySummarySwitch'),
+        findsOneWidget);
+    expect(
+        find.bySemanticsIdentifier('settingsBeanFreshnessSwitch'),
+        findsOneWidget);
+    expect(
+        find.bySemanticsIdentifier('settingsBeanReviewNudgeSwitch'),
+        findsOneWidget);
     expect(find.text('Morning brew reminder'), findsOneWidget);
     expect(find.text('Weekly summary'), findsOneWidget);
     expect(find.text('Freshness reminders'), findsOneWidget);
@@ -85,6 +97,23 @@ void main() {
 
     // Debug builds render the debug panel slot.
     expect(find.byType(DebugNotificationPanel), findsOneWidget);
+  });
+
+  testWidgets('the Reminders header shows only while the reminders slot is '
+      'visible', (tester) async {
+    await tester.pumpWidget(app());
+
+    // First frame: the controller is still loading, so the reminders slot
+    // renders empty — no header, no reminder rows.
+    expect(find.text('Reminders'), findsNothing);
+    expect(find.byType(SettingsSwitchRow), findsOneWidget); // master only
+
+    await tester.pumpAndSettle();
+
+    // Loaded with notifications on (the test-environment default): the
+    // header and the reminder rows appear.
+    expect(find.text('Reminders'), findsOneWidget);
+    expect(find.byType(SettingsSwitchRow), findsNWidgets(5));
   });
 
   testWidgets('bean-review switch persists the off state', (tester) async {

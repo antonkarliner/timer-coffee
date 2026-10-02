@@ -12,7 +12,6 @@ import '../../services/notification_settings_service.dart';
 import '../../services/onboarding_service.dart';
 import '../../theme/design_tokens.dart';
 import '../../utils/app_logger.dart';
-import '../../widgets/app_switch_list_tile.dart';
 import '../../widgets/base_buttons.dart';
 import '../../widgets/fields/time_field.dart';
 import '../../widgets/settings/debug_notification_panel.dart';
@@ -21,12 +20,11 @@ import '../../widgets/settings/settings_list.dart';
 
 /// Notifications settings page (Settings → Notifications).
 ///
-/// Replicates the notification behaviour of the legacy Settings screen
-/// (master toggle, permission warning, optional reminders, debug panel) on
-/// the shared Settings scaffold.
-///
-/// On web the page renders just the scaffold: there are no notification
-/// controls there (the root hides this row on web in a later phase).
+/// Section 1 holds the permission notice and the master switch; section 2 —
+/// only while notifications are on and loaded — the reminder toggles with
+/// the morning time row; the debug panel slot follows. On web the page
+/// renders just the scaffold: there are no notification controls there
+/// (the root hides this row on web in a later phase).
 @RoutePage()
 class SettingsNotificationsScreen extends StatefulWidget {
   const SettingsNotificationsScreen({super.key});
@@ -67,8 +65,12 @@ class _SettingsNotificationsScreenState
         return SettingsPageScaffold(
           title: l10n.notifications,
           children: [
-            _permissionBannerSlot(l10n),
-            _masterSwitch(l10n),
+            SettingsSection(
+              children: [
+                _permissionBannerSlot(l10n),
+                _masterSwitch(l10n),
+              ],
+            ),
             _remindersSlot(context, l10n),
             _debugPanelSlot(),
           ],
@@ -77,14 +79,21 @@ class _SettingsNotificationsScreenState
     );
   }
 
-  /// Always-present slot for the permission warning row.
+  /// Always-present slot for the permission warning: a status notice with
+  /// the rows' geometry. It is the one icon allowed on this page. The slot
+  /// itself never changes type; hidden, it carries no identifier either, so
+  /// it leaves no empty semantics node behind (the section's stretch column
+  /// gives even an empty child a non-zero-width rect).
   Widget _permissionBannerSlot(AppLocalizations l10n) {
     final visible = _controller.systemPermissionDenied &&
         _controller.masterNotificationsEnabled;
     return Semantics(
-      identifier: 'notificationsPermissionBanner',
+      identifier: visible ? 'notificationsPermissionBanner' : null,
       child: visible
           ? ListTile(
+              contentPadding: const EdgeInsetsDirectional.symmetric(
+                horizontal: AppSpacing.base,
+              ),
               leading: Icon(
                 Icons.warning_amber_rounded,
                 size: AppIconSize.medium,
@@ -104,22 +113,19 @@ class _SettingsNotificationsScreenState
   }
 
   Widget _masterSwitch(AppLocalizations l10n) {
-    return Semantics(
+    return SettingsSwitchRow(
       identifier: 'settingsNotificationsMasterSwitch',
-      container: true,
-      child: AppSwitchListTile(
-        title: l10n.settingsNotificationsToggle,
-        value: _controller.masterNotificationsEnabled,
-        onChanged: _controller.isLoading
-            ? null
-            : (value) => _handleToggleNotifications(value),
-      ),
+      title: l10n.settingsNotificationsToggle,
+      value: _controller.masterNotificationsEnabled,
+      onChanged: _controller.isLoading
+          ? null
+          : (value) => _handleToggleNotifications(value),
     );
   }
 
-  /// Always-present slot for the optional reminders. The header and toggle
-  /// content only render while notifications are on and not loading; the
-  /// slot itself never changes type (settings_list.dart rule 5).
+  /// Always-present slot for the optional reminders. The section only
+  /// renders while notifications are on and not loading; the slot itself
+  /// never changes type (settings_list.dart rule 7).
   Widget _remindersSlot(BuildContext context, AppLocalizations l10n) {
     final visible =
         _controller.masterNotificationsEnabled && !_controller.isLoading;
@@ -129,10 +135,10 @@ class _SettingsNotificationsScreenState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: visible
           ? [
-              SettingsSectionHeader(
-                title: l10n.settingsNotificationsRemindersHeader,
+              SettingsSection(
+                header: l10n.settingsNotificationsRemindersHeader,
+                children: _buildToggles(context),
               ),
-              ..._buildToggles(context),
             ]
           : const [SizedBox.shrink()],
     );
@@ -152,7 +158,7 @@ class _SettingsNotificationsScreenState
     final notificationSettings = NotificationSettingsService.instance;
     final fmtSvc = Provider.of<DateTimeFormatService>(context);
     final is24h = fmtSvc.use24Hour(
-      MediaQuery.of(context).alwaysUse24HourFormat,
+      MediaQuery.alwaysUse24HourFormatOf(context),
     );
 
     return NotificationToggles(
@@ -217,7 +223,7 @@ class _SettingsNotificationsScreenState
     final locale = Localizations.localeOf(context).languageCode;
     final fmtSvc = Provider.of<DateTimeFormatService>(context, listen: false);
     final is24h = fmtSvc.use24Hour(
-      MediaQuery.of(context).alwaysUse24HourFormat,
+      MediaQuery.alwaysUse24HourFormatOf(context),
     );
     final picked = await showAppTimePicker(
       context: context,

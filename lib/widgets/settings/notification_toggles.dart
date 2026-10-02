@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
-import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:intl/intl.dart';
 
-import '../app_switch_list_tile.dart';
+import 'settings_list.dart';
 
-/// Optional notification toggles: morning reminder, weekly summary, bean
-/// freshness and (when [beanReviewNudgeEnabled] /
+/// Optional notification rows: morning reminder, its time value row, weekly
+/// summary, bean freshness and (when [beanReviewNudgeEnabled] /
 /// [onBeanReviewNudgeChanged] are supplied) bean review. Returns a list of
-/// widgets for spreading into a parent.
+/// Settings rows for spreading into a parent.
 ///
 /// The two bean-review parameters are optional so screens that predate the
 /// fourth switch (the current Settings root) keep rendering the original
@@ -50,18 +49,19 @@ class NotificationToggles extends StatelessWidget {
   final ValueChanged<bool> onBeanFreshnessChanged;
   final VoidCallback onPickMorningTime;
 
-  /// Builds the list of toggle widgets. Use this to spread into a parent
+  /// Builds the list of rows. Use this to spread into a parent
   /// widget's children list.
   ///
   /// The morning-time row sits in an always-present slot (see
-  /// `settings_list.dart` rule 5) so the widget type at that tree position
+  /// `settings_list.dart` rule 7) so the widget type at that tree position
   /// stays stable when the morning reminder is switched off.
   List<Widget> buildToggles(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final showBeanReview = beanReviewNudgeEnabled != null &&
         onBeanReviewNudgeChanged != null;
     return [
-      AppSwitchListTile(
+      SettingsSwitchRow(
+        identifier: 'settingsMorningReminderSwitch',
         title: l10n.settingsMorningReminder,
         subtitle: l10n.settingsMorningReminderSubtitle,
         value: morningReminderEnabled,
@@ -85,20 +85,23 @@ class NotificationToggles extends StatelessWidget {
             ),
         onTap: onPickMorningTime,
       ),
-      AppSwitchListTile(
+      SettingsSwitchRow(
+        identifier: 'settingsWeeklySummarySwitch',
         title: l10n.settingsWeeklySummary,
         subtitle: l10n.settingsWeeklySummarySubtitle,
         value: weeklySummaryEnabled,
         onChanged: onWeeklyChanged,
       ),
-      AppSwitchListTile(
+      SettingsSwitchRow(
+        identifier: 'settingsBeanFreshnessSwitch',
         title: l10n.settingsBeanFreshness,
         subtitle: l10n.settingsBeanFreshnessSubtitle,
         value: beanFreshnessEnabled,
         onChanged: onBeanFreshnessChanged,
       ),
       if (showBeanReview)
-        AppSwitchListTile(
+        SettingsSwitchRow(
+          identifier: 'settingsBeanReviewNudgeSwitch',
           title: l10n.settingsBeanReviewNudge,
           subtitle: l10n.settingsBeanReviewNudgeSubtitle,
           value: beanReviewNudgeEnabled!,
@@ -139,16 +142,10 @@ class MorningTimeSlot extends StatelessWidget {
   Widget build(BuildContext context) {
     if (!visible) return const SizedBox.shrink();
 
-    return ListTile(
-      contentPadding: const EdgeInsetsDirectional.only(
-        start: AppSpacing.xl,
-        end: AppSpacing.base,
-      ),
-      title: Text(label),
-      trailing: Text(
-        formattedTime,
-        style: Theme.of(context).textTheme.bodyMedium,
-      ),
+    return SettingsValueRow(
+      identifier: 'settingsMorningReminderTimeRow',
+      title: label,
+      value: formattedTime,
       onTap: onTap,
     );
   }
