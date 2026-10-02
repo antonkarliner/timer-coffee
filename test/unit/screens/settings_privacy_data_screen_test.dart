@@ -3,8 +3,9 @@ import 'dart:convert';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/screens/settings/settings_privacy_data_screen.dart';
 import 'package:coffee_timer/services/analytics_service.dart';
-import 'package:coffee_timer/widgets/app_switch_list_tile.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/widgets/settings/data_export_section.dart';
+import 'package:coffee_timer/widgets/settings/settings_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -50,8 +51,8 @@ void main() {
     ),
   );
 
-  testWidgets('renders both headers, the three switches, the export row and '
-      'the policy row', (tester) async {
+  testWidgets('renders both sections, the three switches with their '
+      'subtitles, the export row and the policy row', (tester) async {
     await tester.pumpWidget(app());
     await tester.pumpAndSettle();
 
@@ -72,20 +73,59 @@ void main() {
       find.bySemanticsIdentifier('settingsAnalyticsGeneralSwitch'),
       findsOneWidget,
     );
-    expect(find.byType(AppSwitchListTile), findsNWidgets(3));
+    expect(find.byType(SettingsSwitchRow), findsNWidgets(3));
     expect(find.text('Share brewing analytics'), findsOneWidget);
     expect(find.text('Share bean analytics'), findsOneWidget);
     expect(find.text('Share general usage analytics'), findsOneWidget);
+    // Each switch says what it controls.
+    expect(
+      find.text('Covers brews you start, finish, or log, and brew diary use'),
+      findsOneWidget,
+    );
+    expect(
+      find.text('Covers beans you add or remove, and bean reviews'),
+      findsOneWidget,
+    );
+    expect(
+      find.text('Covers screens, settings, and the rest of the app'),
+      findsOneWidget,
+    );
+    // Section footer.
+    expect(
+      find.text('Anonymous: never your name, email, or account ID'),
+      findsOneWidget,
+    );
 
     expect(find.byType(DataExportSection), findsOneWidget);
     expect(find.bySemanticsIdentifier('dataExportListTile'), findsOneWidget);
     expect(find.text('Export your data'), findsOneWidget);
+    // The export row is a grammar-v2 nav row carrying its subtitle.
+    final exportRow = tester.widgetList<SettingsNavRow>(
+      find.byWidgetPredicate(
+        (widget) =>
+            widget is SettingsNavRow && widget.identifier == 'dataExportListTile',
+      ),
+    ).single;
+    expect(exportRow.title, 'Export your data');
+    expect(
+      exportRow.subtitle,
+      'Emails you a copy of your brews, beans, and recipes',
+    );
 
     expect(
       find.bySemanticsIdentifier('settingsPrivacyPolicyRow'),
       findsOneWidget,
     );
     expect(find.text('Privacy policy'), findsOneWidget);
+    // No decorative icons on page rows: the policy row has no leading icon.
+    final policyRow = tester.widgetList<SettingsNavRow>(
+      find.byWidgetPredicate(
+        (widget) =>
+            widget is SettingsNavRow &&
+            widget.identifier == 'settingsPrivacyPolicyRow',
+      ),
+    ).single;
+    expect(policyRow.icon, isNull);
     expect(allEvents(), isEmpty);
   });
 
@@ -181,5 +221,17 @@ void main() {
       ),
       findsOneWidget,
     );
+
+    // The sheet is the Help Center article style: the document h1 renders
+    // with AppTextStyles.headline's size and weight. flutter_markdown emits
+    // blocks as Text.rich, whose styled span sits under a root span carrying
+    // the ambient style — so read the styled child span.
+    final h1RichText = tester.widget<RichText>(
+      find.text('Privacy Policy for Timer.Coffee', findRichText: true).first,
+    );
+    final h1Span =
+        (h1RichText.text as TextSpan).children!.whereType<TextSpan>().single;
+    expect(h1Span.style?.fontSize, AppTextStyles.headline.fontSize);
+    expect(h1Span.style?.fontWeight, AppTextStyles.headline.fontWeight);
   });
 }

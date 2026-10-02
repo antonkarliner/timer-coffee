@@ -11,9 +11,10 @@ import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:coffee_timer/widgets/fields/labeled_field.dart';
 
-import 'settings_section_subtitle.dart';
+import 'settings_list.dart';
 
-/// Settings row that drives the self-serve "export my data" flow (plan 035).
+/// Settings row that drives the self-serve "export your data" flow
+/// (plan 035).
 ///
 /// Entry point for a two-step dialog flow:
 /// 1. [_DataExportEmailDialog] — collect the destination email and request a
@@ -31,14 +32,11 @@ class DataExportSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
-    return Semantics(
+    return SettingsNavRow(
       identifier: 'dataExportListTile',
-      child: ListTile(
-        title: Text(loc.dataExportTileTitle),
-        subtitle: SettingsSectionSubtitle(loc.dataExportTileSubtitle),
-        trailing: const Icon(Icons.chevron_right),
-        onTap: () => _startExportFlow(context),
-      ),
+      title: loc.dataExportTileTitle,
+      subtitle: loc.dataExportTileSubtitle,
+      onTap: () => _startExportFlow(context),
     );
   }
 

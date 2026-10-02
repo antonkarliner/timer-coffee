@@ -8,7 +8,7 @@ import '../../l10n/app_localizations.dart';
 import '../../services/analytics_service.dart';
 import '../../services/settings_analytics.dart';
 import '../../theme/design_tokens.dart';
-import '../../widgets/app_switch_list_tile.dart';
+import '../../widgets/markdown/app_markdown_style.dart';
 import '../../widgets/settings/data_export_section.dart';
 import '../../widgets/settings/settings_list.dart';
 import '../../widgets/smart_back_button.dart';
@@ -60,43 +60,47 @@ class SettingsPrivacyDataScreen extends StatelessWidget {
     return SettingsPageScaffold(
       title: l10n.settingsPrivacyDataTitle,
       children: [
-        SettingsSectionHeader(title: l10n.settingsUsageAnalyticsHeader),
-        Semantics(
-          identifier: 'settingsAnalyticsBrewsSwitch',
-          container: true,
-          child: AppSwitchListTile(
-            title: l10n.settingsAnalyticsBrews,
-            value: analytics.brewsEnabled,
-            onChanged: (value) => _setBrews(analytics, value),
-          ),
+        SettingsSection(
+          header: l10n.settingsUsageAnalyticsHeader,
+          footer: l10n.settingsUsageAnalyticsFooter,
+          children: [
+            SettingsSwitchRow(
+              identifier: 'settingsAnalyticsBrewsSwitch',
+              title: l10n.settingsAnalyticsBrews,
+              subtitle: l10n.settingsAnalyticsBrewsSubtitle,
+              value: analytics.brewsEnabled,
+              onChanged: (value) => _setBrews(analytics, value),
+            ),
+            SettingsSwitchRow(
+              identifier: 'settingsAnalyticsBeansSwitch',
+              title: l10n.settingsAnalyticsBeans,
+              subtitle: l10n.settingsAnalyticsBeansSubtitle,
+              value: analytics.beansEnabled,
+              onChanged: (value) => _setBeans(analytics, value),
+            ),
+            SettingsSwitchRow(
+              identifier: 'settingsAnalyticsGeneralSwitch',
+              title: l10n.settingsAnalyticsGeneral,
+              subtitle: l10n.settingsAnalyticsGeneralSubtitle,
+              value: analytics.generalEnabled,
+              onChanged: (value) => _setGeneral(analytics, value),
+            ),
+          ],
         ),
-        Semantics(
-          identifier: 'settingsAnalyticsBeansSwitch',
-          container: true,
-          child: AppSwitchListTile(
-            title: l10n.settingsAnalyticsBeans,
-            value: analytics.beansEnabled,
-            onChanged: (value) => _setBeans(analytics, value),
-          ),
-        ),
-        Semantics(
-          identifier: 'settingsAnalyticsGeneralSwitch',
-          container: true,
-          child: AppSwitchListTile(
-            title: l10n.settingsAnalyticsGeneral,
-            value: analytics.generalEnabled,
-            onChanged: (value) => _setGeneral(analytics, value),
-          ),
-        ),
-        SettingsSectionHeader(title: l10n.settingsYourDataHeader),
-        const DataExportSection(),
-        SettingsNavRow(
-          identifier: 'settingsPrivacyPolicyRow',
-          icon: Icons.privacy_tip_outlined,
-          title: l10n.privacyPolicyTitle,
-          onTap: () => Navigator.of(context).push(
-            MaterialPageRoute<void>(builder: (_) => const _PrivacyPolicyPage()),
-          ),
+        SettingsSection(
+          header: l10n.settingsYourDataHeader,
+          children: [
+            const DataExportSection(),
+            SettingsNavRow(
+              identifier: 'settingsPrivacyPolicyRow',
+              title: l10n.privacyPolicyTitle,
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => const _PrivacyPolicyPage(),
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -151,12 +155,17 @@ class _PrivacyPolicyPageState extends State<_PrivacyPolicyPage> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             // Markdown scrolls itself (shrinkWrap defaults to false), so it
-            // shows the whole document, not the Info screen's half cap.
+            // shows the whole document, not the Info screen's half cap. The
+            // sheet is the Help Center article style, with the same padding.
             return Markdown(
               data: snapshot.data!,
-              styleSheet: MarkdownStyleSheet(
-                p: Theme.of(context).textTheme.bodyLarge,
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.base,
+                AppSpacing.sm,
+                AppSpacing.base,
+                AppSpacing.lg,
               ),
+              styleSheet: appMarkdownStyleSheet(Theme.of(context)),
             );
           }
           if (snapshot.hasError) {
