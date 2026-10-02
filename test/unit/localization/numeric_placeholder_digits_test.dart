@@ -189,7 +189,8 @@ void main() {
     test('Settings summaries', () {
       expect(fa.settingsMethodsShownCount(11, 30), '۱۱ از ۳۰ روش');
       expect(fa.settingsNotificationsSummaryOn(1), 'فعال، ۱ یادآوری');
-      // intl's `ar` number symbols are Latin.
+      // intl's `ar` number symbols are Latin; configureDateDigits() makes ar
+      // dates Latin to match (test/unit/utils/date_digits_test.dart).
       expect(ar.settingsMethodsShownCount(11, 30), 'الطرق: 11 من 30');
     });
 

@@ -42,6 +42,7 @@ import 'firebase_options.dart';
 import './providers/user_stat_provider.dart';
 import './providers/beans_stats_provider.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
+import 'package:coffee_timer/utils/date_digits.dart';
 import 'package:coffee_timer/utils/log_config.dart';
 import 'package:coffee_timer/services/notification_migration_service.dart';
 import 'services/feature_flags/feature_flags_repository.dart';
@@ -263,6 +264,7 @@ List<LaunchMode> _getLaunchModesForPlatform() {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: WidgetsBinding.instance);
+  configureDateDigits();
   await SystemChrome.setEnabledSystemUIMode(
     SystemUiMode.manual,
     overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
