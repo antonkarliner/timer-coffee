@@ -28,7 +28,6 @@
   "hubSectionApp": "App",
   "hubUserRecipesTitle": "Your recipes",
   "hubUserRecipesSubtitle": "View and manage created and imported recipes",
-  "hubAccountSubtitle": "Manage your profile",
   "hubSignInCreateSubtitle": "Syncs your recipes and preferences across devices",
   "hubBrewDiarySubtitle": "View your brewing history and add notes",
   "hubBrewStatsSubtitle": "View personal and global brewing statistics and trends",
@@ -1368,7 +1367,6 @@
   "notificationDebug": "Notification Debug",
   "testNotificationSystem": "Test notification system",
   "notificationsEnabled": "Enabled",
-  "notificationsDisabled": "Disabled",
   "notificationPermissionDialogTitle": "Get brew reminders?",
   "notificationPermissionDialogMessage": "Get a reminder to brew your beans while they’re at their best, a morning brew nudge, or a Sunday recap of your week. You choose which ones in Settings.",
   "notificationPermissionDialogMessageIos": "Get a reminder to brew your beans while they’re at their best, a morning brew nudge, or a Sunday recap of your week. You choose which ones in Settings.",
@@ -1511,7 +1509,6 @@
   "manualStepControl": "Manual step control",
   "manualStepControlDescription": "Shows back and skip arrows while brewing",
   "pourLayout": "Immersive brewing screen",
-  "pourLayoutDescription": "The screen fills with coffee as the brew progresses.",
   "layoutPickerTitle": "How do you want to brew?",
   "@layoutPickerTitle": {
     "description": "Title of the one-time brewing-layout picker shown when starting a brew."
@@ -1531,10 +1528,6 @@
   "layoutPickerImmersive": "Immersive",
   "@layoutPickerImmersive": {
     "description": "Label of the immersive brewing-layout card."
-  },
-  "layoutPickerCurrent": "Current",
-  "@layoutPickerCurrent": {
-    "description": "Badge marking the layout currently in use."
   },
   "layoutPickerFooter": "Change it anytime with the settings button on this screen.",
   "@layoutPickerFooter": {
@@ -1723,10 +1716,6 @@
   "settingsBrewingScreenLayout": "Brewing screen",
   "@settingsBrewingScreenLayout": {
     "description": "Section header and choice-row title for choosing the brewing timer layout"
-  },
-  "settingsLayoutClassicDescription": "Step list with a large timer.",
-  "@settingsLayoutClassicDescription": {
-    "description": "One-line description of the classic brewing layout, shown under Classic"
   },
   "settingsBrewAlerts": "Step change alerts",
   "@settingsBrewAlerts": {
@@ -3025,7 +3014,7 @@
   "accountIdentityUnlinkedMessage": "{provider} unlinked",
   "@accountIdentityUnlinkedMessage": {"description": "Confirmation shown after a sign-in provider is unlinked from the current account.", "placeholders": {"provider": {"type": "String", "example": "Google"}}},
   "settingsNotificationsSummaryOff": "Off",
-  "@settingsNotificationsSummaryOff": {"description": "Value on the Settings root's Notifications row when every reminder is switched off."},
+  "@settingsNotificationsSummaryOff": {"description": "Value on the Settings root's Notifications row when the notifications master switch is off."},
   "settingsAppearanceSummary": "{theme} · {icon} icon",
   "@settingsAppearanceSummary": {"description": "Value on the Settings root's Appearance row: the theme name and the app icon name, e.g. 'Dark · Default icon'.", "placeholders": {"theme": {"type": "String", "example": "Dark"}, "icon": {"type": "String", "example": "Default"}}},
   "settingsAutoMatchesDevice": "Matches your device",

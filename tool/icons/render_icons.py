@@ -273,11 +273,6 @@ def android():
         render_png(svg_doc(svg_android_layer(), px, view, circle),
                    os.path.join(RES, f'mipmap-{density}', 'ic_launcher.png'), px)
 
-    # In-app icon picker preview (lib/widgets/settings/app_icon_selector.dart).
-    render_png(svg_doc(svg_android_layer(), 512, (VIS_O, VIS_O, VISIBLE, VISIBLE),
-                       squircle_d()),
-               os.path.join(REPO, 'assets', 'icons', 'timer-coffee-icon-android.png'), 512)
-
 
 # Notification small icon (plan 071 D4, provisional): the full mark with the
 # ticks thickened from ~0.7 dp to ~1.2 dp so they survive at 24 dp. Android

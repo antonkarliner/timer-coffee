@@ -17,7 +17,9 @@
 ///    chevron (`SettingsNavRow`), or nothing (`SettingsActionRow`). A value
 ///    takes at most half the row and wraps to two lines; it never goes in
 ///    `ListTile.trailing`, whose intrinsic width once broke German titles
-///    mid-word.
+///    mid-word. The sign-in method rows on the Account page are the one
+///    exception: a text action (Change, Link, Unlink) or its progress
+///    indicator.
 /// 5. The only non-row blocks are visual options, choices whose options are
 ///    pictures (brewing-screen layout cards, the app-icon grid): equal-width
 ///    options, label under the picture, a tap selects at once, and the
