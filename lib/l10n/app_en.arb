@@ -209,7 +209,8 @@
     "description": "Pluralized brew count for Pulse summary",
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -227,7 +228,8 @@
     "description": "Relative time label in minutes",
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -236,7 +238,8 @@
     "description": "Relative time label in hours",
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -245,10 +248,12 @@
     "description": "Relative time label combining hours and minutes",
     "placeholders": {
       "hours": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "minutes": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -257,7 +262,8 @@
     "description": "Relative time label in days",
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -266,7 +272,8 @@
     "description": "Relative time label in months",
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -275,7 +282,8 @@
     "description": "Relative time label in years",
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -377,7 +385,8 @@
     "description": "Feedback shown after opted-in camera photos from an AI scan are saved to the device photo library.",
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -386,10 +395,12 @@
     "description": "Feedback shown when only some opted-in camera photos are saved; the AI scan continues regardless.",
     "placeholders": {
       "savedCount": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "totalCount": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -534,6 +545,7 @@
     "placeholders": {
       "roasterCount": {
         "type": "num",
+        "format": "decimalPattern",
         "example": "5"
       }
     }
@@ -560,6 +572,7 @@
     "placeholders": {
       "originCount": {
         "type": "num",
+        "format": "decimalPattern",
         "example": "10"
       }
     }
@@ -578,6 +591,7 @@
     "placeholders": {
       "count": {
         "type": "num",
+        "format": "decimalPattern",
         "example": "3"
       }
     }
@@ -588,6 +602,7 @@
     "placeholders": {
       "count": {
         "type": "num",
+        "format": "decimalPattern",
         "example": "5"
       }
     }
@@ -598,6 +613,7 @@
     "placeholders": {
       "count": {
         "type": "num",
+        "format": "decimalPattern",
         "example": "8"
       }
     }
@@ -697,7 +713,8 @@
   "@yearlyStats25Slide3TopBadge": {
     "placeholders": {
       "topPct": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -709,7 +726,8 @@
   "@yearlyStats25BrewsCount": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -764,7 +782,8 @@
         "type": "String"
       },
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -791,10 +810,12 @@
   "@yearlyStats25FallbackTitle": {
     "placeholders": {
       "countries": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "roasters": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -830,7 +851,8 @@
   "@yearlyStats25BrewTimeMinutes": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -877,7 +899,8 @@
   "@formattedRoasterCount": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -885,7 +908,8 @@
   "@formattedCountryCount": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -893,7 +917,8 @@
   "@formattedBrewingMethodCount": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1582,7 +1607,8 @@
   "@notifBrewMilestoneBody": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1598,7 +1624,8 @@
   "@notifExploreRecipesBody": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1612,7 +1639,8 @@
   "@notifWeeklyTitle": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1620,7 +1648,8 @@
   "@notifWeeklyBody": {
     "placeholders": {
       "recipes": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1701,7 +1730,8 @@
     "description": "Summary for the Settings root row when notifications are on; plural on the number of optional reminders switched on",
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1757,8 +1787,8 @@
   "@settingsMethodsShownCount": {
     "description": "Summary for the Settings root row: how many brewing methods are shown out of the total (e.g. 12 of 30 methods)",
     "placeholders": {
-      "shown": {"type": "int"},
-      "total": {"type": "int"}
+      "shown": {"type": "int", "format": "decimalPattern"},
+      "total": {"type": "int", "format": "decimalPattern"}
     }
   },
   "settingsPrivacyDataTitle": "Privacy & data",
@@ -1789,7 +1819,8 @@
   "@daysAgo": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1798,7 +1829,8 @@
     "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1808,7 +1840,8 @@
     "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1896,7 +1929,8 @@
   "@reviewsCount": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1991,7 +2025,8 @@
     "description": "Number of roasters shown next to a country in the filter sheet",
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -2041,7 +2076,8 @@
     "description": "Celebration shown on Finish when other users brewed in the same minute",
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -2106,7 +2142,8 @@
         "type": "String"
       },
       "others": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -2620,7 +2657,7 @@
   "diarySelectedBeanCount": "{count, plural, =1{1 bean selected} other{{count} beans selected}}",
   "@diarySelectedBeanCount": {
     "description": "Summary of the number of beans selected in the Brew Diary filter.",
-    "placeholders": {"count": {"type": "int", "example": "3"}}
+    "placeholders": {"count": {"type": "int", "format": "decimalPattern", "example": "3"}}
   },
   "diaryChooseBeans": "Choose beans",
   "@diaryChooseBeans": {"description": "Title of the Brew Diary bean filter chooser."},
@@ -2629,7 +2666,7 @@
   "diaryBeanCount": "{count, plural, =1{1 bean} other{{count} beans}}",
   "@diaryBeanCount": {
     "description": "Number of beans available for a roaster in the Brew Diary filter.",
-    "placeholders": {"count": {"type": "int", "example": "12"}}
+    "placeholders": {"count": {"type": "int", "format": "decimalPattern", "example": "12"}}
   },
   "diaryOrigins": "Origins",
   "diaryRating": "Rating",
@@ -2665,22 +2702,22 @@
   "diaryGroupBrewCount": "{count, plural, =1{1 brew} other{{count} brews}}",
   "@diaryGroupBrewCount": {
     "description": "Number of brews in a diary group.",
-    "placeholders": {"count": {"type": "int", "example": "12"}}
+    "placeholders": {"count": {"type": "int", "format": "decimalPattern", "example": "12"}}
   },
   "diaryMonthBrews": "{count, plural, =1{1 brew} other{{count} brews}}",
   "@diaryMonthBrews": {
     "description": "Compact brew count in the monthly diary almanac.",
-    "placeholders": {"count": {"type": "int", "example": "18"}}
+    "placeholders": {"count": {"type": "int", "format": "decimalPattern", "example": "18"}}
   },
   "diaryMonthStreakDays": "{count, plural, =1{1 day 🔥} other{{count} days 🔥}}",
   "@diaryMonthStreakDays": {
     "description": "Celebratory longest daily brewing streak in a month.",
-    "placeholders": {"count": {"type": "int", "example": "6"}}
+    "placeholders": {"count": {"type": "int", "format": "decimalPattern", "example": "6"}}
   },
   "diaryMonthActiveDays": "{count, plural, =1{1 active day} other{{count} active days}}",
   "@diaryMonthActiveDays": {
     "description": "Number of distinct days with a brew in the displayed month.",
-    "placeholders": {"count": {"type": "int", "example": "12"}}
+    "placeholders": {"count": {"type": "int", "format": "decimalPattern", "example": "12"}}
   },
   "diaryFullStats": "Full stats",
   "@diaryFullStats": {"description": "Action opening the full statistics screen from the monthly diary almanac."},
@@ -2697,7 +2734,7 @@
   "diaryOnThisDayTitle": "{years, plural, =1{On this day · 1 year ago} other{On this day · {years} years ago}}",
   "@diaryOnThisDayTitle": {
     "description": "Title for a diary memory from the same calendar date in a previous year.",
-    "placeholders": {"years": {"type": "int", "example": "2"}}
+    "placeholders": {"years": {"type": "int", "format": "decimalPattern", "example": "2"}}
   },
   "diaryOnThisDaySubtitle": "{label} · {method}",
   "@diaryOnThisDaySubtitle": {
@@ -2754,14 +2791,14 @@
   "@journeyEvaluatedCount": {
     "description": "Summary of evaluated brews out of all brews in a bean journey.",
     "placeholders": {
-      "evaluated": {"type": "int", "example": "4"},
-      "total": {"type": "int", "example": "12"}
+      "evaluated": {"type": "int", "format": "decimalPattern", "example": "4"},
+      "total": {"type": "int", "format": "decimalPattern", "example": "12"}
     }
   },
   "journeyEvaluatedBrewCount": "{count, plural, =0{Not evaluated} =1{1 evaluated} other{{count} evaluated}}",
   "@journeyEvaluatedBrewCount": {
     "description": "Evaluated-brew count or unrated state shown for a brewing method.",
-    "placeholders": {"count": {"type": "int", "example": "3"}}
+    "placeholders": {"count": {"type": "int", "format": "decimalPattern", "example": "3"}}
   },
   "journeyEvaluateLatest": "Evaluate latest",
   "@journeyEvaluateLatest": {"description": "Action to rate the latest brew made with the selected method."},
@@ -2778,8 +2815,8 @@
     "description": "Accessibility summary for a method-specific brew progress chart.",
     "placeholders": {
       "method": {"type": "String", "example": "V60"},
-      "evaluated": {"type": "int", "example": "3"},
-      "total": {"type": "int", "example": "6"}
+      "evaluated": {"type": "int", "format": "decimalPattern", "example": "3"},
+      "total": {"type": "int", "format": "decimalPattern", "example": "6"}
     }
   },
   "brewDiaryEditAmounts": "Edit dose and water",
@@ -2857,9 +2894,9 @@
   "liveActivityPaused": "Paused",
   "@liveActivityPaused": {"description": "Paused state shown in the iOS brewing Live Activity."},
   "liveActivityStepProgress": "Step {current} of {total}",
-  "@liveActivityStepProgress": {"description": "Compact current-step progress shown in the iOS brewing Live Activity.", "placeholders": {"current": {"type": "int", "example": "2"}, "total": {"type": "int", "example": "5"}}},
+  "@liveActivityStepProgress": {"description": "Compact current-step progress shown in the iOS brewing Live Activity.", "placeholders": {"current": {"type": "int", "format": "decimalPattern", "example": "2"}, "total": {"type": "int", "format": "decimalPattern", "example": "5"}}},
   "liveUpdateStepDescription": "Step {current} of {total} · {description}",
-  "@liveUpdateStepDescription": {"description": "Current-step summary shown in an Android brewing Live Update.", "placeholders": {"current": {"type": "int", "example": "2"}, "total": {"type": "int", "example": "5"}, "description": {"type": "String", "example": "Pour slowly"}}},
+  "@liveUpdateStepDescription": {"description": "Current-step summary shown in an Android brewing Live Update.", "placeholders": {"current": {"type": "int", "format": "decimalPattern", "example": "2"}, "total": {"type": "int", "format": "decimalPattern", "example": "5"}, "description": {"type": "String", "example": "Pour slowly"}}},
   "dataExportTileTitle": "Export your data",
   "@dataExportTileTitle": {"description": "Settings row title for the self-serve data export flow."},
   "dataExportTileSubtitle": "Emails you a copy of your brews, beans, and recipes",
@@ -2895,7 +2932,7 @@
   "dataExportIncorrectCode": "That code is incorrect. Please check it and try again.",
   "@dataExportIncorrectCode": {"description": "Error shown when the entered data-export confirmation code is wrong and the backend did not report a remaining-attempts count."},
   "dataExportIncorrectCodeAttempts": "{count, plural, =0{That code is incorrect. No attempts remaining.} =1{That code is incorrect. 1 attempt remaining.} other{That code is incorrect. {count} attempts remaining.}}",
-  "@dataExportIncorrectCodeAttempts": {"description": "Error shown when the entered data-export confirmation code is wrong, including how many attempts remain.", "placeholders": {"count": {"type": "int", "example": "3"}}},
+  "@dataExportIncorrectCodeAttempts": {"description": "Error shown when the entered data-export confirmation code is wrong, including how many attempts remain.", "placeholders": {"count": {"type": "int", "format": "decimalPattern", "example": "3"}}},
   "dataExportExpiredOrNoRequest": "This code has expired or no export request is active. Please request a new code.",
   "@dataExportExpiredOrNoRequest": {"description": "Error shown when confirming a data-export code that is expired, already used, or was never requested."},
   "dataExportPayloadTooLarge": "Your local data is too large to export right now. Please contact support.",
@@ -2978,7 +3015,7 @@
   "accountEmailResendCodes": "Resend codes",
   "@accountEmailResendCodes": {"description": "Button label for requesting fresh codes at both email addresses."},
   "accountEmailResendCountdown": "Resend codes in {seconds}s",
-  "@accountEmailResendCountdown": {"description": "Disabled resend label showing how many seconds remain in the cooldown.", "placeholders": {"seconds": {"type": "int", "example": "42"}}},
+  "@accountEmailResendCountdown": {"description": "Disabled resend label showing how many seconds remain in the cooldown.", "placeholders": {"seconds": {"type": "int", "format": "decimalPattern", "example": "42"}}},
   "accountEmailCantAccess": "Can’t access {email}?",
   "@accountEmailCantAccess": {"description": "Support link shown when the user cannot access the old account email.", "placeholders": {"email": {"type": "String", "example": "old@example.com"}}},
   "accountEmailSupportSubject": "Help changing my account email",

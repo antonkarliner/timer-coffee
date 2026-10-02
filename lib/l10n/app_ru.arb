@@ -11,12 +11,7 @@
   },
   "roasterBagsLogged": "{count, plural, one{сообщество добавило {count} пачку} few{сообщество добавило {count} пачки} many{сообщество добавило {count} пачек} other{сообщество добавило {count} пачки}}",
   "@roasterBagsLogged": {
-    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile"
   },
   "userRecipesTitle": "Ваши рецепты",
   "userRecipesSectionCreated": "Созданные вами",
@@ -118,15 +113,7 @@
   "brewdiary": "Дневник заварок",
   "brewdiarynotfound": "Записи не найдены",
   "brewsWithThisCoffee": "Заварки с этим кофе",
-  "showAllNBrews": "{count, plural, =1{Показать 1 заварку} other{Показать все заварки ({count})}}",
-  "@showAllNBrews": {
-    "placeholders": {
-      "count": {
-        "type": "num",
-        "format": "compact"
-      }
-    }
-  },
+  "showAllNBrews": "{count, plural, =1{Показать {count} заварку} other{Показать все заварки ({count})}}",
   "beans": "Зёрна",
   "roaster": "Обжарщик",
   "rating": "Рейтинг",
@@ -357,7 +344,7 @@
   "yearlyStats25Slide4TitleMulti": "Помните дни, когда вы приготовили больше всего кофе в этом году?",
   "yearlyStats25Slide4TitleBrewTime": "Время заваривания в этом году",
   "yearlyStats25Slide4ScratchLabel": "Сотрите, чтобы открыть",
-  "yearlyStats25BrewsCount": "{count, plural, one{# заваривание} few{# заваривания} many{# завариваний} other{# заваривания}}",
+  "yearlyStats25BrewsCount": "{count, plural, one{{count} заваривание} few{{count} заваривания} many{{count} завариваний} other{{count} заваривания}}",
   "yearlyStats25Slide4PeakSingle": "{date} — {brewsLabel}",
   "yearlyStats25Slide4PeakLiters": "Примерно {liters} л в тот день",
   "yearlyStats25Slide4PeakMostRecent": "Самый недавний: {mostRecent} — {brewsLabel}",
@@ -403,7 +390,7 @@
   "yearlyStats25AppBarTooltipResume": "Продолжить",
   "yearlyStats25AppBarTooltipPause": "Пауза",
   "yearlyStats25ShareError": "Не удалось поделиться итогами. Попробуйте ещё раз.",
-  "yearlyStats25BrewTimeMinutes": "{count, plural, one{# минута} few{# минуты} many{# минут} other{# минуты}}",
+  "yearlyStats25BrewTimeMinutes": "{count, plural, one{{count} минута} few{{count} минуты} many{{count} минут} other{{count} минуты}}",
   "yearlyStats25BrewTimeHours": "{hours} ч",
   "yearlyStats25ShareTitle": "Мой 2025 год с Timer.Coffee",
   "yearlyStats25ShareBrewedPrefix": "Заваривания: ",
@@ -789,10 +776,7 @@
   "amountLeft": "Остаток",
   "approxBrewsLeft": "{count, plural, one{≈ осталась {count} заварка} few{≈ осталось {count} заварки} many{≈ осталось {count} заварок} other{≈ осталось {count} заварки}}",
   "@approxBrewsLeft": {
-    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
-    "placeholders": {
-      "count": { "type": "int" }
-    }
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose"
   },
   "enterAmountLeft": "Укажите остаток",
   "beansTotalLeftLabel": "Всего осталось",
@@ -973,12 +957,7 @@
   "relativeTimeYearsAgo": "{count, plural, one{{count} год назад} few{{count} года назад} many{{count} лет назад} other{{count} года назад}}",
   "pulseBrewsCount": "{count, plural, one{{count} заваривание} few{{count} заваривания} many{{count} завариваний} other{{count} заваривания}}",
   "@pulseBrewsCount": {
-    "description": "Pluralized brew count for Pulse summary",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Pluralized brew count for Pulse summary"
   },
   "timePeriodThisYear": "Этот год",
   "timePeriodLastYear": "Прошлый год",
@@ -1062,13 +1041,6 @@
 
   "notifBrewMilestoneTitle": "Вы достигли нового рубежа",
   "notifBrewMilestoneBody": "Вы заварили кофе {count, plural, one{{count} раз} few{{count} раза} many{{count} раз} other{{count} раза}}. Нажмите, чтобы посмотреть прогресс.",
-  "@notifBrewMilestoneBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifExploreRecipesTitle": "Попробуйте новый рецепт для {methodName}",
   "@notifExploreRecipesTitle": {
@@ -1079,13 +1051,6 @@
     }
   },
   "notifExploreRecipesBody": "{count, plural, one{Вы уже попробовали {count} рецепт. Вот ещё один для следующей чашки.} few{Вы уже попробовали {count} рецепта. Вот ещё один для следующей чашки.} many{Вы уже попробовали {count} рецептов. Вот ещё один для следующей чашки.} other{Вы уже попробовали {count} рецепта. Вот ещё один для следующей чашки.}}",
-  "@notifExploreRecipesBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifMorningTitle": "Доброе утро. Готовы заварить кофе?",
   "notifMorningBody": "Начните день с хорошей чашки.",
@@ -1094,21 +1059,7 @@
   "notifMorningTitle3": "Первая чашка за день?",
   "notifMorningBody3": "Выберите рецепт и начинайте.",
   "notifWeeklyTitle": "{count, plural, =0{На этой неделе завариваний нет} one{{count} заваривание на этой неделе} few{{count} заваривания на этой неделе} many{{count} завариваний на этой неделе} other{{count} заваривания на этой неделе}}",
-  "@notifWeeklyTitle": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "notifWeeklyBody": "{recipes, plural, =0{Спокойная неделя — нажмите, чтобы спланировать следующее заваривание.} =1{Нажмите, чтобы посмотреть статистику за неделю.} other{В {recipes} рецептах. Нажмите, чтобы посмотреть детали.}}",
-  "@notifWeeklyBody": {
-    "placeholders": {
-      "recipes": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifBeanFreshnessTitle": "Пора заваривать кофе",
   "notifBeanFreshnessRestBody": "{beanName} выходит на пик вкуса — не забудьте заварить",
@@ -1151,11 +1102,6 @@
   "settingsAnalyticsSummaryPartial": "Аналитика частично вкл",
   "settingsAnalyticsSummaryOff": "Аналитика выкл",
   "daysAgo": "{count, plural, one{{count} день назад} few{{count} дня назад} many{{count} дней назад} other{{count} дня назад}}",
-  "@daysAgo": {
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
 
   "aiScanLabel": "AI-сканирование",
   "reviewModerationFailedBody": "Ваш отзыв не удалось опубликовать, потому что: {reason}",
@@ -1210,7 +1156,6 @@
   "confirmDeleteReviewTitle": "Удалить этот отзыв?",
   "confirmDeleteReviewMessage": "Это действие нельзя отменить.",
   "reviewsCount": "{count, plural, one{{count} отзыв} few{{count} отзыва} many{{count} отзывов} other{{count} отзыва}}",
-  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
   "reviewBrewMethodLabel": "Способ заваривания",
   "reviewBrewMethodHint": "Выберите способ заваривания",
   "reviewWouldBuyAgainLabel": "Купили бы снова?",
@@ -1266,7 +1211,6 @@
   "filterByCountry": "Фильтр по стране",
   "allCountries": "Все страны",
   "roasterCountryCount": "{count, plural, one{{count} обжарщик} few{{count} обжарщика} many{{count} обжарщиков} other{{count} обжарщика}}",
-  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
   "roastersCatalogEmpty": "Обжарщики не найдены",
   "roastersCatalogEmptySearch": "Нет обжарщиков по запросу \"{query}\"",
   "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },
@@ -1277,7 +1221,7 @@
   "mts_anniversaryDiaryLink": "Открыть Дневник заварок",
   "mts_coffeeDayBanner": "С Международным днём кофе ☕️",
   "mts_coffeeDayBannerDismiss": "Закрыть",
-  "mts_inSyncCelebration": "{count, plural, =1{1 любитель кофе заваривал вместе с вами в последнюю минуту ☕️} other{{count} любителей кофе заваривали вместе с вами в последнюю минуту ☕️}}",
+  "mts_inSyncCelebration": "{count, plural, =1{{count} любитель кофе заваривал вместе с вами в последнюю минуту ☕️} other{{count} любителей кофе заваривали вместе с вами в последнюю минуту ☕️}}",
   "mts_emptyDiaryTitle": "Ваша первая страница ждёт ☕️",
   "mts_emptyDiaryAction": "Что-нибудь заварить",
   "mts_momentTitle_anniversary": "Годовщина первой заварки",
@@ -1290,7 +1234,7 @@
   "mts_momentDescription_coffee_day": "Тёплый привет 1 октября, в Международный день кофе.",
   "mts_momentDescription_in_sync": "Привет другим людям, которые заваривают кофе с вами в тот же момент.",
   "mts_inSyncFromCountries": "из {countries}",
-  "mts_inSyncFromCountriesWithOthers": "из {countries} и ещё {others, plural, =1{1 страны} other{{others} стран}}",
+  "mts_inSyncFromCountriesWithOthers": "из {countries} и ещё {others, plural, =1{{others} страны} other{{others} стран}}",
   "mts_inSyncCountriesConnector": "и",
   "recipeCreationAiReviewToggle": "Проверить рецепт с ИИ",
   "recipeCreationAiReviewConsentInline": "Проверяет рецепт, чтобы все количества правильно менялись автоматически",
@@ -1413,10 +1357,10 @@
   "diaryMethods": "Методы",
   "diaryBeans": "Зёрна",
   "diaryAnyBean": "Любые зёрна",
-  "diarySelectedBeanCount": "{count, plural, =1{Выбрано 1 зерно} other{Выбрано зёрен: {count}}}",
+  "diarySelectedBeanCount": "{count, plural, =1{Выбрано {count} зерно} other{Выбрано зёрен: {count}}}",
   "diaryChooseBeans": "Выбрать зёрна",
   "diaryBeanSearch": "Поиск по зёрнам и обжарщикам",
-  "diaryBeanCount": "{count, plural, =1{1 зерно} other{{count} зёрен}}",
+  "diaryBeanCount": "{count, plural, =1{{count} зерно} other{{count} зёрен}}",
   "diaryOrigins": "Регионы",
   "diaryRating": "Оценка",
   "diaryRatingThreePlus": "★3+",
@@ -1513,7 +1457,7 @@
   "dataExportInvalidEmail": "Введите действительный адрес электронной почты.",
   "dataExportRateLimited": "Слишком много попыток. Повторите попытку позже.",
   "dataExportIncorrectCode": "Введённый код неверен. Проверьте его и попробуйте снова.",
-  "dataExportIncorrectCodeAttempts": "{count, plural, =0{Код неверен. Попыток больше не осталось.} =1{Код неверен. Осталась 1 попытка.} other{Код неверен. Осталось {count} попыток.}}",
+  "dataExportIncorrectCodeAttempts": "{count, plural, =0{Код неверен. Попыток больше не осталось.} =1{Код неверен. Осталась {count} попытка.} other{Код неверен. Осталось {count} попыток.}}",
   "dataExportExpiredOrNoRequest": "Срок действия этого кода истёк, либо активный запрос на экспорт отсутствует. Запросите новый код.",
   "dataExportPayloadTooLarge": "Ваши локальные данные сейчас слишком велики для экспорта. Обратитесь в поддержку.",
   "dataExportNetworkError": "Ошибка сети. Проверьте соединение и попробуйте снова.",

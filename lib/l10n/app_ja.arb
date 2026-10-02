@@ -11,12 +11,7 @@
   },
   "roasterBagsLogged": "{count, plural, other{コミュニティが登録した{count}袋}}",
   "@roasterBagsLogged": {
-    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile"
   },
   "userRecipesTitle": "あなたのレシピ",
   "userRecipesSectionCreated": "あなたが作成",
@@ -119,14 +114,6 @@
   "brewdiarynotfound": "エントリーが見つかりません",
   "brewsWithThisCoffee": "このコーヒーでの抽出",
   "showAllNBrews": "{count, plural, =1{1件の抽出を表示} other{{count}件すべての抽出を表示}}",
-  "@showAllNBrews": {
-    "placeholders": {
-      "count": {
-        "type": "num",
-        "format": "compact"
-      }
-    }
-  },
   "beans": "豆",
   "roaster": "ロースター",
   "rating": "評価",
@@ -789,10 +776,7 @@
   "amountLeft": "残量",
   "approxBrewsLeft": "{count, plural, =1{≈ 残り1回分} other{≈ 残り{count}回分}}",
   "@approxBrewsLeft": {
-    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
-    "placeholders": {
-      "count": { "type": "int" }
-    }
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose"
   },
   "enterAmountLeft": "残量を入力",
   "beansTotalLeftLabel": "残量合計",
@@ -973,12 +957,7 @@
   "relativeTimeYearsAgo": "{count, plural, =1{1年前} other{{count}年前}}",
   "pulseBrewsCount": "{count, plural, other{{count} 回}}",
   "@pulseBrewsCount": {
-    "description": "Pluralized brew count for Pulse summary",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Pluralized brew count for Pulse summary"
   },
   "timePeriodThisYear": "今年",
   "timePeriodLastYear": "昨年",
@@ -1062,13 +1041,6 @@
 
   "notifBrewMilestoneTitle": "新記録です",
   "notifBrewMilestoneBody": "これまでに{count}回淹れました。タップして進捗を見ましょう。",
-  "@notifBrewMilestoneBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifExploreRecipesTitle": "新しい{methodName}レシピを試してみませんか？",
   "@notifExploreRecipesTitle": {
@@ -1079,13 +1051,6 @@
     }
   },
   "notifExploreRecipesBody": "{count, plural, =1{これまでに試したレシピは1つです。次に試せるレシピはこちら。} other{これまでに{count}件のレシピを試しました。次に試せるレシピはこちら。}}",
-  "@notifExploreRecipesBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifMorningTitle": "おはようございます。淹れる準備はできていますか？",
   "notifMorningBody": "いい一杯で一日を始めましょう。",
@@ -1094,21 +1059,7 @@
   "notifMorningTitle3": "今日の最初の一杯ですか？",
   "notifMorningBody3": "レシピを選んで、淹れ始めましょう。",
   "notifWeeklyTitle": "{count, plural, =0{今週は抽出なし} =1{今週の抽出は1回} other{今週の抽出は{count}回}}",
-  "@notifWeeklyTitle": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "notifWeeklyBody": "{recipes, plural, =0{静かな一週間 — タップして次の抽出を計画しましょう。} =1{タップして今週の統計を見ましょう。} other{レシピ{recipes}件分です。タップして内訳を見ましょう。}}",
-  "@notifWeeklyBody": {
-    "placeholders": {
-      "recipes": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifBeanFreshnessTitle": "コーヒーを淹れましょう",
   "notifBeanFreshnessRestBody": "{beanName} がおいしくなる頃です。淹れるのをお忘れなく",
@@ -1151,11 +1102,6 @@
   "settingsAnalyticsSummaryPartial": "分析は一部オン",
   "settingsAnalyticsSummaryOff": "分析オフ",
   "daysAgo": "{count, plural, other{{count}日前}}",
-  "@daysAgo": {
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
 
   "aiScanLabel": "AIスキャン",
   "reviewModerationFailedBody": "レビューを公開できませんでした。理由: {reason}",
@@ -1210,7 +1156,6 @@
   "confirmDeleteReviewTitle": "このレビューを削除しますか？",
   "confirmDeleteReviewMessage": "この操作は元に戻せません。",
   "reviewsCount": "{count, plural, other{{count}件のレビュー}}",
-  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
   "reviewBrewMethodLabel": "抽出方法",
   "reviewBrewMethodHint": "抽出方法を選択",
   "reviewWouldBuyAgainLabel": "また購入したいですか？",
@@ -1266,7 +1211,6 @@
   "filterByCountry": "国で絞り込み",
   "allCountries": "すべての国",
   "roasterCountryCount": "{count, plural, other{{count}件のロースター}}",
-  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
   "roastersCatalogEmpty": "ロースターが見つかりません",
   "roastersCatalogEmptySearch": "\"{query}\"に一致するロースターはありません",
   "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },

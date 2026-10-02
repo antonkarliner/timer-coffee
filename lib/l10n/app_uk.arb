@@ -11,12 +11,7 @@
   },
   "roasterBagsLogged": "{count, plural, one{спільнота додала {count} пачку} few{спільнота додала {count} пачки} many{спільнота додала {count} пачок} other{спільнота додала {count} пачки}}",
   "@roasterBagsLogged": {
-    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile"
   },
   "userRecipesTitle": "Ваші рецепти",
   "userRecipesSectionCreated": "Створені вами",
@@ -118,15 +113,7 @@
   "brewdiary": "Щоденник заварювань",
   "brewdiarynotfound": "Записів не знайдено",
   "brewsWithThisCoffee": "Заварювання з цією кавою",
-  "showAllNBrews": "{count, plural, =1{Показати 1 заварювання} other{Показати всі заварювання ({count})}}",
-  "@showAllNBrews": {
-    "placeholders": {
-      "count": {
-        "type": "num",
-        "format": "compact"
-      }
-    }
-  },
+  "showAllNBrews": "{count, plural, =1{Показати {count} заварювання} other{Показати всі заварювання ({count})}}",
   "beans": "Зерна",
   "roaster": "Обсмажувач",
   "rating": "Оцінка",
@@ -348,7 +335,7 @@
   "yearlyStats25Slide4TitleMulti": "Пам’ятаєте дні, коли ви приготували найбільше кави цього року?",
   "yearlyStats25Slide4TitleBrewTime": "Ваш час заварювання цього року",
   "yearlyStats25Slide4ScratchLabel": "Зітріть, щоб відкрити",
-  "yearlyStats25BrewsCount": "{count, plural, one{# заварювання} few{# заварювання} many{# заварювань} other{# заварювання}}",
+  "yearlyStats25BrewsCount": "{count, plural, one{{count} заварювання} few{{count} заварювання} many{{count} заварювань} other{{count} заварювання}}",
   "yearlyStats25Slide4PeakSingle": "{date} — {brewsLabel}",
   "yearlyStats25Slide4PeakLiters": "Приблизно {liters} л того дня",
   "yearlyStats25Slide4PeakMostRecent": "Найсвіжіше: {mostRecent} — {brewsLabel}",
@@ -394,7 +381,7 @@
   "yearlyStats25AppBarTooltipResume": "Продовжити",
   "yearlyStats25AppBarTooltipPause": "Пауза",
   "yearlyStats25ShareError": "Не вдалося поділитися підсумком. Спробуйте ще раз.",
-  "yearlyStats25BrewTimeMinutes": "{count, plural, one{# хвилина} few{# хвилини} many{# хвилин} other{# хвилини}}",
+  "yearlyStats25BrewTimeMinutes": "{count, plural, one{{count} хвилина} few{{count} хвилини} many{{count} хвилин} other{{count} хвилини}}",
   "yearlyStats25BrewTimeHours": "{hours} год",
   "yearlyStats25ShareTitle": "Мій рік 2025 з Timer.Coffee",
   "yearlyStats25ShareBrewedPrefix": "Заварювання: ",
@@ -411,9 +398,9 @@
   "labelTastedBeansBy": "Зерна, що скуштували:",
   "labelDiscoveredCoffeeFrom": "Відкрита кава з",
   "labelUsedBrewingMethods": "Використано",
-  "formattedRoasterCount": "{count} {count, plural, one {# обсмажувальник} few {# обсмажувальники} many {# обсмажувальників} other{# обсмажувальникa}}",
-  "formattedCountryCount": "{count} {count, plural, one {# країна} few {# країни} many {# країн} other{# країни}}",
-  "formattedBrewingMethodCount": "{count} {count, plural, one {# спосіб заварювання} few {# способи заварювання} many {# способів заварювання} other{# способу заварювання}}",
+  "formattedRoasterCount": "{count} {count, plural, one{обсмажувальник} few{обсмажувальники} many{обсмажувальників} other{обсмажувальника}}",
+  "formattedCountryCount": "{count} {count, plural, one{країна} few{країни} many{країн} other{країни}}",
+  "formattedBrewingMethodCount": "{count} {count, plural, one{спосіб заварювання} few{способи заварювання} many{способів заварювання} other{способу заварювання}}",
   "recipeCreationScreenEditRecipeTitle": "Редагувати рецепт",
   "recipeCreationScreenCreateRecipeTitle": "Створити рецепт",
   "recipeCreationScreenRecipeStepsTitle": "Кроки рецепту",
@@ -789,10 +776,7 @@
   "amountLeft": "Залишок",
   "approxBrewsLeft": "{count, plural, one{≈ залишилося {count} заварювання} few{≈ залишилося {count} заварювання} many{≈ залишилося {count} заварювань} other{≈ залишилося {count} заварювання}}",
   "@approxBrewsLeft": {
-    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
-    "placeholders": {
-      "count": { "type": "int" }
-    }
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose"
   },
   "enterAmountLeft": "Введіть залишок",
   "beansTotalLeftLabel": "Усього залишилося",
@@ -973,12 +957,7 @@
   "relativeTimeYearsAgo": "{count, plural, one{{count} рік тому} few{{count} роки тому} many{{count} років тому} other{{count} року тому}}",
   "pulseBrewsCount": "{count, plural, one{{count} заварювання} few{{count} заварювання} many{{count} заварювань} other{{count} заварювання}}",
   "@pulseBrewsCount": {
-    "description": "Pluralized brew count for Pulse summary",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Pluralized brew count for Pulse summary"
   },
   "timePeriodThisYear": "Цього року",
   "timePeriodLastYear": "Минулого року",
@@ -1062,13 +1041,6 @@
 
   "notifBrewMilestoneTitle": "Нове досягнення",
   "notifBrewMilestoneBody": "{count, plural, one{Ви заварили каву {count} раз. Натисніть, щоб переглянути свій прогрес.} few{Ви заварили каву {count} рази. Натисніть, щоб переглянути свій прогрес.} many{Ви заварили каву {count} разів. Натисніть, щоб переглянути свій прогрес.} other{Ви заварили каву {count} разу. Натисніть, щоб переглянути свій прогрес.}}",
-  "@notifBrewMilestoneBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifExploreRecipesTitle": "Спробуйте новий рецепт для {methodName}",
   "@notifExploreRecipesTitle": {
@@ -1079,13 +1051,6 @@
     }
   },
   "notifExploreRecipesBody": "{count, plural, one{Ви вже спробували {count} рецепт. Ось ще один для наступної чашки.} few{Ви вже спробували {count} рецепти. Ось ще один для наступної чашки.} many{Ви вже спробували {count} рецептів. Ось ще один для наступної чашки.} other{Ви вже спробували {count} рецепта. Ось ще один для наступної чашки.}}",
-  "@notifExploreRecipesBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifMorningTitle": "Добрий ранок. Готові заварити каву?",
   "notifMorningBody": "Почніть день із хорошої чашки.",
@@ -1094,21 +1059,7 @@
   "notifMorningTitle3": "Перша чашка дня?",
   "notifMorningBody3": "Виберіть рецепт і починайте.",
   "notifWeeklyTitle": "{count, plural, =0{Цього тижня заварювань немає} one{{count} заварювання цього тижня} few{{count} заварювання цього тижня} many{{count} заварювань цього тижня} other{{count} заварювання цього тижня}}",
-  "@notifWeeklyTitle": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "notifWeeklyBody": "{recipes, plural, =0{Тихий тиждень — натисніть, щоб запланувати наступне заварювання.} =1{Натисніть, щоб переглянути статистику за тиждень.} other{У {recipes} рецептах. Натисніть, щоб переглянути деталі.}}",
-  "@notifWeeklyBody": {
-    "placeholders": {
-      "recipes": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifBeanFreshnessTitle": "Час заварювати каву",
   "notifBeanFreshnessRestBody": "{beanName} виходить на пік смаку — не забудьте заварити",
@@ -1151,11 +1102,6 @@
   "settingsAnalyticsSummaryPartial": "Аналітику частково увімкнено",
   "settingsAnalyticsSummaryOff": "Аналітику вимкнено",
   "daysAgo": "{count, plural, one{{count} день тому} few{{count} дні тому} many{{count} днів тому} other{{count} дня тому}}",
-  "@daysAgo": {
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
 
   "aiScanLabel": "ШІ-сканування",
   "reviewModerationFailedBody": "Ваш відгук не вдалося опублікувати, оскільки: {reason}",
@@ -1210,7 +1156,6 @@
   "confirmDeleteReviewTitle": "Видалити цей відгук?",
   "confirmDeleteReviewMessage": "Цю дію неможливо скасувати.",
   "reviewsCount": "{count, plural, one{{count} відгук} few{{count} відгуки} many{{count} відгуків} other{{count} відгука}}",
-  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
   "reviewBrewMethodLabel": "Спосіб заварювання",
   "reviewBrewMethodHint": "Оберіть спосіб заварювання",
   "reviewWouldBuyAgainLabel": "Купили б знову?",
@@ -1266,7 +1211,6 @@
   "filterByCountry": "Фільтр за країною",
   "allCountries": "Усі країни",
   "roasterCountryCount": "{count, plural, one{{count} обсмажувач} few{{count} обсмажувачі} many{{count} обсмажувачів} other{{count} обсмажувача}}",
-  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
   "roastersCatalogEmpty": "Обсмажувачів не знайдено",
   "roastersCatalogEmptySearch": "Немає обсмажувачів за запитом \"{query}\"",
   "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },
@@ -1277,7 +1221,7 @@
   "mts_anniversaryDiaryLink": "Відкрити Щоденник заварювань",
   "mts_coffeeDayBanner": "З Міжнародним днем кави ☕️",
   "mts_coffeeDayBannerDismiss": "Закрити",
-  "mts_inSyncCelebration": "{count, plural, =1{1 любитель кави заварював разом із вами в останню хвилину ☕️} other{{count} любителів кави заварювали разом із вами в останню хвилину ☕️}}",
+  "mts_inSyncCelebration": "{count, plural, =1{{count} любитель кави заварював разом із вами в останню хвилину ☕️} other{{count} любителів кави заварювали разом із вами в останню хвилину ☕️}}",
   "mts_emptyDiaryTitle": "Ваша перша сторінка чекає ☕️",
   "mts_emptyDiaryAction": "Щось заварити",
   "mts_momentTitle_anniversary": "Річниця першого заварювання",
@@ -1290,7 +1234,7 @@
   "mts_momentDescription_coffee_day": "Тепле вітання 1 жовтня, у Міжнародний день кави.",
   "mts_momentDescription_in_sync": "Вітання іншим людям, які заварюють каву з вами в той самий момент.",
   "mts_inSyncFromCountries": "з {countries}",
-  "mts_inSyncFromCountriesWithOthers": "з {countries} і ще {others, plural, =1{1 країни} other{{others} країн}}",
+  "mts_inSyncFromCountriesWithOthers": "з {countries} і ще {others, plural, =1{{others} країни} other{{others} країн}}",
   "mts_inSyncCountriesConnector": "і",
   "recipeCreationAiReviewToggle": "Перевірити рецепт із ШІ",
   "recipeCreationAiReviewConsentInline": "Перевіряє рецепт, щоб усі кількості правильно змінювалися автоматично",
@@ -1413,10 +1357,10 @@
   "diaryMethods": "Методи",
   "diaryBeans": "Зерна",
   "diaryAnyBean": "Будь-які зерна",
-  "diarySelectedBeanCount": "{count, plural, =1{Вибрано 1 зерно} other{Вибрано зерен: {count}}}",
+  "diarySelectedBeanCount": "{count, plural, =1{Вибрано {count} зерно} other{Вибрано зерен: {count}}}",
   "diaryChooseBeans": "Вибрати зерна",
   "diaryBeanSearch": "Пошук зерен і обсмажувальників",
-  "diaryBeanCount": "{count, plural, =1{1 зерно} other{{count} зерен}}",
+  "diaryBeanCount": "{count, plural, =1{{count} зерно} other{{count} зерен}}",
   "diaryOrigins": "Походження",
   "diaryRating": "Оцінка",
   "diaryRatingThreePlus": "★3+",
@@ -1513,7 +1457,7 @@
   "dataExportInvalidEmail": "Введіть дійсну адресу електронної пошти.",
   "dataExportRateLimited": "Забагато спроб. Спробуйте пізніше.",
   "dataExportIncorrectCode": "Введений код неправильний. Перевірте його й спробуйте ще раз.",
-  "dataExportIncorrectCodeAttempts": "{count, plural, =0{Код неправильний. Спроб більше не залишилося.} =1{Код неправильний. Залишилася 1 спроба.} other{Код неправильний. Залишилося {count} спроб.}}",
+  "dataExportIncorrectCodeAttempts": "{count, plural, =0{Код неправильний. Спроб більше не залишилося.} =1{Код неправильний. Залишилася {count} спроба.} other{Код неправильний. Залишилося {count} спроб.}}",
   "dataExportExpiredOrNoRequest": "Термін дії цього коду минув, або немає активного запиту на експорт. Запросіть новий код.",
   "dataExportPayloadTooLarge": "Ваші локальні дані зараз завеликі для експорту. Зверніться до підтримки.",
   "dataExportNetworkError": "Помилка мережі. Перевірте з'єднання й спробуйте ще раз.",

@@ -9,14 +9,9 @@
   "@reviewRequiresOwnedBeans": {
     "description": "Hint shown when the user cannot write a review because they have not logged any beans from this roaster"
   },
-  "roasterBagsLogged": "{count, plural, =1{1 paquet enregistré par la communauté} other{{count} paquets enregistrés par la communauté}}",
+  "roasterBagsLogged": "{count, plural, =1{{count} paquet enregistré par la communauté} other{{count} paquets enregistrés par la communauté}}",
   "@roasterBagsLogged": {
-    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile"
   },
   "userRecipesTitle": "Vos recettes",
   "userRecipesSectionCreated": "Créées par vous",
@@ -118,15 +113,7 @@
   "brewdiary": "Journal de préparation",
   "brewdiarynotfound": "Aucune entrée trouvée",
   "brewsWithThisCoffee": "Préparations avec ce café",
-  "showAllNBrews": "{count, plural, =1{Afficher 1 préparation} other{Afficher les {count} préparations}}",
-  "@showAllNBrews": {
-    "placeholders": {
-      "count": {
-        "type": "num",
-        "format": "compact"
-      }
-    }
-  },
+  "showAllNBrews": "{count, plural, =1{Afficher {count} préparation} other{Afficher les {count} préparations}}",
   "beans": "Grains",
   "roaster": "Torréfacteur",
   "rating": "Évaluation",
@@ -357,7 +344,7 @@
   "yearlyStats25Slide4TitleMulti": "Vous souvenez-vous des jours où vous avez préparé le plus de café cette année ?",
   "yearlyStats25Slide4TitleBrewTime": "Votre temps de préparation cette année",
   "yearlyStats25Slide4ScratchLabel": "Grattez pour révéler",
-  "yearlyStats25BrewsCount": "{count, plural, =1{1 infusion} other{{count} infusions}}",
+  "yearlyStats25BrewsCount": "{count, plural, =1{{count} infusion} other{{count} infusions}}",
   "yearlyStats25Slide4PeakSingle": "{date} — {brewsLabel}",
   "yearlyStats25Slide4PeakLiters": "Environ {liters} litres ce jour-là",
   "yearlyStats25Slide4PeakMostRecent": "Le plus récent : {mostRecent} — {brewsLabel}",
@@ -403,7 +390,7 @@
   "yearlyStats25AppBarTooltipResume": "Reprendre",
   "yearlyStats25AppBarTooltipPause": "Pause",
   "yearlyStats25ShareError": "Impossible de partager le récapitulatif. Veuillez réessayer.",
-  "yearlyStats25BrewTimeMinutes": "{count, plural, =1{1 minute} other{{count} minutes}}",
+  "yearlyStats25BrewTimeMinutes": "{count, plural, =1{{count} minute} other{{count} minutes}}",
   "yearlyStats25BrewTimeHours": "{hours} h",
   "yearlyStats25ShareTitle": "Mon année 2025 avec Timer.Coffee",
   "yearlyStats25ShareBrewedPrefix": "Infusions : ",
@@ -787,12 +774,9 @@
   "recipePrivateTooltip": "La recette est privée - partagez pour la rendre publique",
   "inventory": "Stock",
   "amountLeft": "Quantité restante",
-  "approxBrewsLeft": "{count, plural, =1{≈ 1 préparation restante} other{≈ {count} préparations restantes}}",
+  "approxBrewsLeft": "{count, plural, =1{≈ {count} préparation restante} other{≈ {count} préparations restantes}}",
   "@approxBrewsLeft": {
-    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
-    "placeholders": {
-      "count": { "type": "int" }
-    }
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose"
   },
   "enterAmountLeft": "Saisir la quantité restante",
   "beansTotalLeftLabel": "Total restant",
@@ -965,20 +949,15 @@
   "timePeriodLastHour": "Dernière heure",
   "timePeriodOlder": "Plus ancien",
   "relativeTimeJustNow": "à l'instant",
-  "relativeTimeMinutesAgo": "{count, plural, =1{il y a 1 minute} other{il y a {count} minutes}}",
-  "relativeTimeHoursAgo": "{count, plural, =1{il y a 1 heure} other{il y a {count} heures}}",
-  "relativeTimeHoursMinutesAgo": "il y a {hours, plural, =1{1 heure} other{{hours} heures}} et {minutes, plural, =1{1 minute} other{{minutes} minutes}}",
-  "relativeTimeDaysAgo": "{count, plural, =1{il y a 1 jour} other{il y a {count} jours}}",
-  "relativeTimeMonthsAgo": "{count, plural, =1{il y a 1 mois} other{il y a {count} mois}}",
-  "relativeTimeYearsAgo": "{count, plural, =1{il y a 1 an} other{il y a {count} ans}}",
-  "pulseBrewsCount": "{count, plural, =1{1 infusion} other{{count} infusions}}",
+  "relativeTimeMinutesAgo": "{count, plural, =1{il y a {count} minute} other{il y a {count} minutes}}",
+  "relativeTimeHoursAgo": "{count, plural, =1{il y a {count} heure} other{il y a {count} heures}}",
+  "relativeTimeHoursMinutesAgo": "il y a {hours, plural, =1{{hours} heure} other{{hours} heures}} et {minutes, plural, =1{{minutes} minute} other{{minutes} minutes}}",
+  "relativeTimeDaysAgo": "{count, plural, =1{il y a {count} jour} other{il y a {count} jours}}",
+  "relativeTimeMonthsAgo": "{count, plural, =1{il y a {count} mois} other{il y a {count} mois}}",
+  "relativeTimeYearsAgo": "{count, plural, =1{il y a {count} an} other{il y a {count} ans}}",
+  "pulseBrewsCount": "{count, plural, =1{{count} infusion} other{{count} infusions}}",
   "@pulseBrewsCount": {
-    "description": "Pluralized brew count for Pulse summary",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Pluralized brew count for Pulse summary"
   },
   "timePeriodThisYear": "Cette année",
   "timePeriodLastYear": "L'année dernière",
@@ -1062,13 +1041,6 @@
 
   "notifBrewMilestoneTitle": "Vous avez atteint un cap",
   "notifBrewMilestoneBody": "Vous avez préparé {count} fois. Touchez pour voir votre progression.",
-  "@notifBrewMilestoneBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifExploreRecipesTitle": "Essayez une nouvelle recette pour {methodName}",
   "@notifExploreRecipesTitle": {
@@ -1078,14 +1050,7 @@
       }
     }
   },
-  "notifExploreRecipesBody": "{count, plural, =1{Vous avez essayé 1 recette pour l'instant. En voici une autre à découvrir.} other{Vous avez essayé {count} recettes pour l'instant. En voici une autre à découvrir.}}",
-  "@notifExploreRecipesBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
+  "notifExploreRecipesBody": "{count, plural, =1{Vous avez essayé {count} recette pour l'instant. En voici une autre à découvrir.} other{Vous avez essayé {count} recettes pour l'instant. En voici une autre à découvrir.}}",
 
   "notifMorningTitle": "Bonjour. Envie d'un café ?",
   "notifMorningBody": "Commencez la journée avec une bonne tasse.",
@@ -1094,21 +1059,7 @@
   "notifMorningTitle3": "Première tasse de la journée ?",
   "notifMorningBody3": "Choisissez une recette et lancez-vous.",
   "notifWeeklyTitle": "{count, plural, =0{Aucune préparation cette semaine} =1{1 préparation cette semaine} other{{count} préparations cette semaine}}",
-  "@notifWeeklyTitle": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "notifWeeklyBody": "{recipes, plural, =0{Semaine calme — appuyez pour planifier votre prochaine préparation.} =1{Appuyez pour voir vos statistiques de la semaine.} other{Sur {recipes} recettes. Appuyez pour voir le détail.}}",
-  "@notifWeeklyBody": {
-    "placeholders": {
-      "recipes": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifBeanFreshnessTitle": "L’heure de préparer un café",
   "notifBeanFreshnessRestBody": "{beanName} arrive à son apogée — n’oubliez pas de le préparer",
@@ -1150,12 +1101,7 @@
   "settingsAnalyticsSummaryOn": "Analyses activées",
   "settingsAnalyticsSummaryPartial": "Analyses partiellement activées",
   "settingsAnalyticsSummaryOff": "Analyses désactivées",
-  "daysAgo": "{count, plural, one{il y a 1 jour} other{il y a {count} jours}}",
-  "@daysAgo": {
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
+  "daysAgo": "{count, plural, one{il y a {count} jour} other{il y a {count} jours}}",
 
   "aiScanLabel": "Scan IA",
   "reviewModerationFailedBody": "Votre avis n'a pas pu être publié car : {reason}",
@@ -1209,8 +1155,7 @@
   "finishWhatsNewCardSubtitle": "Touchez pour découvrir les nouveautés de cette mise à jour.",
   "confirmDeleteReviewTitle": "Supprimer cet avis ?",
   "confirmDeleteReviewMessage": "Cette action est irréversible.",
-  "reviewsCount": "{count, plural, =1{1 avis} other{{count} avis}}",
-  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
+  "reviewsCount": "{count, plural, =1{{count} avis} other{{count} avis}}",
   "reviewBrewMethodLabel": "Méthode d'extraction",
   "reviewBrewMethodHint": "Sélectionner une méthode d'extraction",
   "reviewWouldBuyAgainLabel": "En rachèteriez-vous ?",
@@ -1265,8 +1210,7 @@
   "searchRoasters": "Rechercher des torréfacteurs...",
   "filterByCountry": "Filtrer par pays",
   "allCountries": "Tous les pays",
-  "roasterCountryCount": "{count, plural, =1{1 torréfacteur} other{{count} torréfacteurs}}",
-  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
+  "roasterCountryCount": "{count, plural, =1{{count} torréfacteur} other{{count} torréfacteurs}}",
   "roastersCatalogEmpty": "Aucun torréfacteur trouvé",
   "roastersCatalogEmptySearch": "Aucun torréfacteur ne correspond à \"{query}\"",
   "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },
@@ -1277,7 +1221,7 @@
   "mts_anniversaryDiaryLink": "Ouvrir le journal de préparation",
   "mts_coffeeDayBanner": "Bonne Journée internationale du café ☕️",
   "mts_coffeeDayBannerDismiss": "Fermer",
-  "mts_inSyncCelebration": "{count, plural, =1{1 amateur de café a préparé en même temps que vous dans la dernière minute ☕️} other{{count} amateurs de café ont préparé en même temps que vous dans la dernière minute ☕️}}",
+  "mts_inSyncCelebration": "{count, plural, =1{{count} amateur de café a préparé en même temps que vous dans la dernière minute ☕️} other{{count} amateurs de café ont préparé en même temps que vous dans la dernière minute ☕️}}",
   "mts_emptyDiaryTitle": "Votre première page vous attend ☕️",
   "mts_emptyDiaryAction": "Préparer un café",
   "mts_momentTitle_anniversary": "Anniversaire de la première préparation",
@@ -1290,7 +1234,7 @@
   "mts_momentDescription_coffee_day": "Un salut chaleureux le 1er octobre, Journée internationale du café.",
   "mts_momentDescription_in_sync": "Un clin d’œil aux autres personnes qui préparent au même moment que vous.",
   "mts_inSyncFromCountries": "depuis {countries}",
-  "mts_inSyncFromCountriesWithOthers": "depuis {countries} et {others, plural, =1{1 autre pays} other{{others} autres pays}}",
+  "mts_inSyncFromCountriesWithOthers": "depuis {countries} et {others, plural, =1{{others} autre pays} other{{others} autres pays}}",
   "mts_inSyncCountriesConnector": "et",
   "recipeCreationAiReviewToggle": "Vérifier la recette avec l’IA",
   "recipeCreationAiReviewConsentInline": "Vérifie la recette pour que toutes les quantités s’ajustent automatiquement correctement",
@@ -1413,10 +1357,10 @@
   "diaryMethods": "Méthodes",
   "diaryBeans": "Cafés",
   "diaryAnyBean": "N’importe quel café",
-  "diarySelectedBeanCount": "{count, plural, =1{1 café sélectionné} other{{count} cafés sélectionnés}}",
+  "diarySelectedBeanCount": "{count, plural, =1{{count} café sélectionné} other{{count} cafés sélectionnés}}",
   "diaryChooseBeans": "Choisir des cafés",
   "diaryBeanSearch": "Rechercher des cafés et des torréfacteurs",
-  "diaryBeanCount": "{count, plural, =1{1 café} other{{count} cafés}}",
+  "diaryBeanCount": "{count, plural, =1{{count} café} other{{count} cafés}}",
   "diaryOrigins": "Origines",
   "diaryRating": "Note",
   "diaryRatingThreePlus": "★3+",
@@ -1432,17 +1376,17 @@
   "beanJourneyNoBrews": "Aucune préparation associée à ce café.",
       "diaryGroupDialedIn": "Réglé",
   "diaryGroupDialingIn": "En cours de réglage",
-  "diaryGroupBrewCount": "{count, plural, =1{1 préparation} other{{count} préparations}}",
-  "diaryMonthBrews": "{count, plural, =1{1 préparation} other{{count} préparations}}",
-  "diaryMonthStreakDays": "{count, plural, =1{1 jour 🔥} other{{count} jours 🔥}}",
-  "diaryMonthActiveDays": "{count, plural, =1{1 jour actif} other{{count} jours actifs}}",
+  "diaryGroupBrewCount": "{count, plural, =1{{count} préparation} other{{count} préparations}}",
+  "diaryMonthBrews": "{count, plural, =1{{count} préparation} other{{count} préparations}}",
+  "diaryMonthStreakDays": "{count, plural, =1{{count} jour 🔥} other{{count} jours 🔥}}",
+  "diaryMonthActiveDays": "{count, plural, =1{{count} jour actif} other{{count} jours actifs}}",
   "diaryFullStats": "Toutes les statistiques",
   "diaryMonthStripExpand": "Développer le récapitulatif mensuel",
   "diaryMonthStripCollapse": "Réduire le récapitulatif mensuel",
   "diaryPreviousMonth": "Mois précédent",
   "diaryNextMonth": "Mois suivant",
   "diaryBackToCalendar": "Retour au calendrier",
-  "diaryOnThisDayTitle": "{years, plural, =1{À la même date · il y a 1 an} other{À la même date · il y a {years} ans}}",
+  "diaryOnThisDayTitle": "{years, plural, =1{À la même date · il y a {years} an} other{À la même date · il y a {years} ans}}",
   "diaryOnThisDaySubtitle": "{label} · {method}",
   "diaryWeekOf": "Semaine du {date}",
   "diaryWeekBest": "meilleur : {label} ★{rating}",

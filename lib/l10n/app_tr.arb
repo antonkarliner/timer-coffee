@@ -11,12 +11,7 @@
   },
   "roasterBagsLogged": "{count, plural, other{toplulukça eklenen {count} paket}}",
   "@roasterBagsLogged": {
-    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile"
   },
   "userRecipesTitle": "Tariflerin",
   "userRecipesSectionCreated": "Senin oluşturdukların",
@@ -119,14 +114,6 @@
   "brewdiarynotfound": "Giriş bulunamadı",
   "brewsWithThisCoffee": "Bu kahveyle yapılan demlemeler",
   "showAllNBrews": "{count, plural, =1{1 demlemeyi göster} other{Tüm {count} demlemeyi göster}}",
-  "@showAllNBrews": {
-    "placeholders": {
-      "count": {
-        "type": "num",
-        "format": "compact"
-      }
-    }
-  },
   "beans": "Çekirdekler",
   "roaster": "Kahve kavurucusu",
   "rating": "Puanlama",
@@ -789,10 +776,7 @@
   "amountLeft": "Kalan miktar",
   "approxBrewsLeft": "{count, plural, =1{≈ 1 demleme kaldı} other{≈ {count} demleme kaldı}}",
   "@approxBrewsLeft": {
-    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
-    "placeholders": {
-      "count": { "type": "int" }
-    }
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose"
   },
   "enterAmountLeft": "Kalan miktarı girin",
   "beansTotalLeftLabel": "Toplam kalan",
@@ -973,12 +957,7 @@
   "relativeTimeYearsAgo": "{count, plural, =1{1 yıl önce} other{{count} yıl önce}}",
   "pulseBrewsCount": "{count, plural, other{{count} demleme}}",
   "@pulseBrewsCount": {
-    "description": "Pluralized brew count for Pulse summary",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Pluralized brew count for Pulse summary"
   },
   "timePeriodThisYear": "Bu Yıl",
   "timePeriodLastYear": "Geçen Yıl",
@@ -1062,13 +1041,6 @@
 
   "notifBrewMilestoneTitle": "Yeni bir dönüm noktası",
   "notifBrewMilestoneBody": "Toplam {count} kez demleme yaptın. İlerlemeni görmek için dokun.",
-  "@notifBrewMilestoneBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifExploreRecipesTitle": "{methodName} için yeni bir tarif dene",
   "@notifExploreRecipesTitle": {
@@ -1079,13 +1051,6 @@
     }
   },
   "notifExploreRecipesBody": "{count, plural, =1{Şimdiye kadar 1 tarif denedin. İşte denemen için bir tane daha.} other{Şimdiye kadar {count} tarif denedin. İşte denemen için bir tane daha.}}",
-  "@notifExploreRecipesBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifMorningTitle": "Günaydın. Demlemeye hazır mısın?",
   "notifMorningBody": "Güne iyi bir fincanla başla.",
@@ -1094,21 +1059,7 @@
   "notifMorningTitle3": "Günün ilk fincanı?",
   "notifMorningBody3": "Bir tarif seç ve demlemeye başla.",
   "notifWeeklyTitle": "{count, plural, =0{Bu hafta demleme yok} =1{Bu hafta 1 demleme} other{Bu hafta {count} demleme}}",
-  "@notifWeeklyTitle": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "notifWeeklyBody": "{recipes, plural, =0{Sakin bir hafta — sonraki demlemeni planlamak için dokun.} =1{Haftalık istatistiklerini görmek için dokun.} other{Bu hafta {recipes} tarif kullandın. Ayrıntıları görmek için dokun.}}",
-  "@notifWeeklyBody": {
-    "placeholders": {
-      "recipes": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifBeanFreshnessTitle": "Demleme vakti",
   "notifBeanFreshnessRestBody": "{beanName} en iyi zamanına ulaşıyor — demlemeyi unutma",
@@ -1151,11 +1102,6 @@
   "settingsAnalyticsSummaryPartial": "Analizler kısmen açık",
   "settingsAnalyticsSummaryOff": "Analizler kapalı",
   "daysAgo": "{count, plural, one{1 gün önce} other{{count} gün önce}}",
-  "@daysAgo": {
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
 
   "aiScanLabel": "AI taraması",
   "reviewModerationFailedBody": "Yorumun yayımlanamadı çünkü: {reason}",
@@ -1210,7 +1156,6 @@
   "confirmDeleteReviewTitle": "Bu yorum silinsin mi?",
   "confirmDeleteReviewMessage": "Bu işlem geri alınamaz.",
   "reviewsCount": "{count, plural, other{{count} yorum}}",
-  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
   "reviewBrewMethodLabel": "Demleme yöntemi",
   "reviewBrewMethodHint": "Demleme yöntemi seç",
   "reviewWouldBuyAgainLabel": "Tekrar alır mıydın?",
@@ -1266,7 +1211,6 @@
   "filterByCountry": "Ülkeye göre filtrele",
   "allCountries": "Tüm ülkeler",
   "roasterCountryCount": "{count, plural, other{{count} kavurucu}}",
-  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
   "roastersCatalogEmpty": "Kavurucu bulunamadı",
   "roastersCatalogEmptySearch": "\"{query}\" ile eşleşen kavurucu yok",
   "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },

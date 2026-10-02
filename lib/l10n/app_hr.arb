@@ -11,12 +11,7 @@
   },
   "roasterBagsLogged": "{count, plural, one{zajednica je dodala {count} paket} few{zajednica je dodala {count} paketa} other{zajednica je dodala {count} paketa}}",
   "@roasterBagsLogged": {
-    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile"
   },
   "beansStatsSectionTitle": "Statistika zrna",
   "totalBeansBrewedLabel": "Ukupno pripremljenih zrna",
@@ -133,15 +128,7 @@
   "brewdiary": "Dnevnik pripreme",
   "brewdiarynotfound": "Nije pronađen nijedan unos",
   "brewsWithThisCoffee": "Pripreme s ovom kavom",
-  "showAllNBrews": "{count, plural, =1{Prikaži 1 pripremu} other{Prikaži sve pripreme ({count})}}",
-  "@showAllNBrews": {
-    "placeholders": {
-      "count": {
-        "type": "num",
-        "format": "compact"
-      }
-    }
-  },
+  "showAllNBrews": "{count, plural, =1{Prikaži {count} pripremu} other{Prikaži sve pripreme ({count})}}",
   "beans": "Zrna",
   "roaster": "Pržionica",
   "rating": "Ocjena",
@@ -270,10 +257,7 @@
   "amountLeft": "Preostala količina",
   "approxBrewsLeft": "{count, plural, one{≈ preostala {count} priprema} few{≈ preostale {count} pripreme} other{≈ preostalo {count} priprema}}",
   "@approxBrewsLeft": {
-    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
-    "placeholders": {
-      "count": { "type": "int" }
-    }
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose"
   },
   "enterAmountLeft": "Unesi preostalu količinu",
   "beansTotalLeftLabel": "Ukupno preostalo",
@@ -389,13 +373,7 @@
   },
   "yearlyStatsStory4Text": "Koristio/la si zrna iz {roasterCount} pržionica",
   "@yearlyStatsStory4Text": {
-    "description": "Statement about the number of distinct roasters used",
-    "placeholders": {
-      "roasterCount": {
-        "type": "num",
-        "example": "5"
-      }
-    }
+    "description": "Statement about the number of distinct roasters used"
   },
   "yearlyStatsStory4Top3Roasters": "Tvoje top 3 pržionice su bile:\n{top3}",
   "@yearlyStatsStory4Top3Roasters": {
@@ -415,13 +393,7 @@
   },
   "yearlyStatsStory6Text": "Kušao/la si zrna kave\niz {originCount} država!",
   "@yearlyStatsStory6Text": {
-    "description": "Statement about the number of distinct origins",
-    "placeholders": {
-      "originCount": {
-        "type": "num",
-        "example": "10"
-      }
-    }
+    "description": "Statement about the number of distinct origins"
   },
   "yearlyStatsStory7Part1": "Nisi pripremao/la sam/a",
   "@yearlyStatsStory7Part1": {
@@ -433,33 +405,15 @@
   },
   "yearlyStatsStory8TitleLow": "Ostao/la si dosljedan/dosljedna i koristio/la samo ovih {count} načina pripreme ove godine:",
   "@yearlyStatsStory8TitleLow": {
-    "description": "Title for low number of brewing methods",
-    "placeholders": {
-      "count": {
-        "type": "num",
-        "example": "3"
-      }
-    }
+    "description": "Title for low number of brewing methods"
   },
   "yearlyStatsStory8TitleMedium": "Otkrivao/la si nove okuse i koristio/la {count} načina pripreme ove godine:",
   "@yearlyStatsStory8TitleMedium": {
-    "description": "Title for medium number of brewing methods",
-    "placeholders": {
-      "count": {
-        "type": "num",
-        "example": "5"
-      }
-    }
+    "description": "Title for medium number of brewing methods"
   },
   "yearlyStatsStory8TitleHigh": "Bio/la si pravi istraživač kave i koristio/la {count} načina pripreme ove godine:",
   "@yearlyStatsStory8TitleHigh": {
-    "description": "Title for high number of brewing methods",
-    "placeholders": {
-      "count": {
-        "type": "num",
-        "example": "8"
-      }
-    }
+    "description": "Title for high number of brewing methods"
   },
   "yearlyStatsStory9Text": "Toliko toga još za otkriti!",
   "@yearlyStatsStory9Text": {
@@ -537,7 +491,7 @@
   "yearlyStats25Slide4TitleMulti": "Sjećaš li se dana kada si kuhao/la najviše kave ove godine?",
   "yearlyStats25Slide4TitleBrewTime": "Tvoje vrijeme pripreme ove godine",
   "yearlyStats25Slide4ScratchLabel": "Ogrebi da otkriješ",
-  "yearlyStats25BrewsCount": "{count, plural, one{# priprema} few{# pripreme} other{# priprema}}",
+  "yearlyStats25BrewsCount": "{count, plural, one{{count} priprema} few{{count} pripreme} other{{count} priprema}}",
   "yearlyStats25Slide4PeakSingle": "{date} — {brewsLabel}",
   "yearlyStats25Slide4PeakLiters": "Oko {liters} litara tog dana",
   "yearlyStats25Slide4PeakMostRecent": "Najnovije: {mostRecent} — {brewsLabel}",
@@ -583,7 +537,7 @@
   "yearlyStats25AppBarTooltipResume": "Nastavi",
   "yearlyStats25AppBarTooltipPause": "Pauziraj",
   "yearlyStats25ShareError": "Nije moguće podijeliti sažetak. Pokušaj ponovno.",
-  "yearlyStats25BrewTimeMinutes": "{count, plural, one{# minuta} few{# minute} other{# minuta}}",
+  "yearlyStats25BrewTimeMinutes": "{count, plural, one{{count} minuta} few{{count} minute} other{{count} minuta}}",
   "yearlyStats25BrewTimeHours": "{hours} h",
   "yearlyStats25ShareTitle": "Moja 2025. s Timer.Coffee",
   "yearlyStats25ShareBrewedPrefix": "Skuhao/la ",
@@ -613,29 +567,8 @@
     "description": "Label for brewing methods stats"
   },
   "formattedRoasterCount": "{count} {count, plural, =1{pržionica} other{pržionice}}",
-  "@formattedRoasterCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "formattedCountryCount": "{count} {count, plural, =1{država} other{države}}",
-  "@formattedCountryCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "formattedBrewingMethodCount": "{count} {count, plural, =1{način pripreme} other{načini pripreme}}",
-  "@formattedBrewingMethodCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "recipeCreationScreenEditRecipeTitle": "Uredi recept",
   "recipeCreationScreenCreateRecipeTitle": "Kreiraj recept",
   "recipeCreationScreenRecipeStepsTitle": "Koraci recepta",
@@ -1136,20 +1069,15 @@
   "timePeriodLastHour": "Posljednji sat",
   "timePeriodOlder": "Starije",
   "relativeTimeJustNow": "upravo sada",
-  "relativeTimeMinutesAgo": "{count, plural, =1{prije 1 minute} other{prije {count} minuta}}",
-  "relativeTimeHoursAgo": "{count, plural, =1{prije 1 sat} other{prije {count} sati}}",
-  "relativeTimeHoursMinutesAgo": "prije {hours, plural, =1{1 sat} other{{hours} sati}} i {minutes, plural, =1{1 minute} other{{minutes} minuta}}",
-  "relativeTimeDaysAgo": "{count, plural, =1{prije 1 dan} other{prije {count} dana}}",
-  "relativeTimeMonthsAgo": "{count, plural, =1{prije 1 mjesec} other{prije {count} mjeseci}}",
-  "relativeTimeYearsAgo": "{count, plural, =1{prije 1 godinu} other{prije {count} godina}}",
+  "relativeTimeMinutesAgo": "{count, plural, =1{prije {count} minute} other{prije {count} minuta}}",
+  "relativeTimeHoursAgo": "{count, plural, =1{prije {count} sat} other{prije {count} sati}}",
+  "relativeTimeHoursMinutesAgo": "prije {hours, plural, =1{{hours} sat} other{{hours} sati}} i {minutes, plural, =1{{minutes} minute} other{{minutes} minuta}}",
+  "relativeTimeDaysAgo": "{count, plural, =1{prije {count} dan} other{prije {count} dana}}",
+  "relativeTimeMonthsAgo": "{count, plural, =1{prije {count} mjesec} other{prije {count} mjeseci}}",
+  "relativeTimeYearsAgo": "{count, plural, =1{prije {count} godinu} other{prije {count} godina}}",
   "pulseBrewsCount": "{count, plural, one{{count} priprema} few{{count} pripreme} other{{count} priprema}}",
   "@pulseBrewsCount": {
-    "description": "Pluralized brew count for Pulse summary",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Pluralized brew count for Pulse summary"
   },
   "timePeriodThisYear": "Ove godine",
   "timePeriodLastYear": "Prošle godine",
@@ -1233,13 +1161,6 @@
 
   "notifBrewMilestoneTitle": "Dosegnuli ste novu prekretnicu",
   "notifBrewMilestoneBody": "Skuhali ste kavu {count, plural, one{{count} put} few{{count} puta} other{{count} puta}}. Dodirnite za pregled napretka.",
-  "@notifBrewMilestoneBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifExploreRecipesTitle": "Isprobaj novi recept za {methodName}",
   "@notifExploreRecipesTitle": {
@@ -1250,13 +1171,6 @@
     }
   },
   "notifExploreRecipesBody": "{count, plural, one{Dosad ste isprobali {count} recept. Evo još jednog za probati.} few{Dosad ste isprobali {count} recepta. Evo još jednog za probati.} other{Dosad ste isprobali {count} recepata. Evo još jednog za probati.}}",
-  "@notifExploreRecipesBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifMorningTitle": "Dobro jutro. Spremni za kavu?",
   "notifMorningBody": "Započni dan dobrom šalicom.",
@@ -1265,21 +1179,7 @@
   "notifMorningTitle3": "Prva šalica dana?",
   "notifMorningBody3": "Odaberi recept i kreni.",
   "notifWeeklyTitle": "{count, plural, =0{Bez priprema ovaj tjedan} one{{count} priprema ovaj tjedan} few{{count} pripreme ovaj tjedan} other{{count} priprema ovaj tjedan}}",
-  "@notifWeeklyTitle": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "notifWeeklyBody": "{recipes, plural, =0{Miran tjedan — dodirnite za planiranje sljedeće pripreme.} =1{Ukupno 1 recept. Dodirnite za pregled tjedne statistike.} few{Ukupno {recipes} recepta. Dodirnite za pregled detalja.} other{Ukupno {recipes} recepata. Dodirnite za pregled detalja.}}",
-  "@notifWeeklyBody": {
-    "placeholders": {
-      "recipes": {
-        "type": "int"
-      }
-    }
-  },
+  "notifWeeklyBody": "{recipes, plural, =0{Miran tjedan — dodirnite za planiranje sljedeće pripreme.} =1{Ukupno {recipes} recept. Dodirnite za pregled tjedne statistike.} few{Ukupno {recipes} recepta. Dodirnite za pregled detalja.} other{Ukupno {recipes} recepata. Dodirnite za pregled detalja.}}",
 
   "notifBeanFreshnessTitle": "Vrijeme za kuhanje kave",
   "notifBeanFreshnessRestBody": "{beanName} dolazi na vrhunac — ne zaboravi ga skuhati",
@@ -1321,12 +1221,7 @@
   "settingsAnalyticsSummaryOn": "Analitika uključena",
   "settingsAnalyticsSummaryPartial": "Analitika djelomično uključena",
   "settingsAnalyticsSummaryOff": "Analitika isključena",
-  "daysAgo": "{count, plural, one{prije 1 dan} few{prije {count} dana} other{prije {count} dana}}",
-  "@daysAgo": {
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
+  "daysAgo": "{count, plural, one{prije {count} dan} few{prije {count} dana} other{prije {count} dana}}",
 
   "aiScanLabel": "AI skeniranje",
   "reviewModerationFailedBody": "Tvoja recenzija nije mogla biti objavljena jer: {reason}",
@@ -1381,7 +1276,6 @@
   "confirmDeleteReviewTitle": "Izbrisati ovu recenziju?",
   "confirmDeleteReviewMessage": "Ova se radnja ne može poništiti.",
   "reviewsCount": "{count, plural, one{{count} recenzija} few{{count} recenzije} other{{count} recenzija}}",
-  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
   "reviewBrewMethodLabel": "Metoda pripreme",
   "reviewBrewMethodHint": "Odaberi metodu pripreme",
   "reviewWouldBuyAgainLabel": "Kupiti ponovno?",
@@ -1437,7 +1331,6 @@
   "filterByCountry": "Filtriraj po zemlji",
   "allCountries": "Sve zemlje",
   "roasterCountryCount": "{count, plural, one{{count} pržionica} few{{count} pržionice} other{{count} pržionica}}",
-  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
   "roastersCatalogEmpty": "Nema pronađenih pržionica",
   "roastersCatalogEmptySearch": "Nijedna pržionica ne odgovara upitu \"{query}\"",
   "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },
@@ -1448,7 +1341,7 @@
   "mts_anniversaryDiaryLink": "Otvori Dnevnik pripreme",
   "mts_coffeeDayBanner": "Sretan Međunarodni dan kave ☕️",
   "mts_coffeeDayBannerDismiss": "Zatvori",
-  "mts_inSyncCelebration": "{count, plural, =1{1 ljubitelj kave pripremao je kavu s tobom u zadnjoj minuti ☕️} other{{count} ljubitelja kave pripremalo je kavu s tobom u zadnjoj minuti ☕️}}",
+  "mts_inSyncCelebration": "{count, plural, =1{{count} ljubitelj kave pripremao je kavu s tobom u zadnjoj minuti ☕️} other{{count} ljubitelja kave pripremalo je kavu s tobom u zadnjoj minuti ☕️}}",
   "mts_emptyDiaryTitle": "Tvoja prva stranica čeka ☕️",
   "mts_emptyDiaryAction": "Pripremi nešto",
   "mts_momentTitle_anniversary": "Godišnjica prve pripreme",
@@ -1461,7 +1354,7 @@
   "mts_momentDescription_coffee_day": "Topao pozdrav 1. listopada, na Međunarodni dan kave.",
   "mts_momentDescription_in_sync": "Pozdrav drugima koji pripremaju kavu u istom trenutku kao i ti.",
   "mts_inSyncFromCountries": "iz {countries}",
-  "mts_inSyncFromCountriesWithOthers": "iz {countries} i {others, plural, =1{1 druge zemlje} other{{others} drugih zemalja}}",
+  "mts_inSyncFromCountriesWithOthers": "iz {countries} i {others, plural, =1{{others} druge zemlje} other{{others} drugih zemalja}}",
   "mts_inSyncCountriesConnector": "i",
   "recipeCreationAiReviewToggle": "Provjeri recept pomoću AI-ja",
   "recipeCreationAiReviewConsentInline": "Provjerava recept kako bi se sve količine automatski ispravno prilagodile",
@@ -1584,10 +1477,10 @@
   "diaryMethods": "Metode",
   "diaryBeans": "Zrna",
   "diaryAnyBean": "Bilo koje zrno",
-  "diarySelectedBeanCount": "{count, plural, =1{Odabrano 1 zrno} other{Odabrano {count} zrna}}",
+  "diarySelectedBeanCount": "{count, plural, =1{Odabrano {count} zrno} other{Odabrano {count} zrna}}",
   "diaryChooseBeans": "Odaberi zrna",
   "diaryBeanSearch": "Pretraži zrna i pržionice",
-  "diaryBeanCount": "{count, plural, =1{1 zrno} other{{count} zrna}}",
+  "diaryBeanCount": "{count, plural, =1{{count} zrno} other{{count} zrna}}",
   "diaryOrigins": "Podrijetla",
   "diaryRating": "Ocjena",
   "diaryRatingThreePlus": "★3+",
@@ -1684,7 +1577,7 @@
   "dataExportInvalidEmail": "Unesi valjanu adresu e-pošte.",
   "dataExportRateLimited": "Previše pokušaja. Pokušaj ponovno kasnije.",
   "dataExportIncorrectCode": "Uneseni kod nije točan. Provjeri ga i pokušaj ponovno.",
-  "dataExportIncorrectCodeAttempts": "{count, plural, =0{Kod nije točan. Nije ostao nijedan pokušaj.} =1{Kod nije točan. Preostao je 1 pokušaj.} other{Kod nije točan. Preostalo je {count} pokušaja.}}",
+  "dataExportIncorrectCodeAttempts": "{count, plural, =0{Kod nije točan. Nije ostao nijedan pokušaj.} =1{Kod nije točan. Preostao je {count} pokušaj.} other{Kod nije točan. Preostalo je {count} pokušaja.}}",
   "dataExportExpiredOrNoRequest": "Ovaj kod je istekao ili nema aktivnog zahtjeva za izvoz. Zatraži novi kod.",
   "dataExportPayloadTooLarge": "Tvoji lokalni podaci trenutačno su preveliki za izvoz. Obrati se podršci.",
   "dataExportNetworkError": "Mrežna pogreška. Provjeri vezu i pokušaj ponovno.",

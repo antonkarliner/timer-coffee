@@ -11,12 +11,7 @@
   },
   "roasterBagsLogged": "{count, plural, =1{1 bolsa registrada por la comunidad} other{{count} bolsas registradas por la comunidad}}",
   "@roasterBagsLogged": {
-    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile"
   },
   "lastrecipe": "Última receta utilizada:",
   "userRecipesTitle": "Tus recetas",
@@ -119,14 +114,6 @@
   "brewdiarynotfound": "No se encontraron entradas",
   "brewsWithThisCoffee": "Preparaciones con este café",
   "showAllNBrews": "{count, plural, =1{Mostrar 1 preparación} other{Mostrar las {count} preparaciones}}",
-  "@showAllNBrews": {
-    "placeholders": {
-      "count": {
-        "type": "num",
-        "format": "compact"
-      }
-    }
-  },
   "beans": "Granos",
   "roaster": "Tostaduría",
   "rating": "Calificación",
@@ -789,10 +776,7 @@
   "amountLeft": "Cantidad restante",
   "approxBrewsLeft": "{count, plural, =1{≈ queda 1 preparación} other{≈ quedan {count} preparaciones}}",
   "@approxBrewsLeft": {
-    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
-    "placeholders": {
-      "count": { "type": "int" }
-    }
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose"
   },
   "enterAmountLeft": "Introduzca la cantidad restante",
   "beansTotalLeftLabel": "Total restante",
@@ -973,12 +957,7 @@
   "relativeTimeYearsAgo": "{count, plural, =1{hace 1 año} other{hace {count} años}}",
   "pulseBrewsCount": "{count, plural, =1{1 preparación} other{{count} preparaciones}}",
   "@pulseBrewsCount": {
-    "description": "Pluralized brew count for Pulse summary",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Pluralized brew count for Pulse summary"
   },
   "timePeriodThisYear": "Este año",
   "timePeriodLastYear": "El año pasado",
@@ -1062,13 +1041,6 @@
 
   "notifBrewMilestoneTitle": "Has alcanzado un hito",
   "notifBrewMilestoneBody": "Has preparado café {count} veces. Toca para ver tu progreso.",
-  "@notifBrewMilestoneBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifExploreRecipesTitle": "Prueba una nueva receta de {methodName}",
   "@notifExploreRecipesTitle": {
@@ -1079,13 +1051,6 @@
     }
   },
   "notifExploreRecipesBody": "{count, plural, =1{Hasta ahora has probado 1 receta. Aquí tienes otra para probar.} other{Hasta ahora has probado {count} recetas. Aquí tienes una más para probar.}}",
-  "@notifExploreRecipesBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifMorningTitle": "Buenos días. ¿Te apetece preparar café?",
   "notifMorningBody": "Empieza el día con una buena taza.",
@@ -1094,21 +1059,7 @@
   "notifMorningTitle3": "¿La primera taza del día?",
   "notifMorningBody3": "Elige una receta y ponte a preparar.",
   "notifWeeklyTitle": "{count, plural, =0{Sin preparaciones esta semana} =1{1 preparación esta semana} other{{count} preparaciones esta semana}}",
-  "@notifWeeklyTitle": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "notifWeeklyBody": "{recipes, plural, =0{Semana tranquila — toca para planear tu próxima preparación.} =1{Toca para ver tus estadísticas semanales.} other{En {recipes} recetas. Toca para ver el desglose.}}",
-  "@notifWeeklyBody": {
-    "placeholders": {
-      "recipes": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifBeanFreshnessTitle": "Hora de preparar café",
   "notifBeanFreshnessRestBody": "{beanName} está alcanzando su mejor momento: no olvides prepararlo",
@@ -1151,11 +1102,6 @@
   "settingsAnalyticsSummaryPartial": "Análisis parcialmente activados",
   "settingsAnalyticsSummaryOff": "Análisis desactivados",
   "daysAgo": "{count, plural, one{hace 1 día} other{hace {count} días}}",
-  "@daysAgo": {
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
 
   "aiScanLabel": "Escaneo con IA",
   "reviewModerationFailedBody": "Tu reseña no pudo publicarse porque: {reason}",
@@ -1210,7 +1156,6 @@
   "confirmDeleteReviewTitle": "¿Eliminar esta reseña?",
   "confirmDeleteReviewMessage": "Esta acción no se puede deshacer.",
   "reviewsCount": "{count, plural, =1{1 reseña} other{{count} reseñas}}",
-  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
   "reviewBrewMethodLabel": "Método de preparación",
   "reviewBrewMethodHint": "Selecciona método de preparación",
   "reviewWouldBuyAgainLabel": "¿Lo comprarías de nuevo?",
@@ -1266,7 +1211,6 @@
   "filterByCountry": "Filtrar por país",
   "allCountries": "Todos los países",
   "roasterCountryCount": "{count, plural, =1{1 tostaduría} other{{count} tostadurías}}",
-  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
   "roastersCatalogEmpty": "No se encontraron tostadurías",
   "roastersCatalogEmptySearch": "Ninguna tostaduría coincide con \"{query}\"",
   "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },

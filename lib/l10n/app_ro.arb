@@ -11,12 +11,7 @@
   },
   "roasterBagsLogged": "{count, plural, =1{1 pachet adăugat de comunitate} few{{count} pachete adăugate de comunitate} other{{count} de pachete adăugate de comunitate}}",
   "@roasterBagsLogged": {
-    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile"
   },
   "userRecipesTitle": "Rețetele tale",
   "userRecipesSectionCreated": "Create de tine",
@@ -119,14 +114,6 @@
   "brewdiarynotfound": "Nu s-au găsit înregistrări",
   "brewsWithThisCoffee": "Preparări cu această cafea",
   "showAllNBrews": "{count, plural, =1{Afișează 1 preparare} other{Afișează toate preparările ({count})}}",
-  "@showAllNBrews": {
-    "placeholders": {
-      "count": {
-        "type": "num",
-        "format": "compact"
-      }
-    }
-  },
   "beans": "Boabe",
   "roaster": "Prăjitorie",
   "rating": "Evaluare",
@@ -789,10 +776,7 @@
   "amountLeft": "Cantitate rămasă",
   "approxBrewsLeft": "{count, plural, =1{≈ 1 preparare rămasă} few{≈ {count} preparări rămase} other{≈ {count} de preparări rămase}}",
   "@approxBrewsLeft": {
-    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
-    "placeholders": {
-      "count": { "type": "int" }
-    }
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose"
   },
   "enterAmountLeft": "Introdu cantitatea rămasă",
   "beansTotalLeftLabel": "Total rămas",
@@ -973,12 +957,7 @@
   "relativeTimeYearsAgo": "{count, plural, =1{acum 1 an} few{acum {count} ani} other{acum {count} de ani}}",
   "pulseBrewsCount": "{count, plural, =1{1 preparare} few{{count} preparări} other{{count} de preparări}}",
   "@pulseBrewsCount": {
-    "description": "Pluralized brew count for Pulse summary",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Pluralized brew count for Pulse summary"
   },
   "timePeriodThisYear": "Anul acesta",
   "timePeriodLastYear": "Anul trecut",
@@ -1062,13 +1041,6 @@
 
   "notifBrewMilestoneTitle": "Ai atins un prag important",
   "notifBrewMilestoneBody": "Ai preparat cafea de {count} ori. Atinge pentru a-ți vedea progresul.",
-  "@notifBrewMilestoneBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifExploreRecipesTitle": "Încearcă o nouă rețetă de {methodName}",
   "@notifExploreRecipesTitle": {
@@ -1079,13 +1051,6 @@
     }
   },
   "notifExploreRecipesBody": "{count, plural, =1{Până acum ai încercat o rețetă. Iată încă una de încercat.} few{Până acum ai încercat {count} rețete. Iată încă una de încercat.} other{Până acum ai încercat {count} de rețete. Iată încă una de încercat.}}",
-  "@notifExploreRecipesBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifMorningTitle": "Bună dimineața. Gata de preparat?",
   "notifMorningBody": "Începe ziua cu o ceașcă bună.",
@@ -1094,21 +1059,7 @@
   "notifMorningTitle3": "Prima ceașcă a zilei?",
   "notifMorningBody3": "Alege o rețetă și apucă-te de preparat.",
   "notifWeeklyTitle": "{count, plural, =0{Nicio preparare săptămâna aceasta} =1{1 preparare săptămâna aceasta} few{{count} preparări săptămâna aceasta} other{{count} de preparări săptămâna aceasta}}",
-  "@notifWeeklyTitle": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "notifWeeklyBody": "{recipes, plural, =0{Săptămână liniștită — atinge pentru a planifica următoarea preparare.} =1{Atinge pentru a vedea statisticile săptămânii.} other{În {recipes} rețete. Atinge pentru a vedea detaliile.}}",
-  "@notifWeeklyBody": {
-    "placeholders": {
-      "recipes": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifBeanFreshnessTitle": "E timpul să prepari o cafea",
   "notifBeanFreshnessRestBody": "{beanName} ajunge la apogeu — nu uita să prepari o cafea",
@@ -1151,11 +1102,6 @@
   "settingsAnalyticsSummaryPartial": "Statistici parțial activate",
   "settingsAnalyticsSummaryOff": "Statistici dezactivate",
   "daysAgo": "{count, plural, one{acum 1 zi} few{acum {count} zile} other{acum {count} de zile}}",
-  "@daysAgo": {
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
 
   "aiScanLabel": "Scanare AI",
   "reviewModerationFailedBody": "Recenzia ta nu a putut fi publicată deoarece: {reason}",
@@ -1210,7 +1156,6 @@
   "confirmDeleteReviewTitle": "Ștergi această recenzie?",
   "confirmDeleteReviewMessage": "Această acțiune nu poate fi anulată.",
   "reviewsCount": "{count, plural, =1{1 recenzie} few{{count} recenzii} other{{count} de recenzii}}",
-  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
   "reviewBrewMethodLabel": "Metodă de preparare",
   "reviewBrewMethodHint": "Selectează metoda de preparare",
   "reviewWouldBuyAgainLabel": "Ai cumpăra din nou?",
@@ -1266,7 +1211,6 @@
   "filterByCountry": "Filtrează după țară",
   "allCountries": "Toate țările",
   "roasterCountryCount": "{count, plural, =1{1 prăjitorie} few{{count} prăjitorii} other{{count} de prăjitorii}}",
-  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
   "roastersCatalogEmpty": "Nu s-au găsit prăjitorii",
   "roastersCatalogEmptySearch": "Nicio prăjitorie nu se potrivește cu \"{query}\"",
   "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },

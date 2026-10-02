@@ -11,12 +11,7 @@
   },
   "roasterBagsLogged": "{count, plural, =1{1 Packung von der Community hinzugefügt} other{{count} Packungen von der Community hinzugefügt}}",
   "@roasterBagsLogged": {
-    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile"
   },
   "userRecipesTitle": "Deine Rezepte",
   "userRecipesSectionCreated": "Von dir erstellt",
@@ -119,14 +114,6 @@
   "brewdiarynotfound": "Keine Einträge gefunden",
   "brewsWithThisCoffee": "Brühungen mit diesem Kaffee",
   "showAllNBrews": "{count, plural, =1{1 Brühung anzeigen} other{Alle {count} Brühungen anzeigen}}",
-  "@showAllNBrews": {
-    "placeholders": {
-      "count": {
-        "type": "num",
-        "format": "compact"
-      }
-    }
-  },
   "beans": "Bohnen",
   "roaster": "Rösterei",
   "rating": "Bewertung",
@@ -789,10 +776,7 @@
   "amountLeft": "Restmenge",
   "approxBrewsLeft": "{count, plural, =1{≈ 1 Brühung übrig} other{≈ {count} Brühungen übrig}}",
   "@approxBrewsLeft": {
-    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
-    "placeholders": {
-      "count": { "type": "int" }
-    }
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose"
   },
   "enterAmountLeft": "Restmenge eingeben",
   "beansTotalLeftLabel": "Insgesamt übrig",
@@ -973,12 +957,7 @@
   "relativeTimeYearsAgo": "{count, plural, =1{vor 1 Jahr} other{vor {count} Jahren}}",
   "pulseBrewsCount": "{count, plural, =1{1 Brühvorgang} other{{count} Brühvorgänge}}",
   "@pulseBrewsCount": {
-    "description": "Pluralized brew count for Pulse summary",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Pluralized brew count for Pulse summary"
   },
   "timePeriodThisYear": "Dieses Jahr",
   "timePeriodLastYear": "Letztes Jahr",
@@ -1062,13 +1041,6 @@
 
   "notifBrewMilestoneTitle": "Du hast einen Meilenstein erreicht",
   "notifBrewMilestoneBody": "Du hast {count} Mal gebrüht. Tippe, um deinen Fortschritt zu sehen.",
-  "@notifBrewMilestoneBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifExploreRecipesTitle": "Probiere ein neues Rezept für {methodName}",
   "@notifExploreRecipesTitle": {
@@ -1079,13 +1051,6 @@
     }
   },
   "notifExploreRecipesBody": "{count, plural, =1{Bisher hast du 1 Rezept ausprobiert. Hier ist ein weiteres zum Testen.} other{Bisher hast du {count} Rezepte ausprobiert. Hier ist noch eins zum Testen.}}",
-  "@notifExploreRecipesBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifMorningTitle": "Guten Morgen. Bereit zum Brühen?",
   "notifMorningBody": "Starte den Tag mit einer guten Tasse.",
@@ -1094,21 +1059,7 @@
   "notifMorningTitle3": "Die erste Tasse des Tages?",
   "notifMorningBody3": "Wähle ein Rezept und leg los.",
   "notifWeeklyTitle": "{count, plural, =0{Keine Brühvorgänge diese Woche} =1{1 Brühvorgang diese Woche} other{{count} Brühvorgänge diese Woche}}",
-  "@notifWeeklyTitle": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "notifWeeklyBody": "{recipes, plural, =0{Ruhige Woche – tippe, um deinen nächsten Brühvorgang zu planen.} =1{Tippe, um deine Wochenstatistik zu sehen.} other{Über {recipes} Rezepte hinweg. Tippe, um die Aufschlüsselung zu sehen.}}",
-  "@notifWeeklyBody": {
-    "placeholders": {
-      "recipes": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifBeanFreshnessTitle": "Zeit zu brühen",
   "notifBeanFreshnessRestBody": "{beanName} erreicht gerade den perfekten Punkt – vergiss nicht, sie zu brühen",
@@ -1151,11 +1102,6 @@
   "settingsAnalyticsSummaryPartial": "Analysen teilweise an",
   "settingsAnalyticsSummaryOff": "Analysen aus",
   "daysAgo": "{count, plural, one{vor 1 Tag} other{vor {count} Tagen}}",
-  "@daysAgo": {
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
 
   "aiScanLabel": "KI-Scan",
   "reviewModerationFailedBody": "Deine Bewertung konnte nicht veröffentlicht werden, weil: {reason}",
@@ -1210,7 +1156,6 @@
   "confirmDeleteReviewTitle": "Diese Bewertung löschen?",
   "confirmDeleteReviewMessage": "Diese Aktion kann nicht rückgängig gemacht werden.",
   "reviewsCount": "{count, plural, =1{1 Bewertung} other{{count} Bewertungen}}",
-  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
   "reviewBrewMethodLabel": "Brühmethode",
   "reviewBrewMethodHint": "Brühmethode auswählen",
   "reviewWouldBuyAgainLabel": "Wieder kaufen?",
@@ -1266,7 +1211,6 @@
   "filterByCountry": "Nach Land filtern",
   "allCountries": "Alle Länder",
   "roasterCountryCount": "{count, plural, =1{1 Rösterei} other{{count} Röstereien}}",
-  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
   "roastersCatalogEmpty": "Keine Röstereien gefunden",
   "roastersCatalogEmptySearch": "Keine Röstereien passen zu \"{query}\"",
   "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },

@@ -11,12 +11,7 @@
   },
   "roasterBagsLogged": "{count, plural, =1{1 zak vastgelegd door de community} other{{count} zakken vastgelegd door de community}}",
   "@roasterBagsLogged": {
-    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile"
   },
   "userRecipesTitle": "Jouw recepten",
   "userRecipesSectionCreated": "Door jou gemaakt",
@@ -119,14 +114,6 @@
   "brewdiarynotfound": "Geen vermeldingen gevonden",
   "brewsWithThisCoffee": "Zetbeurten met deze koffie",
   "showAllNBrews": "{count, plural, =1{1 zetbeurt tonen} other{Alle {count} zetbeurten tonen}}",
-  "@showAllNBrews": {
-    "placeholders": {
-      "count": {
-        "type": "num",
-        "format": "compact"
-      }
-    }
-  },
   "beansStatsSectionTitle": "Bonenstatistieken",
   "totalBeansBrewedLabel": "Totaal gebrouwen bonen",
   "newBeansTriedLabel": "Nieuwe bonen geprobeerd",
@@ -789,10 +776,7 @@
   "amountLeft": "Resterende hoeveelheid",
   "approxBrewsLeft": "{count, plural, =1{≈ 1 zetbeurt over} other{≈ {count} zetbeurten over}}",
   "@approxBrewsLeft": {
-    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
-    "placeholders": {
-      "count": { "type": "int" }
-    }
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose"
   },
   "enterAmountLeft": "Voer de resterende hoeveelheid in",
   "beansTotalLeftLabel": "Totaal over",
@@ -973,12 +957,7 @@
   "relativeTimeYearsAgo": "{count, plural, =1{1 jaar geleden} other{{count} jaar geleden}}",
   "pulseBrewsCount": "{count, plural, =1{1 zetbeurt} other{{count} zetbeurten}}",
   "@pulseBrewsCount": {
-    "description": "Pluralized brew count for Pulse summary",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Pluralized brew count for Pulse summary"
   },
   "timePeriodThisYear": "Dit jaar",
   "timePeriodLastYear": "Vorig jaar",
@@ -1062,13 +1041,6 @@
 
   "notifBrewMilestoneTitle": "Je hebt een mijlpaal bereikt",
   "notifBrewMilestoneBody": "Je hebt {count} keer gezet. Tik om je voortgang te bekijken.",
-  "@notifBrewMilestoneBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifExploreRecipesTitle": "Probeer een nieuw {methodName}-recept",
   "@notifExploreRecipesTitle": {
@@ -1079,13 +1051,6 @@
     }
   },
   "notifExploreRecipesBody": "{count, plural, =1{Tot nu toe heb je 1 recept geprobeerd. Hier is er nog een om te proberen.} other{Tot nu toe heb je {count} recepten geprobeerd. Hier is er nog een om te proberen.}}",
-  "@notifExploreRecipesBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifMorningTitle": "Goedemorgen. Klaar om te zetten?",
   "notifMorningBody": "Begin de dag met een goede kop koffie.",
@@ -1094,21 +1059,7 @@
   "notifMorningTitle3": "De eerste kop van de dag?",
   "notifMorningBody3": "Kies een recept en ga aan de slag.",
   "notifWeeklyTitle": "{count, plural, =0{Geen zetbeurten deze week} =1{1 zetbeurt deze week} other{{count} zetbeurten deze week}}",
-  "@notifWeeklyTitle": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "notifWeeklyBody": "{recipes, plural, =0{Rustige week — tik om je volgende zetbeurt te plannen.} =1{Tik om je weekstatistieken te bekijken.} other{Over {recipes} recepten verspreid. Tik om de verdeling te bekijken.}}",
-  "@notifWeeklyBody": {
-    "placeholders": {
-      "recipes": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifBeanFreshnessTitle": "Tijd om koffie te zetten",
   "notifBeanFreshnessRestBody": "{beanName} komt op zijn best — vergeet niet om het te zetten",
@@ -1151,11 +1102,6 @@
   "settingsAnalyticsSummaryPartial": "Analyses deels aan",
   "settingsAnalyticsSummaryOff": "Analyses uit",
   "daysAgo": "{count, plural, one{1 dag geleden} other{{count} dagen geleden}}",
-  "@daysAgo": {
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
 
   "aiScanLabel": "AI-scan",
   "reviewModerationFailedBody": "Je review kon niet worden gepubliceerd omdat: {reason}",
@@ -1210,7 +1156,6 @@
   "confirmDeleteReviewTitle": "Deze review verwijderen?",
   "confirmDeleteReviewMessage": "Deze actie kan niet ongedaan worden gemaakt.",
   "reviewsCount": "{count, plural, =1{1 review} other{{count} reviews}}",
-  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
   "reviewBrewMethodLabel": "Zetmethode",
   "reviewBrewMethodHint": "Selecteer zetmethode",
   "reviewWouldBuyAgainLabel": "Opnieuw kopen?",
@@ -1266,7 +1211,6 @@
   "filterByCountry": "Filteren op land",
   "allCountries": "Alle landen",
   "roasterCountryCount": "{count, plural, =1{1 branderij} other{{count} branderijen}}",
-  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
   "roastersCatalogEmpty": "Geen branderijen gevonden",
   "roastersCatalogEmptySearch": "Geen branderijen gevonden voor \"{query}\"",
   "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },

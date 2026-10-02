@@ -11,12 +11,7 @@
   },
   "roasterBagsLogged": "{count, plural, =1{społeczność dodała 1 paczkę} few{społeczność dodała {count} paczki} many{społeczność dodała {count} paczek} other{społeczność dodała {count} paczki}}",
   "@roasterBagsLogged": {
-    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile"
   },
   "userRecipesTitle": "Twoje przepisy",
   "userRecipesSectionCreated": "Utworzone przez Ciebie",
@@ -119,14 +114,6 @@
   "brewdiarynotfound": "Nie znaleziono wpisów",
   "brewsWithThisCoffee": "Parzenia z tą kawą",
   "showAllNBrews": "{count, plural, =1{Pokaż 1 parzenie} few{Pokaż wszystkie {count} parzenia} many{Pokaż wszystkie {count} parzeń} other{Pokaż wszystkie {count} parzenia}}",
-  "@showAllNBrews": {
-    "placeholders": {
-      "count": {
-        "type": "num",
-        "format": "compact"
-      }
-    }
-  },
   "beans": "Ziarna",
   "roaster": "Palarnia",
   "rating": "Ocena",
@@ -789,10 +776,7 @@
   "amountLeft": "Pozostała ilość",
   "approxBrewsLeft": "{count, plural, =1{≈ zostało 1 parzenie} few{≈ zostały {count} parzenia} many{≈ zostało {count} parzeń} other{≈ zostało {count} parzenia}}",
   "@approxBrewsLeft": {
-    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
-    "placeholders": {
-      "count": { "type": "int" }
-    }
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose"
   },
   "enterAmountLeft": "Wprowadź pozostałą ilość",
   "beansTotalLeftLabel": "Łącznie pozostało",
@@ -973,12 +957,7 @@
   "relativeTimeYearsAgo": "{count, plural, one{{count} rok temu} few{{count} lata temu} many{{count} lat temu} other{{count} lat temu}}",
   "pulseBrewsCount": "{count, plural, =1{1 parzenie} few{{count} parzenia} many{{count} parzeń} other{{count} parzenia}}",
   "@pulseBrewsCount": {
-    "description": "Pluralized brew count for Pulse summary",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Pluralized brew count for Pulse summary"
   },
   "timePeriodThisYear": "W tym roku",
   "timePeriodLastYear": "W zeszłym roku",
@@ -1062,13 +1041,6 @@
 
   "notifBrewMilestoneTitle": "Masz na koncie kolejny kamień milowy",
   "notifBrewMilestoneBody": "{count, plural, one{Masz już {count} zaparzenie. Dotknij, aby zobaczyć postępy.} few{Masz już {count} zaparzenia. Dotknij, aby zobaczyć postępy.} many{Masz już {count} zaparzeń. Dotknij, aby zobaczyć postępy.} other{Masz już {count} zaparzenia. Dotknij, aby zobaczyć postępy.}}",
-  "@notifBrewMilestoneBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifExploreRecipesTitle": "Wypróbuj nowy przepis na {methodName}",
   "@notifExploreRecipesTitle": {
@@ -1079,13 +1051,6 @@
     }
   },
   "notifExploreRecipesBody": "{count, plural, one{Dotąd wypróbowałeś {count} przepis. Oto kolejny do sprawdzenia.} few{Dotąd wypróbowałeś {count} przepisy. Oto kolejny do sprawdzenia.} many{Dotąd wypróbowałeś {count} przepisów. Oto kolejny do sprawdzenia.} other{Dotąd wypróbowałeś {count} przepisów. Oto kolejny do sprawdzenia.}}",
-  "@notifExploreRecipesBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifMorningTitle": "Dzień dobry. Czas na kawę?",
   "notifMorningBody": "Zacznij dzień od dobrej filiżanki.",
@@ -1094,21 +1059,7 @@
   "notifMorningTitle3": "Pierwsza filiżanka dnia?",
   "notifMorningBody3": "Wybierz przepis i zacznij parzyć.",
   "notifWeeklyTitle": "{count, plural, =0{Brak parzeń w tym tygodniu} one{{count} parzenie w tym tygodniu} few{{count} parzenia w tym tygodniu} many{{count} parzeń w tym tygodniu} other{{count} parzenia w tym tygodniu}}",
-  "@notifWeeklyTitle": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "notifWeeklyBody": "{recipes, plural, =0{Spokojny tydzień — dotknij, aby zaplanować kolejne parzenie.} =1{Dotknij, aby zobaczyć statystyki tygodnia.} other{W ramach {recipes} przepisów. Dotknij, aby zobaczyć szczegóły.}}",
-  "@notifWeeklyBody": {
-    "placeholders": {
-      "recipes": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifBeanFreshnessTitle": "Czas zaparzyć kawę",
   "notifBeanFreshnessRestBody": "{beanName} właśnie osiąga szczyt — nie zapomnij zaparzyć",
@@ -1151,11 +1102,6 @@
   "settingsAnalyticsSummaryPartial": "Analityka częściowo włączona",
   "settingsAnalyticsSummaryOff": "Analityka wyłączona",
   "daysAgo": "{count, plural, one{1 dzień temu} few{{count} dni temu} many{{count} dni temu} other{{count} dni temu}}",
-  "@daysAgo": {
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
 
   "aiScanLabel": "Skan AI",
   "reviewModerationFailedBody": "Twoja recenzja nie mogła zostać opublikowana, ponieważ: {reason}",
@@ -1210,7 +1156,6 @@
   "confirmDeleteReviewTitle": "Usunąć tę recenzję?",
   "confirmDeleteReviewMessage": "Tej czynności nie można cofnąć.",
   "reviewsCount": "{count, plural, one{{count} recenzja} few{{count} recenzje} many{{count} recenzji} other{{count} recenzji}}",
-  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
   "reviewBrewMethodLabel": "Metoda parzenia",
   "reviewBrewMethodHint": "Wybierz metodę parzenia",
   "reviewWouldBuyAgainLabel": "Kupić ponownie?",
@@ -1266,7 +1211,6 @@
   "filterByCountry": "Filtruj według kraju",
   "allCountries": "Wszystkie kraje",
   "roasterCountryCount": "{count, plural, one{{count} palarnia} few{{count} palarnie} many{{count} palarni} other{{count} palarni}}",
-  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
   "roastersCatalogEmpty": "Nie znaleziono palarni",
   "roastersCatalogEmptySearch": "Żadna palarnia nie pasuje do \"{query}\"",
   "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },

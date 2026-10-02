@@ -11,12 +11,7 @@
   },
   "roasterBagsLogged": "{count, plural, zero{0 كيس مُسجّل من المجتمع} one{كيس واحد مُسجّل من المجتمع} two{كيسان مُسجّلان من المجتمع} few{{count} أكياس مُسجّلة من المجتمع} many{{count} كيسًا مُسجّلًا من المجتمع} other{{count} كيس مُسجّل من المجتمع}}",
   "@roasterBagsLogged": {
-    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile"
   },
   "userRecipesTitle": "وصفاتك",
   "userRecipesSectionCreated": "أنشأتها",
@@ -114,14 +109,6 @@
   "brewdiarynotfound": "لا توجد إدخالات",
   "brewsWithThisCoffee": "تحضيرات بهذه القهوة",
   "showAllNBrews": "{count, plural, =1{عرض تحضير واحد} =2{عرض التحضيرين} few{عرض كل {count} تحضيرات} many{عرض كل {count} تحضيرًا} other{عرض كل {count} تحضير}}",
-  "@showAllNBrews": {
-    "placeholders": {
-      "count": {
-        "type": "num",
-        "format": "compact"
-      }
-    }
-  },
   "beans": "حبوب القهوة",
   "roaster": "المحمصة",
   "rating": "التقييم",
@@ -356,7 +343,7 @@
   "yearlyStats25Slide4TitleMulti": "هل تتذكر الأيام التي حضرت فيها أكبر كمية قهوة هذا العام؟",
   "yearlyStats25Slide4TitleBrewTime": "وقت تحضيرك هذا العام",
   "yearlyStats25Slide4ScratchLabel": "اكشط للكشف",
-  "yearlyStats25BrewsCount": "{count, plural, zero{0 مرة} one{مرة واحدة} two{مرتان} few{# مرات} many{# مرة} other{# مرة}}",
+  "yearlyStats25BrewsCount": "{count, plural, zero{0 مرة} one{مرة واحدة} two{مرتان} few{{count} مرات} many{{count} مرة} other{{count} مرة}}",
   "yearlyStats25Slide4PeakSingle": "{date} — {brewsLabel}",
   "yearlyStats25Slide4PeakLiters": "حوالي {liters} لتر في ذلك اليوم",
   "yearlyStats25Slide4PeakMostRecent": "الأحدث: {mostRecent} — {brewsLabel}",
@@ -402,7 +389,7 @@
   "yearlyStats25AppBarTooltipResume": "استئناف",
   "yearlyStats25AppBarTooltipPause": "إيقاف مؤقت",
   "yearlyStats25ShareError": "تعذر مشاركة الملخص. يرجى المحاولة مرة أخرى.",
-  "yearlyStats25BrewTimeMinutes": "{count, plural, zero{0 دقيقة} one{دقيقة واحدة} two{دقيقتان} few{# دقائق} many{# دقيقة} other{# دقيقة}}",
+  "yearlyStats25BrewTimeMinutes": "{count, plural, zero{0 دقيقة} one{دقيقة واحدة} two{دقيقتان} few{{count} دقائق} many{{count} دقيقة} other{{count} دقيقة}}",
   "yearlyStats25BrewTimeHours": "{hours} ساعة",
   "yearlyStats25ShareTitle": "عامي 2025 مع Timer.Coffee",
   "yearlyStats25ShareBrewedPrefix": "حضّرت ",
@@ -789,10 +776,7 @@
   "amountLeft": "الكمية المتبقية",
   "approxBrewsLeft": "{count, plural, =1{≈ تحضير واحد متبقٍ} =2{≈ تحضيران متبقيان} few{≈ {count} تحضيرات متبقية} many{≈ {count} تحضيرًا متبقيًا} other{≈ {count} تحضير متبقٍ}}",
   "@approxBrewsLeft": {
-    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
-    "placeholders": {
-      "count": { "type": "int" }
-    }
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose"
   },
   "enterAmountLeft": "أدخل الكمية المتبقية",
   "beansTotalLeftLabel": "الإجمالي المتبقي",
@@ -973,12 +957,7 @@
   "relativeTimeYearsAgo": "{count, plural, one{منذ سنة واحدة} two{منذ سنتين} few{منذ {count} سنوات} many{منذ {count} سنة} other{منذ {count} سنة}}",
   "pulseBrewsCount": "{count, plural, zero{0 تحضير} one{تحضير واحد} two{تحضيران} few{{count} تحضيرات} many{{count} تحضيرًا} other{{count} تحضير}}",
   "@pulseBrewsCount": {
-    "description": "Pluralized brew count for Pulse summary",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Pluralized brew count for Pulse summary"
   },
   "timePeriodThisYear": "هذا العام",
   "timePeriodLastYear": "العام الماضي",
@@ -1062,13 +1041,6 @@
 
   "notifBrewMilestoneTitle": "لقد وصلت إلى إنجاز جديد",
   "notifBrewMilestoneBody": "حضّرت القهوة {count} مرة. اضغط لرؤية تقدّمك.",
-  "@notifBrewMilestoneBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifExploreRecipesTitle": "جرّب وصفة جديدة لـ {methodName}",
   "@notifExploreRecipesTitle": {
@@ -1079,13 +1051,6 @@
     }
   },
   "notifExploreRecipesBody": "{count, plural, =1{حتى الآن جرّبت وصفة واحدة. إليك وصفة أخرى لتجربها.} =2{حتى الآن جرّبت وصفتين. إليك وصفة أخرى لتجربها.} few{حتى الآن جرّبت {count} وصفات. إليك وصفة أخرى لتجربها.} many{حتى الآن جرّبت {count} وصفة. إليك وصفة أخرى لتجربها.} other{حتى الآن جرّبت {count} وصفة. إليك وصفة أخرى لتجربها.}}",
-  "@notifExploreRecipesBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifMorningTitle": "صباح الخير. هل حان وقت القهوة؟",
   "notifMorningBody": "ابدأ يومك بفنجان جيد.",
@@ -1094,21 +1059,7 @@
   "notifMorningTitle3": "أول فنجان في اليوم؟",
   "notifMorningBody3": "اختر وصفة وابدأ التحضير.",
   "notifWeeklyTitle": "{count, plural, =0{لا توجد تحضيرات هذا الأسبوع} =1{تحضير واحد هذا الأسبوع} =2{تحضيران هذا الأسبوع} few{{count} تحضيرات هذا الأسبوع} many{{count} تحضيرًا هذا الأسبوع} other{{count} تحضير هذا الأسبوع}}",
-  "@notifWeeklyTitle": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "notifWeeklyBody": "{recipes, plural, =0{أسبوع هادئ — اضغط لتخطيط تحضيرك القادم.} =1{اضغط لرؤية إحصاءاتك الأسبوعية.} other{عبر {recipes} وصفات. اضغط لرؤية التفاصيل.}}",
-  "@notifWeeklyBody": {
-    "placeholders": {
-      "recipes": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifBeanFreshnessTitle": "حان وقت التحضير",
   "notifBeanFreshnessRestBody": "{beanName} تصل إلى ذروتها — لا تنسَ تحضيرها",
@@ -1150,12 +1101,7 @@
   "settingsAnalyticsSummaryOn": "التحليلات مفعّلة",
   "settingsAnalyticsSummaryPartial": "التحليلات مفعّلة جزئيًا",
   "settingsAnalyticsSummaryOff": "التحليلات موقوفة",
-  "daysAgo": "{count, plural, zero{منذ ٠ يوم} one{منذ يوم} two{منذ يومين} few{منذ {count} أيام} many{منذ {count} يوم} other{منذ {count} يوم}}",
-  "@daysAgo": {
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
+  "daysAgo": "{count, plural, zero{منذ {count} يوم} one{منذ يوم} two{منذ يومين} few{منذ {count} أيام} many{منذ {count} يوم} other{منذ {count} يوم}}",
 
   "aiScanLabel": "مسح بالذكاء الاصطناعي",
   "reviewModerationFailedBody": "تعذر نشر مراجعتك بسبب: {reason}",
@@ -1210,7 +1156,6 @@
   "confirmDeleteReviewTitle": "حذف هذه المراجعة؟",
   "confirmDeleteReviewMessage": "لا يمكن التراجع عن هذا الإجراء.",
   "reviewsCount": "{count, plural, zero{0 مراجعات} one{مراجعة واحدة} two{مراجعتان} few{{count} مراجعات} many{{count} مراجعة} other{{count} مراجعة}}",
-  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
   "reviewBrewMethodLabel": "طريقة التحضير",
   "reviewBrewMethodHint": "اختر طريقة التحضير",
   "reviewWouldBuyAgainLabel": "هل ستشتريها مرة أخرى؟",
@@ -1266,7 +1211,6 @@
   "filterByCountry": "تصفية حسب البلد",
   "allCountries": "كل البلدان",
   "roasterCountryCount": "{count, plural, zero{0 محامص} one{محمصة واحدة} two{محمصتان} few{{count} محامص} many{{count} محمصة} other{{count} محمصة}}",
-  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
   "roastersCatalogEmpty": "لم يتم العثور على محامص",
   "roastersCatalogEmptySearch": "لا توجد محامص تطابق \"{query}\"",
   "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },

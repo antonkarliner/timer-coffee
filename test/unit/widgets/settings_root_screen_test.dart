@@ -105,6 +105,7 @@ void main() {
   Widget app({
     ThemeMode themeMode = ThemeMode.system,
     AdvancedFeaturesService? advancedService,
+    Locale locale = const Locale('en'),
   }) {
     return MultiProvider(
       providers: [
@@ -126,7 +127,7 @@ void main() {
       child: MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        locale: const Locale('en'),
+        locale: locale,
         home: const SettingsScreen(),
       ),
     );
@@ -136,9 +137,14 @@ void main() {
     WidgetTester tester, {
     ThemeMode themeMode = ThemeMode.system,
     AdvancedFeaturesService? advancedService,
+    Locale locale = const Locale('en'),
   }) async {
     await tester.pumpWidget(
-      app(themeMode: themeMode, advancedService: advancedService),
+      app(
+        themeMode: themeMode,
+        advancedService: advancedService,
+        locale: locale,
+      ),
     );
     await tester.pumpAndSettle();
   }
@@ -212,6 +218,21 @@ void main() {
     // v60 shown via its recipe, espresso shown explicitly, coldbrew hidden
     // explicitly.
     expect(find.text('2 of 3 methods'), findsOneWidget);
+  });
+
+  testWidgets('fa summaries print counts in Persian digits, like the date',
+      (tester) async {
+    when(recipeProvider.recipes).thenReturn([recipeFor('v60')]);
+    when(recipeProvider.shownBrewingMethodIds)
+        .thenReturn(ValueNotifier<Set<String>>({'espresso'}));
+
+    await pumpRoot(tester, locale: const Locale('fa'));
+
+    expect(tester.takeException(), isNull);
+    // Before the placeholders carried "format": "decimalPattern" these read
+    // "2 از 3 روش" and "فعال · 1 یادآوری".
+    expect(find.text('۲ از ۳ روش'), findsOneWidget);
+    expect(find.text('فعال · ۱ یادآوری'), findsOneWidget);
   });
 
   testWidgets('appearance summary without the icon API is the theme label',

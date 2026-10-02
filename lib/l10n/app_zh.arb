@@ -11,12 +11,7 @@
   },
   "roasterBagsLogged": "{count, plural, other{社区记录的 {count} 袋}}",
   "@roasterBagsLogged": {
-    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile"
   },
   "userRecipesTitle": "你的配方",
   "userRecipesSectionCreated": "你创建的",
@@ -119,14 +114,6 @@
   "brewdiarynotfound": "未找到条目",
   "brewsWithThisCoffee": "用这款咖啡冲煮",
   "showAllNBrews": "{count, plural, =1{显示 1 次冲煮} other{显示全部 {count} 次冲煮}}",
-  "@showAllNBrews": {
-    "placeholders": {
-      "count": {
-        "type": "num",
-        "format": "compact"
-      }
-    }
-  },
   "beans": "咖啡豆",
   "roaster": "烘焙商",
   "rating": "评分",
@@ -789,10 +776,7 @@
   "amountLeft": "剩余数量",
   "approxBrewsLeft": "{count, plural, =1{≈ 剩余 1 次冲煮} other{≈ 剩余 {count} 次冲煮}}",
   "@approxBrewsLeft": {
-    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
-    "placeholders": {
-      "count": { "type": "int" }
-    }
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose"
   },
   "enterAmountLeft": "输入剩余数量",
   "beansTotalLeftLabel": "总计剩余",
@@ -973,12 +957,7 @@
   "relativeTimeYearsAgo": "{count, plural, =1{1年前} other{{count}年前}}",
   "pulseBrewsCount": "{count, plural, other{{count} 次冲煮}}",
   "@pulseBrewsCount": {
-    "description": "Pluralized brew count for Pulse summary",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Pluralized brew count for Pulse summary"
   },
   "timePeriodThisYear": "今年",
   "timePeriodLastYear": "去年",
@@ -1062,13 +1041,6 @@
 
   "notifBrewMilestoneTitle": "你刷新记录了",
   "notifBrewMilestoneBody": "你已经冲煮了{count}次。点按查看进度。",
-  "@notifBrewMilestoneBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifExploreRecipesTitle": "试试新的{methodName}配方",
   "@notifExploreRecipesTitle": {
@@ -1079,13 +1051,6 @@
     }
   },
   "notifExploreRecipesBody": "{count, plural, =1{到目前为止，你已经试过1个配方。再给你一个试试。} other{到目前为止，你已经试过{count}个配方。再给你一个试试。}}",
-  "@notifExploreRecipesBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifMorningTitle": "早安。准备开始冲煮了吗？",
   "notifMorningBody": "用一杯好咖啡开启一天。",
@@ -1094,21 +1059,7 @@
   "notifMorningTitle3": "今天的第一杯？",
   "notifMorningBody3": "选个配方，开始冲吧。",
   "notifWeeklyTitle": "{count, plural, =0{本周没有冲煮} =1{本周冲煮 1 次} other{本周冲煮 {count} 次}}",
-  "@notifWeeklyTitle": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "notifWeeklyBody": "{recipes, plural, =0{安静的一周 — 点按计划下一次冲煮。} =1{点按查看你的每周统计。} other{你试过 {recipes} 个配方。点按查看详情。}}",
-  "@notifWeeklyBody": {
-    "placeholders": {
-      "recipes": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifBeanFreshnessTitle": "该冲煮了",
   "notifBeanFreshnessRestBody": "{beanName} 正进入最佳风味期，别忘了冲煮",
@@ -1151,11 +1102,6 @@
   "settingsAnalyticsSummaryPartial": "分析部分开启",
   "settingsAnalyticsSummaryOff": "分析已关闭",
   "daysAgo": "{count, plural, other{{count}天前}}",
-  "@daysAgo": {
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
 
   "aiScanLabel": "AI 扫描",
   "reviewModerationFailedBody": "你的评价无法发布，原因：{reason}",
@@ -1210,7 +1156,6 @@
   "confirmDeleteReviewTitle": "删除这条评价？",
   "confirmDeleteReviewMessage": "此操作无法撤销。",
   "reviewsCount": "{count, plural, other{{count} 条评价}}",
-  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
   "reviewBrewMethodLabel": "冲煮方式",
   "reviewBrewMethodHint": "选择冲煮方式",
   "reviewWouldBuyAgainLabel": "会再次购买吗？",
@@ -1266,7 +1211,6 @@
   "filterByCountry": "按国家筛选",
   "allCountries": "所有国家",
   "roasterCountryCount": "{count, plural, other{{count} 家烘焙商}}",
-  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
   "roastersCatalogEmpty": "未找到烘焙商",
   "roastersCatalogEmptySearch": "没有与“{query}”匹配的烘焙商",
   "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },

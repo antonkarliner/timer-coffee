@@ -11,12 +11,7 @@
   },
   "roasterBagsLogged": "{count, plural, =1{1 pose logget av fellesskapet} other{{count} poser logget av fellesskapet}}",
   "@roasterBagsLogged": {
-    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile"
   },
   "beansStatsSectionTitle": "Bønnestatistikk",
   "totalBeansBrewedLabel": "Totalt bryggede bønner",
@@ -134,14 +129,6 @@
   "brewdiarynotfound": "Ingen oppføringer funnet",
   "brewsWithThisCoffee": "Brygg med denne kaffen",
   "showAllNBrews": "{count, plural, =1{Vis 1 brygg} other{Vis alle {count} brygg}}",
-  "@showAllNBrews": {
-    "placeholders": {
-      "count": {
-        "type": "num",
-        "format": "compact"
-      }
-    }
-  },
   "beans": "Bønner",
   "roaster": "Brenneri",
   "rating": "Vurdering",
@@ -279,10 +266,7 @@
   "amountLeft": "Mengde igjen",
   "approxBrewsLeft": "{count, plural, =1{≈ 1 brygg igjen} other{≈ {count} brygg igjen}}",
   "@approxBrewsLeft": {
-    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
-    "placeholders": {
-      "count": { "type": "int" }
-    }
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose"
   },
   "enterAmountLeft": "Skriv inn mengde igjen",
   "beansTotalLeftLabel": "Totalt igjen",
@@ -378,13 +362,7 @@
   },
   "yearlyStatsStory4Text": "Du brukte bønner fra {roasterCount} brennerier",
   "@yearlyStatsStory4Text": {
-    "description": "Statement about the number of distinct roasters used",
-    "placeholders": {
-      "roasterCount": {
-        "type": "num",
-        "example": "5"
-      }
-    }
+    "description": "Statement about the number of distinct roasters used"
   },
   "yearlyStatsStory4Top3Roasters": "Dine topp 3 brennerier var:\n{top3}",
   "@yearlyStatsStory4Top3Roasters": {
@@ -404,13 +382,7 @@
   },
   "yearlyStatsStory6Text": "Du smakte kaffebønner\nfra {originCount} land!",
   "@yearlyStatsStory6Text": {
-    "description": "Statement about the number of distinct origins",
-    "placeholders": {
-      "originCount": {
-        "type": "num",
-        "example": "10"
-      }
-    }
+    "description": "Statement about the number of distinct origins"
   },
   "yearlyStatsStory7Part1": "Du brygget ikke alene…",
   "@yearlyStatsStory7Part1": {
@@ -422,33 +394,15 @@
   },
   "yearlyStatsStory8TitleLow": "Du holdt deg tro mot deg selv og brukte kun disse {count} bryggemetodene i år:",
   "@yearlyStatsStory8TitleLow": {
-    "description": "Title for low number of brewing methods",
-    "placeholders": {
-      "count": {
-        "type": "num",
-        "example": "3"
-      }
-    }
+    "description": "Title for low number of brewing methods"
   },
   "yearlyStatsStory8TitleMedium": "Du oppdaget nye smaker og brukte {count} bryggemetoder i år:",
   "@yearlyStatsStory8TitleMedium": {
-    "description": "Title for medium number of brewing methods",
-    "placeholders": {
-      "count": {
-        "type": "num",
-        "example": "5"
-      }
-    }
+    "description": "Title for medium number of brewing methods"
   },
   "yearlyStatsStory8TitleHigh": "Du var en ekte kaffeoppdager og brukte {count} bryggemetoder i år:",
   "@yearlyStatsStory8TitleHigh": {
-    "description": "Title for high number of brewing methods",
-    "placeholders": {
-      "count": {
-        "type": "num",
-        "example": "8"
-      }
-    }
+    "description": "Title for high number of brewing methods"
   },
   "yearlyStatsStory9Text": "Så mye mer å oppdage!",
   "@yearlyStatsStory9Text": {
@@ -542,25 +496,11 @@
     }
   },
   "yearlyStats25Slide3TopBadge": "Du er i topp {topPct}% av bryggere!",
-  "@yearlyStats25Slide3TopBadge": {
-    "placeholders": {
-      "topPct": {
-        "type": "int"
-      }
-    }
-  },
   "yearlyStats25Slide4TitleSingle": "Husker du dagen du brygget mest kaffe i år?",
   "yearlyStats25Slide4TitleMulti": "Husker du dagene da du brygget mest kaffe i år?",
   "yearlyStats25Slide4TitleBrewTime": "Din bryggetid i år",
   "yearlyStats25Slide4ScratchLabel": "Skrap for å avsløre",
   "yearlyStats25BrewsCount": "{count, plural, =1{1 brygg} other{{count} brygg}}",
-  "@yearlyStats25BrewsCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "yearlyStats25Slide4PeakSingle": "{date} — {brewsLabel}",
   "@yearlyStats25Slide4PeakSingle": {
     "placeholders": {
@@ -606,16 +546,6 @@
   "yearlyStats25Slide5RecipesHeader": "Topp oppskrifter:",
   "yearlyStats25Slide5NoRecipes": "Ingen oppskrifter ennå",
   "yearlyStats25MethodRow": "{name} — {count} {count, plural, =1{brygg} other{brygg}}",
-  "@yearlyStats25MethodRow": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      },
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "yearlyStats25Slide6Title": "Du oppdaget {count} brennerier i år:",
   "@yearlyStats25Slide6Title": {
     "placeholders": {
@@ -636,16 +566,6 @@
   },
   "yearlyStats25Others": "...og andre",
   "yearlyStats25FallbackTitle": "Timer.Coffee-brukere brukte bønner fra {countries} land i år\nog registrerte {roasters} forskjellige brennerier.",
-  "@yearlyStats25FallbackTitle": {
-    "placeholders": {
-      "countries": {
-        "type": "int"
-      },
-      "roasters": {
-        "type": "int"
-      }
-    }
-  },
   "yearlyStats25FallbackPromptHasBeans": "Hvorfor ikke fortsette å logge bønneposene dine?",
   "yearlyStats25FallbackPromptNoBeans": "Kanskje det er på tide at du også blir med og registrerer bønnene dine?",
   "yearlyStats25FallbackActionHasBeans": "Fortsett å legge til bønner",
@@ -675,13 +595,6 @@
   "yearlyStats25AppBarTooltipPause": "Pause",
   "yearlyStats25ShareError": "Kunne ikke dele oppsummering. Vennligst prøv igjen.",
   "yearlyStats25BrewTimeMinutes": "{count, plural, =0{0 minutter} =1{1 minutt} other{{count} minutter}}",
-  "@yearlyStats25BrewTimeMinutes": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "yearlyStats25BrewTimeHours": "{hours} timer",
   "@yearlyStats25BrewTimeHours": {
     "placeholders": {
@@ -722,29 +635,8 @@
     "description": "Label for brewing methods stats"
   },
   "formattedRoasterCount": "{count} {count, plural, =1{brenneri} other{brennerier}}",
-  "@formattedRoasterCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "formattedCountryCount": "{count} {count, plural, =1{land} other{land}}",
-  "@formattedCountryCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "formattedBrewingMethodCount": "{count} {count, plural, =1{bryggemetode} other{bryggemetoder}}",
-  "@formattedBrewingMethodCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "recipeCreationScreenEditRecipeTitle": "Rediger oppskrift",
   "recipeCreationScreenCreateRecipeTitle": "Opprett oppskrift",
   "recipeCreationScreenRecipeStepsTitle": "Oppskriftssteg",
@@ -1295,12 +1187,7 @@
   "relativeTimeYearsAgo": "{count, plural, =1{1 år siden} other{{count} år siden}}",
   "pulseBrewsCount": "{count, plural, =1{1 brygg} other{{count} brygg}}",
   "@pulseBrewsCount": {
-    "description": "Pluralized brew count for Pulse summary",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Pluralized brew count for Pulse summary"
   },
   "timePeriodThisYear": "I år",
   "timePeriodLastYear": "I fjor",
@@ -1384,13 +1271,6 @@
 
   "notifBrewMilestoneTitle": "Du nådde en milepæl",
   "notifBrewMilestoneBody": "Du har brygget {count} ganger. Trykk for å se fremgangen din.",
-  "@notifBrewMilestoneBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifExploreRecipesTitle": "Prøv en ny {methodName}-oppskrift",
   "@notifExploreRecipesTitle": {
@@ -1401,13 +1281,6 @@
     }
   },
   "notifExploreRecipesBody": "{count, plural, =1{Så langt har du prøvd 1 oppskrift. Her er en til å teste.} other{Så langt har du prøvd {count} oppskrifter. Her er en til å teste.}}",
-  "@notifExploreRecipesBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifMorningTitle": "God morgen. Klar til å brygge?",
   "notifMorningBody": "Start dagen med en god kopp.",
@@ -1416,21 +1289,7 @@
   "notifMorningTitle3": "Dagens første kopp?",
   "notifMorningBody3": "Velg en oppskrift og sett i gang.",
   "notifWeeklyTitle": "{count, plural, =0{Ingen brygg denne uken} =1{1 brygg denne uken} other{{count} brygg denne uken}}",
-  "@notifWeeklyTitle": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "notifWeeklyBody": "{recipes, plural, =0{Rolig uke — trykk for å planlegge neste brygg.} =1{Trykk for å se ukesstatistikken din.} other{Fordelt på {recipes} oppskrifter. Trykk for å se oversikten.}}",
-  "@notifWeeklyBody": {
-    "placeholders": {
-      "recipes": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifBeanFreshnessTitle": "På tide å brygge",
   "notifBeanFreshnessRestBody": "{beanName} er på sitt beste nå – ikke glem å brygge den",
@@ -1473,11 +1332,6 @@
   "settingsAnalyticsSummaryPartial": "Analyse delvis på",
   "settingsAnalyticsSummaryOff": "Analyse av",
   "daysAgo": "{count, plural, one{for 1 dag siden} other{for {count} dager siden}}",
-  "@daysAgo": {
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
 
   "aiScanLabel": "AI-skann",
   "reviewModerationFailedBody": "Anmeldelsen din kunne ikke publiseres fordi: {reason}",
@@ -1532,7 +1386,6 @@
   "confirmDeleteReviewTitle": "Slette denne anmeldelsen?",
   "confirmDeleteReviewMessage": "Denne handlingen kan ikke angres.",
   "reviewsCount": "{count, plural, one{1 anmeldelse} other{{count} anmeldelser}}",
-  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
   "reviewBrewMethodLabel": "Bryggemetode",
   "reviewBrewMethodHint": "Velg bryggemetode",
   "reviewWouldBuyAgainLabel": "Ville kjøpt igjen?",
@@ -1588,7 +1441,6 @@
   "filterByCountry": "Filtrer etter land",
   "allCountries": "Alle land",
   "roasterCountryCount": "{count, plural, one{1 brenneri} other{{count} brennerier}}",
-  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
   "roastersCatalogEmpty": "Fant ingen brennerier",
   "roastersCatalogEmptySearch": "Ingen brennerier passer med \"{query}\"",
   "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },

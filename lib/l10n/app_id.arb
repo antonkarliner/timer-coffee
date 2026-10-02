@@ -11,12 +11,7 @@
   },
   "roasterBagsLogged": "{count, plural, other{{count} kemasan dicatat oleh komunitas}}",
   "@roasterBagsLogged": {
-    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile"
   },
   "beansStatsSectionTitle": "Statistik biji",
   "totalBeansBrewedLabel": "Total biji yang digunakan",
@@ -128,14 +123,6 @@
   "brewdiarynotfound": "Tidak ada entri yang ditemukan",
   "brewsWithThisCoffee": "Seduhan dengan kopi ini",
   "showAllNBrews": "{count, plural, =1{Tampilkan 1 seduhan} other{Tampilkan semua {count} seduhan}}",
-  "@showAllNBrews": {
-    "placeholders": {
-      "count": {
-        "type": "num",
-        "format": "compact"
-      }
-    }
-  },
   "beans": "Biji",
   "roaster": "Roaster",
   "rating": "Peringkat",
@@ -789,10 +776,7 @@
   "amountLeft": "Jumlah tersisa",
   "approxBrewsLeft": "{count, plural, =1{≈ tersisa 1 seduhan} other{≈ tersisa {count} seduhan}}",
   "@approxBrewsLeft": {
-    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
-    "placeholders": {
-      "count": { "type": "int" }
-    }
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose"
   },
   "enterAmountLeft": "Masukkan jumlah tersisa",
   "beansTotalLeftLabel": "Total tersisa",
@@ -973,12 +957,7 @@
   "relativeTimeYearsAgo": "{count, plural, =1{1 tahun yang lalu} other{{count} tahun yang lalu}}",
   "pulseBrewsCount": "{count, plural, other{{count} seduhan}}",
   "@pulseBrewsCount": {
-    "description": "Pluralized brew count for Pulse summary",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Pluralized brew count for Pulse summary"
   },
   "timePeriodThisYear": "Tahun ini",
   "timePeriodLastYear": "Tahun lalu",
@@ -1062,13 +1041,6 @@
 
   "notifBrewMilestoneTitle": "Kamu meraih pencapaian baru",
   "notifBrewMilestoneBody": "Kamu sudah menyeduh {count} kali. Ketuk untuk melihat progresmu.",
-  "@notifBrewMilestoneBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifExploreRecipesTitle": "Coba resep {methodName} baru",
   "@notifExploreRecipesTitle": {
@@ -1079,13 +1051,6 @@
     }
   },
   "notifExploreRecipesBody": "{count, plural, =1{Sejauh ini kamu sudah mencoba 1 resep. Ini satu lagi buat dicoba.} other{Sejauh ini kamu sudah mencoba {count} resep. Ini satu lagi buat dicoba.}}",
-  "@notifExploreRecipesBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifMorningTitle": "Selamat pagi. Siap menyeduh?",
   "notifMorningBody": "Mulai hari dengan secangkir yang enak.",
@@ -1094,21 +1059,7 @@
   "notifMorningTitle3": "Cangkir pertama hari ini?",
   "notifMorningBody3": "Pilih resep dan mulai menyeduh.",
   "notifWeeklyTitle": "{count, plural, =0{Tidak ada seduhan minggu ini} =1{1 seduhan minggu ini} other{{count} seduhan minggu ini}}",
-  "@notifWeeklyTitle": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "notifWeeklyBody": "{recipes, plural, =0{Minggu yang tenang — ketuk untuk merencanakan seduhan berikutnya.} =1{Ketuk untuk melihat statistik mingguanmu.} other{Hasil dari {recipes} resep. Ketuk untuk melihat rinciannya.}}",
-  "@notifWeeklyBody": {
-    "placeholders": {
-      "recipes": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifBeanFreshnessTitle": "Waktunya menyeduh",
   "notifBeanFreshnessRestBody": "{beanName} sedang mencapai puncaknya — jangan lupa diseduh",
@@ -1151,11 +1102,6 @@
   "settingsAnalyticsSummaryPartial": "Analitik sebagian aktif",
   "settingsAnalyticsSummaryOff": "Analitik nonaktif",
   "daysAgo": "{count, plural, other{{count} hari yang lalu}}",
-  "@daysAgo": {
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
 
   "aiScanLabel": "Pindai AI",
   "reviewModerationFailedBody": "Ulasan Anda tidak dapat diterbitkan karena: {reason}",
@@ -1210,7 +1156,6 @@
   "confirmDeleteReviewTitle": "Hapus ulasan ini?",
   "confirmDeleteReviewMessage": "Tindakan ini tidak dapat dibatalkan.",
   "reviewsCount": "{count, plural, other{{count} ulasan}}",
-  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
   "reviewBrewMethodLabel": "Metode seduh",
   "reviewBrewMethodHint": "Pilih metode seduh",
   "reviewWouldBuyAgainLabel": "Beli lagi?",
@@ -1266,7 +1211,6 @@
   "filterByCountry": "Filter berdasarkan negara",
   "allCountries": "Semua negara",
   "roasterCountryCount": "{count, plural, other{{count} roaster}}",
-  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
   "roastersCatalogEmpty": "Roaster tidak ditemukan",
   "roastersCatalogEmptySearch": "Tidak ada roaster yang cocok dengan \"{query}\"",
   "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },

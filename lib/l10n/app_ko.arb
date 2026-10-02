@@ -11,12 +11,7 @@
   },
   "roasterBagsLogged": "{count, plural, other{커뮤니티가 등록한 {count}봉지}}",
   "@roasterBagsLogged": {
-    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Number of bean bags from this roaster logged by all users (incl. anonymous), shown on the roaster profile"
   },
   "beansStatsSectionTitle": "원두 통계",
   "totalBeansBrewedLabel": "사용한 원두 총량",
@@ -134,14 +129,6 @@
   "brewdiarynotfound": "항목을 찾을 수 없습니다",
   "brewsWithThisCoffee": "이 원두로 추출한 기록",
   "showAllNBrews": "{count, plural, =1{추출 기록 1개 보기} other{추출 기록 {count}개 모두 보기}}",
-  "@showAllNBrews": {
-    "placeholders": {
-      "count": {
-        "type": "num",
-        "format": "compact"
-      }
-    }
-  },
   "beans": "원두",
   "roaster": "로스터리",
   "rating": "평점",
@@ -356,13 +343,7 @@
   },
   "yearlyStatsStory4Text": "{roasterCount}곳 로스터리의 원두를 사용했어요",
   "@yearlyStatsStory4Text": {
-    "description": "Statement about the number of distinct roasters used",
-    "placeholders": {
-      "roasterCount": {
-        "type": "num",
-        "example": "5"
-      }
-    }
+    "description": "Statement about the number of distinct roasters used"
   },
   "yearlyStatsStory4Top3Roasters": "상위 로스터리 3곳:\n{top3}",
   "@yearlyStatsStory4Top3Roasters": {
@@ -382,13 +363,7 @@
   },
   "yearlyStatsStory6Text": "{originCount}개국의 원두를 맛보았습니다!",
   "@yearlyStatsStory6Text": {
-    "description": "Statement about the number of distinct origins",
-    "placeholders": {
-      "originCount": {
-        "type": "num",
-        "example": "10"
-      }
-    }
+    "description": "Statement about the number of distinct origins"
   },
   "yearlyStatsStory7Part1": "혼자 추출하지 않았습니다…",
   "@yearlyStatsStory7Part1": {
@@ -400,33 +375,15 @@
   },
   "yearlyStatsStory8TitleLow": "올해 이 {count} 추출 방법을 고수했습니다:",
   "@yearlyStatsStory8TitleLow": {
-    "description": "Title for low number of brewing methods",
-    "placeholders": {
-      "count": {
-        "type": "num",
-        "example": "3"
-      }
-    }
+    "description": "Title for low number of brewing methods"
   },
   "yearlyStatsStory8TitleMedium": "새로운 맛을 발견하며 올해 {count} 추출 방법을 사용했습니다:",
   "@yearlyStatsStory8TitleMedium": {
-    "description": "Title for medium number of brewing methods",
-    "placeholders": {
-      "count": {
-        "type": "num",
-        "example": "5"
-      }
-    }
+    "description": "Title for medium number of brewing methods"
   },
   "yearlyStatsStory8TitleHigh": "진정한 커피 탐색가로서 올해 {count} 추출 방법을 사용했습니다:",
   "@yearlyStatsStory8TitleHigh": {
-    "description": "Title for high number of brewing methods",
-    "placeholders": {
-      "count": {
-        "type": "num",
-        "example": "8"
-      }
-    }
+    "description": "Title for high number of brewing methods"
   },
   "yearlyStatsStory9Text": "발견할 게 더 많아요!",
   "@yearlyStatsStory9Text": {
@@ -580,29 +537,8 @@
     "description": "Label for brewing methods stats"
   },
   "formattedRoasterCount": "{count} {count, plural, =1{로스터리} other{로스터리}}",
-  "@formattedRoasterCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "formattedCountryCount": "{count} {count, plural, =1{국가} other{국가}}",
-  "@formattedCountryCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "formattedBrewingMethodCount": "{count} {count, plural, =1{추출 방법} other{추출 방법}}",
-  "@formattedBrewingMethodCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "recipeCreationScreenEditRecipeTitle": "레시피 편집",
   "recipeCreationScreenCreateRecipeTitle": "레시피 생성",
   "recipeCreationScreenRecipeStepsTitle": "레시피 단계",
@@ -960,10 +896,7 @@
   "amountLeft": "남은 양",
   "approxBrewsLeft": "{count, plural, =1{≈ 1회 추출 가능} other{≈ {count}회 추출 가능}}",
   "@approxBrewsLeft": {
-    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
-    "placeholders": {
-      "count": { "type": "int" }
-    }
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose"
   },
   "enterAmountLeft": "남은 양을 입력하세요",
   "beansTotalLeftLabel": "총 잔량",
@@ -1144,12 +1077,7 @@
   "relativeTimeYearsAgo": "{count, plural, =1{1년 전} other{{count}년 전}}",
   "pulseBrewsCount": "{count, plural, other{{count}회 추출}}",
   "@pulseBrewsCount": {
-    "description": "Pluralized brew count for Pulse summary",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Pluralized brew count for Pulse summary"
   },
   "timePeriodThisYear": "올해",
   "timePeriodLastYear": "작년",
@@ -1233,13 +1161,6 @@
 
   "notifBrewMilestoneTitle": "새 기록을 세웠어요",
   "notifBrewMilestoneBody": "{count}번 추출했어요. 탭해서 진행 상황을 확인해 보세요.",
-  "@notifBrewMilestoneBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifExploreRecipesTitle": "새로운 {methodName} 레시피를 시도해 보세요",
   "@notifExploreRecipesTitle": {
@@ -1250,13 +1171,6 @@
     }
   },
   "notifExploreRecipesBody": "{count, plural, =1{지금까지 1개의 레시피를 시도했어요. 하나 더 추천해 드릴게요.} other{지금까지 {count}개의 레시피를 시도했어요. 하나 더 추천해 드릴게요.}}",
-  "@notifExploreRecipesBody": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifMorningTitle": "좋은 아침이에요. 커피 내릴 준비 되셨나요?",
   "notifMorningBody": "좋은 한 잔으로 하루를 시작해 보세요.",
@@ -1265,21 +1179,7 @@
   "notifMorningTitle3": "오늘의 첫 잔인가요?",
   "notifMorningBody3": "레시피를 고르고 바로 추출해 보세요.",
   "notifWeeklyTitle": "{count, plural, =0{이번 주 추출 없음} =1{이번 주 추출 1회} other{이번 주 추출 {count}회}}",
-  "@notifWeeklyTitle": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "notifWeeklyBody": "{recipes, plural, =0{조용한 한 주 — 탭해서 다음 추출을 계획해 보세요.} =1{탭해서 주간 통계를 확인해 보세요.} other{{recipes}개 레시피에서의 결과예요. 탭해서 자세히 보세요.}}",
-  "@notifWeeklyBody": {
-    "placeholders": {
-      "recipes": {
-        "type": "int"
-      }
-    }
-  },
 
   "notifBeanFreshnessTitle": "커피 내릴 시간이에요",
   "notifBeanFreshnessRestBody": "{beanName} 원두가 가장 맛있어질 때예요 — 잊지 말고 내려 보세요",
@@ -1322,11 +1222,6 @@
   "settingsAnalyticsSummaryPartial": "분석 일부 켜짐",
   "settingsAnalyticsSummaryOff": "분석 꺼짐",
   "daysAgo": "{count, plural, other{{count}일 전}}",
-  "@daysAgo": {
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
 
   "aiScanLabel": "AI 스캔",
   "reviewModerationFailedBody": "리뷰를 게시할 수 없습니다. 이유: {reason}",
@@ -1381,7 +1276,6 @@
   "confirmDeleteReviewTitle": "이 리뷰를 삭제할까요?",
   "confirmDeleteReviewMessage": "이 작업은 되돌릴 수 없습니다.",
   "reviewsCount": "{count, plural, other{리뷰 {count}개}}",
-  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
   "reviewBrewMethodLabel": "추출 방법",
   "reviewBrewMethodHint": "추출 방법 선택",
   "reviewWouldBuyAgainLabel": "다시 구매할까요?",
@@ -1437,7 +1331,6 @@
   "filterByCountry": "국가별 필터",
   "allCountries": "모든 국가",
   "roasterCountryCount": "{count, plural, other{로스터리 {count}곳}}",
-  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
   "roastersCatalogEmpty": "로스터리를 찾을 수 없습니다",
   "roastersCatalogEmptySearch": "\"{query}\"와 일치하는 로스터리가 없습니다",
   "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },
