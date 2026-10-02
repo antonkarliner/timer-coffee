@@ -619,7 +619,8 @@ Map<String, String> _entryLabels(
   final baseLabels = {
     for (final entry in entries)
       entry.statUuid:
-          '${entry.recipeName} · ${dateFormat.format(entry.createdAt.toLocal())}',
+          '${entry.recipeName}${loc.summarySeparator}'
+          '${dateFormat.format(entry.createdAt.toLocal())}',
   };
   final hasCollision = baseLabels.values.toSet().length != baseLabels.length;
   if (!hasCollision) return baseLabels;
@@ -1122,9 +1123,12 @@ class _ComparisonEntryLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final separator = label.lastIndexOf(' · ');
+    // Split where the label builder joined recipe and date.
+    final joiner = AppLocalizations.of(context)!.summarySeparator;
+    final separator = label.lastIndexOf(joiner);
     final recipe = separator < 0 ? label : label.substring(0, separator);
-    final date = separator < 0 ? '' : label.substring(separator + 3);
+    final date =
+        separator < 0 ? '' : label.substring(separator + joiner.length);
     return Semantics(
       label: label,
       child: ExcludeSemantics(

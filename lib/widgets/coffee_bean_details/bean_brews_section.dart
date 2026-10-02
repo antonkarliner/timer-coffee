@@ -123,7 +123,7 @@ class _BeanJourneyRow extends StatelessWidget {
         onTap: onTap,
         leading: const Icon(Icons.library_books, size: AppIconSize.medium),
         title: Text(loc.beanJourneyTitle, style: AppTextStyles.fieldLabel),
-        subtitle: Text(summaryParts.join(' · ')),
+        subtitle: Text(summaryParts.join(loc.summarySeparator)),
         trailing: const Icon(Icons.chevron_right, size: AppIconSize.medium),
       ),
     );
@@ -224,7 +224,7 @@ class _BrewRow extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                '$methodName · ${stat.coffeeAmount.toStringAsFixed(1)}g / ${stat.waterAmount.toStringAsFixed(0)}ml',
+                '$methodName${loc.summarySeparator}${stat.coffeeAmount.toStringAsFixed(1)}g / ${stat.waterAmount.toStringAsFixed(0)}ml',
                 style: theme.textTheme.bodySmall,
               ),
               Text(

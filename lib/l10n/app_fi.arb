@@ -1377,5 +1377,6 @@
   "settingsLayoutPreviewNextStep": "Kaada 150 g:aan",
   "settingsAppIconRestartTitle": "Vaihdetaanko sovelluksen kuvake?",
   "settingsAppIconRestartBody": "Timer.Coffee sulkeutuu, jotta muutos otetaan käyttöön. Avaa se uudelleen laitteen aloitusnäytöltä.",
-  "settingsAppIconRestartConfirm": "Vaihda kuvake"
+  "settingsAppIconRestartConfirm": "Vaihda kuvake",
+  "summarySeparator": " · "
 }

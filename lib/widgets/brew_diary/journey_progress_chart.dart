@@ -170,7 +170,7 @@ class JourneyProgressChart extends StatelessWidget {
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: Text(
-                    '$methodName · '
+                    '$methodName${loc.summarySeparator}'
                     '${loc.journeyEvaluatedCount(data.evaluatedCount, data.points.length)}',
                     key: const ValueKey('journeyProgressChartContext'),
                     maxLines: 2,

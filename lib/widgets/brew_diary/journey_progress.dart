@@ -346,7 +346,8 @@ class _MethodSelectorRow extends StatelessWidget {
                 ),
                 const SizedBox(height: AppSpacing.xs),
                 Text(
-                  '${loc.diaryGroupBrewCount(series.entries.length)} · '
+                  '${loc.diaryGroupBrewCount(series.entries.length)}'
+                  '${loc.summarySeparator}'
                   '${loc.journeyEvaluatedBrewCount(series.evaluatedCount)}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

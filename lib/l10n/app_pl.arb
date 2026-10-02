@@ -1525,5 +1525,6 @@
   "settingsLayoutPreviewNextStep": "Lej do 150 g",
   "settingsAppIconRestartTitle": "Zmienić ikonę aplikacji?",
   "settingsAppIconRestartBody": "Timer.Coffee zostanie zamknięty, aby zastosować zmianę. Otwórz go ponownie z ekranu głównego.",
-  "settingsAppIconRestartConfirm": "Zmień ikonę"
+  "settingsAppIconRestartConfirm": "Zmień ikonę",
+  "summarySeparator": " · "
 }

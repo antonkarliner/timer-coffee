@@ -1769,7 +1769,11 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   /// The "Step n/total" label shared by the app bar title and the Pour
   /// body's step label — built once so the two can never drift apart.
   String _stepLabelText(BuildContext context) {
-    return '${AppLocalizations.of(context)!.step} ${intl.NumberFormat().format(currentStepIndex + 1)}/${intl.NumberFormat().format(brewingSteps.length)}';
+    // App locale, as in LocalizedNumberText: `NumberFormat()` alone is en_US.
+    final format = intl.NumberFormat.decimalPattern(
+      Localizations.localeOf(context).toString(),
+    );
+    return '${AppLocalizations.of(context)!.step} ${format.format(currentStepIndex + 1)}/${format.format(brewingSteps.length)}';
   }
 
   /// The Pour body (plan 066 phase 2): [PourBrewingView] driven from state

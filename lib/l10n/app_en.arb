@@ -3079,5 +3079,7 @@
   "settingsAppIconRestartBody": "Timer.Coffee will close to apply it. Open it again from your home screen.",
   "@settingsAppIconRestartBody": {"description": "Android-only confirmation dialog body before switching the app icon. 'Home screen' is the phone's launcher."},
   "settingsAppIconRestartConfirm": "Change icon",
-  "@settingsAppIconRestartConfirm": {"description": "Confirm button of the Android-only app icon confirmation dialog."}
+  "@settingsAppIconRestartConfirm": {"description": "Confirm button of the Android-only app icon confirmation dialog."},
+  "summarySeparator": " · ",
+  "@summarySeparator": {"description": "Separator between the parts of a one-line summary, e.g. \"Classic · Silent\" or \"12 brews · 5 active days\". Keep the spaces. Persian uses \"، \" because its zero (۰) is a dot, so a middle dot next to a Persian digit reads as part of the number."}
 }

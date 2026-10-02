@@ -1525,5 +1525,6 @@
   "settingsLayoutPreviewNextStep": "Schenk tot 150 g",
   "settingsAppIconRestartTitle": "App-icoon wijzigen?",
   "settingsAppIconRestartBody": "Timer.Coffee sluit om de wijziging toe te passen. Open de app opnieuw vanaf je startscherm.",
-  "settingsAppIconRestartConfirm": "Icoon wijzigen"
+  "settingsAppIconRestartConfirm": "Icoon wijzigen",
+  "summarySeparator": " · "
 }

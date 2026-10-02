@@ -1525,5 +1525,6 @@
   "settingsLayoutPreviewNextStep": "Versa fino a 150 g",
   "settingsAppIconRestartTitle": "Cambiare l’icona dell’app?",
   "settingsAppIconRestartBody": "Timer.Coffee si chiuderà per applicarla. Riaprila dalla schermata Home del telefono.",
-  "settingsAppIconRestartConfirm": "Cambia icona"
+  "settingsAppIconRestartConfirm": "Cambia icona",
+  "summarySeparator": " · "
 }

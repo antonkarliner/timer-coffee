@@ -788,11 +788,12 @@ class _HistoryPickerRow extends StatelessWidget {
       Localizations.localeOf(context).toString(),
     ).format(stat.createdAt.toLocal());
     // Non-breaking space (\u00A0) between each value and its unit so the
-    // unit never wraps onto its own line; ' · ' separators may still wrap.
+    // unit never wraps onto its own line; the separators may still wrap.
     const nbsp = '\u00A0';
+    final sep = l10n.summarySeparator;
     final metaLine =
-        '$dateStr · '
-        '${_formatAmount(stat.coffeeAmount)}$nbsp${l10n.unitGramsShort} · '
+        '$dateStr$sep'
+        '${_formatAmount(stat.coffeeAmount)}$nbsp${l10n.unitGramsShort}$sep'
         '${_formatAmount(stat.waterAmount)}$nbsp${l10n.unitGramsShort}';
     final beanName = stat.beans;
     final hasBeanName = beanName != null && beanName.trim().isNotEmpty;

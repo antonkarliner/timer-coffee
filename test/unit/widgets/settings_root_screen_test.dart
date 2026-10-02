@@ -230,9 +230,11 @@ void main() {
 
     expect(tester.takeException(), isNull);
     // Before the placeholders carried "format": "decimalPattern" these read
-    // "2 از 3 روش" and "فعال · 1 یادآوری".
+    // "2 از 3 روش" and "فعال · 1 یادآوری". The separator is the Persian
+    // comma: a middle dot beside "۱" reads as "۱۰".
     expect(find.text('۲ از ۳ روش'), findsOneWidget);
-    expect(find.text('فعال · ۱ یادآوری'), findsOneWidget);
+    expect(find.text('فعال، ۱ یادآوری'), findsOneWidget);
+    expect(find.textContaining('·'), findsNothing);
   });
 
   testWidgets('appearance summary without the icon API is the theme label',

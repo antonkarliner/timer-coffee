@@ -1525,5 +1525,6 @@
   "settingsLayoutPreviewNextStep": "Toarnă până la 150 g",
   "settingsAppIconRestartTitle": "Schimbăm pictograma aplicației?",
   "settingsAppIconRestartBody": "Timer.Coffee se va închide pentru a aplica modificarea. Deschide-l din nou din ecranul principal.",
-  "settingsAppIconRestartConfirm": "Schimbă pictograma"
+  "settingsAppIconRestartConfirm": "Schimbă pictograma",
+  "summarySeparator": " · "
 }

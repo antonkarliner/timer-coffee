@@ -1795,5 +1795,6 @@
   "settingsLayoutPreviewNextStep": "Ρίξε μέχρι 150 g",
   "settingsAppIconRestartTitle": "Αλλαγή εικονιδίου εφαρμογής;",
   "settingsAppIconRestartBody": "Το Timer.Coffee θα κλείσει για να εφαρμοστεί η αλλαγή. Ανοίξτε το ξανά από την αρχική οθόνη.",
-  "settingsAppIconRestartConfirm": "Αλλαγή εικονιδίου"
+  "settingsAppIconRestartConfirm": "Αλλαγή εικονιδίου",
+  "summarySeparator": " · "
 }

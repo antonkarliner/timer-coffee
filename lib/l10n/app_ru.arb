@@ -1525,5 +1525,6 @@
   "settingsLayoutPreviewNextStep": "Доливайте до 150 г",
   "settingsAppIconRestartTitle": "Сменить иконку приложения?",
   "settingsAppIconRestartBody": "Чтобы применить её, Timer.Coffee закроется. Откройте приложение снова с домашнего экрана.",
-  "settingsAppIconRestartConfirm": "Сменить иконку"
+  "settingsAppIconRestartConfirm": "Сменить иконку",
+  "summarySeparator": " · "
 }

@@ -1525,5 +1525,6 @@
   "settingsLayoutPreviewNextStep": "150 gまで注ぐ",
   "settingsAppIconRestartTitle": "アプリアイコンを変更しますか？",
   "settingsAppIconRestartBody": "反映のためTimer.Coffeeを終了します。ホーム画面からもう一度開いてください。",
-  "settingsAppIconRestartConfirm": "アイコンを変更"
+  "settingsAppIconRestartConfirm": "アイコンを変更",
+  "summarySeparator": " · "
 }

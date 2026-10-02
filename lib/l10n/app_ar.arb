@@ -1525,5 +1525,6 @@
   "settingsLayoutPreviewNextStep": "اسكب حتى 150 غ",
   "settingsAppIconRestartTitle": "تغيير أيقونة التطبيق؟",
   "settingsAppIconRestartBody": "سيُغلق Timer.Coffee لتطبيق التغيير. افتحه مجددًا من شاشتك الرئيسية.",
-  "settingsAppIconRestartConfirm": "تغيير الأيقونة"
+  "settingsAppIconRestartConfirm": "تغيير الأيقونة",
+  "summarySeparator": " · "
 }

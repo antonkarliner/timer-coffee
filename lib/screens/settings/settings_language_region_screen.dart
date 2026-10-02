@@ -127,7 +127,7 @@ class _SettingsLanguageRegionScreenState
       locale,
     ).format(now);
     return style == DateStyle.auto
-        ? '${l10n.settingsAutoMatchesLanguage} · $example'
+        ? '${l10n.settingsAutoMatchesLanguage}${l10n.summarySeparator}$example'
         : example;
   }
 
@@ -146,7 +146,7 @@ class _SettingsLanguageRegionScreenState
       locale,
     ).format(now);
     return style == TimeStyle.auto
-        ? '${l10n.settingsAutoMatchesDevice} · $example'
+        ? '${l10n.settingsAutoMatchesDevice}${l10n.summarySeparator}$example'
         : example;
   }
 

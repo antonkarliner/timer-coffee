@@ -1525,5 +1525,6 @@
   "settingsLayoutPreviewNextStep": "Despeje até 150 g",
   "settingsAppIconRestartTitle": "Alterar o ícone do app?",
   "settingsAppIconRestartBody": "O Timer.Coffee vai fechar para aplicar a alteração. Abra-o novamente na tela inicial do seu telefone.",
-  "settingsAppIconRestartConfirm": "Alterar ícone"
+  "settingsAppIconRestartConfirm": "Alterar ícone",
+  "summarySeparator": " · "
 }

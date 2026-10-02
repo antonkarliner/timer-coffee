@@ -1525,5 +1525,6 @@
   "settingsLayoutPreviewNextStep": "Versez jusqu’à 150 g",
   "settingsAppIconRestartTitle": "Changer l’icône de l’application ?",
   "settingsAppIconRestartBody": "Timer.Coffee va se fermer pour l’appliquer. Rouvrez-le depuis votre écran d’accueil.",
-  "settingsAppIconRestartConfirm": "Changer l’icône"
+  "settingsAppIconRestartConfirm": "Changer l’icône",
+  "summarySeparator": " · "
 }

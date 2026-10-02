@@ -1525,5 +1525,6 @@
   "settingsLayoutPreviewNextStep": "注水至 150 克",
   "settingsAppIconRestartTitle": "更改应用图标？",
   "settingsAppIconRestartBody": "Timer.Coffee 将关闭以应用更改。请在主屏幕重新打开。",
-  "settingsAppIconRestartConfirm": "更改图标"
+  "settingsAppIconRestartConfirm": "更改图标",
+  "summarySeparator": " · "
 }

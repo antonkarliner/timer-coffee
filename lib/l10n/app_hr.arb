@@ -1645,5 +1645,6 @@
   "settingsLayoutPreviewNextStep": "Lij do 150 g",
   "settingsAppIconRestartTitle": "Promijeniti ikonu aplikacije?",
   "settingsAppIconRestartBody": "Timer.Coffee će se zatvoriti kako bi se promjena primijenila. Otvorite ga ponovno s početnog zaslona.",
-  "settingsAppIconRestartConfirm": "Promijeni ikonu"
+  "settingsAppIconRestartConfirm": "Promijeni ikonu",
+  "summarySeparator": " · "
 }

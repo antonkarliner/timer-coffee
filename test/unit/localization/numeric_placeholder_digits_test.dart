@@ -188,7 +188,7 @@ void main() {
 
     test('Settings summaries', () {
       expect(fa.settingsMethodsShownCount(11, 30), '۱۱ از ۳۰ روش');
-      expect(fa.settingsNotificationsSummaryOn(1), 'فعال · ۱ یادآوری');
+      expect(fa.settingsNotificationsSummaryOn(1), 'فعال، ۱ یادآوری');
       // intl's `ar` number symbols are Latin.
       expect(ar.settingsMethodsShownCount(11, 30), 'الطرق: 11 من 30');
     });
@@ -200,6 +200,22 @@ void main() {
     test('fa `one` covers 0, so its branch must print the count', () {
       expect(fa.diaryMonthBrews(0), '۰ دم‌آوری');
       expect(fa.diaryMonthBrews(1), '۱ دم‌آوری');
+    });
+
+    test('fa never puts a middle dot next to its digits', () {
+      // Persian zero (۰) is a dot: "فعال · ۱" reads as "۱۰". fa separates
+      // summary parts with the Persian comma instead.
+      expect(fa.summarySeparator, '، ');
+      expect(lookupAppLocalizations(const Locale('en')).summarySeparator,
+          ' · ');
+      final dotted = [
+        for (final entry in readArb('lib/l10n/app_fa.arb').entries)
+          if (!entry.key.startsWith('@') &&
+              entry.value is String &&
+              (entry.value as String).contains('·'))
+            entry.key,
+      ];
+      expect(dotted, isEmpty);
     });
   });
 }

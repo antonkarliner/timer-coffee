@@ -1525,5 +1525,6 @@
   "settingsLayoutPreviewNextStep": "Tuang hingga 150 g",
   "settingsAppIconRestartTitle": "Ubah ikon aplikasi?",
   "settingsAppIconRestartBody": "Timer.Coffee akan ditutup untuk menerapkannya. Buka lagi dari layar utama perangkat Anda.",
-  "settingsAppIconRestartConfirm": "Ubah ikon"
+  "settingsAppIconRestartConfirm": "Ubah ikon",
+  "summarySeparator": " · "
 }

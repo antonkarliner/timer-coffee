@@ -1525,5 +1525,6 @@
   "settingsLayoutPreviewNextStep": "150 g’a kadar dök",
   "settingsAppIconRestartTitle": "Uygulama simgesi değiştirilsin mi?",
   "settingsAppIconRestartBody": "Uygulamak için Timer.Coffee kapanacak. Ana ekrandan yeniden aç.",
-  "settingsAppIconRestartConfirm": "Simgeyi değiştir"
+  "settingsAppIconRestartConfirm": "Simgeyi değiştir",
+  "summarySeparator": " · "
 }

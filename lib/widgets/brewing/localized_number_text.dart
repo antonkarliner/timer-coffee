@@ -19,9 +19,15 @@ class LocalizedNumberText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var isRTL = Directionality.of(context) == TextDirection.rtl;
+    // The app locale, not `NumberFormat()`'s default: Flutter never sets
+    // `Intl.defaultLocale`, so the default is always en_US (Latin digits in
+    // fa, beside dates and counts in Persian ones).
+    final format = intl.NumberFormat.decimalPattern(
+      Localizations.localeOf(context).toString(),
+    );
     var formattedText = isRTL
-        ? '${intl.NumberFormat().format(currentNumber)}\\${intl.NumberFormat().format(totalNumber)}'
-        : '${intl.NumberFormat().format(currentNumber)}/${intl.NumberFormat().format(totalNumber)}';
+        ? '${format.format(currentNumber)}\\${format.format(totalNumber)}'
+        : '${format.format(currentNumber)}/${format.format(totalNumber)}';
 
     return Semantics(
       identifier: 'localizedNumberText_${currentNumber}_of_$totalNumber',

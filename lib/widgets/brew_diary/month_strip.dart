@@ -220,7 +220,7 @@ class MonthStrip extends StatelessWidget {
                               Text(monthName, style: AppTextStyles.fieldLabel),
                               const SizedBox(height: AppSpacing.xs),
                               Text(
-                                summarySegments.join(' · '),
+                                summarySegments.join(loc.summarySeparator),
                                 style: AppTextStyles.caption.copyWith(
                                   color: theme.colorScheme.onSurfaceVariant,
                                 ),

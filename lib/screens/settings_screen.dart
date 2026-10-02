@@ -220,7 +220,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         // The same glyph the Brew Coffee tab uses (home_screen.dart).
         icon: Coffeico.coffee_maker,
         title: l10n.settingsBrewingTitle,
-        subtitle: '${_layoutLabel(context, l10n)} · ${_alertLabel(l10n, mode)}',
+        subtitle: '${_layoutLabel(context, l10n)}${l10n.summarySeparator}'
+            '${_alertLabel(l10n, mode)}',
         onTap: () => context.router.push(const SettingsBrewingRoute()),
       ),
     );
@@ -387,7 +388,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           identifier: 'settingsLanguageRegionRow',
           icon: Icons.language,
           title: l10n.settingsLanguageRegionTitle,
-          subtitle: languageName == null ? today : '$languageName · $today',
+          subtitle: languageName == null
+              ? today
+              : '$languageName${l10n.summarySeparator}$today',
           onTap: () => context.router.push(const SettingsLanguageRegionRoute()),
         );
       },

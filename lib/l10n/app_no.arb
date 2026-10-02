@@ -1755,5 +1755,6 @@
   "settingsLayoutPreviewNextStep": "Hell til 150 g",
   "settingsAppIconRestartTitle": "Endre appikonet?",
   "settingsAppIconRestartBody": "Timer.Coffee lukkes for å bruke endringen. Åpne den igjen fra hjemskjermen.",
-  "settingsAppIconRestartConfirm": "Endre ikon"
+  "settingsAppIconRestartConfirm": "Endre ikon",
+  "summarySeparator": " · "
 }

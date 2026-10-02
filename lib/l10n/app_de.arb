@@ -1525,5 +1525,6 @@
   "settingsLayoutPreviewNextStep": "Auf 150 g aufgießen",
   "settingsAppIconRestartTitle": "App-Icon ändern?",
   "settingsAppIconRestartBody": "Timer.Coffee wird geschlossen, um das Icon anzuwenden. Öffne es danach wieder von deinem Startbildschirm.",
-  "settingsAppIconRestartConfirm": "Icon ändern"
+  "settingsAppIconRestartConfirm": "Icon ändern",
+  "summarySeparator": " · "
 }

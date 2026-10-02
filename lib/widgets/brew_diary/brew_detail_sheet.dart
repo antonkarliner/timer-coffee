@@ -1001,7 +1001,7 @@ class _BeanBlock extends StatelessWidget {
         .map((value) => value?.trim())
         .whereType<String>()
         .where((value) => value.isNotEmpty)
-        .join(' · ');
+        .join(loc.summarySeparator);
     return Card(
       key: const Key('linkedBeanBlock'),
       margin: EdgeInsets.zero,

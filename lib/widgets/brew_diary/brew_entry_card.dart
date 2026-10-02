@@ -155,7 +155,7 @@ class BrewEntryCard extends StatelessWidget {
                           child: Text(
                             [entry.beanName, entry.roaster]
                                 .where((value) => value?.isNotEmpty ?? false)
-                                .join(' · '),
+                                .join(loc.summarySeparator),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: AppTextStyles.caption,

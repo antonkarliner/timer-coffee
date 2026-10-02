@@ -1645,5 +1645,6 @@
   "settingsLayoutPreviewNextStep": "150 g까지 붓기",
   "settingsAppIconRestartTitle": "앱 아이콘을 변경할까요?",
   "settingsAppIconRestartBody": "적용을 위해 Timer.Coffee를 종료합니다. 홈 화면에서 다시 열어 주세요.",
-  "settingsAppIconRestartConfirm": "아이콘 변경"
+  "settingsAppIconRestartConfirm": "아이콘 변경",
+  "summarySeparator": " · "
 }

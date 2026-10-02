@@ -771,7 +771,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
           onTap: openStats,
           child: SectionCard(
             title: loc.diaryWeekOf(dateFormat.format(digest.weekStart)),
-            subtitle: summary.join(' · '),
+            subtitle: summary.join(loc.summarySeparator),
             icon: Icons.auto_awesome,
             trailing: const Icon(Icons.chevron_right, size: AppIconSize.medium),
             isCollapsible: false,
