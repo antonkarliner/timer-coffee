@@ -14,6 +14,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image/image.dart' as img; // Use prefix to avoid conflicts
 import '../app_router.gr.dart';
+import '../services/account_identity_service.dart';
 import '../services/analytics_service.dart';
 import '../services/notification_service.dart';
 import '../theme/design_tokens.dart';
@@ -21,6 +22,7 @@ import '../widgets/confirm_delete_dialog.dart';
 import '../utils/app_logger.dart'; // Import AppLogger
 import '../widgets/base_buttons.dart';
 import '../widgets/account/sign_in_methods_section.dart';
+import '../widgets/settings/settings_list.dart';
 
 // --- Top-level function for image processing in isolate ---
 Future<Uint8List> _processImageIsolate(Uint8List imageBytes) async {
@@ -881,15 +883,7 @@ class _AccountScreenState extends State<AccountScreen> {
     // Main content
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          // Wrap title in a Row
-          mainAxisSize: MainAxisSize.min, // Keep content centered
-          children: [
-            const Icon(Icons.account_circle), // Add the icon
-            const SizedBox(width: 8), // Add spacing
-            Text(l10n.account),
-          ],
-        ),
+        title: Text(l10n.account),
         actions: [
           // Add Edit/Done button to AppBar
           IconButton(
@@ -903,188 +897,199 @@ class _AccountScreenState extends State<AccountScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          // Profile Information Section
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 20),
-                    // Avatar
-                    Stack(
-                      alignment: Alignment.bottomRight,
-                      children: [
-                        CircleAvatar(
-                          radius: 60,
-                          backgroundColor: Colors.grey.shade300,
-                          child: ClipOval(
-                            child: CachedNetworkImage(
-                              imageUrl:
-                                  SupabaseEndpointResolver.localizeStorageUrl(
-                                    _profilePictureUrl ?? _defaultAvatarUrl,
-                                  ),
-                              placeholder: (context, url) => const Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                              errorWidget: (context, url, error) => const Icon(
-                                Icons.person,
-                                size: 60,
-                                color: Colors.grey,
-                              ),
-                              fit: BoxFit.cover,
-                              width: 120,
-                              height: 120,
-                            ),
-                          ),
-                        ),
-                        // Edit Avatar Button - Conditionally visible
-                        if (_isEditMode)
-                          Container(
-                            margin: const EdgeInsets.all(
-                              4,
-                            ), // Add some margin if needed
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).cardColor.withValues(
-                                alpha: 0.7,
-                              ), // Semi-transparent background
-                              shape: BoxShape.circle,
-                            ),
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.edit,
-                                size: 20, // Smaller icon
-                                color: Theme.of(
-                                  context,
-                                ).iconTheme.color, // Use theme color
-                              ),
-                              padding:
-                                  EdgeInsets.zero, // Remove default padding
-                              constraints:
-                                  const BoxConstraints(), // Remove default constraints
-                              tooltip: l10n.edit, // Use localization
-                              onPressed:
-                                  _pickAndCropImage, // Call the image picker method
-                            ),
-                          ),
-                        // Delete Avatar Button - Conditionally visible
-                        if (_isEditMode &&
-                            _profilePictureUrl != null &&
-                            _profilePictureUrl != _defaultAvatarUrl)
-                          Positioned(
-                            left: 0,
-                            bottom: 0,
-                            child: IconButton(
-                              icon: CircleAvatar(
-                                radius: 20,
-                                backgroundColor: Colors.red.withValues(
-                                  alpha: 0.8,
-                                ),
-                                child: const Icon(
-                                  Icons.delete,
-                                  size: 20,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              onPressed:
-                                  _confirmAndDeletePicture, // Call delete confirmation
-                              tooltip:
-                                  l10n.deletePictureTooltip, // Use localization
-                            ),
-                          ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    // Display Name
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Flexible(
-                          // Allow name to wrap if very long
-                          child: Text(
-                            _displayName ?? l10n.loadingEllipsis,
-                            style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        // Edit Name Button - Conditionally visible
-                        if (_isEditMode)
-                          IconButton(
-                            icon: const Icon(Icons.edit, size: 20),
-                            onPressed:
-                                _showEditDisplayNameDialog, // Call the dialog method
-                          ),
-                      ],
-                    ),
-                    const SizedBox(height: AppSpacing.lg),
-                    const SignInMethodsSection(),
-                    const SizedBox(height: 30),
-                  ],
-                ),
-              ),
-            ),
-          ),
+      body: AccountScreenBody(
+        displayName: _displayName,
+        profilePictureUrl: _profilePictureUrl,
+        defaultAvatarUrl: _defaultAvatarUrl,
+        isEditMode: _isEditMode,
+        onEditName: _showEditDisplayNameDialog,
+        onEditPicture: _pickAndCropImage,
+        onDeletePicture: _confirmAndDeletePicture,
+        onSignOut: _showSignOutConfirmation,
+        onDeleteAccount: _showDeleteAccountConfirmation,
+      ),
+    );
+  }
+}
 
-          // Action Buttons Section - Fixed at bottom
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              color: Theme.of(context).scaffoldBackgroundColor,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.1),
-                  blurRadius: 10,
-                  offset: const Offset(0, -2),
-                ),
-              ],
-            ),
-            child: SafeArea(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+/// The signed-in Account page — the centred profile header, the sign-in
+/// methods and the sign-out / delete-account rows, on the Settings grammar.
+///
+/// Extracted from [_AccountScreenState.build] so widget tests can pump the
+/// real layout without a live Supabase session; the state class only wires
+/// its profile state and handlers into it.
+@visibleForTesting
+class AccountScreenBody extends StatelessWidget {
+  const AccountScreenBody({
+    super.key,
+    required this.displayName,
+    required this.profilePictureUrl,
+    required this.defaultAvatarUrl,
+    required this.isEditMode,
+    required this.onEditName,
+    required this.onEditPicture,
+    required this.onDeletePicture,
+    required this.onSignOut,
+    required this.onDeleteAccount,
+    this.signInMethodsService,
+  });
+
+  final String? displayName;
+  final String? profilePictureUrl;
+  final String defaultAvatarUrl;
+  final bool isEditMode;
+  final VoidCallback onEditName;
+  final VoidCallback onEditPicture;
+  final VoidCallback onDeletePicture;
+  final VoidCallback onSignOut;
+  final VoidCallback onDeleteAccount;
+
+  /// Test seam: forwarded to [SignInMethodsSection], whose default constructs
+  /// the real service and needs a live Supabase.
+  final AccountIdentityService? signInMethodsService;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+    // As in SettingsPageScaffold: the last section must not end under the
+    // home indicator.
+    final bottomInset = MediaQuery.paddingOf(context).bottom;
+
+    return ListView(
+      padding: EdgeInsetsDirectional.only(
+        bottom: bottomInset + AppSpacing.base,
+      ),
+      children: [
+        // Profile header, centred.
+        Padding(
+          padding: const EdgeInsetsDirectional.fromSTEB(
+            AppSpacing.base,
+            AppSpacing.lg,
+            AppSpacing.base,
+            0,
+          ),
+          child: Column(
+            children: [
+              Stack(
+                alignment: Alignment.bottomRight,
                 children: [
-                  // Sign Out Button
-                  SizedBox(
-                    height: 56,
-                    width: double.infinity,
-                    child: AppElevatedButton(
-                      label: l10n.signOut,
-                      onPressed: _showSignOutConfirmation,
-                      icon: Icons.logout,
-                      height: 56,
-                      padding: AppButton.paddingSmall,
-                      backgroundColor: Theme.of(context).colorScheme.surface,
-                      foregroundColor: Theme.of(context).colorScheme.primary,
-                      elevation: 2,
+                  CircleAvatar(
+                    radius: 60,
+                    backgroundColor: colorScheme.surfaceContainerHighest,
+                    child: ClipOval(
+                      child: CachedNetworkImage(
+                        imageUrl: SupabaseEndpointResolver.localizeStorageUrl(
+                          profilePictureUrl ?? defaultAvatarUrl,
+                        ),
+                        placeholder: (context, url) => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        errorWidget: (context, url, error) => Icon(
+                          Icons.person,
+                          size: 60,
+                          color: colorScheme.onSurfaceVariant,
+                        ),
+                        fit: BoxFit.cover,
+                        width: 120,
+                        height: 120,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 16), // Spacing between buttons
-                  // Delete Account Button - Destructive styling with safety
-                  SizedBox(
-                    height: 56,
-                    width: double.infinity,
-                    child: AppElevatedButton(
-                      label: l10n.deleteAccount,
-                      onPressed: _showDeleteAccountConfirmation,
-                      icon: Icons.delete_forever,
-                      height: 56,
-                      padding: AppButton.paddingSmall,
-                      backgroundColor: Theme.of(context).colorScheme.error,
-                      foregroundColor: Theme.of(context).colorScheme.onError,
-                      elevation: 2,
+                  // Edit Avatar Button - Conditionally visible
+                  if (isEditMode)
+                    Container(
+                      margin: const EdgeInsets.all(AppSpacing.xs),
+                      decoration: BoxDecoration(
+                        color: colorScheme.surfaceContainerHighest,
+                        shape: BoxShape.circle,
+                      ),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.edit,
+                          size: 20, // Smaller icon
+                          color: colorScheme.onSurface,
+                        ),
+                        padding: EdgeInsets.zero, // Remove default padding
+                        constraints:
+                            const BoxConstraints(), // Remove default constraints
+                        tooltip: l10n.edit, // Use localization
+                        onPressed: onEditPicture,
+                      ),
                     ),
-                  ),
+                  // Delete Avatar Button - Conditionally visible
+                  if (isEditMode &&
+                      profilePictureUrl != null &&
+                      profilePictureUrl != defaultAvatarUrl)
+                    Positioned(
+                      left: 0,
+                      bottom: 0,
+                      child: IconButton(
+                        icon: CircleAvatar(
+                          radius: 20,
+                          backgroundColor: colorScheme.error,
+                          child: Icon(
+                            Icons.delete,
+                            size: 20,
+                            color: colorScheme.onError,
+                          ),
+                        ),
+                        onPressed: onDeletePicture,
+                        tooltip:
+                            l10n.deletePictureTooltip, // Use localization
+                      ),
+                    ),
                 ],
               ),
-            ),
+              const SizedBox(height: AppSpacing.base),
+              // Display Name
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Flexible(
+                    // Allow name to wrap if very long
+                    child: Text(
+                      displayName ?? l10n.loadingEllipsis,
+                      style: AppTextStyles.headline,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  // Edit Name Button - Conditionally visible
+                  if (isEditMode)
+                    IconButton(
+                      icon: const Icon(Icons.edit, size: 20),
+                      onPressed: onEditName,
+                    ),
+                ],
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+        // No header on purpose (see SignInMethodsSection): the sign-in rows
+        // describe themselves.
+        SettingsSection(
+          children: [SignInMethodsSection(service: signInMethodsService)],
+        ),
+        SettingsSection(
+          children: [
+            SettingsActionRow(
+              identifier: 'accountSignOutRow',
+              title: l10n.signOut,
+              onTap: onSignOut,
+            ),
+          ],
+        ),
+        SettingsSection(
+          children: [
+            SettingsActionRow(
+              identifier: 'accountDeleteRow',
+              title: l10n.deleteAccount,
+              destructive: true,
+              onTap: onDeleteAccount,
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

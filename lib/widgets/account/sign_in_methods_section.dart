@@ -317,28 +317,19 @@ class _SignInMethodsSectionState extends State<SignInMethodsSection> {
         }
 
         // No header on purpose: a "Sign-in" title read as a call to action,
-        // and each row describes itself. Same Card as SectionCard, without
-        // its header.
-        return SizedBox(
-          width: double.infinity,
-          child: Card(
-            margin: EdgeInsets.zero,
-            child: Padding(
-              padding: const EdgeInsets.all(AppSpacing.cardPadding),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  for (var index = 0; index < rows.length; index++) ...[
-                    if (index > 0) const SizedBox(height: AppSpacing.base),
-                    _SignInMethodRow(
-                      key: ValueKey(rows[index].id),
-                      data: rows[index],
-                    ),
-                  ],
-                ],
+        // and each row describes itself. No Card either: like every Settings
+        // row, they sit directly on the page with the 16 pt inset and the
+        // ListTile vertical rhythm (_SignInMethodRow).
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            for (final row in rows)
+              _SignInMethodRow(
+                key: ValueKey(row.id),
+                data: row,
               ),
-            ),
-          ),
+          ],
         );
       },
     );
@@ -440,58 +431,82 @@ class _SignInMethodRow extends StatelessWidget {
 
   final _SignInMethodRowData data;
 
+  /// ListTile's one-line height — these rows sit between Settings rows, so
+  /// they share the Settings vertical rhythm.
+  static const double _minRowHeight = 56;
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Row(
-      children: [
-        // Fixed-width slot: the Apple glyph is narrower than Google's and
-        // the envelope, so without it the titles don't line up.
-        SizedBox(
-          width: AppIconSize.medium,
-          child: Center(child: data.leading),
+    // Like every Settings row: the 16 pt horizontal inset and ListTile's
+    // vertical rhythm — the one-line minimum and ListTile's 8 pt minimum
+    // vertical padding, so a row with a 40 pt trailing button is 56 pt like
+    // the action rows below it, and a taller row grows past it.
+    return Padding(
+      padding: const EdgeInsetsDirectional.symmetric(
+        horizontal: AppSpacing.base,
+      ),
+      child: Container(
+        constraints: const BoxConstraints(minHeight: _minRowHeight),
+        padding: const EdgeInsetsDirectional.symmetric(
+          vertical: AppSpacing.sm,
         ),
-        const SizedBox(width: AppSpacing.sm),
-        Expanded(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Two lines, not one: in longer locales (de "Fortsetzen") the
-              // trailing button squeezed the account email to "…necub.c…".
-              Text(
-                data.title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: AppTextStyles.fieldLabel,
+        alignment: AlignmentDirectional.centerStart,
+        child: Row(
+          children: [
+            // Fixed-width slot: the Apple glyph is narrower than Google's and
+            // the envelope, so without it the titles don't line up.
+            SizedBox(
+              width: AppIconSize.medium,
+              child: Center(child: data.leading),
+            ),
+            const SizedBox(width: AppSpacing.sm),
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Two lines, not one: in longer locales (de "Fortsetzen")
+                  // the trailing button squeezed the account email to
+                  // "…necub.c…".
+                  Text(
+                    data.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTextStyles.itemTitle,
+                  ),
+                  SizedBox(height: data.subtitle == null ? 0 : AppSpacing.xs),
+                  SizedBox(
+                    child: data.subtitle == null
+                        ? const SizedBox.shrink()
+                        : Text(
+                            data.subtitle!,
+                            // Three: "pending change to" + an address beside
+                            // a wide localized button (uk "Продовжити") needs
+                            // it.
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTextStyles.caption.copyWith(
+                              color: colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                  ),
+                ],
               ),
-              SizedBox(height: data.subtitle == null ? 0 : AppSpacing.xs),
-              SizedBox(
-                child: data.subtitle == null
-                    ? const SizedBox.shrink()
-                    : Text(
-                        data.subtitle!,
-                        // Three: "pending change to" + an address beside a
-                        // wide localized button (uk "Продовжити") needs it.
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTextStyles.caption.copyWith(
-                          color: colorScheme.onSurfaceVariant,
-                        ),
-                      ),
+            ),
+            SizedBox(width: data.trailing == null ? 0 : AppSpacing.sm),
+            // Min height = the Link/Change button's, so swapping in the small
+            // progress indicator doesn't shrink the row.
+            ConstrainedBox(
+              constraints: const BoxConstraints(
+                minHeight: AppButton.heightSmall,
               ),
-            ],
-          ),
+              child: Center(child: data.trailing ?? const SizedBox.shrink()),
+            ),
+          ],
         ),
-        SizedBox(width: data.trailing == null ? 0 : AppSpacing.sm),
-        // Min height = the Link/Change button's, so swapping in the small
-        // progress indicator doesn't shrink the row and jump the card.
-        ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: AppButton.heightSmall),
-          child: Center(child: data.trailing ?? const SizedBox.shrink()),
-        ),
-      ],
+      ),
     );
   }
 }

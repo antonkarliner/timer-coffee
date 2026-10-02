@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/services/account_identity_service.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/widgets/account/sign_in_methods_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -33,6 +34,46 @@ void main() {
     expect(find.text('Unlink'), findsOneWidget);
     expect(find.text('Apple'), findsOneWidget);
     expect(find.text('Link'), findsOneWidget);
+  });
+
+  testWidgets('renders flat Settings-style rows, not a card', (tester) async {
+    await _pumpSection(
+      tester,
+      platform: TargetPlatform.iOS,
+      email: 'email@example.com',
+      identities: [
+        _identityJson('email', email: 'email@example.com'),
+        _identityJson('google', email: 'google@example.com'),
+        _identityJson('apple', email: 'apple@example.com'),
+      ],
+    );
+
+    expect(find.byType(Card), findsNothing);
+    // Every row sits on the page with the Settings 16 pt horizontal inset.
+    Finder rowInset(String id) => find.descendant(
+      of: find.byKey(ValueKey<String>(id)),
+      matching: find.byWidgetPredicate(
+        (widget) =>
+            widget is Padding &&
+            widget.padding ==
+                const EdgeInsetsDirectional.symmetric(
+                  horizontal: AppSpacing.base,
+                ),
+      ),
+    );
+    for (final id in const ['email', 'google', 'apple']) {
+      expect(rowInset(id), findsOneWidget);
+    }
+    // …and the inset is really applied in layout: the title starts after the
+    // inset plus the 24 pt leading slot and its 8 pt gap.
+    expect(
+      tester.getTopLeft(find.text('Google')).dx,
+      AppSpacing.base + AppIconSize.medium + AppSpacing.sm,
+    );
+    // Row titles use the Settings item-title typography.
+    final titleStyle = tester.widget<Text>(find.text('Google')).style;
+    expect(titleStyle?.fontSize, AppTextStyles.itemTitle.fontSize);
+    expect(titleStyle?.fontWeight, AppTextStyles.itemTitle.fontWeight);
   });
 
   testWidgets('shows email and Google but not Apple on Android', (
