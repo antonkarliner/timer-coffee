@@ -9,14 +9,20 @@ import '../../models/supported_locale_model.dart';
 import '../../providers/recipe_provider.dart';
 import '../../services/date_time_format_service.dart';
 import '../../services/settings_analytics.dart';
-import '../../theme/design_tokens.dart';
 import '../../widgets/settings/settings_list.dart';
 
 /// Language & region settings: app language, date format and time format,
-/// with a live preview of the current choices.
+/// with today's date and the current time shown in the chosen formats.
 @RoutePage()
 class SettingsLanguageRegionScreen extends StatefulWidget {
   const SettingsLanguageRegionScreen({super.key});
+
+  /// Test seam for "now": the section footer and the sheet examples format
+  /// the same instant, and a minute boundary between the widget's build and
+  /// a test's expectation would otherwise flake exact-match assertions.
+  /// Lives on the public widget (not the private State) so tests can pin it.
+  @visibleForTesting
+  static DateTime Function() now = DateTime.now;
 
   @override
   State<SettingsLanguageRegionScreen> createState() =>
@@ -107,136 +113,159 @@ class _SettingsLanguageRegionScreenState
     }
   }
 
+  /// Sheet subtitle for a date-format option: Automatic says where the
+  /// format comes from (the app language), every option shows today's date
+  /// in that format as its example.
+  String _dateOptionSubtitle(
+    DateStyle style,
+    AppLocalizations l10n,
+    String locale,
+    DateTime now,
+  ) {
+    final example = DateFormat(
+      _datePatternFor(style, l10n.dateFormat),
+      locale,
+    ).format(now);
+    return style == DateStyle.auto
+        ? '${l10n.settingsAutoMatchesLanguage} · $example'
+        : example;
+  }
+
+  /// Sheet subtitle for a time-format option: Automatic says where the
+  /// format comes from (the device setting), every option shows the current
+  /// time in that format as its example.
+  String _timeOptionSubtitle(
+    TimeStyle style,
+    AppLocalizations l10n,
+    String locale,
+    DateTime now,
+    bool deviceIs24h,
+  ) {
+    final example = DateFormat(
+      _timePatternFor(style, deviceIs24h),
+      locale,
+    ).format(now);
+    return style == TimeStyle.auto
+        ? '${l10n.settingsAutoMatchesDevice} · $example'
+        : example;
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final recipeProvider = context.watch<RecipeProvider>();
     final fmtService = context.watch<DateTimeFormatService>();
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-    final deviceIs24h = MediaQuery.of(context).alwaysUse24HourFormat;
-    final now = DateTime.now();
+    final deviceIs24h = MediaQuery.alwaysUse24HourFormatOf(context);
+    final now = SettingsLanguageRegionScreen.now();
+    // Give every DateFormat the app locale: Intl.defaultLocale is never set
+    // in this app, so without it month names and AM/PM stay English in every
+    // language.
+    final locale = Localizations.localeOf(context).toString();
 
     final previewDate =
-        DateFormat(fmtService.datePattern(l10n.dateFormat)).format(now);
+        DateFormat(fmtService.datePattern(l10n.dateFormat), locale).format(now);
     final is24h = fmtService.use24Hour(deviceIs24h);
-    final previewTime = DateFormat(is24h ? 'HH:mm' : 'hh:mm a').format(now);
+    final previewTime =
+        DateFormat(is24h ? 'HH:mm' : 'hh:mm a', locale).format(now);
 
     return SettingsPageScaffold(
       title: l10n.settingsLanguageRegionTitle,
       children: [
-        // Language — shown only once the supported locales have loaded, in an
-        // always-present slot so the tree shape stays stable.
-        FutureBuilder<List<SupportedLocaleModel>>(
-          future: _supportedLocales,
-          builder: (context, snapshot) {
-            final locales = snapshot.data;
-            if (locales == null || locales.isEmpty) {
-              return const SizedBox.shrink();
-            }
-            return SettingsChoiceRow<String>(
-              identifier: 'settingsLangTile',
-              title: l10n.settingslang,
-              sheetTitle: l10n.settingslang,
+        // Section 1 — Language: a single row, so no section header. Shown
+        // only once the supported locales have loaded, in an always-present
+        // slot so the tree shape stays stable.
+        SettingsSection(
+          children: [
+            FutureBuilder<List<SupportedLocaleModel>>(
+              future: _supportedLocales,
+              builder: (context, snapshot) {
+                final locales = snapshot.data;
+                if (locales == null || locales.isEmpty) {
+                  return const SizedBox.shrink();
+                }
+                return SettingsChoiceRow<String>(
+                  identifier: 'settingsLangTile',
+                  title: l10n.settingslang,
+                  sheetTitle: l10n.settingslang,
+                  options: [
+                    for (final localeModel in locales)
+                      SettingsChoiceOption(
+                        value: localeModel.locale,
+                        label: localeModel.localeName,
+                        identifier: 'locale${localeModel.locale}ListTile',
+                      ),
+                  ],
+                  current: recipeProvider.currentLocale.languageCode,
+                  onChanged: _setLocale,
+                );
+              },
+            ),
+          ],
+        ),
+        // Section 2 — Date & time: the two format rows, with today's date and
+        // the current time in the chosen formats as the section footer (it
+        // replaces the old grey preview box).
+        SettingsSection(
+          header: l10n.settingsDateTimeFormat,
+          footer: l10n.settingsDateTimeToday(previewDate, previewTime),
+          children: [
+            SettingsChoiceRow<DateStyle>(
+              identifier: 'settingsDateFormatTile',
+              title: l10n.settingsDateFormatLabel,
+              sheetTitle: l10n.settingsDateFormatLabel,
               options: [
-                for (final locale in locales)
+                for (final style in DateStyle.values)
                   SettingsChoiceOption(
-                    value: locale.locale,
-                    label: locale.localeName,
-                    identifier: 'locale${locale.locale}ListTile',
+                    value: style,
+                    label: switch (style) {
+                      DateStyle.auto => l10n.settingsDateFormatAuto,
+                      DateStyle.dmy => l10n.settingsDateFormatDMY,
+                      DateStyle.mdy => l10n.settingsDateFormatMDY,
+                      DateStyle.ymd => l10n.settingsDateFormatYMD,
+                    },
+                    subtitle: _dateOptionSubtitle(style, l10n, locale, now),
+                    identifier: 'dateFormat${switch (style) {
+                      DateStyle.auto => 'Auto',
+                      DateStyle.dmy => 'Dmy',
+                      DateStyle.mdy => 'Mdy',
+                      DateStyle.ymd => 'Ymd',
+                    }}ListTile',
                   ),
               ],
-              current: recipeProvider.currentLocale.languageCode,
-              onChanged: _setLocale,
-            );
-          },
-        ),
-        SettingsSectionHeader(title: l10n.settingsDateTimeFormat),
-        SettingsChoiceRow<DateStyle>(
-          identifier: 'settingsDateFormatTile',
-          title: l10n.settingsDateFormatLabel,
-          sheetTitle: l10n.settingsDateFormatLabel,
-          options: [
-            for (final style in DateStyle.values)
-              SettingsChoiceOption(
-                value: style,
-                label: switch (style) {
-                  DateStyle.auto => l10n.settingsDateFormatAuto,
-                  DateStyle.dmy => l10n.settingsDateFormatDMY,
-                  DateStyle.mdy => l10n.settingsDateFormatMDY,
-                  DateStyle.ymd => l10n.settingsDateFormatYMD,
-                },
-                subtitle:
-                    DateFormat(_datePatternFor(style, l10n.dateFormat))
-                        .format(now),
-                identifier: 'dateFormat${switch (style) {
-                  DateStyle.auto => 'Auto',
-                  DateStyle.dmy => 'Dmy',
-                  DateStyle.mdy => 'Mdy',
-                  DateStyle.ymd => 'Ymd',
-                }}ListTile',
-              ),
-          ],
-          current: fmtService.dateStyle,
-          onChanged: _changeDateStyle,
-        ),
-        SettingsChoiceRow<TimeStyle>(
-          identifier: 'settingsTimeFormatTile',
-          title: l10n.settingsTimeFormatLabel,
-          sheetTitle: l10n.settingsTimeFormatLabel,
-          options: [
-            for (final style in TimeStyle.values)
-              SettingsChoiceOption(
-                value: style,
-                label: switch (style) {
-                  TimeStyle.auto => l10n.settingsDateFormatAuto,
-                  TimeStyle.h12 => l10n.settingsTimeFormat12h,
-                  TimeStyle.h24 => l10n.settingsTimeFormat24h,
-                },
-                subtitle:
-                    DateFormat(_timePatternFor(style, deviceIs24h)).format(now),
-                identifier: 'timeFormat${switch (style) {
-                  TimeStyle.auto => 'Auto',
-                  TimeStyle.h12 => '12h',
-                  TimeStyle.h24 => '24h',
-                }}ListTile',
-              ),
-          ],
-          current: fmtService.timeStyle,
-          onChanged: _changeTimeStyle,
-        ),
-        // Live preview — today's date and time in the current choices.
-        Padding(
-          padding: const EdgeInsetsDirectional.symmetric(
-            horizontal: AppSpacing.base,
-            vertical: AppSpacing.sm,
-          ),
-          child: Container(
-            padding: const EdgeInsetsDirectional.symmetric(
-              horizontal: AppSpacing.base,
-              vertical: AppSpacing.sm,
+              current: fmtService.dateStyle,
+              onChanged: _changeDateStyle,
             ),
-            decoration: BoxDecoration(
-              color: colorScheme.surfaceContainerHighest,
-              borderRadius: BorderRadius.circular(AppRadius.field),
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.preview_outlined,
-                  size: AppIconSize.small,
-                  color: colorScheme.onSurfaceVariant,
-                ),
-                const SizedBox(width: AppSpacing.sm),
-                Text(
-                  '$previewDate  $previewTime',
-                  style: textTheme.bodyMedium?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
+            SettingsChoiceRow<TimeStyle>(
+              identifier: 'settingsTimeFormatTile',
+              title: l10n.settingsTimeFormatLabel,
+              sheetTitle: l10n.settingsTimeFormatLabel,
+              options: [
+                for (final style in TimeStyle.values)
+                  SettingsChoiceOption(
+                    value: style,
+                    label: switch (style) {
+                      TimeStyle.auto => l10n.settingsDateFormatAuto,
+                      TimeStyle.h12 => l10n.settingsTimeFormat12h,
+                      TimeStyle.h24 => l10n.settingsTimeFormat24h,
+                    },
+                    subtitle: _timeOptionSubtitle(
+                      style,
+                      l10n,
+                      locale,
+                      now,
+                      deviceIs24h,
+                    ),
+                    identifier: 'timeFormat${switch (style) {
+                      TimeStyle.auto => 'Auto',
+                      TimeStyle.h12 => '12h',
+                      TimeStyle.h24 => '24h',
+                    }}ListTile',
                   ),
-                ),
               ],
+              current: fmtService.timeStyle,
+              onChanged: _changeTimeStyle,
             ),
-          ),
+          ],
         ),
       ],
     );

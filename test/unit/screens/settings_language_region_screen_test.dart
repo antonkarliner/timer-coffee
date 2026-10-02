@@ -6,6 +6,7 @@ import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/services/date_time_format_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/intl.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
@@ -18,12 +19,20 @@ void main() {
   late MockRecipeProvider recipeProvider;
   late DateTimeFormatService fmtService;
 
+  // Fixed clock: the footer and the sheet examples format this instant, so a
+  // minute boundary between the widget's build and an expectation can't flake
+  // an exact match. Compute expected strings only after pumping — the
+  // MaterialApp's material-localizations load is what initializes intl's date
+  // symbols for the non-English locales.
+  final fixedNow = DateTime(2026, 10, 2, 15, 41);
+
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
     AnalyticsService.resetForTesting();
     await AnalyticsService.initialize(await SharedPreferences.getInstance());
     recipeProvider = MockRecipeProvider();
     fmtService = DateTimeFormatService();
+    SettingsLanguageRegionScreen.now = () => fixedNow;
     when(recipeProvider.currentLocale).thenReturn(const Locale('en'));
     when(recipeProvider.fetchAllSupportedLocales()).thenAnswer(
       (_) async => [
@@ -35,6 +44,7 @@ void main() {
   });
 
   tearDown(() {
+    SettingsLanguageRegionScreen.now = DateTime.now;
     AnalyticsService.resetForTesting();
   });
 
@@ -58,10 +68,18 @@ void main() {
         ),
       );
 
-  Future<void> pumpPage(WidgetTester tester) async {
-    await tester.pumpWidget(app(const SettingsLanguageRegionScreen()));
+  Future<void> pumpPage(
+    WidgetTester tester, {
+    String localeCode = 'en',
+  }) async {
+    await tester.pumpWidget(
+      app(const SettingsLanguageRegionScreen(), localeCode: localeCode),
+    );
     await tester.pumpAndSettle();
   }
+
+  Future<AppLocalizations> loc(String localeCode) =>
+      AppLocalizations.delegate.load(Locale(localeCode));
 
   testWidgets('renders language and date/time rows without exceptions',
       (tester) async {
@@ -78,7 +96,86 @@ void main() {
       find.bySemanticsIdentifier('settingsTimeFormatTile'),
       findsOneWidget,
     );
-    expect(find.byIcon(Icons.preview_outlined), findsOneWidget);
+    // The old grey preview box is gone; the section footer replaces it.
+    expect(find.byIcon(Icons.preview_outlined), findsNothing);
+  });
+
+  testWidgets('the Date & time section footer shows today and now in the '
+      'chosen formats', (tester) async {
+    await pumpPage(tester);
+
+    final l10n = await loc('en');
+    // Both styles are on Automatic by default, so the footer uses the
+    // English locale pattern and the device's 12-hour clock (tests default
+    // to alwaysUse24HourFormat: false).
+    final expectedDate = DateFormat(l10n.dateFormat, 'en').format(fixedNow);
+    final expectedTime = DateFormat('hh:mm a', 'en').format(fixedNow);
+    expect(
+      find.text(l10n.settingsDateTimeToday(expectedDate, expectedTime)),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('the Automatic options say where their format comes from',
+      (tester) async {
+    await pumpPage(tester);
+
+    final l10n = await loc('en');
+    final expectedDateExample =
+        DateFormat(l10n.dateFormat, 'en').format(fixedNow);
+
+    await tester.tap(find.bySemanticsIdentifier('settingsDateFormatTile'));
+    await tester.pumpAndSettle();
+    expect(
+      tester.widget<Text>(
+        find.textContaining(l10n.settingsAutoMatchesLanguage),
+      ).data,
+      '${l10n.settingsAutoMatchesLanguage} · $expectedDateExample',
+    );
+
+    // Close the sheet by picking the already-current value (no change, no
+    // event) before opening the time sheet.
+    await tester.tap(find.bySemanticsIdentifier('dateFormatAutoListTile'));
+    await tester.pumpAndSettle();
+
+    final expectedTimeExample = DateFormat('hh:mm a', 'en').format(fixedNow);
+    await tester.tap(find.bySemanticsIdentifier('settingsTimeFormatTile'));
+    await tester.pumpAndSettle();
+    expect(
+      tester.widget<Text>(
+        find.textContaining(l10n.settingsAutoMatchesDevice),
+      ).data,
+      '${l10n.settingsAutoMatchesDevice} · $expectedTimeExample',
+    );
+  });
+
+  testWidgets('under a German locale the sheet example and footer use German '
+      'month names', (tester) async {
+    await pumpPage(tester, localeCode: 'de');
+
+    final l10nDe = await loc('de');
+    // Automatic follows the app language, so its pattern is the German
+    // locale default; expected value computed with DateFormat(pattern, 'de'),
+    // so a missing locale argument (English month names) fails this test.
+    final expectedDateExample =
+        DateFormat(l10nDe.dateFormat, 'de').format(fixedNow);
+    final expectedTime = DateFormat('hh:mm a', 'de').format(fixedNow);
+
+    expect(
+      find.text(
+        l10nDe.settingsDateTimeToday(expectedDateExample, expectedTime),
+      ),
+      findsOneWidget,
+    );
+
+    await tester.tap(find.bySemanticsIdentifier('settingsDateFormatTile'));
+    await tester.pumpAndSettle();
+    expect(
+      find.text(
+        '${l10nDe.settingsAutoMatchesLanguage} · $expectedDateExample',
+      ),
+      findsOneWidget,
+    );
   });
 
   testWidgets('re-renders in the new language when the app locale changes, '
