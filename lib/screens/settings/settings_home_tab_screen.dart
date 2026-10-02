@@ -9,13 +9,14 @@ import '../../services/analytics_service.dart';
 import '../../services/collections_preferences_service.dart';
 import '../../services/settings_analytics.dart';
 import '../../theme/design_tokens.dart';
-import '../../widgets/app_switch_list_tile.dart';
+import '../../utils/icon_utils.dart';
 import '../../widgets/base_buttons.dart';
 import '../../widgets/settings/settings_list.dart';
 
 /// Home-screen settings page (Settings → Home screen): the Collections
-/// visibility switch and one visibility switch per brewing method, plus a
-/// reset that falls back to "shown if the method has recipes".
+/// visibility switch, one visibility switch per brewing method with its
+/// brewing icon, and a reset that falls back to "shown if the method has
+/// recipes".
 @RoutePage()
 class SettingsHomeTabScreen extends StatelessWidget {
   const SettingsHomeTabScreen({super.key});
@@ -107,22 +108,24 @@ class SettingsHomeTabScreen extends StatelessWidget {
       children: [
         Consumer<CollectionsPreferencesService>(
           builder: (context, prefs, _) {
-            return Semantics(
-              identifier: 'settingsCollectionsSwitch',
-              container: true,
-              child: AppSwitchListTile(
-                title: l10n.collectionsShowOnHomeTitle,
-                subtitle: l10n.collectionsShowOnHomeDescription,
-                value: !prefs.dismissed,
-                onChanged: (value) => _setCollectionsVisible(prefs, value),
-              ),
+            return SettingsSection(
+              children: [
+                SettingsSwitchRow(
+                  identifier: 'settingsCollectionsSwitch',
+                  title: l10n.collectionsShowOnHomeTitle,
+                  subtitle: l10n.collectionsShowOnHomeDescription,
+                  value: !prefs.dismissed,
+                  onChanged: (value) => _setCollectionsVisible(prefs, value),
+                ),
+              ],
             );
           },
         ),
-        SettingsSectionHeader(title: l10n.settingsBrewingMethodsHeader),
-        // Rebuilds when either ValueNotifier changes, even without a
-        // provider notification. The builder always returns a Column, so
-        // the widget type at this tree position is stable across states.
+        // One pair of listenable builders wraps both the method section and
+        // the reset section, so the reset row follows every switch flip even
+        // without a provider notification. The builder always returns a
+        // Column, so the widget type at this tree position is stable across
+        // states.
         ValueListenableBuilder<Set<String>>(
           valueListenable: recipeProvider.shownBrewingMethodIds,
           builder: (context, shownIds, _) {
@@ -135,60 +138,66 @@ class SettingsHomeTabScreen extends StatelessWidget {
                 };
                 return Column(
                   children: [
-                    for (final method in methods)
-                      Semantics(
-                        identifier:
-                            'brewingMethodSwitch_${method.brewingMethodId}',
-                        container: true,
-                        child: AppSwitchListTile(
-                          title: method.brewingMethod,
-                          value: _switchValue(
-                            method.brewingMethodId,
-                            shownIds,
-                            hiddenIds,
-                            methodsWithRecipes,
-                          ),
-                          onChanged: (value) {
-                            final previous = _switchValue(
+                    SettingsSection(
+                      header: l10n.settingsBrewingMethodsHeader,
+                      children: [
+                        for (final method in methods)
+                          SettingsSwitchRow(
+                            identifier:
+                                'brewingMethodSwitch_${method.brewingMethodId}',
+                            title: method.brewingMethod,
+                            leading: Icon(
+                              getIconByBrewingMethod(method.brewingMethodId)
+                                  .icon,
+                              size: AppIconSize.medium,
+                            ),
+                            value: _switchValue(
                               method.brewingMethodId,
                               shownIds,
                               hiddenIds,
                               methodsWithRecipes,
-                            );
-                            recipeProvider.setUserBrewingMethodPreference(
-                              method.brewingMethodId,
-                              value,
-                            );
-                            SettingsAnalytics.settingChanged(
-                              key: SettingKey.brewingMethodVisible,
-                              value: SettingsAnalytics.onOff(value),
-                              previous: SettingsAnalytics.onOff(previous),
-                              brewingMethodId: method.brewingMethodId,
-                              source: SettingSource.settings,
-                            );
-                          },
+                            ),
+                            onChanged: (value) {
+                              final previous = _switchValue(
+                                method.brewingMethodId,
+                                shownIds,
+                                hiddenIds,
+                                methodsWithRecipes,
+                              );
+                              recipeProvider.setUserBrewingMethodPreference(
+                                method.brewingMethodId,
+                                value,
+                              );
+                              SettingsAnalytics.settingChanged(
+                                key: SettingKey.brewingMethodVisible,
+                                value: SettingsAnalytics.onOff(value),
+                                previous: SettingsAnalytics.onOff(previous),
+                                brewingMethodId: method.brewingMethodId,
+                                source: SettingSource.settings,
+                              );
+                            },
+                          ),
+                      ],
+                    ),
+                    // Always present; disabled while there is nothing to
+                    // reset so the tree keeps the same widget type in both
+                    // states.
+                    SettingsSection(
+                      children: [
+                        SettingsActionRow(
+                          identifier: 'settingsResetBrewingMethodsButton',
+                          title: l10n.settingsResetToDefault,
+                          subtitle: l10n.settingsResetBrewingMethodsSubtitle,
+                          onTap: () => _confirmReset(context, recipeProvider),
+                          enabled: shownIds.isNotEmpty || hiddenIds.isNotEmpty,
                         ),
-                      ),
+                      ],
+                    ),
                   ],
                 );
               },
             );
           },
-        ),
-        // Always present; disabled while there is nothing to reset so the
-        // tree keeps the same widget type in both states.
-        Semantics(
-          identifier: 'settingsResetBrewingMethodsButton',
-          container: true,
-          child: AppTextButton(
-            label: l10n.settingsResetToDefault,
-            onPressed:
-                recipeProvider.shownBrewingMethodIds.value.isNotEmpty ||
-                        recipeProvider.hiddenBrewingMethodIds.value.isNotEmpty
-                    ? () => _confirmReset(context, recipeProvider)
-                    : null,
-            foregroundColor: Theme.of(context).colorScheme.onSurfaceVariant,
-          ),
         ),
       ],
     );

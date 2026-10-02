@@ -6,8 +6,9 @@ import 'package:coffee_timer/providers/recipe_provider.dart';
 import 'package:coffee_timer/screens/settings/settings_home_tab_screen.dart';
 import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/services/collections_preferences_service.dart';
-import 'package:coffee_timer/widgets/app_switch_list_tile.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
+import 'package:coffee_timer/widgets/settings/settings_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -16,8 +17,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../helpers/test_database.dart';
 
 /// Widget tests for the Settings → Home screen page: the Collections switch,
-/// one switch per brewing method with the shared
-/// shown/hidden/has-recipes value logic, and the reset-to-default flow.
+/// one switch per brewing method with the shared shown/hidden/has-recipes
+/// value logic and the methods' brewing icons, and the reset-to-default flow.
 void main() {
   final methods = [
     BrewingMethodModel(brewingMethodId: 'v60', brewingMethod: 'V60'),
@@ -102,13 +103,24 @@ void main() {
   }
 
   bool switchValue(WidgetTester tester, String methodTitle) => tester
-      .widget<AppSwitchListTile>(
-        find.widgetWithText(AppSwitchListTile, methodTitle),
+      .widget<SettingsSwitchRow>(
+        find.ancestor(
+          of: find.text(methodTitle),
+          matching: find.byType(SettingsSwitchRow),
+        ),
       )
       .value;
 
   Finder resetButton() =>
       find.bySemanticsIdentifier('settingsResetBrewingMethodsButton');
+
+  SettingsActionRow resetRow(WidgetTester tester) =>
+      tester.widget<SettingsActionRow>(
+        find.ancestor(
+          of: resetButton(),
+          matching: find.byType(SettingsActionRow),
+        ),
+      );
 
   Finder dialogConfirmButton() =>
       find.widgetWithText(AppElevatedButton, 'Reset to default');
@@ -134,6 +146,41 @@ void main() {
     expect(switchValue(tester, 'Espresso'), isFalse);
     expect(switchValue(tester, 'Cold Brew'), isFalse);
     expect(eventsNamed('setting_changed'), isEmpty);
+  });
+
+  testWidgets('renders three sections with one header and an icon leading '
+      'each method row', (tester) async {
+    await pumpPage(tester);
+
+    // Three sections; only the brewing-methods section is headed.
+    expect(find.byType(SettingsSection), findsNWidgets(3));
+    expect(find.byType(SettingsSectionHeader), findsOneWidget);
+    expect(find.text('Brewing methods'), findsOneWidget);
+
+    // The reset row is an action row with the reset copy.
+    final row = resetRow(tester);
+    expect(row.title, 'Reset to default');
+    expect(row.subtitle, 'Shows only the methods you have recipes for');
+
+    // Each method row leads with its brewing icon at the standard size, and
+    // the icons differ per method.
+    Icon leadingIcon(String methodTitle) => tester
+        .widget<ListTile>(
+          find.ancestor(
+            of: find.text(methodTitle),
+            matching: find.byType(ListTile),
+          ),
+        )
+        .leading! as Icon;
+
+    final icons = <IconData?>{};
+    for (final method in methods) {
+      final icon = leadingIcon(method.brewingMethod);
+      expect(icon.size, AppIconSize.medium);
+      expect(icon.icon, isNotNull);
+      icons.add(icon.icon);
+    }
+    expect(icons, hasLength(methods.length));
   });
 
   testWidgets('an explicit user choice wins over the has-recipes default',
@@ -277,18 +324,15 @@ void main() {
     expect(eventsNamed('setting_changed'), isEmpty);
   });
 
-  testWidgets('reset is disabled while there is nothing to reset',
-      (tester) async {
+  testWidgets('reset is disabled with no preferences and follows the '
+      'switches immediately', (tester) async {
     await pumpPage(tester);
 
-    final button = tester.widget<AppTextButton>(
-      find.descendant(of: resetButton(), matching: find.byType(AppTextButton)),
-    );
-    expect(button.onPressed, isNull);
+    expect(resetRow(tester).enabled, isFalse);
 
+    // Tapping the disabled row does nothing.
     await tester.tap(resetButton());
     await tester.pumpAndSettle();
-
     expect(
       find.text(
         'Show every brewing method that has recipes again? Your choices here '
@@ -297,6 +341,14 @@ void main() {
       findsNothing,
     );
     expect(eventsNamed('setting_changed'), isEmpty);
+
+    // Flipping one switch changes only the ValueNotifiers; the reset row
+    // must become enabled without a provider notification.
+    await tester
+        .tap(find.bySemanticsIdentifier('brewingMethodSwitch_espresso'));
+    await tester.pump();
+
+    expect(resetRow(tester).enabled, isTrue);
   });
 
   testWidgets('the reset button is reachable by scrolling with many methods',
@@ -314,6 +366,10 @@ void main() {
     await pumpPage(tester, allMethods: many);
 
     await tester.scrollUntilVisible(resetButton(), 200);
+    // The row is taller than the old button was; make sure it is fully on
+    // screen before tapping its center.
+    await tester.ensureVisible(resetButton());
+    await tester.pumpAndSettle();
     await tester.tap(resetButton());
     await tester.pumpAndSettle();
 
