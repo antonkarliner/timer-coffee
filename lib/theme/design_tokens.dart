@@ -33,6 +33,11 @@ class AppTokens {
   /// [iconLarge]. 64 was already the de-facto value across the empty states
   /// in this app; this names it so it stops being copied as a magic number.
   static const double iconEmptyState = 64.0;
+
+  /// App-icon preview tile of the Appearance page's icon grid. Not a UI
+  /// icon — it renders a home-screen app icon at home-screen scale, so it
+  /// sits well above [iconLarge] like [iconEmptyState].
+  static const double iconAppIconPreview = 60.0;
 }
 
 /// App spacing constants
@@ -113,6 +118,9 @@ class AppIconSize {
 
   /// Illustration-sized icon for empty and error states (64dp).
   static const double emptyState = AppTokens.iconEmptyState;
+
+  /// App-icon preview tile on the Appearance settings page (60dp).
+  static const double appIconPreview = AppTokens.iconAppIconPreview;
 }
 
 /// Button design tokens
