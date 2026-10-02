@@ -129,6 +129,43 @@ class UserRecipePreferencesDao extends DatabaseAccessor<AppDatabase>
     );
   }
 
+  /// Clears grind size overrides that equal one of the same recipe's
+  /// localized defaults (trimmed, case-sensitive). Before the recipe page
+  /// saved only real edits, every Next tap stored the current language's
+  /// default as an override. Writes explicit nulls, like
+  /// [clearCustomGrindSize], leaving every other field unchanged. Returns
+  /// the recipe ids whose overrides were cleared.
+  Future<List<String>> clearGrindOverridesMatchingDefaults() async {
+    return transaction(() async {
+      final rows = await customSelect(
+        'SELECT p.recipe_id, p.custom_grind_size, l.grind_size '
+        'FROM user_recipe_preferences p '
+        'JOIN recipe_localizations l ON l.recipe_id = p.recipe_id '
+        'WHERE p.custom_grind_size IS NOT NULL',
+        readsFrom: {userRecipePreferences, db.recipeLocalizations},
+      ).get();
+      final recipeIds = rows
+          .where(
+            (row) =>
+                row.read<String>('custom_grind_size').trim() ==
+                row.read<String>('grind_size').trim(),
+          )
+          .map((row) => row.read<String>('recipe_id'))
+          .toSet();
+
+      await batch((batch) {
+        for (final recipeId in recipeIds) {
+          batch.update(
+            userRecipePreferences,
+            const UserRecipePreferencesCompanion(customGrindSize: Value(null)),
+            where: (tbl) => tbl.recipeId.equals(recipeId),
+          );
+        }
+      });
+      return recipeIds.toList();
+    });
+  }
+
   Future<UserRecipePreference?> getLastUsedRecipe() async {
     return (select(userRecipePreferences)
           ..orderBy([(tbl) => OrderingTerm.desc(tbl.lastUsed)])

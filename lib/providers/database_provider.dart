@@ -1934,11 +1934,36 @@ class DatabaseProvider {
     }
   }
 
-  /// Startup preference reconcile. If earlier per-edit syncs failed (tracked in
-  /// the pending set), push local prefs up FIRST so the subsequent download can't
-  /// overwrite them with stale remote values. When that upload fails we skip the
+  /// Runs on every launch, not once: the recipe page no longer saves a
+  /// default as an override, so this only finds work when a device on an
+  /// older app version synced one down. Marking the recipes pending makes a
+  /// signed-in reconcile upload the nulls before it downloads.
+  Future<void> _clearDefaultGrindOverrides() async {
+    try {
+      final recipeIds = await _db.userRecipePreferencesDao
+          .clearGrindOverridesMatchingDefaults();
+      for (final recipeId in recipeIds) {
+        await _markPendingPrefSync(recipeId);
+      }
+      if (recipeIds.isNotEmpty) {
+        AppLogger.debug(
+          'Cleared grind overrides matching recipe defaults',
+          errorObject: {'count': recipeIds.length},
+        );
+      }
+    } catch (e) {
+      AppLogger.error('Error clearing default grind overrides', errorObject: e);
+    }
+  }
+
+  /// Startup preference reconcile. First, for every user, clears grind
+  /// overrides that are really a recipe default and marks those recipes
+  /// pending. If earlier per-edit syncs failed (tracked in the pending set),
+  /// push local prefs up FIRST so the subsequent download can't overwrite
+  /// them with stale remote values. When that upload fails we skip the
   /// download entirely, preserving the local edits until the next reconcile.
   Future<void> reconcileUserPreferences() async {
+    await _clearDefaultGrindOverrides();
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null || user.isAnonymous) return;
 
