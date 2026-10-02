@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sign_in_button/sign_in_button.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -16,18 +15,15 @@ import '../providers/database_provider.dart';
 import '../providers/recipe_provider.dart';
 import '../providers/user_recipe_provider.dart';
 import '../providers/user_stat_provider.dart';
-import '../theme/design_tokens.dart';
 import '../utils/app_logger.dart';
 import '../utils/input_validator.dart';
-import '../widgets/base_buttons.dart';
+import '../widgets/auth/sign_in_sheet.dart';
 import '../widgets/recipe_detail/authentication_dialogs.dart';
 import 'analytics_service.dart';
 import 'auth/native_auth_credentials.dart';
 import 'auth/pending_web_sign_in.dart';
 import 'notification_service.dart';
 import 'onboarding_service.dart';
-
-enum SignInMethod { apple, google, email, cancel }
 
 @visibleForTesting
 class PostSignInSteps {
@@ -84,7 +80,6 @@ class _SignInSession {
 class _SignInContext {
   const _SignInContext({
     required this.l10n,
-    required this.isDarkMode,
     required this.scaffoldMessenger,
     required this.navigator,
     required this.databaseProvider,
@@ -97,7 +92,6 @@ class _SignInContext {
   });
 
   final AppLocalizations l10n;
-  final bool isDarkMode;
   final ScaffoldMessengerState? scaffoldMessenger;
   final NavigatorState navigator;
   final DatabaseProvider? databaseProvider;
@@ -137,7 +131,6 @@ class AuthenticationService {
     // verification can finish after the screen that opened this flow is gone.
     final signInContext = _captureSignInContext(context);
     final l10n = signInContext.l10n;
-    final isDarkMode = signInContext.isDarkMode;
 
     final migrationSession = await captureAnonymousMigrationSession();
     if (!context.mounted) return false;
@@ -150,73 +143,11 @@ class AuthenticationService {
     );
 
     _track('sign_in_prompt_shown', {'source': source});
-    final chosenMethod = await showModalBottomSheet<SignInMethod>(
-      context: context,
-      builder: (sheetContext) {
-        // Full width: without it the sheet shrinks to its content.
-        return SizedBox(
-          width: double.infinity,
-          child: SafeArea(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(
-                AppSpacing.base,
-                AppSpacing.base,
-                AppSpacing.base,
-                AppSpacing.base + MediaQuery.of(sheetContext).viewInsets.bottom,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(
-                    title ?? l10n.signInRequiredTitle,
-                    style: Theme.of(sheetContext).textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                  Text(bodyText, textAlign: TextAlign.center),
-                  const SizedBox(height: AppSpacing.lg),
-                  if (!kIsWeb && (Platform.isIOS || Platform.isMacOS)) ...[
-                    SignInButton(
-                      isDarkMode ? Buttons.apple : Buttons.appleDark,
-                      text: l10n.signInWithApple,
-                      onPressed: () =>
-                          Navigator.pop(sheetContext, SignInMethod.apple),
-                    ),
-                    const SizedBox(height: AppSpacing.base),
-                  ],
-                  SignInButton(
-                    isDarkMode ? Buttons.google : Buttons.googleDark,
-                    text: l10n.signInWithGoogle,
-                    onPressed: () =>
-                        Navigator.pop(sheetContext, SignInMethod.google),
-                  ),
-                  const SizedBox(height: AppSpacing.base),
-                  SignInButtonBuilder(
-                    text: l10n.signInWithEmail,
-                    icon: Icons.email,
-                    onPressed: () =>
-                        Navigator.pop(sheetContext, SignInMethod.email),
-                    backgroundColor: isDarkMode
-                        ? Colors.white
-                        : Colors.blueGrey.shade700,
-                    textColor: isDarkMode ? Colors.black87 : Colors.white,
-                    iconColor: isDarkMode ? Colors.black87 : Colors.white,
-                  ),
-                  const SizedBox(height: AppSpacing.base),
-                  AppTextButton(
-                    label: l10n.dialogCancel,
-                    onPressed: () =>
-                        Navigator.pop(sheetContext, SignInMethod.cancel),
-                    isFullWidth: false,
-                    height: AppButton.heightSmall,
-                    padding: AppButton.paddingSmall,
-                  ),
-                  const SizedBox(height: AppSpacing.base),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
+    final chosenMethod = await showSignInSheet(
+      context,
+      title: title ?? l10n.signInRequiredTitle,
+      bodyText: bodyText,
+      showApple: !kIsWeb && (Platform.isIOS || Platform.isMacOS),
     );
 
     AppLogger.debug('Sign-in modal closed with method: $chosenMethod');
@@ -812,7 +743,6 @@ class AuthenticationService {
   static _SignInContext _captureSignInContext(BuildContext context) {
     return _SignInContext(
       l10n: AppLocalizations.of(context)!,
-      isDarkMode: Theme.of(context).brightness == Brightness.dark,
       scaffoldMessenger: ScaffoldMessenger.maybeOf(context),
       navigator: Navigator.of(context),
       databaseProvider: _maybeProvider<DatabaseProvider>(context),
