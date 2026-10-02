@@ -2011,6 +2011,38 @@ class DatabaseProvider {
     }
   }
 
+  /// Nulls the grind size override for [recipeId] in Supabase.
+  /// [updateUserPreferenceInSupabase] drops null keys, so it cannot do this.
+  /// A failed call marks the recipe pending, and the startup reconcile then
+  /// uploads the local row, null included, before downloading.
+  Future<void> clearCustomGrindSizeInSupabase(String recipeId) async {
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null || user.isAnonymous) {
+      AppLogger.debug('No user logged in or user is anonymous');
+      return;
+    }
+
+    try {
+      await Supabase.instance.client
+          .from('user_recipe_preferences')
+          .update({
+            'custom_grind_size': null,
+            'last_used': DateTime.now().toUtc().toIso8601String(),
+          })
+          .eq('user_id', user.id)
+          .eq('recipe_id', recipeId)
+          .timeout(NetworkTimeouts.handshake);
+      AppLogger.debug('Custom grind size cleared successfully');
+      await _clearPendingPrefSync(recipeId);
+    } on TimeoutException catch (e) {
+      AppLogger.warning('Supabase request timed out', errorObject: e);
+      await _markPendingPrefSync(recipeId);
+    } catch (e) {
+      AppLogger.error('Error clearing custom grind size', errorObject: e);
+      await _markPendingPrefSync(recipeId);
+    }
+  }
+
   // Fetch minimal metadata for a public user recipe
   Future<Map<String, dynamic>?> getPublicUserRecipeMetadata(
     String recipeId,

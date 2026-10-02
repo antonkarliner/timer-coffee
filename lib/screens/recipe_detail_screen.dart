@@ -35,6 +35,42 @@ import '../screens/preparation_screen.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../webhelper/web_helper.dart' as web;
 import '../utils/app_logger.dart'; // Import AppLogger
+import '../theme/design_tokens.dart';
+
+enum GrindSizeOverrideAction { keep, set, clear }
+
+/// What tapping Next does to the recipe's saved grind override. The field
+/// starts as `customGrindSize ?? grindSize`, and `grindSize` is the default
+/// in the current app language, so saving an untouched field would freeze
+/// that language's text as a personal override. Only a real edit is saved;
+/// a field back at the default (or empty) removes the override. A grind
+/// taken from the attached bean never touches it (bean > override >
+/// default).
+@visibleForTesting
+({GrindSizeOverrideAction action, String? value}) decideGrindSizeOverride({
+  required String fieldText,
+  required bool grindSizeFromBean,
+  required String defaultGrindSize,
+  required String? currentOverride,
+}) {
+  if (grindSizeFromBean) {
+    return (action: GrindSizeOverrideAction.keep, value: null);
+  }
+
+  final text = fieldText.trim();
+  if (text.isEmpty || text == defaultGrindSize.trim()) {
+    return (
+      action: currentOverride == null
+          ? GrindSizeOverrideAction.keep
+          : GrindSizeOverrideAction.clear,
+      value: null,
+    );
+  }
+  if (text == currentOverride?.trim()) {
+    return (action: GrindSizeOverrideAction.keep, value: null);
+  }
+  return (action: GrindSizeOverrideAction.set, value: text);
+}
 
 @visibleForTesting
 RecipeModel buildRuntimeRecipeForBrew({
@@ -655,22 +691,27 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
         ? null
         : controllerGrind;
 
-    // Value persisted as the recipe's manual override. If the displayed grind
-    // size came from the attached bean (and wasn't manually edited since),
-    // leave the recipe's saved override untouched so attaching a bean does not
-    // clobber it (layered priority: bean > manual override > default).
-    final String? grindSizeToPersist = _controller.grindSizeFromBean
-        ? recipe.customGrindSize
-        : effectiveGrindSize;
+    final grindSizeOverride = decideGrindSizeOverride(
+      fieldText: controllerGrind,
+      grindSizeFromBean: _controller.grindSizeFromBean,
+      defaultGrindSize: recipe.grindSize,
+      currentOverride: recipe.customGrindSize,
+    );
     final double? waterTempToPersist = _controller.waterTemperatureFromRecipe
         ? recipe.customWaterTemp
         : _controller.waterTemperature;
+
+    if (grindSizeOverride.action == GrindSizeOverrideAction.clear) {
+      await recipeProvider.clearCustomGrindSize(idToSave);
+    }
 
     await recipeProvider.saveCustomAmounts(
       idToSave,
       customCoffeeAmount,
       customWaterAmount,
-      customGrindSize: grindSizeToPersist,
+      customGrindSize: grindSizeOverride.action == GrindSizeOverrideAction.set
+          ? grindSizeOverride.value
+          : null,
       customWaterTemp: waterTempToPersist,
     );
 
@@ -794,9 +835,9 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
                     ),
                   ),
                 ),
-                Positioned(
-                  bottom: 16.0,
-                  right: 16.0,
+                PositionedDirectional(
+                  bottom: AppSpacing.base,
+                  end: AppSpacing.base,
                   child: FloatingNavButton(
                     onPressed: () =>
                         _saveCustomAmountsAndNavigate(context, recipe),

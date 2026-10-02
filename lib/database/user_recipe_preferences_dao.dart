@@ -117,6 +117,18 @@ class UserRecipePreferencesDao extends DatabaseAccessor<AppDatabase>
     );
   }
 
+  /// Clears the per-user grind size override for a recipe, so it follows the
+  /// recipe's default (in the app's current language) again. Writes an
+  /// explicit null, like [clearCustomAmounts]. No-op when no preference row
+  /// exists.
+  Future<void> clearCustomGrindSize(String recipeId) async {
+    await (update(
+      userRecipePreferences,
+    )..where((tbl) => tbl.recipeId.equals(recipeId))).write(
+      const UserRecipePreferencesCompanion(customGrindSize: Value(null)),
+    );
+  }
+
   Future<UserRecipePreference?> getLastUsedRecipe() async {
     return (select(userRecipePreferences)
           ..orderBy([(tbl) => OrderingTerm.desc(tbl.lastUsed)])

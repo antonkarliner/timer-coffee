@@ -228,6 +228,14 @@ class RecipeProvider extends ChangeNotifier {
     await fetchAllRecipes();
   }
 
+  /// Removes the recipe's grind override locally, then in Supabase
+  /// fire-and-forget. Does not refetch: the caller's [saveCustomAmounts]
+  /// that follows does.
+  Future<void> clearCustomGrindSize(String recipeId) async {
+    await db.userRecipePreferencesDao.clearCustomGrindSize(recipeId);
+    unawaited(databaseProvider.clearCustomGrindSizeInSupabase(recipeId));
+  }
+
   Future<void> saveSliderPositions(
     String recipeId, {
     int? sweetnessSliderPosition,
