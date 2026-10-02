@@ -53,8 +53,8 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
         ),
         children: [
           const CoffeeJourneyCard(location: JourneyCardLocation.hub),
-          _HubSection(
-            title: l10n.hubSectionYourCoffee,
+          SettingsSection(
+            header: l10n.hubSectionYourCoffee,
             children: [
               _HubListTile(
                 identifier: 'brewDiary',
@@ -98,8 +98,8 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
               ),
             ],
           ),
-          _HubSection(
-            title: l10n.explore,
+          SettingsSection(
+            header: l10n.explore,
             children: [
               _HubListTile(
                 identifier: 'pulse',
@@ -133,12 +133,12 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
               ),
             ],
           ),
-          _HubSection(
-            title: l10n.account,
+          SettingsSection(
+            header: l10n.account,
             children: [const AccountEntryTile(source: AccountEntrySource.hub)],
           ),
-          _HubSection(
-            title: l10n.hubSectionApp,
+          SettingsSection(
+            header: l10n.hubSectionApp,
             children: [
               _HubListTile(
                 identifier: 'settings',
@@ -177,29 +177,6 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
     );
   }
 
-}
-
-class _HubSection extends StatelessWidget {
-  const _HubSection({required this.title, required this.children});
-
-  final String title;
-  final List<Widget> children;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpacing.base),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Same padding and style the Hub headers always had — the shared
-          // widget was extracted from this very one.
-          SettingsSectionHeader(title: title),
-          Column(mainAxisSize: MainAxisSize.min, children: children),
-        ],
-      ),
-    );
-  }
 }
 
 class _HubListTile extends StatelessWidget {

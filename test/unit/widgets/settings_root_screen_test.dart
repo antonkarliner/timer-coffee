@@ -9,6 +9,10 @@ import 'package:coffee_timer/services/advanced_features_service.dart';
 import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/services/brew_alert_preference.dart';
 import 'package:coffee_timer/services/date_time_format_service.dart';
+import 'package:coffee_timer/services/settings_analytics.dart';
+import 'package:coffee_timer/widgets/account/account_entry_tile.dart';
+import 'package:coffee_timer/widgets/settings/settings_list.dart';
+import 'package:coffeico_plus/coffeico_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -21,12 +25,22 @@ import 'settings_root_screen_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<RecipeProvider>()])
 
-/// Root page test for the category Settings screen (plan 074 phase 11).
+/// Root page test for the category Settings screen (plan 074 phase 11,
+/// restructured in plan 077 phase 4b: two `SettingsSection`s, no divider).
 ///
 /// The test environment takes the same shortcuts the other Settings page
 /// tests take: `NotificationService.initialize()` cannot run (the controller
 /// lands on its catch path: master on, not loading) and the icon API is
-/// unavailable, so the appearance subtitle shows the theme label only.
+/// unavailable, so the appearance summary shows the theme label only.
+///
+/// Two states are therefore unreachable in a widget test here:
+/// - notifications master off / blocked — the row's controller is created
+///   inside the screen's State and never leaves its catch path under the VM
+///   runner, so those branches are pinned against the
+///   `notificationsRootSubtitle` seam instead; and
+/// - the appearance summary with the icon API — `iconApiAvailable` can only
+///   become true through the real platform plugin, so only the
+///   `settingsAppearanceSummary` string contract is asserted.
 ///
 /// Not covered here: the notifications row being absent on web — `kIsWeb` is
 /// a compile-time constant and false under the VM test runner, so that state
@@ -200,12 +214,24 @@ void main() {
     expect(find.text('2 of 3 methods'), findsOneWidget);
   });
 
-  testWidgets('appearance subtitle shows the theme label', (tester) async {
+  testWidgets('appearance summary without the icon API is the theme label',
+      (tester) async {
+    // The test environment has no icon API, so the summary is the theme
+    // label alone — the with-icon "Dark · Default icon" form is unreachable
+    // here (see the file header); only its string contract is pinned below.
     await pumpRoot(tester);
     expect(find.text('Automatic'), findsOneWidget);
 
     await pumpRoot(tester, themeMode: ThemeMode.dark);
     expect(find.text('Dark'), findsOneWidget);
+  });
+
+  test('appearance summary contract: "<theme> · <icon> icon"', () {
+    final l10n = lookupAppLocalizations(const Locale('en'));
+    expect(
+      l10n.settingsAppearanceSummary('Dark', 'Default'),
+      'Dark · Default icon',
+    );
   });
 
   testWidgets('language subtitle shows the language name and today',
@@ -244,5 +270,106 @@ void main() {
     // Master notifications on (default), no permission check possible, and
     // the bean-review nudge defaults to on: "On · 1 reminder".
     expect(find.text('On · 1 reminder'), findsOneWidget);
+  });
+
+  testWidgets('root is two SettingsSections with no divider', (tester) async {
+    await pumpRoot(tester);
+
+    expect(find.byType(SettingsSection), findsNWidgets(2));
+    expect(find.byType(Divider), findsNothing);
+    // The account card section comes first, the category rows second.
+    final sections = tester
+        .widgetList<SettingsSection>(find.byType(SettingsSection))
+        .toList();
+    expect(
+      find.descendant(
+        of: find.byWidget(sections.first),
+        matching: find.byType(AccountEntryTile),
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(
+        of: find.byWidget(sections.first),
+        matching: find.text('Brewing'),
+      ),
+      findsNothing,
+    );
+    expect(
+      find.descendant(
+        of: find.byWidget(sections.last),
+        matching: find.text('Brewing'),
+      ),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('account card opts into the Settings chevron', (tester) async {
+    await pumpRoot(tester);
+
+    final tile = tester.widget<AccountEntryTile>(
+      find.byType(AccountEntryTile),
+    );
+    expect(tile.source, AccountEntrySource.settings);
+    expect(tile.showChevron, isTrue);
+    // Signed out, the tile still renders the trailing chevron.
+    expect(
+      find.descendant(
+        of: find.byType(AccountEntryTile),
+        matching: find.byIcon(Icons.chevron_right),
+      ),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('brewing row leads with the Brew Coffee tab icon',
+      (tester) async {
+    await pumpRoot(tester);
+
+    expect(find.byIcon(Coffeico.coffee_maker), findsOneWidget);
+    expect(find.byIcon(Icons.coffee_maker_outlined), findsNothing);
+  });
+
+  test('notifications summary maps master-off to "Off"', () {
+    final l10n = lookupAppLocalizations(const Locale('en'));
+    // Unreachable through the widget: the row's controller stays on its
+    // catch path (master on) under the test runner, so the branch mapping is
+    // pinned on the seam instead (see the file header).
+    final result = notificationsRootSubtitle(
+      isLoading: false,
+      systemPermissionDenied: false,
+      masterEnabled: false,
+      enabledReminderCount: 3,
+      l10n: l10n,
+    );
+    expect(result.subtitle, 'Off');
+    expect(result.isError, isFalse);
+  });
+
+  test('notifications summary maps the blocked state to the error colour',
+      () {
+    final l10n = lookupAppLocalizations(const Locale('en'));
+    final result = notificationsRootSubtitle(
+      isLoading: false,
+      systemPermissionDenied: true,
+      masterEnabled: true,
+      enabledReminderCount: 3,
+      l10n: l10n,
+    );
+    expect(result.subtitle, l10n.settingsNotificationsSummaryBlocked);
+    expect(result.isError, isTrue);
+  });
+
+  test('notifications summary loading state has no subtitle', () {
+    final l10n = lookupAppLocalizations(const Locale('en'));
+    final result = notificationsRootSubtitle(
+      isLoading: true,
+      systemPermissionDenied: false,
+      masterEnabled: true,
+      enabledReminderCount: 3,
+      l10n: l10n,
+    );
+    expect(result.subtitle, isNull);
+    expect(result.isError, isFalse);
   });
 }

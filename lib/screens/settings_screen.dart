@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:coffeico_plus/coffeico_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -18,7 +19,6 @@ import '../services/advanced_features_service.dart';
 import '../services/brew_alert_preference.dart';
 import '../services/date_time_format_service.dart';
 import '../services/settings_analytics.dart';
-import '../theme/design_tokens.dart';
 import '../widgets/account/account_entry_tile.dart';
 import '../widgets/settings/settings_list.dart';
 
@@ -46,6 +46,35 @@ SettingsTarget? settingsTargetForLegacySection(
     default:
       return null;
   }
+}
+
+/// Subtitle (and whether it renders in the error colour) for the
+/// notifications row on the Settings root.
+///
+/// `@visibleForTesting` because the row's controller always takes its catch
+/// path under the test runner (`NotificationService.initialize()` cannot
+/// run there), which leaves master-off and the blocked state unreachable in
+/// a widget test — this pure function is the only way to pin the branch
+/// mapping.
+@visibleForTesting
+({String? subtitle, bool isError}) notificationsRootSubtitle({
+  required bool isLoading,
+  required bool systemPermissionDenied,
+  required bool masterEnabled,
+  required int enabledReminderCount,
+  required AppLocalizations l10n,
+}) {
+  if (isLoading) return (subtitle: null, isError: false);
+  if (systemPermissionDenied && masterEnabled) {
+    return (subtitle: l10n.settingsNotificationsSummaryBlocked, isError: true);
+  }
+  if (!masterEnabled) {
+    return (subtitle: l10n.settingsNotificationsSummaryOff, isError: false);
+  }
+  return (
+    subtitle: l10n.settingsNotificationsSummaryOn(enabledReminderCount),
+    isError: false,
+  );
 }
 
 @RoutePage()
@@ -152,18 +181,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return SettingsPageScaffold(
       title: l10n.settings,
       children: [
-        Semantics(
-          identifier: 'settingsAccountCard',
-          container: true,
-          child: const AccountEntryTile(source: AccountEntrySource.settings),
+        // Two headerless sections (settings_list.dart rule 2): the account
+        // card alone, then the six category rows.
+        SettingsSection(
+          children: [
+            Semantics(
+              identifier: 'settingsAccountCard',
+              container: true,
+              child: const AccountEntryTile(
+                source: AccountEntrySource.settings,
+                showChevron: true,
+              ),
+            ),
+          ],
         ),
-        const Divider(indent: AppSpacing.base),
-        _brewingRow(context, l10n),
-        _homeScreenRow(context, l10n, recipeProvider, methods),
-        _notificationsRowSlot(context, l10n),
-        _appearanceRowSlot(context, l10n),
-        _languageRegionRow(context, l10n, recipeProvider),
-        _privacyDataRow(context, l10n),
+        SettingsSection(
+          children: [
+            _brewingRow(context, l10n),
+            _homeScreenRow(context, l10n, recipeProvider, methods),
+            _notificationsRowSlot(context, l10n),
+            _appearanceRowSlot(context, l10n),
+            _languageRegionRow(context, l10n, recipeProvider),
+            _privacyDataRow(context, l10n),
+          ],
+        ),
       ],
     );
   }
@@ -176,7 +217,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       valueListenable: BrewAlertPreference.instance.mode,
       builder: (context, mode, _) => SettingsNavRow(
         identifier: 'settingsBrewingRow',
-        icon: Icons.coffee_maker_outlined,
+        // The same glyph the Brew Coffee tab uses (home_screen.dart).
+        icon: Coffeico.coffee_maker,
         title: l10n.settingsBrewingTitle,
         subtitle: '${_layoutLabel(context, l10n)} · ${_alertLabel(l10n, mode)}',
         onTap: () => context.router.push(const SettingsBrewingRoute()),
@@ -257,28 +299,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
       builder: (context, _) {
         if (kIsWeb) return const SizedBox.shrink();
 
-        final String? subtitle;
-        Color? subtitleColor;
-        if (_controller.isLoading) {
-          subtitle = null;
-        } else if (_controller.systemPermissionDenied &&
-            _controller.masterNotificationsEnabled) {
-          subtitle = l10n.settingsNotificationsSummaryBlocked;
-          subtitleColor = Theme.of(context).colorScheme.error;
-        } else if (!_controller.masterNotificationsEnabled) {
-          subtitle = l10n.notificationsDisabled;
-        } else {
-          subtitle = l10n.settingsNotificationsSummaryOn(
-            _controller.enabledReminderCount,
-          );
-        }
+        final (:subtitle, :isError) = notificationsRootSubtitle(
+          isLoading: _controller.isLoading,
+          systemPermissionDenied: _controller.systemPermissionDenied,
+          masterEnabled: _controller.masterNotificationsEnabled,
+          enabledReminderCount: _controller.enabledReminderCount,
+          l10n: l10n,
+        );
 
         return SettingsNavRow(
           identifier: 'settingsNotificationsRow',
           icon: Icons.notifications_outlined,
           title: l10n.notifications,
           subtitle: subtitle,
-          subtitleColor: subtitleColor,
+          subtitleColor: isError ? Theme.of(context).colorScheme.error : null,
           onTap: () => context.router.push(const SettingsNotificationsRoute()),
         );
       },
@@ -302,8 +336,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ThemeMode.system => l10n.settingsthemesystem,
         };
         if (!kIsWeb && _controller.iconApiAvailable) {
-          subtitle +=
-              ' · ${_controller.isDefaultIcon ? l10n.settingsAppIconDefault : l10n.settingsAppIconLegacy}';
+          subtitle = l10n.settingsAppearanceSummary(
+            subtitle,
+            _controller.isDefaultIcon
+                ? l10n.settingsAppIconDefault
+                : l10n.settingsAppIconLegacy,
+          );
         }
         return SettingsNavRow(
           identifier: 'settingsAppearanceRow',
@@ -333,8 +371,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
       context,
       listen: false,
     );
+    // The explicit locale matters: `Intl.defaultLocale` is never set in this
+    // app, so without it the month names would stay English in every app
+    // language.
     final today = DateFormat(
       fmtService.datePattern(l10n.dateFormat),
+      Localizations.localeOf(context).toString(),
     ).format(DateTime.now());
 
     return FutureBuilder<String>(
