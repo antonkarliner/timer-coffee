@@ -45,6 +45,7 @@ import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:coffee_timer/utils/date_digits.dart';
 import 'package:coffee_timer/utils/log_config.dart';
 import 'package:coffee_timer/services/notification_migration_service.dart';
+import 'package:coffee_timer/services/resolved_app_locale.dart';
 import 'services/feature_flags/feature_flags_repository.dart';
 import 'services/onboarding_service.dart';
 import 'services/analytics_service.dart';
@@ -525,6 +526,13 @@ void main() async {
     (l) => l.languageCode == initialLocale.languageCode,
   )) {
     initialLocale = const Locale('en');
+  }
+  ResolvedAppLocale.languageCode.value = initialLocale.languageCode;
+  if (!kIsWeb) {
+    // NotificationService is initialized before Supabase, so its startup
+    // token restore always failed; retry now that the client exists. This is
+    // also what writes the resolved locale onto the token row (plan 076 §1).
+    unawaited(NotificationService.instance.fcm.ensureActiveToken());
   }
 
   final appRouter = AppRouter();

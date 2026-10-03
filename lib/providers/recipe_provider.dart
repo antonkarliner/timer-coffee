@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:coffee_timer/models/coffee_fact_model.dart';
 import 'package:coffee_timer/models/launch_popup_model.dart';
 import 'package:coffee_timer/providers/database_provider.dart';
+import 'package:coffee_timer/services/resolved_app_locale.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../database/database.dart';
@@ -344,6 +345,7 @@ class RecipeProvider extends ChangeNotifier {
   Future<void> setLocale(Locale newLocale) async {
     if (_locale != newLocale) {
       _locale = newLocale;
+      ResolvedAppLocale.languageCode.value = newLocale.languageCode;
       await fetchAllRecipes(); // Fetch all recipes with the new locale
       notifyListeners();
     }

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:coffee_timer/services/fcm_service.dart';
 import 'package:coffee_timer/services/notification_settings_service.dart';
+import 'package:coffee_timer/services/resolved_app_locale.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -83,6 +84,9 @@ class FcmProvider {
         _fcmService.onNotificationTapped.listen(onNotificationTapped.add);
     _settingsService = NotificationSettingsService();
     await _settingsService.init();
+    // Notification setup runs before main.dart resolves the app locale, and
+    // the user can change language later; either way the token row follows.
+    ResolvedAppLocale.languageCode.addListener(_onAppLocaleChanged);
 
     // Get initial state
     final masterEnabled = await _settingsService.isMasterEnabled();
@@ -436,6 +440,27 @@ class FcmProvider {
         .eq('user_id', userId)
         .eq('device_type', platform)
         .eq('token', token);
+
+    // Launch takes this path, not storeToken, whenever the device already has
+    // a token — so without this, a row's language would never be corrected.
+    // Separate from the reactivation write so a rejected locale can't block it.
+    final languageCode = ResolvedAppLocale.languageCode.value;
+    if (languageCode != null) {
+      await _fcmService.updateTokenLocale(
+        token: token,
+        languageCode: languageCode,
+      );
+    }
+  }
+
+  void _onAppLocaleChanged() {
+    if (kIsWeb) return;
+    final languageCode = ResolvedAppLocale.languageCode.value;
+    final token = _tokenController.valueOrNull;
+    if (languageCode == null || token == null) return;
+    unawaited(
+      _fcmService.updateTokenLocale(token: token, languageCode: languageCode),
+    );
   }
 
   /// Mark current token as inactive
@@ -559,6 +584,7 @@ class FcmProvider {
 
   /// Dispose all streams and resources
   void dispose() {
+    ResolvedAppLocale.languageCode.removeListener(_onAppLocaleChanged);
     _notificationTapSubscription?.cancel();
     _isEnabledController.close();
     _hasPermissionController.close();

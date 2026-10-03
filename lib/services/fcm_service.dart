@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:coffee_timer/services/notification_service.dart';
+import 'package:coffee_timer/services/resolved_app_locale.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -144,6 +145,45 @@ class FcmService {
     return primary.toLowerCase();
   }
 
+  /// The language the app is rendered in, which is what translated broadcasts
+  /// must target. The `locale` pref is only the fallback for a call made before
+  /// `main.dart` has resolved the locale: it is set only by an explicit choice
+  /// in Settings, so on its own it records every system-language user as `en`
+  /// (plan 076 §1).
+  Future<String> _currentAppLocale() async {
+    final resolved = ResolvedAppLocale.languageCode.value;
+    if (resolved != null) return resolved;
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getString('locale') ?? _fallbackLocale;
+    } catch (e) {
+      AppLogger.warning(
+        'Failed to retrieve locale from SharedPreferences, using default: $_fallbackLocale',
+      );
+      return _fallbackLocale;
+    }
+  }
+
+  /// Rewrites the language on this device's token row, e.g. after the user
+  /// changes the app language. Best effort: a locale the database rejects
+  /// leaves the row as it was.
+  Future<void> updateTokenLocale({
+    required String token,
+    required String languageCode,
+  }) async {
+    final locale = _normalizeLocaleCode(languageCode);
+    try {
+      await Supabase.instance.client
+          .schema('service')
+          .from('user_fcm_tokens')
+          .update({'locale': locale})
+          .eq('token', token);
+      AppLogger.debug('FCM token locale updated to "$locale"');
+    } catch (e) {
+      AppLogger.error('Failed to update FCM token locale', errorObject: e);
+    }
+  }
+
   /// Request notification permissions
   Future<bool> requestPermissions() async {
     if (kIsWeb) return true;
@@ -215,21 +255,8 @@ class FcmService {
       String platform = Platform.isIOS ? 'ios' : 'android';
       final now = DateTime.now().toIso8601String();
 
-      // Get current app locale from SharedPreferences, default to 'en'
-      String currentLocale = _fallbackLocale;
-      try {
-        final prefs = await SharedPreferences.getInstance();
-        currentLocale = prefs.getString('locale') ?? _fallbackLocale;
-        AppLogger.debug(
-          'Retrieved locale from SharedPreferences: $currentLocale',
-        );
-      } catch (e) {
-        AppLogger.warning(
-          'Failed to retrieve locale from SharedPreferences, using default: $currentLocale',
-        );
-      }
-      final rawLocale = currentLocale;
-      String localeForDb = _normalizeLocaleCode(currentLocale);
+      final rawLocale = await _currentAppLocale();
+      String localeForDb = _normalizeLocaleCode(rawLocale);
       if (rawLocale != localeForDb) {
         AppLogger.debug(
           'Normalized locale for token storage: "$rawLocale" -> "$localeForDb"',
