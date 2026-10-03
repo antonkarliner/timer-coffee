@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:coffee_timer/services/notification_service.dart';
+import 'package:coffee_timer/services/region_service.dart';
 import 'package:coffee_timer/services/resolved_app_locale.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
@@ -164,23 +166,76 @@ class FcmService {
     }
   }
 
-  /// Rewrites the language on this device's token row, e.g. after the user
-  /// changes the app language. Best effort: a locale the database rejects
-  /// leaves the row as it was.
-  Future<void> updateTokenLocale({
-    required String token,
-    required String languageCode,
-  }) async {
-    final locale = _normalizeLocaleCode(languageCode);
+  /// Brings this device's token row up to date with what broadcasts target:
+  /// the app language, and the audience fields of [_updateTokenAudience].
+  /// Best effort, never throws; called after a language change and on each
+  /// launch's token reactivation.
+  Future<void> syncTokenContext({required String token}) async {
+    final languageCode = ResolvedAppLocale.languageCode.value;
+    if (languageCode != null) {
+      final locale = _normalizeLocaleCode(languageCode);
+      try {
+        await Supabase.instance.client
+            .schema('service')
+            .from('user_fcm_tokens')
+            .update({'locale': locale})
+            .eq('token', token);
+        AppLogger.debug('FCM token locale updated to "$locale"');
+      } catch (e) {
+        // A locale the database rejects leaves the row's locale as it was.
+        AppLogger.error('Failed to update FCM token locale', errorObject: e);
+      }
+    }
+    await _updateTokenAudience(token);
+  }
+
+  /// Writes `locale_source`, `country` and `timezone` (plan 076 §2), in a
+  /// write of its own so a failure here — e.g. a build running against a
+  /// database without these columns — can never undo the token write.
+  ///
+  /// A value that can't be determined is left out rather than written as
+  /// null, so a failed lookup doesn't erase a known one. Country is IP-only
+  /// ([RegionService.getGeoLocation]); a locale-based guess is never stored.
+  Future<void> _updateTokenAudience(String token) async {
     try {
-      await Supabase.instance.client
+      final prefs = await SharedPreferences.getInstance();
+      final client = Supabase.instance.client;
+      final fields = <String, Object>{
+        // Same rule as main.dart: the pref exists only after a choice in
+        // Settings; otherwise the app follows the system language.
+        'locale_source': prefs.getString('locale') != null
+            ? 'explicit'
+            : 'system',
+      };
+      final geo = await RegionService(client).getGeoLocation();
+      if (geo != null) fields['country'] = geo.country;
+      final timezone = await _deviceTimezone();
+      if (timezone != null) fields['timezone'] = timezone;
+
+      await client
           .schema('service')
           .from('user_fcm_tokens')
-          .update({'locale': locale})
+          .update(fields)
           .eq('token', token);
-      AppLogger.debug('FCM token locale updated to "$locale"');
+      AppLogger.debug('FCM token audience fields updated: ${fields.keys}');
     } catch (e) {
-      AppLogger.error('Failed to update FCM token locale', errorObject: e);
+      AppLogger.error('Failed to update FCM token audience', errorObject: e);
+    }
+  }
+
+  /// IANA zone name (e.g. `Europe/Berlin`), never an abbreviation or an
+  /// offset: offsets change across DST, so they can't schedule local-time
+  /// delivery. Null if the platform doesn't report one.
+  Future<String?> _deviceTimezone() async {
+    try {
+      final info = await FlutterTimezone.getLocalTimezone().timeout(
+        const Duration(seconds: 2),
+      );
+      final name = info.identifier.trim();
+      return name.isEmpty ? null : name;
+    } catch (e) {
+      AppLogger.debug('Device timezone unavailable: $e');
+      return null;
     }
   }
 
@@ -459,6 +514,8 @@ class FcmService {
       AppLogger.info(
         'FCM token storage completed successfully for user: $userId',
       );
+      // Not awaited: the geo lookup can outlast the caller's timeout.
+      unawaited(_updateTokenAudience(token));
     } catch (e) {
       AppLogger.error('Error storing FCM token', errorObject: e);
       AppLogger.error('FCM token storage error details: ${e.toString()}');

@@ -13,6 +13,9 @@ class RegionService {
   static const _cacheTsKey = 'giftbox_region_cached_at';
   static const _countryCodeKey = 'country_code_cache';
   static const _countryCodeTsKey = 'country_code_cached_at';
+  static const _geoCountryKey = 'geo_country_code';
+  static const _geoRegionKey = 'geo_region_code';
+  static const _geoTsKey = 'geo_cached_at';
   static const _cacheTtlHours = 24;
 
   final SupabaseClient _supabaseClient;
@@ -179,6 +182,83 @@ class RegionService {
     return null;
   }
 
+  // ---------------------------------------------------------------------------
+  // IP geolocation only (plan 076 §2/§3)
+  // ---------------------------------------------------------------------------
+
+  /// Country and region from the IP address — geoip edge function, then
+  /// country.is (country only) — refreshed every 24 hours. Unlike
+  /// [getCountryCode] it never falls back to a locale guess: push and popup
+  /// targeting must treat an unknown country as unknown, not as a guess.
+  Future<GeoLocation?> getGeoLocation() =>
+      // Launch can ask twice at once (token reactivation and the locale
+      // listener); share one lookup rather than calling geoip twice.
+      _geoInFlight ??= _lookUpGeoLocation().whenComplete(
+        () => _geoInFlight = null,
+      );
+
+  static Future<GeoLocation?>? _geoInFlight;
+
+  Future<GeoLocation?> _lookUpGeoLocation() async {
+    final prefs = await SharedPreferences.getInstance();
+    final ts = prefs.getInt(_geoTsKey);
+    final cached = await getCachedGeoLocation();
+    if (cached != null &&
+        ts != null &&
+        DateTime.now()
+                .difference(DateTime.fromMillisecondsSinceEpoch(ts))
+                .inHours <
+            _cacheTtlHours) {
+      return cached;
+    }
+
+    var geo = await _tryEdgeFunctionGeo();
+    if (geo == null) {
+      final country = GeoLocation._validCountry(await _tryCountryIsRaw());
+      if (country != null) geo = GeoLocation(country: country);
+    }
+    if (geo == null) return cached;
+
+    await prefs.setString(_geoCountryKey, geo.country);
+    if (geo.region != null) {
+      await prefs.setString(_geoRegionKey, geo.region!);
+    } else {
+      await prefs.remove(_geoRegionKey);
+    }
+    await prefs.setInt(_geoTsKey, DateTime.now().millisecondsSinceEpoch);
+    return geo;
+  }
+
+  /// The last [getGeoLocation] result, however old, without a network call —
+  /// for launch-time reads that must not wait on a lookup.
+  static Future<GeoLocation?> getCachedGeoLocation() async {
+    final prefs = await SharedPreferences.getInstance();
+    final country = GeoLocation._validCountry(prefs.getString(_geoCountryKey));
+    if (country == null) return null;
+    return GeoLocation(
+      country: country,
+      region: GeoLocation._validRegion(prefs.getString(_geoRegionKey)),
+    );
+  }
+
+  Future<GeoLocation?> _tryEdgeFunctionGeo() async {
+    try {
+      final res = await _supabaseClient.functions
+          .invoke('geoip')
+          .timeout(const Duration(seconds: 5));
+      final data = res.data as Map?;
+      final country = GeoLocation._validCountry(data?['country']?.toString());
+      if (country == null) return null;
+      return GeoLocation(
+        country: country,
+        region: GeoLocation._validRegion(data?['region']?.toString()),
+      );
+    } catch (e) {
+      AppLogger.debug('geoip geo lookup failed: ${AppLogger.sanitize(e)}');
+    }
+    return null;
+  }
+
   String? _mapLocaleToCountry(String localeCode) {
     final lc = localeCode.toLowerCase();
     if (lc.startsWith('ja')) return 'JP';
@@ -216,5 +296,34 @@ class RegionService {
     if (['JP', 'CN', 'HK', 'KR', 'SG', 'TH', 'VN', 'MY', 'ID', 'PH', 'IN'].contains(c)) return 'ASIA';
     if (['AU', 'NZ'].contains(c)) return 'AU';
     return 'WW';
+  }
+}
+
+/// An IP-derived location. [region] is the backend's code from
+/// `public.country_regions` (NA, EU, AS, …), or null when the lookup did not
+/// give one; it is never derived on the client, so it can't drift from the
+/// codes popups and pushes are targeted with.
+class GeoLocation {
+  const GeoLocation({required this.country, this.region});
+
+  /// ISO 3166-1 alpha-2, upper case.
+  final String country;
+  final String? region;
+
+  static String? _validCountry(String? raw) {
+    final code = raw?.trim().toUpperCase();
+    if (code == null || !RegExp(r'^[A-Z]{2}$').hasMatch(code)) return null;
+    return code;
+  }
+
+  // geoip answers WW for a country it has no region for: that is "unknown".
+  static String? _validRegion(String? raw) {
+    final code = raw?.trim().toUpperCase();
+    if (code == null ||
+        code == 'WW' ||
+        !RegExp(r'^[A-Z]{2,10}$').hasMatch(code)) {
+      return null;
+    }
+    return code;
   }
 }

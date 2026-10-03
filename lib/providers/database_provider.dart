@@ -17,6 +17,8 @@ import 'package:coffee_timer/models/launch_popup_model.dart';
 import 'package:coffee_timer/models/help_models.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:coffee_timer/models/gift_offer_model.dart';
+import 'package:coffee_timer/services/launch_popup_fetcher.dart';
+import 'package:coffee_timer/services/region_service.dart';
 import 'package:coffee_timer/services/roaster_directory_service.dart';
 import 'package:coffee_timer/utils/stats_civil_date.dart';
 import 'package:flutter/material.dart';
@@ -1336,18 +1338,15 @@ class DatabaseProvider {
     }
 
     try {
-      final response = await Supabase.instance.client
-          .from('launch_popup')
-          .select(
-            'id, content, locale, created_at, platform, hook_type, '
-            'goal_amount_usd, progress_amount_usd, campaign_ends_at, title',
-          )
-          .eq('locale', locale)
-          .or('platform.eq.$currentPlatform,platform.eq.all')
-          .order('created_at', ascending: false)
-          .limit(1)
-          .maybeSingle()
-          .timeout(NetworkTimeouts.handshake);
+      final client = Supabase.instance.client;
+      // Cache only: launch must not wait on a geo lookup. The refresh below
+      // serves the next launch (popups are skipped in the first session).
+      final geo = await RegionService.getCachedGeoLocation();
+      unawaited(RegionService(client).getGeoLocation());
+
+      final response = await LaunchPopupFetcher(
+        client,
+      ).fetch(locale: locale, platform: currentPlatform, geo: geo);
 
       if (response != null) {
         _launchPopupModel = LaunchPopupModel.fromMap(response);

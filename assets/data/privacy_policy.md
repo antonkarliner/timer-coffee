@@ -1,6 +1,6 @@
 # Privacy Policy for Timer.Coffee
 
-Last Updated: 30.09.2026
+Last Updated: 03.10.2026
 
 1. INTRODUCTION
 
@@ -52,7 +52,7 @@ d. Notifications and Live Activities
 
 We use this data only if you enable these optional features.
 
-- If you enable mobile notifications, we may store your push token and related device metadata, such as device type, device model, app version, locale, last-used timestamps, and token metadata so notifications can be sent to the right device and maintained over time.
+- If you enable mobile notifications, we may store your push token and related device metadata, such as device type, device model, app version, the app's language (and whether you chose it in Settings or it follows your device's language), last-used timestamps, and token metadata so notifications can be sent to the right device and maintained over time. We also store your approximate country (country level only, derived from your IP address) and your device's time zone with the push token, so that notifications reach you in your language, can be limited to the countries or regions they are relevant to, and can arrive at a suitable local time. No city or more precise location is stored.
 - If you use notification preferences, we may store your quiet hours and notification preference settings so the app knows what you want to receive.
 - To schedule local reminders such as a once-per-bean prompt to write a review after about five brews with the same beans, we count brews per bean locally on your device and store a timestamp of when the reminder was scheduled on the bean record. For signed-in users this timestamp is synced with your other bean data so the reminder is not repeated on another device.
 - If you use iOS Live Activities, we may store session data needed to run that feature, such as recipe ID, recipe name, activity identifiers and tokens, step durations, step descriptions, start and end times, session status, and related delivery events.

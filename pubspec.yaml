@@ -84,6 +84,7 @@ dependencies:
   audio_session: ^0.2.4
   font_awesome_flutter: ^11.0.0
   l10n_countries: ^2.0.2
+  flutter_timezone: ^5.1.0
 
 dependency_overrides:
   flutter_keyboard_visibility:

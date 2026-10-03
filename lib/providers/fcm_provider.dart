@@ -442,15 +442,11 @@ class FcmProvider {
         .eq('token', token);
 
     // Launch takes this path, not storeToken, whenever the device already has
-    // a token — so without this, a row's language would never be corrected.
-    // Separate from the reactivation write so a rejected locale can't block it.
-    final languageCode = ResolvedAppLocale.languageCode.value;
-    if (languageCode != null) {
-      await _fcmService.updateTokenLocale(
-        token: token,
-        languageCode: languageCode,
-      );
-    }
+    // a token — so without this, a row's language, country and time zone
+    // would never be corrected. Separate from the reactivation write so a
+    // rejected value can't block it; not awaited, as its geo lookup can
+    // outlast this method's timeout.
+    unawaited(_fcmService.syncTokenContext(token: token));
   }
 
   void _onAppLocaleChanged() {
@@ -458,9 +454,7 @@ class FcmProvider {
     final languageCode = ResolvedAppLocale.languageCode.value;
     final token = _tokenController.valueOrNull;
     if (languageCode == null || token == null) return;
-    unawaited(
-      _fcmService.updateTokenLocale(token: token, languageCode: languageCode),
-    );
+    unawaited(_fcmService.syncTokenContext(token: token));
   }
 
   /// Mark current token as inactive
