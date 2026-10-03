@@ -40,7 +40,8 @@ import 'settings_root_screen_test.mocks.dart';
 ///   `notificationsRootSubtitle` seam instead; and
 /// - the appearance summary with the icon API — `iconApiAvailable` can only
 ///   become true through the real platform plugin, so only the
-///   `settingsAppearanceSummary` string contract is asserted.
+///   `settingsAppearanceSummaryDefaultIcon` /
+///   `settingsAppearanceSummaryLegacyIcon` string contract is asserted.
 ///
 /// Not covered here: the notifications row being absent on web — `kIsWeb` is
 /// a compile-time constant and false under the VM test runner, so that state
@@ -249,11 +250,22 @@ void main() {
     expect(find.text('Dark'), findsOneWidget);
   });
 
-  test('appearance summary contract: "<theme> · <icon> icon"', () {
+  test('appearance summary contract: "<theme> · default/legacy icon"', () {
     final l10n = lookupAppLocalizations(const Locale('en'));
     expect(
-      l10n.settingsAppearanceSummary('Dark', 'Default'),
+      l10n.settingsAppearanceSummaryDefaultIcon('Dark'),
       'Dark · Default icon',
+    );
+    expect(
+      l10n.settingsAppearanceSummaryLegacyIcon('Dark'),
+      'Dark · Legacy icon',
+    );
+    // Regression: ru must read "иконка по умолчанию" as a natural phrase,
+    // not splice in the standalone tile label "По умолчанию" (capital П).
+    expect(
+      lookupAppLocalizations(const Locale('ru'))
+          .settingsAppearanceSummaryDefaultIcon('Тёмная'),
+      isNot(contains('По умолчанию')),
     );
   });
 

@@ -337,12 +337,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ThemeMode.system => l10n.settingsthemesystem,
         };
         if (!kIsWeb && _controller.iconApiAvailable) {
-          subtitle = l10n.settingsAppearanceSummary(
-            subtitle,
-            _controller.isDefaultIcon
-                ? l10n.settingsAppIconDefault
-                : l10n.settingsAppIconLegacy,
-          );
+          subtitle = _controller.isDefaultIcon
+              ? l10n.settingsAppearanceSummaryDefaultIcon(subtitle)
+              : l10n.settingsAppearanceSummaryLegacyIcon(subtitle);
         }
         return SettingsNavRow(
           identifier: 'settingsAppearanceRow',
