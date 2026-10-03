@@ -17,6 +17,7 @@ class OtpCodeField extends StatefulWidget {
     this.autofocus = false,
     this.errorText,
     this.semanticLabel,
+    this.semanticIdentifier,
   }) : assert(length > 0);
 
   final TextEditingController? controller;
@@ -29,6 +30,7 @@ class OtpCodeField extends StatefulWidget {
   final bool autofocus;
   final String? errorText;
   final String? semanticLabel;
+  final String? semanticIdentifier;
 
   @override
   State<OtpCodeField> createState() => _OtpCodeFieldState();
@@ -200,6 +202,7 @@ class _OtpCodeFieldState extends State<OtpCodeField> {
                 ),
               ),
               Semantics(
+                identifier: widget.semanticIdentifier,
                 label: widget.semanticLabel ?? widget.label,
                 child: TextField(
                   controller: _controller,

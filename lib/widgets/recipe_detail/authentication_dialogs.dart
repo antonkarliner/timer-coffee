@@ -63,7 +63,7 @@ class OTPVerificationDialog extends StatefulWidget {
   });
 
   final String email;
-  final void Function(String email, String token) onOTPSubmitted;
+  final Future<String?> Function(String email, String token) onOTPSubmitted;
   final VoidCallback? onCancel;
 
   @override
@@ -72,11 +72,43 @@ class OTPVerificationDialog extends StatefulWidget {
 
 class _OTPVerificationDialogState extends State<OTPVerificationDialog> {
   final TextEditingController _otpController = TextEditingController();
+  final FocusNode _otpFocusNode = FocusNode();
+  bool _submitting = false;
+  String? _errorText;
 
   @override
   void dispose() {
     _otpController.dispose();
+    _otpFocusNode.dispose();
     super.dispose();
+  }
+
+  Future<void> _submit() async {
+    if (_submitting) return;
+    setState(() {
+      _submitting = true;
+      _errorText = null;
+    });
+
+    final error = await widget.onOTPSubmitted(
+      widget.email,
+      _otpController.text,
+    );
+    if (!mounted) return;
+    if (error == null) {
+      Navigator.of(context).pop();
+      return;
+    }
+
+    setState(() {
+      _errorText = error;
+      _otpController.clear();
+      _submitting = false;
+    });
+    // Wait for the field to be enabled again before restoring focus.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _otpFocusNode.requestFocus();
+    });
   }
 
   @override
@@ -95,6 +127,10 @@ class _OTPVerificationDialogState extends State<OTPVerificationDialog> {
           const SizedBox(height: AppSpacing.base),
           OtpCodeField(
             controller: _otpController,
+            focusNode: _otpFocusNode,
+            enabled: !_submitting,
+            errorText: _errorText,
+            onCompleted: (_) => _submit(),
             label: l10n.otpHint2,
             autofocus: true,
           ),
@@ -103,19 +139,20 @@ class _OTPVerificationDialogState extends State<OTPVerificationDialog> {
       actions: <Widget>[
         AppTextButton(
           label: l10n.cancel,
-          onPressed: () {
-            Navigator.of(context).pop();
-            widget.onCancel?.call();
-          },
+          onPressed: _submitting
+              ? null
+              : () {
+                  Navigator.of(context).pop();
+                  widget.onCancel?.call();
+                },
           isFullWidth: false,
           height: AppButton.heightSmall,
           padding: AppButton.paddingSmall,
         ),
-        AppTextButton(
+        AppElevatedButton(
           label: l10n.verify,
-          onPressed: () {
-            widget.onOTPSubmitted(widget.email, _otpController.text);
-          },
+          isLoading: _submitting,
+          onPressed: _submitting ? null : _submit,
           isFullWidth: false,
           height: AppButton.heightSmall,
           padding: AppButton.paddingSmall,
@@ -144,7 +181,7 @@ class AuthenticationDialogs {
   static void showOTPVerificationDialog(
     BuildContext context,
     String email,
-    void Function(String email, String token) onOTPSubmitted, {
+    Future<String?> Function(String email, String token) onOTPSubmitted, {
     VoidCallback? onCancel,
   }) {
     showDialog<void>(

@@ -443,8 +443,7 @@ class AuthenticationService {
     AuthenticationDialogs.showOTPVerificationDialog(
       session.navigator.context,
       validatedEmail,
-      (submittedEmail, token) =>
-          unawaited(_verifyOtp(session, submittedEmail, token)),
+      (submittedEmail, token) => _verifyOtp(session, submittedEmail, token),
       onCancel: () => _trackSignInFailed(
         session,
         method: 'email',
@@ -473,16 +472,12 @@ class AuthenticationService {
     }
   }
 
-  static Future<void> _verifyOtp(
+  static Future<String?> _verifyOtp(
     _SignInSession session,
     String email,
     String token,
   ) async {
     final sanitizedEmail = InputValidator.sanitizeInput(email);
-    if (session.navigator.mounted && session.navigator.canPop()) {
-      session.navigator.pop();
-    }
-
     try {
       final response = await Supabase.instance.client.auth.verifyOTP(
         email: sanitizedEmail,
@@ -490,41 +485,38 @@ class AuthenticationService {
         type: OtpType.email,
       );
       if (response.session == null) {
-        _showSnackBar(session, session.l10n.invalidOTP);
         _trackSignInFailed(
           session,
           method: 'email',
           stage: 'code_verify',
           reason: 'invalid_code',
         );
-        return;
+        return session.l10n.invalidOTP;
       }
 
-      await _completeSignIn(session, 'email');
+      unawaited(_completeSignIn(session, 'email'));
+      return null;
     } on AuthException catch (error) {
       AppLogger.error('Error verifying OTP', errorObject: error);
       final invalidCode = _isInvalidOrExpiredOtp(error);
-      _showSnackBar(
-        session,
-        invalidCode
-            ? session.l10n.invalidOTP
-            : session.l10n.otpVerificationError,
-      );
       _trackSignInFailed(
         session,
         method: 'email',
         stage: 'code_verify',
         reason: invalidCode ? 'invalid_code' : 'error',
       );
+      return invalidCode
+          ? session.l10n.invalidOTP
+          : session.l10n.otpVerificationError;
     } catch (error) {
       AppLogger.error('Error verifying OTP', errorObject: error);
-      _showSnackBar(session, session.l10n.otpVerificationError);
       _trackSignInFailed(
         session,
         method: 'email',
         stage: 'code_verify',
         reason: 'error',
       );
+      return session.l10n.otpVerificationError;
     }
   }
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -10,6 +9,7 @@ import 'package:coffee_timer/services/data_export_service.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:coffee_timer/widgets/fields/labeled_field.dart';
+import 'package:coffee_timer/widgets/fields/otp_code_field.dart';
 
 import 'settings_list.dart';
 
@@ -19,13 +19,12 @@ import 'settings_list.dart';
 /// Entry point for a two-step dialog flow:
 /// 1. [_DataExportEmailDialog] — collect the destination email and request a
 ///    one-time confirmation code via [DataExportService.requestCode].
-/// 2. [_DataExportCodeDialog] — collect the 6-digit code and trigger the
+/// 2. [DataExportCodeDialog] — collect the 6-digit code and trigger the
 ///    export via [DataExportService.confirmAndSend].
 ///
-/// Deliberately styled differently from the sign-in OTP dialog in
-/// `authentication_service.dart` / `authentication_dialogs.dart` (icon +
-/// labeled fields + explicit "this does not sign you in" copy) so users don't
-/// confuse "confirm your export destination" with "sign in".
+/// The dialog chrome deliberately differs from sign-in (icon + explicit
+/// "this does not sign you in" copy) so users do not confuse the two flows.
+/// Code entry uses the shared [OtpCodeField], as sign-in does.
 class DataExportSection extends StatelessWidget {
   const DataExportSection({super.key});
 
@@ -66,7 +65,7 @@ class DataExportSection extends StatelessWidget {
     final confirmed = await showDialog<bool>(
       context: context,
       barrierDismissible: false,
-      builder: (_) => _DataExportCodeDialog(service: service, email: email),
+      builder: (_) => DataExportCodeDialog(service: service, email: email),
     );
     if (confirmed != true || !context.mounted) return;
 
@@ -169,8 +168,7 @@ class _DataExportEmailDialog extends StatefulWidget {
   final String initialEmail;
 
   @override
-  State<_DataExportEmailDialog> createState() =>
-      _DataExportEmailDialogState();
+  State<_DataExportEmailDialog> createState() => _DataExportEmailDialogState();
 }
 
 class _DataExportEmailDialogState extends State<_DataExportEmailDialog> {
@@ -278,28 +276,35 @@ class _DataExportEmailDialogState extends State<_DataExportEmailDialog> {
 // ---------------------------------------------------------------------------
 
 /// Digits in the confirmation code. Must match the code length the
-/// `export-user-data` edge function generates; shared by the field's
-/// `maxLength` and the auto-submit threshold so the two cannot drift apart.
+/// `export-user-data` edge function generates and the shared OTP field uses.
 const int _codeLength = 6;
 
-class _DataExportCodeDialog extends StatefulWidget {
-  const _DataExportCodeDialog({required this.service, required this.email});
+/// Confirmation code dialog exposed for widget tests.
+@visibleForTesting
+class DataExportCodeDialog extends StatefulWidget {
+  const DataExportCodeDialog({
+    super.key,
+    required this.service,
+    required this.email,
+  });
 
   final DataExportService service;
   final String email;
 
   @override
-  State<_DataExportCodeDialog> createState() => _DataExportCodeDialogState();
+  State<DataExportCodeDialog> createState() => _DataExportCodeDialogState();
 }
 
-class _DataExportCodeDialogState extends State<_DataExportCodeDialog> {
+class _DataExportCodeDialogState extends State<DataExportCodeDialog> {
   final TextEditingController _codeController = TextEditingController();
+  final FocusNode _codeFocusNode = FocusNode();
   bool _submitting = false;
   String? _errorText;
 
   @override
   void dispose() {
     _codeController.dispose();
+    _codeFocusNode.dispose();
     super.dispose();
   }
 
@@ -308,7 +313,7 @@ class _DataExportCodeDialogState extends State<_DataExportCodeDialog> {
     // success, so a second in-flight call would come back as
     // expired/no-active-request and surface an error for a flow that actually
     // succeeded (the download email having already been sent). Reachable via
-    // auto-submit firing alongside onSubmitted, or a fast double-tap on
+    // auto-submit firing alongside a tap, or a fast double-tap on
     // Confirm — the button's `onPressed` guard alone does not cover the window
     // before setState rebuilds.
     if (_submitting) return;
@@ -328,10 +333,15 @@ class _DataExportCodeDialogState extends State<_DataExportCodeDialog> {
         Navigator.of(context).pop(true);
       default:
         _trackExportFailed('confirm', result);
-        // Never dismiss on a wrong/expired code — let the user retry.
+        // Clear failed codes so the next complete entry can auto-submit.
         setState(() {
           _submitting = false;
           _errorText = _dataExportErrorMessage(loc, result);
+          _codeController.clear();
+        });
+        // Disabling the field during submission drops its focus.
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) _codeFocusNode.requestFocus();
         });
     }
   }
@@ -357,27 +367,17 @@ class _DataExportCodeDialogState extends State<_DataExportCodeDialog> {
           children: [
             Text(loc.dataExportCodeDialogBody(widget.email)),
             const SizedBox(height: AppSpacing.base),
-            LabeledField(
-              label: loc.dataExportCodeFieldLabel,
-              hintText: loc.dataExportCodeFieldHint,
-              keyboardType: TextInputType.number,
+            OtpCodeField(
               controller: _codeController,
+              focusNode: _codeFocusNode,
+              length: _codeLength,
+              label: loc.dataExportCodeFieldLabel,
               enabled: !_submitting,
-              errorText: _errorText,
               autofocus: true,
-              maxLength: _codeLength,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              errorText: _errorText,
               semanticIdentifier: 'dataExportCodeField',
-              // Auto-submit once the full code is entered (typed or pasted).
-              // The Confirm button stays for paste-then-tap, input methods that
-              // don't report per-character changes, and as an a11y fallback;
-              // `_submit`'s re-entry guard keeps the two from double-firing.
-              // After a failed attempt the field still holds 6 digits, so
-              // editing a character re-submits — the desired retry behaviour.
-              onChanged: (value) {
-                if (value.length == _codeLength) _submit();
-              },
-              onSubmitted: (_) => _submit(),
+              // Confirm remains available as an accessibility fallback.
+              onCompleted: (_) => _submit(),
             ),
           ],
         ),
