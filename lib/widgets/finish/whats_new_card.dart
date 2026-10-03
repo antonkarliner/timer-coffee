@@ -35,6 +35,7 @@ import '../../models/launch_popup_model.dart';
 import '../../services/analytics_service.dart';
 import '../../services/engagement_budget_service.dart';
 import '../../theme/design_tokens.dart';
+import '../../utils/seen_popup_ids.dart';
 import '../base_buttons.dart';
 import '../campaign_support_block.dart';
 
@@ -84,7 +85,8 @@ class _WhatsNewCardState extends State<WhatsNewCard> {
     if (_impressionRecorded) return;
     _impressionRecorded = true;
 
-    await widget.prefs.setInt(
+    await SeenPopupIds.add(
+      widget.prefs,
       whatsNewCardSeenKey(widget.locale),
       widget.popup.id,
     );

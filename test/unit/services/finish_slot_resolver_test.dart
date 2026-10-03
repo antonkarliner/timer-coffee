@@ -8,6 +8,7 @@ import 'package:coffee_timer/models/user_stat_model.dart';
 import 'package:coffee_timer/providers/bean_review_provider.dart';
 import 'package:coffee_timer/services/engagement_budget_service.dart';
 import 'package:coffee_timer/services/finish_slot_resolver.dart';
+import 'package:coffee_timer/utils/seen_popup_ids.dart';
 import 'package:coffee_timer/utils/version_vector.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -520,6 +521,21 @@ void main() {
       final resolution = await resolveWith(
         resolver,
         whatsNewPopupFuture: Future.value(popup),
+      );
+
+      expect(resolution.content.kind, FinishSlotKind.fact);
+    });
+
+    test('an OLDER popup already seen at finish stays suppressed after a '
+        'newer (e.g. targeted) one — plan 076 §3', () async {
+      await prefs.setBool('launch_popup_first_session_done', true);
+      await SeenPopupIds.add(prefs, 'lastPopupIdSeenAtFinish_en', 59);
+      await SeenPopupIds.add(prefs, 'lastPopupIdSeenAtFinish_en', 60);
+      final resolver = buildResolver();
+
+      final resolution = await resolveWith(
+        resolver,
+        whatsNewPopupFuture: Future.value(makePopup(id: 59)),
       );
 
       expect(resolution.content.kind, FinishSlotKind.fact);

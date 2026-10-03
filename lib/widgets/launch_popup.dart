@@ -10,6 +10,7 @@ import 'package:coffee_timer/providers/recipe_provider.dart';
 import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/services/engagement_budget_service.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/utils/seen_popup_ids.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:coffee_timer/widgets/campaign_support_block.dart';
 import 'package:url_launcher/url_launcher.dart'; // Ensure correct import path
@@ -124,15 +125,15 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
     final legacyDateKey = 'lastPopupDate_$locale';
 
     final savedId = prefs.getInt(idKey);
-    // If we've already saved the id, nothing to do
-    if (savedId != null && savedId == popup.id) return;
+    // Already shown here — not only the last one: see SeenPopupIds.
+    if (SeenPopupIds.contains(prefs, idKey, popup.id)) return;
 
     // Legacy migration: if user had seen same popup by createdAt date, mark id and skip
     final legacyDate = prefs.getString(legacyDateKey);
     if (savedId == null && legacyDate != null) {
       final currentPopupDate = popup.createdAt.toIso8601String();
       if (legacyDate == currentPopupDate) {
-        await prefs.setInt(idKey, popup.id);
+        await SeenPopupIds.add(prefs, idKey, popup.id);
         return;
       }
     }
@@ -208,7 +209,7 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
               height: AppButton.heightSmall,
               padding: AppButton.paddingSmall,
               onPressed: () async {
-                await prefs.setInt(idKey, popup.id);
+                await SeenPopupIds.add(prefs, idKey, popup.id);
                 if (context.mounted) Navigator.of(context).pop(true);
               },
             ),

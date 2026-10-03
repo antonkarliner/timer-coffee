@@ -8,6 +8,7 @@ import 'package:coffee_timer/models/launch_popup_model.dart';
 import 'package:coffee_timer/providers/bean_review_provider.dart';
 import 'package:coffee_timer/services/bean_review_prompt_service.dart';
 import 'package:coffee_timer/services/engagement_budget_service.dart';
+import 'package:coffee_timer/utils/seen_popup_ids.dart';
 
 /// The [EngagementBudgetService] ask id for the bean-review nudge candidate
 /// — shared between [FinishSlotResolver] (which gates on it via `allowAsk`)
@@ -549,8 +550,13 @@ class FinishSlotResolver {
     if (popup == null) return null;
     if (!platformMatches(popup.platform)) return null;
 
-    final seenId = _prefs.getInt('lastPopupIdSeenAtFinish_$locale');
-    if (seenId != null && seenId == popup.id) return null;
+    if (SeenPopupIds.contains(
+      _prefs,
+      'lastPopupIdSeenAtFinish_$locale',
+      popup.id,
+    )) {
+      return null;
+    }
 
     final allowed = await _budget.allowAsk(
       surface: EngagementSurface.finishPopup,
