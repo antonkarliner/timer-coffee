@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'dart:async';
 import 'dart:math' as math;
 import '../../theme/design_tokens.dart';
@@ -68,6 +69,18 @@ class DropdownSearchField extends StatefulWidget {
   /// Async function to fetch suggestions based on query
   final Future<List<String>> Function(String query) onSearch;
 
+  /// Suggestions to show when the field has focus but the user has not typed
+  /// yet — on focus, and again whenever the field is emptied. Receives the
+  /// field's current text (so the caller can exclude it). When null, the
+  /// field behaves exactly as before.
+  final Future<List<String>> Function(String currentText)? initialSuggestions;
+
+  /// Whether the field should receive focus automatically.
+  final bool autofocus;
+
+  /// Render suggestions below the field in normal layout instead of an overlay.
+  final bool inlineSuggestions;
+
   /// Debounce delay in milliseconds for search requests
   final int debounceDelay;
 
@@ -102,6 +115,9 @@ class DropdownSearchField extends StatefulWidget {
     this.showClearButton = true,
     this.suffixIcon,
     this.prefixIcon,
+    this.initialSuggestions,
+    this.autofocus = false,
+    this.inlineSuggestions = false,
     this.debounceDelay = 250,
     this.maxSuggestions = 8,
     this.allowCustomEntry = true,
@@ -120,6 +136,10 @@ class _DropdownSearchFieldState extends State<DropdownSearchField> {
   List<String> _suggestions = [];
   bool _isLoading = false;
   String _lastQuery = '';
+  late String _lastSeenText;
+  bool _initialMode = false;
+  int _requestGeneration = 0;
+  bool _showInline = false;
   OverlayEntry? _overlayEntry;
   final LayerLink _layerLink = LayerLink();
   final GlobalKey _targetKey = GlobalKey();
@@ -131,6 +151,7 @@ class _DropdownSearchFieldState extends State<DropdownSearchField> {
     _controller =
         widget.controller ?? TextEditingController(text: widget.initialValue);
 
+    _lastSeenText = _controller.text;
     _focusNode.addListener(_onFocusChange);
     _controller.addListener(_onTextChanged);
   }
@@ -149,7 +170,12 @@ class _DropdownSearchFieldState extends State<DropdownSearchField> {
   @override
   void dispose() {
     // Cancel any pending search
+    _requestGeneration++;
     _debounceTimer?.cancel();
+    // A caller-owned controller or focus node outlives this field, so the
+    // listeners must come off or they fire into a disposed state.
+    _focusNode.removeListener(_onFocusChange);
+    _controller.removeListener(_onTextChanged);
 
     // Remove overlay if visible
     _removeOverlay();
@@ -168,8 +194,17 @@ class _DropdownSearchFieldState extends State<DropdownSearchField> {
   void _onFocusChange() {
     if (mounted) {
       if (_focusNode.hasFocus) {
-        _showDropdownIfNeeded();
+        if (widget.initialSuggestions != null) {
+          _showInitialSuggestions();
+        } else {
+          _showDropdownIfNeeded();
+        }
       } else {
+        if (widget.initialSuggestions != null) {
+          _requestGeneration++;
+          _debounceTimer?.cancel();
+          _initialMode = false;
+        }
         _hideDropdown();
       }
     }
@@ -181,6 +216,23 @@ class _DropdownSearchFieldState extends State<DropdownSearchField> {
     // Notify parent of change
     if (widget.onChanged != null) {
       widget.onChanged!(text);
+    }
+
+    if (widget.initialSuggestions != null) {
+      // Controller listeners also fire for cursor/selection changes. Keep
+      // parent notifications above, but only actual edits change modes.
+      if (text == _lastSeenText) return;
+      _lastSeenText = text;
+      _requestGeneration++;
+      _initialMode = false;
+      _lastQuery = '';
+      _debounceTimer?.cancel();
+      if (!_focusNode.hasFocus) return;
+      if (text.isEmpty) {
+        _showInitialSuggestions();
+        if (mounted) setState(() {});
+        return;
+      }
     }
 
     // Reset debounce timer
@@ -201,54 +253,114 @@ class _DropdownSearchFieldState extends State<DropdownSearchField> {
     });
   }
 
+  bool _isCurrentRequest(int generation, {required bool initial}) =>
+      mounted &&
+      generation == _requestGeneration &&
+      _focusNode.hasFocus &&
+      _initialMode == initial;
+
+  Future<void> _showInitialSuggestions() async {
+    _debounceTimer?.cancel();
+    final generation = ++_requestGeneration;
+    _initialMode = true;
+    _lastSeenText = _controller.text;
+    _lastQuery = '';
+    _isLoading = false;
+    _suggestions = [];
+    _hideDropdown();
+
+    try {
+      final results = await widget.initialSuggestions!(_controller.text);
+      if (!_isCurrentRequest(generation, initial: true)) return;
+      setState(() {
+        _suggestions = results.take(widget.maxSuggestions).toList();
+      });
+      _showDropdownIfNeeded();
+    } catch (_) {
+      // Initial suggestions are a convenience; failure leaves no overlay.
+    }
+  }
+
   void _performSearch(String query) {
     if (!mounted || query.isEmpty) return;
+    if (widget.initialSuggestions != null &&
+        (!_focusNode.hasFocus || _initialMode)) {
+      return;
+    }
 
     // Avoid duplicate searches
     if (query == _lastQuery) return;
     _lastQuery = query;
+    final generation = ++_requestGeneration;
 
     setState(() {
       _isLoading = true;
     });
     // Mark any open overlay dirty so the loading row replaces stale
     // suggestions immediately instead of waiting for the search to resolve.
-    _overlayEntry?.markNeedsBuild();
+    if (widget.inlineSuggestions) {
+      _showDropdownIfNeeded();
+    } else {
+      _overlayEntry?.markNeedsBuild();
+    }
 
     // Perform async search
-    widget.onSearch(query).then((results) {
-      if (!mounted) return;
+    widget
+        .onSearch(query)
+        .then((results) {
+          if (!mounted) return;
+          if (widget.initialSuggestions != null &&
+              !_isCurrentRequest(generation, initial: false)) {
+            return;
+          }
 
-      setState(() {
-        _isLoading = false;
-        _suggestions = results.take(widget.maxSuggestions).toList();
-      });
+          setState(() {
+            _isLoading = false;
+            _suggestions = results.take(widget.maxSuggestions).toList();
+          });
 
-      _showDropdownIfNeeded();
-    }).catchError((error) {
-      if (!mounted) return;
+          _showDropdownIfNeeded();
+        })
+        .catchError((error) {
+          if (!mounted) return;
+          if (widget.initialSuggestions != null &&
+              !_isCurrentRequest(generation, initial: false)) {
+            return;
+          }
 
-      setState(() {
-        _isLoading = false;
-        _suggestions = [];
-      });
+          setState(() {
+            _isLoading = false;
+            _suggestions = [];
+          });
 
-      _showDropdownIfNeeded();
+          _showDropdownIfNeeded();
 
-      // Show error in a snackbar
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!
-              .dropdownSearchLoadingError(error.toString())),
-          backgroundColor: Colors.red,
-        ),
-      );
-    });
+          // Show error in a snackbar
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                AppLocalizations.of(
+                  context,
+                )!.dropdownSearchLoadingError(error.toString()),
+              ),
+              backgroundColor: Colors.red,
+            ),
+          );
+        });
   }
 
   void _showDropdownIfNeeded() {
     if (!_focusNode.hasFocus || !widget.enabled) {
       _hideDropdown();
+      return;
+    }
+
+    if (_initialMode) {
+      if (_suggestions.isEmpty) {
+        _hideDropdown();
+      } else {
+        _showSuggestionsDropdown();
+      }
       return;
     }
 
@@ -267,6 +379,25 @@ class _DropdownSearchFieldState extends State<DropdownSearchField> {
   }
 
   void _showSuggestionsDropdown() {
+    if (widget.inlineSuggestions) {
+      if (!_showInline && mounted) setState(() => _showInline = true);
+      return;
+    }
+    if (widget.initialSuggestions != null) {
+      final renderBox =
+          _targetKey.currentContext?.findRenderObject() as RenderBox?;
+      if (renderBox == null ||
+          !renderBox.hasSize ||
+          WidgetsBinding.instance.schedulerPhase ==
+              SchedulerPhase.persistentCallbacks) {
+        final generation = _requestGeneration;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted || generation != _requestGeneration) return;
+          _showDropdownIfNeeded();
+        });
+        return;
+      }
+    }
     // If an overlay is already showing, just mark it dirty so it rebuilds
     // with the live state instead of tearing it down and re-inserting a new
     // entry on every completed search.
@@ -281,16 +412,21 @@ class _DropdownSearchFieldState extends State<DropdownSearchField> {
         // across markNeedsBuild calls (e.g. after layout changes).
         final RenderBox? renderBox =
             _targetKey.currentContext?.findRenderObject() as RenderBox?;
-        if (renderBox == null) return const SizedBox.shrink();
+        if (renderBox == null ||
+            (widget.initialSuggestions != null && !renderBox.hasSize)) {
+          return const SizedBox.shrink();
+        }
 
         return _DropdownOverlay(
           items: _suggestions,
           isLoading: _isLoading,
-          noResultsMessage: widget.noResultsMessage ??
+          noResultsMessage:
+              widget.noResultsMessage ??
               AppLocalizations.of(context)!.dropdownSearchNoResults,
-          loadingMessage: widget.loadingMessage ??
+          loadingMessage:
+              widget.loadingMessage ??
               AppLocalizations.of(context)!.dropdownSearchLoading,
-          allowCustomEntry: widget.allowCustomEntry,
+          allowCustomEntry: !_initialMode && widget.allowCustomEntry,
           currentQuery: _controller.text.trim(),
           onSelect: _selectSuggestion,
           renderBox: renderBox,
@@ -304,6 +440,10 @@ class _DropdownSearchFieldState extends State<DropdownSearchField> {
   }
 
   void _hideDropdown() {
+    if (widget.inlineSuggestions) {
+      if (_showInline && mounted) setState(() => _showInline = false);
+      return;
+    }
     _removeOverlay();
   }
 
@@ -334,7 +474,7 @@ class _DropdownSearchFieldState extends State<DropdownSearchField> {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
+    final field = Semantics(
       identifier: widget.semanticIdentifier,
       child: CompositedTransformTarget(
         link: _layerLink,
@@ -342,7 +482,8 @@ class _DropdownSearchFieldState extends State<DropdownSearchField> {
           key: _targetKey,
           child: LabeledField(
             label: widget.label,
-            hintText: widget.hintText ??
+            hintText:
+                widget.hintText ??
                 AppLocalizations.of(context)!.dropdownSearchHintText,
             helperText: widget.helperText,
             errorText: widget.errorText,
@@ -354,6 +495,7 @@ class _DropdownSearchFieldState extends State<DropdownSearchField> {
             onSubmitted: _onFieldSubmitted,
             validator: widget.validator,
             enabled: widget.enabled,
+            autofocus: widget.autofocus,
             required: widget.required,
             focusNode: _focusNode,
             controller: _controller,
@@ -362,6 +504,52 @@ class _DropdownSearchFieldState extends State<DropdownSearchField> {
           ),
         ),
       ),
+    );
+    if (!widget.inlineSuggestions) return field;
+
+    // Always keep the field at this position, even when the list is hidden.
+    // Changing between a bare field and a Column would remount the input.
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        field,
+        _showInline
+            ? Padding(
+                padding: const EdgeInsets.only(top: AppSpacing.sm),
+                child: Container(
+                  constraints: const BoxConstraints(
+                    maxHeight: 4 * AppSpacing.xxl,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surface,
+                    borderRadius: BorderRadius.circular(AppRadius.field),
+                    border: Border.all(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.grey.shade400
+                          : Colors.grey.shade300,
+                      width: AppStroke.border,
+                    ),
+                  ),
+                  child: _DropdownContent(
+                    items: _suggestions,
+                    isLoading: _isLoading,
+                    noResultsMessage:
+                        widget.noResultsMessage ??
+                        AppLocalizations.of(context)!.dropdownSearchNoResults,
+                    loadingMessage:
+                        widget.loadingMessage ??
+                        AppLocalizations.of(context)!.dropdownSearchLoading,
+                    allowCustomEntry: !_initialMode && widget.allowCustomEntry,
+                    currentQuery: _controller.text.trim(),
+                    onSelect: _selectSuggestion,
+                    localizations: AppLocalizations.of(context)!,
+                    inline: true,
+                  ),
+                ),
+              )
+            : const SizedBox.shrink(),
+      ],
     );
   }
 }
@@ -431,25 +619,22 @@ class _DropdownOverlay extends StatelessWidget {
       contentItems = 2;
     if (items.isEmpty && !allowCustomEntry) contentItems = 1;
 
-    // The "no results" message row uses the larger AppSpacing.cardPadding
-    // vertical padding (unlike the sm-padded suggestion/custom-entry rows),
-    // so it needs a bit more headroom than the flat itemHeight assumption
-    // or it clips by a few pixels — this path never rendered before this
-    // fix, so the shortfall was never caught.
-    final double contentHeight =
-        contentItems * dropdownItemHeight + (items.isEmpty ? 12.0 : 0.0);
+    final double contentHeight = contentItems * dropdownItemHeight;
     final double maxDropdownHeight = 8 * itemHeight; // Max 8 items
 
-    // Always show below the input field
+    // Always show below the input field. The field can sit flush against
+    // (or past) the keyboard, so never hand the container a negative cap.
     final double textFieldBottom = textFieldPosition.dy + textFieldSize.height;
     final double spaceBelow =
         effectiveScreenBounds.bottom - textFieldBottom - 8.0;
-    final double availableHeight = spaceBelow;
-    final double dropdownHeight = contentHeight < maxDropdownHeight
-        ? (contentHeight < availableHeight ? contentHeight : availableHeight)
-        : (maxDropdownHeight < availableHeight
-            ? maxDropdownHeight
-            : availableHeight);
+    final double availableHeight = math.max(0.0, spaceBelow);
+    final bool showsSuggestions = !isLoading && items.isNotEmpty;
+    // The loading and empty states are short, scrollable and shrink-wrap
+    // their real row heights, so cap them by space alone — a flat
+    // per-row estimate under-counts the padded message row and clipped it.
+    final double dropdownHeight = showsSuggestions
+        ? math.min(math.min(contentHeight, maxDropdownHeight), availableHeight)
+        : math.min(maxDropdownHeight, availableHeight);
 
     // Calculate horizontal positioning
     final double spaceOnRight =
@@ -459,18 +644,23 @@ class _DropdownOverlay extends StatelessWidget {
 
     // Determine dropdown width (at least as wide as text field, but not wider than available space)
     final double minDropdownWidth = textFieldSize.width;
-    final double maxDropdownWidth =
-        math.max(minDropdownWidth, 200.0); // Minimum 200dp width
-    final double dropdownWidth =
-        math.min(maxDropdownWidth, math.max(minDropdownWidth, spaceOnRight));
+    final double maxDropdownWidth = math.max(
+      minDropdownWidth,
+      200.0,
+    ); // Minimum 200dp width
+    final double dropdownWidth = math.min(
+      maxDropdownWidth,
+      math.max(minDropdownWidth, spaceOnRight),
+    );
 
     // Determine if we need to align to the right
     final bool alignRight =
         spaceOnRight < minDropdownWidth && spaceOnLeft > spaceOnRight;
 
     // Calculate horizontal offset - always position below via the follower
-    final double horizontalOffset =
-        alignRight ? -(dropdownWidth - textFieldSize.width) : 0.0;
+    final double horizontalOffset = alignRight
+        ? -(dropdownWidth - textFieldSize.width)
+        : 0.0;
     return Positioned(
       width: dropdownWidth,
       child: CompositedTransformFollower(
@@ -498,19 +688,56 @@ class _DropdownOverlay extends StatelessWidget {
                 width: AppStroke.border,
               ),
             ),
-            child: isLoading
-                ? _buildLoadingState()
-                : items.isEmpty
-                    ? _buildEmptyState()
-                    : _buildSuggestionsList(theme),
+            child: _DropdownContent(
+              items: items,
+              isLoading: isLoading,
+              noResultsMessage: noResultsMessage,
+              loadingMessage: loadingMessage,
+              allowCustomEntry: allowCustomEntry,
+              currentQuery: currentQuery,
+              onSelect: onSelect,
+              localizations: localizations,
+            ),
           ),
         ),
       ),
     );
   }
+}
+
+/// Shared rows for both overlay and inline presentation.
+class _DropdownContent extends StatelessWidget {
+  const _DropdownContent({
+    required this.items,
+    required this.isLoading,
+    required this.noResultsMessage,
+    required this.loadingMessage,
+    required this.allowCustomEntry,
+    required this.currentQuery,
+    required this.onSelect,
+    required this.localizations,
+    this.inline = false,
+  });
+
+  final List<String> items;
+  final bool isLoading;
+  final String noResultsMessage;
+  final String loadingMessage;
+  final bool allowCustomEntry;
+  final String currentQuery;
+  final Function(String) onSelect;
+  final AppLocalizations localizations;
+  final bool inline;
+
+  @override
+  Widget build(BuildContext context) => isLoading
+      ? _buildLoadingState()
+      : items.isEmpty
+      ? _buildEmptyState()
+      : _buildSuggestionsList(Theme.of(context));
 
   Widget _buildLoadingState() {
-    return Container(
+    return SingleChildScrollView(
       padding: const EdgeInsets.all(AppSpacing.cardPadding),
       child: Row(
         children: [
@@ -518,18 +745,14 @@ class _DropdownOverlay extends StatelessWidget {
             width: AppIconSize.small,
             height: AppIconSize.small,
             child: CircularProgressIndicator(
-              strokeWidth: 2.0,
-              valueColor: AlwaysStoppedAnimation<Color>(
-                Colors.grey.shade600,
-              ),
+              strokeWidth: AppStroke.focus,
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.grey.shade600),
             ),
           ),
           const SizedBox(width: AppSpacing.sm),
           Text(
             loadingMessage,
-            style: AppTextStyles.body.copyWith(
-              color: Colors.grey.shade600,
-            ),
+            style: AppTextStyles.body.copyWith(color: Colors.grey.shade600),
           ),
         ],
       ),
@@ -545,9 +768,7 @@ class _DropdownOverlay extends StatelessWidget {
         padding: const EdgeInsets.all(AppSpacing.cardPadding),
         child: Text(
           noResultsMessage,
-          style: AppTextStyles.body.copyWith(
-            color: Colors.grey.shade600,
-          ),
+          style: AppTextStyles.body.copyWith(color: Colors.grey.shade600),
         ),
       ),
     );
@@ -586,40 +807,54 @@ class _DropdownOverlay extends StatelessWidget {
       );
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: children,
+    // Scrollable so a cramped space above the keyboard clips into a scroll
+    // instead of overflowing the overlay.
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: children,
+      ),
     );
   }
 
   Widget _buildSuggestionsList(ThemeData theme) {
+    // AlertDialog asks for intrinsic dimensions. A scrollable Column supports
+    // that sizing pass; a shrink-wrapped ListView viewport does not.
+    if (inline) {
+      return SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            for (final suggestion in items) _buildItem(suggestion, theme),
+          ],
+        ),
+      );
+    }
     return ListView.builder(
       padding: EdgeInsets.zero,
       shrinkWrap: true,
       itemCount: items.length,
-      itemBuilder: (context, index) {
-        final suggestion = items[index];
-        return InkWell(
-          onTap: () => onSelect(suggestion),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.cardPadding,
-              vertical: AppSpacing.sm,
+      itemBuilder: (context, index) => _buildItem(items[index], theme),
+    );
+  }
+
+  Widget _buildItem(String suggestion, ThemeData theme) {
+    return InkWell(
+      onTap: () => onSelect(suggestion),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.cardPadding,
+          vertical: AppSpacing.sm,
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(suggestion, style: theme.textTheme.bodyMedium),
             ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    suggestion,
-                    style: theme.textTheme.bodyMedium,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
+          ],
+        ),
+      ),
     );
   }
 }

@@ -45,6 +45,11 @@ void main() {
     when(
       userStatProvider.fetchAllDistinctGrindSizes(),
     ).thenAnswer((_) async => <String>[]);
+    when(
+      userStatProvider.fetchRecentDistinctGrindSizes(limit: anyNamed('limit')),
+    ).thenAnswer(
+      (_) async => ['Medium', '18 clicks', '20 clicks', '22 clicks'],
+    );
     controller = RecipeDetailController();
   });
 
@@ -61,9 +66,7 @@ void main() {
         ChangeNotifierProvider<RoasterProfileProvider>(
           create: (_) => RoasterProfileProvider(),
         ),
-        ChangeNotifierProvider<UserStatProvider>.value(
-          value: userStatProvider,
-        ),
+        ChangeNotifierProvider<UserStatProvider>.value(value: userStatProvider),
       ],
       child: MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -86,6 +89,58 @@ void main() {
       ),
     );
   }
+
+  testWidgets(
+    'pencil shows three recent grinds excluding the current value before search',
+    (tester) async {
+      controller.grindSizeController.text = 'Medium';
+      await tester.pumpWidget(buildSubject());
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 4));
+      verifyNever(
+        userStatProvider.fetchRecentDistinctGrindSizes(
+          limit: anyNamed('limit'),
+        ),
+      );
+
+      await tester.tap(find.byIcon(Icons.edit).first);
+      await tester.pumpAndSettle();
+
+      expect(find.text('18 clicks'), findsOneWidget);
+      expect(find.text('20 clicks'), findsOneWidget);
+      expect(find.text('22 clicks'), findsOneWidget);
+      expect(
+        find.descendant(
+          of: find.byType(CompositedTransformFollower),
+          matching: find.text('Medium'),
+        ),
+        findsNothing,
+      );
+      expect(find.text('Medium-Fine'), findsNothing);
+      verify(
+        userStatProvider.fetchRecentDistinctGrindSizes(limit: 4),
+      ).called(1);
+
+      await tester.enterText(find.byType(TextFormField), 'mEdIuM-f');
+      await tester.pump(const Duration(milliseconds: 300));
+      await tester.pumpAndSettle();
+      expect(find.text('Medium-Fine'), findsOneWidget);
+      expect(find.text('18 clicks'), findsNothing);
+      expect(find.text('20 clicks'), findsNothing);
+      expect(find.text('22 clicks'), findsNothing);
+
+      await tester.enterText(find.byType(TextFormField), '');
+      await tester.pumpAndSettle();
+      expect(find.text('18 clicks'), findsOneWidget);
+      expect(find.text('20 clicks'), findsOneWidget);
+      // With no current value to exclude, Medium is recent again.
+      expect(find.text('Medium'), findsOneWidget);
+      expect(find.text('22 clicks'), findsNothing);
+      verify(
+        userStatProvider.fetchRecentDistinctGrindSizes(limit: 4),
+      ).called(1);
+    },
+  );
 
   testWidgets(
     'tapping the pencil enters edit mode and surfaces matching suggestions',
@@ -156,9 +211,7 @@ void main() {
     },
   );
 
-  testWidgets('grind suggestion row still renders when shown', (
-    tester,
-  ) async {
+  testWidgets('grind suggestion row still renders when shown', (tester) async {
     controller.grindSizeController.text = 'Medium';
     controller.setGrindSuggestion('Medium-Fine', null);
     expect(controller.shouldShowGrindSuggestion, isTrue);

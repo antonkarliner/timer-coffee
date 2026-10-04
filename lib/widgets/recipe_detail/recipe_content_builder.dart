@@ -218,6 +218,18 @@ class _RecipeContentBuilderState extends State<RecipeContentBuilder> {
                   focusNode: _grindSizeFocusNode,
                   label: loc.grindsize,
                   hintText: loc.enterBeanGrindSize,
+                  initialSuggestions: (currentText) =>
+                      loadRecentGrindSuggestions(
+                        recent: Provider.of<UserStatProvider>(
+                          this.context,
+                          listen: false,
+                        ).fetchRecentDistinctGrindSizes(limit: 4),
+                        beans: Provider.of<CoffeeBeansProvider>(
+                          this.context,
+                          listen: false,
+                        ).fetchAllDistinctGrindSizes(),
+                        exclude: currentText,
+                      ),
                   onSearch: (query) async {
                     final options = await _grindSizeOptions;
                     if (query.isEmpty) return options;

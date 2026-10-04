@@ -22,6 +22,8 @@ import '../widgets/fields/chip_input.dart';
 import '../widgets/fields/date_field.dart';
 import '../widgets/fields/time_field.dart';
 import '../widgets/fields/numeric_text_field.dart';
+import '../widgets/fields/dropdown_search_field.dart';
+import '../utils/grind_suggestions.dart';
 import '../utils/diary_tags.dart';
 import '../utils/temperature_format.dart';
 import '../services/analytics_service.dart';
@@ -49,6 +51,7 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
   String? _selectedBrewingMethodId;
   List<RecipeModel> _recipesForMethod = [];
   RecipeModel? _selectedRecipe;
+  Future<List<String>>? _grindSizeOptions;
   double? _waterTemperature;
   DateTime _selectedDate = DateTime.now();
   TimeOfDay _selectedTime = TimeOfDay.now();
@@ -607,12 +610,45 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
                           const SizedBox(height: 16),
 
                           // Grind Size
-                          TextFormField(
+                          DropdownSearchField(
                             controller: _grindSizeController,
-                            decoration: InputDecoration(
-                              labelText: loc.grindsize,
-                              border: const OutlineInputBorder(),
-                            ),
+                            label: loc.grindsize,
+                            hintText: loc.enterBeanGrindSize,
+                            initialSuggestions: (currentText) =>
+                                loadRecentGrindSuggestions(
+                                  recent: Provider.of<UserStatProvider>(
+                                    this.context,
+                                    listen: false,
+                                  ).fetchRecentDistinctGrindSizes(limit: 4),
+                                  beans: Provider.of<CoffeeBeansProvider>(
+                                    this.context,
+                                    listen: false,
+                                  ).fetchAllDistinctGrindSizes(),
+                                  exclude: currentText,
+                                ),
+                            onSearch: (query) async {
+                              final options = await (_grindSizeOptions ??=
+                                  mergedGrindSizeSuggestions(
+                                    brewHistoryGrinds:
+                                        Provider.of<UserStatProvider>(
+                                          this.context,
+                                          listen: false,
+                                        ).fetchAllDistinctGrindSizes(),
+                                    beanGrinds:
+                                        Provider.of<CoffeeBeansProvider>(
+                                          this.context,
+                                          listen: false,
+                                        ).fetchAllDistinctGrindSizes(),
+                                  ));
+                              final normalized = query.toLowerCase();
+                              return options
+                                  .where(
+                                    (option) => option.toLowerCase().contains(
+                                      normalized,
+                                    ),
+                                  )
+                                  .toList();
+                            },
                           ),
                           const SizedBox(height: AppSpacing.base),
 

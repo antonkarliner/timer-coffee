@@ -309,11 +309,11 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
   }
 
   Future<void> _editGrind() async {
+    final userStatProvider = context.read<UserStatProvider>();
+    final coffeeBeansProvider = context.read<CoffeeBeansProvider>();
     final suggestions = mergedGrindSizeSuggestions(
-      brewHistoryGrinds: context.read<UserStatProvider>()
-          .fetchAllDistinctGrindSizes(),
-      beanGrinds: context.read<CoffeeBeansProvider>()
-          .fetchAllDistinctGrindSizes(),
+      brewHistoryGrinds: userStatProvider.fetchAllDistinctGrindSizes(),
+      beanGrinds: coffeeBeansProvider.fetchAllDistinctGrindSizes(),
     );
     final result = await showDialog<String>(
       context: context,
@@ -322,9 +322,18 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
         initialValue: _entry.grindSize ?? '',
         bodyBuilder: (context, value, onChanged, error) => DropdownSearchField(
           key: const Key('focusedGrindInput'),
+          autofocus: true,
+          // Inline, not an overlay: an overlay would cover the dialog's
+          // Cancel/Save buttons as soon as the recent grinds appear.
+          inlineSuggestions: true,
           label: AppLocalizations.of(context)!.grindsize,
           initialValue: value,
           errorText: error,
+          initialSuggestions: (currentText) => loadRecentGrindSuggestions(
+            recent: userStatProvider.fetchRecentDistinctGrindSizes(limit: 4),
+            beans: coffeeBeansProvider.fetchAllDistinctGrindSizes(),
+            exclude: currentText,
+          ),
           onSearch: (query) async {
             final options = await suggestions;
             final normalized = query.toLowerCase();
