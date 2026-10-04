@@ -1,0 +1,14 @@
+Novo:
+• Um novo ícone do app.
+• Altere o e-mail da conta e vincule entrada com Google ou Apple.
+• Campos de moagem sugerem seus três últimos tamanhos.
+
+Melhorias:
+• Configurações redesenhadas.
+• Códigos de entrada são enviados automaticamente.
+• Seletores de hora e data seguem suas configurações de formato.
+
+Correções:
+• Receitas salvando a moagem padrão como alteração sua.
+• Aviso de avaliação ao reabrir o app.
+• Nível de café pulando ao pausar um preparo imersivo.

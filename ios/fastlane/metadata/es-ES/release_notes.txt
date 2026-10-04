@@ -1,18 +1,20 @@
 Novedades:
-• Una pantalla de preparación inmersiva: toda la pantalla se llena de café a medida que avanza tu preparación, y esta termina con una última gota. Actívala desde el icono de engranaje antes de iniciar una preparación o en Configuración → Funciones avanzadas / beta. El temporizador clásico sigue disponible cuando quieras.
-• Deshacer una eliminación: después de eliminar una preparación, una bolsa de granos o una receta, tienes unos segundos para recuperarla.
-• ¿Sugeriste una tostaduría que aún no teníamos? Cuando esté en Timer.Coffee, verás un agradecimiento con un enlace a su página.
-• Reseña una bolsa escaneada directamente en el formulario del grano, en lugar de en una pantalla independiente.
+• Un nuevo icono de la aplicación, creado para el aspecto Liquid Glass de iOS 26. También se muestra en tu Actividad en directo, y los iconos alternativos tienen un nuevo selector en Configuración → Apariencia.
+• Cambia el correo electrónico de tu cuenta y vincula o desvincula el inicio de sesión con Google y Apple desde la pantalla de Cuenta.
+• Se ha rediseñado Configuración. En lugar de una larga lista, se abre en tu cuenta y muestra seis páginas claras: Apariencia, Idioma y región, Notificaciones, Preparación, Pantalla de inicio y Privacidad y datos.
+• Al tocar un campo de tamaño de molienda, ahora se sugieren los tres últimos tamaños de molienda que utilizaste.
 
 Mejoras:
-• Un nuevo final para el temporizador clásico: el anillo se cierra y se llena como una taza en vez de temblar.
-• En el último paso, el botón ahora dice «Finalizar» y aparece de inmediato.
-• Se han renovado los recordatorios de frescura. Ahora te avisan sobre una bolsa que aún no has preparado cuando alcanza su mejor momento, o sobre una que has dejado de preparar antes de que pase ese momento, y nunca meses después del tueste.
-• Una pantalla de configuración de recetas más clara y una vista previa del siguiente paso más fácil de leer durante la preparación.
-• Los números se mantienen en la misma línea que sus unidades en los pasos de preparación.
+• El inicio de sesión usa la misma ventana sencilla en toda la aplicación, y un código de verificación se envía automáticamente en cuanto terminas de escribirlo.
+• Al elegir un diseño de pantalla de preparación, ahora se muestra una vista previa de cada uno, en Configuración → Preparación y desde el icono de engranaje antes de una preparación.
+• Los avisos de cambio de paso (silencio, vibración o sonido) ahora tienen su propio lugar en Configuración → Preparación.
+• Los recordatorios de reseñas de granos ahora se pueden desactivar en Configuración → Notificaciones.
+• Los selectores de hora y fecha siguen tu configuración de formato de 12/24 horas y de fecha.
+• El árabe y el persa muestran números, fechas y recuentos con los dígitos y la puntuación correctos.
+• Las etiquetas de las pestañas caben con tamaños de texto grandes y el texto de error es más fácil de leer en modo oscuro.
 
 Correcciones de errores:
-• Se corrigió un problema por el que eliminar una receta personalizada también eliminaba todas las preparaciones que habías registrado con ella. Ahora tu diario de preparaciones conserva esas entradas.
-• Se corrigió un problema por el que eliminar un grano quitaba su nombre de tus preparaciones anteriores.
-• Se corrigió un problema por el que los recordatorios de frescura casi nunca llegaban.
-• Se corrigió un problema por el que las felicitaciones de la «primera preparación» volvían a mostrarse en preparaciones posteriores.
+• Se corrigió un problema por el que el tamaño de molienda de una receta se quedaba bloqueado después de tocar Siguiente sin cambiarlo. Ahora vuelve a seguir la receta.
+• Se corrigió un problema por el que la solicitud de calificación aparecía al volver a la aplicación.
+• Se corrigió un problema por el que las notificaciones de tu cuenta seguían llegando a un dispositivo después de cerrar sesión.
+• Se corrigió un problema por el que el nivel de café saltaba al pausar una preparación inmersiva.

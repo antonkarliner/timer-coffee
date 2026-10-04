@@ -1,18 +1,20 @@
 Noutăți:
-• Un ecran de preparare imersiv: întregul ecran se umple cu cafea pe măsură ce prepararea avansează, iar prepararea se încheie cu ultima picătură. Activează-l din pictograma roată dințată înainte de a începe o preparare sau din Setări → Funcții avansate / beta. Cronometrul clasic rămâne disponibil oricând îl preferi.
-• Anulează o ștergere: după ce ștergi o preparare, un pachet de boabe sau o rețetă, ai câteva secunde să le restaurezi.
-• Ai sugerat o prăjitorie pe care încă nu o aveam? Odată ce apare pe Timer.Coffee, vei vedea un mesaj de mulțumire cu un link către pagina ei.
-• Recenzează un pachet scanat direct în formularul boabelor, în loc să folosești un ecran separat.
+• O pictogramă nouă a aplicației, creată pentru aspectul Liquid Glass din iOS 26. Apare și în Activitatea live, iar pictogramele alternative au un nou selector în Setări → Aspect.
+• Schimbă e-mailul contului și conectează sau deconectează autentificarea cu Google și Apple din ecranul Cont.
+• Setările au fost reproiectate. În loc de o singură listă lungă, se deschid la contul tău și șase pagini clare: Aspect, Limbă și regiune, Notificări, Preparare, Ecran principal și Confidențialitate și date.
+• Când atingi un câmp pentru mărimea măcinăturii, acesta îți sugerează acum ultimele trei mărimi de măcinătură folosite.
 
 Îmbunătățiri:
-• Un nou final pentru cronometrul clasic: cercul se închide și se umple ca o ceașcă, în loc să se zguduie.
-• La ultimul pas, butonul afișează acum „Finalizează” și apare imediat.
-• Mementourile de prospețime au fost refăcute. Acum îți amintesc despre un pachet pe care nu l-ai preparat încă atunci când ajunge la apogeu sau despre unul pe care ai încetat să-l prepari înainte să-i treacă apogeul și niciodată la luni după prăjire.
-• Un ecran mai clar pentru configurarea rețetei și o previzualizare mai ușor de citit a pasului următor în timpul preparării.
-• Numerele rămân pe aceeași linie cu unitățile lor în pașii de preparare.
+• Autentificarea folosește aceeași fereastră simplă peste tot în aplicație, iar un cod de verificare se trimite automat imediat ce l-ai introdus.
+• Alegerea aspectului ecranului de preparare afișează acum o previzualizare a fiecăruia, în Setări → Preparare și din pictograma roată dințată înainte de o preparare.
+• Alertele la schimbarea pasului (silențios, vibrație sau sunet) au acum propria secțiune în Setări → Preparare.
+• Mementourile pentru recenzia boabelor pot fi acum dezactivate din Setări → Notificări.
+• Selectoarele de oră și dată respectă setările tale pentru formatul de 12/24 de ore și formatul datei.
+• Araba și persana afișează numerele, datele și valorile numerice cu cifrele și semnele de punctuație corecte.
+• Etichetele filelor se potrivesc la dimensiuni mari ale textului, iar textul erorilor este mai ușor de citit în modul întunecat.
 
-Remedieri de erori:
-• Am remediat problema prin care ștergerea unei rețete personalizate ștergea și toate preparările înregistrate cu aceasta. Jurnalul tău de preparare păstrează acum aceste înregistrări.
-• Am remediat problema prin care ștergerea unui pachet de boabe îi elimina numele din preparările anterioare.
-• Am remediat problema prin care mementourile de prospețime aproape că nu ajungeau niciodată.
-• Am remediat problema prin care felicitarea pentru „prima preparare” apărea din nou la preparările ulterioare.
+Corectări de erori:
+• S-a remediat blocarea mărimii măcinăturii unei rețete după ce atingeai Următorul fără să o modifici. Acum urmează din nou rețeta.
+• S-a remediat afișarea solicitării de evaluare când reveneai în aplicație.
+• S-a remediat situația în care notificările pentru contul tău continuau să ajungă pe un dispozitiv după ce te deconectai.
+• S-a remediat saltul nivelului cafelei când pui pe pauză o preparare imersivă.

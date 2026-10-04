@@ -1,18 +1,20 @@
 Uutta:
-• Upottava uutonäyttö: koko näyttö täyttyy kahvista valmistuksen edetessä, ja uutto päättyy viimeiseen pisaraan. Ota se käyttöön rataskuvakkeesta ennen uuton aloittamista tai kohdasta Asetukset → Lisä- / betaominaisuudet. Klassinen ajastin on edelleen käytettävissäsi milloin haluat.
-• Kumoa poisto: kun poistat uuton, kahvipavun tai reseptin, sinulla on muutama sekunti aikaa palauttaa se.
-• Ehdotitko paahtimoa, jota meillä ei vielä ollut? Kun se on lisätty Timer.Coffeeen, näet kiitoksen ja linkin sen sivulle.
-• Arvostele skannattu pussi suoraan kahvipapulomakkeella erillisen näkymän sijaan.
+• Uusi sovelluskuvake, joka on tehty iOS 26:n Liquid Glass -ulkoasua varten. Se näkyy myös Live-aktiviteetissasi, ja vaihtoehtoisille kuvakkeille on uusi valitsin kohdassa Asetukset → Ulkoasu.
+• Vaihda tilisi sähköpostiosoite sekä yhdistä tai poista Google- ja Apple-kirjautumisen yhdistys Tilinäkymässä.
+• Asetukset on uudistettu. Yhden pitkän luettelon sijaan se avautuu tilillesi ja kuudelle selkeälle sivulle: Ulkoasu, Kieli ja alue, Ilmoitukset, Uutto, Etusivu ja Tietosuoja ja tiedot.
+• Kun napautat jauhatuskarkeuskenttää, se ehdottaa nyt kolmea viimeksi käyttämääsi jauhatuskarkeutta.
 
 Parannukset:
-• Klassisen ajastimen uusi lopetus: rengas sulkeutuu ja täyttyy kuin kuppi sen sijaan, että se tärisisi.
-• Viimeisessä vaiheessa painikkeessa lukee nyt ”Valmis”, ja se näkyy heti.
-• Tuoreusmuistutukset on uudistettu. Ne muistuttavat nyt pussista, jota et ole vielä uuttanut, sen saavuttaessa parhaimman hetkensä, tai pussista, jonka uuttamisen olet lopettanut ennen kuin sen paras hetki on ohi — eivätkä koskaan kuukausia paahtamisen jälkeen.
-• Selkeämpi reseptin määritysnäyttö ja helpommin luettava seuraavan vaiheen esikatselu uuton aikana.
-• Numerot pysyvät samalla rivillä yksikköjensä kanssa uuttovaiheissa.
+• Kirjautuminen käyttää samaa yksinkertaista näkymää kaikkialla sovelluksessa, ja vahvistuskoodi lähetetään automaattisesti heti, kun olet kirjoittanut sen.
+• Uutonäytön asettelun valitseminen näyttää nyt esikatselun jokaisesta vaihtoehdosta kohdassa Asetukset → Uutto ja ennen uuttoa rataskuvakkeesta.
+• Hälytyksillä vaiheen vaihtuessa (äänetön, värinä tai ääni) on nyt oma paikkansa kohdassa Asetukset → Uutto.
+• Papuarvostelujen muistutukset voi nyt poistaa käytöstä kohdassa Asetukset → Ilmoitukset.
+• Ajan- ja päivämääränvalitsimet noudattavat 12/24 tunnin ja päivämäärämuodon asetuksiasi.
+• Arabia ja persia näyttävät numerot, päivämäärät ja määrät oikeilla numeroilla ja välimerkeillä.
+• Välilehtien nimet mahtuvat suuriin tekstikokoihin, ja virhetekstiä on helpompi lukea tummassa tilassa.
 
 Virheenkorjaukset:
-• Korjattu ongelma, jossa mukautetun reseptin poistaminen poisti myös kaikki sillä kirjaamasi uutot. Uuttopäiväkirjasi säilyttää nyt nämä merkinnät.
-• Korjattu ongelma, jossa kahvipavun poistaminen poisti sen nimen aiemmista uutoistasi.
-• Korjattu ongelma, jossa tuoreusmuistutukset saapuivat lähes koskaan.
-• Korjattu ongelma, jossa ”ensimmäisen uuton” onnittelu näkyi uudelleen myöhemmillä uutoilla.
+• Korjattu ongelma, jossa reseptin jauhatuskarkeus jäi jumiin, kun napautit Seuraava muuttamatta sitä. Se noudattaa nyt taas reseptiä.
+• Korjattu ongelma, jossa arvostelupyyntö ilmestyi, kun palasit sovellukseen.
+• Korjattu ongelma, jossa tilisi ilmoitukset saapuivat edelleen laitteelle uloskirjautumisen jälkeen.
+• Korjattu ongelma, jossa kahvin taso hyppäsi, kun keskeytit upottavan uuton.

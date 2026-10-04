@@ -1,18 +1,20 @@
 Co nowego:
-• Immersyjny ekran parzenia: cały ekran wypełnia się kawą w miarę postępu parzenia, a parzenie kończy się ostatnią kroplą. Włącz go za pomocą ikony koła zębatego przed rozpoczęciem parzenia lub w Ustawienia → Funkcje zaawansowane / beta. Klasyczny minutnik jest nadal dostępny, kiedy tylko zechcesz.
-• Cofanie usunięcia: po usunięciu parzenia, ziarna lub przepisu masz kilka sekund, aby je przywrócić.
-• Zaproponowałeś palarnię, której jeszcze nie mieliśmy? Gdy pojawi się w Timer.Coffee, zobaczysz podziękowanie z linkiem do jej strony.
-• Oceniaj zeskanowaną paczkę bezpośrednio w formularzu ziarna, zamiast na osobnym ekranie.
+• Nowa ikona aplikacji, stworzona z myślą o wyglądzie Liquid Glass w iOS 26. Jest również widoczna w Aktywności na żywo, a alternatywne ikony mają nowy wybór w Ustawienia → Wygląd.
+• Zmieniaj adres e-mail konta oraz łącz lub odłącz logowanie przez Google i Apple na ekranie Konta.
+• Ustawienia zostały przeprojektowane. Zamiast jednej długiej listy otwierają się na Twoim koncie i sześciu przejrzystych stronach: Wygląd, Język i region, Powiadomienia, Parzenie, Ekran główny oraz Prywatność i dane.
+• Po dotknięciu pola stopnia mielenia aplikacja sugeruje teraz trzy ostatnio używane stopnie mielenia.
 
 Ulepszenia:
-• Nowe zakończenie klasycznego minutnika: pierścień zamyka się i wypełnia jak filiżanka, zamiast się trząść.
-• W ostatnim kroku przycisk ma teraz napis „Zakończ” i pojawia się od razu.
-• Przypomnienia o świeżości zostały przebudowane. Teraz przypominają o paczce, z której jeszcze nie parzyłeś, gdy osiąga najlepszy moment, lub o paczce, z której przestałeś parzyć, zanim minął jej najlepszy moment — i nigdy wiele miesięcy po paleniu.
-• Czytelniejszy ekran konfiguracji przepisu i łatwiejszy do odczytania podgląd następnego kroku podczas parzenia.
-• Liczby pozostają w tej samej linii co ich jednostki w krokach parzenia.
+• Logowanie korzysta z tego samego prostego panelu w całej aplikacji, a kod weryfikacyjny jest wysyłany automatycznie zaraz po jego wpisaniu.
+• Wybór układu ekranu parzenia pokazuje teraz podgląd każdego z nich w Ustawienia → Parzenie oraz po dotknięciu ikony koła zębatego przed parzeniem.
+• Alerty zmiany kroku (cicho, wibracje lub dźwięk) mają teraz własne miejsce w Ustawienia → Parzenie.
+• Przypomnienia o recenzji ziaren można teraz wyłączyć w Ustawienia → Powiadomienia.
+• Selektory godziny i daty uwzględniają ustawienia formatu 12/24-godzinnego i formatu daty.
+• W języku arabskim i perskim liczby, daty i liczności są wyświetlane z właściwymi cyframi i interpunkcją.
+• Etykiety kart mieszczą się przy dużych rozmiarach tekstu, a tekst błędów jest łatwiejszy do odczytania w ciemnym trybie.
 
 Poprawki błędów:
-• Naprawiono błąd, przez który usunięcie niestandardowego przepisu usuwało również wszystkie zapisane z nim parzenia. Dziennik parzeń zachowuje teraz te wpisy.
-• Naprawiono błąd, przez który usunięcie ziarna usuwało jego nazwę z wcześniejszych parzeń.
-• Naprawiono błąd, przez który przypomnienia o świeżości prawie nigdy nie przychodziły.
-• Naprawiono błąd, przez który gratulacje z okazji „pierwszego parzenia” pojawiały się ponownie przy kolejnych parzeniach.
+• Naprawiono błąd, przez który stopień mielenia w przepisie pozostawał niezmieniony po dotknięciu Dalej bez jego zmiany. Teraz ponownie jest zgodny z przepisem.
+• Naprawiono błąd powodujący wyświetlanie prośby o ocenę po powrocie do aplikacji.
+• Naprawiono błąd, przez który powiadomienia dotyczące konta nadal trafiały na urządzenie po wylogowaniu.
+• Naprawiono błąd powodujący skok poziomu kawy po wstrzymaniu immersyjnego parzenia.

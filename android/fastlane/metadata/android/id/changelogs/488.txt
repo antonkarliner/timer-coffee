@@ -1,0 +1,14 @@
+Baru:
+• Ikon aplikasi baru.
+• Ubah email akun dan tautkan masuk Google atau Apple.
+• Kolom gilingan menyarankan tiga ukuran terakhir.
+
+Ditingkatkan:
+• Pengaturan didesain ulang.
+• Kode masuk terkirim otomatis.
+• Pemilih waktu dan tanggal mengikuti pengaturan format.
+
+Diperbaiki:
+• Resep menyimpan gilingan bawaannya sebagai perubahan Anda.
+• Permintaan ulasan muncul saat aplikasi dibuka kembali.
+• Level kopi melonjak saat Anda menjeda seduhan imersif.

@@ -1,0 +1,14 @@
+Novo:
+• Nova ikona aplikacije.
+• Promijeni e-poštu računa i poveži prijavu putem Googlea ili Applea.
+• Polja finoće mljevenja predlažu posljednje tri vrijednosti.
+
+Poboljšano:
+• Redizajnirane Postavke.
+• Kodovi za prijavu šalju se automatski.
+• Odabir vremena i datuma prati postavke formata.
+
+Ispravljeno:
+• Recepti su zadanu finoću mljevenja spremali kao tvoju izmjenu.
+• Upit za recenziju pri ponovnom otvaranju aplikacije.
+• Skakanje razine kave pri pauziranju uranjajuće pripreme.

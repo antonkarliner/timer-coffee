@@ -1,0 +1,14 @@
+Neu:
+• Neues App-Icon.
+• Konto-E-Mail ändern, Google- oder Apple-Anmeldung verknüpfen.
+• Mahlgradfelder schlagen deine letzten drei Mahlgrade vor.
+
+Verbessert:
+• Einstellungen überarbeitet.
+• Anmeldecodes werden automatisch übermittelt.
+• Uhrzeit- und Datumsauswahl folgen deinen Formateinstellungen.
+
+Behoben:
+• Rezepte speicherten ihren Standardmahlgrad als deine Änderung.
+• Bewertungsaufforderung erschien beim erneuten Öffnen.
+• Kaffeestand sprang beim Pausieren einer immersiven Zubereitung.

@@ -1,0 +1,14 @@
+Yeni:
+• Yeni uygulama simgesi.
+• Hesap e-postanı değiştir, Google veya Apple ile oturum açmayı bağla.
+• Öğütme alanları son üç boyutunu önerir.
+
+İyileştirmeler:
+• Ayarlar yenilendi.
+• Oturum açma kodları otomatik gönderilir.
+• Saat ve tarih seçicileri biçim ayarlarını izler.
+
+Düzeltildi:
+• Tariflerin varsayılan öğütmeyi kendi değişikliğin diye kaydetmesi.
+• Uygulama yeniden açılınca yorum isteminin görünmesi.
+• Sürükleyici demlemeyi duraklatınca kahve seviyesinin sıçraması.

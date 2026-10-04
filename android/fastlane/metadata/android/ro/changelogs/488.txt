@@ -1,0 +1,14 @@
+Nou:
+• Pictogramă nouă.
+• Schimbă e-mailul contului și conectează Google sau Apple.
+• Câmpurile de măcinătură sugerează ultimele 3 mărimi.
+
+Îmbunătățiri:
+• Setări redesenate.
+• Codurile de autentificare se trimit automat.
+• Selectoarele de dată și oră respectă formatul ales.
+
+Remedieri:
+• Rețetele salvau măcinătura implicită drept modificare.
+• Solicitarea de recenzie reapărea la redeschiderea aplicației.
+• Nivelul cafelei sărea la pauza unei preparări imersive.

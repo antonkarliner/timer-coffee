@@ -1,18 +1,20 @@
 Novità:
-• Una schermata di preparazione immersiva: l’intera schermata si riempie di caffè man mano che la preparazione procede e termina con un’ultima goccia. Attivala dall’icona dell’ingranaggio prima di iniziare una preparazione oppure da Impostazioni → Funzioni avanzate / beta. Il timer classico resta disponibile ogni volta che lo desideri.
-• Annulla un’eliminazione: dopo aver eliminato una preparazione, un chicco o una ricetta, hai qualche secondo per ripristinarli.
-• Hai suggerito una torrefazione che non avevamo ancora? Quando sarà disponibile su Timer.Coffee, vedrai un ringraziamento con un link alla sua pagina.
-• Recensisci un sacchetto scansionato direttamente nel modulo dei chicchi, anziché in una schermata separata.
+• Una nuova icona dell'app, creata per l'aspetto Liquid Glass di iOS 26. Viene visualizzata anche nella tua Attività live e le icone alternative hanno un nuovo selettore in Impostazioni → Aspetto.
+• Cambia l'email del tuo account e collega o scollega l'accesso con Google e Apple dalla schermata Account.
+• Impostazioni è stata riprogettata. Invece di un unico lungo elenco, si apre sul tuo account e su sei pagine chiare: Aspetto, Lingua e regione, Notifiche, Preparazione, Schermata principale e Privacy e dati.
+• Quando tocchi un campo del grado di macinatura, ora suggerisce gli ultimi tre gradi di macinatura utilizzati.
 
 Miglioramenti:
-• Una nuova conclusione per il timer classico: l’anello si chiude e si riempie come una tazza invece di tremare.
-• Nell’ultimo passaggio, il pulsante ora indica “Termina” e viene visualizzato subito.
-• I promemoria freschezza sono stati ricostruiti. Ora ti ricordano un sacchetto da cui non hai ancora preparato caffè quando raggiunge il suo massimo, oppure uno che hai smesso di usare prima che passi il momento migliore, e mai mesi dopo la tostatura.
-• Una schermata di configurazione della ricetta più chiara e un’anteprima del passaggio successivo più facile da leggere durante la preparazione.
-• Nei passaggi di preparazione, i numeri restano sulla stessa riga delle loro unità.
+• L'accesso utilizza lo stesso semplice pannello ovunque nell'app e un codice di verifica viene inviato automaticamente non appena lo hai digitato.
+• La scelta del layout della schermata di preparazione ora mostra un'anteprima di ciascuno, in Impostazioni → Preparazione e dall'icona a ingranaggio prima di una preparazione.
+• Gli avvisi al cambio di passaggio (silenzioso, vibrazione o suono) ora hanno una sezione dedicata in Impostazioni → Preparazione.
+• I promemoria per le recensioni dei chicchi ora possono essere disattivati in Impostazioni → Notifiche.
+• I selettori di ora e data seguono le tue impostazioni di formato 12/24 ore e data.
+• L'arabo e il persiano mostrano numeri, date e conteggi con le cifre e la punteggiatura corrette.
+• Le etichette delle schede si adattano a dimensioni di testo grandi e il testo degli errori è più facile da leggere in modalità scura.
 
 Correzioni di bug:
-• Corretto un problema per cui l’eliminazione di una ricetta personalizzata eliminava anche tutte le preparazioni registrate con essa. Il tuo Diario del caffè ora conserva queste voci.
-• Corretto un problema per cui l’eliminazione di un chicco rimuoveva il suo nome dalle preparazioni passate.
-• Corretto un problema per cui i promemoria freschezza non arrivavano quasi mai.
-• Corretto un problema per cui le congratulazioni per la “prima preparazione” comparivano di nuovo nelle preparazioni successive.
+• Risolto un problema per cui il grado di macinatura di una ricetta rimaneva bloccato dopo aver toccato Avanti senza modificarlo. Ora segue di nuovo la ricetta.
+• Risolto un problema per cui la richiesta di valutazione appariva quando tornavi all'app.
+• Risolto un problema per cui le notifiche del tuo account continuavano a raggiungere un dispositivo dopo la disconnessione.
+• Risolto un problema per cui il livello del caffè saltava quando mettevi in pausa una preparazione immersiva.

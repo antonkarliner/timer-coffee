@@ -1,18 +1,20 @@
 Nouveautés :
-• Un écran de préparation immersif : tout l’écran se remplit de café au fur et à mesure de votre préparation, qui se termine par une dernière goutte. Activez-le depuis l’icône de réglages avant de lancer une préparation, ou dans Paramètres → Fonctions avancées / bêta. Le minuteur classique reste disponible quand vous le souhaitez.
-• Annuler une suppression : après avoir supprimé une préparation, un grain ou une recette, vous avez quelques secondes pour le restaurer.
-• Vous avez suggéré un torréfacteur que nous n’avions pas encore ? Une fois qu’il sera sur Timer.Coffee, vous verrez un message de remerciement avec un lien vers sa page.
-• Donnez votre avis sur un paquet scanné directement dans le formulaire des grains, plutôt que sur un écran séparé.
+• Une nouvelle icône d’application, conçue pour l’apparence Liquid Glass d’iOS 26. Elle s’affiche aussi dans votre Activité en direct, et les icônes alternatives disposent d’un nouveau sélecteur dans Paramètres → Apparence.
+• Modifiez l’adresse e-mail de votre compte, et liez ou dissociez les connexions Google et Apple, depuis l’écran Compte.
+• Les Paramètres ont été repensés. Au lieu d’une longue liste, ils s’ouvrent sur votre compte et six pages claires : Apparence, Langue et région, Notifications, Préparation, Écran d’accueil et Confidentialité et données.
+• Lorsque vous touchez un champ de taille de mouture, les trois dernières tailles de mouture utilisées vous sont désormais suggérées.
 
 Améliorations :
-• Une nouvelle fin pour le minuteur classique : l’anneau se referme et se remplit comme une tasse, au lieu de trembler.
-• Lors de la dernière étape, le bouton affiche désormais « Terminer » et apparaît immédiatement.
-• Les rappels de fraîcheur ont été repensés. Ils vous rappellent désormais d’utiliser un paquet que vous n’avez pas encore préparé lorsqu’il atteint son apogée, ou un paquet que vous avez cessé de préparer avant la fin de son apogée, et jamais des mois après la torréfaction.
-• Un écran de configuration des recettes plus clair et un aperçu de l’étape suivante plus facile à lire pendant la préparation.
-• Les nombres restent sur la même ligne que leurs unités dans les étapes de préparation.
+• La connexion utilise la même fenêtre simple partout dans l’application, et un code de vérification est envoyé automatiquement dès que vous l’avez saisi.
+• Le choix de la disposition de l’écran de préparation affiche désormais un aperçu de chaque option, dans Paramètres → Préparation et depuis l’icône d’engrenage avant une préparation.
+• Les alertes de changement d’étape (silencieux, vibration ou son) ont désormais leur propre section dans Paramètres → Préparation.
+• Les rappels d’avis sur les grains peuvent désormais être désactivés dans Paramètres → Notifications.
+• Les sélecteurs d’heure et de date suivent vos paramètres de format 12/24 heures et de date.
+• L’arabe et le persan affichent les nombres, les dates et les quantités avec les chiffres et la ponctuation appropriés.
+• Les libellés des onglets s’adaptent aux grandes tailles de texte, et les messages d’erreur sont plus faciles à lire en mode sombre.
 
 Corrections de bugs :
-• Correction d’un problème qui faisait que la suppression d’une recette personnalisée supprimait également toutes les préparations que vous aviez enregistrées avec elle. Votre journal de préparation conserve désormais ces entrées.
-• Correction d’un problème qui faisait que la suppression d’un grain retirait son nom de vos préparations passées.
-• Correction d’un problème qui empêchait presque toujours les rappels de fraîcheur d’arriver.
-• Correction d’un problème qui faisait réapparaître les félicitations pour la « première préparation » lors de préparations ultérieures.
+• Correction d’un problème où la taille de mouture d’une recette restait bloquée après avoir touché Suivant sans la modifier. Elle suit désormais à nouveau la recette.
+• Correction de l’apparition de la demande d’évaluation lorsque vous reveniez dans l’application.
+• Correction des notifications de votre compte qui continuaient d’arriver sur un appareil après votre déconnexion.
+• Correction du niveau de café qui sautait lorsque vous mettiez en pause une préparation immersive.

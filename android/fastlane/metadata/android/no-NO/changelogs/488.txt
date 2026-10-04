@@ -1,0 +1,14 @@
+Nytt:
+• Nytt app-ikon.
+• Endre e-post for kontoen, og koble til Google- eller Apple-innlogging.
+• Kverningsfeltene foreslår de tre siste kverningsgradene.
+
+Forbedret:
+• Redesignet Innstillinger.
+• Innloggingskoder sendes inn automatisk.
+• Tid- og datovelgere følger formatinnstillingene.
+
+Fikset:
+• Oppskrifter lagret standard kverningsgrad som egen endring.
+• Anmeldelsesforespørselen dukket opp når appen ble åpnet igjen.
+• Kaffenivået hoppet når du satte en oppslukende brygging på pause.

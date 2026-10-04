@@ -1,0 +1,14 @@
+Nieuw:
+• Een nieuw app-icoon.
+• Wijzig je e-mailadres en koppel aanmelden met Google of Apple.
+• Maalgraadvelden tonen je laatste drie maalgraden.
+
+Verbeterd:
+• Instellingen vernieuwd.
+• Aanmeldcodes worden automatisch verzonden.
+• Tijd- en datumkiezers volgen je notatie-instellingen.
+
+Opgelost:
+• Recepten die hun standaardmaalgraad als jouw wijziging opslaan.
+• De reviewmelding bij heropenen van de app.
+• Het koffieniveau dat verspringt bij pauzeren van een meeslepend brouwsel.

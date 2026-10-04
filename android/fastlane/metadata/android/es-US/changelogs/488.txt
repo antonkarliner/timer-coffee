@@ -1,0 +1,14 @@
+Nuevo:
+• Icono nuevo.
+• Cambia el correo de tu cuenta y vincula Google o Apple.
+• Los campos de molienda sugieren tus 3 últimos tamaños.
+
+Mejorado:
+• Configuración rediseñada.
+• Los códigos de inicio de sesión se envían solos.
+• Selectores de hora y fecha según tu formato.
+
+Corregido:
+• Las recetas guardaban la molienda predeterminada como cambio propio.
+• El aviso de reseña aparecía al reabrir la app.
+• El nivel de café saltaba al pausar una preparación inmersiva.

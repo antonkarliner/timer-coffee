@@ -1,18 +1,20 @@
 Wat is er nieuw:
-• Een meeslepend brouwscherm: het hele scherm vult zich met koffie terwijl je brouwsel vordert, en de zetbeurt eindigt met een laatste druppel. Schakel het in via het tandwielpictogram voordat je een zetbeurt start, of via Instellingen → Geavanceerde / bètafuncties. De klassieke timer blijft beschikbaar wanneer je die wilt.
-• Een verwijdering ongedaan maken: nadat je een zetbeurt, boon of recept hebt verwijderd, heb je een paar seconden om deze terug te halen.
-• Heb je een branderij voorgesteld die we nog niet hadden? Zodra deze op Timer.Coffee staat, zie je een bedankje met een link naar hun pagina.
-• Beoordeel een gescande zak direct in het bonenformulier, in plaats van op een apart scherm.
+• Een nieuw app-icoon, gemaakt voor de Liquid Glass-look van iOS 26. Het wordt ook weergegeven in je Live-activiteit, en de alternatieve iconen hebben een nieuwe kiezer in Instellingen → Uiterlijk.
+• Wijzig het e-mailadres van je account en koppel of ontkoppel aanmelden met Google en Apple vanuit het Account-scherm.
+• Instellingen is opnieuw ontworpen. In plaats van één lange lijst opent het op je account en zes overzichtelijke pagina's: Uiterlijk, Taal & regio, Notificaties, Brouwen, Startscherm en Privacy en gegevens.
+• Wanneer je op een maalgraadveld tikt, worden nu de laatste drie maalgraden voorgesteld die je hebt gebruikt.
 
 Verbeteringen:
-• Een nieuw einde voor de klassieke timer: de ring sluit en vult zich als een kopje, in plaats van te schudden.
-• Bij de laatste stap staat er nu meteen de knop „Klaar”.
-• Versheidsherinneringen zijn opnieuw opgebouwd. Ze herinneren je nu aan een zak waarmee je nog niet hebt gezet wanneer die op zijn best komt, of aan een zak waarmee je bent gestopt voordat de beste periode voorbij is, en nooit maanden na het branden.
-• Een duidelijker scherm voor het instellen van recepten en een beter leesbaar voorbeeld van de volgende stap tijdens het zetten.
-• Getallen blijven op dezelfde regel als hun eenheden in zetstappen.
+• Aanmelden gebeurt overal in de app via hetzelfde eenvoudige venster, en een verificatiecode wordt automatisch ingediend zodra je die hebt ingevoerd.
+• Bij het kiezen van een indeling voor het brouwscherm zie je nu een voorbeeld van elke indeling, in Instellingen → Brouwen en via het tandwielicoon vóór een zetbeurt.
+• Meldingen bij stapwissel (stil, trillen of geluid) hebben nu een eigen plek in Instellingen → Brouwen.
+• Herinneringen voor boonreviews kunnen nu worden uitgeschakeld in Instellingen → Notificaties.
+• Tijd- en datumkiezers volgen je instellingen voor 12/24-uur en datumnotatie.
+• Arabisch en Perzisch tonen getallen, datums en aantallen met de juiste cijfers en leestekens.
+• Tabbladlabels passen bij grote tekstgroottes, en fouttekst is makkelijker leesbaar in de donkere modus.
 
 Bugfixes:
-• Opgelost dat het verwijderen van een aangepast recept ook elke zetbeurt verwijderde die je ermee had geregistreerd. Je brouwdagboek behoudt deze vermeldingen nu.
-• Opgelost dat het verwijderen van een boon de naam uit je eerdere zetbeurten verwijderde.
-• Opgelost dat versheidsherinneringen bijna nooit aankwamen.
-• Opgelost dat de felicitatie voor je „eerste zetbeurt” opnieuw werd getoond bij latere zetbeurten.
+• Opgelost: de maalgraad van een recept bleef hangen nadat je op Volgende tikte zonder deze te wijzigen. Deze volgt nu weer het recept.
+• Opgelost: de beoordelingsvraag verscheen wanneer je terugkeerde naar de app.
+• Opgelost: notificaties voor je account bereikten een apparaat nog steeds nadat je je had afgemeld.
+• Opgelost: het koffieniveau sprong wanneer je een meeslepende zetbeurt pauzeerde.

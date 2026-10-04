@@ -1,0 +1,14 @@
+Nowości:
+• Nowa ikona aplikacji.
+• Zmień e-mail konta i połącz logowanie Google lub Apple.
+• Pola mielenia podpowiadają 3 ostatnie stopnie.
+
+Ulepszenia:
+• Przeprojektowane Ustawienia.
+• Kody logowania wysyłają się automatycznie.
+• Wybór godziny i daty uwzględnia format.
+
+Poprawki:
+• Przepisy zapisywały domyślny stopień mielenia jako Twoją zmianę.
+• Prośba o recenzję pojawiała się po ponownym otwarciu aplikacji.
+• Poziom kawy przeskakiwał po pauzie immersyjnego parzenia.

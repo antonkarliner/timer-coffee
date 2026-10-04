@@ -1,0 +1,14 @@
+Novità:
+• Nuova icona dell'app.
+• Cambia email dell'account e collega l'accesso Google o Apple.
+• I campi di macinatura suggeriscono le ultime tre misure.
+
+Miglioramenti:
+• Impostazioni ridisegnate.
+• I codici di accesso si inviano da soli.
+• Selettori di data e ora seguono il formato scelto.
+
+Correzioni:
+• La macinatura predefinita delle ricette risultava una tua modifica.
+• Prompt di recensione alla riapertura dell'app.
+• Il livello del caffè saltava in pausa nella preparazione immersiva.

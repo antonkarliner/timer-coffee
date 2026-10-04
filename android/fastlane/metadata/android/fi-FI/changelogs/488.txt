@@ -1,0 +1,14 @@
+Uutta:
+• Uusi sovelluskuvake.
+• Vaihda tilisi sähköposti ja yhdistä Google- tai Apple-kirjautuminen.
+• Jauhatuskentät ehdottavat kolmea viimeistä karkeutta.
+
+Parannettu:
+• Asetukset uudistettu.
+• Kirjautumiskoodit lähetetään automaattisesti.
+• Ajan ja päivämäärän valitsimet noudattavat muotoasetuksiasi.
+
+Korjattu:
+• Reseptien oletusjauhatuksen tallentuminen muutoksenasi.
+• Arvostelupyynnön näkyminen sovelluksen uudelleenavauksessa.
+• Kahvitason hyppiminen upottavan uuton tauolla.

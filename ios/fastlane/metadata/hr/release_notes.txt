@@ -1,18 +1,20 @@
 Što je novo:
-• Uranjajući ekran pripreme: cijeli se ekran puni kavom kako priprema napreduje, a priprema završava posljednjom kapi. Uključi ga putem ikone zupčanika prije početka pripreme ili u odjeljku Postavke → Napredne / beta značajke. Klasični tajmer i dalje je dostupan kad god ga želiš.
-• Poništi brisanje: nakon što izbrišeš pripremu, zrno ili recept, imaš nekoliko sekundi da ih vratiš.
-• Predložio/la si pržionicu koju još nismo imali? Kad se pojavi na Timer.Coffeeu, vidjet ćeš zahvalu s poveznicom na njihovu stranicu.
-• Ocijeni skeniranu vrećicu izravno u obrascu zrna, umjesto na zasebnom zaslonu.
+• Nova ikona aplikacije, izrađena za izgled Liquid Glass u sustavu iOS 26. Prikazuje se i u vašoj Aktivnosti uživo, a alternativne ikone imaju novi birač u Postavke → Izgled.
+• Promijenite e-poštu na svom računu te povežite ili uklonite povezivanje s prijavom putem Googlea i Applea na zaslonu Račun.
+• Postavke su redizajnirane. Umjesto jednog dugog popisa, otvaraju se na vašem računu i šest jasnih stranica: Izgled, Jezik i regija, Obavijesti, Priprema, Početni zaslon i Privatnost i podaci.
+• Kada dodirnete polje za finoću mljevenja, sada predlaže posljednje tri finoće mljevenja koje ste koristili.
 
 Poboljšanja:
-• Novi završetak za klasični tajmer: prsten se zatvara i puni poput šalice, umjesto da se trese.
-• U posljednjem koraku gumb sada glasi „Završi” i prikazuje se odmah.
-• Podsjetnici o svježini su obnovljeni. Sada te podsjećaju na vrećicu iz koje još nisi pripremao/la kavu dok doseže vrhunac ili na onu iz koje si prestao/la pripremati prije nego što joj je prošao vrhunac, a nikad mjesecima nakon prženja.
-• Jasniji zaslon za postavljanje recepta i lakše čitljiv pregled sljedećeg koraka tijekom pripreme.
-• Brojevi ostaju u istom retku sa svojim mjernim jedinicama u koracima pripreme.
+• Prijava je sada isti jednostavan prozorčić svugdje u aplikaciji, a potvrdni se kod šalje sam čim ga upišete.
+• Odabir izgleda ekrana pripreme sada prikazuje pregled svakog izgleda, u Postavke → Priprema i putem ikone zupčanika prije pripreme.
+• Upozorenja pri promjeni koraka (bez zvuka, vibracija ili zvuk) sada imaju svoje mjesto u Postavke → Priprema.
+• Podsjetnici za recenzije zrna sada se mogu isključiti u Postavke → Obavijesti.
+• Birači vremena i datuma slijede vaše postavke 12/24-satnog formata i formata datuma.
+• Arapski i perzijski sada prikazuju brojeve, datume i količine s odgovarajućim znamenkama i interpunkcijom.
+• Oznake kartica prilagođavaju se velikim veličinama teksta, a tekst pogrešaka lakše je čitati u tamnom načinu rada.
 
 Ispravci pogrešaka:
-• Ispravljeno je brisanje prilagođenog recepta koje je također brisalo sve pripreme zabilježene s njim. Tvoj Dnevnik pripreme sada zadržava te unose.
-• Ispravljeno je brisanje zrna koje je uklanjalo njegov naziv iz prošlih priprema.
-• Ispravljeni su podsjetnici o svježini koji gotovo nikada nisu stizali.
-• Ispravljeno je ponovno prikazivanje čestitke za „prvu pripremu” pri kasnijim pripremama.
+• Ispravljen je problem zbog kojeg bi finoća mljevenja recepta ostala zaglavljena nakon što biste dodirnuli Dalje bez njezine promjene. Sada ponovno slijedi recept.
+• Ispravljen je problem s prikazivanjem upita za ocjenu kada biste se vratili u aplikaciju.
+• Ispravljen je problem zbog kojeg su obavijesti za vaš račun i dalje stizale na uređaj nakon odjave.
+• Ispravljen je problem s promjenom razine kave pri pauziranju uranjajuće pripreme.

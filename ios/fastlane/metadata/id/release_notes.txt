@@ -1,18 +1,20 @@
 Yang Baru:
-• Layar seduh imersif: seluruh layar terisi kopi seiring seduhan Anda berlangsung, dan seduhan berakhir dengan tetesan terakhir. Aktifkan dari ikon roda gigi sebelum mulai menyeduh, atau di Pengaturan → Fitur lanjutan / beta. Timer klasik tetap tersedia kapan pun Anda menginginkannya.
-• Urungkan penghapusan: setelah menghapus seduhan, biji kopi, atau resep, Anda memiliki beberapa detik untuk mengembalikannya.
-• Menyarankan roaster yang belum kami miliki? Setelah roaster tersebut tersedia di Timer.Coffee, Anda akan melihat ucapan terima kasih dengan tautan ke halamannya.
-• Beri ulasan pada kantong yang dipindai langsung di formulir biji kopi, alih-alih di layar terpisah.
+• Ikon aplikasi baru, dibuat untuk tampilan Liquid Glass iOS 26. Ikon ini juga tampil di Aktivitas Langsung Anda, dan ikon alternatif kini memiliki pemilih baru di Pengaturan → Tampilan.
+• Ubah email akun Anda, serta tautkan atau putuskan tautan masuk Google dan Apple, dari layar Akun.
+• Pengaturan didesain ulang. Alih-alih satu daftar panjang, kini Pengaturan membuka akun Anda dan enam halaman yang jelas: Tampilan, Bahasa & wilayah, Notifikasi, Seduh, Layar beranda, serta Privasi & data.
+• Saat Anda mengetuk kolom tingkat kehalusan gilingan, kini aplikasi menyarankan tiga tingkat kehalusan gilingan terakhir yang Anda gunakan.
 
 Peningkatan:
-• Akhir baru untuk timer klasik: cincin menutup dan terisi seperti cangkir, bukan bergetar.
-• Pada langkah terakhir, tombol kini bertuliskan “Selesai” dan langsung muncul.
-• Pengingat kesegaran telah diperbarui. Kini, pengingat akan mengingatkan Anda tentang kantong yang belum diseduh saat mencapai masa terbaiknya, atau kantong yang sudah berhenti Anda seduh sebelum masa terbaiknya berakhir, dan tidak pernah berbulan-bulan setelah penyangraian.
-• Layar pengaturan resep yang lebih jelas dan pratinjau langkah berikutnya yang lebih mudah dibaca saat menyeduh.
-• Angka tetap berada pada baris yang sama dengan satuannya dalam langkah seduh.
+• Masuk kini menggunakan lembar sederhana yang sama di seluruh aplikasi, dan kode verifikasi akan dikirim secara otomatis begitu Anda selesai mengetiknya.
+• Memilih tata letak layar seduh kini menampilkan pratinjau setiap pilihan, di Pengaturan → Seduh dan dari ikon roda gigi sebelum menyeduh.
+• Peringatan pergantian langkah (senyap, getaran, atau suara) kini memiliki tempat tersendiri di Pengaturan → Seduh.
+• Pengingat ulasan biji kopi kini dapat dinonaktifkan di Pengaturan → Notifikasi.
+• Pemilih waktu dan tanggal mengikuti pengaturan format 12/24 jam dan format tanggal Anda.
+• Bahasa Arab dan Persia kini menampilkan angka, tanggal, dan jumlah dengan digit serta tanda baca yang tepat.
+• Label tab tetap pas pada ukuran teks besar, dan teks error lebih mudah dibaca dalam mode gelap.
 
 Perbaikan Bug:
-• Memperbaiki masalah ketika menghapus resep kustom juga menghapus setiap seduhan yang telah Anda catat dengannya. Diari seduhan Anda kini menyimpan entri tersebut.
-• Memperbaiki masalah ketika menghapus biji kopi menghilangkan namanya dari seduhan terdahulu Anda.
-• Memperbaiki masalah pengingat kesegaran yang hampir tidak pernah tiba.
-• Memperbaiki masalah ucapan selamat “seduhan pertama” yang muncul kembali pada seduhan berikutnya.
+• Memperbaiki tingkat kehalusan gilingan resep yang tetap terkunci setelah Anda mengetuk Berikutnya tanpa mengubahnya. Kini tingkat kehalusan gilingan kembali mengikuti resep.
+• Memperbaiki permintaan peringkat yang muncul saat Anda kembali ke aplikasi.
+• Memperbaiki notifikasi akun Anda yang masih terkirim ke perangkat setelah Anda keluar.
+• Memperbaiki level kopi yang melompat saat Anda menjeda seduhan imersif.

@@ -1,18 +1,20 @@
 What’s New:
-• An immersive brewing screen: the whole screen fills with coffee as your brew goes on, and the brew ends with a last drop. Turn it on from the gear icon before you start a brew, or in Settings → Advanced / Beta Features. The classic timer is still there whenever you want it.
-• Undo a delete: after deleting a brew, a bean or a recipe you get a few seconds to bring it back.
-• Suggested a roaster we didn’t have yet? Once they’re on Timer.Coffee, you’ll see a thank-you with a link to their page.
-• Review a scanned bag right on the bean form, instead of on a separate screen.
+• A new app icon, made for the Liquid Glass look of iOS 26. It shows on your Live Activity too, and the alternate icons have a new picker in Settings → Appearance.
+• Change the email on your account, and link or unlink Google and Apple sign-in, from the Account screen.
+• Settings is redesigned. Instead of one long list, it opens on your account and six clear pages: Appearance, Language & region, Notifications, Brewing, Home screen, and Privacy & data.
+• When you tap a grind size field, it now suggests the last three grind sizes you used.
 
 Improvements:
-• A new ending for the classic timer: the ring closes and fills like a cup instead of shaking.
-• On the last step, the button now reads “Finish” and shows up right away.
-• Freshness reminders are rebuilt. They now nudge you about a bag you haven’t brewed yet as it reaches its peak, or one you’ve stopped brewing before its peak is over, and never months after roasting.
-• A clearer recipe setup screen and an easier-to-read next-step preview while brewing.
-• Numbers stay on the same line as their units in brew steps.
+• Sign-in is the same simple sheet everywhere in the app, and a verification code submits itself as soon as you’ve typed it.
+• Choosing a brewing screen layout now shows a preview of each one, in Settings → Brewing and from the gear icon before a brew.
+• Step change alerts (silent, vibration or sound) now have their own place in Settings → Brewing.
+• Bean review reminders can now be turned off in Settings → Notifications.
+• Time and date pickers follow your 12/24-hour and date format settings.
+• Arabic and Persian show numbers, dates and counts with the right digits and punctuation.
+• Tab labels fit at large text sizes, and error text is easier to read in dark mode.
 
 Bug Fixes:
-• Fixed deleting a custom recipe also deleting every brew you had logged with it. Your brew diary now keeps those entries.
-• Fixed deleting a bean removing its name from your past brews.
-• Fixed freshness reminders almost never arriving.
-• Fixed the “first brew” congratulations showing again on later brews.
+• Fixed a recipe’s grind size getting stuck after you tapped Next without changing it. It now follows the recipe again.
+• Fixed the rating prompt appearing when you switched back to the app.
+• Fixed notifications for your account still reaching a device after you signed out.
+• Fixed the coffee level jumping when you pause an immersive brew.

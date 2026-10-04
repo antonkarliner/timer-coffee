@@ -1,0 +1,14 @@
+New:
+• A new app icon.
+• Change your account email, and link Google or Apple sign-in.
+• Grind fields suggest your last three sizes.
+
+Improved:
+• Redesigned Settings.
+• Sign-in codes submit themselves.
+• Time and date pickers follow your format settings.
+
+Fixed:
+• Recipes saving their default grind as your own change.
+• The review prompt appearing when you reopen the app.
+• The coffee level jumping when you pause an immersive brew.

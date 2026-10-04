@@ -1,0 +1,14 @@
+Novidades:
+• Novo ícone da aplicação.
+• Altere o e-mail da conta e vincule o início de sessão com Google ou Apple.
+• Campos de moagem sugerem os últimos três tamanhos.
+
+Melhorias:
+• Configurações redesenhadas.
+• Códigos de início de sessão submetidos automaticamente.
+• Seletores de hora e data seguem o formato definido.
+
+Correções:
+• A moagem padrão das receitas era guardada como alteração sua.
+• Aviso de avaliação ao reabrir a aplicação.
+• Nível de café saltava ao pausar um preparo imersivo.

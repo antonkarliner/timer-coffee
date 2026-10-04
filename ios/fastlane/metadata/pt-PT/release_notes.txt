@@ -1,18 +1,20 @@
 Novidades:
-• Uma tela de preparo imersiva: toda a tela se enche de café à medida que o seu preparo avança, terminando com uma última gota. Ative-a através do ícone de engrenagem antes de iniciar um preparo ou em Configurações → Recursos avançados / beta. O temporizador clássico continua disponível sempre que o quiser utilizar.
-• Desfazer uma eliminação: depois de eliminar um preparo, um grão ou uma receita, tem alguns segundos para o recuperar.
-• Sugeriu uma torrefação que ainda não tínhamos? Assim que estiver no Timer.Coffee, verá um agradecimento com uma ligação para a respetiva página.
-• Avalie um pacote digitalizado diretamente no formulário do grão, em vez de num ecrã separado.
+• Um novo ícone da aplicação, criado para o aspeto Liquid Glass do iOS 26. Também aparece na sua Atividade em Direto, e os ícones alternativos têm um novo seletor em Definições → Aspeto.
+• Altere o e-mail da sua conta e associe ou desassocie o início de sessão com Google e Apple no ecrã Conta.
+• As Definições foram redesenhadas. Em vez de uma lista longa, abrem na sua conta e em seis páginas claras: Aspeto, Idioma e região, Notificações, Preparação, Ecrã inicial e Privacidade e dados.
+• Ao tocar num campo de tamanho da moagem, são agora sugeridos os últimos três tamanhos de moagem que utilizou.
 
 Melhorias:
-• Um novo final para o temporizador clássico: o anel fecha-se e enche-se como uma chávena, em vez de tremer.
-• No último passo, o botão passa a indicar “Finalizar” e aparece imediatamente.
-• Os lembretes de frescor foram reformulados. Agora lembram-no de um pacote que ainda não preparou quando este atinge o auge, ou de um que deixou de preparar antes de o auge terminar, e nunca meses após a torra.
-• Um ecrã de configuração de receitas mais claro e uma pré-visualização do próximo passo mais fácil de ler durante o preparo.
-• Os números mantêm-se na mesma linha que as respetivas unidades nos passos de preparo.
+• O início de sessão utiliza a mesma folha simples em toda a aplicação, e um código de verificação é submetido automaticamente assim que o introduz.
+• Ao escolher um esquema para o ecrã de preparação, é agora apresentada uma pré-visualização de cada um, em Definições → Preparação e a partir do ícone de engrenagem antes de uma preparação.
+• Os alertas de mudança de passo (silencioso, vibração ou som) têm agora o seu próprio espaço em Definições → Preparação.
+• Os lembretes de avaliação de grãos podem agora ser desativados em Definições → Notificações.
+• Os seletores de hora e data seguem as suas definições de formato de 12/24 horas e de data.
+• O árabe e o persa apresentam números, datas e contagens com os algarismos e a pontuação corretos.
+• Os rótulos dos separadores ajustam-se a tamanhos de texto grandes, e o texto de erro é mais fácil de ler no modo escuro.
 
 Correções de erros:
-• Corrigido um problema em que eliminar uma receita personalizada também eliminava todos os preparos que tinha registado com ela. O seu Diário de Preparo mantém agora essas entradas.
-• Corrigido um problema em que eliminar um grão removia o respetivo nome dos seus preparos anteriores.
-• Corrigido um problema em que os lembretes de frescor quase nunca chegavam.
-• Corrigido um problema em que as felicitações pelo “primeiro preparo” voltavam a aparecer em preparos posteriores.
+• Corrigido um problema em que o tamanho da moagem de uma receita ficava bloqueado depois de tocar em Próximo sem o alterar. Agora volta a seguir a receita.
+• Corrigido um problema em que o pedido de classificação aparecia ao voltar à aplicação.
+• Corrigido um problema em que as notificações da sua conta continuavam a chegar a um dispositivo depois de terminar sessão.
+• Corrigido um problema em que o nível de café saltava ao pausar uma preparação imersiva.

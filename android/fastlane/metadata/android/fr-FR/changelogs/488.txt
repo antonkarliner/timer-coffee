@@ -1,0 +1,14 @@
+Nouveau :
+• Nouvelle icône.
+• Modifiez l’e-mail du compte et associez Google ou Apple.
+• Les champs de mouture suggèrent vos 3 dernières valeurs.
+
+Amélioré :
+• Paramètres repensés.
+• Validation automatique des codes de connexion.
+• Sélecteurs d’heure et date selon vos formats.
+
+Corrigé :
+• La mouture par défaut des recettes était enregistrée comme la vôtre.
+• L’invite d’avis s’affichait à la réouverture de l’app.
+• Le niveau de café sautait à la pause d’une préparation immersive.
