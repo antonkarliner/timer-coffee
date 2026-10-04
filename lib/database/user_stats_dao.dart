@@ -206,6 +206,37 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
         .toList();
   }
 
+  /// Grind sizes from brew history, most recently used first.
+  ///
+  /// Deduplicated case-insensitively on the trimmed value (first = newest
+  /// occurrence wins, keeping its trimmed casing). Excludes null/blank grind
+  /// sizes and deleted stats. [limit] caps the number of distinct values.
+  Future<List<String>> fetchRecentDistinctGrindSizes({int? limit}) async {
+    if (limit != null && limit <= 0) return [];
+
+    final query = selectOnly(userStats)
+      ..addColumns([userStats.grindSize])
+      ..where(
+        userStats.grindSize.isNotNull() &
+            userStats.isDeleted.equals(false),
+      )
+      ..orderBy([
+        OrderingTerm(expression: userStats.createdAt, mode: OrderingMode.desc),
+        OrderingTerm(expression: userStats.statUuid, mode: OrderingMode.desc),
+      ]);
+    final rows = await query.get();
+    final seen = <String>{};
+    final values = <String>[];
+    for (final row in rows) {
+      final value = row.read(userStats.grindSize)?.trim();
+      if (value == null || value.isEmpty) continue;
+      if (!seen.add(value.toLowerCase())) continue;
+      values.add(value);
+      if (limit != null && values.length >= limit) break;
+    }
+    return values;
+  }
+
   Future<List<UserStatsModel>> fetchAllStats() async {
     final query = select(userStats)
       ..orderBy([

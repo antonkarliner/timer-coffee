@@ -46,3 +46,34 @@ List<String> mergeGrindSuggestionLists(
 
   return merged;
 }
+
+/// The suggestions shown when a grind field opens, before the user types.
+List<String> recentGrindSuggestions({
+  required List<String> recent,
+  required List<String> beans,
+  String? exclude,
+  int limit = 3,
+}) {
+  if (limit <= 0) return [];
+  final excluded = exclude?.trim().toLowerCase();
+  return mergeGrindSuggestionLists(
+    recent,
+    beans,
+  ).where((value) => value.toLowerCase() != excluded).take(limit).toList();
+}
+
+/// Awaits both sources concurrently and builds the initial suggestions.
+Future<List<String>> loadRecentGrindSuggestions({
+  required Future<List<String>> recent,
+  required Future<List<String>> beans,
+  String? exclude,
+  int limit = 3,
+}) async {
+  final results = await Future.wait([recent, beans]);
+  return recentGrindSuggestions(
+    recent: results[0],
+    beans: results[1],
+    exclude: exclude,
+    limit: limit,
+  );
+}

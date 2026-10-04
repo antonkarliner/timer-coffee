@@ -824,6 +824,101 @@ void main() {
     });
   });
 
+  group('fetchRecentDistinctGrindSizes', () {
+    test(
+      'orders newest first with UUID descending for timestamp ties',
+      () async {
+        for (final stat in [
+          _makeStat(
+            uuid: 'older',
+            grindSize: 'Fine',
+            createdAt: DateTime(2024, 1, 1),
+          ),
+          _makeStat(
+            uuid: 'a',
+            grindSize: 'Medium',
+            createdAt: DateTime(2024, 6, 1),
+          ),
+          _makeStat(
+            uuid: 'z',
+            grindSize: 'Coarse',
+            createdAt: DateTime(2024, 6, 1),
+          ),
+        ]) {
+          await db.userStatsDao.insertUserStat(stat);
+        }
+        expect(await db.userStatsDao.fetchRecentDistinctGrindSizes(), [
+          'Coarse',
+          'Medium',
+          'Fine',
+        ]);
+      },
+    );
+
+    test(
+      'dedupes trimmed values case-insensitively keeping newest casing',
+      () async {
+        await db.userStatsDao.insertUserStat(
+          _makeStat(
+            uuid: 'old',
+            grindSize: 'medium-fine',
+            createdAt: DateTime(2024, 1, 1),
+          ),
+        );
+        await db.userStatsDao.insertUserStat(
+          _makeStat(
+            uuid: 'new',
+            grindSize: '  Medium-Fine  ',
+            createdAt: DateTime(2024, 6, 1),
+          ),
+        );
+        expect(await db.userStatsDao.fetchRecentDistinctGrindSizes(), [
+          'Medium-Fine',
+        ]);
+      },
+    );
+
+    test('excludes null, blank and deleted grind sizes', () async {
+      for (final stat in [
+        _makeStat(uuid: 'null'),
+        _makeStat(uuid: 'empty', grindSize: ''),
+        _makeStat(uuid: 'blank', grindSize: '   '),
+        _makeStat(uuid: 'deleted', grindSize: 'Coarse', isDeleted: true),
+        _makeStat(uuid: 'active', grindSize: ' Fine '),
+      ]) {
+        await db.userStatsDao.insertUserStat(stat);
+      }
+      expect(await db.userStatsDao.fetchRecentDistinctGrindSizes(), ['Fine']);
+    });
+
+    test('limits distinct values rather than raw rows', () async {
+      for (final stat in [
+        _makeStat(uuid: 'd', grindSize: 'Fine'),
+        _makeStat(uuid: 'c', grindSize: 'fine'),
+        _makeStat(uuid: 'b', grindSize: 'Medium'),
+        _makeStat(uuid: 'a', grindSize: 'Coarse'),
+      ]) {
+        await db.userStatsDao.insertUserStat(stat);
+      }
+      expect(await db.userStatsDao.fetchRecentDistinctGrindSizes(limit: 2), [
+        'Fine',
+        'Medium',
+      ]);
+      expect(
+        await db.userStatsDao.fetchRecentDistinctGrindSizes(limit: 0),
+        isEmpty,
+      );
+      expect(
+        await db.userStatsDao.fetchRecentDistinctGrindSizes(limit: -1),
+        isEmpty,
+      );
+    });
+
+    test('empty history returns no values', () async {
+      expect(await db.userStatsDao.fetchRecentDistinctGrindSizes(), isEmpty);
+    });
+  });
+
   group('fetchStatsByUuids', () {
     test('returns stats for given UUIDs', () async {
       await db.userStatsDao.insertUserStat(_makeStat(uuid: 'a'));

@@ -706,6 +706,15 @@ class MockDatabaseProvider extends _i1.Mock implements _i3.DatabaseProvider {
           as _i8.Future<void>);
 
   @override
+  _i8.Future<void> clearCustomGrindSizeInSupabase(String? recipeId) =>
+      (super.noSuchMethod(
+            Invocation.method(#clearCustomGrindSizeInSupabase, [recipeId]),
+            returnValue: _i8.Future<void>.value(),
+            returnValueForMissingStub: _i8.Future<void>.value(),
+          )
+          as _i8.Future<void>);
+
+  @override
   _i8.Future<Map<String, dynamic>?> getPublicUserRecipeMetadata(
     String? recipeId,
   ) =>
@@ -985,6 +994,15 @@ class MockRecipeProvider extends _i1.Mock implements _i11.RecipeProvider {
                 #customWaterTemp: customWaterTemp,
               },
             ),
+            returnValue: _i8.Future<void>.value(),
+            returnValueForMissingStub: _i8.Future<void>.value(),
+          )
+          as _i8.Future<void>);
+
+  @override
+  _i8.Future<void> clearCustomGrindSize(String? recipeId) =>
+      (super.noSuchMethod(
+            Invocation.method(#clearCustomGrindSize, [recipeId]),
             returnValue: _i8.Future<void>.value(),
             returnValueForMissingStub: _i8.Future<void>.value(),
           )

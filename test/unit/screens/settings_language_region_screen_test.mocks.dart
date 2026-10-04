@@ -276,6 +276,15 @@ class MockRecipeProvider extends _i1.Mock implements _i6.RecipeProvider {
           as _i8.Future<void>);
 
   @override
+  _i8.Future<void> clearCustomGrindSize(String? recipeId) =>
+      (super.noSuchMethod(
+            Invocation.method(#clearCustomGrindSize, [recipeId]),
+            returnValue: _i8.Future<void>.value(),
+            returnValueForMissingStub: _i8.Future<void>.value(),
+          )
+          as _i8.Future<void>);
+
+  @override
   _i8.Future<void> saveSliderPositions(
     String? recipeId, {
     int? sweetnessSliderPosition,

@@ -2740,6 +2740,19 @@ class MockUserStatProvider extends _i1.Mock implements _i12.UserStatProvider {
           as _i5.Future<List<String>>);
 
   @override
+  _i5.Future<List<String>> fetchRecentDistinctGrindSizes({int? limit}) =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchRecentDistinctGrindSizes, [], {
+              #limit: limit,
+            }),
+            returnValue: _i5.Future<List<String>>.value(<String>[]),
+            returnValueForMissingStub: _i5.Future<List<String>>.value(
+              <String>[],
+            ),
+          )
+          as _i5.Future<List<String>>);
+
+  @override
   _i5.Future<List<String>> fetchAllDistinctTags() =>
       (super.noSuchMethod(
             Invocation.method(#fetchAllDistinctTags, []),
@@ -3193,6 +3206,15 @@ class MockRecipeProvider extends _i1.Mock implements _i15.RecipeProvider {
                 #customWaterTemp: customWaterTemp,
               },
             ),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> clearCustomGrindSize(String? recipeId) =>
+      (super.noSuchMethod(
+            Invocation.method(#clearCustomGrindSize, [recipeId]),
             returnValue: _i5.Future<void>.value(),
             returnValueForMissingStub: _i5.Future<void>.value(),
           )
@@ -4366,6 +4388,15 @@ class MockDatabaseProvider extends _i1.Mock implements _i7.DatabaseProvider {
                 #customWaterTemp: customWaterTemp,
               },
             ),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> clearCustomGrindSizeInSupabase(String? recipeId) =>
+      (super.noSuchMethod(
+            Invocation.method(#clearCustomGrindSizeInSupabase, [recipeId]),
             returnValue: _i5.Future<void>.value(),
             returnValueForMissingStub: _i5.Future<void>.value(),
           )

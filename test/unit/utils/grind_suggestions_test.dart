@@ -66,6 +66,88 @@ void main() {
     });
   });
 
+  group('recentGrindSuggestions', () {
+    test('keeps recent order and uses beans only for padding', () {
+      expect(
+        recentGrindSuggestions(recent: ['C', 'A', 'B', 'D'], beans: ['Z']),
+        ['C', 'A', 'B'],
+      );
+      expect(recentGrindSuggestions(recent: ['C'], beans: ['Z', 'X', 'Y']), [
+        'C',
+        'Z',
+        'X',
+      ]);
+    });
+
+    test('trims, drops blanks and dedupes within and across sources', () {
+      expect(
+        recentGrindSuggestions(
+          recent: [' ', ' Fine ', 'FINE'],
+          beans: ['', 'fine', ' Medium ', 'medium', 'Coarse'],
+        ),
+        ['Fine', 'Medium', 'Coarse'],
+      );
+    });
+
+    test('exclude is case-insensitive and trimmed across both sources', () {
+      expect(
+        recentGrindSuggestions(
+          recent: ['Fine', 'Medium'],
+          beans: [' fine ', 'Coarse', 'Extra'],
+          exclude: ' FINE ',
+        ),
+        ['Medium', 'Coarse', 'Extra'],
+      );
+    });
+
+    test('blank or null exclude excludes nothing', () {
+      for (final exclude in [null, '', '   ']) {
+        expect(
+          recentGrindSuggestions(
+            recent: ['Fine'],
+            beans: ['Medium'],
+            exclude: exclude,
+          ),
+          ['Fine', 'Medium'],
+        );
+      }
+    });
+
+    test('respects custom and non-positive limits', () {
+      expect(
+        recentGrindSuggestions(recent: ['A', 'B'], beans: ['C'], limit: 1),
+        ['A'],
+      );
+      expect(
+        recentGrindSuggestions(recent: ['A'], beans: ['B'], limit: 0),
+        isEmpty,
+      );
+      expect(
+        recentGrindSuggestions(recent: ['A'], beans: ['B'], limit: -1),
+        isEmpty,
+      );
+    });
+
+    test('empty inputs return no suggestions', () {
+      expect(recentGrindSuggestions(recent: [], beans: []), isEmpty);
+      expect(recentGrindSuggestions(recent: [], beans: [' Fine ']), ['Fine']);
+    });
+  });
+
+  group('loadRecentGrindSuggestions', () {
+    test('awaits both sources and applies exclusion and limit', () async {
+      expect(
+        await loadRecentGrindSuggestions(
+          recent: Future.value(['Fine', 'Medium']),
+          beans: Future.value(['Coarse', 'Extra']),
+          exclude: ' FINE ',
+          limit: 2,
+        ),
+        ['Medium', 'Coarse'],
+      );
+    });
+  });
+
   group('mergedGrindSizeSuggestions', () {
     test('returns the same result as the sync version', () async {
       final brewHistory = ['24 clicks', 'Medium-Fine'];

@@ -756,6 +756,10 @@ class UserStatProvider extends ChangeNotifier {
   Future<List<String>> fetchAllDistinctGrindSizes() =>
       db.userStatsDao.fetchAllDistinctGrindSizes();
 
+  /// Distinct grind sizes from brew history, most recently used first.
+  Future<List<String>> fetchRecentDistinctGrindSizes({int? limit}) =>
+      db.userStatsDao.fetchRecentDistinctGrindSizes(limit: limit);
+
   /// Deduped, first-seen-order list of tags used across diary entries, for
   /// tag-editor autocomplete.
   Future<List<String>> fetchAllDistinctTags() =>

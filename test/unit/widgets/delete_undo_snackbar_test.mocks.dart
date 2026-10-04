@@ -1154,6 +1154,19 @@ class MockUserStatProvider extends _i1.Mock implements _i16.UserStatProvider {
           as _i14.Future<List<String>>);
 
   @override
+  _i14.Future<List<String>> fetchRecentDistinctGrindSizes({int? limit}) =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchRecentDistinctGrindSizes, [], {
+              #limit: limit,
+            }),
+            returnValue: _i14.Future<List<String>>.value(<String>[]),
+            returnValueForMissingStub: _i14.Future<List<String>>.value(
+              <String>[],
+            ),
+          )
+          as _i14.Future<List<String>>);
+
+  @override
   _i14.Future<List<String>> fetchAllDistinctTags() =>
       (super.noSuchMethod(
             Invocation.method(#fetchAllDistinctTags, []),
@@ -1604,6 +1617,15 @@ class MockRecipeProvider extends _i1.Mock implements _i19.RecipeProvider {
                 #customWaterTemp: customWaterTemp,
               },
             ),
+            returnValue: _i14.Future<void>.value(),
+            returnValueForMissingStub: _i14.Future<void>.value(),
+          )
+          as _i14.Future<void>);
+
+  @override
+  _i14.Future<void> clearCustomGrindSize(String? recipeId) =>
+      (super.noSuchMethod(
+            Invocation.method(#clearCustomGrindSize, [recipeId]),
             returnValue: _i14.Future<void>.value(),
             returnValueForMissingStub: _i14.Future<void>.value(),
           )
@@ -2398,6 +2420,15 @@ class MockDatabaseProvider extends _i1.Mock implements _i3.DatabaseProvider {
                 #customWaterTemp: customWaterTemp,
               },
             ),
+            returnValue: _i14.Future<void>.value(),
+            returnValueForMissingStub: _i14.Future<void>.value(),
+          )
+          as _i14.Future<void>);
+
+  @override
+  _i14.Future<void> clearCustomGrindSizeInSupabase(String? recipeId) =>
+      (super.noSuchMethod(
+            Invocation.method(#clearCustomGrindSizeInSupabase, [recipeId]),
             returnValue: _i14.Future<void>.value(),
             returnValueForMissingStub: _i14.Future<void>.value(),
           )

@@ -582,6 +582,15 @@ class MockDatabaseProvider extends _i1.Mock implements _i6.DatabaseProvider {
           as _i3.Future<void>);
 
   @override
+  _i3.Future<void> clearCustomGrindSizeInSupabase(String? recipeId) =>
+      (super.noSuchMethod(
+            Invocation.method(#clearCustomGrindSizeInSupabase, [recipeId]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
+
+  @override
   _i3.Future<Map<String, dynamic>?> getPublicUserRecipeMetadata(
     String? recipeId,
   ) =>
