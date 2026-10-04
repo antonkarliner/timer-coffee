@@ -39,6 +39,14 @@ Submit a new Beta Build to Crashlytics Beta
 
 Deploy a new version to the Google Play
 
+### android check_translations
+
+```sh
+[bundle exec] fastlane android check_translations
+```
+
+Check the changelog matches the version code and every locale has it
+
 ### android translate_release_notes
 
 ```sh

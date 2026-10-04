@@ -23,6 +23,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 Push a new release build to the App Store
 
+### ios check_translations
+
+```sh
+[bundle exec] fastlane ios check_translations
+```
+
+Check every locale has release notes at least as new as en-US
+
 ### ios translate_release_notes
 
 ```sh

@@ -15,6 +15,36 @@
 
 default_platform(:android)
 
+# Release notes contain non-ASCII text (•, curly quotes). Without a UTF-8 locale
+# (e.g. a non-interactive shell with LANG unset) Ruby reads them as US-ASCII
+# and every translation fails.
+%w[LANG LC_ALL].each { |key| ENV[key] = 'en_US.UTF-8' if ENV[key].to_s.empty? }
+Encoding.default_external = Encoding::UTF_8
+
+# Play only shows changelogs/<versionCode>.txt, and translate_gpt_release_notes
+# translates the highest-numbered English changelog, logging and skipping any
+# locale that fails without failing the lane. Stop unless the English changelog
+# matches the version code and every locale has a translation at least as new.
+def ensure_release_notes_translated!
+  metadata = File.expand_path('metadata/android')
+  master_dir = File.join(metadata, 'en-US', 'changelogs')
+  master_name = Dir.children(master_dir).grep(/\A\d+\.txt\z/).max_by(&:to_i)
+  expected = "#{get_version_code}.txt"
+  unless master_name == expected
+    UI.user_error!("Newest en-US changelog is #{master_name.inspect}, but the version code needs #{expected}. Not uploading.")
+  end
+
+  master = File.join(master_dir, master_name)
+  stale = Dir.children(metadata).sort.reject do |locale|
+    next true if locale == 'en-US' || !File.directory?(File.join(metadata, locale))
+
+    file = File.join(metadata, locale, 'changelogs', master_name)
+    File.size?(file) && File.mtime(file) >= File.mtime(master)
+  end
+  UI.user_error!("Changelog #{master_name} not translated for: #{stale.join(', ')}. Not uploading.") unless stale.empty?
+  UI.success("Changelog #{master_name} is translated for every locale")
+end
+
 # Helper method to get version code from pubspec.yaml
 def get_version_code
   require 'yaml'
@@ -57,6 +87,7 @@ platform :android do
       glossary_dir: '../lib/l10n',
       # other necessary parameters...
     )
+    ensure_release_notes_translated!
     gradle(
       task: "bundle",
       build_type: "Release"
@@ -68,6 +99,11 @@ platform :android do
       skip_upload_images: true,
       skip_upload_metadata: false
     )
+  end
+
+  desc "Check the changelog matches the version code and every locale has it"
+  lane :check_translations do
+    ensure_release_notes_translated!
   end
 
   lane :translate_release_notes do

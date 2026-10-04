@@ -15,6 +15,29 @@
 
 default_platform(:ios)
 
+# Release notes contain non-ASCII text (•, curly quotes). Without a UTF-8 locale
+# (e.g. a non-interactive shell with LANG unset) Ruby reads them as US-ASCII:
+# every translation then fails, and build_app crashes on xcodebuild output.
+%w[LANG LC_ALL].each { |key| ENV[key] = 'en_US.UTF-8' if ENV[key].to_s.empty? }
+Encoding.default_external = Encoding::UTF_8
+
+# translate_gpt_release_notes logs a failed locale, leaves its previous notes in
+# place and carries on, so a failure would upload last release's notes. Every
+# locale's notes must be at least as new as the English master, or we stop.
+def ensure_release_notes_translated!
+  metadata = File.expand_path('metadata')
+  master = File.join(metadata, 'en-US', 'release_notes.txt')
+  stale = Dir.children(metadata).sort.reject do |locale|
+    dir = File.join(metadata, locale)
+    next true if %w[en-US review_information].include?(locale) || !File.directory?(dir)
+
+    file = File.join(dir, 'release_notes.txt')
+    File.size?(file) && File.mtime(file) >= File.mtime(master)
+  end
+  UI.user_error!("Release notes not translated for: #{stale.join(', ')}. Not uploading.") unless stale.empty?
+  UI.success('Release notes are translated for every locale')
+end
+
 platform :ios do
   desc "Push a new release build to the App Store"
   lane :release do
@@ -29,6 +52,7 @@ platform :ios do
       glossary_dir: '../lib/l10n',
       # other necessary parameters...
     )
+    ensure_release_notes_translated!
     app_store_connect_api_key(
     key_id: ENV['APPLE_API_KEY_ID'],
     issuer_id: ENV['APPLE_API_ISSUER_ID'],
@@ -40,6 +64,11 @@ platform :ios do
   )
     build_app(workspace: "Runner.xcworkspace", scheme: "Runner", clean: true)
     upload_to_app_store
+  end
+
+  desc "Check every locale has release notes at least as new as en-US"
+  lane :check_translations do
+    ensure_release_notes_translated!
   end
 
   lane :translate_release_notes do
