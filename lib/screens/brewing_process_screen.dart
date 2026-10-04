@@ -1517,25 +1517,32 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   /// continuous rise at no extra cost (no new timer — the ticker already
   /// runs).
   ///
-  /// Falls back to the integer counter whenever the wall clock is not the
-  /// truth: while paused `_brewAnchorUtc` is deliberately not advanced (it is
-  /// shifted forward on resume), so measuring against it would let the liquid
-  /// creep up while the brew is stopped.
+  /// While paused, `_brewAnchorUtc` is deliberately not advanced (it is
+  /// shifted forward on resume), so measuring against *now* would let the
+  /// liquid creep up while the brew is stopped. Measure against the moment of
+  /// pause instead: that freezes the level exactly where it stood, and since
+  /// resume shifts the anchor by the paused duration, the running value picks
+  /// up from the same point. Falling back to the integer counter here made
+  /// the liquid drop by the lost sub-second on pause and jump back up on
+  /// resume.
+  ///
+  /// The integer counter remains the fallback when there is no anchor or no
+  /// pause instant to measure from.
   double _elapsedBrewSeconds() {
     final int elapsedBeforeCurrentStep = brewingSteps
         .take(currentStepIndex)
         .fold<int>(0, (sum, step) => sum + step.time.inSeconds);
 
-    if (_isPaused || _brewAnchorUtc == null) {
+    final DateTime? measuredAt = _isPaused
+        ? _pausedAtUtc
+        : DateTime.now().toUtc();
+    if (_brewAnchorUtc == null || measuredAt == null) {
       return math
           .max(0, elapsedBeforeCurrentStep + currentStepTime)
           .toDouble();
     }
 
-    final int micros = DateTime.now()
-        .toUtc()
-        .difference(_brewAnchorUtc!)
-        .inMicroseconds;
+    final int micros = measuredAt.difference(_brewAnchorUtc!).inMicroseconds;
     return math.max(0.0, micros / Duration.microsecondsPerSecond);
   }
 
@@ -1648,8 +1655,8 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   /// layer (which advances at 1.3x this) has no seam to jump across — see
   /// [_pourWaveClock].
   ///
-  /// Deliberately independent of pause: pausing freezes the *level* (it reads
-  /// the step counter while paused) but the surface keeps lapping. The
+  /// Deliberately independent of pause: pausing freezes the *level* (measured at
+  /// the pause instant) but the surface keeps lapping. The
   /// operator singled this out as a good touch (2026-09-18) — a paused brew
   /// still looks like liquid rather than a frozen frame. Do not stop the wave
   /// clock in `_togglePause`.
