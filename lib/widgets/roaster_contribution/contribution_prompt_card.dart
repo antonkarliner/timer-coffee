@@ -190,7 +190,7 @@ class _RoasterContributionPromptCardState
             // hub roasters icon + titleLarge font. Top-align the icon so it
             // pins to the first line when this (longer) title wraps.
             DetailSectionHeader(
-              icon: Icons.store_outlined,
+              icon: Icons.storefront_outlined,
               title: l10n.roasterContributionCardTitle(widget.roaster),
               crossAxisAlignment: CrossAxisAlignment.start,
             ),

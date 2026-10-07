@@ -13,6 +13,7 @@ import 'roaster_logo_cache_manager.dart';
 class RoasterLogo extends StatefulWidget {
   final String? originalUrl;
   final String? mirrorUrl;
+  final IconData placeholderIcon;
   final double height;
   final double? width;
   final double borderRadius;
@@ -24,6 +25,7 @@ class RoasterLogo extends StatefulWidget {
     super.key,
     required this.originalUrl,
     required this.mirrorUrl,
+    this.placeholderIcon = Coffeico.bag_with_bean,
     this.height = 40.0,
     this.width,
     this.borderRadius = 8.0,
@@ -411,13 +413,13 @@ class _RoasterLogoState extends State<RoasterLogo> {
             height: widget.height,
             width: widget.width ?? widget.height,
             child: Center(
-              child: Icon(Coffeico.bag_with_bean, size: widget.height),
+              child: Icon(widget.placeholderIcon, size: widget.height),
             ),
           );
         }
 
         if (_currentUrl == null || _terminalFailure) {
-          return Icon(Coffeico.bag_with_bean, size: widget.height);
+          return Icon(widget.placeholderIcon, size: widget.height);
         }
 
         if (_fit == null) {
@@ -426,7 +428,7 @@ class _RoasterLogoState extends State<RoasterLogo> {
             height: widget.height,
             width: widget.width ?? widget.height,
             child: Center(
-              child: Icon(Coffeico.bag_with_bean, size: widget.height),
+              child: Icon(widget.placeholderIcon, size: widget.height),
             ),
           );
         }
@@ -453,7 +455,7 @@ class _RoasterLogoState extends State<RoasterLogo> {
                         _currentUrl!,
                         fit: BoxFit.contain,
                         placeholderBuilder: (context) =>
-                            Icon(Coffeico.bag_with_bean, size: widget.height),
+                            Icon(widget.placeholderIcon, size: widget.height),
                       )
                     : CachedNetworkImage(
                         cacheKey: _normalizeUrl(_currentUrl!),
@@ -462,11 +464,11 @@ class _RoasterLogoState extends State<RoasterLogo> {
                         cacheManager: RoasterLogoCacheManager.instance,
                         fit: BoxFit.contain,
                         placeholder: (context, url) =>
-                            Icon(Coffeico.bag_with_bean, size: widget.height),
+                            Icon(widget.placeholderIcon, size: widget.height),
                         errorWidget: (context, url, error) {
                           _scheduleHandleError(url);
                           return Icon(
-                            Coffeico.bag_with_bean,
+                            widget.placeholderIcon,
                             size: widget.height,
                           );
                         },

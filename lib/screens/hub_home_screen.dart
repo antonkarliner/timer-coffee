@@ -116,7 +116,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
               _HubListTile(
                 identifier: 'roasters',
                 label: l10n.roastersCatalogTitle,
-                icon: Icons.store_outlined,
+                icon: Icons.storefront_outlined,
                 title: l10n.roastersCatalogTitle,
                 subtitle: l10n.hubRoastersSubtitle,
                 onTap: () {

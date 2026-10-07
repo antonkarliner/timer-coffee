@@ -26,12 +26,14 @@ import '../services/onboarding_service.dart';
 class _StatsRoasterLogoPlate extends StatelessWidget {
   final String? originalUrl;
   final String? mirrorUrl;
+  final IconData placeholderIcon;
   final double height;
   final double borderRadius;
 
   const _StatsRoasterLogoPlate({
     required this.originalUrl,
     required this.mirrorUrl,
+    this.placeholderIcon = Coffeico.bag_with_bean,
     this.height = 48.0,
     this.borderRadius = 8.0,
   });
@@ -57,6 +59,7 @@ class _StatsRoasterLogoPlate extends StatelessWidget {
           ? Padding(
               padding: const EdgeInsets.all(4.0),
               child: RoasterLogo(
+                placeholderIcon: placeholderIcon,
                 originalUrl: originalUrl,
                 mirrorUrl: mirrorUrl,
                 height: height - 8.0,
@@ -66,7 +69,7 @@ class _StatsRoasterLogoPlate extends StatelessWidget {
               ),
             )
           : Icon(
-              Coffeico.bag_with_bean,
+              placeholderIcon,
               size: height * 0.7,
               color: Theme.of(
                 context,
@@ -801,6 +804,7 @@ class _YourStatsSection extends StatelessWidget {
                                 final mirrorUrl = snap.data!['mirror'];
                                 if (originalUrl != null || mirrorUrl != null) {
                                   return _StatsRoasterLogoPlate(
+                                    placeholderIcon: Icons.storefront_outlined,
                                     originalUrl: originalUrl,
                                     mirrorUrl: mirrorUrl,
                                     height: isPreview ? 28 : 40,
@@ -813,7 +817,7 @@ class _YourStatsSection extends StatelessWidget {
                                   .onSurface
                                   .withAlpha((255 * 0.6).round());
                               return Icon(
-                                Coffeico.bag_with_bean,
+                                Icons.storefront_outlined,
                                 size: isPreview ? 28 : 40,
                                 color: iconColor,
                               );

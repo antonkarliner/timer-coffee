@@ -169,6 +169,7 @@ class _RoasterContributionAckBannerState
                         borderRadius: BorderRadius.circular(AppRadius.small),
                       ),
                       child: RoasterLogo(
+                        placeholderIcon: Icons.storefront_outlined,
                         originalUrl: acknowledgement.logoUrl,
                         mirrorUrl: acknowledgement.logoMirrorUrl,
                         height: AppIconSize.large,
@@ -178,7 +179,7 @@ class _RoasterContributionAckBannerState
                       ),
                     )
                   else
-                    const Icon(Icons.store_outlined, size: AppIconSize.medium),
+                    const Icon(Icons.storefront_outlined, size: AppIconSize.medium),
                   const SizedBox(width: AppSpacing.sm),
                   Expanded(
                     child: Column(

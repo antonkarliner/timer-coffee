@@ -50,6 +50,7 @@ class RoasterTile extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(AppRadius.small),
                   child: RoasterLogo(
+                    placeholderIcon: Icons.storefront_outlined,
                     originalUrl: roaster.roasterLogoUrl,
                     mirrorUrl: roaster.roasterLogoMirrorUrl,
                     height: 48,
