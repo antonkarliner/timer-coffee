@@ -31,7 +31,8 @@ import '../utils/app_logger.dart';
 ///   notification_presumed_delivered, notification_cancelled,
 ///   notification_setting_toggled,
 ///   roaster_profile_viewed, roaster_link_tapped, roaster_contribution_shown/
-///   _submitted/_dismissed, the "moments" (surprise-and-delight) events
+///   _submitted/_dismissed, roaster_report_opened, roaster_report_submitted,
+///   roaster_claim_link_tapped, the "moments" (surprise-and-delight) events
 ///   moment_shown, moment_interacted, moment_discovered, the finish-
 ///   screen engagement budget (plan 039, shadow mode) events
 ///   engagement_ask_shown, engagement_ask_suppressed, the store-review
@@ -146,6 +147,10 @@ class AnalyticsService extends ChangeNotifier {
     'roaster_contribution_prompt_shown': 'general',
     'roaster_contribution_submitted': 'general',
     'roaster_contribution_dismissed': 'general',
+    // Roaster page reports & claims (plan 078)
+    'roaster_report_opened': 'general',
+    'roaster_report_submitted': 'general',
+    'roaster_claim_link_tapped': 'general',
     // Onboarding & journey
     'onboarding_completed': 'general',
     'journey_started': 'general',

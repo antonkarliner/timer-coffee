@@ -19,6 +19,7 @@ import '../services/analytics_service.dart';
 import '../theme/design_tokens.dart';
 import '../widgets/base_buttons.dart';
 import '../widgets/containers/section_card.dart';
+import '../widgets/roaster/roaster_report_sheet.dart';
 import '../widgets/roaster_logo.dart';
 import '../widgets/smart_back_button.dart';
 import '../widgets/roaster_profile/aggregate_rating.dart';
@@ -298,12 +299,101 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
       appBar: AppBar(
         leading: const SmartBackButton(),
         title: Text(_profile?.roasterName ?? ''),
+        actions: _buildAppBarActions(l10n),
       ),
       body: _loadingProfile
           ? const Center(child: CircularProgressIndicator())
           : _error != null
               ? Center(child: Text(_error!))
               : _buildBody(context, l10n),
+    );
+  }
+
+  /// App-bar overflow actions, shown only once the profile has loaded.
+  /// Renders no menu button at all when neither item applies (an admin
+  /// viewing their own claimed page).
+  List<Widget> _buildAppBarActions(AppLocalizations l10n) {
+    final profile = _profile;
+    if (profile == null) return const [];
+    final showReport = !_isCurrentUserRoasterAdmin(profile);
+    final showClaim = !_isClaimed(profile);
+    if (!showReport && !showClaim) return const [];
+    return [
+      PopupMenuButton<String>(
+        icon: const Icon(Icons.more_vert),
+        onSelected: (value) {
+          if (value == 'report') _reportAnError();
+          if (value == 'claim') _openClaimPage(entry: 'menu');
+        },
+        itemBuilder: (context) => [
+          if (showReport)
+            PopupMenuItem(
+              value: 'report',
+              child: Row(
+                children: [
+                  const Icon(Icons.flag_outlined),
+                  const SizedBox(width: AppSpacing.sm),
+                  Text(l10n.roasterMenuReportError),
+                ],
+              ),
+            ),
+          if (showClaim)
+            PopupMenuItem(
+              value: 'claim',
+              child: Row(
+                children: [
+                  const Icon(Icons.storefront_outlined),
+                  const SizedBox(width: AppSpacing.sm),
+                  Text(l10n.roasterMenuClaimPage),
+                ],
+              ),
+            ),
+        ],
+      ),
+    ];
+  }
+
+  /// Whether the page is claimed by a roaster admin.
+  bool _isClaimed(RoasterProfileModel profile) =>
+      profile.adminUserId != null && profile.adminUserId!.isNotEmpty;
+
+  /// Whether the signed-in user owns this roaster page.
+  bool _isCurrentUserRoasterAdmin(RoasterProfileModel profile) {
+    final currentUserId = Supabase.instance.client.auth.currentUser?.id;
+    return currentUserId != null && currentUserId == profile.adminUserId;
+  }
+
+  Future<void> _reportAnError() async {
+    final profile = _profile;
+    if (profile == null) return;
+    final sent = await showRoasterReportSheet(
+      context,
+      roasterProfileId: profile.id,
+      roasterName: profile.roasterName,
+    );
+    if (!mounted) return;
+    if (sent) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.roasterReportSuccess),
+        ),
+      );
+    }
+  }
+
+  /// Opens the web claim flow for an unclaimed roaster page.
+  Future<void> _openClaimPage({required String entry}) async {
+    final profile = _profile;
+    if (profile == null) return;
+    AnalyticsService.instance.track(
+      'roaster_claim_link_tapped',
+      properties: {'roaster_id': profile.id, 'entry': entry},
+    );
+    await launchUrl(
+      Uri.parse(
+        'https://www.timer.coffee/roasters/${profile.slug}/claim/?src=app',
+      ),
+      mode: LaunchMode.externalApplication,
     );
   }
 
@@ -361,6 +451,7 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
                       ),
                       child: Center(
                         child: RoasterLogo(
+                          placeholderIcon: Icons.storefront_outlined,
                           originalUrl: profile.roasterLogoUrl,
                           mirrorUrl: profile.roasterLogoMirrorUrl,
                           height: 140,
@@ -648,6 +739,15 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
                   _DisclaimerItem(text: l10n.roasterDisclaimerReviews),
                   const SizedBox(height: AppSpacing.sm),
                   _DisclaimerItem(text: l10n.roasterDisclaimerDetails),
+                  // Unclaimed pages only: invite the roaster to claim.
+                  if (!isVerified) ...[
+                    const SizedBox(height: AppSpacing.sm),
+                    AppTextButton(
+                      label: l10n.roasterClaimInline,
+                      icon: Icons.storefront_outlined,
+                      onPressed: () => _openClaimPage(entry: 'inline'),
+                    ),
+                  ],
                 ],
               ),
             ),

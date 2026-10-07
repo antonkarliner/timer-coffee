@@ -2430,6 +2430,120 @@
   "@roasterContributionNotifBody": {
     "description": "Body of the local notification nudging the user to contribute a roaster's website."
   },
+  "roasterMenuReportError": "Report an error",
+  "@roasterMenuReportError": {
+    "description": "App-bar overflow menu item on a roaster profile; opens the report-an-error sheet. Hidden from the roaster's own admin."
+  },
+  "roasterMenuClaimPage": "Claim this page",
+  "@roasterMenuClaimPage": {
+    "description": "App-bar overflow menu item on an unclaimed roaster profile; opens the web claim flow."
+  },
+  "roasterClaimInline": "Is this your roastery? Claim this page",
+  "@roasterClaimInline": {
+    "description": "Inline link in the disclaimer section of an unclaimed roaster profile; opens the web claim flow."
+  },
+  "roasterReportTitle": "Report an error",
+  "@roasterReportTitle": {
+    "description": "Heading of the roaster report-an-error bottom sheet."
+  },
+  "roasterReportSubtitle": "Tell us what’s wrong on {roasterName}’s page. We review every report.",
+  "@roasterReportSubtitle": {
+    "description": "Subtitle under the report sheet heading, naming the roaster.",
+    "placeholders": {
+      "roasterName": {
+        "type": "String",
+        "example": "Onyx Coffee Lab"
+      }
+    }
+  },
+  "roasterReportCategoryWrongLocation": "Wrong city or country",
+  "@roasterReportCategoryWrongLocation": {
+    "description": "Report category: the roaster's location is wrong."
+  },
+  "roasterReportCategoryWrongWebsite": "Wrong or broken website",
+  "@roasterReportCategoryWrongWebsite": {
+    "description": "Report category: the website link is wrong or broken."
+  },
+  "roasterReportCategoryWrongSocial": "Wrong social media link",
+  "@roasterReportCategoryWrongSocial": {
+    "description": "Report category: a social media link is wrong."
+  },
+  "roasterReportCategoryWrongLogo": "Wrong logo",
+  "@roasterReportCategoryWrongLogo": {
+    "description": "Report category: the logo shown is wrong."
+  },
+  "roasterReportCategoryWrongName": "Wrong name or spelling",
+  "@roasterReportCategoryWrongName": {
+    "description": "Report category: the roaster's name or its spelling is wrong."
+  },
+  "roasterReportCategoryWrongBusiness": "This page mixes up a different business",
+  "@roasterReportCategoryWrongBusiness": {
+    "description": "Report category: the page describes a different business than the one it is named after."
+  },
+  "roasterReportCategoryNotARoaster": "Not a coffee roaster",
+  "@roasterReportCategoryNotARoaster": {
+    "description": "Report category: the business is not a coffee roaster."
+  },
+  "roasterReportCategoryClosed": "Permanently closed",
+  "@roasterReportCategoryClosed": {
+    "description": "Report category: the roaster has permanently closed."
+  },
+  "roasterReportCategoryDuplicate": "Duplicate of another roaster page",
+  "@roasterReportCategoryDuplicate": {
+    "description": "Report category: the page duplicates another roaster page."
+  },
+  "roasterReportCategoryOther": "Something else",
+  "@roasterReportCategoryOther": {
+    "description": "Report category: none of the listed reasons apply; requires details."
+  },
+  "roasterReportCorrectValueLabel": "Correct value (optional)",
+  "@roasterReportCorrectValueLabel": {
+    "description": "Label for the optional correction field on report categories that accept one."
+  },
+  "roasterReportHintLocation": "e.g. Lisbon, Portugal",
+  "@roasterReportHintLocation": {
+    "description": "Hint for the correction field when the category is wrong location."
+  },
+  "roasterReportHintWebsite": "https://…",
+  "@roasterReportHintWebsite": {
+    "description": "Hint for the correction field when the category is wrong website."
+  },
+  "roasterReportHintSocial": "https://instagram.com/…",
+  "@roasterReportHintSocial": {
+    "description": "Hint for the correction field when the category is wrong social media link."
+  },
+  "roasterReportHintName": "Correct spelling",
+  "@roasterReportHintName": {
+    "description": "Hint for the correction field when the category is wrong name."
+  },
+  "roasterReportHintDuplicate": "Name of the other roaster",
+  "@roasterReportHintDuplicate": {
+    "description": "Hint for the correction field when the category is duplicate."
+  },
+  "roasterReportDetailsOptional": "Details (optional)",
+  "@roasterReportDetailsOptional": {
+    "description": "Label for the free-text details field when it is optional."
+  },
+  "roasterReportDetailsRequired": "Details",
+  "@roasterReportDetailsRequired": {
+    "description": "Label for the free-text details field when the category is Something else (required)."
+  },
+  "roasterReportSubmit": "Send report",
+  "@roasterReportSubmit": {
+    "description": "Submit button on the roaster report sheet."
+  },
+  "roasterReportSuccess": "Thanks — we’ll take a look.",
+  "@roasterReportSuccess": {
+    "description": "SnackBar shown after a roaster report was sent."
+  },
+  "roasterReportRateLimited": "Too many reports. Please try again later.",
+  "@roasterReportRateLimited": {
+    "description": "Inline error in the report sheet when submission is rate limited."
+  },
+  "roasterReportError": "Couldn’t send the report. Please try again.",
+  "@roasterReportError": {
+    "description": "Inline error in the report sheet when submission fails."
+  },
   "extractionCalcTitle": "Extraction calculator",
   "@extractionCalcTitle": {
     "description": "Title of the extraction/brew calculator screen, and the hub tile title that opens it."
