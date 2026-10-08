@@ -1554,5 +1554,15 @@
   "settingsAppIconRestartTitle": "App-icoon wijzigen?",
   "settingsAppIconRestartBody": "Timer.Coffee sluit om de wijziging toe te passen. Open de app opnieuw vanaf je startscherm.",
   "settingsAppIconRestartConfirm": "Icoon wijzigen",
-  "summarySeparator": " · "
+  "summarySeparator": " · ",
+  "recipeCreationAiReviewNoChanges": "De AI-controle vond niets om te wijzigen.",
+  "recipeCreationAiReviewChangesTitle": "AI-wijzigingen controleren",
+  "recipeCreationAiReviewChangesSummary": "{count, plural, one{De AI-controle heeft {count} stap gewijzigd.} other{De AI-controle heeft {count} stappen gewijzigd.}}",
+  "recipeCreationAiReviewChangesScaleHint": "Gemarkeerde hoeveelheden passen zich automatisch aan wanneer je het recept schaalt.",
+  "recipeCreationAiReviewPreviewScaled": "Voorbeeld met dubbele hoeveelheden",
+  "recipeCreationAiReviewYourVersion": "Jouw versie",
+  "recipeCreationAiReviewReviewedVersion": "Gecontroleerd",
+  "recipeCreationAiReviewApply": "Wijzigingen toepassen",
+  "recipeCreationAiReviewKeepMine": "Mijn versie houden",
+  "recipeCreationAiReviewIssueAmountUnverified": "De controle kon niet elke hoeveelheid bevestigen. Controleer ze voordat je ze toepast."
 }

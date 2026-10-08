@@ -1676,5 +1676,15 @@
   "settingsAppIconRestartTitle": "تغییر آیکون برنامه؟",
   "settingsAppIconRestartBody": "برای اعمال تغییر، Timer.Coffee بسته می‌شود. آن را دوباره از صفحه اصلی دستگاه باز کنید.",
   "settingsAppIconRestartConfirm": "تغییر آیکون",
-  "summarySeparator": "، "
+  "summarySeparator": "، ",
+  "recipeCreationAiReviewNoChanges": "بازبینی هوش مصنوعی چیزی برای تغییر پیدا نکرد.",
+  "recipeCreationAiReviewChangesTitle": "بازبینی تغییرات هوش مصنوعی",
+  "recipeCreationAiReviewChangesSummary": "{count, plural, one{بازبینی هوش مصنوعی {count} مرحله را تغییر داد.} other{بازبینی هوش مصنوعی {count} مرحله را تغییر داد.}}",
+  "recipeCreationAiReviewChangesScaleHint": "مقدارهای برجسته‌شده هنگام تغییر مقیاس دستور پخت به‌طور خودکار تغییر می‌کنند.",
+  "recipeCreationAiReviewPreviewScaled": "پیش‌نمایش با مقادیر دوبرابر",
+  "recipeCreationAiReviewYourVersion": "نسخه شما",
+  "recipeCreationAiReviewReviewedVersion": "بازبینی‌شده",
+  "recipeCreationAiReviewApply": "اعمال تغییرات",
+  "recipeCreationAiReviewKeepMine": "نگه داشتن نسخه من",
+  "recipeCreationAiReviewIssueAmountUnverified": "بازبینی نتوانست همه مقدارها را تأیید کند. پیش از اعمال، آن‌ها را بررسی کنید."
 }

@@ -1554,5 +1554,15 @@
   "settingsAppIconRestartTitle": "Schimbăm pictograma aplicației?",
   "settingsAppIconRestartBody": "Timer.Coffee se va închide pentru a aplica modificarea. Deschide-l din nou din ecranul principal.",
   "settingsAppIconRestartConfirm": "Schimbă pictograma",
-  "summarySeparator": " · "
+  "summarySeparator": " · ",
+  "recipeCreationAiReviewNoChanges": "Revizia cu AI nu a găsit nimic de modificat.",
+  "recipeCreationAiReviewChangesTitle": "Verifică modificările AI",
+  "recipeCreationAiReviewChangesSummary": "{count, plural, one{Revizia cu AI a modificat {count} pas.} few{Revizia cu AI a modificat {count} pași.} other{Revizia cu AI a modificat {count} de pași.}}",
+  "recipeCreationAiReviewChangesScaleHint": "Cantitățile evidențiate se modifică automat când scalezi rețeta.",
+  "recipeCreationAiReviewPreviewScaled": "Previzualizare cu cantități dublate",
+  "recipeCreationAiReviewYourVersion": "Versiunea ta",
+  "recipeCreationAiReviewReviewedVersion": "Verificat",
+  "recipeCreationAiReviewApply": "Aplică modificările",
+  "recipeCreationAiReviewKeepMine": "Păstrează versiunea mea",
+  "recipeCreationAiReviewIssueAmountUnverified": "Revizia nu a putut confirma fiecare cantitate. Verifică-le înainte de a le aplica."
 }

@@ -1554,5 +1554,15 @@
   "settingsAppIconRestartTitle": "¿Cambiar el icono de la aplicación?",
   "settingsAppIconRestartBody": "Timer.Coffee se cerrará para aplicar el cambio. Ábrelo de nuevo desde tu pantalla de inicio.",
   "settingsAppIconRestartConfirm": "Cambiar icono",
-  "summarySeparator": " · "
+  "summarySeparator": " · ",
+  "recipeCreationAiReviewNoChanges": "La revisión con IA no encontró nada que cambiar.",
+  "recipeCreationAiReviewChangesTitle": "Revisar cambios de IA",
+  "recipeCreationAiReviewChangesSummary": "{count, plural, one{La revisión con IA modificó {count} paso.} other{La revisión con IA modificó {count} pasos.}}",
+  "recipeCreationAiReviewChangesScaleHint": "Las cantidades resaltadas cambian automáticamente al escalar la receta.",
+  "recipeCreationAiReviewPreviewScaled": "Vista previa al doble de cantidades",
+  "recipeCreationAiReviewYourVersion": "Tu versión",
+  "recipeCreationAiReviewReviewedVersion": "Revisado",
+  "recipeCreationAiReviewApply": "Aplicar cambios",
+  "recipeCreationAiReviewKeepMine": "Conservar mi versión",
+  "recipeCreationAiReviewIssueAmountUnverified": "La revisión no pudo confirmar todas las cantidades. Compruébalas antes de aplicar."
 }

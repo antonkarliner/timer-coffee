@@ -1554,5 +1554,15 @@
   "settingsAppIconRestartTitle": "更改应用图标？",
   "settingsAppIconRestartBody": "Timer.Coffee 将关闭以应用更改。请在主屏幕重新打开。",
   "settingsAppIconRestartConfirm": "更改图标",
-  "summarySeparator": " · "
+  "summarySeparator": " · ",
+  "recipeCreationAiReviewNoChanges": "AI 审查未发现需要更改的内容。",
+  "recipeCreationAiReviewChangesTitle": "查看 AI 更改",
+  "recipeCreationAiReviewChangesSummary": "{count, plural, other{AI 审查更改了 {count} 个步骤。}}",
+  "recipeCreationAiReviewChangesScaleHint": "当你缩放配方时，突出显示的用量会自动变化。",
+  "recipeCreationAiReviewPreviewScaled": "以 2 倍用量预览",
+  "recipeCreationAiReviewYourVersion": "你的版本",
+  "recipeCreationAiReviewReviewedVersion": "审查后",
+  "recipeCreationAiReviewApply": "应用更改",
+  "recipeCreationAiReviewKeepMine": "保留我的版本",
+  "recipeCreationAiReviewIssueAmountUnverified": "审查无法确认所有用量。应用前请先检查。"
 }

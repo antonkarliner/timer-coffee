@@ -1554,5 +1554,15 @@
   "settingsAppIconRestartTitle": "Changer l’icône de l’application ?",
   "settingsAppIconRestartBody": "Timer.Coffee va se fermer pour l’appliquer. Rouvrez-le depuis votre écran d’accueil.",
   "settingsAppIconRestartConfirm": "Changer l’icône",
-  "summarySeparator": " · "
+  "summarySeparator": " · ",
+  "recipeCreationAiReviewNoChanges": "La vérification par IA n’a rien trouvé à modifier.",
+  "recipeCreationAiReviewChangesTitle": "Vérifier les modifications de l’IA",
+  "recipeCreationAiReviewChangesSummary": "{count, plural, one{La vérification par IA a modifié {count} étape.} other{La vérification par IA a modifié {count} étapes.}}",
+  "recipeCreationAiReviewChangesScaleHint": "Les quantités surlignées changent automatiquement quand vous adaptez la recette.",
+  "recipeCreationAiReviewPreviewScaled": "Aperçu avec des quantités doublées",
+  "recipeCreationAiReviewYourVersion": "Votre version",
+  "recipeCreationAiReviewReviewedVersion": "Vérifié",
+  "recipeCreationAiReviewApply": "Appliquer les modifications",
+  "recipeCreationAiReviewKeepMine": "Garder ma version",
+  "recipeCreationAiReviewIssueAmountUnverified": "La vérification n’a pas pu confirmer toutes les quantités. Vérifiez-les avant d’appliquer."
 }

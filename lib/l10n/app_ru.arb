@@ -1554,5 +1554,15 @@
   "settingsAppIconRestartTitle": "Сменить иконку приложения?",
   "settingsAppIconRestartBody": "Чтобы применить её, Timer.Coffee закроется. Откройте приложение снова с домашнего экрана.",
   "settingsAppIconRestartConfirm": "Сменить иконку",
-  "summarySeparator": " · "
+  "summarySeparator": " · ",
+  "recipeCreationAiReviewNoChanges": "ИИ-проверка не нашла, что исправить.",
+  "recipeCreationAiReviewChangesTitle": "Проверить изменения ИИ",
+  "recipeCreationAiReviewChangesSummary": "{count, plural, one{ИИ-проверка изменила {count} шаг.} few{ИИ-проверка изменила {count} шага.} many{ИИ-проверка изменила {count} шагов.} other{ИИ-проверка изменила {count} шага.}}",
+  "recipeCreationAiReviewChangesScaleHint": "Выделенные количества меняются автоматически при масштабировании рецепта.",
+  "recipeCreationAiReviewPreviewScaled": "Предпросмотр с удвоенными количествами",
+  "recipeCreationAiReviewYourVersion": "Ваша версия",
+  "recipeCreationAiReviewReviewedVersion": "После проверки",
+  "recipeCreationAiReviewApply": "Применить изменения",
+  "recipeCreationAiReviewKeepMine": "Оставить мою версию",
+  "recipeCreationAiReviewIssueAmountUnverified": "Проверка не смогла подтвердить все количества. Проверьте их перед применением."
 }

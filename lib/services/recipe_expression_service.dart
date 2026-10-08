@@ -3,6 +3,34 @@ import '../models/brew_step_model.dart';
 
 enum RecipeStepKind { preparation, brew }
 
+/// One contiguous piece of a rendered step description.
+///
+/// [text] is the fully rendered text (amount already substituted);
+/// [isScalable] marks pieces that came from a scalable expression or a bare
+/// coffee/water placeholder, so they change when the recipe is scaled.
+class RecipeRenderedSegment {
+  final String text;
+  final bool isScalable;
+
+  const RecipeRenderedSegment({
+    required this.text,
+    required this.isScalable,
+  });
+
+  @override
+  bool operator ==(Object other) =>
+      other is RecipeRenderedSegment &&
+      other.text == text &&
+      other.isScalable == isScalable;
+
+  @override
+  int get hashCode => Object.hash(text, isScalable);
+
+  @override
+  String toString() =>
+      'RecipeRenderedSegment(${isScalable ? 'scalable' : 'plain'}: "$text")';
+}
+
 class RecipeExpressionIssue {
   final String code;
   final String message;
@@ -115,6 +143,9 @@ class RecipeExpressionService {
   );
 
   static final RegExp _placeholderRegex = RegExp(r'<([^>]+)>');
+  static final RegExp _barePlaceholderRegex = RegExp(
+    '<($coffeeAmount|$waterAmount|$finalCoffeeAmount|$finalWaterAmount)>',
+  );
   static final RegExp _knownPlaceholderRegex = RegExp(
     r'<(final_coffee_amount|final_water_amount|coffee_amount|water_amount)>',
     caseSensitive: false,
@@ -276,39 +307,81 @@ class RecipeExpressionService {
     required double waterAmount,
     bool compact = false,
   }) {
-    final withExpressions = description.replaceAllMapped(_expressionRegex, (
-      match,
-    ) {
+    final buffer = StringBuffer();
+    for (final segment in renderDescriptionSegments(
+      description,
+      coffeeAmount: coffeeAmount,
+      waterAmount: waterAmount,
+      compact: compact,
+    )) {
+      buffer.write(segment.text);
+    }
+    return buffer.toString();
+  }
+
+  /// Renders [description] and splits it into plain/scalable segments.
+  ///
+  /// This is the single template parser: [renderDescription] is the
+  /// concatenation of the returned segments' text. Expressions like
+  /// `(1 x <final_water_amount>)g` and bare placeholders like
+  /// `<water_amount>` render as scalable segments; everything else —
+  /// including unknown placeholders — is plain text.
+  static List<RecipeRenderedSegment> renderDescriptionSegments(
+    String description, {
+    required double coffeeAmount,
+    required double waterAmount,
+    bool compact = false,
+  }) {
+    final segments = <RecipeRenderedSegment>[];
+
+    // Adjacent segments of the same kind are deliberately NOT merged — two
+    // directly adjacent expressions stay separate scalable segments.
+    void add(String text, bool scalable) {
+      if (text.isEmpty) return;
+      segments.add(RecipeRenderedSegment(text: text, isScalable: scalable));
+    }
+
+    // Text outside expressions may still hold bare placeholders, replaced as
+    // renderDescription always did: the four known literals, case-sensitively.
+    // Anything else stays literal text.
+    void addPlain(String text) {
+      var cursor = 0;
+      for (final match in _barePlaceholderRegex.allMatches(text)) {
+        add(text.substring(cursor, match.start), false);
+        final variable = match.group(1);
+        final value =
+            variable == finalCoffeeAmount ||
+                variable == RecipeExpressionService.coffeeAmount
+            ? coffeeAmount
+            : waterAmount;
+        add(_formatAmount(value, compact: compact), true);
+        cursor = match.end;
+      }
+      add(text.substring(cursor), false);
+    }
+
+    var cursor = 0;
+    for (final match in _expressionRegex.allMatches(description)) {
+      addPlain(description.substring(cursor, match.start));
+
       final multiplier = double.tryParse(match.group(1) ?? '');
       final variable = (match.group(2) ?? '').toLowerCase();
       final unit = match.group(3) ?? '';
-      if (multiplier == null) return match.group(0)!;
+      if (multiplier == null) {
+        addPlain(match.group(0)!);
+      } else {
+        final base =
+            variable == finalCoffeeAmount ||
+                variable == RecipeExpressionService.coffeeAmount
+            ? coffeeAmount
+            : waterAmount;
+        add('${_formatAmount(multiplier * base, compact: compact)}$unit', true);
+      }
+      cursor = match.end;
+    }
+    addPlain(description.substring(cursor));
 
-      final base =
-          variable == finalCoffeeAmount ||
-              variable == RecipeExpressionService.coffeeAmount
-          ? coffeeAmount
-          : waterAmount;
-      return '${_formatAmount(multiplier * base, compact: compact)}$unit';
-    });
-
-    return withExpressions
-        .replaceAll(
-          '<${RecipeExpressionService.coffeeAmount}>',
-          _formatAmount(coffeeAmount, compact: compact),
-        )
-        .replaceAll(
-          '<${RecipeExpressionService.waterAmount}>',
-          _formatAmount(waterAmount, compact: compact),
-        )
-        .replaceAll(
-          '<$finalCoffeeAmount>',
-          _formatAmount(coffeeAmount, compact: compact),
-        )
-        .replaceAll(
-          '<$finalWaterAmount>',
-          _formatAmount(waterAmount, compact: compact),
-        );
+    return segments;
   }
 
   static RecipeExpressionProcessingResult processStepsForSavingDetailed(

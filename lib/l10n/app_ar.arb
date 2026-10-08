@@ -1554,5 +1554,15 @@
   "settingsAppIconRestartTitle": "تغيير أيقونة التطبيق؟",
   "settingsAppIconRestartBody": "سيُغلق Timer.Coffee لتطبيق التغيير. افتحه مجددًا من شاشتك الرئيسية.",
   "settingsAppIconRestartConfirm": "تغيير الأيقونة",
-  "summarySeparator": " · "
+  "summarySeparator": " · ",
+  "recipeCreationAiReviewNoChanges": "لم تجد مراجعة الذكاء الاصطناعي ما يغيّره.",
+  "recipeCreationAiReviewChangesTitle": "مراجعة تغييرات الذكاء الاصطناعي",
+  "recipeCreationAiReviewChangesSummary": "{count, plural, zero{لم تغيّر مراجعة الذكاء الاصطناعي أي خطوة.} one{غيّرت مراجعة الذكاء الاصطناعي خطوة واحدة.} two{غيّرت مراجعة الذكاء الاصطناعي خطوتين.} few{غيّرت مراجعة الذكاء الاصطناعي {count} خطوات.} many{غيّرت مراجعة الذكاء الاصطناعي {count} خطوة.} other{غيّرت مراجعة الذكاء الاصطناعي {count} خطوة.}}",
+  "recipeCreationAiReviewChangesScaleHint": "الكميات المميّزة تتغيّر تلقائيًا عند تكبير الوصفة أو تصغيرها.",
+  "recipeCreationAiReviewPreviewScaled": "معاينة بكميات مضاعفة (×2)",
+  "recipeCreationAiReviewYourVersion": "نسختك",
+  "recipeCreationAiReviewReviewedVersion": "بعد المراجعة",
+  "recipeCreationAiReviewApply": "تطبيق التغييرات",
+  "recipeCreationAiReviewKeepMine": "الاحتفاظ بنسختي",
+  "recipeCreationAiReviewIssueAmountUnverified": "لم تستطع المراجعة التأكد من كل الكميات. تحقّق منها قبل التطبيق."
 }

@@ -12,10 +12,12 @@ import '../database/database.dart';
 import '../widgets/recipe_creation/recipe_details_form.dart';
 import '../widgets/recipe_creation/recipe_steps_form.dart';
 import '../services/recipe_expression_service.dart';
+import '../services/recipe_ai_review_diff.dart';
 import '../services/recipe_save_service.dart';
 import '../services/recipe_navigation_service.dart';
 import '../services/recipe_verification_client.dart';
 import '../services/authentication_service.dart';
+import '../widgets/recipe_creation/ai_review_changes_sheet.dart';
 import '../widgets/unsaved_changes_dialog.dart';
 import '../utils/app_logger.dart'; // Import AppLogger
 import '../theme/design_tokens.dart';
@@ -661,45 +663,119 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
         originalAuthorId: isUpdate ? widget.recipe!.originalAuthorId : null,
       );
 
-      RecipeExpressionProcessingResult processing =
-          RecipeExpressionService.processStepsForSavingDetailed(
-            rawRecipeData.steps,
-            _coffeeAmount,
-            _waterAmount,
-          );
+      final local = RecipeExpressionService.processStepsForSavingDetailed(
+        rawRecipeData.steps,
+        _coffeeAmount,
+        _waterAmount,
+      );
+      RecipeExpressionProcessingResult processing = local;
 
       if (_useAiReview && _isAiReviewAvailable()) {
         scaffoldMessenger.showSnackBar(
           SnackBar(content: Text(l10n.recipeCreationAiReviewRunning)),
         );
+        RecipeVerificationResult? verified;
+        RecipeExpressionProcessingResult? reviewed;
         try {
-          final verified =
-              await RecipeVerificationClient(
-                Supabase.instance.client,
-              ).verifyRecipe(
-                recipe: rawRecipeData,
-                appLocale: appLocale,
-                sourceLanguageHint: sourceLanguageHint,
-                consentToDiagnostics: _aiReviewConsentAccepted,
-              );
-          processing = RecipeExpressionService.processStepsForSavingDetailed(
+          verified = await RecipeVerificationClient(
+            Supabase.instance.client,
+          ).verifyRecipe(
+            recipe: rawRecipeData,
+            appLocale: appLocale,
+            sourceLanguageHint: sourceLanguageHint,
+            consentToDiagnostics: _aiReviewConsentAccepted,
+          );
+          reviewed = RecipeExpressionService.processStepsForSavingDetailed(
             verified.steps,
             _coffeeAmount,
             _waterAmount,
           );
-          if (!processing.hasBlockingIssues && mounted) {
-            scaffoldMessenger.showSnackBar(
-              SnackBar(content: Text(l10n.recipeCreationAiReviewApplied)),
-            );
-          }
         } catch (e) {
           AppLogger.warning(
             'AI recipe review failed; falling back to local validation: ${AppLogger.sanitize(e)}',
+          );
+          AnalyticsService.maybeInstance?.track(
+            'recipe_ai_review_resolved',
+            properties: {
+              'outcome': 'failed',
+              'changed_steps': 0,
+              'total_steps': _steps.length,
+              'issue_count': 0,
+              'warning_count': 0,
+              'local_blocking_issues': local.hasBlockingIssues,
+              'is_update': isUpdate,
+            },
           );
           if (mounted) {
             scaffoldMessenger.showSnackBar(
               SnackBar(content: Text(l10n.recipeCreationAiReviewFailed)),
             );
+          }
+        }
+
+        if (verified != null && reviewed != null) {
+          final diff = RecipeAiReviewDiff.compute(
+            local: local,
+            reviewed: reviewed,
+            coffeeAmount: _coffeeAmount,
+            waterAmount: _waterAmount,
+          );
+          if (!diff.hasChanges) {
+            processing = reviewed;
+            if (!reviewed.hasBlockingIssues && mounted) {
+              scaffoldMessenger.showSnackBar(
+                SnackBar(content: Text(l10n.recipeCreationAiReviewNoChanges)),
+              );
+            }
+            AnalyticsService.maybeInstance?.track(
+              'recipe_ai_review_resolved',
+              properties: {
+                'outcome': 'no_changes',
+                'changed_steps': 0,
+                'total_steps': _steps.length,
+                'issue_count': verified.issues.length,
+                'warning_count': verified.warnings.length,
+                'local_blocking_issues': local.hasBlockingIssues,
+                'reviewed_blocking_issues': reviewed.hasBlockingIssues,
+                'is_update': isUpdate,
+              },
+            );
+          } else {
+            if (!mounted) return;
+            scaffoldMessenger.hideCurrentSnackBar();
+            final decision = await showAiReviewChangesSheet(
+              context,
+              diff: diff,
+              coffeeAmount: _coffeeAmount,
+              waterAmount: _waterAmount,
+              issues: verified.issueDetails,
+            );
+            AnalyticsService.maybeInstance?.track(
+              'recipe_ai_review_resolved',
+              properties: {
+                'outcome': decision?.name ?? 'dismissed',
+                'changed_steps': diff.changedStepCount,
+                'total_steps': _steps.length,
+                'issue_count': verified.issues.length,
+                'warning_count': verified.warnings.length,
+                'local_blocking_issues': local.hasBlockingIssues,
+                'reviewed_blocking_issues': reviewed.hasBlockingIssues,
+                'is_update': isUpdate,
+              },
+            );
+            if (decision == null) {
+              // Dismissed — editor stays open, nothing saved; the finally
+              // block below resets _isSaving.
+              return;
+            }
+            processing = diff.processingFor(decision);
+            if (decision == RecipeAiReviewDecision.applied &&
+                !processing.hasBlockingIssues &&
+                mounted) {
+              scaffoldMessenger.showSnackBar(
+                SnackBar(content: Text(l10n.recipeCreationAiReviewApplied)),
+              );
+            }
           }
         }
       }

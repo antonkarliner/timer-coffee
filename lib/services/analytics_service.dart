@@ -23,6 +23,7 @@ import '../utils/app_logger.dart';
 ///   review_edited, review_deleted, review_translated,
 ///   reviews_translated_batch, review_nudge_card_shown, bean_deleted
 /// - **general**: app_opened, screen_viewed, recipe_created, recipe_shared,
+///   recipe_ai_review_resolved,
 ///   collection interactions and sharing, donation_screen_viewed,
 ///   donation_button_tapped, donation_completed, donation_failed,
 ///   donation_cancelled,
@@ -128,6 +129,8 @@ class AnalyticsService extends ChangeNotifier {
     'sign_in_sync_failed': 'general',
     'recipe_created': 'general',
     'recipe_shared': 'general',
+    // AI recipe review resolution (apply / keep / dismiss / no changes / fail)
+    'recipe_ai_review_resolved': 'general',
     'collection_card_tapped': 'general',
     'collection_detail_viewed': 'general',
     'collection_recipe_tapped': 'general',
