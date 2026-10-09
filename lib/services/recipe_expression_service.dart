@@ -3,6 +3,47 @@ import '../models/brew_step_model.dart';
 
 enum RecipeStepKind { preparation, brew }
 
+enum RecipeAmountResolutionReason {
+  coffeeKeyword,
+  waterKeyword,
+  keywordTie,
+  brewDefaultWater,
+  preparationCleanScoreCoffee,
+  preparationCleanScoreWater,
+  preparationAmbiguous,
+  skippedInsideExpression,
+  skippedInsidePlaceholder,
+  skippedRateContext,
+  skippedBelowMinimum,
+  skippedNoBaseAmount,
+}
+
+/// One recognized amount. Contains no step text.
+class RecipeAmountResolution {
+  final int start;
+  final int end;
+  final double value;
+  final String unit;
+  final bool isRange;
+  final String? placeholder;
+  final RecipeAmountResolutionReason reason;
+
+  /// False for ranges (original text). For singles, true when the range pass
+  /// changed the text; offsets then refer to that intermediate text.
+  final bool offsetsInRangeSubstitutedText;
+
+  const RecipeAmountResolution({
+    required this.start,
+    required this.end,
+    required this.value,
+    required this.unit,
+    required this.isRange,
+    required this.placeholder,
+    required this.reason,
+    required this.offsetsInRangeSubstitutedText,
+  });
+}
+
 class RecipeExpressionIssue {
   final String code;
   final String message;
@@ -66,7 +107,13 @@ class _ResolvedPlaceholder {
   final String? placeholder;
   final RecipeExpressionIssue? issue;
 
-  const _ResolvedPlaceholder({this.placeholder, this.issue});
+  final RecipeAmountResolutionReason reason;
+
+  const _ResolvedPlaceholder({
+    this.placeholder,
+    this.issue,
+    required this.reason,
+  });
 }
 
 class RecipeExpressionService {
@@ -270,6 +317,31 @@ class RecipeExpressionService {
     ).description;
   }
 
+  /// Explains the same conversion used when saving, without retaining text.
+  ///
+  /// Offsets are UTF-16 string offsets, end-exclusive. Ranges use the original
+  /// description; singles use the range-substituted intermediate text when
+  /// [RecipeAmountResolution.offsetsInRangeSubstitutedText] is true.
+  /// Ranges left literal in the first pass may also yield a single upper-bound
+  /// observation in the second pass, which can make a different decision.
+  /// Results follow original source order, across both passes.
+  static List<RecipeAmountResolution> explainStepConversion(
+    String description, {
+    required RecipeStepKind kind,
+    required double coffeeAmount,
+    required double waterAmount,
+  }) {
+    final trace = <RecipeAmountResolution>[];
+    _convertNumericValuesToExpressionsDetailed(
+      description: description,
+      kind: kind,
+      coffeeAmount: coffeeAmount,
+      waterAmount: waterAmount,
+      trace: trace,
+    );
+    return List.unmodifiable(trace);
+  }
+
   static String renderDescription(
     String description, {
     required double coffeeAmount,
@@ -432,23 +504,58 @@ class RecipeExpressionService {
     required RecipeStepKind kind,
     required double coffeeAmount,
     required double waterAmount,
+    List<RecipeAmountResolution>? trace,
   }) {
     if (description.trim().isEmpty) {
       return _ConversionResult(description: description, issues: const []);
     }
 
     final issues = <RecipeExpressionIssue>[];
+    // Track length changes solely to order observations across the two passes.
+    var rangeLengthDelta = 0;
+    final rangeReplacements = <({int end, int delta})>[];
 
     final withRanges = description.replaceAllMapped(_amountRangeRegex, (match) {
       final start = match.start;
       final lower = _parseLocalizedNumber(match.group(1)!);
       final upper = _parseLocalizedNumber(match.group(2)!);
       final unit = match.group(3)!;
-      if (lower == null || upper == null || lower < 0.1 || upper < 0.1) {
-        return match.group(0)!;
+      String finish(
+        String output,
+        RecipeAmountResolutionReason reason, [
+        String? placeholder,
+      ]) {
+        trace?.add(
+          RecipeAmountResolution(
+            start: start,
+            end: match.end,
+            value: upper!,
+            unit: unit,
+            isRange: true,
+            placeholder: placeholder,
+            reason: reason,
+            offsetsInRangeSubstitutedText: false,
+          ),
+        );
+        final delta = output.length - (match.end - start);
+        rangeReplacements.add((
+          end: match.end + rangeLengthDelta + delta,
+          delta: delta,
+        ));
+        rangeLengthDelta += delta;
+        return output;
       }
-      if (_shouldSkipAmount(description, start, match.end)) {
-        return match.group(0)!;
+
+      if (lower == null || upper == null || lower < 0.1 || upper < 0.1) {
+        if (upper == null) return match.group(0)!;
+        return finish(
+          match.group(0)!,
+          RecipeAmountResolutionReason.skippedBelowMinimum,
+        );
+      }
+      final skipReason = _amountSkipReason(description, start, match.end);
+      if (skipReason != null) {
+        return finish(match.group(0)!, skipReason);
       }
 
       final resolved = _resolvePlaceholder(
@@ -463,24 +570,60 @@ class RecipeExpressionService {
       );
       if (resolved.issue != null) issues.add(resolved.issue!);
       final placeholder = resolved.placeholder;
-      if (placeholder == null) return match.group(0)!;
+      if (placeholder == null) return finish(match.group(0)!, resolved.reason);
       final baseAmount = placeholder == finalCoffeeAmount
           ? coffeeAmount
           : waterAmount;
-      if (baseAmount <= 0) return match.group(0)!;
+      if (baseAmount <= 0) {
+        return finish(
+          match.group(0)!,
+          RecipeAmountResolutionReason.skippedNoBaseAmount,
+        );
+      }
 
-      return '(${formatMultiplier(lower / baseAmount)} x <$placeholder>)-'
-          '(${formatMultiplier(upper / baseAmount)} x <$placeholder>)'
-          '${unit.trim()}';
+      return finish(
+        '(${formatMultiplier(lower / baseAmount)} x <$placeholder>)-'
+        '(${formatMultiplier(upper / baseAmount)} x <$placeholder>)'
+        '${unit.trim()}',
+        resolved.reason,
+        placeholder,
+      );
     });
 
     final converted = withRanges.replaceAllMapped(_amountRegex, (match) {
       final start = match.start;
       final value = _parseLocalizedNumber(match.group(1)!);
       final unit = match.group(2)!;
-      if (value == null || value < 0.1) return match.group(0)!;
-      if (_shouldSkipAmount(withRanges, start, match.end)) {
-        return match.group(0)!;
+      String finish(
+        String output,
+        RecipeAmountResolutionReason reason, [
+        String? placeholder,
+      ]) {
+        trace?.add(
+          RecipeAmountResolution(
+            start: start,
+            end: match.end,
+            value: value!,
+            unit: unit,
+            isRange: false,
+            placeholder: placeholder,
+            reason: reason,
+            offsetsInRangeSubstitutedText: withRanges != description,
+          ),
+        );
+        return output;
+      }
+
+      if (value == null) return match.group(0)!;
+      if (value < 0.1) {
+        return finish(
+          match.group(0)!,
+          RecipeAmountResolutionReason.skippedBelowMinimum,
+        );
+      }
+      final skipReason = _amountSkipReason(withRanges, start, match.end);
+      if (skipReason != null) {
+        return finish(match.group(0)!, skipReason);
       }
 
       final resolved = _resolvePlaceholder(
@@ -495,16 +638,35 @@ class RecipeExpressionService {
       );
       if (resolved.issue != null) issues.add(resolved.issue!);
       final placeholder = resolved.placeholder;
-      if (placeholder == null) return match.group(0)!;
+      if (placeholder == null) return finish(match.group(0)!, resolved.reason);
       final baseAmount = placeholder == finalCoffeeAmount
           ? coffeeAmount
           : waterAmount;
-      if (baseAmount <= 0) return match.group(0)!;
+      if (baseAmount <= 0) {
+        return finish(
+          match.group(0)!,
+          RecipeAmountResolutionReason.skippedNoBaseAmount,
+        );
+      }
 
-      return '(${formatMultiplier(value / baseAmount)} x <$placeholder>)'
-          '${unit.trim()}';
+      return finish(
+        '(${formatMultiplier(value / baseAmount)} x <$placeholder>)'
+        '${unit.trim()}',
+        resolved.reason,
+        placeholder,
+      );
     });
 
+    // Preserve source order even though the converter scans ranges first.
+    int originalStart(RecipeAmountResolution amount) {
+      if (!amount.offsetsInRangeSubstitutedText) return amount.start;
+      return amount.start -
+          rangeReplacements
+              .where((replacement) => replacement.end <= amount.start)
+              .fold<int>(0, (sum, replacement) => sum + replacement.delta);
+    }
+
+    trace?.sort((a, b) => originalStart(a).compareTo(originalStart(b)));
     return _ConversionResult(description: converted, issues: issues);
   }
 
@@ -542,21 +704,34 @@ class RecipeExpressionService {
     );
 
     if (coffeeDistance != null && waterDistance == null) {
-      return const _ResolvedPlaceholder(placeholder: finalCoffeeAmount);
+      return const _ResolvedPlaceholder(
+        placeholder: finalCoffeeAmount,
+        reason: RecipeAmountResolutionReason.coffeeKeyword,
+      );
     }
     if (waterDistance != null && coffeeDistance == null) {
-      return const _ResolvedPlaceholder(placeholder: finalWaterAmount);
+      return const _ResolvedPlaceholder(
+        placeholder: finalWaterAmount,
+        reason: RecipeAmountResolutionReason.waterKeyword,
+      );
     }
     if (coffeeDistance != null && waterDistance != null) {
       if (coffeeDistance < waterDistance) {
-        return const _ResolvedPlaceholder(placeholder: finalCoffeeAmount);
+        return const _ResolvedPlaceholder(
+          placeholder: finalCoffeeAmount,
+          reason: RecipeAmountResolutionReason.coffeeKeyword,
+        );
       }
       if (waterDistance < coffeeDistance) {
-        return const _ResolvedPlaceholder(placeholder: finalWaterAmount);
+        return const _ResolvedPlaceholder(
+          placeholder: finalWaterAmount,
+          reason: RecipeAmountResolutionReason.waterKeyword,
+        );
       }
       // Coffee and water wording are exactly equidistant — leave the amount
       // unconverted and let the user decide.
       return _ResolvedPlaceholder(
+        reason: RecipeAmountResolutionReason.keywordTie,
         issue: RecipeExpressionIssue(
           code: 'ambiguous_amount',
           message:
@@ -566,7 +741,10 @@ class RecipeExpressionService {
       );
     }
     if (kind == RecipeStepKind.brew) {
-      return const _ResolvedPlaceholder(placeholder: finalWaterAmount);
+      return const _ResolvedPlaceholder(
+        placeholder: finalWaterAmount,
+        reason: RecipeAmountResolutionReason.brewDefaultWater,
+      );
     }
 
     final multiplier = getCleanestMultiplier(value, coffeeAmount, waterAmount);
@@ -575,6 +753,7 @@ class RecipeExpressionService {
     final isAmbiguous = (coffeeScore - waterScore).abs() < 5;
     if (isAmbiguous) {
       return _ResolvedPlaceholder(
+        reason: RecipeAmountResolutionReason.preparationAmbiguous,
         issue: RecipeExpressionIssue(
           code: 'ambiguous_amount',
           message:
@@ -584,6 +763,9 @@ class RecipeExpressionService {
       );
     }
     return _ResolvedPlaceholder(
+      reason: multiplier['type'] == 'coffee'
+          ? RecipeAmountResolutionReason.preparationCleanScoreCoffee
+          : RecipeAmountResolutionReason.preparationCleanScoreWater,
       placeholder: multiplier['type'] == 'coffee'
           ? finalCoffeeAmount
           : finalWaterAmount,
@@ -617,17 +799,27 @@ class RecipeExpressionService {
     return best;
   }
 
-  static bool _shouldSkipAmount(String text, int start, int end) {
-    if (_isInsideExpression(text, start)) return true;
-    if (_isInsidePlaceholder(text, start)) return true;
+  static RecipeAmountResolutionReason? _amountSkipReason(
+    String text,
+    int start,
+    int end,
+  ) {
+    if (_isInsideExpression(text, start)) {
+      return RecipeAmountResolutionReason.skippedInsideExpression;
+    }
+    if (_isInsidePlaceholder(text, start)) {
+      return RecipeAmountResolutionReason.skippedInsidePlaceholder;
+    }
 
     final tail = text.substring(
       end,
       end + 16 > text.length ? text.length : end + 16,
     );
-    if (_rateContextRegex.hasMatch(tail)) return true;
+    if (_rateContextRegex.hasMatch(tail)) {
+      return RecipeAmountResolutionReason.skippedRateContext;
+    }
 
-    return false;
+    return null;
   }
 
   static bool _isInsideExpression(String text, int index) {
