@@ -447,4 +447,49 @@ void main() {
       ]);
     });
   });
+  group('original description trace offsets', () {
+    for (final text in [
+      'Pour 60-90g water; add 15g coffee',
+      'Add ۶۰ گرم آب',
+      'coffee 60-90g water',
+    ]) {
+      test('maps original UTF-16 spans: $text', () {
+        final amounts = RecipeExpressionService.explainStepConversion(
+          text,
+          kind: RecipeStepKind.brew,
+          coffeeAmount: 15,
+          waterAmount: 250,
+        );
+        final expected = text.startsWith('Pour')
+            ? ['60-90g', '15g']
+            : text.startsWith('Add')
+            ? ['۶۰ گرم']
+            : ['60-90g', '90g'];
+        expect(
+          amounts.map((a) => text.substring(a.originalStart, a.originalEnd)),
+          expected,
+        );
+        final before =
+            RecipeExpressionService.convertNumericValuesToExpressions(
+              text,
+              15,
+              250,
+            );
+        RecipeExpressionService.explainStepConversion(
+          text,
+          kind: RecipeStepKind.brew,
+          coffeeAmount: 15,
+          waterAmount: 250,
+        );
+        expect(
+          RecipeExpressionService.convertNumericValuesToExpressions(
+            text,
+            15,
+            250,
+          ),
+          before,
+        );
+      });
+    }
+  });
 }

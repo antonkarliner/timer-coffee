@@ -22,6 +22,10 @@ enum RecipeAmountResolutionReason {
 class RecipeAmountResolution {
   final int start;
   final int end;
+
+  /// UTF-16 offsets into the description passed to the converter, end-exclusive.
+  final int originalStart;
+  final int originalEnd;
   final double value;
   final String unit;
   final bool isRange;
@@ -35,6 +39,8 @@ class RecipeAmountResolution {
   const RecipeAmountResolution({
     required this.start,
     required this.end,
+    required this.originalStart,
+    required this.originalEnd,
     required this.value,
     required this.unit,
     required this.isRange,
@@ -511,9 +517,15 @@ class RecipeExpressionService {
     }
 
     final issues = <RecipeExpressionIssue>[];
-    // Track length changes solely to order observations across the two passes.
+    // Map intermediate offsets back into the original description.
     var rangeLengthDelta = 0;
     final rangeReplacements = <({int end, int delta})>[];
+
+    int originalOffset(int offset) =>
+        offset -
+        rangeReplacements
+            .where((replacement) => replacement.end <= offset)
+            .fold<int>(0, (sum, replacement) => sum + replacement.delta);
 
     final withRanges = description.replaceAllMapped(_amountRangeRegex, (match) {
       final start = match.start;
@@ -529,6 +541,8 @@ class RecipeExpressionService {
           RecipeAmountResolution(
             start: start,
             end: match.end,
+            originalStart: start,
+            originalEnd: match.end,
             value: upper!,
             unit: unit,
             isRange: true,
@@ -603,6 +617,8 @@ class RecipeExpressionService {
           RecipeAmountResolution(
             start: start,
             end: match.end,
+            originalStart: originalOffset(start),
+            originalEnd: originalOffset(match.end),
             value: value!,
             unit: unit,
             isRange: false,
@@ -658,15 +674,7 @@ class RecipeExpressionService {
     });
 
     // Preserve source order even though the converter scans ranges first.
-    int originalStart(RecipeAmountResolution amount) {
-      if (!amount.offsetsInRangeSubstitutedText) return amount.start;
-      return amount.start -
-          rangeReplacements
-              .where((replacement) => replacement.end <= amount.start)
-              .fold<int>(0, (sum, replacement) => sum + replacement.delta);
-    }
-
-    trace?.sort((a, b) => originalStart(a).compareTo(originalStart(b)));
+    trace?.sort((a, b) => a.originalStart.compareTo(b.originalStart));
     return _ConversionResult(description: converted, issues: issues);
   }
 
