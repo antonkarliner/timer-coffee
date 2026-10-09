@@ -3197,33 +3197,5 @@
   "settingsAppIconRestartConfirm": "Change icon",
   "@settingsAppIconRestartConfirm": {"description": "Confirm button of the Android-only app icon confirmation dialog."},
   "summarySeparator": " · ",
-  "@summarySeparator": {"description": "Separator between the parts of a one-line summary, e.g. \"Classic · Silent\" or \"12 brews · 5 active days\". Keep the spaces. Persian uses \"، \" because its zero (۰) is a dot, so a middle dot next to a Persian digit reads as part of the number."},
-  "recipeCreationAiReviewNoChanges": "AI review found nothing to change.",
-  "@recipeCreationAiReviewNoChanges": {"description": "Snackbar shown when the AI recipe review completed but produced no changes to the recipe steps."},
-  "recipeCreationAiReviewChangesTitle": "Review AI changes",
-  "@recipeCreationAiReviewChangesTitle": {"description": "Title of the sheet listing the AI recipe review changes before saving."},
-  "recipeCreationAiReviewChangesSummary": "{count, plural, one{The AI review changed {count} step.} other{The AI review changed {count} steps.}}",
-  "@recipeCreationAiReviewChangesSummary": {
-    "description": "Intro line of the AI review changes sheet: how many steps the review changed.",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
-  "recipeCreationAiReviewChangesScaleHint": "Highlighted amounts change automatically when you scale the recipe.",
-  "@recipeCreationAiReviewChangesScaleHint": {"description": "Line in the AI review changes sheet explaining that highlighted amounts follow the coffee and water amounts when the recipe is scaled."},
-  "recipeCreationAiReviewPreviewScaled": "Preview at 2× amounts",
-  "@recipeCreationAiReviewPreviewScaled": {"description": "Switch label in the AI review changes sheet: render the steps at double the coffee and water amounts."},
-  "recipeCreationAiReviewYourVersion": "Your version",
-  "@recipeCreationAiReviewYourVersion": {"description": "Label above the step text as the user originally wrote it (after local processing)."},
-  "recipeCreationAiReviewReviewedVersion": "Reviewed",
-  "@recipeCreationAiReviewReviewedVersion": {"description": "Label above the step text as corrected by the AI review."},
-  "recipeCreationAiReviewApply": "Apply changes",
-  "@recipeCreationAiReviewApply": {"description": "Button that saves the recipe with the AI review changes applied."},
-  "recipeCreationAiReviewKeepMine": "Keep my version",
-  "@recipeCreationAiReviewKeepMine": {"description": "Button that saves the recipe with the user’s original step text, ignoring the AI review changes."},
-  "recipeCreationAiReviewIssueAmountUnverified": "The review couldn’t confirm every amount. Check them before applying.",
-  "@recipeCreationAiReviewIssueAmountUnverified": {"description": "Note shown in the AI review changes sheet when the backend reported an amount-related issue it could not verify."}
+  "@summarySeparator": {"description": "Separator between the parts of a one-line summary, e.g. \"Classic · Silent\" or \"12 brews · 5 active days\". Keep the spaces. Persian uses \"، \" because its zero (۰) is a dot, so a middle dot next to a Persian digit reads as part of the number."}
 }

@@ -1406,15 +1406,5 @@
   "settingsAppIconRestartTitle": "Vaihdetaanko sovelluksen kuvake?",
   "settingsAppIconRestartBody": "Timer.Coffee sulkeutuu, jotta muutos otetaan käyttöön. Avaa se uudelleen laitteen aloitusnäytöltä.",
   "settingsAppIconRestartConfirm": "Vaihda kuvake",
-  "summarySeparator": " · ",
-  "recipeCreationAiReviewNoChanges": "Tekoälyn tarkistus ei löytänyt muutettavaa.",
-  "recipeCreationAiReviewChangesTitle": "Tarkista tekoälyn muutokset",
-  "recipeCreationAiReviewChangesSummary": "{count, plural, one{Tekoälyn tarkistus muutti {count} vaiheen.} other{Tekoälyn tarkistus muutti {count} vaihetta.}}",
-  "recipeCreationAiReviewChangesScaleHint": "Korostetut määrät muuttuvat automaattisesti, kun skaalat reseptiä.",
-  "recipeCreationAiReviewPreviewScaled": "Esikatselu kaksinkertaisilla määrillä",
-  "recipeCreationAiReviewYourVersion": "Oma versiosi",
-  "recipeCreationAiReviewReviewedVersion": "Tarkistettu",
-  "recipeCreationAiReviewApply": "Ota muutokset käyttöön",
-  "recipeCreationAiReviewKeepMine": "Säilytä oma versioni",
-  "recipeCreationAiReviewIssueAmountUnverified": "Tarkistus ei voinut vahvistaa kaikkia määriä. Tarkista ne ennen käyttöönottoa."
+  "summarySeparator": " · "
 }

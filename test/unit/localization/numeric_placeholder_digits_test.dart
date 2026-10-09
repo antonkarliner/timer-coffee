@@ -92,8 +92,6 @@ void main() {
     'dataExportIncorrectCodeAttempts': (l, n) =>
         l.dataExportIncorrectCodeAttempts(n),
     'accountEmailResendCountdown': (l, n) => l.accountEmailResendCountdown(n),
-    'recipeCreationAiReviewChangesSummary': (l, n) =>
-        l.recipeCreationAiReviewChangesSummary(n),
   };
 
   Map<String, dynamic> readArb(String path) =>

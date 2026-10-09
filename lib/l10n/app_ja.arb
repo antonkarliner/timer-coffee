@@ -1554,15 +1554,5 @@
   "settingsAppIconRestartTitle": "アプリアイコンを変更しますか？",
   "settingsAppIconRestartBody": "反映のためTimer.Coffeeを終了します。ホーム画面からもう一度開いてください。",
   "settingsAppIconRestartConfirm": "アイコンを変更",
-  "summarySeparator": " · ",
-  "recipeCreationAiReviewNoChanges": "AIレビューで変更が必要な箇所は見つかりませんでした。",
-  "recipeCreationAiReviewChangesTitle": "AIによる変更を確認",
-  "recipeCreationAiReviewChangesSummary": "{count, plural, other{AIレビューで{count}個のステップが変更されました。}}",
-  "recipeCreationAiReviewChangesScaleHint": "ハイライト表示された分量は、レシピの分量を変更すると自動的に変わります。",
-  "recipeCreationAiReviewPreviewScaled": "2倍の分量でプレビュー",
-  "recipeCreationAiReviewYourVersion": "あなたのバージョン",
-  "recipeCreationAiReviewReviewedVersion": "レビュー後",
-  "recipeCreationAiReviewApply": "変更を適用",
-  "recipeCreationAiReviewKeepMine": "自分のバージョンを使う",
-  "recipeCreationAiReviewIssueAmountUnverified": "レビューですべての分量を確認できませんでした。適用する前に確認してください。"
+  "summarySeparator": " · "
 }

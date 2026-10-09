@@ -1554,15 +1554,5 @@
   "settingsAppIconRestartTitle": "Змінити іконку додатка?",
   "settingsAppIconRestartBody": "Щоб застосувати її, Timer.Coffee закриється. Відкрийте додаток знову з головного екрана.",
   "settingsAppIconRestartConfirm": "Змінити іконку",
-  "summarySeparator": " · ",
-  "recipeCreationAiReviewNoChanges": "ШІ-перевірка не знайшла, що виправити.",
-  "recipeCreationAiReviewChangesTitle": "Переглянути зміни ШІ",
-  "recipeCreationAiReviewChangesSummary": "{count, plural, one{ШІ-перевірка змінила {count} крок.} few{ШІ-перевірка змінила {count} кроки.} many{ШІ-перевірка змінила {count} кроків.} other{ШІ-перевірка змінила {count} кроку.}}",
-  "recipeCreationAiReviewChangesScaleHint": "Виділені кількості змінюються автоматично під час масштабування рецепта.",
-  "recipeCreationAiReviewPreviewScaled": "Перегляд із подвоєними кількостями",
-  "recipeCreationAiReviewYourVersion": "Ваша версія",
-  "recipeCreationAiReviewReviewedVersion": "Після перевірки",
-  "recipeCreationAiReviewApply": "Застосувати зміни",
-  "recipeCreationAiReviewKeepMine": "Залишити мою версію",
-  "recipeCreationAiReviewIssueAmountUnverified": "Перевірка не змогла підтвердити всі кількості. Перевірте їх перед застосуванням."
+  "summarySeparator": " · "
 }

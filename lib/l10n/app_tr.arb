@@ -1554,15 +1554,5 @@
   "settingsAppIconRestartTitle": "Uygulama simgesi değiştirilsin mi?",
   "settingsAppIconRestartBody": "Uygulamak için Timer.Coffee kapanacak. Ana ekrandan yeniden aç.",
   "settingsAppIconRestartConfirm": "Simgeyi değiştir",
-  "summarySeparator": " · ",
-  "recipeCreationAiReviewNoChanges": "Yapay zeka incelemesi değiştirilecek bir şey bulmadı.",
-  "recipeCreationAiReviewChangesTitle": "Yapay zeka değişikliklerini incele",
-  "recipeCreationAiReviewChangesSummary": "{count, plural, one{Yapay zeka incelemesi {count} adımı değiştirdi.} other{Yapay zeka incelemesi {count} adımı değiştirdi.}}",
-  "recipeCreationAiReviewChangesScaleHint": "Vurgulanan miktarlar, tarifi ölçeklediğinizde otomatik olarak değişir.",
-  "recipeCreationAiReviewPreviewScaled": "2 katı miktarlarla önizleme",
-  "recipeCreationAiReviewYourVersion": "Sizin sürümünüz",
-  "recipeCreationAiReviewReviewedVersion": "İncelendi",
-  "recipeCreationAiReviewApply": "Değişiklikleri uygula",
-  "recipeCreationAiReviewKeepMine": "Kendi sürümümü koru",
-  "recipeCreationAiReviewIssueAmountUnverified": "İnceleme her miktarı doğrulayamadı. Uygulamadan önce kontrol edin."
+  "summarySeparator": " · "
 }

@@ -1824,15 +1824,5 @@
   "settingsAppIconRestartTitle": "Αλλαγή εικονιδίου εφαρμογής;",
   "settingsAppIconRestartBody": "Το Timer.Coffee θα κλείσει για να εφαρμοστεί η αλλαγή. Ανοίξτε το ξανά από την αρχική οθόνη.",
   "settingsAppIconRestartConfirm": "Αλλαγή εικονιδίου",
-  "summarySeparator": " · ",
-  "recipeCreationAiReviewNoChanges": "Ο έλεγχος με AI δεν βρήκε τίποτα να αλλάξει.",
-  "recipeCreationAiReviewChangesTitle": "Έλεγχος αλλαγών AI",
-  "recipeCreationAiReviewChangesSummary": "{count, plural, one{Ο έλεγχος με AI άλλαξε {count} βήμα.} other{Ο έλεγχος με AI άλλαξε {count} βήματα.}}",
-  "recipeCreationAiReviewChangesScaleHint": "Οι επισημασμένες ποσότητες αλλάζουν αυτόματα όταν κλιμακώνετε τη συνταγή.",
-  "recipeCreationAiReviewPreviewScaled": "Προεπισκόπηση με διπλάσιες ποσότητες",
-  "recipeCreationAiReviewYourVersion": "Η έκδοσή σας",
-  "recipeCreationAiReviewReviewedVersion": "Μετά τον έλεγχο",
-  "recipeCreationAiReviewApply": "Εφαρμογή αλλαγών",
-  "recipeCreationAiReviewKeepMine": "Διατήρηση της έκδοσής μου",
-  "recipeCreationAiReviewIssueAmountUnverified": "Ο έλεγχος δεν μπόρεσε να επιβεβαιώσει κάθε ποσότητα. Ελέγξτε τις πριν τις εφαρμόσετε."
+  "summarySeparator": " · "
 }

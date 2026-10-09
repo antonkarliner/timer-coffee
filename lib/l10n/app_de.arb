@@ -1554,15 +1554,5 @@
   "settingsAppIconRestartTitle": "App-Icon ändern?",
   "settingsAppIconRestartBody": "Timer.Coffee wird geschlossen, um das Icon anzuwenden. Öffne es danach wieder von deinem Startbildschirm.",
   "settingsAppIconRestartConfirm": "Icon ändern",
-  "summarySeparator": " · ",
-  "recipeCreationAiReviewNoChanges": "Die KI-Prüfung hat nichts zu ändern gefunden.",
-  "recipeCreationAiReviewChangesTitle": "KI-Änderungen prüfen",
-  "recipeCreationAiReviewChangesSummary": "{count, plural, one{Die KI-Prüfung hat {count} Schritt geändert.} other{Die KI-Prüfung hat {count} Schritte geändert.}}",
-  "recipeCreationAiReviewChangesScaleHint": "Hervorgehobene Mengen passen sich automatisch an, wenn du die Rezeptmenge änderst.",
-  "recipeCreationAiReviewPreviewScaled": "Vorschau mit doppelten Mengen",
-  "recipeCreationAiReviewYourVersion": "Deine Version",
-  "recipeCreationAiReviewReviewedVersion": "Geprüft",
-  "recipeCreationAiReviewApply": "Änderungen übernehmen",
-  "recipeCreationAiReviewKeepMine": "Meine Version behalten",
-  "recipeCreationAiReviewIssueAmountUnverified": "Die Prüfung konnte nicht jede Menge bestätigen. Kontrolliere sie, bevor du die Änderungen übernimmst."
+  "summarySeparator": " · "
 }

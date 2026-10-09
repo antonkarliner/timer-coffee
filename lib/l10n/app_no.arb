@@ -1784,15 +1784,5 @@
   "settingsAppIconRestartTitle": "Endre appikonet?",
   "settingsAppIconRestartBody": "Timer.Coffee lukkes for å bruke endringen. Åpne den igjen fra hjemskjermen.",
   "settingsAppIconRestartConfirm": "Endre ikon",
-  "summarySeparator": " · ",
-  "recipeCreationAiReviewNoChanges": "AI-gjennomgangen fant ingenting å endre.",
-  "recipeCreationAiReviewChangesTitle": "Se gjennom AI-endringer",
-  "recipeCreationAiReviewChangesSummary": "{count, plural, one{AI-gjennomgangen endret {count} trinn.} other{AI-gjennomgangen endret {count} trinn.}}",
-  "recipeCreationAiReviewChangesScaleHint": "Uthevede mengder endres automatisk når du endrer størrelsen på oppskriften.",
-  "recipeCreationAiReviewPreviewScaled": "Forhåndsvis med doble mengder",
-  "recipeCreationAiReviewYourVersion": "Din versjon",
-  "recipeCreationAiReviewReviewedVersion": "Gjennomgått",
-  "recipeCreationAiReviewApply": "Bruk endringene",
-  "recipeCreationAiReviewKeepMine": "Behold min versjon",
-  "recipeCreationAiReviewIssueAmountUnverified": "Gjennomgangen kunne ikke bekrefte alle mengder. Sjekk dem før du bruker dem."
+  "summarySeparator": " · "
 }

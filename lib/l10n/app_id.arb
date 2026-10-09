@@ -1554,15 +1554,5 @@
   "settingsAppIconRestartTitle": "Ubah ikon aplikasi?",
   "settingsAppIconRestartBody": "Timer.Coffee akan ditutup untuk menerapkannya. Buka lagi dari layar utama perangkat Anda.",
   "settingsAppIconRestartConfirm": "Ubah ikon",
-  "summarySeparator": " · ",
-  "recipeCreationAiReviewNoChanges": "Tinjauan AI tidak menemukan apa pun yang perlu diubah.",
-  "recipeCreationAiReviewChangesTitle": "Tinjau perubahan AI",
-  "recipeCreationAiReviewChangesSummary": "{count, plural, other{Tinjauan AI mengubah {count} langkah.}}",
-  "recipeCreationAiReviewChangesScaleHint": "Jumlah yang disorot berubah otomatis saat Anda menskalakan resep.",
-  "recipeCreationAiReviewPreviewScaled": "Pratinjau dengan jumlah 2×",
-  "recipeCreationAiReviewYourVersion": "Versi Anda",
-  "recipeCreationAiReviewReviewedVersion": "Hasil tinjauan",
-  "recipeCreationAiReviewApply": "Terapkan perubahan",
-  "recipeCreationAiReviewKeepMine": "Pertahankan versi saya",
-  "recipeCreationAiReviewIssueAmountUnverified": "Tinjauan tidak dapat memastikan setiap jumlah. Periksa sebelum menerapkan."
+  "summarySeparator": " · "
 }
