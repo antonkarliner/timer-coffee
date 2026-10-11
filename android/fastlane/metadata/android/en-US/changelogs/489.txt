@@ -1,0 +1,6 @@
+New:
+• Report an error on a roaster’s page, or claim the page if it’s your roastery. Find both in the ⋮ menu on the roaster profile.
+
+Improved:
+• The AI recipe check is gone. The app checks recipe amounts itself, and still asks when an amount could mean coffee or water.
+• Roasters have one storefront icon, which also stands in for a missing logo.

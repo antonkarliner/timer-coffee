@@ -1,20 +1,7 @@
 What’s New:
-• A new app icon, made for the Liquid Glass look of iOS 26. It shows on your Live Activity too, and the alternate icons have a new picker in Settings → Appearance.
-• Change the email on your account, and link or unlink Google and Apple sign-in, from the Account screen.
-• Settings is redesigned. Instead of one long list, it opens on your account and six clear pages: Appearance, Language & region, Notifications, Brewing, Home screen, and Privacy & data.
-• When you tap a grind size field, it now suggests the last three grind sizes you used.
+• Spot a mistake on a roaster’s page? Tap ⋮ on the roaster profile and choose “Report an error”. Pick what’s wrong, add the correct value if you know it, and send it. We review every report.
+• If you run a roastery, you can claim its page from the same menu, or from the “Is this your roastery?” link on the profile.
 
 Improvements:
-• Sign-in is the same simple sheet everywhere in the app, and a verification code submits itself as soon as you’ve typed it.
-• Choosing a brewing screen layout now shows a preview of each one, in Settings → Brewing and from the gear icon before a brew.
-• Step change alerts (silent, vibration or sound) now have their own place in Settings → Brewing.
-• Bean review reminders can now be turned off in Settings → Notifications.
-• Time and date pickers follow your 12/24-hour and date format settings.
-• Arabic and Persian show numbers, dates and counts with the right digits and punctuation.
-• Tab labels fit at large text sizes, and error text is easier to read in dark mode.
-
-Bug Fixes:
-• Fixed a recipe’s grind size getting stuck after you tapped Next without changing it. It now follows the recipe again.
-• Fixed the rating prompt appearing when you switched back to the app.
-• Fixed notifications for your account still reaching a device after you signed out.
-• Fixed the coffee level jumping when you pause an immersive brew.
+• The AI recipe check has been removed. The app now always checks the amounts in your recipe steps itself, and still asks you when an amount could mean either coffee or water.
+• Roasters have one storefront icon throughout the app, and it stands in for a roaster’s logo until one is added.
