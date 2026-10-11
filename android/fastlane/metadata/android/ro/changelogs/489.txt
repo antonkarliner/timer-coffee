@@ -1,0 +1,6 @@
+Nou:
+• Raportează o eroare pe pagina unei prăjitorii sau revendic-o dacă este a ta. Le găsești în meniul ⋮ din profilul prăjitoriei.
+
+Îmbunătățit:
+• Verificarea AI a rețetelor a fost eliminată. Aplicația verifică singură cantitățile și întreabă în continuare când o cantitate poate însemna cafea sau apă.
+• Prăjitoriile au o singură pictogramă de magazin, folosită și când lipsește logo-ul.

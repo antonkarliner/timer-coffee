@@ -1,20 +1,7 @@
 Yenilikler:
-• iOS 26’nın Liquid Glass görünümü için tasarlanmış yeni bir uygulama simgesi. Canlı Etkinliğinizde de görünür; alternatif simgeler için Ayarlar → Görünüm’de yeni bir seçici bulunur.
-• Hesap ekranından hesabınızdaki e-posta adresini değiştirin, Google ve Apple ile oturum açmayı bağlayın veya bağlantısını kaldırın.
-• Ayarlar yeniden tasarlandı. Tek bir uzun liste yerine, hesabınız ve altı net sayfayla açılır: Görünüm, Dil ve bölge, Bildirimler, Demleme, Ana ekran ve Gizlilik ve veriler.
-• Bir öğütme boyutu alanına dokunduğunuzda artık en son kullandığınız üç öğütme boyutunu önerir.
+• Bir kavurucunun sayfasında hata mı fark ettiniz? Kavurucu profilindeki ⋮ simgesine dokunun ve “Hata bildir”i seçin. Sorunun ne olduğunu seçin, biliyorsanız doğru değeri ekleyin ve gönderin. Her bildirimi inceliyoruz.
+• Bir kahve kavurucusu işletiyorsanız, sayfasını aynı menüden veya profildeki “Bu sizin kavurucunuz mu?” bağlantısından sahiplenebilirsiniz.
 
 İyileştirmeler:
-• Oturum açma, uygulamanın her yerinde aynı basit sayfada yapılır ve doğrulama kodu, yazmayı bitirir bitirmez otomatik olarak gönderilir.
-• Demleme ekranı düzenini seçtiğinizde artık her düzenin önizlemesi gösterilir; bunu Ayarlar → Demleme bölümünde ve demleme öncesinde dişli simgesinden görebilirsiniz.
-• Adım geçişi uyarıları (sessiz, titreşim veya ses) artık Ayarlar → Demleme bölümünde kendi alanına sahip.
-• Çekirdek yorumu hatırlatıcıları artık Ayarlar → Bildirimler bölümünden kapatılabilir.
-• Saat ve tarih seçicileri, 12/24 saat ve tarih biçimi ayarlarınızı takip eder.
-• Arapça ve Farsçada sayılar, tarihler ve sayımlar doğru rakamlar ve noktalama işaretleriyle gösterilir.
-• Sekme etiketleri büyük metin boyutlarına sığar ve hata metinleri koyu modda daha kolay okunur.
-
-Hata Düzeltmeleri:
-• Değiştirmeden Sonraki’ye dokunduğunuzda bir tarifin öğütme boyutunun takılı kalmasına neden olan sorun düzeltildi. Artık yeniden tarifi takip ediyor.
-• Uygulamaya geri döndüğünüzde puanlama isteminin görünmesine neden olan sorun düzeltildi.
-• Oturum kapattıktan sonra hesabınıza ait bildirimlerin cihazınıza ulaşmaya devam etmesine neden olan sorun düzeltildi.
-• Sürükleyici bir demlemeyi duraklattığınızda kahve seviyesinin sıçramasına neden olan sorun düzeltildi.
+• Yapay zekâ tarif kontrolü kaldırıldı. Uygulama artık tarif adımlarınızdaki miktarları her zaman kendisi kontrol ediyor ve bir miktarın kahve mi su mu olabileceği belirsiz olduğunda size sormaya devam ediyor.
+• Kavurucular artık uygulama genelinde tek bir mağaza vitrini simgesi kullanıyor ve logo eklenene kadar bu simge kavurucunun logosu yerine geçiyor.

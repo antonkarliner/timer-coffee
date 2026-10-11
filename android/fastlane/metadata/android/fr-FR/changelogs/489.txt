@@ -1,0 +1,6 @@
+Nouveau :
+• Signalez une erreur sur la page d’un torréfacteur, ou revendiquez-la si c’est le vôtre. Les deux options se trouvent dans le menu ⋮ du profil du torréfacteur.
+
+Amélioré :
+• La vérification des recettes par IA a été supprimée. L’app vérifie elle-même les quantités et demande toujours si une quantité peut désigner le café ou l’eau.
+• Les torréfacteurs ont une seule icône de vitrine, qui remplace aussi un logo manquant.

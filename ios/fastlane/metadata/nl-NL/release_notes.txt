@@ -1,20 +1,7 @@
 Wat is er nieuw:
-• Een nieuw app-icoon, gemaakt voor de Liquid Glass-look van iOS 26. Het wordt ook weergegeven in je Live-activiteit, en de alternatieve iconen hebben een nieuwe kiezer in Instellingen → Uiterlijk.
-• Wijzig het e-mailadres van je account en koppel of ontkoppel aanmelden met Google en Apple vanuit het Account-scherm.
-• Instellingen is opnieuw ontworpen. In plaats van één lange lijst opent het op je account en zes overzichtelijke pagina's: Uiterlijk, Taal & regio, Notificaties, Brouwen, Startscherm en Privacy en gegevens.
-• Wanneer je op een maalgraadveld tikt, worden nu de laatste drie maalgraden voorgesteld die je hebt gebruikt.
+• Zie je een fout op de pagina van een branderij? Tik op ⋮ in het branderijprofiel en kies ‘Fout melden’. Kies wat er niet klopt, voeg de juiste waarde toe als je die weet en verzend de melding. We bekijken elke melding.
+• Als je een branderij runt, kun je de pagina claimen via hetzelfde menu of via de link ‘Is dit jouw branderij?’ op het profiel.
 
 Verbeteringen:
-• Aanmelden gebeurt overal in de app via hetzelfde eenvoudige venster, en een verificatiecode wordt automatisch ingediend zodra je die hebt ingevoerd.
-• Bij het kiezen van een indeling voor het brouwscherm zie je nu een voorbeeld van elke indeling, in Instellingen → Brouwen en via het tandwielicoon vóór een zetbeurt.
-• Meldingen bij stapwissel (stil, trillen of geluid) hebben nu een eigen plek in Instellingen → Brouwen.
-• Herinneringen voor boonreviews kunnen nu worden uitgeschakeld in Instellingen → Notificaties.
-• Tijd- en datumkiezers volgen je instellingen voor 12/24-uur en datumnotatie.
-• Arabisch en Perzisch tonen getallen, datums en aantallen met de juiste cijfers en leestekens.
-• Tabbladlabels passen bij grote tekstgroottes, en fouttekst is makkelijker leesbaar in de donkere modus.
-
-Bugfixes:
-• Opgelost: de maalgraad van een recept bleef hangen nadat je op Volgende tikte zonder deze te wijzigen. Deze volgt nu weer het recept.
-• Opgelost: de beoordelingsvraag verscheen wanneer je terugkeerde naar de app.
-• Opgelost: notificaties voor je account bereikten een apparaat nog steeds nadat je je had afgemeld.
-• Opgelost: het koffieniveau sprong wanneer je een meeslepende zetbeurt pauzeerde.
+• De AI-receptcontrole is verwijderd. De app controleert nu altijd zelf de hoeveelheden in je receptstappen en vraagt je nog steeds wanneer een hoeveelheid zowel koffie als water kan betekenen.
+• Branderijen hebben overal in de app één winkelpictogram, dat het logo van een branderij vervangt totdat er een is toegevoegd.

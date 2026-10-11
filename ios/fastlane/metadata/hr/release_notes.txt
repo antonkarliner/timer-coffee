@@ -1,20 +1,7 @@
 Što je novo:
-• Nova ikona aplikacije, izrađena za izgled Liquid Glass u sustavu iOS 26. Prikazuje se i u vašoj Aktivnosti uživo, a alternativne ikone imaju novi birač u Postavke → Izgled.
-• Promijenite e-poštu na svom računu te povežite ili uklonite povezivanje s prijavom putem Googlea i Applea na zaslonu Račun.
-• Postavke su redizajnirane. Umjesto jednog dugog popisa, otvaraju se na vašem računu i šest jasnih stranica: Izgled, Jezik i regija, Obavijesti, Priprema, Početni zaslon i Privatnost i podaci.
-• Kada dodirnete polje za finoću mljevenja, sada predlaže posljednje tri finoće mljevenja koje ste koristili.
+• Uočili ste pogrešku na stranici pržionice? Dodirnite ⋮ na profilu pržionice i odaberite „Prijaviti pogrešku”. Odaberite što nije u redu, dodajte ispravnu vrijednost ako je znate i pošaljite prijavu. Pregledavamo svaku prijavu.
+• Ako vodite pržionicu, možete preuzeti vlasništvo nad njezinom stranicom iz istog izbornika ili putem poveznice „Je li ovo vaša pržionica?” na profilu.
 
 Poboljšanja:
-• Prijava je sada isti jednostavan prozorčić svugdje u aplikaciji, a potvrdni se kod šalje sam čim ga upišete.
-• Odabir izgleda ekrana pripreme sada prikazuje pregled svakog izgleda, u Postavke → Priprema i putem ikone zupčanika prije pripreme.
-• Upozorenja pri promjeni koraka (bez zvuka, vibracija ili zvuk) sada imaju svoje mjesto u Postavke → Priprema.
-• Podsjetnici za recenzije zrna sada se mogu isključiti u Postavke → Obavijesti.
-• Birači vremena i datuma slijede vaše postavke 12/24-satnog formata i formata datuma.
-• Arapski i perzijski sada prikazuju brojeve, datume i količine s odgovarajućim znamenkama i interpunkcijom.
-• Oznake kartica prilagođavaju se velikim veličinama teksta, a tekst pogrešaka lakše je čitati u tamnom načinu rada.
-
-Ispravci pogrešaka:
-• Ispravljen je problem zbog kojeg bi finoća mljevenja recepta ostala zaglavljena nakon što biste dodirnuli Dalje bez njezine promjene. Sada ponovno slijedi recept.
-• Ispravljen je problem s prikazivanjem upita za ocjenu kada biste se vratili u aplikaciju.
-• Ispravljen je problem zbog kojeg su obavijesti za vaš račun i dalje stizale na uređaj nakon odjave.
-• Ispravljen je problem s promjenom razine kave pri pauziranju uranjajuće pripreme.
+• Provjera recepta uz pomoć AI-ja uklonjena je. Aplikacija sada uvijek sama provjerava količine u koracima recepta te vas i dalje pita kada se količina može odnositi na kavu ili vodu.
+• Pržionice sada imaju jednu ikonu trgovine u cijeloj aplikaciji, koja služi kao zamjena za logotip pržionice dok se ne doda logotip.

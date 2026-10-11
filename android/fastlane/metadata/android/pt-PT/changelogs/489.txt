@@ -1,0 +1,6 @@
+Novidades:
+• Reporte um erro na página de uma torrefação ou reivindique-a se for sua. Encontre ambas as opções no menu ⋮ do perfil da torrefação.
+
+Melhorias:
+• A verificação de receitas por IA foi removida. A app verifica as quantidades e pergunta se podem referir-se a café ou água.
+• As torrefações têm um ícone de loja, que também substitui logótipos em falta.

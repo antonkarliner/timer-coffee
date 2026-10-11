@@ -1,0 +1,6 @@
+Nowości:
+• Zgłoś błąd na stronie palarni lub zgłoś jej własność, jeśli to Twoja palarnia. Obie opcje znajdziesz w menu ⋮ profilu palarni.
+
+Ulepszenia:
+• Kontrola przepisów przez AI została usunięta. Aplikacja sama sprawdza ilości i pyta, gdy nie wiadomo, czy dotyczą kawy czy wody.
+• Palarnie mają jedną ikonę sklepu, która zastępuje też brakujące logo.

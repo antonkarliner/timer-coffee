@@ -1,20 +1,7 @@
 Yang Baru:
-• Ikon aplikasi baru, dibuat untuk tampilan Liquid Glass iOS 26. Ikon ini juga tampil di Aktivitas Langsung Anda, dan ikon alternatif kini memiliki pemilih baru di Pengaturan → Tampilan.
-• Ubah email akun Anda, serta tautkan atau putuskan tautan masuk Google dan Apple, dari layar Akun.
-• Pengaturan didesain ulang. Alih-alih satu daftar panjang, kini Pengaturan membuka akun Anda dan enam halaman yang jelas: Tampilan, Bahasa & wilayah, Notifikasi, Seduh, Layar beranda, serta Privasi & data.
-• Saat Anda mengetuk kolom tingkat kehalusan gilingan, kini aplikasi menyarankan tiga tingkat kehalusan gilingan terakhir yang Anda gunakan.
+• Melihat kesalahan di halaman roaster? Ketuk ⋮ pada profil roaster dan pilih “Laporkan kesalahan”. Pilih yang salah, tambahkan nilai yang benar jika Anda mengetahuinya, lalu kirimkan. Kami meninjau setiap laporan.
+• Jika Anda mengelola roastery, Anda dapat mengklaim halamannya dari menu yang sama, atau dari tautan “Apakah ini roaster Anda?” di profil.
 
 Peningkatan:
-• Masuk kini menggunakan lembar sederhana yang sama di seluruh aplikasi, dan kode verifikasi akan dikirim secara otomatis begitu Anda selesai mengetiknya.
-• Memilih tata letak layar seduh kini menampilkan pratinjau setiap pilihan, di Pengaturan → Seduh dan dari ikon roda gigi sebelum menyeduh.
-• Peringatan pergantian langkah (senyap, getaran, atau suara) kini memiliki tempat tersendiri di Pengaturan → Seduh.
-• Pengingat ulasan biji kopi kini dapat dinonaktifkan di Pengaturan → Notifikasi.
-• Pemilih waktu dan tanggal mengikuti pengaturan format 12/24 jam dan format tanggal Anda.
-• Bahasa Arab dan Persia kini menampilkan angka, tanggal, dan jumlah dengan digit serta tanda baca yang tepat.
-• Label tab tetap pas pada ukuran teks besar, dan teks error lebih mudah dibaca dalam mode gelap.
-
-Perbaikan Bug:
-• Memperbaiki tingkat kehalusan gilingan resep yang tetap terkunci setelah Anda mengetuk Berikutnya tanpa mengubahnya. Kini tingkat kehalusan gilingan kembali mengikuti resep.
-• Memperbaiki permintaan peringkat yang muncul saat Anda kembali ke aplikasi.
-• Memperbaiki notifikasi akun Anda yang masih terkirim ke perangkat setelah Anda keluar.
-• Memperbaiki level kopi yang melompat saat Anda menjeda seduhan imersif.
+• Pemeriksaan resep AI telah dihapus. Aplikasi kini selalu memeriksa sendiri jumlah dalam langkah resep Anda, dan tetap menanyakan kepada Anda saat suatu jumlah dapat berarti kopi atau air.
+• Roaster memiliki satu ikon etalase di seluruh aplikasi, yang digunakan sebagai pengganti logo roaster hingga logo ditambahkan.

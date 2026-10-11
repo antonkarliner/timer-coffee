@@ -1,20 +1,7 @@
-Dette er nytt:
-• Et nytt app-ikon, laget for Liquid Glass-utseendet i iOS 26. Det vises også i Live Activity, og de alternative ikonene har en ny velger i Innstillinger → Utseende.
-• Endre e-posten på kontoen din, og koble til eller fra Google- og Apple-innlogging, fra Konto-skjermen.
-• Innstillinger har fått nytt design. I stedet for én lang liste åpnes den på kontoen din og seks tydelige sider: Utseende, Språk og region, Varsler, Brygging, Hjemskjerm og Personvern og data.
-• Når du trykker på et felt for malingsgrad, foreslår den nå de tre siste malingsgradene du brukte.
+Hva er nytt:
+• Har du oppdaget en feil på siden til et brenneri? Trykk på ⋮ på brenneriprofilen og velg «Rapporter en feil». Velg hva som er galt, legg til riktig verdi hvis du kjenner den, og send rapporten. Vi ser gjennom hver rapport.
+• Hvis du driver et brenneri, kan du gjøre krav på siden fra samme meny eller fra lenken «Er dette ditt brenneri?» på profilen.
 
 Forbedringer:
-• Innlogging bruker det samme enkle arket overalt i appen, og en bekreftelseskode sendes inn automatisk så snart du har skrevet den.
-• Når du velger oppsett for bryggingsskjermen, vises nå en forhåndsvisning av hver variant, i Innstillinger → Brygging og fra tannhjulikonet før brygging.
-• Varsel ved trinnskifte (lydløs, vibrasjon eller lyd) har nå sin egen plass i Innstillinger → Brygging.
-• Påminnelser om bønneanmeldelser kan nå slås av i Innstillinger → Varsler.
-• Velgere for tid og dato følger innstillingene dine for 12/24-timers klokke og datoformat.
-• Arabisk og persisk viser tall, datoer og antall med riktige sifre og tegnsetting.
-• Faneetiketter passer ved store tekststørrelser, og feilmeldinger er enklere å lese i mørk modus.
-
-Feilrettinger:
-• Rettet en feil der en oppskrifts malingsgrad ble stående fast etter at du trykket på Neste uten å endre den. Den følger nå oppskriften igjen.
-• Rettet en feil der vurderingsforespørselen dukket opp når du byttet tilbake til appen.
-• Rettet en feil der varsler for kontoen din fortsatt kom til en enhet etter at du hadde logget ut.
-• Rettet en feil der kaffenivået hoppet når du setter et oppslukende brygg på pause.
+• AI-kontrollen av oppskrifter er fjernet. Appen kontrollerer nå alltid mengdene i oppskriftsstegene dine selv, og spør fortsatt når en mengde kan bety enten kaffe eller vann.
+• Brennerier har ett butikkfrontikon i hele appen, og det brukes som erstatning for et brenneris logo til en logo er lagt til.

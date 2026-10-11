@@ -1,20 +1,7 @@
 Noutăți:
-• O pictogramă nouă a aplicației, creată pentru aspectul Liquid Glass din iOS 26. Apare și în Activitatea live, iar pictogramele alternative au un nou selector în Setări → Aspect.
-• Schimbă e-mailul contului și conectează sau deconectează autentificarea cu Google și Apple din ecranul Cont.
-• Setările au fost reproiectate. În loc de o singură listă lungă, se deschid la contul tău și șase pagini clare: Aspect, Limbă și regiune, Notificări, Preparare, Ecran principal și Confidențialitate și date.
-• Când atingi un câmp pentru mărimea măcinăturii, acesta îți sugerează acum ultimele trei mărimi de măcinătură folosite.
+• Ai observat o greșeală pe pagina unei prăjitorii? Atinge ⋮ în profilul prăjitoriei și alege „Raportează o eroare”. Selectează ce nu este în regulă, adaugă valoarea corectă dacă o știi și trimite raportul. Analizăm fiecare raport.
+• Dacă administrezi o prăjitorie, îi poți revendica pagina din același meniu sau din linkul „Aceasta este prăjitoria ta?” din profil.
 
 Îmbunătățiri:
-• Autentificarea folosește aceeași fereastră simplă peste tot în aplicație, iar un cod de verificare se trimite automat imediat ce l-ai introdus.
-• Alegerea aspectului ecranului de preparare afișează acum o previzualizare a fiecăruia, în Setări → Preparare și din pictograma roată dințată înainte de o preparare.
-• Alertele la schimbarea pasului (silențios, vibrație sau sunet) au acum propria secțiune în Setări → Preparare.
-• Mementourile pentru recenzia boabelor pot fi acum dezactivate din Setări → Notificări.
-• Selectoarele de oră și dată respectă setările tale pentru formatul de 12/24 de ore și formatul datei.
-• Araba și persana afișează numerele, datele și valorile numerice cu cifrele și semnele de punctuație corecte.
-• Etichetele filelor se potrivesc la dimensiuni mari ale textului, iar textul erorilor este mai ușor de citit în modul întunecat.
-
-Corectări de erori:
-• S-a remediat blocarea mărimii măcinăturii unei rețete după ce atingeai Următorul fără să o modifici. Acum urmează din nou rețeta.
-• S-a remediat afișarea solicitării de evaluare când reveneai în aplicație.
-• S-a remediat situația în care notificările pentru contul tău continuau să ajungă pe un dispozitiv după ce te deconectai.
-• S-a remediat saltul nivelului cafelei când pui pe pauză o preparare imersivă.
+• Verificarea rețetei cu AI a fost eliminată. Acum, aplicația verifică întotdeauna singură cantitățile din pașii rețetei tale și îți cere în continuare lămuriri atunci când o cantitate ar putea însemna fie cafea, fie apă.
+• Prăjitoriile au aceeași pictogramă de magazin în toată aplicația, iar aceasta înlocuiește logo-ul unei prăjitorii până când este adăugat unul.

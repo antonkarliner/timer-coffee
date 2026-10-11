@@ -1,20 +1,7 @@
 Neuigkeiten:
-• Ein neues App-Icon, das für den Liquid-Glass-Look von iOS 26 entwickelt wurde. Es wird auch in deiner Live-Aktivität angezeigt, und die alternativen Icons haben jetzt eine neue Auswahl unter Einstellungen → Erscheinungsbild.
-• Ändere die E-Mail-Adresse deines Kontos und verknüpfe oder hebe die Verknüpfung für die Anmeldung mit Google und Apple auf – alles über den Konto-Bildschirm.
-• Die Einstellungen wurden überarbeitet. Statt einer langen Liste öffnen sie sich jetzt mit deinem Konto und sechs übersichtlichen Seiten: Erscheinungsbild, Sprache & Region, Benachrichtigungen, Brühen, Startbildschirm und Datenschutz & Daten.
-• Wenn du auf ein Mahlgrad-Feld tippst, werden dir jetzt die letzten drei verwendeten Mahlgrade vorgeschlagen.
+• Ist dir ein Fehler auf der Seite einer Rösterei aufgefallen? Tippe im Röstereiprofil auf ⋮ und wähle „Fehler melden“. Wähle aus, was nicht stimmt, füge den korrekten Wert hinzu, wenn du ihn kennst, und sende die Meldung. Wir prüfen jede Meldung.
+• Wenn du eine Rösterei betreibst, kannst du ihre Seite über dasselbe Menü oder über den Link „Ist das deine Rösterei?“ im Profil beanspruchen.
 
 Verbesserungen:
-• Die Anmeldung erfolgt überall in der App über dieselbe einfache Ansicht, und ein Bestätigungscode wird automatisch übermittelt, sobald du ihn eingegeben hast.
-• Bei der Auswahl eines Brühbildschirm-Layouts wird jetzt jeweils eine Vorschau angezeigt – unter Einstellungen → Brühen und über das Zahnrad-Icon vor dem Brühen.
-• Signale bei Schrittwechseln (lautlos, Vibration oder Ton) haben jetzt einen eigenen Bereich unter Einstellungen → Brühen.
-• Erinnerungen für Bohnenbewertungen können jetzt unter Einstellungen → Benachrichtigungen deaktiviert werden.
-• Die Auswahl von Uhrzeit und Datum richtet sich nach deinen Einstellungen für 12/24-Stunden und Datumsformat.
-• Arabisch und Persisch zeigen Zahlen, Daten und Anzahlen jetzt mit den richtigen Ziffern und Satzzeichen an.
-• Tab-Beschriftungen passen auch bei großen Textgrößen, und Fehlertexte sind im Dunkelmodus besser lesbar.
-
-Fehlerbehebungen:
-• Ein Problem wurde behoben, bei dem der Mahlgrad eines Rezepts unverändert blieb, nachdem du ohne Änderung auf Weiter getippt hattest. Er folgt jetzt wieder dem Rezept.
-• Ein Problem wurde behoben, bei dem die Bewertungsaufforderung erschien, wenn du zur App zurückgewechselt hast.
-• Ein Problem wurde behoben, bei dem Benachrichtigungen für dein Konto ein Gerät weiterhin erreichten, nachdem du dich abgemeldet hattest.
-• Ein Problem wurde behoben, bei dem der Kaffeestand beim Pausieren einer immersiven Zubereitung sprang.
+• Die KI-Rezeptprüfung wurde entfernt. Die App prüft die Mengen in deinen Rezeptschritten jetzt immer selbst und fragt dich weiterhin, wenn sich eine Menge auf Kaffee oder Wasser beziehen könnte.
+• Röstereien haben in der gesamten App ein einheitliches Laden-Symbol, das als Platzhalter für das Logo einer Rösterei dient, bis eines hinzugefügt wird.

@@ -1,20 +1,7 @@
 Novità:
-• Una nuova icona dell'app, creata per l'aspetto Liquid Glass di iOS 26. Viene visualizzata anche nella tua Attività live e le icone alternative hanno un nuovo selettore in Impostazioni → Aspetto.
-• Cambia l'email del tuo account e collega o scollega l'accesso con Google e Apple dalla schermata Account.
-• Impostazioni è stata riprogettata. Invece di un unico lungo elenco, si apre sul tuo account e su sei pagine chiare: Aspetto, Lingua e regione, Notifiche, Preparazione, Schermata principale e Privacy e dati.
-• Quando tocchi un campo del grado di macinatura, ora suggerisce gli ultimi tre gradi di macinatura utilizzati.
+• Hai notato un errore nella pagina di una torrefazione? Tocca ⋮ nel profilo della torrefazione e scegli “Segnala un errore”. Seleziona cosa non va, aggiungi il valore corretto se lo conosci e invia la segnalazione. Esaminiamo ogni segnalazione.
+• Se gestisci una torrefazione, puoi rivendicarne la pagina dallo stesso menu o dal link “Questa è la tua torrefazione?” nel profilo.
 
 Miglioramenti:
-• L'accesso utilizza lo stesso semplice pannello ovunque nell'app e un codice di verifica viene inviato automaticamente non appena lo hai digitato.
-• La scelta del layout della schermata di preparazione ora mostra un'anteprima di ciascuno, in Impostazioni → Preparazione e dall'icona a ingranaggio prima di una preparazione.
-• Gli avvisi al cambio di passaggio (silenzioso, vibrazione o suono) ora hanno una sezione dedicata in Impostazioni → Preparazione.
-• I promemoria per le recensioni dei chicchi ora possono essere disattivati in Impostazioni → Notifiche.
-• I selettori di ora e data seguono le tue impostazioni di formato 12/24 ore e data.
-• L'arabo e il persiano mostrano numeri, date e conteggi con le cifre e la punteggiatura corrette.
-• Le etichette delle schede si adattano a dimensioni di testo grandi e il testo degli errori è più facile da leggere in modalità scura.
-
-Correzioni di bug:
-• Risolto un problema per cui il grado di macinatura di una ricetta rimaneva bloccato dopo aver toccato Avanti senza modificarlo. Ora segue di nuovo la ricetta.
-• Risolto un problema per cui la richiesta di valutazione appariva quando tornavi all'app.
-• Risolto un problema per cui le notifiche del tuo account continuavano a raggiungere un dispositivo dopo la disconnessione.
-• Risolto un problema per cui il livello del caffè saltava quando mettevi in pausa una preparazione immersiva.
+• Il controllo delle ricette tramite IA è stato rimosso. Ora l’app controlla sempre autonomamente le quantità nei passaggi della ricetta e ti chiede comunque conferma quando una quantità potrebbe riferirsi al caffè o all’acqua.
+• Le torrefazioni hanno un’unica icona di negozio in tutta l’app, che viene usata al posto del logo della torrefazione finché non ne viene aggiunto uno.

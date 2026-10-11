@@ -1,20 +1,7 @@
 Novidades:
-• Um novo ícone da aplicação, criado para o aspeto Liquid Glass do iOS 26. Também aparece na sua Atividade em Direto, e os ícones alternativos têm um novo seletor em Definições → Aspeto.
-• Altere o e-mail da sua conta e associe ou desassocie o início de sessão com Google e Apple no ecrã Conta.
-• As Definições foram redesenhadas. Em vez de uma lista longa, abrem na sua conta e em seis páginas claras: Aspeto, Idioma e região, Notificações, Preparação, Ecrã inicial e Privacidade e dados.
-• Ao tocar num campo de tamanho da moagem, são agora sugeridos os últimos três tamanhos de moagem que utilizou.
+• Detetou um erro na página de uma torrefação? Toque em ⋮ no perfil da torrefação e escolha «Reportar um erro». Selecione o que está errado, adicione o valor correto se o souber e envie o relato. Analisamos cada relato.
+• Se gere uma torrefação, pode reivindicar a respetiva página no mesmo menu ou através da ligação «Esta torrefação é sua?» no perfil.
 
 Melhorias:
-• O início de sessão utiliza a mesma folha simples em toda a aplicação, e um código de verificação é submetido automaticamente assim que o introduz.
-• Ao escolher um esquema para o ecrã de preparação, é agora apresentada uma pré-visualização de cada um, em Definições → Preparação e a partir do ícone de engrenagem antes de uma preparação.
-• Os alertas de mudança de passo (silencioso, vibração ou som) têm agora o seu próprio espaço em Definições → Preparação.
-• Os lembretes de avaliação de grãos podem agora ser desativados em Definições → Notificações.
-• Os seletores de hora e data seguem as suas definições de formato de 12/24 horas e de data.
-• O árabe e o persa apresentam números, datas e contagens com os algarismos e a pontuação corretos.
-• Os rótulos dos separadores ajustam-se a tamanhos de texto grandes, e o texto de erro é mais fácil de ler no modo escuro.
-
-Correções de erros:
-• Corrigido um problema em que o tamanho da moagem de uma receita ficava bloqueado depois de tocar em Próximo sem o alterar. Agora volta a seguir a receita.
-• Corrigido um problema em que o pedido de classificação aparecia ao voltar à aplicação.
-• Corrigido um problema em que as notificações da sua conta continuavam a chegar a um dispositivo depois de terminar sessão.
-• Corrigido um problema em que o nível de café saltava ao pausar uma preparação imersiva.
+• A verificação de receitas por IA foi removida. A aplicação passa agora a verificar sempre as quantidades nos passos da sua receita e continua a perguntar-lhe quando uma quantidade puder referir-se tanto a café como a água.
+• As torrefações têm um único ícone de loja em toda a aplicação, que substitui o logótipo da torrefação até que seja adicionado um.

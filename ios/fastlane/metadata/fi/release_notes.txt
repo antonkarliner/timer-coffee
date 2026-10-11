@@ -1,20 +1,7 @@
 Uutta:
-• Uusi sovelluskuvake, joka on tehty iOS 26:n Liquid Glass -ulkoasua varten. Se näkyy myös Live-aktiviteetissasi, ja vaihtoehtoisille kuvakkeille on uusi valitsin kohdassa Asetukset → Ulkoasu.
-• Vaihda tilisi sähköpostiosoite sekä yhdistä tai poista Google- ja Apple-kirjautumisen yhdistys Tilinäkymässä.
-• Asetukset on uudistettu. Yhden pitkän luettelon sijaan se avautuu tilillesi ja kuudelle selkeälle sivulle: Ulkoasu, Kieli ja alue, Ilmoitukset, Uutto, Etusivu ja Tietosuoja ja tiedot.
-• Kun napautat jauhatuskarkeuskenttää, se ehdottaa nyt kolmea viimeksi käyttämääsi jauhatuskarkeutta.
+• Huomasitko virheen paahtimon sivulla? Napauta paahtimon profiilissa ⋮ ja valitse ”Ilmoita virheestä”. Valitse, mikä on vialla, lisää oikea arvo, jos tiedät sen, ja lähetä ilmoitus. Käsittelemme jokaisen ilmoituksen.
+• Jos pyörität paahtimoa, voit vaatia sen sivun itsellesi samasta valikosta tai profiilin ”Onko tämä sinun paahtimosi?” -linkistä.
 
 Parannukset:
-• Kirjautuminen käyttää samaa yksinkertaista näkymää kaikkialla sovelluksessa, ja vahvistuskoodi lähetetään automaattisesti heti, kun olet kirjoittanut sen.
-• Uutonäytön asettelun valitseminen näyttää nyt esikatselun jokaisesta vaihtoehdosta kohdassa Asetukset → Uutto ja ennen uuttoa rataskuvakkeesta.
-• Hälytyksillä vaiheen vaihtuessa (äänetön, värinä tai ääni) on nyt oma paikkansa kohdassa Asetukset → Uutto.
-• Papuarvostelujen muistutukset voi nyt poistaa käytöstä kohdassa Asetukset → Ilmoitukset.
-• Ajan- ja päivämääränvalitsimet noudattavat 12/24 tunnin ja päivämäärämuodon asetuksiasi.
-• Arabia ja persia näyttävät numerot, päivämäärät ja määrät oikeilla numeroilla ja välimerkeillä.
-• Välilehtien nimet mahtuvat suuriin tekstikokoihin, ja virhetekstiä on helpompi lukea tummassa tilassa.
-
-Virheenkorjaukset:
-• Korjattu ongelma, jossa reseptin jauhatuskarkeus jäi jumiin, kun napautit Seuraava muuttamatta sitä. Se noudattaa nyt taas reseptiä.
-• Korjattu ongelma, jossa arvostelupyyntö ilmestyi, kun palasit sovellukseen.
-• Korjattu ongelma, jossa tilisi ilmoitukset saapuivat edelleen laitteelle uloskirjautumisen jälkeen.
-• Korjattu ongelma, jossa kahvin taso hyppäsi, kun keskeytit upottavan uuton.
+• Reseptin tekoälytarkistus on poistettu. Sovellus tarkistaa nyt aina itse reseptivaiheidesi määrät ja kysyy sinulta edelleen, kun määrä voi tarkoittaa joko kahvia tai vettä.
+• Paahtimoilla on yksi myymäläkuvake kaikkialla sovelluksessa, ja se toimii paahtimon logon sijaisena, kunnes logo lisätään.

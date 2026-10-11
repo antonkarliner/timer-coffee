@@ -1,0 +1,6 @@
+Nuevo:
+• Reporta un error en la página de una tostaduría o reclámala si es tuya. Ambas opciones están en el menú ⋮ del perfil de la tostaduría.
+
+Mejorado:
+• Se eliminó la revisión de recetas con IA. La app verifica las cantidades y pregunta si una puede ser café o agua.
+• Las tostadurías tienen un ícono de tienda, que también reemplaza un logo faltante.

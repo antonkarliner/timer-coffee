@@ -1,0 +1,6 @@
+Novità:
+• Segnala un errore nella pagina di una torrefazione o rivendicala se è la tua. Trovi entrambe le opzioni nel menu ⋮ del profilo della torrefazione.
+
+Miglioramenti:
+• Il controllo AI delle ricette è stato rimosso. L’app controlla le quantità e chiede ancora chiarimenti se possono riferirsi a caffè o acqua.
+• Le torrefazioni hanno un’unica icona di negozio, usata anche in assenza del logo.

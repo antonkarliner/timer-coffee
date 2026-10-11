@@ -1,0 +1,6 @@
+Baru:
+• Laporkan kesalahan di halaman roaster, atau klaim jika itu roaster Anda. Keduanya ada di menu ⋮ pada profil roaster.
+
+Ditingkatkan:
+• Pemeriksaan resep AI dihapus. Aplikasi kini memeriksa jumlah resep sendiri, dan tetap bertanya jika jumlah bisa berarti kopi atau air.
+• Roaster kini memiliki satu ikon toko, yang juga digunakan jika logo tidak ada.

@@ -1,0 +1,6 @@
+Neu:
+• Melde einen Fehler auf der Seite einer Rösterei oder beanspruche sie, wenn es deine Rösterei ist. Beides findest du im ⋮-Menü des Röstereiprofils.
+
+Verbessert:
+• Die KI-Rezeptprüfung wurde entfernt. Die App prüft Mengen selbst und fragt weiter nach, wenn unklar ist, ob eine Menge Kaffee oder Wasser meint.
+• Röstereien haben ein Laden-Symbol, das auch ein fehlendes Logo ersetzt.

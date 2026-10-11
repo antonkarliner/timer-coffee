@@ -1,0 +1,6 @@
+Nytt:
+• Rapporter en feil på et brenneris side, eller gjør krav på siden hvis det er ditt brenneri. Begge finner du i ⋮-menyen på brenneriprofilen.
+
+Forbedret:
+• KI-oppskriftssjekken er borte. Appen sjekker oppskriftsmengder selv og spør fortsatt når en mengde kan gjelde kaffe eller vann.
+• Brennerier har ett butikkikon, som også brukes når logo mangler.

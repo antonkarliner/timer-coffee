@@ -1,0 +1,6 @@
+Yeni:
+• Bir kavurucunun sayfasında hata bildirin veya kavurucu size aitse sayfayı sahiplenin. Her ikisi de kavurucu profilindeki ⋮ menüsünde.
+
+İyileştirildi:
+• Yapay zekâ tarif kontrolü kaldırıldı. Uygulama tarif miktarlarını kontrol eder ve miktarın kahveye mi suya mı ait olabileceğini sorar.
+• Kavurucular için, eksik logonun yerine de kullanılan tek bir mağaza simgesi var.

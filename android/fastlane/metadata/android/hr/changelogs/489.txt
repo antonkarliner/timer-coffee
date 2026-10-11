@@ -1,0 +1,6 @@
+Novo:
+• Prijavite pogrešku na stranici pržionice ili preuzmite vlasništvo ako je to vaša pržionica. Obje opcije pronaći ćete u izborniku ⋮ na profilu pržionice.
+
+Poboljšano:
+• Provjera recepata umjetnom inteligencijom uklonjena je. Aplikacija sama provjerava količine u receptu te i dalje pita može li količina značiti kavu ili vodu.
+• Pržionice imaju jednu ikonu izloga, koja služi i kao zamjena za nedostajući logotip.

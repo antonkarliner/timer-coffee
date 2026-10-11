@@ -1,0 +1,6 @@
+Uutta:
+• Ilmoita virheestä paahtimon sivulla tai vaadi sivu itsellesi, jos paahtimo on sinun. Molemmat löytyvät paahtimon profiilin ⋮-valikosta.
+
+Parannettua:
+• Tekoälyn reseptitarkistus on poistettu. Sovellus tarkistaa reseptin määrät itse ja kysyy yhä, voiko määrä tarkoittaa kahvia tai vettä.
+• Paahtimoilla on yksi myymäläkuvake, joka korvaa myös puuttuvan logon.

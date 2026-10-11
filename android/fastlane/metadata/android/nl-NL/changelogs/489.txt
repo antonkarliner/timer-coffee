@@ -1,0 +1,6 @@
+Nieuw:
+• Meld een fout op de pagina van een branderij, of claim de pagina als het jouw branderij is. Beide vind je in het ⋮-menu van het branderijprofiel.
+
+Verbeterd:
+• De AI-receptcontrole is verwijderd. De app controleert recepthoeveelheden zelf en vraagt nog steeds wanneer een hoeveelheid koffie of water kan betekenen.
+• Branderijen hebben één winkelpictogram, ook als vervanging voor een ontbrekend logo.
