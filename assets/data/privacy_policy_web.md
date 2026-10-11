@@ -1,6 +1,6 @@
 # Privacy Policy for Timer.Coffee (Web Version)
 
-Last Updated: 07.10.2026
+Last Updated: 10.10.2026
 
 1. INTRODUCTION
 
@@ -74,8 +74,8 @@ We use AI tools mainly to save you manual work, such as reading a coffee bag lab
 - If you upload a profile picture, that image is intentionally stored as part of the profile feature and is separate from temporary recognition input.
 - If you upload a cover photo for a bean record via the mobile app, the image is compressed on your device and stored in Supabase Storage. The resulting URL is saved in your bean record and syncs to the web application. This feature is only available to signed-in, non-anonymous users and cannot be initiated from the web app.
 - When you tap "Translate" (or "Translate all reviews") on a public bean review, the review text is sent to OpenAI to detect its source language and produce a translation in your current app language. Translations are cached on our servers and reused for any reader requesting the same language, so each (review, language) pair is only sent to OpenAI once. Editing your review invalidates the cached translations for that review.
-- If you choose AI recipe review while creating or editing a recipe, Timer.Coffee sends structured recipe data to an AI provider so the product can check and correct scalable coffee and water amount formatting. This may include the recipe name, brewing method, coffee and water amounts, water temperature, grind size, short description, step text, step durations, app locale, source-language hint, and local validation issues. This happens only for signed-in users after you enable the option and accept the consent notice.
-- If you consent to diagnostics for AI recipe review, we may store private diagnostic records containing source and corrected step templates, locale and language hints, validation issues, provider and model details, token or usage metadata, timestamps, and an anonymized or pseudonymous user reference. We use these records to debug failures, improve recipe creation, enforce limits, and investigate abuse. These diagnostics are not exposed to public clients.
+- Earlier versions of the app offered an optional AI recipe review, which sent the recipe you were creating or editing to an AI provider to check how its coffee and water amounts were written. This feature has been removed; recipe amounts are now checked by the app itself and are not sent to an AI provider.
+- If you used that review and consented to diagnostics, we stored private diagnostic records containing source and corrected step templates, locale and language hints, validation issues, provider and model details, token or usage metadata, timestamps, and an anonymized or pseudonymous user reference. We keep these records only to improve how the app reads recipe amounts. They are not exposed to public clients and will be deleted no later than 9 April 2027.
 - Because AI-assisted features may involve third-party processing and diagnostic logging, you should avoid submitting sensitive personal data unless it is necessary for the feature you are using.
 
 f. Location and Regionalization Data
@@ -136,7 +136,7 @@ These providers may process data on our behalf so the feature you asked for actu
 - We retain account, sync, and content data for as long as your account remains active or as long as needed to provide the service. We do this so your data is still there when you come back.
 - You can delete your account from within the product or by contacting support@timer.coffee.
 - When you delete your account, we delete profile data, bean data, recipe preferences, recipes, user stats, and push token records associated with your account, if any exist. Bean cover photo files stored in Supabase Storage are also removed as part of this process.
-- Some analytics and usage records, including brew statistics, AI-recognition invocation records, and AI recipe-review diagnostic records, may be retained in anonymized form by replacing your user ID with a non-identifying placeholder. We keep these records to measure product usage, debug and improve recipe creation, and operate the service without keeping them tied to you.
+- Some analytics and usage records, including brew statistics, AI-recognition invocation records, and AI recipe-review diagnostic records, may be retained in anonymized form by replacing your user ID with a non-identifying placeholder. We keep these records to measure product usage, debug and improve recipe creation, and operate the service without keeping them tied to you. AI recipe-review diagnostic records are deleted no later than 9 April 2027.
 - If you request a data export (Section 2h), we keep the request record, including the destination email address and a hashed confirmation code, for 25 hours to enforce abuse limits, and we automatically delete the exported file from storage a few hours after it is created.
 - We may retain limited information where required for legal, security, fraud-prevention, or accounting reasons.
 

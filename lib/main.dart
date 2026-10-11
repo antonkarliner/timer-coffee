@@ -242,6 +242,14 @@ Future<void> _checkPendingUrlLaunch(SharedPreferences prefs) async {
   }
 }
 
+/// Plan 079: the AI recipe review was removed. Drop its stored toggle and
+/// consent so a future feature can never inherit them. Removing a missing
+/// key is a no-op, so this is safe to run on every launch.
+Future<void> _removeRetiredAiReviewPrefs(SharedPreferences prefs) async {
+  await prefs.remove('recipe_ai_review_enabled');
+  await prefs.remove('recipe_ai_review_consent_accepted');
+}
+
 List<LaunchMode> _getLaunchModesForPlatform() {
   if (kIsWeb) {
     return const [LaunchMode.platformDefault];
@@ -436,6 +444,9 @@ void main() async {
 
   // Check for pending external URL launch (iOS terminated state fix)
   await _checkPendingUrlLaunch(prefs);
+
+  // Remove preferences left over from the removed AI recipe review feature
+  await _removeRetiredAiReviewPrefs(prefs);
 
   bool isFirstLaunch = prefs.getBool('firstLaunched') ?? true;
   bool hasPerformedUuidBackfill =

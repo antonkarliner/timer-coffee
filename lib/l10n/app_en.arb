@@ -2151,42 +2151,6 @@
   "@mts_inSyncCountriesConnector": {
     "description": "Connector word used between the last two countries in the in-sync subtitle list (e.g. \"USA, Germany and Russia\"). Translators: lowercase, no surrounding spaces."
   },
-  "recipeCreationAiReviewToggle": "Verify recipe with AI",
-  "@recipeCreationAiReviewToggle": {
-    "description": "Toggle label for optional AI review during recipe creation."
-  },
-  "recipeCreationAiReviewConsentInline": "Check the recipe to ensure all amounts auto-adjust correctly",
-  "@recipeCreationAiReviewConsentInline": {
-    "description": "Inline consent summary shown under the AI review toggle."
-  },
-  "recipeCreationAiReviewUnavailable": "Sign in to use AI to check recipe syntax",
-  "@recipeCreationAiReviewUnavailable": {
-    "description": "Message shown when AI review is unavailable because the user is not signed in."
-  },
-  "recipeCreationAiReviewConsentTitle": "Verify recipe with AI?",
-  "@recipeCreationAiReviewConsentTitle": {
-    "description": "Title for first-use AI review consent dialog."
-  },
-  "recipeCreationAiReviewConsentBody": "This is a beta feature. Results may be unstable and can occasionally be incomplete or incorrect. Timer.Coffee will send this recipe's name, amounts, step text, language, and format issues to an AI provider to check recipe syntax and amount scaling. Diagnostic data may be stored to debug and improve recipe creation. Avoid adding sensitive personal data.",
-  "@recipeCreationAiReviewConsentBody": {
-    "description": "Consent and info body explaining beta status, AI provider processing, and diagnostic data."
-  },
-  "recipeCreationAiReviewConsentAgree": "Verify with AI",
-  "@recipeCreationAiReviewConsentAgree": {
-    "description": "Button label for accepting AI recipe review consent."
-  },
-  "recipeCreationAiReviewRunning": "Checking recipe format...",
-  "@recipeCreationAiReviewRunning": {
-    "description": "Snackbar shown while AI recipe review is running."
-  },
-  "recipeCreationAiReviewFailed": "AI review failed. Local validation was used instead.",
-  "@recipeCreationAiReviewFailed": {
-    "description": "Snackbar shown when AI recipe review fails and local validation is used."
-  },
-  "recipeCreationAiReviewApplied": "AI review applied.",
-  "@recipeCreationAiReviewApplied": {
-    "description": "Snackbar shown when AI corrections were applied and locally validated."
-  },
   "recipeCreationFormatIssuesTitle": "Check recipe step format",
   "@recipeCreationFormatIssuesTitle": {
     "description": "Dialog title for invalid or ambiguous recipe step format."
@@ -2195,7 +2159,7 @@
   "@recipeCreationFormatIssuesBody": {
     "description": "Dialog body for invalid or ambiguous recipe step format."
   },
-  "recipeCreationFormatIssuesFixHint": "Edit the step text, or turn on AI review if you want Timer.Coffee to try a correction.",
+  "recipeCreationFormatIssuesFixHint": "Edit the step text so each amount clearly belongs to coffee or water.",
   "@recipeCreationFormatIssuesFixHint": {
     "description": "Dialog hint explaining how to fix invalid or ambiguous step format."
   },

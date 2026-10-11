@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -14,8 +13,6 @@ import '../widgets/recipe_creation/recipe_steps_form.dart';
 import '../services/recipe_expression_service.dart';
 import '../services/recipe_save_service.dart';
 import '../services/recipe_navigation_service.dart';
-import '../services/recipe_verification_client.dart';
-import '../services/authentication_service.dart';
 import '../widgets/unsaved_changes_dialog.dart';
 import '../utils/app_logger.dart'; // Import AppLogger
 import '../theme/design_tokens.dart';
@@ -43,10 +40,6 @@ class RecipeCreationScreen extends StatefulWidget {
 
 class _RecipeCreationScreenState extends State<RecipeCreationScreen>
     with AutomaticKeepAliveClientMixin {
-  static const _aiReviewConsentPreferenceKey =
-      'recipe_ai_review_consent_accepted';
-  static const _aiReviewEnabledPreferenceKey = 'recipe_ai_review_enabled';
-
   final PageController _pageController = PageController();
   final _formKey = GlobalKey<FormState>();
   final _uuid = Uuid();
@@ -73,8 +66,6 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
   bool _isLoading = true;
   final ScrollController _scrollController = ScrollController();
   bool _isSaving = false; // Added saving flag
-  bool _useAiReview = false;
-  bool _aiReviewConsentAccepted = false;
 
   // Form change detection
   bool _hasUnsavedChanges = false;
@@ -189,7 +180,6 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
     _shortDescriptionController.addListener(_trackChanges);
 
     _loadBrewingMethods();
-    _loadAiReviewConsent();
 
     // Validate pages if editing
     if (widget.recipe != null) {
@@ -265,20 +255,6 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
       }
     });
     _validateFirstPage();
-  }
-
-  Future<void> _loadAiReviewConsent() async {
-    final prefs = await SharedPreferences.getInstance();
-    final consentAccepted =
-        prefs.getBool(_aiReviewConsentPreferenceKey) ?? false;
-    final aiReviewEnabled =
-        prefs.getBool(_aiReviewEnabledPreferenceKey) ?? false;
-    if (!mounted) return;
-
-    setState(() {
-      _aiReviewConsentAccepted = consentAccepted;
-      _useAiReview = consentAccepted && aiReviewEnabled;
-    });
   }
 
   void _validateFirstPage() {
@@ -361,105 +337,6 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
     // Check if the recipe's vendorId matches the current user's ID pattern
     final userVendorId = 'usr-${currentUser.id}';
     return widget.recipe!.vendorId == userVendorId;
-  }
-
-  bool _isAiReviewAvailable() {
-    final currentUser = Supabase.instance.client.auth.currentUser;
-    return currentUser != null && !currentUser.isAnonymous;
-  }
-
-  Future<void> _handleAiReviewChanged(bool value) async {
-    final prefs = await SharedPreferences.getInstance();
-    if (!mounted) return;
-
-    if (!value) {
-      setState(() => _useAiReview = false);
-      await prefs.setBool(_aiReviewEnabledPreferenceKey, false);
-      _trackChanges();
-      return;
-    }
-
-    if (!_isAiReviewAvailable()) {
-      final l10n = AppLocalizations.of(context)!;
-      final signedIn = await AuthenticationService.promptSignIn(
-        context,
-        source: 'recipe_creation',
-        bodyText: l10n.recipeCreationAiReviewUnavailable,
-      );
-      if (!mounted || !signedIn || !_isAiReviewAvailable()) {
-        return;
-      }
-    }
-
-    if (!_aiReviewConsentAccepted) {
-      final accepted = await _showAiReviewConsentDialog();
-      if (accepted != true) {
-        return;
-      }
-
-      await prefs.setBool(_aiReviewConsentPreferenceKey, true);
-      if (!mounted) return;
-    }
-
-    setState(() {
-      _aiReviewConsentAccepted = true;
-      _useAiReview = true;
-    });
-    await prefs.setBool(_aiReviewEnabledPreferenceKey, true);
-    _trackChanges();
-  }
-
-  Future<bool?> _showAiReviewConsentDialog() {
-    final l10n = AppLocalizations.of(context)!;
-    return showDialog<bool>(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppRadius.card),
-        ),
-        title: Text(l10n.recipeCreationAiReviewConsentTitle),
-        content: Text(l10n.recipeCreationAiReviewConsentBody),
-        actions: [
-          AppTextButton(
-            label: l10n.cancel,
-            onPressed: () => Navigator.of(dialogContext).pop(false),
-            isFullWidth: false,
-            height: AppButton.heightSmall,
-            padding: AppButton.paddingSmall,
-          ),
-          AppElevatedButton(
-            label: l10n.recipeCreationAiReviewConsentAgree,
-            onPressed: () => Navigator.of(dialogContext).pop(true),
-            isFullWidth: false,
-            height: AppButton.heightSmall,
-            padding: AppButton.paddingSmall,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Future<void> _showAiReviewInfoDialog() {
-    final l10n = AppLocalizations.of(context)!;
-    return showDialog<void>(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppRadius.card),
-        ),
-        title: Text(l10n.recipeCreationAiReviewConsentTitle),
-        content: Text(l10n.recipeCreationAiReviewConsentBody),
-        actions: [
-          AppTextButton(
-            label: l10n.ok,
-            onPressed: () => Navigator.of(dialogContext).pop(),
-            isFullWidth: false,
-            height: AppButton.heightSmall,
-            padding: AppButton.paddingSmall,
-          ),
-        ],
-      ),
-    );
   }
 
   /// Returns true when the user chose to save without converting the
@@ -627,9 +504,6 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
     final l10n = AppLocalizations.of(saveContext)!;
     final scaffoldMessenger = ScaffoldMessenger.of(saveContext);
     final currentUser = Supabase.instance.client.auth.currentUser;
-    final currentLocale = Localizations.localeOf(saveContext);
-    final appLocale = currentLocale.toLanguageTag();
-    final sourceLanguageHint = currentLocale.languageCode;
 
     final totalBrewTime = Duration(
       minutes: _brewMinutes,
@@ -661,48 +535,12 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
         originalAuthorId: isUpdate ? widget.recipe!.originalAuthorId : null,
       );
 
-      RecipeExpressionProcessingResult processing =
+      final RecipeExpressionProcessingResult processing =
           RecipeExpressionService.processStepsForSavingDetailed(
             rawRecipeData.steps,
             _coffeeAmount,
             _waterAmount,
           );
-
-      if (_useAiReview && _isAiReviewAvailable()) {
-        scaffoldMessenger.showSnackBar(
-          SnackBar(content: Text(l10n.recipeCreationAiReviewRunning)),
-        );
-        try {
-          final verified =
-              await RecipeVerificationClient(
-                Supabase.instance.client,
-              ).verifyRecipe(
-                recipe: rawRecipeData,
-                appLocale: appLocale,
-                sourceLanguageHint: sourceLanguageHint,
-                consentToDiagnostics: _aiReviewConsentAccepted,
-              );
-          processing = RecipeExpressionService.processStepsForSavingDetailed(
-            verified.steps,
-            _coffeeAmount,
-            _waterAmount,
-          );
-          if (!processing.hasBlockingIssues && mounted) {
-            scaffoldMessenger.showSnackBar(
-              SnackBar(content: Text(l10n.recipeCreationAiReviewApplied)),
-            );
-          }
-        } catch (e) {
-          AppLogger.warning(
-            'AI recipe review failed; falling back to local validation: ${AppLogger.sanitize(e)}',
-          );
-          if (mounted) {
-            scaffoldMessenger.showSnackBar(
-              SnackBar(content: Text(l10n.recipeCreationAiReviewFailed)),
-            );
-          }
-        }
-      }
 
       if (processing.hasBlockingIssues) {
         if (!mounted) return;
@@ -912,10 +750,6 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
                           });
                           _trackChanges();
                         },
-                        aiReviewEnabled: _useAiReview,
-                        aiReviewAvailable: _isAiReviewAvailable(),
-                        onAiReviewChanged: _handleAiReviewChanged,
-                        onAiReviewInfoPressed: _showAiReviewInfoDialog,
                         onContinue: _isFirstPageValid
                             ? () {
                                 _pageController.nextPage(

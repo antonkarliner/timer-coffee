@@ -3,7 +3,6 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 import '../../models/brewing_method_model.dart';
 import '../../theme/design_tokens.dart';
-import 'recipe_ai_review_card.dart';
 import 'recipe_basic_info_card.dart';
 import 'recipe_brewing_method_card.dart';
 import 'recipe_parameters_card.dart';
@@ -28,10 +27,6 @@ class RecipeDetailsForm extends StatelessWidget {
   final ValueChanged<String> onGrindSizeChanged;
   final ValueChanged<int> onBrewMinutesChanged;
   final ValueChanged<int> onBrewSecondsChanged;
-  final bool aiReviewEnabled;
-  final bool aiReviewAvailable;
-  final ValueChanged<bool> onAiReviewChanged;
-  final VoidCallback onAiReviewInfoPressed;
   final VoidCallback? onContinue;
 
   const RecipeDetailsForm({
@@ -55,10 +50,6 @@ class RecipeDetailsForm extends StatelessWidget {
     required this.onGrindSizeChanged,
     required this.onBrewMinutesChanged,
     required this.onBrewSecondsChanged,
-    required this.aiReviewEnabled,
-    required this.aiReviewAvailable,
-    required this.onAiReviewChanged,
-    required this.onAiReviewInfoPressed,
     required this.onContinue,
   });
 
@@ -104,14 +95,6 @@ class RecipeDetailsForm extends StatelessWidget {
               onGrindSizeChanged: onGrindSizeChanged,
               onBrewMinutesChanged: onBrewMinutesChanged,
               onBrewSecondsChanged: onBrewSecondsChanged,
-            ),
-            const SizedBox(height: AppSpacing.lg),
-
-            RecipeAiReviewCard(
-              aiReviewEnabled: aiReviewEnabled,
-              aiReviewAvailable: aiReviewAvailable,
-              onAiReviewChanged: onAiReviewChanged,
-              onInfoPressed: onAiReviewInfoPressed,
             ),
             const SizedBox(height: AppSpacing.lg),
 
