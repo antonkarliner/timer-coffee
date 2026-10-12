@@ -691,10 +691,13 @@ class RecipeExpressionService {
     required double waterAmount,
   }) {
     // A whole dose or whole water amount is that total, as in the backend's
-    // resolveAmountPlaceholder (Defect 1): correct on 84/85 of 399 human labels.
+    // resolveAmountPlaceholder (Defect 1). The dose rule is limited to the
+    // preparation step: in a brew step, an amount that equals the dose is more
+    // likely water (on the 399 labels this kept all 34 gains and the one
+    // brew-step regression went away).
     final isCoffeeTotal = (value - coffeeAmount).abs() < 0.01;
     final isWaterTotal = (value - waterAmount).abs() < 0.01;
-    if (isCoffeeTotal && !isWaterTotal) {
+    if (isCoffeeTotal && !isWaterTotal && kind == RecipeStepKind.preparation) {
       return const _ResolvedPlaceholder(
         placeholder: finalCoffeeAmount,
         reason: RecipeAmountResolutionReason.exactTotalCoffee,

@@ -191,8 +191,7 @@ void main() {
       );
     });
 
-    test('leaves exactly equidistant amounts unconverted and reports them',
-        () {
+    test('leaves exactly equidistant amounts unconverted and reports them', () {
       final processed = RecipeExpressionService.processStepsForSavingDetailed(
         [
           BrewStepModel(
@@ -213,8 +212,9 @@ void main() {
       );
 
       expect(processed.hasBlockingIssues, isTrue);
-      final issue = processed.issues
-          .singleWhere((issue) => issue.code == 'ambiguous_amount');
+      final issue = processed.issues.singleWhere(
+        (issue) => issue.code == 'ambiguous_amount',
+      );
       expect(issue.amount, '30g');
       // The amount stays a plain number so "save as is" keeps it fixed.
       expect(processed.steps.last.description, 'Add coffee 30g water');
@@ -350,6 +350,15 @@ void main() {
       final amount = explain('Add 15 g to the water').single;
       expect(amount.placeholder, RecipeExpressionService.finalCoffeeAmount);
       expect(amount.reason, RecipeAmountResolutionReason.exactTotalCoffee);
+    });
+
+    test('exact coffee total does not apply in brew steps', () {
+      final amount = explain(
+        'Top up with 15 g',
+        kind: RecipeStepKind.brew,
+      ).single;
+      expect(amount.placeholder, RecipeExpressionService.finalWaterAmount);
+      expect(amount.reason, RecipeAmountResolutionReason.brewDefaultWater);
     });
 
     test('equal recipe totals fall through to keyword resolution', () {
@@ -491,7 +500,10 @@ void main() {
       expect(amounts.first.placeholder, isNull);
       expect(amounts.last.isRange, isFalse);
       expect(amounts.last.reason, RecipeAmountResolutionReason.waterKeyword);
-      expect(amounts.last.placeholder, RecipeExpressionService.finalWaterAmount);
+      expect(
+        amounts.last.placeholder,
+        RecipeExpressionService.finalWaterAmount,
+      );
     });
 
     test('returns an immutable collection and localized numeric values', () {
