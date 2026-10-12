@@ -35,8 +35,15 @@ void main() {
           final labels = decodedLabels
               .map((label) => Map<String, dynamic>.from(label as Map))
               .toList();
-          output +=
-              '\n${formatLabelAccuracy(computeLabelAccuracy(rows, labels))}';
+          final accuracy = computeLabelAccuracy(rows, labels);
+          output += '\n${formatLabelAccuracy(accuracy)}';
+          // Optional per-label outcomes (ids, offsets and an enum; no text) for
+          // diffing two converter versions label by label.
+          final outcomesPath =
+              Platform.environment['RECIPE_CORPUS_OUTCOMES_OUT'];
+          if (outcomesPath != null && outcomesPath.isNotEmpty) {
+            File(outcomesPath).writeAsStringSync(jsonEncode(accuracy.outcomes));
+          }
         }
       } catch (_) {
         // JSON/typing/conversion exceptions can contain private input. Replace

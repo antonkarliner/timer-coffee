@@ -13,6 +13,10 @@ const corpusLabels = [
 class LabelAccuracy {
   final Map<String, Map<String, int>> scopes = {};
   final Map<String, int> confusion = {};
+
+  /// Outcome per label, keyed `diagnostics_id:step_index:char_start:char_end`.
+  /// Ids and enum values only, so before/after runs can be diffed per label.
+  final Map<String, String> outcomes = {};
   int orphan = 0;
   void add(String scope, bool correct) {
     final counts = scopes.putIfAbsent(
@@ -80,6 +84,7 @@ LabelAccuracy computeLabelAccuracy(
     };
     final key = '$name:$outcome';
     result.confusion[key] = (result.confusion[key] ?? 0) + 1;
+    result.outcomes['${label['diagnostics_id']}:$index:$start:$end'] = outcome;
     for (final scope in [
       'overall',
       'lang:${corpusLanguage(row)}',
