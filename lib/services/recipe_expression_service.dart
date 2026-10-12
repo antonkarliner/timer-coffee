@@ -4,6 +4,8 @@ import '../models/brew_step_model.dart';
 enum RecipeStepKind { preparation, brew }
 
 enum RecipeAmountResolutionReason {
+  exactTotalCoffee,
+  exactTotalWater,
   coffeeKeyword,
   waterKeyword,
   keywordTie,
@@ -139,14 +141,14 @@ class RecipeExpressionService {
 
   static final RegExp _amountRangeRegex = RegExp(
     '($_numberPattern)\\s*[-–—]\\s*($_numberPattern)\\s*($_unitPattern)'
-    r'(?=$|[\s,.;:!?\)\]/])',
+    r'(?=$|[\s,.;:!?\)\]/]|\b)',
     caseSensitive: false,
     unicode: true,
   );
 
   static final RegExp _amountRegex = RegExp(
     '($_numberPattern)\\s*($_unitPattern)'
-    r'(?=$|[\s,.;:!?\)\]/-])',
+    r'(?=$|[\s,.;:!?\)\]/-]|\b)',
     caseSensitive: false,
     unicode: true,
   );
@@ -688,6 +690,23 @@ class RecipeExpressionService {
     required double coffeeAmount,
     required double waterAmount,
   }) {
+    // A whole dose or whole water amount is that total, as in the backend's
+    // resolveAmountPlaceholder (Defect 1): correct on 84/85 of 399 human labels.
+    final isCoffeeTotal = (value - coffeeAmount).abs() < 0.01;
+    final isWaterTotal = (value - waterAmount).abs() < 0.01;
+    if (isCoffeeTotal && !isWaterTotal) {
+      return const _ResolvedPlaceholder(
+        placeholder: finalCoffeeAmount,
+        reason: RecipeAmountResolutionReason.exactTotalCoffee,
+      );
+    }
+    if (isWaterTotal && !isCoffeeTotal) {
+      return const _ResolvedPlaceholder(
+        placeholder: finalWaterAmount,
+        reason: RecipeAmountResolutionReason.exactTotalWater,
+      );
+    }
+
     final contextStart = matchStart - 32 < 0 ? 0 : matchStart - 32;
     final contextEnd = matchEnd + 32 > description.length
         ? description.length

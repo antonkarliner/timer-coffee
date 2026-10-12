@@ -273,12 +273,12 @@ void main() {
 
     final examples = <(String, RecipeStepKind, RecipeAmountResolutionReason)>[
       (
-        'Add 15g coffee',
+        'Add 30g coffee',
         RecipeStepKind.preparation,
         RecipeAmountResolutionReason.coffeeKeyword,
       ),
       (
-        'Pour 250ml water',
+        'Pour 100ml water',
         RecipeStepKind.brew,
         RecipeAmountResolutionReason.waterKeyword,
       ),
@@ -294,12 +294,12 @@ void main() {
         RecipeAmountResolutionReason.brewDefaultWater,
       ),
       (
-        'Weigh 15g',
+        'Weigh 30g',
         RecipeStepKind.preparation,
         RecipeAmountResolutionReason.preparationCleanScoreCoffee,
       ),
       (
-        'Weigh 250ml',
+        'Weigh 500ml',
         RecipeStepKind.preparation,
         RecipeAmountResolutionReason.preparationCleanScoreWater,
       ),
@@ -337,6 +337,113 @@ void main() {
         expect(amount.offsetsInRangeSubstitutedText, isFalse);
       });
     }
+
+    test('exact water total takes precedence over coffee wording', () {
+      for (final text in ['Pour 250 ml over the coffee', 'Add 250 ml coffee']) {
+        final amount = explain(text, kind: RecipeStepKind.brew).single;
+        expect(amount.placeholder, RecipeExpressionService.finalWaterAmount);
+        expect(amount.reason, RecipeAmountResolutionReason.exactTotalWater);
+      }
+    });
+
+    test('exact coffee total takes precedence over water wording', () {
+      final amount = explain('Add 15 g to the water').single;
+      expect(amount.placeholder, RecipeExpressionService.finalCoffeeAmount);
+      expect(amount.reason, RecipeAmountResolutionReason.exactTotalCoffee);
+    });
+
+    test('equal recipe totals fall through to keyword resolution', () {
+      final amount = explain('Add 100g coffee', coffee: 100, water: 100).single;
+      expect(amount.placeholder, RecipeExpressionService.finalCoffeeAmount);
+      expect(amount.reason, RecipeAmountResolutionReason.coffeeKeyword);
+    });
+
+    test('non-total amounts retain keyword resolution', () {
+      final amount = explain('Add 60g water', kind: RecipeStepKind.brew).single;
+      expect(amount.placeholder, RecipeExpressionService.finalWaterAmount);
+      expect(amount.reason, RecipeAmountResolutionReason.waterKeyword);
+    });
+
+    test('recognizes ASCII units followed by CJK text', () {
+      for (final example in [('お湯を50g注ぐ', 50.0), ('注水至100ml后', 100.0)]) {
+        final amount = explain(example.$1, kind: RecipeStepKind.brew).single;
+        expect(amount.value, example.$2);
+        expect(amount.placeholder, RecipeExpressionService.finalWaterAmount);
+        expect(amount.reason, RecipeAmountResolutionReason.waterKeyword);
+      }
+    });
+
+    test('does not recognize units inside ASCII words or glued CJK units', () {
+      // CJK unit words followed by CJK text remain a known detection gap.
+      for (final text in ['2 grinds', '100克水']) {
+        expect(explain(text, kind: RecipeStepKind.brew), isEmpty);
+      }
+    });
+
+    test('recognizes ranges with ASCII units followed by CJK text', () {
+      final amount = explain('40-60g注ぐ', kind: RecipeStepKind.brew).single;
+      expect(amount.isRange, isTrue);
+      expect(amount.value, 60);
+      expect(amount.unit, 'g');
+      expect(amount.placeholder, RecipeExpressionService.finalWaterAmount);
+      expect(amount.reason, RecipeAmountResolutionReason.brewDefaultWater);
+    });
+
+    test('saves exact totals using their recipe total despite keywords', () {
+      final processed = RecipeExpressionService.processStepsForSavingDetailed(
+        [
+          BrewStepModel(
+            id: 'prep',
+            order: 1,
+            description: 'Add 15 g to the water',
+            time: Duration.zero,
+          ),
+          BrewStepModel(
+            id: 'brew',
+            order: 2,
+            description: 'Add 250 ml coffee',
+            time: Duration.zero,
+          ),
+        ],
+        15,
+        250,
+      );
+      expect(processed.hasBlockingIssues, isFalse);
+      expect(
+        processed.steps.first.description,
+        'Add (1 x <final_coffee_amount>)g to the water',
+      );
+      expect(
+        processed.steps.last.description,
+        'Add (1 x <final_water_amount>)ml coffee',
+      );
+    });
+
+    test('saves ASCII units glued to CJK text as scalable templates', () {
+      final processed = RecipeExpressionService.processStepsForSavingDetailed(
+        [
+          BrewStepModel(
+            id: 'prep',
+            order: 1,
+            description: 'Prepare filter',
+            time: Duration.zero,
+          ),
+          BrewStepModel(
+            id: 'brew',
+            order: 2,
+            description: 'お湯を50g注ぐ',
+            time: Duration.zero,
+          ),
+        ],
+        15,
+        250,
+      );
+      expect(processed.hasBlockingIssues, isFalse);
+      expect(
+        processed.steps.last.description,
+        'お湯を(0.2 x <final_water_amount>)g注ぐ',
+      );
+    });
 
     test('reports missing selected base without a final placeholder', () {
       for (final base in [0.0, -1.0]) {

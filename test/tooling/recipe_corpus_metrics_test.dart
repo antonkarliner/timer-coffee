@@ -58,9 +58,13 @@ void main() {
     expect(m.count('amounts'), 7);
     expect(m.count('amounts', kind: 'preparation'), 2);
     expect(m.count('amounts', scope: 'lang:es', kind: 'brew'), 2);
-    expect(m.count('reason', key: 'coffeeKeyword'), 1);
-    expect(m.count('reason', key: 'brewDefaultWater'), 2);
-    expect(m.count('reason', key: 'waterKeyword'), 2);
+    // 'Add 15g coffee', 'Add 250ml' and 'Vierte 250ML agua' equal a recipe
+    // total, so the exact-total rule decides them before any keyword.
+    expect(m.count('reason', key: 'exactTotalCoffee'), 1);
+    expect(m.count('reason', key: 'exactTotalWater'), 2);
+    expect(m.count('reason', key: 'coffeeKeyword'), 0);
+    expect(m.count('reason', key: 'brewDefaultWater'), 1);
+    expect(m.count('reason', key: 'waterKeyword'), 1);
     expect(m.count('reason', key: 'preparationAmbiguous'), 1);
     expect(m.count('reason', key: 'skippedRateContext'), 1);
     expect(m.count('ranges'), 1);
