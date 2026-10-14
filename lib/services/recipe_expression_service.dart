@@ -175,6 +175,15 @@ class RecipeExpressionService {
     unicode: true,
   );
 
+  static final RegExp _wordCharacterRegex = RegExp(
+    r'[\p{L}\p{N}]',
+    unicode: true,
+  );
+  static final RegExp _wordBoundaryKeywordRegex = RegExp(
+    r'\p{Script=Latin}|\p{Script=Cyrillic}|\p{Script=Greek}',
+    unicode: true,
+  );
+
   static final RegExp _placeholderRegex = RegExp(r'<([^>]+)>');
   static final RegExp _knownPlaceholderRegex = RegExp(
     r'<(final_coffee_amount|final_water_amount|coffee_amount|water_amount)>',
@@ -721,7 +730,13 @@ class RecipeExpressionService {
     final contextEnd = matchEnd + 32 > description.length
         ? description.length
         : matchEnd + 32;
-    final context = description
+    // Mask whole tokens before clipping so partial placeholders cannot leak
+    // keywords into context. Spaces preserve all UTF-16 match offsets.
+    final keywordDescription = description.replaceAllMapped(
+      _placeholderRegex,
+      (match) => ' ' * (match.end - match.start),
+    );
+    final context = keywordDescription
         .substring(contextStart, contextEnd)
         .toLowerCase();
 
@@ -836,17 +851,35 @@ class RecipeExpressionService {
   ) {
     int? best;
     for (final keyword in keywords) {
+      final needsWordBoundary = _wordBoundaryKeywordRegex.hasMatch(keyword);
       var searchFrom = 0;
       while (true) {
         final index = lowerContext.indexOf(keyword, searchFrom);
         if (index < 0) break;
+        searchFrom = index + 1;
+        final end = index + keyword.length;
+        if (needsWordBoundary) {
+          // Use runes to keep supplementary Unicode letters/digits intact.
+          final before = lowerContext.substring(0, index).runes;
+          final after = lowerContext.substring(end).runes;
+          if ((before.isNotEmpty &&
+                  _wordCharacterRegex.hasMatch(
+                    String.fromCharCode(before.last),
+                  )) ||
+              (keyword.runes.length <= 3 &&
+                  after.isNotEmpty &&
+                  _wordCharacterRegex.hasMatch(
+                    String.fromCharCode(after.first),
+                  ))) {
+            continue;
+          }
+        }
         final keywordStart = contextStart + index;
         final keywordEnd = keywordStart + keyword.length;
         final distance = keywordEnd <= matchStart
             ? matchStart - keywordEnd
             : (keywordStart >= matchEnd ? keywordStart - matchEnd : 0);
         if (best == null || distance < best) best = distance;
-        searchFrom = index + 1;
       }
     }
     return best;
