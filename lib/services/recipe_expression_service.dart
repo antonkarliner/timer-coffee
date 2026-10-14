@@ -18,6 +18,9 @@ enum RecipeAmountResolutionReason {
   skippedRateContext,
   skippedBelowMinimum,
   skippedNoBaseAmount,
+  preparationDoseCoffee,
+  preparationDoseWater,
+  coffeeBoundWater,
 }
 
 /// One recognized amount. Contains no step text.
@@ -125,6 +128,9 @@ class _ResolvedPlaceholder {
 }
 
 class RecipeExpressionService {
+  // Plan 043 Phase 4 / plan 080 D4: preparation coffee-vs-water dose bound.
+  static const double coffeeDoseBoundFactor = 1.5;
+
   static const String finalCoffeeAmount = 'final_coffee_amount';
   static const String finalWaterAmount = 'final_water_amount';
   static const String coffeeAmount = 'coffee_amount';
@@ -292,7 +298,8 @@ class RecipeExpressionService {
   }
 
   static String formatMultiplier(double multiplier) {
-    if ((multiplier - multiplier.round()).abs() < 0.01) {
+    if (multiplier.round() >= 1 &&
+        (multiplier - multiplier.round()).abs() < 0.01) {
       return multiplier.round().toString();
     }
     return multiplier.toStringAsFixed(4).replaceAll(RegExp(r'\.?0+$'), '');
@@ -733,7 +740,19 @@ class RecipeExpressionService {
       _waterContextKeywords,
     );
 
-    if (coffeeDistance != null && waterDistance == null) {
+    // Both coffee keyword paths share the preparation-only bound. Exact
+    // totals returned above are deliberately never overturned.
+    if (coffeeDistance != null &&
+        (waterDistance == null || coffeeDistance < waterDistance)) {
+      if (kind == RecipeStepKind.preparation &&
+          coffeeAmount > 0 &&
+          waterAmount > 0 &&
+          value > coffeeAmount * coffeeDoseBoundFactor) {
+        return const _ResolvedPlaceholder(
+          placeholder: finalWaterAmount,
+          reason: RecipeAmountResolutionReason.coffeeBoundWater,
+        );
+      }
       return const _ResolvedPlaceholder(
         placeholder: finalCoffeeAmount,
         reason: RecipeAmountResolutionReason.coffeeKeyword,
@@ -746,12 +765,6 @@ class RecipeExpressionService {
       );
     }
     if (coffeeDistance != null && waterDistance != null) {
-      if (coffeeDistance < waterDistance) {
-        return const _ResolvedPlaceholder(
-          placeholder: finalCoffeeAmount,
-          reason: RecipeAmountResolutionReason.coffeeKeyword,
-        );
-      }
       if (waterDistance < coffeeDistance) {
         return const _ResolvedPlaceholder(
           placeholder: finalWaterAmount,
@@ -774,6 +787,16 @@ class RecipeExpressionService {
       return const _ResolvedPlaceholder(
         placeholder: finalWaterAmount,
         reason: RecipeAmountResolutionReason.brewDefaultWater,
+      );
+    }
+
+    if (coffeeAmount > 0 && waterAmount > 0) {
+      final isDose = value <= coffeeAmount * coffeeDoseBoundFactor;
+      return _ResolvedPlaceholder(
+        placeholder: isDose ? finalCoffeeAmount : finalWaterAmount,
+        reason: isDose
+            ? RecipeAmountResolutionReason.preparationDoseCoffee
+            : RecipeAmountResolutionReason.preparationDoseWater,
       );
     }
 
