@@ -1,6 +1,6 @@
 # Privacy Policy for Timer.Coffee (Web Version)
 
-Last Updated: 10.10.2026
+Last Updated: 14.10.2026
 
 1. INTRODUCTION
 
@@ -109,6 +109,16 @@ We let you export a copy of your own data as a self-serve way to exercise your r
 - The confirmation code only proves you control the destination inbox; it does not change whose data is exported. The data included in an export is always the data belonging to the account you are signed into when you make the request, so entering someone else's email address as the destination cannot be used to obtain their data.
 - We use Resend to send the confirmation code and download link emails.
 
+i. Web Recipe Maker (Beta)
+
+The recipe maker on our website turns recipe text you paste, such as notes or a video transcript, into a Timer.Coffee recipe. It is used on the recipe maker page and in the roaster dashboard. While it is in beta, access comes with sharing what you submit, so we can improve how Timer.Coffee turns text into recipes. Before your first use we show you a notice and ask you to agree to it; without agreeing, you cannot use the recipe maker. We record that you agreed, which version of the notice you agreed to, and when.
+
+- What we keep: the text you paste, what the AI made of it (the intermediate and final results from each processing step, plus the AI provider and model used), and the recipe you save at the end, linked to your user ID.
+- What we do with it: we read submissions and test changes to the recipe maker on them. That includes sending them again to our AI providers, OpenAI and Google (Vertex AI), who already process your text to make the feature work.
+- How long: submissions are kept for 12 months and then deleted automatically. They are also deleted if you delete your account.
+- Removal: email support@timer.coffee to have your submissions deleted sooner.
+- Submissions are stored privately on our servers and are not exposed to public clients. A recipe you save stays private unless you choose to publish it.
+
 3. COOKIES AND SIMILAR TECHNOLOGIES
 
 - The repository does not currently show app-managed analytics cookies being set directly by the web application code.
@@ -138,6 +148,7 @@ These providers may process data on our behalf so the feature you asked for actu
 - When you delete your account, we delete profile data, bean data, recipe preferences, recipes, user stats, and push token records associated with your account, if any exist. Bean cover photo files stored in Supabase Storage are also removed as part of this process.
 - Some analytics and usage records, including brew statistics, AI-recognition invocation records, and AI recipe-review diagnostic records, may be retained in anonymized form by replacing your user ID with a non-identifying placeholder. We keep these records to measure product usage, debug and improve recipe creation, and operate the service without keeping them tied to you. AI recipe-review diagnostic records are deleted no later than 9 April 2027.
 - If you request a data export (Section 2h), we keep the request record, including the destination email address and a hashed confirmation code, for 25 hours to enforce abuse limits, and we automatically delete the exported file from storage a few hours after it is created.
+- If you use the web recipe maker (Section 2i), we keep your submissions for 12 months and then delete them automatically, or sooner if you delete your account or ask us at support@timer.coffee. We keep the record of your agreement to the beta notice until you delete your account.
 - We may retain limited information where required for legal, security, fraud-prevention, or accounting reasons.
 
 7. USER RIGHTS
