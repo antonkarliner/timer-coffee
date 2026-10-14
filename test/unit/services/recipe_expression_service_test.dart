@@ -3,6 +3,93 @@ import 'package:coffee_timer/services/recipe_expression_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  group('plan 080 step 3 regressions', () {
+    void check(String text, List<String> reasons, String template) {
+      final trace = RecipeExpressionService.explainStepConversion(
+        text,
+        kind: RecipeStepKind.preparation,
+        coffeeAmount: 15,
+        waterAmount: 250,
+      );
+      expect(trace.map((amount) => amount.reason.name), reasons);
+      final result = RecipeExpressionService.processStepsForSavingDetailed(
+        [
+          BrewStepModel(
+            id: 'prep',
+            order: 1,
+            description: text,
+            time: Duration.zero,
+          ),
+        ],
+        15,
+        250,
+      );
+      expect(result.steps.single.description, template);
+      expect(result.issues, isEmpty);
+    }
+
+    for (final word in [
+      'sugar',
+      'Measure',
+      'Sumatra',
+      'beautiful',
+      'Nicaragua',
+      'sucre',
+      'eauforte',
+      'αsu',
+      'Жagua',
+      '7water',
+      '𐐀water',
+      'su٣',
+      'eau𐐀',
+    ]) {
+      test('keyword boundaries: $word', () {
+        check('$word 12g', [
+          'preparationDoseCoffee',
+        ], '$word (0.8 x <final_coffee_amount>)g');
+      });
+    }
+    for (final example in [
+      ('Kaffeemehl', 'coffeeKeyword', 'coffee', '0.8'),
+      ('Wassermenge', 'waterKeyword', 'water', '0.048'),
+      ('beans', 'coffeeKeyword', 'coffee', '0.8'),
+      ('su', 'waterKeyword', 'water', '0.048'),
+      ('eau', 'waterKeyword', 'water', '0.048'),
+      ('커피를', 'coffeeKeyword', 'coffee', '0.8'),
+      ('بالماء', 'waterKeyword', 'water', '0.048'),
+    ]) {
+      test('preserves keyword form: ${example.$1}', () {
+        check('${example.$1} 12g', [
+          example.$2,
+        ], '${example.$1} (${example.$4} x <final_${example.$3}_amount>)g');
+      });
+    }
+    for (final verb in ['Weigh', 'Wiege']) {
+      test('masks converted range placeholders: $verb', () {
+        check(
+          '$verb 40-80g; 12g',
+          ['preparationDoseWater', 'preparationDoseCoffee'],
+          '$verb (0.16 x <final_water_amount>)-'
+              '(0.32 x <final_water_amount>)g; '
+              '(0.8 x <final_coffee_amount>)g',
+        );
+      });
+    }
+    test('masks whole placeholder before clipping keyword context', () {
+      check('(1 x <final_coffee_amount>)g; 30g', [
+        'preparationDoseWater',
+      ], '(1 x <final_coffee_amount>)g; (0.12 x <final_water_amount>)g');
+    });
+    test('masks unknown placeholder tokens too', () {
+      final trace = RecipeExpressionService.explainStepConversion(
+        '<water> 12g',
+        kind: RecipeStepKind.preparation,
+        coffeeAmount: 15,
+        waterAmount: 250,
+      );
+      expect(trace.single.reason.name, 'preparationDoseCoffee');
+    });
+  });
   group('plan 080 D4 regressions', () {
     // Assert names so these tests run before the new enum values exist.
     for (final example in <(String, String, String)>[

@@ -340,6 +340,80 @@
         "preparationDoseWater"
       ],
       "issues": []
+    },
+    {
+      "id": "keyword-no-embedded-su",
+      "text": "sugar 12g",
+      "kind": "preparation",
+      "coffee": 15,
+      "water": 250,
+      "template": "sugar (0.8 x <final_coffee_amount>)g",
+      "reasons": [
+        "preparationDoseCoffee"
+      ],
+      "issues": []
+    },
+    {
+      "id": "de-coffee-compound",
+      "text": "Kaffeemehl 12g",
+      "kind": "preparation",
+      "coffee": 15,
+      "water": 250,
+      "template": "Kaffeemehl (0.8 x <final_coffee_amount>)g",
+      "reasons": [
+        "coffeeKeyword"
+      ],
+      "issues": []
+    },
+    {
+      "id": "ko-attached-coffee",
+      "text": "커피를 12g",
+      "kind": "preparation",
+      "coffee": 15,
+      "water": 250,
+      "template": "커피를 (0.8 x <final_coffee_amount>)g",
+      "reasons": [
+        "coffeeKeyword"
+      ],
+      "issues": []
+    },
+    {
+      "id": "ar-attached-water",
+      "text": "بالماء 12g",
+      "kind": "preparation",
+      "coffee": 15,
+      "water": 250,
+      "template": "بالماء (0.048 x <final_water_amount>)g",
+      "reasons": [
+        "waterKeyword"
+      ],
+      "issues": []
+    },
+    {
+      "id": "en-range-placeholder-masked",
+      "text": "Weigh 40-80g; 12g",
+      "kind": "preparation",
+      "coffee": 15,
+      "water": 250,
+      "template": "Weigh (0.16 x <final_water_amount>)-(0.32 x <final_water_amount>)g; (0.8 x <final_coffee_amount>)g",
+      "reasons": [
+        "preparationDoseWater",
+        "preparationDoseCoffee"
+      ],
+      "issues": []
+    },
+    {
+      "id": "de-range-placeholder-masked",
+      "text": "Wiege 40-80g; 12g",
+      "kind": "preparation",
+      "coffee": 15,
+      "water": 250,
+      "template": "Wiege (0.16 x <final_water_amount>)-(0.32 x <final_water_amount>)g; (0.8 x <final_coffee_amount>)g",
+      "reasons": [
+        "preparationDoseWater",
+        "preparationDoseCoffee"
+      ],
+      "issues": []
     }
   ],
   "render": [
