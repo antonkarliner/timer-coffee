@@ -1,0 +1,411 @@
+{
+  "version": 1,
+  "note": "Synthetic cases only. Canonical copy: timer-coffee app repo. Mirrored byte-for-byte into timer-coffee-landing-2 tests/fixtures/. Never paste user text here.",
+  "convert": [
+    {
+      "id": "prep-exact-dose",
+      "text": "Measure 15g",
+      "kind": "preparation",
+      "coffee": 15,
+      "water": 250,
+      "template": "Measure (1 x <final_coffee_amount>)g",
+      "reasons": [
+        "exactTotalCoffee"
+      ],
+      "issues": []
+    },
+    {
+      "id": "prep-exact-water",
+      "text": "Measure 250g",
+      "kind": "preparation",
+      "coffee": 15,
+      "water": 250,
+      "template": "Measure (1 x <final_water_amount>)g",
+      "reasons": [
+        "exactTotalWater"
+      ],
+      "issues": []
+    },
+    {
+      "id": "brew-dose-default-water",
+      "text": "Add 15g",
+      "kind": "brew",
+      "coffee": 15,
+      "water": 250,
+      "template": "Add (0.06 x <final_water_amount>)g",
+      "reasons": [
+        "brewDefaultWater"
+      ],
+      "issues": []
+    },
+    {
+      "id": "prep-dose-coffee",
+      "text": "Weigh 18g",
+      "kind": "preparation",
+      "coffee": 15,
+      "water": 250,
+      "template": "Weigh (1.2 x <final_coffee_amount>)g",
+      "reasons": [
+        "preparationDoseCoffee"
+      ],
+      "issues": []
+    },
+    {
+      "id": "prep-dose-boundary",
+      "text": "Weigh 22.5g",
+      "kind": "preparation",
+      "coffee": 15,
+      "water": 250,
+      "template": "Weigh (1.5 x <final_coffee_amount>)g",
+      "reasons": [
+        "preparationDoseCoffee"
+      ],
+      "issues": []
+    },
+    {
+      "id": "prep-dose-above-boundary",
+      "text": "Weigh 22.6g",
+      "kind": "preparation",
+      "coffee": 15,
+      "water": 250,
+      "template": "Weigh (0.0904 x <final_water_amount>)g",
+      "reasons": [
+        "preparationDoseWater"
+      ],
+      "issues": []
+    },
+    {
+      "id": "prep-coffee-bound",
+      "text": "Coffee: 45g",
+      "kind": "preparation",
+      "coffee": 15,
+      "water": 250,
+      "template": "Coffee: (0.18 x <final_water_amount>)g",
+      "reasons": [
+        "coffeeBoundWater"
+      ],
+      "issues": []
+    },
+    {
+      "id": "prep-coffee-keyword",
+      "text": "Coffee: 12g",
+      "kind": "preparation",
+      "coffee": 15,
+      "water": 250,
+      "template": "Coffee: (0.8 x <final_coffee_amount>)g",
+      "reasons": [
+        "coffeeKeyword"
+      ],
+      "issues": []
+    },
+    {
+      "id": "prep-water-keyword",
+      "text": "Water: 12g",
+      "kind": "preparation",
+      "coffee": 15,
+      "water": 250,
+      "template": "Water: (0.048 x <final_water_amount>)g",
+      "reasons": [
+        "waterKeyword"
+      ],
+      "issues": []
+    },
+    {
+      "id": "keyword-tie",
+      "text": "coffee 12g water",
+      "kind": "preparation",
+      "coffee": 15,
+      "water": 250,
+      "template": "coffee 12g water",
+      "reasons": [
+        "keywordTie"
+      ],
+      "issues": [
+        "ambiguous_amount"
+      ]
+    },
+    {
+      "id": "brew-default-water",
+      "text": "Add 80g",
+      "kind": "brew",
+      "coffee": 15,
+      "water": 250,
+      "template": "Add (0.32 x <final_water_amount>)g",
+      "reasons": [
+        "brewDefaultWater"
+      ],
+      "issues": []
+    },
+    {
+      "id": "brew-exact-water",
+      "text": "Add 250g",
+      "kind": "brew",
+      "coffee": 15,
+      "water": 250,
+      "template": "Add (1 x <final_water_amount>)g",
+      "reasons": [
+        "exactTotalWater"
+      ],
+      "issues": []
+    },
+    {
+      "id": "brew-coffee-unbounded",
+      "text": "Coffee: 45g",
+      "kind": "brew",
+      "coffee": 15,
+      "water": 250,
+      "template": "Coffee: (3 x <final_coffee_amount>)g",
+      "reasons": [
+        "coffeeKeyword"
+      ],
+      "issues": []
+    },
+    {
+      "id": "brew-water-range",
+      "text": "Water: 40–80g",
+      "kind": "brew",
+      "coffee": 15,
+      "water": 250,
+      "template": "Water: (0.16 x <final_water_amount>)-(0.32 x <final_water_amount>)g",
+      "reasons": [
+        "waterKeyword"
+      ],
+      "issues": []
+    },
+    {
+      "id": "prep-dose-range",
+      "text": "Weigh 10-20g",
+      "kind": "preparation",
+      "coffee": 15,
+      "water": 250,
+      "template": "Weigh (0.6667 x <final_coffee_amount>)-(1.3333 x <final_coffee_amount>)g",
+      "reasons": [
+        "preparationDoseCoffee"
+      ],
+      "issues": []
+    },
+    {
+      "id": "rate-slash",
+      "text": "Flow at 4g/s",
+      "kind": "brew",
+      "coffee": 15,
+      "water": 250,
+      "template": "Flow at 4g/s",
+      "reasons": [
+        "skippedRateContext"
+      ],
+      "issues": []
+    },
+    {
+      "id": "rate-per-second",
+      "text": "Flow at 4g per second",
+      "kind": "brew",
+      "coffee": 15,
+      "water": 250,
+      "template": "Flow at 4g per second",
+      "reasons": [
+        "skippedRateContext"
+      ],
+      "issues": []
+    },
+    {
+      "id": "rate-every-30-seconds",
+      "text": "Add 40g every 30 seconds",
+      "kind": "brew",
+      "coffee": 15,
+      "water": 250,
+      "template": "Add 40g every 30 seconds",
+      "reasons": [
+        "skippedRateContext"
+      ],
+      "issues": []
+    },
+    {
+      "id": "comma-decimal",
+      "text": "Coffee: 12,5g",
+      "kind": "preparation",
+      "coffee": 15,
+      "water": 250,
+      "template": "Coffee: (0.8333 x <final_coffee_amount>)g",
+      "reasons": [
+        "coffeeKeyword"
+      ],
+      "issues": []
+    },
+    {
+      "id": "arabic-digits",
+      "text": "ماء: ٥٠مل",
+      "kind": "preparation",
+      "coffee": 15,
+      "water": 250,
+      "template": "ماء: (0.2 x <final_water_amount>)مل",
+      "reasons": [
+        "waterKeyword"
+      ],
+      "issues": []
+    },
+    {
+      "id": "persian-digits",
+      "text": "آب: ۵۰گرم",
+      "kind": "preparation",
+      "coffee": 15,
+      "water": 250,
+      "template": "آب: (0.2 x <final_water_amount>)گرم",
+      "reasons": [
+        "waterKeyword"
+      ],
+      "issues": []
+    },
+    {
+      "id": "ja-glued-water",
+      "text": "お湯を50g注ぐ",
+      "kind": "brew",
+      "coffee": 15,
+      "water": 250,
+      "template": "お湯を(0.2 x <final_water_amount>)g注ぐ",
+      "reasons": [
+        "waterKeyword"
+      ],
+      "issues": []
+    },
+    {
+      "id": "ru-coffee-bound",
+      "text": "Кофе: 45г",
+      "kind": "preparation",
+      "coffee": 15,
+      "water": 250,
+      "template": "Кофе: (0.18 x <final_water_amount>)г",
+      "reasons": [
+        "coffeeBoundWater"
+      ],
+      "issues": []
+    },
+    {
+      "id": "de-coffee-keyword",
+      "text": "Kaffee: 12Gramm",
+      "kind": "preparation",
+      "coffee": 15,
+      "water": 250,
+      "template": "Kaffee: (0.8 x <final_coffee_amount>)Gramm",
+      "reasons": [
+        "coffeeKeyword"
+      ],
+      "issues": []
+    },
+    {
+      "id": "es-water-keyword",
+      "text": "Agua: 50gramos",
+      "kind": "preparation",
+      "coffee": 15,
+      "water": 250,
+      "template": "Agua: (0.2 x <final_water_amount>)gramos",
+      "reasons": [
+        "waterKeyword"
+      ],
+      "issues": []
+    },
+    {
+      "id": "fr-water-keyword",
+      "text": "Eau: 50grammes",
+      "kind": "preparation",
+      "coffee": 15,
+      "water": 250,
+      "template": "Eau: (0.2 x <final_water_amount>)grammes",
+      "reasons": [
+        "waterKeyword"
+      ],
+      "issues": []
+    },
+    {
+      "id": "tiny-water-multiplier",
+      "text": "Water: 1g",
+      "kind": "preparation",
+      "coffee": 15,
+      "water": 300,
+      "template": "Water: (0.0033 x <final_water_amount>)g",
+      "reasons": [
+        "waterKeyword"
+      ],
+      "issues": []
+    },
+    {
+      "id": "source-order-single-then-range",
+      "text": "Coffee: 12g;                                         40-80g",
+      "kind": "preparation",
+      "coffee": 15,
+      "water": 250,
+      "template": "Coffee: (0.8 x <final_coffee_amount>)g;                                         (0.16 x <final_water_amount>)-(0.32 x <final_water_amount>)g",
+      "reasons": [
+        "coffeeKeyword",
+        "preparationDoseWater"
+      ],
+      "issues": []
+    }
+  ],
+  "render": [
+    {
+      "id": "render-bare-water-period",
+      "template": "<final_water_amount>g.",
+      "coffee": 15,
+      "water": 250,
+      "compact": "250g.",
+      "full": "250g."
+    },
+    {
+      "id": "render-legacy-coffee",
+      "template": "<coffee_amount>g",
+      "coffee": 15,
+      "water": 250,
+      "compact": "15g",
+      "full": "15g"
+    },
+    {
+      "id": "render-cyrillic-unit",
+      "template": "(0.25 x <final_water_amount>)мл",
+      "coffee": 15,
+      "water": 250,
+      "compact": "62.5мл",
+      "full": "62.5мл"
+    },
+    {
+      "id": "render-german-unit",
+      "template": "(0.5 x <final_coffee_amount>)Gramm",
+      "coffee": 15,
+      "water": 250,
+      "compact": "7.5Gramm",
+      "full": "7.5Gramm"
+    },
+    {
+      "id": "render-range-rounding",
+      "template": "(0.3333 x <final_water_amount>)-(0.6667 x <final_water_amount>)g",
+      "coffee": 15,
+      "water": 250,
+      "compact": "83.3-166.7g",
+      "full": "83.33-166.67g"
+    },
+    {
+      "id": "render-coffee-rounding",
+      "template": "(0.8333 x <final_coffee_amount>)g",
+      "coffee": 15,
+      "water": 250,
+      "compact": "12.5g",
+      "full": "12.5g"
+    },
+    {
+      "id": "render-tiny-water",
+      "template": "(0.0033 x <final_water_amount>)g",
+      "coffee": 15,
+      "water": 300,
+      "compact": "1g",
+      "full": "1g"
+    },
+    {
+      "id": "render-compact-full",
+      "template": "(0.1235 x <final_water_amount>)g",
+      "coffee": 15,
+      "water": 250,
+      "compact": "30.9g",
+      "full": "30.88g"
+    }
+  ]
+}

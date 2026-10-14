@@ -3,6 +3,110 @@ import 'package:coffee_timer/services/recipe_expression_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  group('plan 080 D4 regressions', () {
+    // Assert names so these tests run before the new enum values exist.
+    for (final example in <(String, String, String)>[
+      (
+        'Weigh 20g',
+        'preparationDoseCoffee',
+        'Weigh (1.3333 x <final_coffee_amount>)g',
+      ),
+      (
+        'Weigh 30g',
+        'preparationDoseWater',
+        'Weigh (0.12 x <final_water_amount>)g',
+      ),
+      (
+        'Add 60g coffee',
+        'coffeeBoundWater',
+        'Add (0.24 x <final_water_amount>)g coffee',
+      ),
+      (
+        'Добавьте 60г кофе',
+        'coffeeBoundWater',
+        'Добавьте (0.24 x <final_water_amount>)г кофе',
+      ),
+      (
+        'Weigh 22.5g',
+        'preparationDoseCoffee',
+        'Weigh (1.5 x <final_coffee_amount>)g',
+      ),
+      (
+        'Weigh 22.6g',
+        'preparationDoseWater',
+        'Weigh (0.0904 x <final_water_amount>)g',
+      ),
+    ]) {
+      test('${example.$2}: ${example.$1}', () {
+        final amounts = RecipeExpressionService.explainStepConversion(
+          example.$1,
+          kind: RecipeStepKind.preparation,
+          coffeeAmount: 15,
+          waterAmount: 250,
+        );
+        expect(amounts.single.reason.name, example.$2);
+        final result = RecipeExpressionService.processStepsForSavingDetailed(
+          [
+            BrewStepModel(
+              id: 'prep',
+              order: 1,
+              description: example.$1,
+              time: Duration.zero,
+            ),
+          ],
+          15,
+          250,
+        );
+        expect(result.steps.single.description, example.$3);
+        expect(result.issues, isEmpty);
+      });
+    }
+
+    test('zero coffee base leaves a preparation coffee amount unchanged', () {
+      const text = 'Add 15g coffee';
+      final amount = RecipeExpressionService.explainStepConversion(
+        text,
+        kind: RecipeStepKind.preparation,
+        coffeeAmount: 0,
+        waterAmount: 250,
+      ).single;
+      expect(amount.reason, RecipeAmountResolutionReason.skippedNoBaseAmount);
+      final result = RecipeExpressionService.processStepsForSavingDetailed(
+        [
+          BrewStepModel(
+            id: 'prep',
+            order: 1,
+            description: text,
+            time: Duration.zero,
+          ),
+        ],
+        0,
+        250,
+      );
+      expect(result.steps.single.description, text);
+    });
+
+    test('sub-0.01 water multiplier preserves a one gram addition', () {
+      final template =
+          RecipeExpressionService.convertNumericValuesToExpressions(
+            'Add 1g water',
+            15,
+            300,
+          );
+      expect(template, 'Add (0.0033 x <final_water_amount>)g water');
+      expect(
+        RecipeExpressionService.renderDescription(
+          template,
+          coffeeAmount: 15,
+          waterAmount: 300,
+          compact: true,
+        ),
+        'Add 1g water',
+      );
+      expect(RecipeExpressionService.formatMultiplier(0.009), '0.009');
+      expect(RecipeExpressionService.formatMultiplier(1.009), '1');
+    });
+  });
   group('RecipeExpressionService', () {
     const coffeeAmount = 15.0;
     const waterAmount = 250.0;
@@ -275,7 +379,8 @@ void main() {
       (
         'Add 30g coffee',
         RecipeStepKind.preparation,
-        RecipeAmountResolutionReason.coffeeKeyword,
+        // plan 080 D4: was coffeeKeyword; the preparation dose rule / coffee bound now decides (plan 043 Ph 4C).
+        RecipeAmountResolutionReason.coffeeBoundWater,
       ),
       (
         'Pour 100ml water',
@@ -296,17 +401,20 @@ void main() {
       (
         'Weigh 30g',
         RecipeStepKind.preparation,
-        RecipeAmountResolutionReason.preparationCleanScoreCoffee,
+        // plan 080 D4: was preparationCleanScoreCoffee; the preparation dose rule / coffee bound now decides (plan 043 Ph 4C).
+        RecipeAmountResolutionReason.preparationDoseWater,
       ),
       (
         'Weigh 500ml',
         RecipeStepKind.preparation,
-        RecipeAmountResolutionReason.preparationCleanScoreWater,
+        // plan 080 D4: was preparationCleanScoreWater; the preparation dose rule / coffee bound now decides (plan 043 Ph 4C).
+        RecipeAmountResolutionReason.preparationDoseWater,
       ),
       (
         'Weigh 20g',
         RecipeStepKind.preparation,
-        RecipeAmountResolutionReason.preparationAmbiguous,
+        // plan 080 D4: was preparationAmbiguous; the preparation dose rule / coffee bound now decides (plan 043 Ph 4C).
+        RecipeAmountResolutionReason.preparationDoseCoffee,
       ),
       (
         'Add (1 x 15g)',

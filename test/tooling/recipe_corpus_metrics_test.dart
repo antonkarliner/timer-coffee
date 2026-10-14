@@ -25,10 +25,10 @@ Map<String, dynamic> _row(
 List<Map<String, dynamic>> _syntheticRows() => [
   _row(['Add 15g coffee', 'Add 60g', 'Add 250ml']),
   _row(
-    ['Weigh 20g', 'Vierte 60-90g agua', 'Vierte 250ML agua'],
+    ['Weigh coffee 20g water', 'Vierte 60-90g agua', 'Vierte 250ML agua'],
     locale: 'es-ES',
     cor: [
-      'Weigh (0.08 x <final_water_amount>)g',
+      'Weigh coffee (0.08 x <final_water_amount>)g water',
       'Vierte 60-90g agua',
       'Vierte 250ML agua',
     ],
@@ -65,7 +65,8 @@ void main() {
     expect(m.count('reason', key: 'coffeeKeyword'), 0);
     expect(m.count('reason', key: 'brewDefaultWater'), 1);
     expect(m.count('reason', key: 'waterKeyword'), 1);
-    expect(m.count('reason', key: 'preparationAmbiguous'), 1);
+    // plan 080 D4: preparation ambiguity now comes from a keyword tie
+    expect(m.count('reason', key: 'keywordTie'), 1);
     expect(m.count('reason', key: 'skippedRateContext'), 1);
     expect(m.count('ranges'), 1);
     expect(m.count('literal'), 2);
@@ -78,7 +79,8 @@ void main() {
     expect(m.count('cumulativeRecipes'), 2);
     expect(m.count('aiMore'), 1);
     expect(m.count('aiMore', scope: 'lang:es', kind: 'preparation'), 1);
-    expect(m.count('aiMoreSourceReason', key: 'preparationAmbiguous'), 1);
+    // plan 080 D4: preparation ambiguity now comes from a keyword tie
+    expect(m.count('aiMoreSourceReason', key: 'keywordTie'), 1);
     expect(m.count('aiFewer'), 0);
   });
 
@@ -90,15 +92,16 @@ void main() {
         created: '2026-08-14 23:59:59+00',
       ),
       _row(
-        ['Weigh 20g'],
-        cor: ['Weigh (0.08 × <FINAL_WATER_AMOUNT>)g'],
+        ['Weigh coffee 20g water'],
+        cor: ['Weigh coffee (0.08 × <FINAL_WATER_AMOUNT>)g water'],
         created: '2026-08-15 00:00:00+00',
       ),
     ];
     final m = computeCorpusMetrics(rows);
     expect(m.count('aiFewer'), 1);
     expect(m.count('aiMore'), 0);
-    expect(m.count('aiMoreSourceReason', key: 'preparationAmbiguous'), 0);
+    // plan 080 D4: preparation ambiguity now comes from a keyword tie
+    expect(m.count('aiMoreSourceReason', key: 'keywordTie'), 0);
   });
 
   test('total-like tolerance and cumulative monotonicity', () {

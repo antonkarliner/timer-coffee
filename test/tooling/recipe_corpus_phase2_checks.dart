@@ -27,7 +27,7 @@ void check(bool condition) {
 /// Standalone checks also called by the Flutter test wrapper. No private input.
 void runPhase2Checks() {
   final rows = [
-    syntheticCorpusRow(1, ['Weigh 20g', 'Add 30g', 'Pour 300g water']),
+    syntheticCorpusRow(1, ['Weigh coffee 20g water', 'Add 30g', 'Pour 300g water']),
     syntheticCorpusRow(
       2,
       ['Prepare filter', 'Add 5 g/s'],
