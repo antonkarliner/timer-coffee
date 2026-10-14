@@ -110,7 +110,8 @@ i. Web Recipe Maker (Beta)
 
 The recipe maker on our website turns recipe text you paste, such as notes or a video transcript, into a Timer.Coffee recipe. It is used on the recipe maker page and in the roaster dashboard. While it is in beta, access comes with sharing what you submit, so we can improve how Timer.Coffee turns text into recipes. Before your first use we show you a notice and ask you to agree to it; without agreeing, you cannot use the recipe maker. We record that you agreed, which version of the notice you agreed to, and when.
 
-- What we keep: the text you paste, what the AI made of it (the intermediate and final results from each processing step, plus the AI provider and model used), and the recipe you save at the end, linked to your user ID.
+- What we keep: the text you paste, what the AI made of it (the intermediate and final results from each processing step, plus the AI provider and model used), and the recipe you save at the end, linked to your account so we can delete it when you ask. We don't store your name, email address or IP address with it.
+- Keep it to the recipe: please don't paste personal details like names or contact information. We only need the recipe, and our AI providers only get the text you paste, never your name, email or account.
 - What we do with it: we read submissions and test changes to the recipe maker on them. That includes sending them again to our AI providers, OpenAI and Google (Vertex AI), who already process your text to make the feature work.
 - How long: submissions are kept for 12 months and then deleted automatically. They are also deleted if you delete your account.
 - Removal: email support@timer.coffee to have your submissions deleted sooner.
