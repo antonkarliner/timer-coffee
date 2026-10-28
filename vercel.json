@@ -1,4 +1,8 @@
 {
+    "redirects": [
+      {"source": "/oauth/consent", "destination": "https://www.timer.coffee/oauth/consent/", "permanent": false, "preserveQueryParams": true},
+      {"source": "/oauth/consent/", "destination": "https://www.timer.coffee/oauth/consent/", "permanent": false, "preserveQueryParams": true}
+    ],
     "rewrites":  [
       {"source": "/(.*)", "destination": "/"}
     ],
