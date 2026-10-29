@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Redirecting… | Timer.Coffee</title>
+  <script>
+    // Supabase sends OAuth consent requests (agents connecting to a roaster
+    // account) to the auth Site URL + /oauth/consent/, which is this app.
+    // The consent page lives on www.timer.coffee, where roasters sign in,
+    // so forward there with the query string (it carries authorization_id).
+    location.replace("https://www.timer.coffee/oauth/consent/" + location.search);
+  </script>
+</head>
+<body>
+  <p>Redirecting to <a id="consent-link" href="https://www.timer.coffee/oauth/consent/">Timer.Coffee</a>…</p>
+  <script>
+    document.getElementById("consent-link").href += location.search;
+  </script>
+</body>
+</html>
