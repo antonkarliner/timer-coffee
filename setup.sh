@@ -12,6 +12,9 @@ rm -rf flutter flutter.tar.xz
 curl -f --retry 3 -o flutter.tar.xz "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_${FLUTTER_VERSION}-stable.tar.xz"
 tar xf flutter.tar.xz
 rm flutter.tar.xz
+# CI runs as root but the archive keeps its original file owner, so git would
+# refuse to inspect the SDK checkout and every flutter command would fail.
+git config --global --add safe.directory '*'
 flutter/bin/flutter --version
 
 flutter/bin/flutter config --enable-web
