@@ -126,6 +126,8 @@ ios/build/.last_build_id
 # Local Maestro screenshot automation and generated benchmark artifacts
 .maestro/
 scripts/capture_app_store_screenshots_maestro.sh
+/output/
+/artifacts/
 artifacts/app-store-screenshots-maestro-pilot/
 artifacts/app-store-screenshot-token-benchmark-2026-08-10/
 APP_STORE_SCREENSHOT_WORKFLOW.md
