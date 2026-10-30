@@ -1,10 +1,10 @@
 # Privacy Policy for Timer.Coffee
 
-Last Updated: 14.10.2026
+Last Updated: 30.10.2026
 
 1. INTRODUCTION
 
-Timer.Coffee respects your privacy and is committed to handling your data responsibly. This Privacy Policy explains what data we collect, how we use it, how long we keep it, and how you can request deletion when you use the Timer.Coffee mobile app.
+Timer.Coffee respects your privacy and is committed to handling your data responsibly. This Privacy Policy explains what data we collect, how we use it, how long we keep it, and how you can request deletion when you use the Timer.Coffee mobile app and our website, including the roaster dashboard.
 
 2. DATA COLLECTION AND USAGE
 
@@ -117,6 +117,18 @@ The recipe maker on our website turns recipe text you paste, such as notes or a 
 - Removal: email support@timer.coffee to have your submissions deleted sooner.
 - Submissions are stored privately on our servers and are not exposed to public clients. A recipe you save stays private unless you choose to publish it.
 
+j. Roaster Pages, the Roaster Dashboard, and Connected AI Apps
+
+Coffee roasters can manage their Timer.Coffee roaster page from the roaster dashboard on our website. This section explains what we handle for roasters, and what it means for app users who review a roaster's coffee.
+
+- Roaster accounts: when we approve a request to manage a roaster page, we link the roaster's account (their work email address) to that page. We store the page details the roaster saves (such as the description, website, location, and social links), the logo they upload, recipes they create or publish, and replies they write to reviews, together with when these were changed.
+- Reviews and replies: roasters see the reviews app users have posted about their coffee in the dashboard, including the rating, review text, the reviewer's public display name, and the date. These are the same public reviews shown in the app. A roaster's reply is shown publicly with the review.
+- Link safety checks: links on roaster pages (the website, links in the description, and social links) are checked against Google Web Risk, a Google service that lists known unsafe websites, when a roaster saves them and again regularly afterwards. Only the link itself is sent to Google. If a link is flagged, we hide it from the page, keep a private record of the flagged link and when it was found, and email the roaster and our team.
+- Connected AI apps: a roaster can connect an AI assistant, such as Claude or ChatGPT, to their roaster page. The roaster signs in on a Timer.Coffee page and chooses to allow the app. We store a record of that connection, including the app's name, the roaster account that allowed it, and when, and we issue the app access tokens tied to that roaster's account.
+- What a connected app can access: only the data of the roaster page the roaster manages, namely its page details, ratings and reviews (including reviewers' public display names), reply drafts, pending page-detail suggestions, and recipes. A connected app cannot publish anything: replies it writes are saved as drafts and page-detail changes as suggestions, which we store with a note of which app made them until the roaster approves or discards them. Recipe text an app sends to draft a recipe is handled as described in Section 2i.
+- Data shared with the AI app: whatever a connected app reads is sent to that app's provider (for example Anthropic for Claude or OpenAI for ChatGPT) and is handled under that provider's own privacy policy and the roaster's agreement with them. We do not control how the provider processes or keeps it.
+- Disconnecting: a roaster can disconnect an app at any time from the roaster dashboard. Its access ends immediately.
+
 3. COOKIES
 
 The mobile app is not a browser-based product, so browser cookies are not part of how it works.
@@ -134,6 +146,8 @@ We rely on other providers for parts of the app that we do not run ourselves. Fo
 - Apple and Google for sign-in, if you choose those sign-in methods
 - AI providers such as Groq, Google, and OpenAI for the AI-assisted features described above
 - Resend for sending transactional emails, such as data export confirmation codes and download links
+- Google Web Risk for checking links on roaster pages (Section 2j)
+- AI apps a roaster chooses to connect to their roaster page, such as Claude by Anthropic or ChatGPT by OpenAI, which receive the roaster page data they access (Section 2j)
 
 These providers may process data on our behalf so the feature you asked for actually works.
 
@@ -145,6 +159,7 @@ These providers may process data on our behalf so the feature you asked for actu
 - Some analytics and usage records, including brew statistics, AI-recognition invocation records, and AI recipe-review diagnostic records, may be retained in anonymized form by replacing your user ID with a non-identifying placeholder. We keep these records to measure product usage, debug and improve recipe creation, and operate the service without keeping them tied to you. AI recipe-review diagnostic records are deleted no later than 9 April 2027.
 - If you request a data export (Section 2h), we keep the request record, including the destination email address and a hashed confirmation code, for 25 hours to enforce abuse limits, and we automatically delete the exported file from storage a few hours after it is created.
 - If you use the web recipe maker (Section 2i), we keep your submissions for 12 months and then delete them automatically, or sooner if you delete your account or ask us at support@timer.coffee. We keep the record of your agreement to the beta notice until you delete your account.
+- For roaster pages (Section 2j), we keep a connected app's record until the roaster disconnects it or their account is deleted, keep reply drafts and page-detail suggestions until the roaster approves or discards them, and keep records of flagged links so our team can review them and restore a link that was flagged by mistake.
 - We may retain limited information where required for legal, security, fraud-prevention, or accounting reasons.
 
 7. USER RIGHTS
