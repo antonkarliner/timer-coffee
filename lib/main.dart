@@ -739,6 +739,14 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
         state == AppLifecycleState.hidden ||
         state == AppLifecycleState.detached) {
       widget.analyticsService.flushNow();
+    } else if (state == AppLifecycleState.resumed) {
+      unawaited(
+        LocalNotificationSchedulerService.instance
+            .rescheduleMorningReminderOnResume(
+              locale: ResolvedAppLocale.languageCode.value ??
+                  widget.initialLocale.languageCode,
+            ),
+      );
     }
   }
 

@@ -463,6 +463,42 @@ class LocalNotificationSchedulerService {
   // Tier 3 — Optional (toggleable)
   // ---------------------------------------------------------------------------
 
+  /// Next morning-reminder fire time: always tomorrow at [hour]:[minute], never
+  /// today. This only runs while the app is in the foreground (cold start,
+  /// resume, settings, finish screen), and a user who has opened the app today
+  /// doesn't need today's "time to brew" nudge — so opening the app before the
+  /// reminder time disarms it for the day.
+  ///
+  /// Uses the DateTime constructor (not Duration.add) so DST transitions are
+  /// handled correctly — adding 86400 s on a 23-hour DST day shifts the
+  /// wall-clock time by one hour.
+  @visibleForTesting
+  static DateTime morningReminderTarget(DateTime now, int hour, int minute) =>
+      DateTime(now.year, now.month, now.day + 1, hour, minute);
+
+  static bool _isSameDay(DateTime a, DateTime b) =>
+      a.year == b.year && a.month == b.month && a.day == b.day;
+
+  /// Re-arms only the morning reminder. Called when the app returns to the
+  /// foreground: a warm resume skips [rescheduleAll] (which runs on cold
+  /// start), so without this a user who resumes at 07:00 would still get the
+  /// 08:30 reminder.
+  Future<void> rescheduleMorningReminderOnResume({
+    required String locale,
+  }) async {
+    try {
+      if (!testMode && !await _canSchedule()) return;
+      await _scheduleMorningReminder(
+        NotificationSettingsService.instance,
+        lookupAppLocalizations(Locale(locale)),
+        await SharedPreferences.getInstance(),
+      );
+    } catch (e) {
+      AppLogger.error('Failed to reschedule morning reminder on resume',
+          errorObject: e);
+    }
+  }
+
   Future<void> _scheduleMorningReminder(
     NotificationSettingsService settings,
     AppLocalizations l10n,
@@ -472,14 +508,22 @@ class LocalNotificationSchedulerService {
 
     final time = await settings.getMorningReminderTime();
     final now = DateTime.now();
-    var target =
-        DateTime(now.year, now.month, now.day, time.hour, time.minute);
-    if (target.isBefore(now)) {
-      // Use DateTime constructor (not Duration.add) so DST transitions are
-      // handled correctly — adding 86400 s on a 23-hour DST day shifts the
-      // wall-clock time by one hour.
-      target =
-          DateTime(now.year, now.month, now.day + 1, time.hour, time.minute);
+    final target = morningReminderTarget(now, time.hour, time.minute);
+
+    // An occurrence still pending for today is being replaced by tomorrow's:
+    // the user opened the app before it fired, so it never will.
+    final pendingMs = prefs.getInt(_keyMorningLastTrackedMs);
+    if (pendingMs != null) {
+      final pending = DateTime.fromMillisecondsSinceEpoch(pendingMs);
+      if (pending.isAfter(now) && _isSameDay(pending, now)) {
+        AnalyticsService.maybeInstance?.track(
+          'notification_cancelled',
+          properties: {
+            'notification_type': 'morning_reminder',
+            'reason': 'app_opened',
+          },
+        );
+      }
     }
 
     final morningTitles = [

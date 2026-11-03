@@ -528,6 +528,72 @@ void main() {
 
       expect(scheduledCountFor('morning_reminder'), 0);
     });
+
+    test('target is always tomorrow, even before today\'s reminder time', () {
+      final early = DateTime(2026, 11, 3, 6, 0);
+      final late = DateTime(2026, 11, 3, 22, 0);
+
+      expect(LocalNotificationSchedulerService.morningReminderTarget(
+              early, 8, 30),
+          DateTime(2026, 11, 4, 8, 30));
+      expect(LocalNotificationSchedulerService.morningReminderTarget(
+              late, 8, 30),
+          DateTime(2026, 11, 4, 8, 30));
+      // Month rollover.
+      expect(LocalNotificationSchedulerService.morningReminderTarget(
+              DateTime(2026, 11, 30, 7, 0), 8, 30),
+          DateTime(2026, 12, 1, 8, 30));
+    });
+
+    test('opening the app on the day of a pending reminder disarms it',
+        () async {
+      final now = DateTime.now();
+      // Today's occurrence, still pending (end of day so it is in the future).
+      final pendingToday =
+          DateTime(now.year, now.month, now.day, 23, 59, 59, 999);
+      SharedPreferences.setMockInitialValues({
+        KEY_MORNING_REMINDER: true,
+        'notif_morning_last_tracked_ms': pendingToday.millisecondsSinceEpoch,
+      });
+      await NotificationSettingsService.instance.init();
+      await runScheduler();
+
+      final cancelled = AnalyticsService.instance.bufferedEventsForTesting
+          .where((e) =>
+              e['event_name'] == 'notification_cancelled' &&
+              (e['properties'] as Map?)?['notification_type'] ==
+                  'morning_reminder')
+          .toList();
+      expect(cancelled, hasLength(1));
+      expect((cancelled.single['properties'] as Map)['reason'], 'app_opened');
+
+      final trackedMs = (await SharedPreferences.getInstance())
+          .getInt('notif_morning_last_tracked_ms')!;
+      final tracked = DateTime.fromMillisecondsSinceEpoch(trackedMs);
+      expect(tracked.day, isNot(now.day));
+      expect(tracked.isAfter(now), isTrue);
+      expect(scheduled(1201), isTrue);
+    });
+
+    test('resume re-arms only the morning reminder', () async {
+      SharedPreferences.setMockInitialValues({
+        KEY_MORNING_REMINDER: true,
+      });
+      await NotificationSettingsService.instance.init();
+      await LocalNotificationSchedulerService.instance
+          .rescheduleMorningReminderOnResume(locale: 'en');
+
+      expect(LocalNotificationSchedulerService.testScheduled.map((c) => c.id),
+          [1201]);
+      expect(scheduledCountFor('morning_reminder'), 1);
+    });
+
+    test('resume with the setting off schedules nothing', () async {
+      await LocalNotificationSchedulerService.instance
+          .rescheduleMorningReminderOnResume(locale: 'en');
+
+      expect(LocalNotificationSchedulerService.testScheduled, isEmpty);
+    });
   });
 
   // ─────────────────────────────────────────────────────────────────────────
