@@ -137,6 +137,23 @@ void main() {
       },
     );
 
+    test('repro peak keeps its data-level above preference', () {
+      final data = JourneyChartData.fromEntries([
+        for (var index = 0; index < _captionReproRatings.length; index++)
+          _entry(
+            id: 'attempt-$index',
+            day: index + 1,
+            rating: _captionReproRatings[index],
+          ),
+      ]);
+
+      expect(data.bestAttemptIndex, 8);
+      expect(
+        data.ratingLabelPlacementFor(6),
+        JourneyRatingLabelPlacement.above,
+      );
+    });
+
     test('valley and best-cup labels stay below their points', () {
       final data = JourneyChartData.fromEntries([
         _entry(id: 'high-old', day: 1, rating: 5),
@@ -157,6 +174,125 @@ void main() {
         JourneyRatingLabelPlacement.below,
       );
     });
+  });
+
+  group('best-cup caption never overlaps rating labels', () {
+    final cases = [
+      (
+        name: 'repro with newest tied best at last position',
+        ratings: _captionReproRatings,
+        locale: const Locale('en'),
+        bestIndex: 8,
+      ),
+      (
+        name: 'interior best at the top of the chart',
+        ratings: <double>[3, 4, 4.5, 5, 4.5, 4, 3.5],
+        locale: const Locale('en'),
+        bestIndex: 3,
+      ),
+      (
+        name: 'best at first position',
+        ratings: <double>[5, 4, 4.5, 4, 3.5, 4, 3],
+        locale: const Locale('en'),
+        bestIndex: 0,
+      ),
+      (
+        name: 'best at last position with rating five',
+        ratings: <double>[3, 4, 4.5, 4, 4.5, 4, 5],
+        locale: const Locale('en'),
+        bestIndex: 6,
+      ),
+      (
+        name: 'long Polish caption on the repro',
+        ratings: _captionReproRatings,
+        locale: const Locale('pl'),
+        bestIndex: 8,
+      ),
+      (
+        name: 'RTL Arabic caption on the repro',
+        ratings: _captionReproRatings,
+        locale: const Locale('ar'),
+        bestIndex: 8,
+      ),
+      (
+        name: 'near-equal peaks beside an interior best',
+        ratings: <double>[3, 4.5, 4, 5, 4, 4.5, 3.5],
+        locale: const Locale('en'),
+        bestIndex: 3,
+      ),
+      (
+        name: 'below labels at rating one stay below their dots',
+        ratings: <double>[1, 1, 1],
+        locale: const Locale('en'),
+        bestIndex: 2,
+      ),
+    ];
+
+    for (final scenario in cases) {
+      testWidgets(scenario.name, (tester) async {
+        tester.view.physicalSize = const Size(390, 844);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+        await _pumpProgress(
+          tester,
+          entries: [
+            for (var index = 0; index < scenario.ratings.length; index++)
+              _entry(
+                id: 'attempt-$index',
+                day: index + 1,
+                rating: scenario.ratings[index],
+              ),
+          ],
+          locale: scenario.locale,
+        );
+        final chart = find.byKey(const ValueKey('journeyProgressChartPaint'));
+        final customPaint = tester.widget<CustomPaint>(chart);
+        final painter = customPaint.painter! as JourneyProgressPainter;
+        final size = tester.getSize(chart);
+        final layout = painter.layoutLabels(size);
+        final caption = layout.bestCupRect!;
+        final marker = layout.bestMarkerRect!;
+
+        expect(painter.data.bestAttemptIndex, scenario.bestIndex);
+        expect(painter.bestCupLabel, _localizations(tester).journeyBestCup);
+        expect(
+          painter.textDirection,
+          scenario.locale.languageCode == 'ar'
+              ? TextDirection.rtl
+              : TextDirection.ltr,
+        );
+        expect(layout.ratingLabelRects, hasLength(scenario.ratings.length));
+        expect(caption.deflate(0.5).overlaps(marker.deflate(0.5)), isFalse);
+        expect(
+          layout.ratingLabelRects[scenario.bestIndex]!
+              .deflate(0.5)
+              .overlaps(marker.deflate(0.5)),
+          isFalse,
+        );
+        for (final entry in layout.ratingLabelRects.entries) {
+          expect(
+            caption.deflate(0.5).overlaps(entry.value.deflate(0.5)),
+            isFalse,
+            reason: 'caption overlaps rating for attempt ${entry.key + 1}',
+          );
+        }
+        for (final rect in [caption, ...layout.ratingLabelRects.values]) {
+          expect(rect.left, greaterThanOrEqualTo(0));
+          expect(rect.right, lessThanOrEqualTo(size.width));
+          expect(rect.top, greaterThanOrEqualTo(0));
+          expect(rect.bottom, lessThanOrEqualTo(size.height));
+        }
+        if (scenario.locale.languageCode == 'en' &&
+            identical(scenario.ratings, _captionReproRatings)) {
+          expect(
+            layout.ratingLabelPlacements[6],
+            JourneyRatingLabelPlacement.below,
+          );
+        }
+        expect(tester.takeException(), isNull);
+      });
+    }
   });
 
   testWidgets('bean count treats only ratings as evaluated', (tester) async {
@@ -548,19 +684,22 @@ void main() {
   );
 }
 
+const _captionReproRatings = <double>[3, 3.5, 3.5, 4, 3.5, 4, 4.5, 4, 4.5];
+
 Future<void> _pumpProgress(
   WidgetTester tester, {
   required List<DiaryEntry> entries,
   EvaluateLatestCallback? onEvaluateLatest,
   Brightness brightness = Brightness.light,
   TextScaler textScaler = TextScaler.noScaling,
+  Locale locale = const Locale('en'),
 }) async {
   await tester.pumpWidget(
     MaterialApp(
       theme: ThemeData(brightness: brightness),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: const Locale('en'),
+      locale: locale,
       home: MediaQuery(
         data: MediaQueryData(
           size: const Size(390, 844),

@@ -303,6 +303,23 @@ class _TasteLegendItem extends StatelessWidget {
   );
 }
 
+/// Resolved text bounds and placements in chart-local coordinates.
+@immutable
+class JourneyChartLabelLayout {
+  JourneyChartLabelLayout({
+    required Map<int, Rect> ratingLabelRects,
+    required Map<int, JourneyRatingLabelPlacement> ratingLabelPlacements,
+    required this.bestCupRect,
+    required this.bestMarkerRect,
+  }) : ratingLabelRects = Map.unmodifiable(ratingLabelRects),
+       ratingLabelPlacements = Map.unmodifiable(ratingLabelPlacements);
+
+  final Map<int, Rect> ratingLabelRects;
+  final Map<int, JourneyRatingLabelPlacement> ratingLabelPlacements;
+  final Rect? bestCupRect;
+  final Rect? bestMarkerRect;
+}
+
 /// Public for focused painter configuration assertions in widget tests.
 class JourneyProgressPainter extends CustomPainter {
   const JourneyProgressPainter({
@@ -325,10 +342,10 @@ class JourneyProgressPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final plotLeft = AppSpacing.xl;
     final plotRight = size.width - AppSpacing.base;
-    final scaledLabelHeight = textScaler.scale(labelStyle.fontSize ?? 11);
-    final plotTop = AppSpacing.xl + scaledLabelHeight + AppSpacing.sm;
-    final attemptLane = size.height - AppSpacing.xl;
-    final ratedBottom = attemptLane - AppSpacing.xl;
+    final plotTop = _plotTop;
+    final attemptLane = _attemptLane(size);
+    final ratedBottom = _ratedBottom(size);
+    final labels = layoutLabels(size);
     final gridPaint = Paint()
       ..color = colorScheme.outlineVariant.withValues(alpha: 0.55)
       ..strokeWidth = AppStroke.border;
@@ -360,24 +377,14 @@ class JourneyProgressPainter extends CustomPainter {
     );
 
     if (data.points.isEmpty) return;
-    final ratedPositions = <int, Offset>{};
-    final attemptPositions = <int, Offset>{};
-    for (final point in data.points) {
-      final x = data.points.length == 1
-          ? (plotLeft + plotRight) / 2
-          : plotLeft +
-                (plotRight - plotLeft) *
-                    point.attemptIndex /
-                    (data.points.length - 1);
-      attemptPositions[point.attemptIndex] = Offset(x, attemptLane);
-      final rating = point.rating;
-      if (rating != null) {
-        ratedPositions[point.attemptIndex] = Offset(
-          x,
-          _ratingY(rating.clamp(1, 5).toDouble(), plotTop, ratedBottom),
-        );
-      }
-    }
+    final ratedPositions = _ratedPositions(size);
+    final attemptPositions = {
+      for (final point in data.points)
+        point.attemptIndex: Offset(
+          _pointX(point.attemptIndex, size),
+          attemptLane,
+        ),
+    };
 
     final connectionPaint = Paint()
       ..color = colorScheme.primary
@@ -420,59 +427,149 @@ class JourneyProgressPainter extends CustomPainter {
       if (ratedPosition == null) continue;
       filledPaint.color = colorForPoint(point);
       canvas.drawCircle(ratedPosition, AppSpacing.sm / 2, filledPaint);
-      final ratingPainter = _textPainter(
-        point.ratingLabel!,
-        labelStyle.copyWith(
-          color: colorScheme.primary,
-          fontWeight: FontWeight.w600,
-        ),
-      );
-      final placement = data.ratingLabelPlacementFor(point.attemptIndex);
-      final preferredRatingY = placement == JourneyRatingLabelPlacement.below
-          ? ratedPosition.dy + AppSpacing.sm
-          : ratedPosition.dy - ratingPainter.height - AppSpacing.sm;
-      final ratingY = preferredRatingY.clamp(
-        AppSpacing.xs,
-        ratedBottom - ratingPainter.height,
-      );
-      _paintCenteredClampedWithKnockout(
+      final ratingPainter = _ratingTextPainter(point);
+      _paintWithKnockout(
         canvas,
         ratingPainter,
-        centerX: ratedPosition.dx,
-        y: ratingY.toDouble(),
-        left: plotLeft,
-        right: plotRight,
+        labels.ratingLabelRects[point.attemptIndex]!,
       );
     }
 
-    final bestIndex = data.bestAttemptIndex;
-    if (bestIndex != null) {
-      final bestPosition = ratedPositions[bestIndex]!;
+    final bestMarkerRect = labels.bestMarkerRect;
+    if (bestMarkerRect != null) {
       canvas.drawCircle(
-        bestPosition,
-        AppSpacing.sm,
+        bestMarkerRect.center,
+        bestMarkerRect.width / 2,
         hollowPaint..color = colorScheme.primary,
       );
-      final bestPainter = _textPainter(
-        '★ $bestCupLabel',
-        labelStyle.copyWith(
-          color: colorScheme.primary,
-          fontWeight: FontWeight.w600,
-        ),
-        maxLines: 1,
-        maxWidth: plotRight - plotLeft,
+      _bestCupTextPainter(size).paint(canvas, labels.bestCupRect!.topLeft);
+    }
+  }
+
+  /// Public for focused label-layout assertions in widget tests.
+  JourneyChartLabelLayout layoutLabels(Size size) {
+    final positions = _ratedPositions(size);
+    final bestPosition = positions[data.bestAttemptIndex];
+    Rect? bestCupRect;
+    Rect? bestMarkerRect;
+    if (bestPosition != null) {
+      final painter = _bestCupTextPainter(size);
+      final y = (bestPosition.dy - painter.height - AppSpacing.sm).clamp(
+        0.0,
+        math.max(0.0, _ratedBottom(size) - painter.height),
       );
-      final bestY = (bestPosition.dy - bestPainter.height - AppSpacing.sm)
-          .clamp(0, ratedBottom - bestPainter.height);
-      _paintCenteredClamped(
-        canvas,
-        bestPainter,
-        centerX: bestPosition.dx,
-        y: bestY.toDouble(),
-        left: plotLeft,
-        right: plotRight,
+      bestCupRect = _centeredClampedRect(
+        painter,
+        bestPosition.dx,
+        y.toDouble(),
+        size,
+      );
+      bestMarkerRect = Rect.fromCircle(
+        center: bestPosition,
+        radius: AppSpacing.sm,
       );
     }
+
+    final rects = <int, Rect>{};
+    final placements = <int, JourneyRatingLabelPlacement>{};
+    for (final point in data.points) {
+      final position = positions[point.attemptIndex];
+      if (position == null) continue;
+      final painter = _ratingTextPainter(point);
+      var placement = data.ratingLabelPlacementFor(point.attemptIndex);
+      Rect ratingRect(JourneyRatingLabelPlacement placement) {
+        final below = placement == JourneyRatingLabelPlacement.below;
+        final preferredY = below
+            ? position.dy + AppSpacing.sm
+            : position.dy - painter.height - AppSpacing.sm;
+        final bottom = below
+            ? _attemptLane(size) - AppSpacing.sm
+            : _ratedBottom(size);
+        final y = preferredY.clamp(
+          AppSpacing.xs,
+          math.max(AppSpacing.xs, bottom - painter.height),
+        );
+        return _centeredClampedRect(painter, position.dx, y.toDouble(), size);
+      }
+
+      var rect = ratingRect(placement);
+      // The knockout extends beyond the text; reserve that space as well.
+      if (placement == JourneyRatingLabelPlacement.above &&
+          bestCupRect != null &&
+          rect.inflate(AppSpacing.xs / 2).overlaps(bestCupRect)) {
+        placement = JourneyRatingLabelPlacement.below;
+        rect = ratingRect(placement);
+      }
+      rects[point.attemptIndex] = rect;
+      placements[point.attemptIndex] = placement;
+    }
+    return JourneyChartLabelLayout(
+      ratingLabelRects: rects,
+      ratingLabelPlacements: placements,
+      bestCupRect: bestCupRect,
+      bestMarkerRect: bestMarkerRect,
+    );
+  }
+
+  double get _plotTop =>
+      AppSpacing.xl +
+      textScaler.scale(labelStyle.fontSize ?? 11) +
+      AppSpacing.sm;
+
+  double _attemptLane(Size size) => size.height - AppSpacing.xl;
+
+  double _ratedBottom(Size size) => _attemptLane(size) - AppSpacing.xl;
+
+  double _pointX(int index, Size size) {
+    final left = AppSpacing.xl;
+    final right = size.width - AppSpacing.base;
+    return data.points.length == 1
+        ? (left + right) / 2
+        : left + (right - left) * index / (data.points.length - 1);
+  }
+
+  Map<int, Offset> _ratedPositions(Size size) => {
+    for (final point in data.points)
+      if (point.isEvaluated)
+        point.attemptIndex: Offset(
+          _pointX(point.attemptIndex, size),
+          _ratingY(
+            point.rating!.clamp(1, 5).toDouble(),
+            _plotTop,
+            _ratedBottom(size),
+          ),
+        ),
+  };
+
+  TextStyle get _ratingLabelStyle => labelStyle.copyWith(
+    color: colorScheme.primary,
+    fontWeight: FontWeight.w600,
+  );
+
+  TextPainter _ratingTextPainter(JourneyChartPoint point) =>
+      _textPainter(point.ratingLabel!, _ratingLabelStyle);
+
+  TextPainter _bestCupTextPainter(Size size) => _textPainter(
+    '★ $bestCupLabel',
+    _ratingLabelStyle,
+    maxLines: 1,
+    maxWidth: math.max(0.0, size.width - AppSpacing.base - AppSpacing.xl),
+    ellipsis: '…',
+  );
+
+  Rect _centeredClampedRect(
+    TextPainter painter,
+    double centerX,
+    double y,
+    Size size,
+  ) {
+    final left = AppSpacing.xl;
+    final right = size.width - AppSpacing.base;
+    final x = (centerX - painter.width / 2).clamp(
+      left,
+      math.max(left, right - painter.width),
+    );
+    return Offset(x.toDouble(), y) & painter.size;
   }
 
   /// Public for focused semantic-color assertions in widget tests.
@@ -490,12 +587,14 @@ class JourneyProgressPainter extends CustomPainter {
     TextStyle style, {
     int? maxLines,
     double? maxWidth,
+    String? ellipsis,
   }) {
     final painter = TextPainter(
       text: TextSpan(text: text, style: style),
       textDirection: textDirection,
       textScaler: textScaler,
       maxLines: maxLines,
+      ellipsis: ellipsis,
     );
     painter.layout(maxWidth: maxWidth ?? double.infinity);
     return painter;
@@ -514,24 +613,9 @@ class JourneyProgressPainter extends CustomPainter {
     painter.paint(canvas, Offset(x.toDouble(), y));
   }
 
-  void _paintCenteredClampedWithKnockout(
-    Canvas canvas,
-    TextPainter painter, {
-    required double centerX,
-    required double y,
-    required double left,
-    required double right,
-  }) {
-    final preferredX = centerX - painter.width / 2;
-    final x = preferredX.clamp(left, math.max(left, right - painter.width));
-    final offset = Offset(x.toDouble(), y);
+  void _paintWithKnockout(Canvas canvas, TextPainter painter, Rect rect) {
     final background = RRect.fromRectAndRadius(
-      Rect.fromLTWH(
-        offset.dx - AppSpacing.xs / 2,
-        offset.dy - AppSpacing.xs / 2,
-        painter.width + AppSpacing.xs,
-        painter.height + AppSpacing.xs,
-      ),
+      rect.inflate(AppSpacing.xs / 2),
       const Radius.circular(AppSpacing.xs),
     );
     canvas.drawRRect(
@@ -540,7 +624,7 @@ class JourneyProgressPainter extends CustomPainter {
         ..color = colorScheme.surface
         ..style = PaintingStyle.fill,
     );
-    painter.paint(canvas, offset);
+    painter.paint(canvas, rect.topLeft);
   }
 
   double _ratingY(double rating, double top, double bottom) =>
