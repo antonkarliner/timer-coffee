@@ -1547,5 +1547,16 @@
   "settingsAppIconRestartTitle": "Cambiare l’icona dell’app?",
   "settingsAppIconRestartBody": "Timer.Coffee si chiuderà per applicarla. Riaprila dalla schermata Home del telefono.",
   "settingsAppIconRestartConfirm": "Cambia icona",
-  "summarySeparator": " · "
+  "summarySeparator": " · ",
+  "brewLaterLink": "Ricordamelo più tardi",
+  "brewLaterLinkSet": "Promemoria alle {time}",
+  "brewLaterSheetTitle": "Ricordamelo all’ora del caffè",
+  "brewLaterSheetBody": "Ti invieremo un promemoria con questa ricetta pronta da preparare.",
+  "brewLaterTimeLabel": "Ora",
+  "brewLaterToday": "Oggi alle {time}",
+  "brewLaterTomorrow": "Domani alle {time}",
+  "brewLaterConfirm": "Imposta promemoria",
+  "brewLaterCancel": "Annulla promemoria",
+  "brewLaterDenied": "Le notifiche sono disattivate, non possiamo avvisarti.",
+  "brewLaterOpenSettings": "Apri impostazioni"
 }

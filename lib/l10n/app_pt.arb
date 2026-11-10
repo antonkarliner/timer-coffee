@@ -1547,5 +1547,16 @@
   "settingsAppIconRestartTitle": "Alterar o ícone do app?",
   "settingsAppIconRestartBody": "O Timer.Coffee vai fechar para aplicar a alteração. Abra-o novamente na tela inicial do seu telefone.",
   "settingsAppIconRestartConfirm": "Alterar ícone",
-  "summarySeparator": " · "
+  "summarySeparator": " · ",
+  "brewLaterLink": "Lembrar-me mais tarde",
+  "brewLaterLinkSet": "Lembrete às {time}",
+  "brewLaterSheetTitle": "Lembrar-me à hora do café",
+  "brewLaterSheetBody": "Enviaremos um lembrete com esta receita pronta para preparar.",
+  "brewLaterTimeLabel": "Hora",
+  "brewLaterToday": "Hoje às {time}",
+  "brewLaterTomorrow": "Amanhã às {time}",
+  "brewLaterConfirm": "Definir lembrete",
+  "brewLaterCancel": "Cancelar lembrete",
+  "brewLaterDenied": "As notificações estão desativadas, por isso não podemos lembrar você.",
+  "brewLaterOpenSettings": "Abrir configurações"
 }

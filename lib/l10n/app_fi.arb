@@ -1399,5 +1399,16 @@
   "settingsAppIconRestartTitle": "Vaihdetaanko sovelluksen kuvake?",
   "settingsAppIconRestartBody": "Timer.Coffee sulkeutuu, jotta muutos otetaan käyttöön. Avaa se uudelleen laitteen aloitusnäytöltä.",
   "settingsAppIconRestartConfirm": "Vaihda kuvake",
-  "summarySeparator": " · "
+  "summarySeparator": " · ",
+  "brewLaterLink": "Muistuta myöhemmin",
+  "brewLaterLinkSet": "Muistutus klo {time}",
+  "brewLaterSheetTitle": "Muistutus kahvinhetkellä",
+  "brewLaterSheetBody": "Lähetämme muistutuksen, kun tämä resepti on valmis valmistettavaksi.",
+  "brewLaterTimeLabel": "Aika",
+  "brewLaterToday": "Tänään klo {time}",
+  "brewLaterTomorrow": "Huomenna klo {time}",
+  "brewLaterConfirm": "Aseta muistutus",
+  "brewLaterCancel": "Peruuta muistutus",
+  "brewLaterDenied": "Ilmoitukset ovat pois päältä, joten emme voi muistuttaa sinua.",
+  "brewLaterOpenSettings": "Avaa asetukset"
 }

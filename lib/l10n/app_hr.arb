@@ -1667,5 +1667,16 @@
   "settingsAppIconRestartTitle": "Promijeniti ikonu aplikacije?",
   "settingsAppIconRestartBody": "Timer.Coffee će se zatvoriti kako bi se promjena primijenila. Otvorite ga ponovno s početnog zaslona.",
   "settingsAppIconRestartConfirm": "Promijeni ikonu",
-  "summarySeparator": " · "
+  "summarySeparator": " · ",
+  "brewLaterLink": "Podsjeti me kasnije",
+  "brewLaterLinkSet": "Podsjetnik u {time}",
+  "brewLaterSheetTitle": "Podsjeti me u vrijeme kave",
+  "brewLaterSheetBody": "Poslat ćemo podsjetnik s ovim receptom spremnim za pripremu.",
+  "brewLaterTimeLabel": "Vrijeme",
+  "brewLaterToday": "Danas u {time}",
+  "brewLaterTomorrow": "Sutra u {time}",
+  "brewLaterConfirm": "Postavi podsjetnik",
+  "brewLaterCancel": "Otkaži podsjetnik",
+  "brewLaterDenied": "Obavijesti su isključene, pa te ne možemo podsjetiti.",
+  "brewLaterOpenSettings": "Otvori postavke"
 }

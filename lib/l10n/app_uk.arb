@@ -1547,5 +1547,16 @@
   "settingsAppIconRestartTitle": "Змінити іконку додатка?",
   "settingsAppIconRestartBody": "Щоб застосувати її, Timer.Coffee закриється. Відкрийте додаток знову з головного екрана.",
   "settingsAppIconRestartConfirm": "Змінити іконку",
-  "summarySeparator": " · "
+  "summarySeparator": " · ",
+  "brewLaterLink": "Нагадати пізніше",
+  "brewLaterLinkSet": "Нагадування о {time}",
+  "brewLaterSheetTitle": "Нагадати до кавової перерви",
+  "brewLaterSheetBody": "Ми надішлемо нагадування — цей рецепт буде готовий до заварювання.",
+  "brewLaterTimeLabel": "Час",
+  "brewLaterToday": "Сьогодні о {time}",
+  "brewLaterTomorrow": "Завтра о {time}",
+  "brewLaterConfirm": "Установити нагадування",
+  "brewLaterCancel": "Скасувати нагадування",
+  "brewLaterDenied": "Сповіщення вимкнено, тож ми не зможемо вам нагадати.",
+  "brewLaterOpenSettings": "Відкрити налаштування"
 }

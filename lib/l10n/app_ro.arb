@@ -1547,5 +1547,16 @@
   "settingsAppIconRestartTitle": "Schimbăm pictograma aplicației?",
   "settingsAppIconRestartBody": "Timer.Coffee se va închide pentru a aplica modificarea. Deschide-l din nou din ecranul principal.",
   "settingsAppIconRestartConfirm": "Schimbă pictograma",
-  "summarySeparator": " · "
+  "summarySeparator": " · ",
+  "brewLaterLink": "Amintește-mi mai târziu",
+  "brewLaterLinkSet": "Memento la {time}",
+  "brewLaterSheetTitle": "Amintește-mi la ora cafelei",
+  "brewLaterSheetBody": "Îți vom trimite un memento, cu această rețetă gata de preparat.",
+  "brewLaterTimeLabel": "Ora",
+  "brewLaterToday": "Astăzi la {time}",
+  "brewLaterTomorrow": "Mâine la {time}",
+  "brewLaterConfirm": "Setează memento",
+  "brewLaterCancel": "Anulează memento",
+  "brewLaterDenied": "Notificările sunt dezactivate, deci nu-ți putem trimite memento.",
+  "brewLaterOpenSettings": "Deschide setările"
 }

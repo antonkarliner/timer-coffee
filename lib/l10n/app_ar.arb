@@ -1547,5 +1547,16 @@
   "settingsAppIconRestartTitle": "تغيير أيقونة التطبيق؟",
   "settingsAppIconRestartBody": "سيُغلق Timer.Coffee لتطبيق التغيير. افتحه مجددًا من شاشتك الرئيسية.",
   "settingsAppIconRestartConfirm": "تغيير الأيقونة",
-  "summarySeparator": " · "
+  "summarySeparator": " · ",
+  "brewLaterLink": "ذكّرني لاحقًا",
+  "brewLaterLinkSet": "تذكير في {time}",
+  "brewLaterSheetTitle": "ذكّرني في وقت القهوة",
+  "brewLaterSheetBody": "سنرسل تذكيرًا وهذه الوصفة جاهزة للبدء.",
+  "brewLaterTimeLabel": "الوقت",
+  "brewLaterToday": "اليوم في {time}",
+  "brewLaterTomorrow": "غدًا في {time}",
+  "brewLaterConfirm": "تعيين التذكير",
+  "brewLaterCancel": "إلغاء التذكير",
+  "brewLaterDenied": "الإشعارات مغلقة، لذا لا يمكننا تذكيرك.",
+  "brewLaterOpenSettings": "فتح الإعدادات"
 }

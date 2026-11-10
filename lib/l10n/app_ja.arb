@@ -1547,5 +1547,16 @@
   "settingsAppIconRestartTitle": "アプリアイコンを変更しますか？",
   "settingsAppIconRestartBody": "反映のためTimer.Coffeeを終了します。ホーム画面からもう一度開いてください。",
   "settingsAppIconRestartConfirm": "アイコンを変更",
-  "summarySeparator": " · "
+  "summarySeparator": " · ",
+  "brewLaterLink": "あとでリマインド",
+  "brewLaterLinkSet": "{time} にリマインダー",
+  "brewLaterSheetTitle": "コーヒーの時間にリマインド",
+  "brewLaterSheetBody": "このレシピをすぐに淹れられるよう、リマインダーを送ります。",
+  "brewLaterTimeLabel": "時刻",
+  "brewLaterToday": "今日 {time}",
+  "brewLaterTomorrow": "明日 {time}",
+  "brewLaterConfirm": "リマインダーを設定",
+  "brewLaterCancel": "リマインダーをキャンセル",
+  "brewLaterDenied": "通知がオフのため、リマインドできません。",
+  "brewLaterOpenSettings": "設定を開く"
 }

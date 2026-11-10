@@ -1547,5 +1547,16 @@
   "settingsAppIconRestartTitle": "Сменить иконку приложения?",
   "settingsAppIconRestartBody": "Чтобы применить её, Timer.Coffee закроется. Откройте приложение снова с домашнего экрана.",
   "settingsAppIconRestartConfirm": "Сменить иконку",
-  "summarySeparator": " · "
+  "summarySeparator": " · ",
+  "brewLaterLink": "Напомнить позже",
+  "brewLaterLinkSet": "Напоминание в {time}",
+  "brewLaterSheetTitle": "Напомнить ко времени кофе",
+  "brewLaterSheetBody": "Мы отправим напоминание — этот рецепт будет готов к завариванию.",
+  "brewLaterTimeLabel": "Время",
+  "brewLaterToday": "Сегодня в {time}",
+  "brewLaterTomorrow": "Завтра в {time}",
+  "brewLaterConfirm": "Установить напоминание",
+  "brewLaterCancel": "Отменить напоминание",
+  "brewLaterDenied": "Уведомления отключены, поэтому мы не сможем вам напомнить.",
+  "brewLaterOpenSettings": "Открыть настройки"
 }

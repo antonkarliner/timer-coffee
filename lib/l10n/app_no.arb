@@ -1777,5 +1777,16 @@
   "settingsAppIconRestartTitle": "Endre appikonet?",
   "settingsAppIconRestartBody": "Timer.Coffee lukkes for å bruke endringen. Åpne den igjen fra hjemskjermen.",
   "settingsAppIconRestartConfirm": "Endre ikon",
-  "summarySeparator": " · "
+  "summarySeparator": " · ",
+  "brewLaterLink": "Minni meg senere",
+  "brewLaterLinkSet": "Påminnelse kl. {time}",
+  "brewLaterSheetTitle": "Minni meg på kaffetid",
+  "brewLaterSheetBody": "Vi sender en påminnelse med denne oppskriften klar til bruk.",
+  "brewLaterTimeLabel": "Klokkeslett",
+  "brewLaterToday": "I dag kl. {time}",
+  "brewLaterTomorrow": "I morgen kl. {time}",
+  "brewLaterConfirm": "Sett påminnelse",
+  "brewLaterCancel": "Avbryt påminnelse",
+  "brewLaterDenied": "Varsler er av, så vi kan ikke minne deg på det.",
+  "brewLaterOpenSettings": "Åpne innstillinger"
 }

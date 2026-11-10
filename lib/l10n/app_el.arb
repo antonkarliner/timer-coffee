@@ -1817,5 +1817,16 @@
   "settingsAppIconRestartTitle": "Αλλαγή εικονιδίου εφαρμογής;",
   "settingsAppIconRestartBody": "Το Timer.Coffee θα κλείσει για να εφαρμοστεί η αλλαγή. Ανοίξτε το ξανά από την αρχική οθόνη.",
   "settingsAppIconRestartConfirm": "Αλλαγή εικονιδίου",
-  "summarySeparator": " · "
+  "summarySeparator": " · ",
+  "brewLaterLink": "Υπενθύμιση αργότερα",
+  "brewLaterLinkSet": "Υπενθύμιση στις {time}",
+  "brewLaterSheetTitle": "Υπενθύμιση στην ώρα του καφέ",
+  "brewLaterSheetBody": "Θα στείλουμε υπενθύμιση με αυτή τη συνταγή έτοιμη για παρασκευή.",
+  "brewLaterTimeLabel": "Ώρα",
+  "brewLaterToday": "Σήμερα στις {time}",
+  "brewLaterTomorrow": "Αύριο στις {time}",
+  "brewLaterConfirm": "Ορισμός υπενθύμισης",
+  "brewLaterCancel": "Ακύρωση υπενθύμισης",
+  "brewLaterDenied": "Οι ειδοποιήσεις είναι ανενεργές, οπότε δεν μπορούμε να σου υπενθυμίσουμε.",
+  "brewLaterOpenSettings": "Άνοιγμα ρυθμίσεων"
 }

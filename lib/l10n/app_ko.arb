@@ -1667,5 +1667,16 @@
   "settingsAppIconRestartTitle": "앱 아이콘을 변경할까요?",
   "settingsAppIconRestartBody": "적용을 위해 Timer.Coffee를 종료합니다. 홈 화면에서 다시 열어 주세요.",
   "settingsAppIconRestartConfirm": "아이콘 변경",
-  "summarySeparator": " · "
+  "summarySeparator": " · ",
+  "brewLaterLink": "나중에 알림",
+  "brewLaterLinkSet": "{time} 알림",
+  "brewLaterSheetTitle": "커피 타임에 알림 받기",
+  "brewLaterSheetBody": "이 레시피를 바로 준비할 수 있도록 알림을 보내드립니다.",
+  "brewLaterTimeLabel": "시간",
+  "brewLaterToday": "오늘 {time}",
+  "brewLaterTomorrow": "내일 {time}",
+  "brewLaterConfirm": "알림 설정",
+  "brewLaterCancel": "알림 취소",
+  "brewLaterDenied": "알림이 꺼져 있어 알려드릴 수 없습니다.",
+  "brewLaterOpenSettings": "설정 열기"
 }

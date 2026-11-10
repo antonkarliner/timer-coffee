@@ -1547,5 +1547,16 @@
   "settingsAppIconRestartTitle": "Uygulama simgesi değiştirilsin mi?",
   "settingsAppIconRestartBody": "Uygulamak için Timer.Coffee kapanacak. Ana ekrandan yeniden aç.",
   "settingsAppIconRestartConfirm": "Simgeyi değiştir",
-  "summarySeparator": " · "
+  "summarySeparator": " · ",
+  "brewLaterLink": "Sonra hatırlat",
+  "brewLaterLinkSet": "Hatırlatma saati {time}",
+  "brewLaterSheetTitle": "Kahve saatinde hatırlat",
+  "brewLaterSheetBody": "Bu tarif demlemeye hazır olduğunda hatırlatma göndereceğiz.",
+  "brewLaterTimeLabel": "Saat",
+  "brewLaterToday": "Bugün saat {time}",
+  "brewLaterTomorrow": "Yarın saat {time}",
+  "brewLaterConfirm": "Hatırlatma ayarla",
+  "brewLaterCancel": "Hatırlatmayı iptal et",
+  "brewLaterDenied": "Bildirimler kapalı, bu yüzden sana hatırlatamayız.",
+  "brewLaterOpenSettings": "Ayarları aç"
 }

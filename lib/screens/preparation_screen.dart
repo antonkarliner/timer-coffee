@@ -22,6 +22,7 @@ import '../services/feature_flags/feature_flags_repository.dart';
 import '../services/onboarding_service.dart';
 import '../theme/design_tokens.dart';
 import '../utils/recipe_step_resolution.dart';
+import '../widgets/brew_later_link.dart';
 import '../widgets/brewing/layout_choice_sheet.dart';
 import '../widgets/brewing/layout_preview_cards.dart';
 import '../widgets/settings/layout_switch_back_reason_row.dart';
@@ -484,6 +485,25 @@ class _PreparationScreenState extends State<PreparationScreen> {
               heroTag: 'notificationButton',
               onPressed: _cycleNotificationMode,
               child: _buildNotificationIcon(),
+            ),
+          ),
+          // The brew-later link takes the middle; the Expanded keeps both FABs
+          // pinned at their original ends, and shrinks the link gracefully
+          // (FittedBox scale-down, one line) at narrow widths and large text
+          // scales. Holds the link's own empty slot when it is ineligible, so
+          // the row's shape never changes.
+          Expanded(
+            // heightFactor keeps the Center as tall as the link. Without it the
+            // Center fills the Scaffold's full height, the Row grows with it,
+            // and both buttons jump from the bottom to the middle of the screen.
+            child: Center(
+              heightFactor: 1.0,
+              child: BrewLaterLink(
+                recipeId: widget.recipe.id,
+                methodId: widget.recipe.brewingMethodId,
+                recipeName: widget.recipe.name,
+                source: 'preparation',
+              ),
             ),
           ),
           Semantics(

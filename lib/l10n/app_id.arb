@@ -1547,5 +1547,16 @@
   "settingsAppIconRestartTitle": "Ubah ikon aplikasi?",
   "settingsAppIconRestartBody": "Timer.Coffee akan ditutup untuk menerapkannya. Buka lagi dari layar utama perangkat Anda.",
   "settingsAppIconRestartConfirm": "Ubah ikon",
-  "summarySeparator": " · "
+  "summarySeparator": " · ",
+  "brewLaterLink": "Ingatkan saya nanti",
+  "brewLaterLinkSet": "Pengingat pukul {time}",
+  "brewLaterSheetTitle": "Ingatkan saya saat waktu kopi",
+  "brewLaterSheetBody": "Kami akan mengirim pengingat dengan resep ini siap diseduh.",
+  "brewLaterTimeLabel": "Waktu",
+  "brewLaterToday": "Hari ini pukul {time}",
+  "brewLaterTomorrow": "Besok pukul {time}",
+  "brewLaterConfirm": "Atur pengingat",
+  "brewLaterCancel": "Batalkan pengingat",
+  "brewLaterDenied": "Notifikasi mati, jadi kami tidak bisa mengingatkan Anda.",
+  "brewLaterOpenSettings": "Buka Pengaturan"
 }

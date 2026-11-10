@@ -1547,5 +1547,16 @@
   "settingsAppIconRestartTitle": "更改应用图标？",
   "settingsAppIconRestartBody": "Timer.Coffee 将关闭以应用更改。请在主屏幕重新打开。",
   "settingsAppIconRestartConfirm": "更改图标",
-  "summarySeparator": " · "
+  "summarySeparator": " · ",
+  "brewLaterLink": "稍后提醒我",
+  "brewLaterLinkSet": "{time} 提醒",
+  "brewLaterSheetTitle": "在咖啡时间提醒我",
+  "brewLaterSheetBody": "我们会发送提醒，这款配方随时可以开始。",
+  "brewLaterTimeLabel": "时间",
+  "brewLaterToday": "今天 {time}",
+  "brewLaterTomorrow": "明天 {time}",
+  "brewLaterConfirm": "设置提醒",
+  "brewLaterCancel": "取消提醒",
+  "brewLaterDenied": "通知已关闭，我们无法提醒你。",
+  "brewLaterOpenSettings": "打开设置"
 }

@@ -27,6 +27,7 @@ import '../widgets/recipe_detail/recipe_detail_app_bar.dart';
 import '../widgets/recipe_detail/recipe_content_builder.dart';
 import '../widgets/recipe_detail/floating_nav_button.dart';
 import '../widgets/add_coffee_beans_widget.dart';
+import '../widgets/brew_later_link.dart';
 
 // Screens
 import '../screens/preparation_screen.dart';
@@ -790,6 +791,14 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     }
 
     final double fabHeight = 76.0 + 16.0;
+    // Standard FloatingActionButton diameter — the link must never run under
+    // it (see the PositionedDirectional below).
+    const double fabDiameter = 56.0;
+    // Screen width minus the link's own start inset, the FAB's end inset, the
+    // FAB itself and a base-sized gap between the two.
+    final double brewLaterMaxWidth = MediaQuery.of(context).size.width -
+        AppSpacing.base * 3 -
+        fabDiameter;
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -841,6 +850,19 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
                   child: FloatingNavButton(
                     onPressed: () =>
                         _saveCustomAmountsAndNavigate(context, recipe),
+                  ),
+                ),
+                PositionedDirectional(
+                  bottom: AppSpacing.base,
+                  start: AppSpacing.base,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: brewLaterMaxWidth),
+                    child: BrewLaterLink(
+                      recipeId: _effectiveRecipeId ?? recipe.id,
+                      methodId: recipe.brewingMethodId,
+                      recipeName: recipe.name,
+                      source: 'recipe_detail',
+                    ),
                   ),
                 ),
               ],
