@@ -655,6 +655,8 @@ class _FinishScreenState extends State<FinishScreen> {
     );
     await recordingService.recordRemoteBrew(
       request: request,
+      // Do not chain .select() here: client roles cannot read
+      // global_stats.user_id, so returning the row fails the insert with 42501.
       insertGlobalStat: (data) =>
           Supabase.instance.client.from('global_stats').insert(data),
     );
