@@ -224,10 +224,14 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
             label: loc.coffeeBeanNameSemantic(bean.name),
             container: true,
             excludeSemantics: true,
+            // wrapWords: false shrinks the font until every word fits on one
+            // line, instead of breaking a long word mid-word
+            // ("Kenya Kam / unyaka AA").
             child: AutoSizeText(
               bean.name,
               maxLines: 2,
               minFontSize: 12,
+              wrapWords: false,
               overflow: TextOverflow.visible,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
@@ -251,6 +255,7 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
                       bean.roaster,
                       maxLines: 2,
                       minFontSize: 11,
+                      wrapWords: false,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         color: secondaryColor,
@@ -262,6 +267,7 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
                     bean.roaster,
                     maxLines: 2,
                     minFontSize: 11,
+                    wrapWords: false,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(
                       context,
