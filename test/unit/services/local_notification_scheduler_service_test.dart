@@ -1966,4 +1966,242 @@ void main() {
       expect(scheduled(1801), isFalse);
     });
   });
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Brew later (ID 1901) — plan 065, Phase 6a
+  // ─────────────────────────────────────────────────────────────────────────
+
+  group('brew later', () {
+    const pendingKey = 'notif_brew_later_v1';
+
+    // The currently stored brew-later entry, or null when absent.
+    Future<Map<String, dynamic>?> storedEntry() async {
+      final p = await SharedPreferences.getInstance();
+      final raw = p.getString(pendingKey);
+      if (raw == null) return null;
+      return (jsonDecode(raw) as Map).cast<String, dynamic>();
+    }
+
+    List<Map<String, dynamic>> eventsFor(String eventName) =>
+        AnalyticsService.instance.bufferedEventsForTesting
+            .where((e) =>
+                e['event_name'] == eventName &&
+                (e['properties'] as Map?)?['notification_type'] == 'brew_later')
+            .toList();
+
+    // Seeds the pending entry directly (same pattern as the roaster
+    // contribution tests) so setAtMs can sit in the past.
+    Future<void> seedEntry({
+      required int fireAtMs,
+      required int setAtMs,
+      String recipeId = 'recipe-1',
+      String methodId = 'method-1',
+    }) async {
+      final p = await SharedPreferences.getInstance();
+      await p.setString(
+        pendingKey,
+        jsonEncode({
+          'recipeId': recipeId,
+          'methodId': methodId,
+          'recipeName': 'V60',
+          'fireAtMs': fireAtMs,
+          'setAtMs': setAtMs,
+          'source': 'test',
+        }),
+      );
+    }
+
+    Future<bool> setReminder({
+      String recipeId = 'recipe-1',
+      String methodId = 'method-1',
+      DateTime? fireAt,
+    }) {
+      return LocalNotificationSchedulerService.instance.setBrewLater(
+        recipeId: recipeId,
+        methodId: methodId,
+        fireAt: fireAt ?? DateTime.now().add(const Duration(days: 1)),
+        source: 'test',
+        locale: 'en',
+        recipeName: 'V60',
+      );
+    }
+
+    test('stores the entry, schedules id 1901 with the payload and returns true',
+        () async {
+      final ok = await setReminder();
+
+      expect(ok, isTrue);
+      expect(scheduled(1901), isTrue);
+      expect(payloadOf(1901), equals('/recipes/method-1/recipe-1?t=brew_later'));
+      final entry = await storedEntry();
+      expect(entry, isNotNull);
+      expect(entry!['recipeId'], 'recipe-1');
+      expect(entry['methodId'], 'method-1');
+      expect(entry['recipeName'], 'V60');
+      expect(entry['source'], 'test');
+      expect(entry['fireAtMs'] as int,
+          greaterThan(DateTime.now().millisecondsSinceEpoch));
+      expect(entry['setAtMs'] as int,
+          lessThanOrEqualTo(DateTime.now().millisecondsSinceEpoch));
+    });
+
+    test('scheduling emits notification_scheduled for brew_later', () async {
+      await setReminder();
+
+      expect(eventsFor('notification_scheduled'), hasLength(1));
+    });
+
+    test('a past fireAt returns false and stores nothing', () async {
+      final ok = await setReminder(
+          fireAt: DateTime.now().subtract(const Duration(hours: 1)));
+
+      expect(ok, isFalse);
+      expect(scheduled(1901), isFalse);
+      expect(await storedEntry(), isNull);
+      expect(eventsFor('notification_scheduled'), isEmpty);
+    });
+
+    test('a second reminder overwrites the first (one entry, one id)',
+        () async {
+      await setReminder();
+      await setReminder(recipeId: 'recipe-2');
+
+      final calls = LocalNotificationSchedulerService.testScheduled
+          .where((c) => c.id == 1901)
+          .toList();
+      expect(calls, hasLength(1));
+      expect(payloadOf(1901), equals('/recipes/method-1/recipe-2?t=brew_later'));
+      final entry = await storedEntry();
+      expect(entry!['recipeId'], 'recipe-2');
+    });
+
+    test('pendingBrewLater returns the entry while in the future', () async {
+      final fireAt = DateTime.now().add(const Duration(days: 1));
+      await setReminder(fireAt: fireAt);
+
+      final pending = await LocalNotificationSchedulerService.instance
+          .pendingBrewLater();
+      expect(pending, isNotNull);
+      expect(pending!.recipeId, 'recipe-1');
+      expect(pending.methodId, 'method-1');
+      expect(pending.fireAt.millisecondsSinceEpoch,
+          fireAt.millisecondsSinceEpoch);
+    });
+
+    test('pendingBrewLater returns null once the fire time has passed',
+        () async {
+      final now = DateTime.now();
+      await seedEntry(
+        fireAtMs: now.subtract(const Duration(hours: 1)).millisecondsSinceEpoch,
+        setAtMs: now.subtract(const Duration(hours: 2)).millisecondsSinceEpoch,
+      );
+
+      final pending = await LocalNotificationSchedulerService.instance
+          .pendingBrewLater();
+      expect(pending, isNull);
+    });
+
+    test('corrupt JSON reads as absent and removes the key', () async {
+      final p = await SharedPreferences.getInstance();
+      await p.setString(pendingKey, '{not json');
+
+      final pending = await LocalNotificationSchedulerService.instance
+          .pendingBrewLater();
+      expect(pending, isNull);
+      final after = await SharedPreferences.getInstance();
+      expect(after.containsKey(pendingKey), isFalse);
+    });
+
+    test('cancelBrewLater clears the entry and cancels id 1901', () async {
+      await setReminder();
+
+      await LocalNotificationSchedulerService.instance
+          .cancelBrewLater(reason: 'dismissed');
+
+      expect(await storedEntry(), isNull);
+      expect(scheduled(1901), isFalse);
+      expect(
+          LocalNotificationSchedulerService.testCancelledIds, contains(1901));
+      final cancelled = eventsFor('notification_cancelled');
+      expect(cancelled, hasLength(1));
+      expect((cancelled.single['properties'] as Map)['reason'], 'dismissed');
+    });
+
+    test('cancelBrewLater with no entry does nothing', () async {
+      await LocalNotificationSchedulerService.instance
+          .cancelBrewLater(reason: 'dismissed');
+
+      expect(LocalNotificationSchedulerService.testCancelledIds,
+          isNot(contains(1901)));
+      expect(eventsFor('notification_cancelled'), isEmpty);
+    });
+
+    test('rescheduleAll re-arms a future reminder without re-emitting',
+        () async {
+      await setReminder();
+      expect(eventsFor('notification_scheduled'), hasLength(1));
+
+      // Next app open: the OS notification is gone, the stored entry is not.
+      LocalNotificationSchedulerService.resetTestState();
+      await runScheduler();
+
+      expect(scheduled(1901), isTrue,
+          reason: 'pending reminder must be re-armed by rescheduleAll');
+      expect(payloadOf(1901), equals('/recipes/method-1/recipe-1?t=brew_later'));
+      expect(await storedEntry(), isNotNull);
+      expect(eventsFor('notification_scheduled'), hasLength(1),
+          reason: 'a re-arm does not re-emit notification_scheduled');
+      expect(eventsFor('notification_cancelled'), isEmpty);
+    });
+
+    test('rescheduleAll clears the reminder once the user brewed', () async {
+      final now = DateTime.now();
+      // Reminder set two hours ago; a brew landed after that.
+      await seedEntry(
+        fireAtMs: now.add(const Duration(days: 1)).millisecondsSinceEpoch,
+        setAtMs: now.subtract(const Duration(hours: 2)).millisecondsSinceEpoch,
+      );
+      await db.userStatsDao.insertUserStat(_makeStat(createdAt: now));
+
+      await runScheduler();
+
+      expect(await storedEntry(), isNull);
+      expect(scheduled(1901), isFalse);
+      final cancelled = eventsFor('notification_cancelled');
+      expect(cancelled, hasLength(1));
+      expect((cancelled.single['properties'] as Map)['reason'], 'brewed');
+    });
+
+    test(
+        'rescheduleAll counts a fired reminder as delivered even if the user then brewed',
+        () async {
+      final now = DateTime.now();
+      await seedEntry(
+        fireAtMs: now.subtract(const Duration(hours: 1)).millisecondsSinceEpoch,
+        setAtMs: now.subtract(const Duration(hours: 2)).millisecondsSinceEpoch,
+      );
+      await db.userStatsDao.insertUserStat(_makeStat(createdAt: now));
+
+      await runScheduler();
+
+      expect(await storedEntry(), isNull);
+      expect(eventsFor('notification_presumed_delivered'), hasLength(1));
+      expect(eventsFor('notification_cancelled'), isEmpty);
+    });
+
+    test('rescheduleAll treats a past-due reminder as delivered', () async {
+      final now = DateTime.now();
+      await seedEntry(
+        fireAtMs: now.subtract(const Duration(hours: 1)).millisecondsSinceEpoch,
+        setAtMs: now.subtract(const Duration(hours: 2)).millisecondsSinceEpoch,
+      );
+
+      await runScheduler();
+
+      expect(await storedEntry(), isNull);
+      expect(scheduled(1901), isFalse);
+      expect(eventsFor('notification_presumed_delivered'), hasLength(1));
+      expect(eventsFor('notification_cancelled'), isEmpty);
+    });
+  });
 }

@@ -1070,6 +1070,8 @@
   "notifBeanReviewDepletionTitle": "Anda sudah menghabiskan {beanName} dari {roaster} — bagaimana rasanya?",
   "notifBeanReviewDepletionTitleNoRoaster": "Anda sudah menghabiskan {beanName} — bagaimana rasanya?",
   "notifBeanReviewNudgeBody": "Ketuk untuk menambahkan ulasan Anda.",
+  "notifBrewLaterTitle": "{recipe} siap kapan pun Anda siap",
+  "notifBrewLaterBody": "Buka resep Anda dan mulai menyeduh.",
   "settingsBeanReviewNudge": "Pengingat ulasan biji kopi",
   "settingsBeanReviewNudgeSubtitle": "Meminta ulasan setelah Anda menyeduh satu kantong 5 kali",
   "settingsNotificationsToggle": "Aktifkan notifikasi",

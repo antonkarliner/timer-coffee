@@ -1070,6 +1070,8 @@
   "notifBeanReviewDepletionTitle": "Ai terminat {beanName} de la {roaster} — cum a fost?",
   "notifBeanReviewDepletionTitleNoRoaster": "Ai terminat {beanName} — cum a fost?",
   "notifBeanReviewNudgeBody": "Atinge pentru a adăuga recenzia ta.",
+  "notifBrewLaterTitle": "{recipe} este gata când ești gata și tu",
+  "notifBrewLaterBody": "Deschide rețeta și începe prepararea.",
   "settingsBeanReviewNudge": "Mementouri pentru recenzia boabelor",
   "settingsBeanReviewNudgeSubtitle": "Îți cere o recenzie după ce ai preparat un pachet de 5 ori",
   "settingsNotificationsToggle": "Activează notificările",

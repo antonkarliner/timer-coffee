@@ -1711,6 +1711,20 @@
     }
   },
   "notifBeanReviewNudgeBody": "Tap to add your review.",
+  "notifBrewLaterTitle": "{recipe} is ready when you are",
+  "@notifBrewLaterTitle": {
+    "description": "Title of the one-shot notification reminding the user about a recipe they asked to be reminded of later.",
+    "placeholders": {
+      "recipe": {
+        "type": "String",
+        "example": "V60"
+      }
+    }
+  },
+  "notifBrewLaterBody": "Open your recipe and start brewing.",
+  "@notifBrewLaterBody": {
+    "description": "Body of the one-shot notification reminding the user about a recipe they asked to be reminded of later."
+  },
   "settingsBeanReviewNudge": "Bean review reminders",
   "settingsBeanReviewNudgeSubtitle": "Asks for a review after you’ve brewed a bag 5 times",
   "settingsNotificationsToggle": "Enable notifications",

@@ -30,6 +30,7 @@ import '../utils/app_logger.dart';
 ///   notification_tapped, notification_scheduled,
 ///   notification_presumed_delivered, notification_cancelled,
 ///   notification_setting_toggled,
+///   brew_later_tapped, brew_later_scheduled, brew_later_permission_denied,
 ///   roaster_profile_viewed, roaster_link_tapped, roaster_contribution_shown/
 ///   _submitted/_dismissed, roaster_report_opened, roaster_report_submitted,
 ///   roaster_claim_link_tapped, the "moments" (surprise-and-delight) events
@@ -167,6 +168,10 @@ class AnalyticsService extends ChangeNotifier {
     'notification_cancelled': 'general',
     // Notification settings activation
     'notification_setting_toggled': 'general',
+    // Brew later reminder (plan 065)
+    'brew_later_tapped': 'general',
+    'brew_later_scheduled': 'general',
+    'brew_later_permission_denied': 'general',
     // Advanced / beta feature toggles
     'beta_feature_toggled': 'general',
     // Immersive layout adoption (plan 067)

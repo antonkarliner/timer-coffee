@@ -1070,6 +1070,8 @@
   "notifBeanReviewDepletionTitle": "أنهيت {beanName} من {roaster} — كيف كانت؟",
   "notifBeanReviewDepletionTitleNoRoaster": "أنهيت {beanName} — كيف كانت؟",
   "notifBeanReviewNudgeBody": "اضغط لإضافة مراجعتك.",
+  "notifBrewLaterTitle": "وصفتك {recipe} جاهزة متى ما كنت مستعدًا",
+  "notifBrewLaterBody": "افتح وصفتك وابدأ التحضير.",
   "settingsBeanReviewNudge": "تذكيرات مراجعة البن",
   "settingsBeanReviewNudgeSubtitle": "يطلب منك تقييمًا بعد تحضير الكيس 5 مرات",
   "settingsNotificationsToggle": "تفعيل الإشعارات",

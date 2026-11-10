@@ -1070,6 +1070,8 @@
   "notifBeanReviewDepletionTitle": "{roaster} kavurucusundan {beanName} kahvesini bitirdin — nasıldı?",
   "notifBeanReviewDepletionTitleNoRoaster": "{beanName} kahvesini bitirdin — nasıldı?",
   "notifBeanReviewNudgeBody": "Yorumunu eklemek için dokun.",
+  "notifBrewLaterTitle": "Sen hazır olduğunda {recipe} hazır",
+  "notifBrewLaterBody": "Tarifini aç ve demlemeye başla.",
   "settingsBeanReviewNudge": "Çekirdek yorumu hatırlatıcıları",
   "settingsBeanReviewNudgeSubtitle": "Bir paketi 5 kez demledikten sonra yorum ister",
   "settingsNotificationsToggle": "Bildirimleri etkinleştir",

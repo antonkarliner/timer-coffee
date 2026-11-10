@@ -922,6 +922,8 @@
   "notifBeanReviewDepletionTitle": "Käytit kahvin {beanName} paahtimolta {roaster} loppuun — miltä se maistui?",
   "notifBeanReviewDepletionTitleNoRoaster": "Käytit kahvin {beanName} loppuun — miltä se maistui?",
   "notifBeanReviewNudgeBody": "Lisää arvostelusi napauttamalla.",
+  "notifBrewLaterTitle": "{recipe} on valmis, kun sinä olet",
+  "notifBrewLaterBody": "Avaa reseptisi ja aloita valmistus.",
   "settingsBeanReviewNudge": "Papuarvostelujen muistutukset",
   "settingsBeanReviewNudgeSubtitle": "Pyytää arvostelua, kun olet uuttanut pussin 5 kertaa",
   "settingsNotificationsToggle": "Ota ilmoitukset käyttöön",

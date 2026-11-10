@@ -1070,6 +1070,8 @@
   "notifBeanReviewDepletionTitle": "Du hast {beanName} von {roaster} aufgebraucht — wie fandest du ihn?",
   "notifBeanReviewDepletionTitleNoRoaster": "Du hast {beanName} aufgebraucht — wie fandest du ihn?",
   "notifBeanReviewNudgeBody": "Tippe, um deine Bewertung hinzuzufügen.",
+  "notifBrewLaterTitle": "{recipe} ist bereit, wenn du es bist",
+  "notifBrewLaterBody": "Öffne dein Rezept und starte die Zubereitung.",
   "settingsBeanReviewNudge": "Erinnerungen für Bohnenbewertungen",
   "settingsBeanReviewNudgeSubtitle": "Bittet nach 5 Brühungen mit einer Packung um eine Bewertung",
   "settingsNotificationsToggle": "Benachrichtigungen aktivieren",

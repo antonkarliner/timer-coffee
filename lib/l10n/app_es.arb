@@ -1070,6 +1070,8 @@
   "notifBeanReviewDepletionTitle": "Terminaste {beanName} de {roaster} — ¿qué tal estuvo?",
   "notifBeanReviewDepletionTitleNoRoaster": "Terminaste {beanName} — ¿qué tal estuvo?",
   "notifBeanReviewNudgeBody": "Toca para añadir tu reseña.",
+  "notifBrewLaterTitle": "Tu receta {recipe} está lista cuando tú lo estés",
+  "notifBrewLaterBody": "Abre tu receta y empieza a preparar tu café.",
   "settingsBeanReviewNudge": "Recordatorios de reseñas de granos",
   "settingsBeanReviewNudgeSubtitle": "Te pide una reseña cuando hayas preparado una bolsa 5 veces",
   "settingsNotificationsToggle": "Activar notificaciones",

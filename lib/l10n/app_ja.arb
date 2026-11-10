@@ -1070,6 +1070,8 @@
   "notifBeanReviewDepletionTitle": "{roaster}の{beanName}を飲み切りました。いかがでしたか？",
   "notifBeanReviewDepletionTitleNoRoaster": "{beanName}を飲み切りました。いかがでしたか？",
   "notifBeanReviewNudgeBody": "タップしてレビューを追加します。",
+  "notifBrewLaterTitle": "準備ができたら{recipe}を",
+  "notifBrewLaterBody": "レシピを開いて抽出を始めましょう。",
   "settingsBeanReviewNudge": "豆レビューのリマインダー",
   "settingsBeanReviewNudgeSubtitle": "1袋を5回抽出したあとにレビューを依頼します",
   "settingsNotificationsToggle": "通知を有効にする",

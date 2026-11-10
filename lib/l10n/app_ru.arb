@@ -1070,6 +1070,8 @@
   "notifBeanReviewDepletionTitle": "Вы допили {beanName} от {roaster} — как вам?",
   "notifBeanReviewDepletionTitleNoRoaster": "Вы допили {beanName} — как вам?",
   "notifBeanReviewNudgeBody": "Нажмите, чтобы добавить отзыв.",
+  "notifBrewLaterTitle": "Рецепт {recipe} готов, когда готовы вы",
+  "notifBrewLaterBody": "Откройте рецепт и начните заваривание.",
   "settingsBeanReviewNudge": "Напоминания об отзывах на зёрна",
   "settingsBeanReviewNudgeSubtitle": "Просит оставить отзыв после 5 завариваний одной пачки",
   "settingsNotificationsToggle": "Включить уведомления",

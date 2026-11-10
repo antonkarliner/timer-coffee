@@ -1190,6 +1190,8 @@
   "notifBeanReviewDepletionTitle": "Kava {beanName} iz pržionice {roaster} je gotova — kako ti se svidjela?",
   "notifBeanReviewDepletionTitleNoRoaster": "Kava {beanName} je gotova — kako ti se svidjela?",
   "notifBeanReviewNudgeBody": "Dodirni za dodavanje recenzije.",
+  "notifBrewLaterTitle": "Tvoj recept {recipe} je spreman kad god ti odgovara",
+  "notifBrewLaterBody": "Otvori svoj recept i počni s pripremom.",
   "settingsBeanReviewNudge": "Podsjetnici za recenzije zrna",
   "settingsBeanReviewNudgeSubtitle": "Traži recenziju nakon 5 priprema iz iste vrećice",
   "settingsNotificationsToggle": "Omogući obavijesti",

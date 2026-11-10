@@ -1190,6 +1190,8 @@
   "notifBeanReviewDepletionTitle": "{roaster}의 {beanName}, 다 마셨네요. 어땠나요?",
   "notifBeanReviewDepletionTitleNoRoaster": "{beanName}, 다 마셨네요. 어땠나요?",
   "notifBeanReviewNudgeBody": "탭해서 리뷰를 추가하세요.",
+  "notifBrewLaterTitle": "준비되면 {recipe}를 시작해 보세요",
+  "notifBrewLaterBody": "레시피를 열고 추출을 시작하세요.",
   "settingsBeanReviewNudge": "원두 리뷰 알림",
   "settingsBeanReviewNudgeSubtitle": "한 봉지를 5번 추출하면 리뷰를 요청합니다",
   "settingsNotificationsToggle": "알림 사용",

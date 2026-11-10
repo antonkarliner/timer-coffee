@@ -1070,6 +1070,8 @@
   "notifBeanReviewDepletionTitle": "Vous avez terminé {beanName} de {roaster} — qu’en avez-vous pensé ?",
   "notifBeanReviewDepletionTitleNoRoaster": "Vous avez terminé {beanName} — qu’en avez-vous pensé ?",
   "notifBeanReviewNudgeBody": "Touchez pour ajouter votre avis.",
+  "notifBrewLaterTitle": "Votre recette {recipe} est prête quand vous l’êtes",
+  "notifBrewLaterBody": "Ouvrez votre recette et lancez votre préparation.",
   "settingsBeanReviewNudge": "Rappels d’avis sur les grains",
   "settingsBeanReviewNudgeSubtitle": "Demande un avis après avoir préparé un paquet 5 fois",
   "settingsNotificationsToggle": "Activer les notifications",

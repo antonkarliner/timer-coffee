@@ -39,6 +39,9 @@ class LocalNotificationSchedulerService {
   // roasters can each hold a pending nudge (plan 011, Channel B).
   static const _idRoasterContribNudgeBase = 1801;
   static const _roasterContribNudgeSlots = 10;
+  // One-shot "brew later" reminder (plan 065, Phase 6a): the user asks to be
+  // reminded about a specific recipe at a chosen time.
+  static const _idBrewLater = 1901;
 
   static Iterable<int> get _beanReviewNudgeIds =>
       List.generate(_beanReviewNudgeSlots, (i) => _idBeanReviewNudgeBase + i);
@@ -58,6 +61,7 @@ class LocalNotificationSchedulerService {
     ..._beanReviewNudgeIds,
     _idRecipeExplore,
     ..._roasterContribNudgeIds,
+    _idBrewLater,
   ];
 
   // --- SharedPreferences cooldown keys ---
@@ -95,6 +99,11 @@ class LocalNotificationSchedulerService {
   // past-due (presumed delivered).
   static const _keyRoasterContribScheduled =
       'notif_roaster_contrib_scheduled_v1';
+  // One-shot "brew later" reminder (plan 065, Phase 6a): JSON of
+  // {"recipeId","methodId","recipeName","fireAtMs","setAtMs","source"}. Source
+  // of truth for materialize; at most one pending reminder exists at a time —
+  // setting a new one overwrites.
+  static const _keyBrewLaterScheduled = 'notif_brew_later_v1';
 
   // --- Milestone thresholds ---
   static const _milestoneThresholds = [10, 25, 50, 100, 250, 500];
@@ -165,6 +174,7 @@ class LocalNotificationSchedulerService {
         _scheduleBeanReviewNudges(
             settings, coffeeBeansDao, userStatsDao, l10n, prefs),
         _materializeRoasterContribNudges(l10n: l10n),
+        _materializeBrewLater(userStatsDao, l10n),
       ]);
 
       AppLogger.debug('Engagement notifications rescheduled');
@@ -1763,6 +1773,174 @@ class LocalNotificationSchedulerService {
     } catch (_) {
       return <String, dynamic>{};
     }
+  }
+
+  // ---------------------------------------------------------------------------
+  // One-shot "brew later" reminder (plan 065, Phase 6a)
+  // ---------------------------------------------------------------------------
+
+  /// Reads and validates the pending brew-later entry, or returns null when
+  /// absent or corrupt.
+  ({
+    String recipeId,
+    String methodId,
+    String recipeName,
+    DateTime fireAt,
+    DateTime setAt,
+    String source,
+  })? _readBrewLater(SharedPreferences prefs) {
+    final raw = prefs.getString(_keyBrewLaterScheduled);
+    if (raw == null || raw.isEmpty) return null;
+    try {
+      final entry = (jsonDecode(raw) as Map).cast<String, dynamic>();
+      final recipeId = entry['recipeId'];
+      final methodId = entry['methodId'];
+      final fireMs = entry['fireAtMs'];
+      if (recipeId is! String || methodId is! String || fireMs is! int) {
+        return null;
+      }
+      return (
+        recipeId: recipeId,
+        methodId: methodId,
+        recipeName: entry['recipeName'] as String? ?? '',
+        fireAt: DateTime.fromMillisecondsSinceEpoch(fireMs),
+        setAt: DateTime.fromMillisecondsSinceEpoch(
+            entry['setAtMs'] as int? ?? 0),
+        source: entry['source'] as String? ?? '',
+      );
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// Schedules the one-shot "brew later" reminder for [recipeId] at [fireAt].
+  /// At most one pending reminder exists — a new call overwrites the previous
+  /// one. Returns false (and does nothing) when [fireAt] is not in the future
+  /// or, outside test mode, notifications cannot be scheduled.
+  Future<bool> setBrewLater({
+    required String recipeId,
+    required String methodId,
+    required DateTime fireAt,
+    required String source,
+    required String locale,
+    required String recipeName,
+    DateTime? now,
+  }) async {
+    final setAt = now ?? DateTime.now();
+    if (!fireAt.isAfter(setAt)) return false;
+    if (!testMode && !await _canSchedule()) return false;
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_keyBrewLaterScheduled, jsonEncode({
+      'recipeId': recipeId,
+      'methodId': methodId,
+      'recipeName': recipeName,
+      'fireAtMs': fireAt.millisecondsSinceEpoch,
+      'setAtMs': setAt.millisecondsSinceEpoch,
+      'source': source,
+    }));
+
+    final l10n = lookupAppLocalizations(Locale(locale));
+    await _schedule(
+      id: _idBrewLater,
+      title: l10n.notifBrewLaterTitle(recipeName),
+      body: l10n.notifBrewLaterBody,
+      at: fireAt,
+      payload: '/recipes/$methodId/$recipeId?t=brew_later',
+    );
+
+    AnalyticsService.maybeInstance?.track(
+      'notification_scheduled',
+      properties: {'notification_type': 'brew_later'},
+    );
+    return true;
+  }
+
+  /// Cancels a still-pending brew-later reminder (e.g. the user started
+  /// brewing after all). Removes the entry, cancels OS id [_idBrewLater] and
+  /// emits `notification_cancelled`. No-op when nothing is pending.
+  Future<void> cancelBrewLater({required String reason}) async {
+    final prefs = await SharedPreferences.getInstance();
+    final entry = _readBrewLater(prefs);
+    if (entry == null) return;
+    await prefs.remove(_keyBrewLaterScheduled);
+    await _cancelNotification(_idBrewLater);
+    AnalyticsService.maybeInstance?.track(
+      'notification_cancelled',
+      properties: {'notification_type': 'brew_later', 'reason': reason},
+    );
+  }
+
+  /// The pending reminder, as long as its fire time is still in the future.
+  /// Corrupt entries read as absent and are removed.
+  Future<({String recipeId, String methodId, DateTime fireAt})?>
+      pendingBrewLater() async {
+    final prefs = await SharedPreferences.getInstance();
+    final entry = _readBrewLater(prefs);
+    if (entry == null) {
+      // Present but unparseable → clean the key up so it doesn't sit forever.
+      if (prefs.containsKey(_keyBrewLaterScheduled)) {
+        await prefs.remove(_keyBrewLaterScheduled);
+      }
+      return null;
+    }
+    if (!entry.fireAt.isAfter(DateTime.now())) return null;
+    return (
+      recipeId: entry.recipeId,
+      methodId: entry.methodId,
+      fireAt: entry.fireAt,
+    );
+  }
+
+  /// Entry point used by [rescheduleAll]. (Re-)creates the one-shot brew-later
+  /// notification from its prefs entry — self-healing across restarts, the
+  /// same pattern [_materializeRoasterContribNudges] uses. An elapsed fire time
+  /// is presumed delivered first, so a subsequent brew cannot count as a
+  /// cancellation. Only a still-future reminder the user out-brewed (a
+  /// [UserStatsDao] row newer than setAt) is cancelled with reason 'brewed'.
+  /// Re-arming a still-future reminder emits no analytics.
+  Future<void> _materializeBrewLater(
+    UserStatsDao userStatsDao,
+    AppLocalizations l10n,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    final entry = _readBrewLater(prefs);
+    if (entry == null) {
+      // Present but unparseable → drop it; nothing to re-arm.
+      if (prefs.containsKey(_keyBrewLaterScheduled)) {
+        await prefs.remove(_keyBrewLaterScheduled);
+      }
+      return;
+    }
+
+    if (!entry.fireAt.isAfter(DateTime.now())) {
+      // Past-due → presumed delivered; count once, then drop.
+      await prefs.remove(_keyBrewLaterScheduled);
+      AnalyticsService.maybeInstance?.track(
+        'notification_presumed_delivered',
+        properties: {'notification_type': 'brew_later'},
+      );
+      return;
+    }
+
+    // The user brewed after the reminder was set → it is moot.
+    final allStats = await userStatsDao.fetchAllStats();
+    if (allStats.any((s) => s.createdAt.isAfter(entry.setAt))) {
+      await prefs.remove(_keyBrewLaterScheduled);
+      AnalyticsService.maybeInstance?.track(
+        'notification_cancelled',
+        properties: {'notification_type': 'brew_later', 'reason': 'brewed'},
+      );
+      return;
+    }
+
+    await _schedule(
+      id: _idBrewLater,
+      title: l10n.notifBrewLaterTitle(entry.recipeName),
+      body: l10n.notifBrewLaterBody,
+      at: entry.fireAt,
+      payload: '/recipes/${entry.methodId}/${entry.recipeId}?t=brew_later',
+    );
   }
 
   // ---------------------------------------------------------------------------

@@ -975,7 +975,11 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
       }
       return 'bean_freshness';
     }
-    if (deepLink.startsWith('/recipes/')) return 'recipe_exploration';
+    if (deepLink.startsWith('/recipes/')) {
+      final params = Uri.tryParse(deepLink)?.queryParameters;
+      if (params?['t'] == 'brew_later') return 'brew_later';
+      return 'recipe_exploration';
+    }
     return 'unknown';
   }
 

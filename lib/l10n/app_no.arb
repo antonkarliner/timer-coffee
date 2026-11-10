@@ -1300,6 +1300,8 @@
   "notifBeanReviewDepletionTitle": "Du har brukt opp {beanName} fra {roaster} — hvordan var den?",
   "notifBeanReviewDepletionTitleNoRoaster": "Du har brukt opp {beanName} — hvordan var den?",
   "notifBeanReviewNudgeBody": "Trykk for å legge til anmeldelsen din.",
+  "notifBrewLaterTitle": "Oppskriften din {recipe} er klar når du er",
+  "notifBrewLaterBody": "Åpne oppskriften og begynn å brygge.",
   "settingsBeanReviewNudge": "Påminnelser om bønneanmeldelser",
   "settingsBeanReviewNudgeSubtitle": "Ber om en anmeldelse etter at du har brygget en pose 5 ganger",
   "settingsNotificationsToggle": "Aktiver varsler",

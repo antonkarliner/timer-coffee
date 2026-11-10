@@ -1070,6 +1070,8 @@
   "notifBeanReviewDepletionTitle": "Ziarna {beanName} z palarni {roaster} już się skończyły — jak smakowały?",
   "notifBeanReviewDepletionTitleNoRoaster": "Ziarna {beanName} już się skończyły — jak smakowały?",
   "notifBeanReviewNudgeBody": "Stuknij, aby dodać swoją recenzję.",
+  "notifBrewLaterTitle": "Twój przepis {recipe} jest gotowy, kiedy ty będziesz",
+  "notifBrewLaterBody": "Otwórz swój przepis i zacznij parzenie.",
   "settingsBeanReviewNudge": "Przypomnienia o recenzji ziaren",
   "settingsBeanReviewNudgeSubtitle": "Prosi o recenzję po 5 parzeniach z jednej paczki",
   "settingsNotificationsToggle": "Włącz powiadomienia",

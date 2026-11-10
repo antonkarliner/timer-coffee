@@ -1070,6 +1070,8 @@
   "notifBeanReviewDepletionTitle": "你喝完了 {roaster} 的 {beanName}，感觉怎么样？",
   "notifBeanReviewDepletionTitleNoRoaster": "你喝完了 {beanName}，感觉怎么样？",
   "notifBeanReviewNudgeBody": "点按以添加你的评价。",
+  "notifBrewLaterTitle": "{recipe} 已就绪，随时等你",
+  "notifBrewLaterBody": "打开你的配方，开始冲煮。",
   "settingsBeanReviewNudge": "咖啡豆评价提醒",
   "settingsBeanReviewNudgeSubtitle": "一袋豆子冲煮 5 次后请求你留下评价",
   "settingsNotificationsToggle": "启用通知",
