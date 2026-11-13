@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // English ARB strings the tests interact with.
-const _linkLabel = 'Remind me later';
+const _linkLabel = 'Brew later';
 const _sheetTitle = 'Remind me at coffee time';
 const _sheetBody = 'We’ll send a reminder with this recipe ready to go.';
 const _timeRowLabel = 'Time';
@@ -189,6 +189,20 @@ void main() {
 
     expect(_linkSlot, findsOneWidget);
     expect(find.text(_linkLabel), findsOneWidget);
+    final shown = eventsNamed('brew_later_shown');
+    expect(shown, hasLength(1));
+    expect(shown.single['properties'], {
+      'source': 'recipe_detail',
+      'recipe_id': 'recipe-1',
+      'state': 'idle',
+    });
+
+    await openSheet(tester);
+    Navigator.of(tester.element(find.text(_sheetTitle))).pop();
+    await tester.pumpAndSettle();
+    await pumpLink(tester, fakes);
+    await tester.pump();
+    expect(eventsNamed('brew_later_shown'), hasLength(1));
   });
 
   testWidgets('one brew → nothing rendered, slot stays in place', (
@@ -224,6 +238,7 @@ void main() {
     expect(_linkSlot, findsOneWidget); // stable wrapper still present
     expect(find.byType(AppTextButton), findsNothing);
     expect(find.text(_linkLabel), findsNothing);
+    expect(eventsNamed('brew_later_shown'), isEmpty);
   });
 
   testWidgets('pending reminder for this recipe → set-state label', (
@@ -238,6 +253,13 @@ void main() {
     await pumpLink(tester, fakes);
 
     expect(find.text('Reminder at 08:30 AM'), findsOneWidget);
+    final shown = eventsNamed('brew_later_shown');
+    expect(shown, hasLength(1));
+    expect(shown.single['properties'], {
+      'source': 'recipe_detail',
+      'recipe_id': 'recipe-1',
+      'state': 'set',
+    });
   });
 
   testWidgets('pending reminder for another recipe → idle label', (
@@ -311,6 +333,8 @@ void main() {
         'recipe_id': 'recipe-1',
         'hours_ahead': 2, // 105 minutes, rounded
         'permission': 'already_granted',
+        'day': 'today',
+        'time_changed': false,
       });
     },
   );
@@ -352,6 +376,17 @@ void main() {
         'source': 'recipe_detail',
         'recipe_id': 'recipe-1',
       });
+
+      await tester.tap(find.text(_openSettingsLabel));
+      await tester.pumpAndSettle();
+
+      expect(find.text(_sheetTitle), findsNothing);
+      final opened = eventsNamed('brew_later_settings_opened');
+      expect(opened, hasLength(1));
+      expect(opened.single['properties'], {
+        'source': 'recipe_detail',
+        'recipe_id': 'recipe-1',
+      });
     },
   );
 
@@ -378,9 +413,75 @@ void main() {
         'recipe_id': 'recipe-1',
         'hours_ahead': 2,
         'permission': 'granted_now',
+        'day': 'today',
+        'time_changed': false,
       });
     },
   );
+
+  testWidgets('default time earlier today schedules for tomorrow', (
+    tester,
+  ) async {
+    final fakes = FakeCollaborators(now: DateTime(2026, 11, 10, 10))
+      ..permissionUsable = true;
+    await pumpLink(tester, fakes);
+    await openSheet(tester);
+
+    await tester.tap(find.text(_confirmLabel));
+    await tester.pumpAndSettle();
+
+    expect(fakes.setCalls.single['fireAt'], DateTime(2026, 11, 11, 9, 15));
+    final scheduled = eventsNamed('brew_later_scheduled');
+    expect(scheduled, hasLength(1));
+    expect(scheduled.single['properties']['day'], 'tomorrow');
+    expect(scheduled.single['properties']['time_changed'], isFalse);
+  });
+
+  for (final returnToDefault in [false, true]) {
+    testWidgets(
+      'picked time tracks change, return to default: $returnToDefault',
+      (tester) async {
+        final fakes = FakeCollaborators()..permissionUsable = true;
+        await pumpLink(tester, fakes);
+        await openSheet(tester);
+
+        await tester.tap(find.text(_timeRowLabel));
+        await tester.pumpAndSettle();
+        final minutes = tester.widget<ListWheelScrollView>(
+          find.byType(ListWheelScrollView).last,
+        );
+        (minutes.controller! as FixedExtentScrollController).jumpToItem(20);
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('OK'));
+        await tester.pumpAndSettle();
+        expect(find.text('Today at 09:20 AM'), findsOneWidget);
+
+        if (returnToDefault) {
+          await tester.tap(find.text(_timeRowLabel));
+          await tester.pumpAndSettle();
+          final minutes = tester.widget<ListWheelScrollView>(
+            find.byType(ListWheelScrollView).last,
+          );
+          (minutes.controller! as FixedExtentScrollController).jumpToItem(15);
+          await tester.pumpAndSettle();
+          await tester.tap(find.text('OK'));
+          await tester.pumpAndSettle();
+          expect(find.text('Today at 09:15 AM'), findsOneWidget);
+        }
+
+        await tester.tap(find.text(_confirmLabel));
+        await tester.pumpAndSettle();
+
+        final scheduled = eventsNamed('brew_later_scheduled');
+        expect(scheduled, hasLength(1));
+        expect(scheduled.single['properties']['day'], 'today');
+        expect(
+          scheduled.single['properties']['time_changed'],
+          !returnToDefault,
+        );
+      },
+    );
+  }
 
   testWidgets('double tap on confirm fires one permission request', (
     tester,

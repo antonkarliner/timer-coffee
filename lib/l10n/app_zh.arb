@@ -1548,7 +1548,7 @@
   "settingsAppIconRestartBody": "Timer.Coffee 将关闭以应用更改。请在主屏幕重新打开。",
   "settingsAppIconRestartConfirm": "更改图标",
   "summarySeparator": " · ",
-  "brewLaterLink": "稍后提醒我",
+  "brewLaterLink": "稍后冲煮",
   "brewLaterLinkSet": "{time} 提醒",
   "brewLaterSheetTitle": "在咖啡时间提醒我",
   "brewLaterSheetBody": "我们会发送提醒，这款配方随时可以开始。",

@@ -1548,7 +1548,7 @@
   "settingsAppIconRestartBody": "Timer.Coffee se va închide pentru a aplica modificarea. Deschide-l din nou din ecranul principal.",
   "settingsAppIconRestartConfirm": "Schimbă pictograma",
   "summarySeparator": " · ",
-  "brewLaterLink": "Amintește-mi mai târziu",
+  "brewLaterLink": "Prepară mai târziu",
   "brewLaterLinkSet": "Memento la {time}",
   "brewLaterSheetTitle": "Amintește-mi la ora cafelei",
   "brewLaterSheetBody": "Îți vom trimite un memento, cu această rețetă gata de preparat.",

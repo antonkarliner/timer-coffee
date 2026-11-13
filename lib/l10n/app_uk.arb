@@ -1548,7 +1548,7 @@
   "settingsAppIconRestartBody": "Щоб застосувати її, Timer.Coffee закриється. Відкрийте додаток знову з головного екрана.",
   "settingsAppIconRestartConfirm": "Змінити іконку",
   "summarySeparator": " · ",
-  "brewLaterLink": "Нагадати пізніше",
+  "brewLaterLink": "Заварити пізніше",
   "brewLaterLinkSet": "Нагадування о {time}",
   "brewLaterSheetTitle": "Нагадати до кавової перерви",
   "brewLaterSheetBody": "Ми надішлемо нагадування — цей рецепт буде готовий до заварювання.",

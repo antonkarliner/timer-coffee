@@ -1548,7 +1548,7 @@
   "settingsAppIconRestartBody": "Timer.Coffee sluit om de wijziging toe te passen. Open de app opnieuw vanaf je startscherm.",
   "settingsAppIconRestartConfirm": "Icoon wijzigen",
   "summarySeparator": " · ",
-  "brewLaterLink": "Herinner mij later",
+  "brewLaterLink": "Later zetten",
   "brewLaterLinkSet": "Herinnering om {time}",
   "brewLaterSheetTitle": "Herinner mij op koffietijd",
   "brewLaterSheetBody": "We sturen een herinnering, met dit recept klaar om te starten.",

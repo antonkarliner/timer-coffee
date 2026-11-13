@@ -1400,7 +1400,7 @@
   "settingsAppIconRestartBody": "Timer.Coffee sulkeutuu, jotta muutos otetaan käyttöön. Avaa se uudelleen laitteen aloitusnäytöltä.",
   "settingsAppIconRestartConfirm": "Vaihda kuvake",
   "summarySeparator": " · ",
-  "brewLaterLink": "Muistuta myöhemmin",
+  "brewLaterLink": "Valmista myöhemmin",
   "brewLaterLinkSet": "Muistutus klo {time}",
   "brewLaterSheetTitle": "Muistutus kahvinhetkellä",
   "brewLaterSheetBody": "Lähetämme muistutuksen, kun tämä resepti on valmis valmistettavaksi.",

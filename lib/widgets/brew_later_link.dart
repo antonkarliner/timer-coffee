@@ -78,7 +78,7 @@ typedef BrewLaterDefaultTimeLoader = Future<TimeOfDay> Function();
 
 enum _BrewLaterPhase { loading, hidden, idle, set }
 
-/// "Remind me later" link (plan 065, Phase 6b). Shown on recipe detail and
+/// "Brew later" link (plan 065, Phase 6b). Shown on recipe detail and
 /// preparation only for brand-new users (zero logged brews); opens a bottom
 /// sheet that schedules a one-shot "brew later" reminder through
 /// [LocalNotificationSchedulerService.setBrewLater].
@@ -126,6 +126,7 @@ class BrewLaterLink extends StatefulWidget {
 
 class _BrewLaterLinkState extends State<BrewLaterLink> {
   _BrewLaterPhase _phase = _BrewLaterPhase.loading;
+  bool _shownTracked = false;
   ({String recipeId, String methodId, DateTime fireAt})? _pending;
 
   @override
@@ -190,6 +191,17 @@ class _BrewLaterLinkState extends State<BrewLaterLink> {
           ? _BrewLaterPhase.set
           : _BrewLaterPhase.idle;
     });
+    if (!_shownTracked) {
+      _shownTracked = true;
+      AnalyticsService.maybeInstance?.track(
+        'brew_later_shown',
+        properties: {
+          'source': widget.source,
+          'recipe_id': widget.recipeId,
+          'state': _phase == _BrewLaterPhase.set ? 'set' : 'idle',
+        },
+      );
+    }
   }
 
   Future<void> _openSheet() async {
@@ -352,6 +364,8 @@ class _BrewLaterSheetState extends State<_BrewLaterSheet> {
   static const _abShownKey = 'notif_perm_ab_shown';
 
   late TimeOfDay _selectedTime = const TimeOfDay(hour: 8, minute: 0);
+  TimeOfDay _defaultTime = const TimeOfDay(hour: 8, minute: 0);
+  bool _timeChanged = false;
   bool _inFlight = false;
   bool _denied = false;
 
@@ -364,7 +378,11 @@ class _BrewLaterSheetState extends State<_BrewLaterSheet> {
   Future<void> _loadDefaultTime() async {
     final time = await widget.defaultTime();
     if (!mounted) return;
-    setState(() => _selectedTime = time);
+    setState(() {
+      _defaultTime = time;
+      _selectedTime = time;
+      _timeChanged = false;
+    });
   }
 
   DateTime get _fireAt => brewLaterFireTime(widget.now(), _selectedTime);
@@ -389,7 +407,11 @@ class _BrewLaterSheetState extends State<_BrewLaterSheet> {
       use24HourFormat: is24h,
     );
     if (picked == null || !mounted) return;
-    setState(() => _selectedTime = picked);
+    setState(() {
+      _selectedTime = picked;
+      _timeChanged = picked.hour != _defaultTime.hour ||
+          picked.minute != _defaultTime.minute;
+    });
   }
 
   Future<void> _confirm() async {
@@ -442,6 +464,8 @@ class _BrewLaterSheetState extends State<_BrewLaterSheet> {
           'hours_ahead':
               (fireAt.difference(widget.now()).inMinutes / 60).round(),
           'permission': permission,
+          'day': _isSameDay(fireAt, widget.now()) ? 'today' : 'tomorrow',
+          'time_changed': _timeChanged,
         },
       );
       if (!mounted) return;
@@ -499,6 +523,13 @@ class _BrewLaterSheetState extends State<_BrewLaterSheet> {
   }
 
   void _openSettingsAndClose() {
+    AnalyticsService.maybeInstance?.track(
+      'brew_later_settings_opened',
+      properties: {
+        'source': widget.source,
+        'recipe_id': widget.recipeId,
+      },
+    );
     Navigator.of(context).pop();
     _openSystemNotificationSettings();
   }

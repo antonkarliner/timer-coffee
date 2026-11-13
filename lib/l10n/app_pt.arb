@@ -1548,7 +1548,7 @@
   "settingsAppIconRestartBody": "O Timer.Coffee vai fechar para aplicar a alteração. Abra-o novamente na tela inicial do seu telefone.",
   "settingsAppIconRestartConfirm": "Alterar ícone",
   "summarySeparator": " · ",
-  "brewLaterLink": "Lembrar-me mais tarde",
+  "brewLaterLink": "Preparar mais tarde",
   "brewLaterLinkSet": "Lembrete às {time}",
   "brewLaterSheetTitle": "Lembrar-me à hora do café",
   "brewLaterSheetBody": "Enviaremos um lembrete com esta receita pronta para preparar.",

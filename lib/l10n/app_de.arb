@@ -1548,7 +1548,7 @@
   "settingsAppIconRestartBody": "Timer.Coffee wird geschlossen, um das Icon anzuwenden. Öffne es danach wieder von deinem Startbildschirm.",
   "settingsAppIconRestartConfirm": "Icon ändern",
   "summarySeparator": " · ",
-  "brewLaterLink": "Später erinnern",
+  "brewLaterLink": "Später brühen",
   "brewLaterLinkSet": "Erinnerung um {time}",
   "brewLaterSheetTitle": "Erinnerung zur Kaffeezeit",
   "brewLaterSheetBody": "Wir erinnern dich – dieses Rezept ist dann startklar.",

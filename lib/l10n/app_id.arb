@@ -1548,7 +1548,7 @@
   "settingsAppIconRestartBody": "Timer.Coffee akan ditutup untuk menerapkannya. Buka lagi dari layar utama perangkat Anda.",
   "settingsAppIconRestartConfirm": "Ubah ikon",
   "summarySeparator": " · ",
-  "brewLaterLink": "Ingatkan saya nanti",
+  "brewLaterLink": "Seduh nanti",
   "brewLaterLinkSet": "Pengingat pukul {time}",
   "brewLaterSheetTitle": "Ingatkan saya saat waktu kopi",
   "brewLaterSheetBody": "Kami akan mengirim pengingat dengan resep ini siap diseduh.",

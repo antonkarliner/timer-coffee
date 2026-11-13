@@ -1548,7 +1548,7 @@
   "settingsAppIconRestartBody": "Uygulamak için Timer.Coffee kapanacak. Ana ekrandan yeniden aç.",
   "settingsAppIconRestartConfirm": "Simgeyi değiştir",
   "summarySeparator": " · ",
-  "brewLaterLink": "Sonra hatırlat",
+  "brewLaterLink": "Sonra demle",
   "brewLaterLinkSet": "Hatırlatma saati {time}",
   "brewLaterSheetTitle": "Kahve saatinde hatırlat",
   "brewLaterSheetBody": "Bu tarif demlemeye hazır olduğunda hatırlatma göndereceğiz.",

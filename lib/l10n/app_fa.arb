@@ -1670,7 +1670,7 @@
   "settingsAppIconRestartBody": "برای اعمال تغییر، Timer.Coffee بسته می‌شود. آن را دوباره از صفحه اصلی دستگاه باز کنید.",
   "settingsAppIconRestartConfirm": "تغییر آیکون",
   "summarySeparator": "، ",
-  "brewLaterLink": "بعداً یادم بیار",
+  "brewLaterLink": "بعداً دم کن",
   "brewLaterLinkSet": "یادآوری در {time}",
   "brewLaterSheetTitle": "یادآوری در وقت قهوه",
   "brewLaterSheetBody": "یادآوری می‌فرستیم تا این دستور آمادهٔ دم‌آوری باشد.",

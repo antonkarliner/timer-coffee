@@ -1668,7 +1668,7 @@
   "settingsAppIconRestartBody": "적용을 위해 Timer.Coffee를 종료합니다. 홈 화면에서 다시 열어 주세요.",
   "settingsAppIconRestartConfirm": "아이콘 변경",
   "summarySeparator": " · ",
-  "brewLaterLink": "나중에 알림",
+  "brewLaterLink": "나중에 추출",
   "brewLaterLinkSet": "{time} 알림",
   "brewLaterSheetTitle": "커피 타임에 알림 받기",
   "brewLaterSheetBody": "이 레시피를 바로 준비할 수 있도록 알림을 보내드립니다.",

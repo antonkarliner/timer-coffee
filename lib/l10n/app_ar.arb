@@ -1548,7 +1548,7 @@
   "settingsAppIconRestartBody": "سيُغلق Timer.Coffee لتطبيق التغيير. افتحه مجددًا من شاشتك الرئيسية.",
   "settingsAppIconRestartConfirm": "تغيير الأيقونة",
   "summarySeparator": " · ",
-  "brewLaterLink": "ذكّرني لاحقًا",
+  "brewLaterLink": "حضّر لاحقًا",
   "brewLaterLinkSet": "تذكير في {time}",
   "brewLaterSheetTitle": "ذكّرني في وقت القهوة",
   "brewLaterSheetBody": "سنرسل تذكيرًا وهذه الوصفة جاهزة للبدء.",
