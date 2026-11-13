@@ -1,9 +1,18 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart' show visibleForTesting;
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:rxdart/rxdart.dart';
+
+import 'analytics_service.dart';
+
+/// Uses exact scheduling only when exact alarms are already allowed.
+AndroidScheduleMode scheduleModeFor({required bool canScheduleExact}) =>
+    canScheduleExact
+        ? AndroidScheduleMode.exactAllowWhileIdle
+        : AndroidScheduleMode.inexactAllowWhileIdle;
 
 // Needs to be a top-level function to be accessible from background isolates.
 @pragma('vm:entry-point')
@@ -172,6 +181,7 @@ class LocalNotificationManager {
     required String title,
     required String body,
     required DateTime scheduledDate,
+    required bool exact,
     String? payload,
     String? imagePath,
   }) async {
@@ -185,13 +195,21 @@ class LocalNotificationManager {
         body,
         tz.TZDateTime.from(scheduledDate, tz.local),
         details,
-        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        androidScheduleMode: scheduleModeFor(canScheduleExact: exact),
         payload: payload,
       );
 
-      AppLogger.debug('Local notification scheduled for: $scheduledDate');
+      AppLogger.debug(
+          'Local notification scheduled for: $scheduledDate (exact: $exact)');
     } catch (e) {
       AppLogger.error('Failed to schedule local notification', errorObject: e);
+      AnalyticsService.maybeInstance?.track(
+        'notification_schedule_failed',
+        properties: {
+          'notification_id': id,
+          'error_code': e is PlatformException ? e.code : 'unknown',
+        },
+      );
     }
   }
 

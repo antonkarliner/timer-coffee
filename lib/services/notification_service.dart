@@ -299,20 +299,17 @@ class NotificationService {
       return;
     }
 
-    // Exact alarm permission is required on Android 12+ for precise scheduling.
-    final canScheduleExactAlarms =
-        await ExactAlarmService.ensureExactAlarmPermission();
-    if (!canScheduleExactAlarms) {
-      AppLogger.debug(
-          'Scheduled notification suppressed: exact alarm permission missing');
-      return;
-    }
+    // Exact alarms are used only when already allowed; otherwise the reminder
+    // is scheduled inexactly and may arrive a few minutes late — the app never
+    // sends the user to the "Alarms & reminders" settings page (plan 081).
+    final canExact = await ExactAlarmService.canScheduleExactAlarms();
 
     await _localManager.scheduleNotification(
       id: id,
       title: title,
       body: body,
       scheduledDate: scheduledDate,
+      exact: canExact,
       payload: payload,
       imagePath: imagePath,
     );

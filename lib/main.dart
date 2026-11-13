@@ -36,6 +36,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:coffee_timer/services/connection_analytics_service.dart';
 import 'package:coffee_timer/services/notification_service.dart';
+import 'package:coffee_timer/services/exact_alarm_service.dart';
 import 'package:coffee_timer/services/live_activity_service.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'firebase_options.dart';
@@ -639,11 +640,14 @@ void main() async {
   );
 
   // Track app open
+  final exactAlarms =
+      kIsWeb ? true : await ExactAlarmService.canScheduleExactAlarms();
   analyticsService.track(
     'app_opened',
     properties: {
       'locale': initialLocale.languageCode,
       'is_first_launch': isFirstLaunch,
+      'exact_alarms': exactAlarms,
       'pour_layout_enabled':
           prefs.getBool(AdvancedFeaturesService.kPourLayoutKey) ?? false,
       'layout_arm':

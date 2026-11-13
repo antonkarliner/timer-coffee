@@ -4,14 +4,11 @@ import android.Manifest
 import android.app.AlarmManager
 import android.content.ComponentName
 import android.content.ContentValues
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.MediaScannerConnection
-import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import android.provider.Settings
 import android.webkit.MimeTypeMap
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
@@ -58,9 +55,6 @@ class MainActivity: FlutterActivity() {
             when (call.method) {
                 "canScheduleExactAlarms" -> {
                     result.success(canScheduleExactAlarms())
-                }
-                "requestExactAlarmPermission" -> {
-                    result.success(requestExactAlarmPermission())
                 }
                 else -> result.notImplemented()
             }
@@ -374,25 +368,6 @@ class MainActivity: FlutterActivity() {
             alarmManager.canScheduleExactAlarms()
         } else {
             true
-        }
-    }
-
-    private fun requestExactAlarmPermission(): Boolean {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return true
-
-        val alarmManager = getSystemService(AlarmManager::class.java)
-        if (alarmManager.canScheduleExactAlarms()) return true
-
-        return try {
-            val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
-                data = Uri.parse("package:$packageName")
-            }
-            startActivity(intent)
-            // We cannot know the result immediately; caller should re-check after user action.
-            alarmManager.canScheduleExactAlarms()
-        } catch (e: Exception) {
-            println("DEBUG NATIVE: Error requesting exact alarm permission: ${e.message}")
-            false
         }
     }
 }
