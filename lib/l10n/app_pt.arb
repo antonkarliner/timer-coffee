@@ -1072,6 +1072,8 @@
   "notifBeanReviewNudgeBody": "Toque para adicionar sua avaliação.",
   "notifBrewLaterTitle": "Sua receita {recipe} está pronta quando você estiver",
   "notifBrewLaterBody": "Abra sua receita e comece a preparação.",
+  "notifSecondBrewTitle": "Que tal a próxima xícara?",
+  "notifSecondBrewBody": "Sua receita {recipe} está a um toque de distância.",
   "settingsBeanReviewNudge": "Lembretes de avaliação de grãos",
   "settingsBeanReviewNudgeSubtitle": "Pede uma avaliação depois de preparar um pacote 5 vezes",
   "settingsNotificationsToggle": "Ativar notificações",

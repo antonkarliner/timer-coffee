@@ -1072,6 +1072,8 @@
   "notifBeanReviewNudgeBody": "Atinge pentru a adăuga recenzia ta.",
   "notifBrewLaterTitle": "{recipe} este gata când ești gata și tu",
   "notifBrewLaterBody": "Deschide rețeta și începe prepararea.",
+  "notifSecondBrewTitle": "Gata pentru următoarea ceașcă?",
+  "notifSecondBrewBody": "Rețeta ta {recipe} este la o singură apăsare distanță.",
   "settingsBeanReviewNudge": "Mementouri pentru recenzia boabelor",
   "settingsBeanReviewNudgeSubtitle": "Îți cere o recenzie după ce ai preparat un pachet de 5 ori",
   "settingsNotificationsToggle": "Activează notificările",

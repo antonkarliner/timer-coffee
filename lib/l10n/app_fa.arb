@@ -1194,6 +1194,8 @@
   "notifBeanReviewNudgeBody": "برای افزودن نظر خود ضربه بزنید.",
   "notifBrewLaterTitle": "وقتی آماده باشی، {recipe} هم آماده است",
   "notifBrewLaterBody": "دستورت را باز کن و دم‌آوری را شروع کن.",
+  "notifSecondBrewTitle": "برای فنجان بعدی‌ات آماده‌ای؟",
+  "notifSecondBrewBody": "دستور {recipe} فقط یک لمس فاصله دارد.",
   "settingsBeanReviewNudge": "یادآوری نظر درباره دانه",
   "settingsBeanReviewNudgeSubtitle": "بعد از 5 بار دم کردن یک بسته، برای نوشتن نظر می‌پرسد",
   "settingsNotificationsToggle": "فعال کردن اعلان‌ها",

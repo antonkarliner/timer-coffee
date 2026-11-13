@@ -1072,6 +1072,8 @@
   "notifBeanReviewNudgeBody": "タップしてレビューを追加します。",
   "notifBrewLaterTitle": "準備ができたら{recipe}を",
   "notifBrewLaterBody": "レシピを開いて抽出を始めましょう。",
+  "notifSecondBrewTitle": "次の一杯はいかがですか？",
+  "notifSecondBrewBody": "{recipe} のレシピまでワンタップです。",
   "settingsBeanReviewNudge": "豆レビューのリマインダー",
   "settingsBeanReviewNudgeSubtitle": "1袋を5回抽出したあとにレビューを依頼します",
   "settingsNotificationsToggle": "通知を有効にする",

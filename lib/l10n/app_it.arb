@@ -1072,6 +1072,8 @@
   "notifBeanReviewNudgeBody": "Tocca per aggiungere la tua recensione.",
   "notifBrewLaterTitle": "La tua ricetta {recipe} è pronta quando lo sei tu",
   "notifBrewLaterBody": "Apri la tua ricetta e inizia la preparazione.",
+  "notifSecondBrewTitle": "La prossima tazza ti aspetta?",
+  "notifSecondBrewBody": "La tua ricetta {recipe} è a un tocco di distanza.",
   "settingsBeanReviewNudge": "Promemoria recensioni dei chicchi",
   "settingsBeanReviewNudgeSubtitle": "Chiede una recensione dopo aver preparato un sacchetto 5 volte",
   "settingsNotificationsToggle": "Attiva le notifiche",

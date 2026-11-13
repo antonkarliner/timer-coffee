@@ -1725,6 +1725,20 @@
   "@notifBrewLaterBody": {
     "description": "Body of the one-shot notification reminding the user about a recipe they asked to be reminded of later."
   },
+  "notifSecondBrewTitle": "Ready for your next cup?",
+  "@notifSecondBrewTitle": {
+    "description": "Title of the one-shot notification sent once, the morning after the user’s first brew, nudging them towards a second brew."
+  },
+  "notifSecondBrewBody": "Your recipe {recipe} is one tap away.",
+  "@notifSecondBrewBody": {
+    "description": "Body of the one-shot notification sent once, the morning after the user’s first brew, nudging them towards a second brew.",
+    "placeholders": {
+      "recipe": {
+        "type": "String",
+        "example": "James Hoffmann V60"
+      }
+    }
+  },
   "settingsBeanReviewNudge": "Bean review reminders",
   "settingsBeanReviewNudgeSubtitle": "Asks for a review after you’ve brewed a bag 5 times",
   "settingsNotificationsToggle": "Enable notifications",

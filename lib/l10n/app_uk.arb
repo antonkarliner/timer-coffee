@@ -1072,6 +1072,8 @@
   "notifBeanReviewNudgeBody": "Натисніть, щоб додати відгук.",
   "notifBrewLaterTitle": "Рецепт {recipe} готовий, коли готові ви",
   "notifBrewLaterBody": "Відкрийте рецепт і почніть заварювання.",
+  "notifSecondBrewTitle": "Готові до наступної чашки?",
+  "notifSecondBrewBody": "Рецепт {recipe} — на відстані одного дотику.",
   "settingsBeanReviewNudge": "Нагадування про відгуки на зерна",
   "settingsBeanReviewNudgeSubtitle": "Просить залишити відгук після 5 заварювань однієї пачки",
   "settingsNotificationsToggle": "Увімкнути сповіщення",

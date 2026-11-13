@@ -1072,6 +1072,8 @@
   "notifBeanReviewNudgeBody": "Tik om je review toe te voegen.",
   "notifBrewLaterTitle": "{recipe} staat klaar wanneer jij het bent",
   "notifBrewLaterBody": "Open je recept en begin met zetten.",
+  "notifSecondBrewTitle": "Klaar voor je volgende kopje?",
+  "notifSecondBrewBody": "Je recept {recipe} is maar één tik verwijderd.",
   "settingsBeanReviewNudge": "Herinneringen voor boonreviews",
   "settingsBeanReviewNudgeSubtitle": "Vraagt om een review nadat je een zak 5 keer hebt gezet",
   "settingsNotificationsToggle": "Meldingen inschakelen",

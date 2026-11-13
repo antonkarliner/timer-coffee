@@ -24,6 +24,9 @@ class LocalNotificationSchedulerService {
   // --- Notification IDs ---
   static const _idBrewReminder = 1001;
   static const _idBrewEscalation = 1002;
+  // One-shot "second brew" reminder (plan 065, Phase 1): sent once, the
+  // morning after a user's first completed brew.
+  static const _idSecondBrew = 1003;
   static const _idDiscoverBeans = 1101;
   static const _idDiscoverPulse = 1103;
   static const _idMorningReminder = 1201;
@@ -52,6 +55,7 @@ class LocalNotificationSchedulerService {
   static final _allIds = <int>[
     _idBrewReminder,
     _idBrewEscalation,
+    _idSecondBrew,
     _idDiscoverBeans,
     _idDiscoverPulse,
     _idMorningReminder,
@@ -80,6 +84,11 @@ class LocalNotificationSchedulerService {
       'notif_bean_freshness_last_date';
   static const _keyMorningLastTrackedMs = 'notif_morning_last_tracked_ms';
   static const _keyWeeklyLastTrackedMs = 'notif_weekly_last_tracked_ms';
+  // One-shot "second brew" reminder (plan 065, Phase 1): last-tracked fire
+  // instant for [_trackScheduledOnce], so repeated [rescheduleAll] calls for
+  // the same fire time emit `notification_scheduled` only once.
+  static const _keySecondBrewLastTrackedMs =
+      'notif_second_brew_last_tracked_ms';
   // Prevents brew inactivity reminders from firing more than once per 14 days,
   // so casual brewers with ~weekly cadence aren't repeatedly nagged.
   static const _keyBrewReminderLastScheduled =
@@ -175,6 +184,15 @@ class LocalNotificationSchedulerService {
             settings, coffeeBeansDao, userStatsDao, l10n, prefs),
         _materializeRoasterContribNudges(l10n: l10n),
         _materializeBrewLater(userStatsDao, l10n),
+        _scheduleSecondBrewReminder(
+          userStatsDao,
+          recipesDao,
+          brewingMethodsDao,
+          settings,
+          l10n,
+          prefs,
+          locale,
+        ),
       ]);
 
       AppLogger.debug('Engagement notifications rescheduled');
@@ -1940,6 +1958,90 @@ class LocalNotificationSchedulerService {
       body: l10n.notifBrewLaterBody,
       at: entry.fireAt,
       payload: '/recipes/${entry.methodId}/${entry.recipeId}?t=brew_later',
+    );
+  }
+
+  // ---------------------------------------------------------------------------
+  // One-shot "second brew" reminder (plan 065, Phase 1)
+  // ---------------------------------------------------------------------------
+
+  /// Fire time for the one-shot "second brew" reminder: the calendar day after
+  /// [firstBrewAt] at the brew's own hour:minute, clamped into 06:00–11:00 —
+  /// earlier than 06:00 becomes 06:00, later than 11:00 becomes 08:00 so an
+  /// afternoon or evening brewer gets a morning nudge, not a repeat of the
+  /// same hour.
+  ///
+  /// Uses the DateTime constructor (not Duration.add) so DST transitions keep
+  /// the wall-clock time — adding 86400 s on a 23-hour DST day shifts it by
+  /// one hour.
+  @visibleForTesting
+  static DateTime secondBrewReminderTarget(DateTime firstBrewAt) {
+    final nextDay = DateTime(firstBrewAt.year, firstBrewAt.month,
+        firstBrewAt.day + 1, firstBrewAt.hour, firstBrewAt.minute);
+    final minutes = nextDay.hour * 60 + nextDay.minute;
+    if (minutes < 6 * 60) {
+      return DateTime(nextDay.year, nextDay.month, nextDay.day, 6, 0);
+    }
+    if (minutes > 11 * 60) {
+      return DateTime(nextDay.year, nextDay.month, nextDay.day, 8, 0);
+    }
+    return nextDay;
+  }
+
+  /// Schedules the one-shot "second brew" reminder. Only when the user has
+  /// completed exactly one brew, the daily morning reminder is off (a user
+  /// with a daily reminder must not get two notifications the same morning),
+  /// and the target is still in the future. Independent of
+  /// [_scheduleBrewReminders] — its day-5/day-10 logic and cooldown are
+  /// untouched. Because [rescheduleAll] cancels every id in [_allIds] first
+  /// and this gate fails on two or more rows, the pending reminder
+  /// disappears once the second brew is logged.
+  Future<void> _scheduleSecondBrewReminder(
+    UserStatsDao userStatsDao,
+    RecipesDao recipesDao,
+    BrewingMethodsDao brewingMethodsDao,
+    NotificationSettingsService settings,
+    AppLocalizations l10n,
+    SharedPreferences prefs,
+    String locale,
+  ) async {
+    final allStats = await userStatsDao.fetchAllStats();
+    if (allStats.length != 1) return;
+    final firstBrew = allStats.single;
+
+    if (await settings.isMorningReminderEnabled()) return;
+
+    final target = secondBrewReminderTarget(firstBrew.createdAt);
+    if (!target.isAfter(DateTime.now())) return;
+
+    // Resolve the recipe name locally, falling back to the brewing method's
+    // name; without either there is no sensible text and we skip scheduling.
+    // The recipe's own method id is the one the deep link route needs.
+    final recipe =
+        await recipesDao.getRecipeModelById(firstBrew.recipeId, locale);
+    String? recipeName;
+    String? methodId;
+    if (recipe != null) {
+      if (recipe.name.trim().isNotEmpty) recipeName = recipe.name;
+      methodId = recipe.brewingMethodId;
+    }
+    methodId ??= firstBrew.brewingMethodId;
+    recipeName ??=
+        await brewingMethodsDao.getBrewingMethodNameById(methodId);
+    if (recipeName == null || recipeName.trim().isEmpty) return;
+
+    await _schedule(
+      id: _idSecondBrew,
+      title: l10n.notifSecondBrewTitle,
+      body: l10n.notifSecondBrewBody(recipeName),
+      at: target,
+      payload: '/recipes/$methodId/${firstBrew.recipeId}?t=second_brew',
+    );
+    await _trackScheduledOnce(
+      prefs: prefs,
+      key: _keySecondBrewLastTrackedMs,
+      notificationType: 'second_brew',
+      fireAt: target,
     );
   }
 

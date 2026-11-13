@@ -1072,6 +1072,8 @@
   "notifBeanReviewNudgeBody": "点按以添加你的评价。",
   "notifBrewLaterTitle": "{recipe} 已就绪，随时等你",
   "notifBrewLaterBody": "打开你的配方，开始冲煮。",
+  "notifSecondBrewTitle": "准备好下一杯了吗？",
+  "notifSecondBrewBody": "你的配方 {recipe} 触手可及。",
   "settingsBeanReviewNudge": "咖啡豆评价提醒",
   "settingsBeanReviewNudgeSubtitle": "一袋豆子冲煮 5 次后请求你留下评价",
   "settingsNotificationsToggle": "启用通知",

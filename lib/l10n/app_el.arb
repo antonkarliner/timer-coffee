@@ -1342,6 +1342,8 @@
   "notifBeanReviewNudgeBody": "Πατήστε για να προσθέσετε την αξιολόγησή σας.",
   "notifBrewLaterTitle": "Η συνταγή σου {recipe} είναι έτοιμη όταν είσαι εσύ",
   "notifBrewLaterBody": "Άνοιξε τη συνταγή σου και ξεκίνα την παρασκευή.",
+  "notifSecondBrewTitle": "Όλα έτοιμα για τον επόμενο καφέ σου;",
+  "notifSecondBrewBody": "Η συνταγή σου {recipe} απέχει ένα πάτημα.",
   "settingsBeanReviewNudge": "Υπενθυμίσεις αξιολόγησης κόκκων",
   "settingsBeanReviewNudgeSubtitle": "Ζητά αξιολόγηση αφού φτιάξεις ένα σακουλάκι 5 φορές",
   "settingsNotificationsToggle": "Ενεργοποίηση ειδοποιήσεων",

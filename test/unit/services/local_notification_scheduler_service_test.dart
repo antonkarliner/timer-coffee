@@ -2204,4 +2204,145 @@ void main() {
       expect(eventsFor('notification_cancelled'), isEmpty);
     });
   });
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Second brew (ID 1003) — plan 065, Phase 1
+  // ─────────────────────────────────────────────────────────────────────────
+
+  group('second brew reminder', () {
+    // Seeds exactly one brew plus its recipe and localized name.
+    Future<void> seedSingleBrew({DateTime? createdAt}) async {
+      await db.recipesDao.insertOrUpdateRecipe(
+        RecipesCompanion.insert(
+          id: 'recipe-1',
+          brewingMethodId: 'method-1',
+          coffeeAmount: 15.0,
+          waterAmount: 250.0,
+          waterTemp: 93.0,
+          brewTime: 240,
+        ),
+      );
+      await db.into(db.recipeLocalizations).insert(
+            RecipeLocalizationsCompanion.insert(
+              id: 'recipe-1-en',
+              recipeId: 'recipe-1',
+              locale: 'en',
+              name: 'James Hoffmann V60',
+              grindSize: 'Medium',
+              shortDescription: 'test',
+            ),
+          );
+      await db.userStatsDao.insertUserStat(
+        _makeStat(createdAt: createdAt ?? DateTime.now()),
+      );
+    }
+
+    test('target keeps the brew time inside the 06:00–11:00 window', () {
+      expect(
+        LocalNotificationSchedulerService.secondBrewReminderTarget(
+            DateTime(2026, 11, 3, 7, 30)),
+        DateTime(2026, 11, 4, 7, 30),
+      );
+      expect(
+        LocalNotificationSchedulerService.secondBrewReminderTarget(
+            DateTime(2026, 11, 3, 11, 0)),
+        DateTime(2026, 11, 4, 11, 0),
+      );
+    });
+
+    test('target clamps an early brew to 06:00', () {
+      expect(
+        LocalNotificationSchedulerService.secondBrewReminderTarget(
+            DateTime(2026, 11, 3, 5, 10)),
+        DateTime(2026, 11, 4, 6, 0),
+      );
+    });
+
+    test('target moves a late brew to 08:00', () {
+      expect(
+        LocalNotificationSchedulerService.secondBrewReminderTarget(
+            DateTime(2026, 11, 3, 11, 1)),
+        DateTime(2026, 11, 4, 8, 0),
+      );
+      expect(
+        LocalNotificationSchedulerService.secondBrewReminderTarget(
+            DateTime(2026, 11, 3, 21, 45)),
+        DateTime(2026, 11, 4, 8, 0),
+      );
+    });
+
+    test('target rolls over to the 1st after the last day of a month', () {
+      expect(
+        LocalNotificationSchedulerService.secondBrewReminderTarget(
+            DateTime(2026, 11, 30, 9, 15)),
+        DateTime(2026, 12, 1, 9, 15),
+      );
+    });
+
+    test('one brew schedules id 1003 with the second_brew recipe payload',
+        () async {
+      await seedSingleBrew();
+      await runScheduler();
+
+      expect(scheduled(1003), isTrue);
+      expect(payloadOf(1003),
+          equals('/recipes/method-1/recipe-1?t=second_brew'));
+    });
+
+    test(
+        'notification_scheduled for second_brew is emitted once across two rescheduleAll calls',
+        () async {
+      await seedSingleBrew();
+      await runScheduler();
+      await runScheduler();
+
+      expect(scheduledCountFor('second_brew'), 1);
+      final p = await SharedPreferences.getInstance();
+      expect(p.getInt('notif_second_brew_last_tracked_ms'), isNotNull);
+    });
+
+    test('zero brews → not scheduled', () async {
+      await runScheduler();
+
+      expect(scheduled(1003), isFalse);
+    });
+
+    test('two brews → not scheduled', () async {
+      await seedSingleBrew();
+      await db.userStatsDao.insertUserStat(
+        _makeStat(uuid: 'stat-2', recipeId: 'recipe-1'),
+      );
+      await runScheduler();
+
+      expect(scheduled(1003), isFalse);
+    });
+
+    test('morning reminder enabled → not scheduled', () async {
+      SharedPreferences.setMockInitialValues({
+        KEY_MORNING_REMINDER: true,
+      });
+      await NotificationSettingsService.instance.init();
+      await seedSingleBrew();
+      await runScheduler();
+
+      expect(scheduled(1003), isFalse);
+    });
+
+    test('target already in the past → not scheduled', () async {
+      await seedSingleBrew(
+          createdAt: DateTime.now().subtract(const Duration(days: 2)));
+      await runScheduler();
+
+      expect(scheduled(1003), isFalse);
+    });
+
+    test('day-5 brew reminder still schedules for a one-brew user',
+        () async {
+      await seedSingleBrew(
+          createdAt: DateTime.now().subtract(const Duration(days: 3)));
+      await runScheduler();
+
+      expect(scheduled(1001), isTrue);
+    });
+  });
 }

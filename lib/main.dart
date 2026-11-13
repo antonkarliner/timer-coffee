@@ -982,6 +982,7 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
     if (deepLink.startsWith('/recipes/')) {
       final params = Uri.tryParse(deepLink)?.queryParameters;
       if (params?['t'] == 'brew_later') return 'brew_later';
+      if (params?['t'] == 'second_brew') return 'second_brew';
       return 'recipe_exploration';
     }
     return 'unknown';

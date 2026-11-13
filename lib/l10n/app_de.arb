@@ -1072,6 +1072,8 @@
   "notifBeanReviewNudgeBody": "Tippe, um deine Bewertung hinzuzufügen.",
   "notifBrewLaterTitle": "{recipe} ist bereit, wenn du es bist",
   "notifBrewLaterBody": "Öffne dein Rezept und starte die Zubereitung.",
+  "notifSecondBrewTitle": "Bereit für deine nächste Tasse?",
+  "notifSecondBrewBody": "Dein Rezept {recipe} ist nur einen Tipp entfernt.",
   "settingsBeanReviewNudge": "Erinnerungen für Bohnenbewertungen",
   "settingsBeanReviewNudgeSubtitle": "Bittet nach 5 Brühungen mit einer Packung um eine Bewertung",
   "settingsNotificationsToggle": "Benachrichtigungen aktivieren",

@@ -1192,6 +1192,8 @@
   "notifBeanReviewNudgeBody": "Dodirni za dodavanje recenzije.",
   "notifBrewLaterTitle": "Tvoj recept {recipe} je spreman kad god ti odgovara",
   "notifBrewLaterBody": "Otvori svoj recept i počni s pripremom.",
+  "notifSecondBrewTitle": "Vrijeme za sljedeću šalicu?",
+  "notifSecondBrewBody": "Tvoj recept {recipe} odmah je pri ruci.",
   "settingsBeanReviewNudge": "Podsjetnici za recenzije zrna",
   "settingsBeanReviewNudgeSubtitle": "Traži recenziju nakon 5 priprema iz iste vrećice",
   "settingsNotificationsToggle": "Omogući obavijesti",

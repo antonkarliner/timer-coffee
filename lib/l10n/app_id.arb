@@ -1072,6 +1072,8 @@
   "notifBeanReviewNudgeBody": "Ketuk untuk menambahkan ulasan Anda.",
   "notifBrewLaterTitle": "{recipe} siap kapan pun Anda siap",
   "notifBrewLaterBody": "Buka resep Anda dan mulai menyeduh.",
+  "notifSecondBrewTitle": "Siap untuk secangkir kopi berikutnya?",
+  "notifSecondBrewBody": "Resep {recipe} hanya satu ketukan lagi.",
   "settingsBeanReviewNudge": "Pengingat ulasan biji kopi",
   "settingsBeanReviewNudgeSubtitle": "Meminta ulasan setelah Anda menyeduh satu kantong 5 kali",
   "settingsNotificationsToggle": "Aktifkan notifikasi",

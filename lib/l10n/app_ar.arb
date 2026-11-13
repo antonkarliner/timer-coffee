@@ -1072,6 +1072,8 @@
   "notifBeanReviewNudgeBody": "اضغط لإضافة مراجعتك.",
   "notifBrewLaterTitle": "وصفتك {recipe} جاهزة متى ما كنت مستعدًا",
   "notifBrewLaterBody": "افتح وصفتك وابدأ التحضير.",
+  "notifSecondBrewTitle": "هل حان وقت فنجانك التالي؟",
+  "notifSecondBrewBody": "وصفتك {recipe} على بُعد لمسة واحدة.",
   "settingsBeanReviewNudge": "تذكيرات مراجعة البن",
   "settingsBeanReviewNudgeSubtitle": "يطلب منك تقييمًا بعد تحضير الكيس 5 مرات",
   "settingsNotificationsToggle": "تفعيل الإشعارات",

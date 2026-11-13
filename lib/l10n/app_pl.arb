@@ -1072,6 +1072,8 @@
   "notifBeanReviewNudgeBody": "Stuknij, aby dodać swoją recenzję.",
   "notifBrewLaterTitle": "Twój przepis {recipe} jest gotowy, kiedy ty będziesz",
   "notifBrewLaterBody": "Otwórz swój przepis i zacznij parzenie.",
+  "notifSecondBrewTitle": "Czas na następną filiżankę?",
+  "notifSecondBrewBody": "Twój przepis {recipe} czeka na jedno dotknięcie.",
   "settingsBeanReviewNudge": "Przypomnienia o recenzji ziaren",
   "settingsBeanReviewNudgeSubtitle": "Prosi o recenzję po 5 parzeniach z jednej paczki",
   "settingsNotificationsToggle": "Włącz powiadomienia",

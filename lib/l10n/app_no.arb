@@ -1302,6 +1302,8 @@
   "notifBeanReviewNudgeBody": "Trykk for å legge til anmeldelsen din.",
   "notifBrewLaterTitle": "Oppskriften din {recipe} er klar når du er",
   "notifBrewLaterBody": "Åpne oppskriften og begynn å brygge.",
+  "notifSecondBrewTitle": "Klar for neste kopp?",
+  "notifSecondBrewBody": "Oppskriften din {recipe} er bare et trykk unna.",
   "settingsBeanReviewNudge": "Påminnelser om bønneanmeldelser",
   "settingsBeanReviewNudgeSubtitle": "Ber om en anmeldelse etter at du har brygget en pose 5 ganger",
   "settingsNotificationsToggle": "Aktiver varsler",

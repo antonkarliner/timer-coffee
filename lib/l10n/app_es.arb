@@ -1072,6 +1072,8 @@
   "notifBeanReviewNudgeBody": "Toca para añadir tu reseña.",
   "notifBrewLaterTitle": "Tu receta {recipe} está lista cuando tú lo estés",
   "notifBrewLaterBody": "Abre tu receta y empieza a preparar tu café.",
+  "notifSecondBrewTitle": "¿Todo listo para tu próxima taza?",
+  "notifSecondBrewBody": "Tu receta {recipe} está a un toque de distancia.",
   "settingsBeanReviewNudge": "Recordatorios de reseñas de granos",
   "settingsBeanReviewNudgeSubtitle": "Te pide una reseña cuando hayas preparado una bolsa 5 veces",
   "settingsNotificationsToggle": "Activar notificaciones",

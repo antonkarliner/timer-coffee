@@ -1072,6 +1072,8 @@
   "notifBeanReviewNudgeBody": "Touchez pour ajouter votre avis.",
   "notifBrewLaterTitle": "Votre recette {recipe} est prête quand vous l’êtes",
   "notifBrewLaterBody": "Ouvrez votre recette et lancez votre préparation.",
+  "notifSecondBrewTitle": "Votre prochaine tasse vous attend ?",
+  "notifSecondBrewBody": "Votre recette {recipe} n’est qu’à un geste.",
   "settingsBeanReviewNudge": "Rappels d’avis sur les grains",
   "settingsBeanReviewNudgeSubtitle": "Demande un avis après avoir préparé un paquet 5 fois",
   "settingsNotificationsToggle": "Activer les notifications",
