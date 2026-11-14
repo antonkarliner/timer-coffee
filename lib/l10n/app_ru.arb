@@ -978,6 +978,14 @@
   "coffeeJourneyTitle": "Первые шаги",
   "coffeeJourneyMilestoneFirstBrew": "Завершите свою первую заварку",
   "coffeeJourneyMilestoneTryMethod": "Попробуйте другой рецепт",
+  "coffeeJourneyMilestoneTryRecipeNamed": "Попробуйте другой рецепт: {recipe}",
+  "@coffeeJourneyMilestoneTryRecipeNamed": {
+    "placeholders": {
+      "recipe": {
+        "type": "String"
+      }
+    }
+  },
   "coffeeJourneyMilestoneAddBeans": "Добавьте свои первые зёрна",
   "coffeeJourneyMilestoneFavorite": "Добавьте рецепт в избранное",
   "coffeeJourneyMilestoneStats": "Проверьте статистику заваривания",

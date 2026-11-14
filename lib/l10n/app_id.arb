@@ -978,6 +978,14 @@
   "coffeeJourneyTitle": "Langkah pertama",
   "coffeeJourneyMilestoneFirstBrew": "Selesaikan seduhan pertama Anda",
   "coffeeJourneyMilestoneTryMethod": "Coba resep lain",
+  "coffeeJourneyMilestoneTryRecipeNamed": "Coba resep lain: {recipe}",
+  "@coffeeJourneyMilestoneTryRecipeNamed": {
+    "placeholders": {
+      "recipe": {
+        "type": "String"
+      }
+    }
+  },
   "coffeeJourneyMilestoneAddBeans": "Tambahkan biji kopi pertama Anda",
   "coffeeJourneyMilestoneFavorite": "Tambahkan resep ke favorit",
   "coffeeJourneyMilestoneStats": "Periksa statistik seduh Anda",

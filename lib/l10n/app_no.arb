@@ -1208,6 +1208,14 @@
   "coffeeJourneyTitle": "Første steg",
   "coffeeJourneyMilestoneFirstBrew": "Fullfør ditt første brygg",
   "coffeeJourneyMilestoneTryMethod": "Prøv en annen oppskrift",
+  "coffeeJourneyMilestoneTryRecipeNamed": "Prøv en annen oppskrift: {recipe}",
+  "@coffeeJourneyMilestoneTryRecipeNamed": {
+    "placeholders": {
+      "recipe": {
+        "type": "String"
+      }
+    }
+  },
   "coffeeJourneyMilestoneAddBeans": "Legg til dine første kaffebønner",
   "coffeeJourneyMilestoneFavorite": "Legg til en oppskrift i favoritter",
   "coffeeJourneyMilestoneStats": "Sjekk bryggestatistikken din",

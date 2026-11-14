@@ -1248,6 +1248,14 @@
   "coffeeJourneyTitle": "Πρώτα βήματα",
   "coffeeJourneyMilestoneFirstBrew": "Ολοκληρώστε την πρώτη σας παρασκευή",
   "coffeeJourneyMilestoneTryMethod": "Δοκιμάστε μια άλλη συνταγή",
+  "coffeeJourneyMilestoneTryRecipeNamed": "Δοκιμάστε μια άλλη συνταγή: {recipe}",
+  "@coffeeJourneyMilestoneTryRecipeNamed": {
+    "placeholders": {
+      "recipe": {
+        "type": "String"
+      }
+    }
+  },
   "coffeeJourneyMilestoneAddBeans": "Προσθέστε τους πρώτους σας κόκκους καφέ",
   "coffeeJourneyMilestoneFavorite": "Προσθέστε μια συνταγή στα αγαπημένα",
   "coffeeJourneyMilestoneStats": "Δείτε τα στατιστικά παρασκευής",

@@ -1100,6 +1100,14 @@
   "coffeeJourneyTitle": "قدم‌های اول",
   "coffeeJourneyMilestoneFirstBrew": "اولین دم‌آوری‌تان را کامل کنید",
   "coffeeJourneyMilestoneTryMethod": "یک دستور دیگر را امتحان کنید",
+  "coffeeJourneyMilestoneTryRecipeNamed": "یک دستور دیگر را امتحان کنید: {recipe}",
+  "@coffeeJourneyMilestoneTryRecipeNamed": {
+    "placeholders": {
+      "recipe": {
+        "type": "String"
+      }
+    }
+  },
   "coffeeJourneyMilestoneAddBeans": "اولین دانه‌های قهوه‌تان را اضافه کنید",
   "coffeeJourneyMilestoneFavorite": "یک دستور را به موردعلاقه‌ها اضافه کنید",
   "coffeeJourneyMilestoneStats": "آمار دم‌آوری‌تان را ببینید",

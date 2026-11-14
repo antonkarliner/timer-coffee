@@ -1508,6 +1508,16 @@
   "coffeeJourneyTitle": "First Steps",
   "coffeeJourneyMilestoneFirstBrew": "Complete your first brew",
   "coffeeJourneyMilestoneTryMethod": "Try another recipe",
+  "coffeeJourneyMilestoneTryRecipeNamed": "Try another recipe: {recipe}",
+  "@coffeeJourneyMilestoneTryRecipeNamed": {
+    "description": "Journey card milestone tile naming the specific recipe to try next, shown while the milestone is incomplete and a suggestion exists.",
+    "placeholders": {
+      "recipe": {
+        "type": "String",
+        "example": "Tetsu Kasuya 4:6 Method"
+      }
+    }
+  },
   "coffeeJourneyMilestoneAddBeans": "Add your first coffee beans",
   "coffeeJourneyMilestoneFavorite": "Favorite a recipe",
   "coffeeJourneyMilestoneStats": "Check your brew stats",

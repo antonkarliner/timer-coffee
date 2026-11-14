@@ -978,6 +978,14 @@
   "coffeeJourneyTitle": "第一步",
   "coffeeJourneyMilestoneFirstBrew": "完成第一次冲煮",
   "coffeeJourneyMilestoneTryMethod": "尝试另一款配方",
+  "coffeeJourneyMilestoneTryRecipeNamed": "尝试另一款配方：{recipe}",
+  "@coffeeJourneyMilestoneTryRecipeNamed": {
+    "placeholders": {
+      "recipe": {
+        "type": "String"
+      }
+    }
+  },
   "coffeeJourneyMilestoneAddBeans": "添加第一款咖啡豆",
   "coffeeJourneyMilestoneFavorite": "将配方添加到收藏夹",
   "coffeeJourneyMilestoneStats": "查看冲煮统计",

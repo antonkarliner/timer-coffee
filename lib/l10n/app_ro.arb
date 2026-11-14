@@ -978,6 +978,14 @@
   "coffeeJourneyTitle": "Primii pași",
   "coffeeJourneyMilestoneFirstBrew": "Finalizează prima ta preparare",
   "coffeeJourneyMilestoneTryMethod": "Încearcă o altă rețetă",
+  "coffeeJourneyMilestoneTryRecipeNamed": "Încearcă o altă rețetă: {recipe}",
+  "@coffeeJourneyMilestoneTryRecipeNamed": {
+    "placeholders": {
+      "recipe": {
+        "type": "String"
+      }
+    }
+  },
   "coffeeJourneyMilestoneAddBeans": "Adaugă primele tale boabe de cafea",
   "coffeeJourneyMilestoneFavorite": "Adaugă o rețetă la favorite",
   "coffeeJourneyMilestoneStats": "Verifică-ți statisticile de preparare",

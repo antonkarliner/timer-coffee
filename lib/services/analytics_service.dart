@@ -43,7 +43,8 @@ import '../utils/app_logger.dart';
 ///   events popup_shown, popup_dismissed, popup_link_tapped, and the
 ///   layout adoption events layout_arm_assigned, layout_choice_shown,
 ///   layout_choice_made, layout_switch_back_reason, and the deletion events
-///   user_recipe_deleted, delete_undo_tapped
+///   user_recipe_deleted, delete_undo_tapped, and the coffee journey
+///   milestone suggestion event journey_milestone_suggested
 class AnalyticsService extends ChangeNotifier {
   AnalyticsService._();
 
@@ -158,6 +159,7 @@ class AnalyticsService extends ChangeNotifier {
     'onboarding_completed': 'general',
     'journey_started': 'general',
     'journey_milestone_completed': 'general',
+    'journey_milestone_suggested': 'general',
     'journey_completed': 'general',
     'journey_dismissed': 'general',
     // Notification permission prompt

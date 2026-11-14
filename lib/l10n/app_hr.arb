@@ -1098,6 +1098,14 @@
   "coffeeJourneyTitle": "Prvi koraci",
   "coffeeJourneyMilestoneFirstBrew": "Dovrši svoju prvu pripremu",
   "coffeeJourneyMilestoneTryMethod": "Isprobaj drugi recept",
+  "coffeeJourneyMilestoneTryRecipeNamed": "Isprobaj drugi recept: {recipe}",
+  "@coffeeJourneyMilestoneTryRecipeNamed": {
+    "placeholders": {
+      "recipe": {
+        "type": "String"
+      }
+    }
+  },
   "coffeeJourneyMilestoneAddBeans": "Dodaj svoja prva zrna kave",
   "coffeeJourneyMilestoneFavorite": "Dodaj recept u favorite",
   "coffeeJourneyMilestoneStats": "Provjeri svoju statistiku pripreme",

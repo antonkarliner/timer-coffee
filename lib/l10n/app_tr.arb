@@ -978,6 +978,14 @@
   "coffeeJourneyTitle": "İlk Adımlar",
   "coffeeJourneyMilestoneFirstBrew": "İlk demlemenizi tamamlayın",
   "coffeeJourneyMilestoneTryMethod": "Başka bir tarif deneyin",
+  "coffeeJourneyMilestoneTryRecipeNamed": "Başka bir tarif deneyin: {recipe}",
+  "@coffeeJourneyMilestoneTryRecipeNamed": {
+    "placeholders": {
+      "recipe": {
+        "type": "String"
+      }
+    }
+  },
   "coffeeJourneyMilestoneAddBeans": "İlk kahve çekirdeklerinizi ekleyin",
   "coffeeJourneyMilestoneFavorite": "Bir tarifi favorilere ekleyin",
   "coffeeJourneyMilestoneStats": "Demleme istatistiklerinize göz atın",

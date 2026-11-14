@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
+import '../database/database.dart';
+import '../models/recipe_model.dart';
 import '../services/analytics_service.dart';
 import '../services/onboarding_service.dart';
 import '../theme/design_tokens.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../screens/pulse_screen.dart';
+import '../utils/journey_recipe_suggestion.dart';
 import 'base_buttons.dart';
 
 /// Location where the card is displayed — controls visibility and collapse logic.
@@ -31,6 +34,10 @@ class CoffeeJourneyCard extends StatelessWidget {
         : onboarding.shouldShowHubJourneyCard;
     if (!shouldShow) return const SizedBox.shrink();
 
+    // Looked up only once the card is visible: a hidden card must not need
+    // anything it did not need before the recipe suggestion existed.
+    final database = Provider.of<AppDatabase>(context, listen: false);
+    final locale = Localizations.localeOf(context).languageCode;
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
@@ -128,8 +135,19 @@ class CoffeeJourneyCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: AppSpacing.sm),
-                // Milestone list
-                ...milestones.map((m) => _MilestoneTile(milestone: m)),
+                // Milestone list. The second milestone ("try another
+                // recipe") gets a stateful tile that loads a concrete
+                // recipe suggestion; the other tiles stay stateless.
+                for (final (index, milestone) in milestones.indexed)
+                  if (index == 1)
+                    _TryRecipeMilestoneTile(
+                      milestone: milestone,
+                      database: database,
+                      locale: locale,
+                      location: location,
+                    )
+                  else
+                    _MilestoneTile(milestone: milestone),
                 // Show "Done" button if all milestones complete
                 if (onboarding.allMilestonesComplete) ...[
                   const SizedBox(height: AppSpacing.sm),
@@ -305,5 +323,104 @@ class _MilestoneTile extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+/// The "try another recipe" milestone tile. Loads a concrete recipe
+/// suggestion once per mount (same selection rule as the recipe-exploration
+/// notification) and, while the milestone is incomplete and a suggestion
+/// exists, shows the suggested recipe's name and opens its detail screen on
+/// tap. Every other state — still loading, load error, no suggestion,
+/// milestone done — renders exactly the generic tile it replaces.
+///
+/// Always builds a [_MilestoneTile] so the widget type at this tree position
+/// is stable while the suggestion loads; only the label and tap handler
+/// change once it resolves.
+class _TryRecipeMilestoneTile extends StatefulWidget {
+  const _TryRecipeMilestoneTile({
+    required this.milestone,
+    required this.database,
+    required this.locale,
+    required this.location,
+  });
+
+  final _Milestone milestone;
+  final AppDatabase database;
+  final String locale;
+  final JourneyCardLocation location;
+
+  @override
+  State<_TryRecipeMilestoneTile> createState() =>
+      _TryRecipeMilestoneTileState();
+}
+
+class _TryRecipeMilestoneTileState extends State<_TryRecipeMilestoneTile> {
+  RecipeModel? _suggestion;
+  bool _trackedSuggestion = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // No inherited-widget lookups here: database and locale arrive via the
+    // widget (resolved in the parent's build).
+    if (!widget.milestone.done) {
+      _loadSuggestion();
+    }
+  }
+
+  Future<void> _loadSuggestion() async {
+    final database = widget.database;
+    final locale = widget.locale;
+    try {
+      final stats = await database.userStatsDao.fetchAllStats();
+      final suggestion = await suggestJourneyRecipe(
+        [
+          for (final stat in stats)
+            (
+              recipeId: stat.recipeId,
+              brewingMethodId: stat.brewingMethodId,
+            ),
+        ],
+        (methodId) =>
+            database.recipesDao.fetchRecipesForBrewingMethod(methodId, locale),
+      );
+      if (!mounted) return;
+      setState(() {
+        _suggestion = suggestion;
+      });
+      if (suggestion != null && !_trackedSuggestion) {
+        _trackedSuggestion = true;
+        AnalyticsService.maybeInstance?.track(
+          'journey_milestone_suggested',
+          properties: {
+            'milestone': 'try_recipe',
+            'recipe_id': suggestion.id,
+            'location': widget.location.name,
+          },
+        );
+      }
+    } catch (_) {
+      // Any load failure keeps the generic, untappable tile in place.
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var milestone = widget.milestone;
+    final suggestion = _suggestion;
+    if (!milestone.done && suggestion != null) {
+      final l10n = AppLocalizations.of(context)!;
+      milestone = _Milestone(
+        label: l10n.coffeeJourneyMilestoneTryRecipeNamed(suggestion.name),
+        done: milestone.done,
+        onTap: () => context.router.push(
+          RecipeDetailRoute(
+            brewingMethodId: suggestion.brewingMethodId,
+            recipeId: suggestion.id,
+          ),
+        ),
+      );
+    }
+    return _MilestoneTile(milestone: milestone);
   }
 }

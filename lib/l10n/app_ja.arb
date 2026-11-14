@@ -978,6 +978,14 @@
   "coffeeJourneyTitle": "はじめの一歩",
   "coffeeJourneyMilestoneFirstBrew": "最初の1杯を淹れる",
   "coffeeJourneyMilestoneTryMethod": "別のレシピを試す",
+  "coffeeJourneyMilestoneTryRecipeNamed": "別のレシピを試す：{recipe}",
+  "@coffeeJourneyMilestoneTryRecipeNamed": {
+    "placeholders": {
+      "recipe": {
+        "type": "String"
+      }
+    }
+  },
   "coffeeJourneyMilestoneAddBeans": "最初の豆を追加",
   "coffeeJourneyMilestoneFavorite": "レシピをお気に入りに追加",
   "coffeeJourneyMilestoneStats": "抽出統計を確認",

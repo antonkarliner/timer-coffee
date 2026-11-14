@@ -978,6 +978,14 @@
   "coffeeJourneyTitle": "Primeros pasos",
   "coffeeJourneyMilestoneFirstBrew": "Completa tu primera preparación",
   "coffeeJourneyMilestoneTryMethod": "Prueba otra receta",
+  "coffeeJourneyMilestoneTryRecipeNamed": "Prueba otra receta: {recipe}",
+  "@coffeeJourneyMilestoneTryRecipeNamed": {
+    "placeholders": {
+      "recipe": {
+        "type": "String"
+      }
+    }
+  },
   "coffeeJourneyMilestoneAddBeans": "Añade tus primeros granos de café",
   "coffeeJourneyMilestoneFavorite": "Añade una receta a favoritos",
   "coffeeJourneyMilestoneStats": "Consulta tus estadísticas de preparación",

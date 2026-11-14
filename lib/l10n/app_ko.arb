@@ -1098,6 +1098,14 @@
   "coffeeJourneyTitle": "첫걸음",
   "coffeeJourneyMilestoneFirstBrew": "첫 추출 완료하기",
   "coffeeJourneyMilestoneTryMethod": "다른 레시피 시도하기",
+  "coffeeJourneyMilestoneTryRecipeNamed": "다른 레시피 시도하기: {recipe}",
+  "@coffeeJourneyMilestoneTryRecipeNamed": {
+    "placeholders": {
+      "recipe": {
+        "type": "String"
+      }
+    }
+  },
   "coffeeJourneyMilestoneAddBeans": "첫 원두 추가하기",
   "coffeeJourneyMilestoneFavorite": "레시피를 좋아하는 목록에 추가하기",
   "coffeeJourneyMilestoneStats": "추출 통계 확인하기",

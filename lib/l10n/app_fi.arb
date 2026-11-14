@@ -830,6 +830,14 @@
   "coffeeJourneyTitle": "Ensiaskeleet",
   "coffeeJourneyMilestoneFirstBrew": "Valmista ensimmäinen kahvisi",
   "coffeeJourneyMilestoneTryMethod": "Kokeile toista reseptiä",
+  "coffeeJourneyMilestoneTryRecipeNamed": "Kokeile toista reseptiä: {recipe}",
+  "@coffeeJourneyMilestoneTryRecipeNamed": {
+    "placeholders": {
+      "recipe": {
+        "type": "String"
+      }
+    }
+  },
   "coffeeJourneyMilestoneAddBeans": "Lisää ensimmäiset kahvipapusi",
   "coffeeJourneyMilestoneFavorite": "Lisää resepti suosikkeihin",
   "coffeeJourneyMilestoneStats": "Katso valmistustilastosi",

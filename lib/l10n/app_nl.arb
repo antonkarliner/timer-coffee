@@ -978,6 +978,14 @@
   "coffeeJourneyTitle": "Eerste stappen",
   "coffeeJourneyMilestoneFirstBrew": "Rond je eerste zetbeurt af",
   "coffeeJourneyMilestoneTryMethod": "Probeer een ander recept",
+  "coffeeJourneyMilestoneTryRecipeNamed": "Probeer een ander recept: {recipe}",
+  "@coffeeJourneyMilestoneTryRecipeNamed": {
+    "placeholders": {
+      "recipe": {
+        "type": "String"
+      }
+    }
+  },
   "coffeeJourneyMilestoneAddBeans": "Voeg je eerste koffiebonen toe",
   "coffeeJourneyMilestoneFavorite": "Voeg een recept toe aan favorieten",
   "coffeeJourneyMilestoneStats": "Bekijk je brouwstatistieken",
