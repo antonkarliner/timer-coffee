@@ -582,15 +582,29 @@ class _FinishScreenState extends State<FinishScreen> {
       brewingMethodId: widget.recipe.brewingMethodId,
     );
 
-    // Reschedule engagement notifications (pushes brew reminders forward)
+    // Reschedule engagement notifications (pushes brew reminders forward).
+    // Chained on the local insert so rescheduleAll's brew-count reads see
+    // the brew this screen just saved — this callback runs in the same
+    // frame that started the insert, so an unchained call always races it.
+    // The insert's error is swallowed here exactly like the _ratingRowReady
+    // listener in initState does (it is already logged and rethrown by the
+    // write gate); the reschedule runs whether the insert succeeded or not.
     final database = Provider.of<AppDatabase>(context, listen: false);
     final locale = Localizations.localeOf(context).languageCode;
     unawaited(
-      LocalNotificationSchedulerService.instance.rescheduleAll(
-        database: database,
-        onboarding: onboarding,
-        locale: locale,
-      ),
+      _insertBrewingDataFuture.then((_) {
+        LocalNotificationSchedulerService.instance.rescheduleAll(
+          database: database,
+          onboarding: onboarding,
+          locale: locale,
+        );
+      }, onError: (Object _, StackTrace _) {
+        LocalNotificationSchedulerService.instance.rescheduleAll(
+          database: database,
+          onboarding: onboarding,
+          locale: locale,
+        );
+      }),
     );
   }
 
@@ -1033,6 +1047,13 @@ class _FinishScreenState extends State<FinishScreen> {
   }
 
   Future<bool> _requestSystemPermissionAndUpdateSettings() async {
+    // Context-bound values for the post-grant reschedule below, captured
+    // before the first await (this method is only invoked while mounted —
+    // its call site guards with `if (mounted)`) so nothing after the
+    // permission round trips touches context again.
+    final onboarding = Provider.of<OnboardingService>(context, listen: false);
+    final database = Provider.of<AppDatabase>(context, listen: false);
+    final locale = Localizations.localeOf(context).languageCode;
     try {
       AppLogger.debug(
         'Requesting system notification permissions from finish screen',
@@ -1048,6 +1069,29 @@ class _FinishScreenState extends State<FinishScreen> {
         );
         AppLogger.debug(
           'Notification permissions granted and master toggle updated',
+        );
+        // The master toggle was still off when _recordBrewForOnboarding ran,
+        // so its rescheduleAll early-returned and no reminders are armed.
+        // Re-run it now that the toggle is on — again after the local insert
+        // settles (see _recordBrewForOnboarding). Deliberately not gated on
+        // `mounted`: every value it needs was captured above, so arming
+        // reminders is still correct if the user has moved on from this
+        // screen. rescheduleAll try/catches its whole body and never
+        // throws, so it cannot flip the reported grant result below.
+        unawaited(
+          _insertBrewingDataFuture.then((_) {
+            LocalNotificationSchedulerService.instance.rescheduleAll(
+              database: database,
+              onboarding: onboarding,
+              locale: locale,
+            );
+          }, onError: (Object _, StackTrace _) {
+            LocalNotificationSchedulerService.instance.rescheduleAll(
+              database: database,
+              onboarding: onboarding,
+              locale: locale,
+            );
+          }),
         );
       } else {
         AppLogger.debug('Notification permissions denied by user');
