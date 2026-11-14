@@ -689,6 +689,19 @@ void main() {
       await NotificationSettingsService.instance.init();
     }
 
+    // Mirror of [enableFreshness]: stores the toggle explicitly OFF and
+    // re-inits the settings service. "Never set" no longer means disabled
+    // once NotificationSettingsService's default for KEY_BEAN_FRESHNESS
+    // flips to on, so the disabled-path tests must write the key themselves.
+    Future<void> disableFreshness(
+        [Map<String, Object> extra = const {}]) async {
+      SharedPreferences.setMockInitialValues({
+        KEY_BEAN_FRESHNESS: false,
+        ...extra,
+      });
+      await NotificationSettingsService.instance.init();
+    }
+
     // The currently armed alert record, or null when nothing is armed.
     Future<Map<String, dynamic>?> pendingRecord() async {
       final p = await SharedPreferences.getInstance();
@@ -728,7 +741,8 @@ void main() {
       );
     }
 
-    test('does not schedule when setting is disabled (default off)', () async {
+    test('does not schedule when setting is disabled', () async {
+      await disableFreshness();
       await db.coffeeBeansDao.insertCoffeeBeans(
         _makeBean(roastDate: DateTime.now().subtract(const Duration(days: 3))),
       );
@@ -1127,7 +1141,7 @@ void main() {
     });
 
     test('a disabled toggle clears an armed alert', () async {
-      SharedPreferences.setMockInitialValues({
+      await disableFreshness({
         pendingKey: jsonEncode({
           'u': 'bean-1',
           't': 'rest',
@@ -1136,7 +1150,6 @@ void main() {
               .millisecondsSinceEpoch,
         }),
       });
-      await NotificationSettingsService.instance.init();
       await db.coffeeBeansDao.insertCoffeeBeans(
         _makeBean(
           uuid: 'bean-1',
@@ -1150,8 +1163,8 @@ void main() {
       expect(presumedDeliveredFor('bean_freshness'), isEmpty);
     });
 
-    test('disabled setting (default off) emits no bean_freshness event',
-        () async {
+    test('disabled setting emits no bean_freshness event', () async {
+      await disableFreshness();
       await db.coffeeBeansDao.insertCoffeeBeans(
         _makeBean(
             roastDate: DateTime.now().subtract(const Duration(days: 3))),

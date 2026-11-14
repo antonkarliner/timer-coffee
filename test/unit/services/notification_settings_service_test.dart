@@ -77,16 +77,16 @@ void main() {
     });
 
     test(
-        'setBeanFreshnessEnabled(true) emits setting=bean_freshness enabled=true',
-        () async {
+        'setBeanFreshnessEnabled(false) emits setting=bean_freshness enabled=false '
+        '(default is true, so false is the flip-away value)', () async {
       await NotificationSettingsService.instance
-          .setBeanFreshnessEnabled(true);
+          .setBeanFreshnessEnabled(false);
 
       final event = _toggledEvent(
           AnalyticsService.instance.bufferedEventsForTesting);
       final properties = event['properties'] as Map<String, dynamic>;
       expect(properties['setting'], 'bean_freshness');
-      expect(properties['enabled'], isTrue);
+      expect(properties['enabled'], isFalse);
       expect(properties['source'], 'user');
     });
 
@@ -162,7 +162,7 @@ void main() {
     });
 
     test("defaults to source: 'user' when omitted", () async {
-      await NotificationSettingsService.instance.setBeanFreshnessEnabled(true);
+      await NotificationSettingsService.instance.setBeanFreshnessEnabled(false);
 
       final event = _toggledEvent(
           AnalyticsService.instance.bufferedEventsForTesting);
@@ -190,6 +190,77 @@ void main() {
       final properties = event['properties'] as Map<String, dynamic>;
       expect(properties['setting'], 'bean_review_nudge');
       expect(properties['enabled'], isFalse);
+    });
+  });
+
+  group('bean_freshness default-on', () {
+    test('getter and stream read true with empty prefs', () async {
+      expect(prefs.getBool(KEY_BEAN_FRESHNESS), isNull);
+      expect(
+          await NotificationSettingsService.instance.isBeanFreshnessEnabled(),
+          isTrue);
+
+      final emitted = <bool>[];
+      final sub = NotificationSettingsService.instance.beanFreshnessChanges
+          .listen(emitted.add);
+      await pumpEventQueue();
+      await sub.cancel();
+
+      expect(emitted.single, isTrue);
+    });
+
+    test('a stored false stays false (getter and stream)', () async {
+      await reinit({KEY_BEAN_FRESHNESS: false});
+
+      expect(
+          await NotificationSettingsService.instance.isBeanFreshnessEnabled(),
+          isFalse);
+
+      final emitted = <bool>[];
+      final sub = NotificationSettingsService.instance.beanFreshnessChanges
+          .listen(emitted.add);
+      await pumpEventQueue();
+      await sub.cancel();
+
+      expect(emitted.single, isFalse);
+    });
+
+    test('a stored true stays true (getter and stream)', () async {
+      await reinit({KEY_BEAN_FRESHNESS: true});
+
+      expect(
+          await NotificationSettingsService.instance.isBeanFreshnessEnabled(),
+          isTrue);
+
+      final emitted = <bool>[];
+      final sub = NotificationSettingsService.instance.beanFreshnessChanges
+          .listen(emitted.add);
+      await pumpEventQueue();
+      await sub.cancel();
+
+      expect(emitted.single, isTrue);
+    });
+
+    test(
+        'first toggle-off from the unset state emits exactly one toggled event with enabled=false',
+        () async {
+      await NotificationSettingsService.instance
+          .setBeanFreshnessEnabled(false);
+
+      final event = _toggledEvent(
+          AnalyticsService.instance.bufferedEventsForTesting);
+      final properties = event['properties'] as Map<String, dynamic>;
+      expect(properties['setting'], 'bean_freshness');
+      expect(properties['enabled'], isFalse);
+      expect(properties['source'], 'user');
+    });
+
+    test('toggle-on from the unset state emits nothing (already the default)',
+        () async {
+      await NotificationSettingsService.instance
+          .setBeanFreshnessEnabled(true);
+
+      expect(AnalyticsService.instance.bufferedEventsForTesting, isEmpty);
     });
   });
 
@@ -229,13 +300,14 @@ void main() {
       _toggledEvent(AnalyticsService.instance.bufferedEventsForTesting);
     });
 
-    test('setBeanFreshnessEnabled(true) writes to KEY_BEAN_FRESHNESS and emits',
+    test(
+        'setBeanFreshnessEnabled(true) on a fresh install (no-op) still writes true to prefs',
         () async {
       await NotificationSettingsService.instance
           .setBeanFreshnessEnabled(true);
 
+      expect(AnalyticsService.instance.bufferedEventsForTesting, isEmpty);
       expect(prefs.getBool(KEY_BEAN_FRESHNESS), isTrue);
-      _toggledEvent(AnalyticsService.instance.bufferedEventsForTesting);
     });
   });
 

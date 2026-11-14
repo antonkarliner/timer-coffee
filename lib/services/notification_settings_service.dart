@@ -30,7 +30,7 @@ class NotificationSettingsService {
   final BehaviorSubject<bool> _weeklySubject =
       BehaviorSubject<bool>.seeded(false);
   final BehaviorSubject<bool> _beanFreshnessSubject =
-      BehaviorSubject<bool>.seeded(false);
+      BehaviorSubject<bool>.seeded(true);
   final BehaviorSubject<bool> _beanReviewNudgeSubject =
       BehaviorSubject<bool>.seeded(true);
 
@@ -53,7 +53,7 @@ class NotificationSettingsService {
       minute: _prefs!.getInt(KEY_MORNING_REMINDER_MINUTE) ?? 30,
     ));
     _weeklySubject.add(_prefs!.getBool(KEY_WEEKLY_SUMMARY) ?? false);
-    _beanFreshnessSubject.add(_prefs!.getBool(KEY_BEAN_FRESHNESS) ?? false);
+    _beanFreshnessSubject.add(_prefs!.getBool(KEY_BEAN_FRESHNESS) ?? true);
     _beanReviewNudgeSubject
         .add(_prefs!.getBool(KEY_BEAN_REVIEW_NUDGE) ?? true);
   }
@@ -125,7 +125,7 @@ class NotificationSettingsService {
 
   Future<bool> isBeanFreshnessEnabled() async {
     await _ensureInitialized();
-    return _prefs!.getBool(KEY_BEAN_FRESHNESS) ?? false;
+    return _prefs!.getBool(KEY_BEAN_FRESHNESS) ?? true;
   }
 
   Future<void> setBeanFreshnessEnabled(
@@ -133,7 +133,7 @@ class NotificationSettingsService {
     String source = 'user',
   }) async {
     await _ensureInitialized();
-    final previous = _prefs!.getBool(KEY_BEAN_FRESHNESS) ?? false;
+    final previous = _prefs!.getBool(KEY_BEAN_FRESHNESS) ?? true;
     await _prefs!.setBool(KEY_BEAN_FRESHNESS, enabled);
     _beanFreshnessSubject.add(enabled);
     AppLogger.debug('Bean freshness setting updated: $enabled');
