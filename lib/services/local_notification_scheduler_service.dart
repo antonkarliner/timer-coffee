@@ -89,9 +89,13 @@ class LocalNotificationSchedulerService {
   // the same fire time emit `notification_scheduled` only once.
   static const _keySecondBrewLastTrackedMs =
       'notif_second_brew_last_tracked_ms';
-  // Prevents brew inactivity reminders from firing more than once per 14 days,
-  // so casual brewers with ~weekly cadence aren't repeatedly nagged.
-  static const _keyBrewReminderLastScheduled =
+  // Re-arm pending reminders after cancellation; cooldown starts only once a
+  // persisted fire time has elapsed (presumed delivered).
+  static const _keyBrewReminderPending = 'notif_brew_reminder_pending_v1';
+  static const _keyBrewReminderLastFiredMs = 'notif_brew_reminder_last_fired_ms';
+  static const _keyBrewReminderLastFiredAnchorMs =
+      'notif_brew_reminder_last_fired_anchor_ms';
+  static const _legacyKeyBrewReminderLastScheduled =
       'notif_brew_reminder_last_scheduled';
   static const _keyBeanReviewBacklogScanned =
       'notif_bean_review_backlog_scanned_v1';
@@ -275,30 +279,69 @@ class LocalNotificationSchedulerService {
     AppLocalizations l10n,
     SharedPreferences prefs,
   ) async {
-    final allStats = await dao.fetchAllStats();
-    if (allStats.isEmpty) return;
+    final now = DateTime.now();
+    if (prefs.containsKey(_legacyKeyBrewReminderLastScheduled)) {
+      await prefs.remove(_legacyKeyBrewReminderLastScheduled);
+    }
 
-    // 14-day cooldown — prevents casual brewers with a ~weekly cadence from
-    // being nagged after every brew gap.
-    final lastMs = prefs.getInt(_keyBrewReminderLastScheduled);
-    if (lastMs != null) {
-      final daysSinceLast = DateTime.now()
-          .difference(DateTime.fromMillisecondsSinceEpoch(lastMs))
-          .inDays;
-      if (daysSinceLast < 14) return;
+    var lastFiredMs = prefs.getInt(_keyBrewReminderLastFiredMs);
+    var lastFiredAnchorMs = prefs.getInt(_keyBrewReminderLastFiredAnchorMs);
+    int? deliveredMs;
+    int? deliveredAnchorMs;
+    final raw = prefs.getString(_keyBrewReminderPending);
+    if (raw != null) {
+      try {
+        final pending = jsonDecode(raw);
+        if (pending is Map &&
+            pending['a'] is int &&
+            (pending['g'] == null || pending['g'] is int) &&
+            (pending['e'] == null || pending['e'] is int)) {
+          for (final fireMs in [pending['g'], pending['e']]) {
+            if (fireMs is int &&
+                fireMs <= now.millisecondsSinceEpoch &&
+                (deliveredMs == null || fireMs > deliveredMs)) {
+              deliveredMs = fireMs;
+              deliveredAnchorMs = pending['a'] as int;
+            }
+          }
+        }
+      } catch (_) {
+        // Malformed pending state cannot establish a presumed delivery.
+      }
+    }
+    if (deliveredMs != null &&
+        (lastFiredMs == null || deliveredMs > lastFiredMs)) {
+      lastFiredMs = deliveredMs;
+      lastFiredAnchorMs = deliveredAnchorMs;
+      await prefs.setInt(_keyBrewReminderLastFiredMs, deliveredMs);
+      await prefs.setInt(_keyBrewReminderLastFiredAnchorMs, deliveredAnchorMs!);
+    }
+
+    final allStats = await dao.fetchAllStats();
+    if (allStats.isEmpty) {
+      await prefs.remove(_keyBrewReminderPending);
+      return;
     }
 
     // allStats is ordered by createdAt DESC — first item is most recent.
     final lastBrew = allStats.first.createdAt;
+    final anchorMs = lastBrew.millisecondsSinceEpoch;
     final gentle = _atTime(lastBrew.add(const Duration(days: 5)), 10, 0);
     final escalation = _atTime(lastBrew.add(const Duration(days: 10)), 10, 0);
-
-    final now = DateTime.now();
-    bool didSchedule = false;
+    final cooldownUntilMs = lastFiredMs == null
+        ? null
+        : lastFiredMs + const Duration(days: 14).inMilliseconds;
+    bool canArm(DateTime fireTime) =>
+        fireTime.isAfter(now) &&
+        (cooldownUntilMs == null ||
+            fireTime.millisecondsSinceEpoch >= cooldownUntilMs ||
+            lastFiredAnchorMs == anchorMs);
+    int? gentleMs;
+    int? escalationMs;
 
     final rng = Random();
 
-    if (gentle.isAfter(now)) {
+    if (canArm(gentle)) {
       final reminderTitles = [
         l10n.notifBrewReminderTitle,
         l10n.notifBrewReminderTitle2,
@@ -317,9 +360,9 @@ class LocalNotificationSchedulerService {
         at: gentle,
         payload: 'notif:brew_reminder',
       );
-      didSchedule = true;
+      gentleMs = gentle.millisecondsSinceEpoch;
     }
-    if (escalation.isAfter(now)) {
+    if (canArm(escalation)) {
       final escalationTitles = [
         l10n.notifBrewEscalationTitle,
         l10n.notifBrewEscalationTitle2,
@@ -338,14 +381,16 @@ class LocalNotificationSchedulerService {
         at: escalation,
         payload: 'notif:brew_escalation',
       );
-      didSchedule = true;
+      escalationMs = escalation.millisecondsSinceEpoch;
     }
 
-    // Only stamp the cooldown when something was actually scheduled, so a
-    // reschedule where both dates are already past doesn't reset the clock.
-    if (didSchedule) {
-      await prefs.setInt(
-          _keyBrewReminderLastScheduled, now.millisecondsSinceEpoch);
+    if (gentleMs == null && escalationMs == null) {
+      await prefs.remove(_keyBrewReminderPending);
+    } else {
+      await prefs.setString(
+        _keyBrewReminderPending,
+        jsonEncode({'a': anchorMs, 'g': gentleMs, 'e': escalationMs}),
+      );
     }
   }
 

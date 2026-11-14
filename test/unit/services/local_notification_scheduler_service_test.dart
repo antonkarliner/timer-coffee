@@ -121,6 +121,221 @@ void main() {
   // ─────────────────────────────────────────────────────────────────────────
 
   group('brew reminders', () {
+    const pendingKey = 'notif_brew_reminder_pending_v1';
+    const lastFiredKey = 'notif_brew_reminder_last_fired_ms';
+    const lastFiredAnchorKey = 'notif_brew_reminder_last_fired_anchor_ms';
+    const legacyKey = 'notif_brew_reminder_last_scheduled';
+
+    // Drift persists DateTimes at whole-second precision; keep seeded pending
+    // anchors identical to the values fetched back from the database.
+    DateTime brewNow() => DateTime.fromMillisecondsSinceEpoch(
+        DateTime.now().millisecondsSinceEpoch ~/ 1000 * 1000);
+
+    DateTime fireAt(DateTime anchor, int days) {
+      final day = anchor.add(Duration(days: days));
+      return DateTime(day.year, day.month, day.day, 10);
+    }
+
+    Map<String, dynamic> pendingFor(
+      DateTime anchor, {
+      bool gentle = true,
+      bool escalation = true,
+    }) => {
+      'a': anchor.millisecondsSinceEpoch,
+      'g': gentle ? fireAt(anchor, 5).millisecondsSinceEpoch : null,
+      'e': escalation ? fireAt(anchor, 10).millisecondsSinceEpoch : null,
+    };
+
+    Map<String, dynamic> readPending() =>
+        jsonDecode(prefs.getString(pendingKey)!) as Map<String, dynamic>;
+
+    test('re-arms both reminders on consecutive reschedules', () async {
+      final anchor = brewNow().subtract(const Duration(days: 3));
+      await db.userStatsDao.insertUserStat(_makeStat(createdAt: anchor));
+      for (var run = 0; run < 2; run++) {
+        // _cancelAll bypasses most platform cancellations in test mode.
+        // Clear captured calls so a previous run cannot hide missing re-arming.
+        LocalNotificationSchedulerService.testScheduled.clear();
+        await runScheduler();
+        expect(scheduled(1001), isTrue);
+        expect(scheduled(1002), isTrue);
+        expect(readPending(), pendingFor(anchor));
+        expect(prefs.containsKey(lastFiredKey), isFalse);
+        expect(prefs.containsKey(lastFiredAnchorKey), isFalse);
+      }
+    });
+
+    test('removes recent legacy stamp without blocking reminders', () async {
+      await prefs.setInt(legacyKey, brewNow().millisecondsSinceEpoch);
+      final anchor = brewNow().subtract(const Duration(days: 3));
+      await db.userStatsDao.insertUserStat(_makeStat(createdAt: anchor));
+      await runScheduler();
+
+      expect(scheduled(1001), isTrue);
+      expect(scheduled(1002), isTrue);
+      expect(readPending(), pendingFor(anchor));
+      expect(prefs.containsKey(legacyKey), isFalse);
+    });
+
+    test(
+      'records elapsed gentle and re-arms escalation for the same anchor',
+      () async {
+        final anchor = brewNow().subtract(const Duration(days: 7));
+        await db.userStatsDao.insertUserStat(_makeStat(createdAt: anchor));
+        await prefs.setString(pendingKey, jsonEncode(pendingFor(anchor)));
+        await runScheduler();
+
+        expect(scheduled(1001), isFalse);
+        expect(scheduled(1002), isTrue);
+        expect(
+          prefs.getInt(lastFiredKey),
+          fireAt(anchor, 5).millisecondsSinceEpoch,
+        );
+        expect(prefs.getInt(lastFiredAnchorKey), anchor.millisecondsSinceEpoch);
+        expect(readPending(), pendingFor(anchor, gentle: false));
+      },
+    );
+
+    test(
+      'old anchor delivery blocks both new reminders inside cooldown',
+      () async {
+        final now = brewNow();
+        final oldAnchor = now.subtract(const Duration(days: 7));
+        final anchor = now.subtract(const Duration(days: 3));
+        await prefs.setString(
+          pendingKey,
+          jsonEncode(pendingFor(oldAnchor, escalation: false)),
+        );
+        await db.userStatsDao.insertUserStat(_makeStat(createdAt: anchor));
+        await runScheduler();
+
+        expect(scheduled(1001), isFalse);
+        expect(scheduled(1002), isFalse);
+        expect(
+          prefs.getInt(lastFiredKey),
+          fireAt(oldAnchor, 5).millisecondsSinceEpoch,
+        );
+        expect(
+          prefs.getInt(lastFiredAnchorKey),
+          oldAnchor.millisecondsSinceEpoch,
+        );
+        expect(prefs.containsKey(pendingKey), isFalse);
+      },
+    );
+
+    test('evaluates cooldown separately for gentle and escalation', () async {
+      final now = brewNow();
+      final oldAnchor = now.subtract(const Duration(days: 15));
+      final anchor = now.subtract(const Duration(days: 3));
+      await prefs.setString(
+        pendingKey,
+        jsonEncode(pendingFor(oldAnchor, escalation: false)),
+      );
+      await db.userStatsDao.insertUserStat(_makeStat(createdAt: anchor));
+      await runScheduler();
+
+      expect(scheduled(1001), isFalse);
+      expect(scheduled(1002), isTrue);
+      expect(readPending(), pendingFor(anchor, gentle: false));
+    });
+
+    test('allows a gentle fire time exactly at the 14-day cooldown boundary',
+        () async {
+      final anchor = brewNow().subtract(const Duration(days: 3));
+      final lastFired = fireAt(anchor, 5).subtract(const Duration(days: 14));
+      await prefs.setInt(lastFiredKey, lastFired.millisecondsSinceEpoch);
+      await prefs.setInt(lastFiredAnchorKey,
+          anchor.subtract(const Duration(days: 20)).millisecondsSinceEpoch);
+      await db.userStatsDao.insertUserStat(_makeStat(createdAt: anchor));
+      await runScheduler();
+
+      expect(scheduled(1001), isTrue);
+      expect(scheduled(1002), isTrue);
+      expect(readPending(), pendingFor(anchor));
+    });
+
+    test('arms both when last delivery was more than 14 days ago', () async {
+      final now = brewNow();
+      final anchor = now.subtract(const Duration(days: 3));
+      await prefs.setInt(
+        lastFiredKey,
+        now.subtract(const Duration(days: 20)).millisecondsSinceEpoch,
+      );
+      await prefs.setInt(
+        lastFiredAnchorKey,
+        now.subtract(const Duration(days: 25)).millisecondsSinceEpoch,
+      );
+      await db.userStatsDao.insertUserStat(_makeStat(createdAt: anchor));
+      await runScheduler();
+
+      expect(scheduled(1001), isTrue);
+      expect(scheduled(1002), isTrue);
+      expect(readPending(), pendingFor(anchor));
+    });
+
+    test(
+      'new brew replaces undelivered reminders without starting cooldown',
+      () async {
+        final now = brewNow();
+        final dayZero = now.subtract(const Duration(days: 3));
+        await db.userStatsDao.insertUserStat(
+          _makeStat(uuid: 'day-0', createdAt: dayZero),
+        );
+        await runScheduler();
+        expect(readPending(), pendingFor(dayZero));
+        expect(scheduled(1001), isTrue);
+        expect(scheduled(1002), isTrue);
+
+        await db.userStatsDao.insertUserStat(
+          _makeStat(uuid: 'day-3', createdAt: now),
+        );
+        LocalNotificationSchedulerService.testScheduled.clear();
+        await runScheduler();
+
+        expect(scheduled(1001), isTrue);
+        expect(scheduled(1002), isTrue);
+        expect(readPending(), pendingFor(now));
+        expect(prefs.containsKey(lastFiredKey), isFalse);
+      },
+    );
+
+    test(
+      'no brews clears pending after recording the latest elapsed delivery',
+      () async {
+        final anchor = brewNow().subtract(const Duration(days: 12));
+        await prefs.setString(pendingKey, jsonEncode(pendingFor(anchor)));
+        await runScheduler();
+
+        expect(scheduled(1001), isFalse);
+        expect(scheduled(1002), isFalse);
+        expect(prefs.containsKey(pendingKey), isFalse);
+        expect(
+          prefs.getInt(lastFiredKey),
+          fireAt(anchor, 10).millisecondsSinceEpoch,
+        );
+        expect(prefs.getInt(lastFiredAnchorKey), anchor.millisecondsSinceEpoch);
+      },
+    );
+
+    for (final malformed in [
+      '{broken',
+      '[]',
+      '{"a":"invalid","g":0}',
+      '{"a":1,"g":0,"e":"invalid"}',
+    ]) {
+      test('ignores malformed pending record: $malformed', () async {
+        final anchor = brewNow().subtract(const Duration(days: 3));
+        await prefs.setString(pendingKey, malformed);
+        await db.userStatsDao.insertUserStat(_makeStat(createdAt: anchor));
+        await expectLater(runScheduler(), completes);
+
+        expect(scheduled(1001), isTrue);
+        expect(scheduled(1002), isTrue);
+        expect(readPending(), pendingFor(anchor));
+        expect(prefs.containsKey(lastFiredKey), isFalse);
+      });
+    }
+
     test('does not schedule when no stats exist', () async {
       await runScheduler();
 
