@@ -174,6 +174,19 @@ class NotificationAskService {
     }
   }
 
+  /// Whether the OS has denied notification permission, as far as it can be
+  /// known. Reuses the same status rule as [_defaultOsStatus]: iOS reports
+  /// `denied` reliably, Android conflates a denial with "never asked" and is
+  /// therefore treated as not denied here — our terminal marker
+  /// (`notif_perm_terminal == 'denied'`, written by
+  /// [requestSystemPermissionAndEnable]) remembers known answers. Used by
+  /// the startup sync that hides the Coffee Journey "turn on brew updates"
+  /// milestone on denied devices.
+  Future<bool> isOsDenied() async {
+    if (_prefs.getString(_terminalKey) == AskOutcome.denied.name) return true;
+    return await _osStatus() == OsPermissionStatus.denied;
+  }
+
   Future<int> askCount() async => (await _readAndMigrate()).length;
 
   Future<List<_AskEntry>> _readAndMigrate() async {

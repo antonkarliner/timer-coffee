@@ -35,7 +35,9 @@ import 'widgets/global_snow_overlay.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:coffee_timer/services/connection_analytics_service.dart';
+import 'package:coffee_timer/services/notification_ask_service.dart';
 import 'package:coffee_timer/services/notification_service.dart';
+import 'package:coffee_timer/services/notification_settings_service.dart';
 import 'package:coffee_timer/services/exact_alarm_service.dart';
 import 'package:coffee_timer/services/live_activity_service.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
@@ -268,6 +270,59 @@ List<LaunchMode> _getLaunchModesForPlatform() {
   } else {
     // Desktop and other platforms
     return const [LaunchMode.externalApplication];
+  }
+}
+
+/// Coffee Journey "turn on brew updates" milestone (2026-11-15).
+///
+/// First a one-shot silent sync: users whose notifications are already fully
+/// on (master toggle AND OS permission) get the milestone backfilled without
+/// a `journey_milestone_completed` event — the same policy as
+/// [OnboardingService.reconcileState]'s backfills — and devices whose OS
+/// permission is denied get the milestone row hidden. Never blocks startup
+/// and never touches `_journeyFullyDone`.
+///
+/// THEN a subscription for the app's lifetime: whenever the master toggle is
+/// turned on anywhere (finish-screen dialog, brew-later sheet, Settings), the
+/// milestone completes with its analytics event. The sync deliberately runs
+/// BEFORE subscribing: `masterChanges` is a BehaviorSubject, which replays
+/// its current value to every new listener, so without the ordering the
+/// replay would fire a duplicate completion for users already on. With it,
+/// the replay lands on an already-completed milestone whose guard makes it a
+/// no-op.
+Future<void> _syncNotificationMilestone(
+  OnboardingService onboardingService,
+) async {
+  try {
+    // All three calls are web-safe: isMasterEnabled reads prefs only, and the
+    // permission services short-circuit to "granted" on web (where there is
+    // no OS permission and the card never shows the milestone row).
+    final notificationsOn =
+        await NotificationSettingsService.instance.isMasterEnabled() &&
+            await NotificationService
+                .instance.permissions.hasNotificationPermission;
+    final osDenied = await NotificationAskService(
+      prefs: await SharedPreferences.getInstance(),
+    ).isOsDenied();
+    await onboardingService.syncNotificationMilestone(
+      notificationsOn: notificationsOn,
+      osDenied: osDenied,
+    );
+  } catch (e) {
+    AppLogger.error(
+      'Failed to sync notifications journey milestone',
+      errorObject: e,
+    );
+  }
+  try {
+    NotificationSettingsService.instance.masterChanges.listen((on) {
+      if (on) onboardingService.completeMilestoneNotifications();
+    });
+  } catch (e) {
+    AppLogger.error(
+      'Failed to listen for master notification toggle changes',
+      errorObject: e,
+    );
   }
 }
 
@@ -618,6 +673,13 @@ void main() async {
         previousAppVersion: previousAppVersionAtLaunch,
       );
   await onboardingService.reconcileState(onboardingSnapshot);
+
+  // Coffee Journey "turn on brew updates" milestone: reconcile once at
+  // startup, then follow the master toggle for the app's lifetime (see
+  // _syncNotificationMilestone). NotificationService is initialized above
+  // (non-web) and NotificationSettingsService lazily initializes itself, so
+  // both are ready here.
+  unawaited(_syncNotificationMilestone(onboardingService));
 
   AppLogger.debug('Supported locales (effective): $effectiveSupportedLocales');
   AppLogger.debug('Initial locale chosen: $initialLocale');

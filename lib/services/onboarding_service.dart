@@ -83,11 +83,15 @@ bool shouldRedirectToOnboarding(OnboardingService onboardingService) =>
 /// Tracks onboarding state: welcome screen completion, first-brew flag,
 /// and Coffee Journey milestone progress.
 class OnboardingService extends ChangeNotifier {
-  OnboardingService(this._prefs) {
+  OnboardingService(this._prefs, {bool isWeb = kIsWeb}) : _isWeb = isWeb {
     _load();
   }
 
   final SharedPreferences _prefs;
+
+  /// Web has no OS notification permission to ask for, so the "turn on brew
+  /// updates" milestone never exists there.
+  final bool _isWeb;
 
   // SharedPreferences keys
   static const _keyOnboardingComplete = 'onboarding_complete';
@@ -101,6 +105,10 @@ class OnboardingService extends ChangeNotifier {
   static const _keyMilestoneFavorite = 'onboarding_milestone_favorite';
   static const _keyMilestoneStats = 'onboarding_milestone_stats';
   static const _keyMilestonePulse = 'onboarding_milestone_pulse';
+  static const _keyMilestoneNotifications =
+      'onboarding_milestone_notifications';
+  static const _keyMilestoneNotificationsHidden =
+      'onboarding_milestone_notifications_hidden';
   static const _keyFirstBrewRecipeId = 'onboarding_first_brew_recipe_id';
   static const _legacyKeyFirstBrewMethodId = 'onboarding_first_brew_method_id';
   static const String onboardingRolloutVersion = '3.6.3';
@@ -116,6 +124,8 @@ class OnboardingService extends ChangeNotifier {
   bool _milestoneFavorite = false;
   bool _milestoneStats = false;
   bool _milestonePulse = false;
+  bool _milestoneNotifications = false;
+  bool _notificationsMilestoneHidden = false;
   String? _firstBrewRecipeId;
 
   // Public getters
@@ -131,6 +141,13 @@ class OnboardingService extends ChangeNotifier {
   bool get milestoneFavorite => _milestoneFavorite;
   bool get milestoneStats => _milestoneStats;
   bool get milestonePulse => _milestonePulse;
+  bool get milestoneNotifications => _milestoneNotifications;
+
+  /// Whether the "Turn on brew updates" milestone row is hidden. Hidden
+  /// means the row is not shown and does not count toward the total. NOT
+  /// sticky — recomputed by [syncNotificationMilestone]; a completed
+  /// milestone always counts, done wins over hidden.
+  bool get notificationsMilestoneHidden => _notificationsMilestoneHidden;
   @visibleForTesting
   String? get firstBrewRecipeId => _firstBrewRecipeId;
 
@@ -155,7 +172,8 @@ class OnboardingService extends ChangeNotifier {
       _milestoneAddBeans &&
       _milestoneFavorite &&
       _milestoneStats &&
-      _milestonePulse;
+      _milestonePulse &&
+      (_milestoneNotifications || !notificationsMilestoneVisible);
 
   int get completedMilestoneCount {
     int count = 0;
@@ -165,10 +183,21 @@ class OnboardingService extends ChangeNotifier {
     if (_milestoneFavorite) count++;
     if (_milestoneStats) count++;
     if (_milestonePulse) count++;
+    if (_milestoneNotifications && notificationsMilestoneVisible) count++;
     return count;
   }
 
-  static const int totalMilestones = 6;
+  /// Whether the journey card shows the "turn on brew updates" row. Never on
+  /// web; otherwise hidden only while the OS has denied permission and the
+  /// milestone is not done (done wins over hidden). The single source for the
+  /// card's row, [totalMilestones], [completedMilestoneCount] and
+  /// [allMilestonesComplete], so the four can never disagree.
+  bool get notificationsMilestoneVisible =>
+      !_isWeb && (_milestoneNotifications || !_notificationsMilestoneHidden);
+
+  /// Total milestone rows the journey card shows: 7, or 6 while the
+  /// notifications row is not visible.
+  int get totalMilestones => 6 + (notificationsMilestoneVisible ? 1 : 0);
 
   static String normalizedRoutePath(Uri uri) {
     final path = uri.path.trim();
@@ -204,6 +233,10 @@ class OnboardingService extends ChangeNotifier {
     _milestoneFavorite = _prefs.getBool(_keyMilestoneFavorite) ?? false;
     _milestoneStats = _prefs.getBool(_keyMilestoneStats) ?? false;
     _milestonePulse = _prefs.getBool(_keyMilestonePulse) ?? false;
+    _milestoneNotifications =
+        _prefs.getBool(_keyMilestoneNotifications) ?? false;
+    _notificationsMilestoneHidden =
+        _prefs.getBool(_keyMilestoneNotificationsHidden) ?? false;
     _firstBrewRecipeId = _prefs.getString(_keyFirstBrewRecipeId);
   }
 
@@ -366,6 +399,55 @@ class OnboardingService extends ChangeNotifier {
     }
   }
 
+  /// Completes the notifications milestone. Called from the card's own tap
+  /// and from the master-toggle listener in main.dart (a grant anywhere in
+  /// the app). Once the journey is finished, or on web where the row never
+  /// exists, it still records the state but emits no event — the milestone
+  /// was not on screen, so counting it as a journey completion would be noise.
+  Future<void> completeMilestoneNotifications() async {
+    if (!_milestoneNotifications) {
+      _milestoneNotifications = true;
+      await _prefs.setBool(_keyMilestoneNotifications, true);
+      if (!_journeyFullyDone && !_isWeb) {
+        AnalyticsService.instance.track(
+          'journey_milestone_completed',
+          properties: {'milestone': 'notifications'},
+        );
+      }
+      notifyListeners();
+    }
+  }
+
+  /// Startup reconcile for the notifications milestone. Marks the milestone
+  /// done **silently** (no analytics event — like [reconcileState]'s
+  /// backfills) when notifications are already on, and recomputes whether
+  /// the row is hidden (OS permission denied and not done — not sticky).
+  /// [notifyListeners] fires only when something changed. Never touches
+  /// `_journeyFullyDone`.
+  Future<void> syncNotificationMilestone({
+    required bool notificationsOn,
+    required bool osDenied,
+  }) async {
+    bool changed = false;
+
+    if (notificationsOn && !_milestoneNotifications) {
+      _milestoneNotifications = true;
+      await _prefs.setBool(_keyMilestoneNotifications, true);
+      changed = true;
+    }
+
+    final hidden = osDenied && !_milestoneNotifications;
+    if (_notificationsMilestoneHidden != hidden) {
+      _notificationsMilestoneHidden = hidden;
+      await _prefs.setBool(_keyMilestoneNotificationsHidden, hidden);
+      changed = true;
+    }
+
+    if (changed) {
+      notifyListeners();
+    }
+  }
+
   bool get _hasPersistedOnboardingState => [
     _keyOnboardingComplete,
     _keyFirstBrewDone,
@@ -378,6 +460,8 @@ class OnboardingService extends ChangeNotifier {
     _keyMilestoneFavorite,
     _keyMilestoneStats,
     _keyMilestonePulse,
+    _keyMilestoneNotifications,
+    _keyMilestoneNotificationsHidden,
     _keyFirstBrewRecipeId,
     _legacyKeyFirstBrewMethodId,
   ].any(_prefs.containsKey);

@@ -1522,6 +1522,10 @@
   "coffeeJourneyMilestoneFavorite": "Favorite a recipe",
   "coffeeJourneyMilestoneStats": "Check your brew stats",
   "coffeeJourneyMilestonePulse": "See how the world brews with you",
+  "coffeeJourneyMilestoneNotifications": "Turn on brew updates",
+  "@coffeeJourneyMilestoneNotifications": {
+    "description": "Coffee Journey card milestone. Tapping it asks for notification permission. 'Brew updates' = reminders about brewing and beans. Short imperative, same style as the other milestones."
+  },
   "coffeeJourneyCompleted": "You've completed your coffee journey!",
   "coffeeJourneyDoneButton": "Done",
   "coffeeJourneyDismissHint": "You can always check your progress in the More tab.",

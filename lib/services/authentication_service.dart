@@ -720,7 +720,7 @@ class AuthenticationService {
     AppLogger.debug(
       'Returning user milestones reconciled: '
       '${onboardingService.completedMilestoneCount}/'
-      '${OnboardingService.totalMilestones}',
+      '${onboardingService.totalMilestones}',
     );
   }
 

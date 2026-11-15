@@ -1,10 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../app_router.gr.dart';
 import '../database/database.dart';
 import '../models/recipe_model.dart';
 import '../services/analytics_service.dart';
+import '../services/local_notification_scheduler_service.dart';
+import '../services/notification_ask_service.dart';
 import '../services/onboarding_service.dart';
 import '../theme/design_tokens.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
@@ -21,9 +26,14 @@ class CoffeeJourneyCard extends StatelessWidget {
   const CoffeeJourneyCard({
     super.key,
     this.location = JourneyCardLocation.home,
+    this.requestNotificationPermission,
   });
 
   final JourneyCardLocation location;
+
+  /// Test seam forwarded to the notifications milestone tile; defaults to
+  /// the production OS permission request. Never passed in the app.
+  final Future<bool> Function()? requestNotificationPermission;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +53,7 @@ class CoffeeJourneyCard extends StatelessWidget {
 
     final milestones = _buildMilestones(context, onboarding, l10n);
     final completed = onboarding.completedMilestoneCount;
-    final total = OnboardingService.totalMilestones;
+    final total = onboarding.totalMilestones;
 
     final isCollapsed = location == JourneyCardLocation.home
         ? onboarding.journeyCollapsed
@@ -137,8 +147,9 @@ class CoffeeJourneyCard extends StatelessWidget {
                 const SizedBox(height: AppSpacing.sm),
                 // Milestone list. The "try another recipe" and "favorite a
                 // recipe" milestones get stateful tiles that load data (a
-                // concrete destination to open); the other tiles stay
-                // stateless.
+                // concrete destination to open); the notifications milestone
+                // gets a stateful tile that owns the OS permission request;
+                // the other tiles stay stateless.
                 for (final (index, milestone) in milestones.indexed)
                   if (index == 1)
                     _TryRecipeMilestoneTile(
@@ -152,6 +163,11 @@ class CoffeeJourneyCard extends StatelessWidget {
                       milestone: milestone,
                       database: database,
                       locale: locale,
+                    )
+                  else if (index == 6)
+                    _NotificationsMilestoneTile(
+                      milestone: milestone,
+                      requestPermission: requestNotificationPermission,
                     )
                   else
                     _MilestoneTile(milestone: milestone),
@@ -209,6 +225,17 @@ class CoffeeJourneyCard extends StatelessWidget {
           context,
         ).push(MaterialPageRoute(builder: (_) => const PulseScreen())),
       ),
+      // Last, so the special tiles picked by index above (1 and 3) keep
+      // their positions. Hidden while the OS has denied permission (and not
+      // done), and never shown on web — where there is no OS permission to
+      // request. The tap flow lives in the tile (it needs context-bound
+      // providers); the placeholder onTap only makes the chevron render.
+      if (onboarding.notificationsMilestoneVisible)
+        _Milestone(
+          label: l10n.coffeeJourneyMilestoneNotifications,
+          done: onboarding.milestoneNotifications,
+          onTap: onboarding.milestoneNotifications ? null : () {},
+        ),
     ];
   }
 
@@ -510,6 +537,113 @@ class _FavoriteMilestoneTileState extends State<_FavoriteMilestoneTile> {
             highlightFavorite: true,
           ),
         ),
+      );
+    }
+    return _MilestoneTile(milestone: milestone);
+  }
+}
+
+/// The "turn on brew updates" milestone tile. Tapping it asks the OS for
+/// notification permission directly — no soft dialog of ours in between —
+/// and turns the app's master notification toggle on. A grant completes the
+/// milestone; a denial quietly hides the row (via
+/// [OnboardingService.syncNotificationMilestone]). No snackbar, no dialog:
+/// it should feel as optional and quiet as the other milestones.
+///
+/// Always builds a [_MilestoneTile] so the widget type at this tree position
+/// is stable while the permission request round-trips; only the tap handler
+/// (null while in flight or done) changes. No inherited-widget lookups in
+/// [State.initState] — everything context-bound is captured at tap time,
+/// before the first await.
+class _NotificationsMilestoneTile extends StatefulWidget {
+  const _NotificationsMilestoneTile({
+    required this.milestone,
+    this.requestPermission,
+  });
+
+  final _Milestone milestone;
+
+  /// Test seam; defaults to the production request — OS permission prompt +
+  /// master-toggle enable via
+  /// [NotificationAskService.requestSystemPermissionAndEnable].
+  final Future<bool> Function()? requestPermission;
+
+  @override
+  State<_NotificationsMilestoneTile> createState() =>
+      _NotificationsMilestoneTileState();
+}
+
+class _NotificationsMilestoneTileState
+    extends State<_NotificationsMilestoneTile> {
+  bool _inFlight = false;
+
+  Future<bool> _defaultRequestPermission() async {
+    // User-initiated path — deliberately does NOT call recordAsk.
+    final askService = NotificationAskService(
+      prefs: await SharedPreferences.getInstance(),
+    );
+    return askService.requestSystemPermissionAndEnable();
+  }
+
+  Future<void> _handleTap() async {
+    if (_inFlight) return;
+    // Captured before the first await: the tile's context dies with it, so
+    // nothing below the permission round trip may touch context again.
+    final onboarding = Provider.of<OnboardingService>(context, listen: false);
+    final database = Provider.of<AppDatabase>(context, listen: false);
+    final locale = Localizations.localeOf(context).languageCode;
+
+    setState(() => _inFlight = true);
+    try {
+      // No soft dialog first — this tap IS the ask, so `_shown` means the OS
+      // request was made.
+      AnalyticsService.maybeInstance?.track(
+        'notification_permission_shown',
+        properties: {'source': 'journey_card'},
+      );
+      final request = widget.requestPermission ?? _defaultRequestPermission;
+      final granted = await request();
+      AnalyticsService.maybeInstance?.track(
+        'notification_permission_result',
+        properties: {
+          'source': 'journey_card',
+          'result': granted ? 'granted' : 'denied',
+        },
+      );
+      if (granted) {
+        await onboarding.completeMilestoneNotifications();
+        // The master toggle was off before the grant, so no reminders are
+        // armed yet — re-run the scheduler now (values captured above, not
+        // gated on mounted, same as finish_screen's post-grant reschedule).
+        unawaited(
+          LocalNotificationSchedulerService.instance.rescheduleAll(
+            database: database,
+            onboarding: onboarding,
+            locale: locale,
+          ),
+        );
+      } else {
+        // Denied: hide the row quietly, no snackbar, no dialog.
+        await onboarding.syncNotificationMilestone(
+          notificationsOn: false,
+          osDenied: true,
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _inFlight = false);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var milestone = widget.milestone;
+    if (!milestone.done) {
+      milestone = _Milestone(
+        label: milestone.label,
+        done: milestone.done,
+        onTap: _inFlight ? null : _handleTap,
       );
     }
     return _MilestoneTile(milestone: milestone);

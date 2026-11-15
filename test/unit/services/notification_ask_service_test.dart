@@ -375,4 +375,37 @@ void main() {
       expect(prefs.containsKey('notif_perm_asks'), isFalse);
     });
   });
+
+  group('isOsDenied', () {
+    test('terminal denied marker wins without an OS call', () async {
+      await prefs.setString('notif_perm_terminal', 'denied');
+      status = OsPermissionStatus.notDetermined;
+      expect(await buildService().isOsDenied(), isTrue);
+      expect(platformCalls, isEmpty);
+    });
+
+    test('terminal granted marker does not count as denied', () async {
+      await prefs.setString('notif_perm_terminal', 'granted');
+      status = OsPermissionStatus.notDetermined;
+      expect(await buildService().isOsDenied(), isFalse);
+    });
+
+    test('unambiguous OS denial counts (iOS)', () async {
+      status = OsPermissionStatus.denied;
+      expect(await buildService().isOsDenied(), isTrue);
+      expect(platformCalls, ['os']);
+    });
+
+    test('notDetermined (the Android ambiguity) is not denied', () async {
+      status = OsPermissionStatus.notDetermined;
+      expect(await buildService().isOsDenied(), isFalse);
+      expect(platformCalls, ['os']);
+    });
+
+    test('granted is not denied', () async {
+      status = OsPermissionStatus.granted;
+      expect(await buildService().isOsDenied(), isFalse);
+      expect(platformCalls, ['os']);
+    });
+  });
 }

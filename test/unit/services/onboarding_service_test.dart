@@ -397,4 +397,151 @@ void main() {
       },
     );
   });
+
+  group('notifications milestone', () {
+    List<Map<String, dynamic>> milestoneEvents() => AnalyticsService
+        .instance.bufferedEventsForTesting
+        .where((e) => e['event_name'] == 'journey_milestone_completed')
+        .toList();
+
+    test(
+      'completeMilestoneNotifications is sticky and emits exactly one event',
+      () async {
+        await service.completeMilestoneNotifications();
+        await service.completeMilestoneNotifications();
+
+        expect(service.milestoneNotifications, isTrue);
+        expect(service.completedMilestoneCount, 1);
+        expect(service.totalMilestones, 7);
+        final events = milestoneEvents();
+        expect(events, hasLength(1));
+        expect(events.single['properties'], {'milestone': 'notifications'});
+      },
+    );
+
+    test('silent startup sync backfills done without an analytics event',
+        () async {
+      await service.syncNotificationMilestone(
+        notificationsOn: true,
+        osDenied: false,
+      );
+
+      expect(service.milestoneNotifications, isTrue);
+      expect(service.notificationsMilestoneHidden, isFalse);
+      expect(AnalyticsService.instance.bufferLength, 0);
+
+      // A later explicit completion is a no-op: still no event.
+      await service.completeMilestoneNotifications();
+      expect(AnalyticsService.instance.bufferLength, 0);
+      expect(milestoneEvents(), isEmpty);
+    });
+
+    test('sync persists the done flag', () async {
+      await service.syncNotificationMilestone(
+        notificationsOn: true,
+        osDenied: false,
+      );
+
+      final reloaded = OnboardingService(prefs);
+      expect(reloaded.milestoneNotifications, isTrue);
+    });
+
+    test('hidden toggles with osDenied and is not sticky', () async {
+      await service.syncNotificationMilestone(
+        notificationsOn: false,
+        osDenied: true,
+      );
+      expect(service.notificationsMilestoneHidden, isTrue);
+      expect(service.totalMilestones, 6);
+      expect(service.milestoneNotifications, isFalse);
+
+      // Recomputed, not sticky: the OS no longer reports denied → shown again.
+      await service.syncNotificationMilestone(
+        notificationsOn: false,
+        osDenied: false,
+      );
+      expect(service.notificationsMilestoneHidden, isFalse);
+      expect(service.totalMilestones, 7);
+    });
+
+    test('done wins over hidden', () async {
+      await service.syncNotificationMilestone(
+        notificationsOn: true,
+        osDenied: true,
+      );
+
+      expect(service.milestoneNotifications, isTrue);
+      expect(service.notificationsMilestoneHidden, isFalse);
+      expect(service.totalMilestones, 7);
+      expect(service.completedMilestoneCount, 1);
+    });
+
+    test('allMilestonesComplete requires the milestone unless hidden',
+        () async {
+      await loadService({
+        'onboarding_complete': true,
+        'onboarding_first_brew_done': true,
+        'onboarding_milestone_try_method': true,
+        'onboarding_milestone_add_beans': true,
+        'onboarding_milestone_favorite': true,
+        'onboarding_milestone_stats': true,
+        'onboarding_milestone_pulse': true,
+      });
+
+      // Shown and open → journey is not complete.
+      expect(service.notificationsMilestoneHidden, isFalse);
+      expect(service.totalMilestones, 7);
+      expect(service.completedMilestoneCount, 6);
+      expect(service.allMilestonesComplete, isFalse);
+
+      // Hidden after an OS denial → the row does not count, journey completes.
+      await service.syncNotificationMilestone(
+        notificationsOn: false,
+        osDenied: true,
+      );
+      expect(service.notificationsMilestoneHidden, isTrue);
+      expect(service.totalMilestones, 6);
+      expect(service.allMilestonesComplete, isTrue);
+
+      // Done beats hidden: a granted milestone counts again.
+      await service.completeMilestoneNotifications();
+      expect(service.completedMilestoneCount, 7);
+      expect(service.totalMilestones, 7);
+      expect(service.allMilestonesComplete, isTrue);
+    });
+
+    test('web: the row never exists, so it neither counts nor blocks Done',
+        () async {
+      service = OnboardingService(prefs, isWeb: true);
+      await service.completeFirstBrew(recipeId: 'r1', brewingMethodId: 'v60');
+      await service.recordBrew(recipeId: 'r2', brewingMethodId: 'v60');
+      await service.completeMilestoneAddBeans();
+      await service.completeMilestoneFavorite();
+      await service.completeMilestoneStats();
+      await service.completeMilestonePulse();
+
+      expect(service.notificationsMilestoneVisible, isFalse);
+      expect(service.totalMilestones, 6);
+      expect(service.allMilestonesComplete, isTrue);
+
+      // Even once done (web reports permission as granted), it stays out of
+      // the count and emits no journey event.
+      await service.completeMilestoneNotifications();
+      expect(service.completedMilestoneCount, 6);
+      expect(service.totalMilestones, 6);
+      expect(milestoneEvents().where(
+        (e) => e['properties']['milestone'] == 'notifications',
+      ), isEmpty);
+    });
+
+    test('a grant after the journey is finished records state, no event',
+        () async {
+      await service.completeFirstBrew(recipeId: 'r1', brewingMethodId: 'v60');
+      await service.completeJourney();
+      await service.completeMilestoneNotifications();
+
+      expect(service.milestoneNotifications, isTrue);
+      expect(milestoneEvents(), isEmpty);
+    });
+  });
 }
