@@ -135,9 +135,10 @@ class CoffeeJourneyCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: AppSpacing.sm),
-                // Milestone list. The second milestone ("try another
-                // recipe") gets a stateful tile that loads a concrete
-                // recipe suggestion; the other tiles stay stateless.
+                // Milestone list. The "try another recipe" and "favorite a
+                // recipe" milestones get stateful tiles that load data (a
+                // concrete destination to open); the other tiles stay
+                // stateless.
                 for (final (index, milestone) in milestones.indexed)
                   if (index == 1)
                     _TryRecipeMilestoneTile(
@@ -145,6 +146,12 @@ class CoffeeJourneyCard extends StatelessWidget {
                       database: database,
                       locale: locale,
                       location: location,
+                    )
+                  else if (index == 3)
+                    _FavoriteMilestoneTile(
+                      milestone: milestone,
+                      database: database,
+                      locale: locale,
                     )
                   else
                     _MilestoneTile(milestone: milestone),
@@ -417,6 +424,90 @@ class _TryRecipeMilestoneTileState extends State<_TryRecipeMilestoneTile> {
           RecipeDetailRoute(
             brewingMethodId: suggestion.brewingMethodId,
             recipeId: suggestion.id,
+          ),
+        ),
+      );
+    }
+    return _MilestoneTile(milestone: milestone);
+  }
+}
+
+/// The "favorite a recipe" milestone tile. While the milestone is
+/// incomplete, loads the most recently brewed recipe once per mount and,
+/// if it exists and is not tombstoned, opens it on tap with the heart
+/// highlighted — the favorites list is always empty at this point, so the
+/// old destinations-free tap led nowhere.
+///
+/// Every other state — still loading, load error, no brew, recipe missing
+/// or tombstoned, milestone done — keeps the generic tile that pushes the
+/// favorites screen (which, since the empty state teaches the action, is no
+/// longer a dead end).
+///
+/// Always builds a [_MilestoneTile] so the widget type at this tree position
+/// is stable while the recipe loads; only the tap handler changes once it
+/// resolves. The label never changes.
+class _FavoriteMilestoneTile extends StatefulWidget {
+  const _FavoriteMilestoneTile({
+    required this.milestone,
+    required this.database,
+    required this.locale,
+  });
+
+  final _Milestone milestone;
+  final AppDatabase database;
+  final String locale;
+
+  @override
+  State<_FavoriteMilestoneTile> createState() => _FavoriteMilestoneTileState();
+}
+
+class _FavoriteMilestoneTileState extends State<_FavoriteMilestoneTile> {
+  RecipeModel? _lastBrewedRecipe;
+
+  @override
+  void initState() {
+    super.initState();
+    // No inherited-widget lookups here: database and locale arrive via the
+    // widget (resolved in the parent's build).
+    if (!widget.milestone.done) {
+      _loadLastBrewedRecipe();
+    }
+  }
+
+  Future<void> _loadLastBrewedRecipe() async {
+    final database = widget.database;
+    final locale = widget.locale;
+    try {
+      final stats = await database.userStatsDao.fetchRecentStats(limit: 1);
+      if (stats.isEmpty) return;
+      final recipeId = stats.first.recipeId;
+      // getRecipeModelById intentionally resolves tombstoned recipes; never
+      // deep-link a deleted one, and never highlight a heart on it.
+      if (await database.recipesDao.isRecipeTombstoned(recipeId)) return;
+      final recipe =
+          await database.recipesDao.getRecipeModelById(recipeId, locale);
+      if (!mounted || recipe == null) return;
+      setState(() {
+        _lastBrewedRecipe = recipe;
+      });
+    } catch (_) {
+      // Any load failure keeps the generic, favorites-pushing tile in place.
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var milestone = widget.milestone;
+    final recipe = _lastBrewedRecipe;
+    if (!milestone.done && recipe != null) {
+      milestone = _Milestone(
+        label: milestone.label,
+        done: milestone.done,
+        onTap: () => context.router.push(
+          RecipeDetailRoute(
+            brewingMethodId: recipe.brewingMethodId,
+            recipeId: recipe.id,
+            highlightFavorite: true,
           ),
         ),
       );

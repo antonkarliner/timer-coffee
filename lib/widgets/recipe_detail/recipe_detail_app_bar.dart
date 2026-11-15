@@ -13,6 +13,10 @@ class RecipeDetailAppBar extends StatelessWidget
   final String brewingMethodName;
   final String idForActions;
   final bool isSharing;
+  /// Highlights the favorite heart (halo + pulse) until first tapped.
+  /// Set when the screen is opened from the journey card's "favorite a
+  /// recipe" milestone.
+  final bool highlightFavorite;
   final VoidCallback onEdit;
   final VoidCallback onCopy;
   final VoidCallback onShare;
@@ -24,6 +28,7 @@ class RecipeDetailAppBar extends StatelessWidget
     required this.brewingMethodName,
     required this.idForActions,
     required this.isSharing,
+    this.highlightFavorite = false,
     required this.onEdit,
     required this.onCopy,
     required this.onShare,
@@ -50,7 +55,10 @@ class RecipeDetailAppBar extends StatelessWidget
           onCopy: onCopy,
           onShare: onShare,
           onUnpublish: onUnpublish,
-          favoriteButton: FavoriteButton(recipeId: idForActions),
+          favoriteButton: FavoriteButton(
+            recipeId: idForActions,
+            highlight: highlightFavorite,
+          ),
         ),
       ],
     );

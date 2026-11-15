@@ -56,6 +56,17 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
     );
   }
 
+  /// Whether [recipeId] is tombstoned (soft-deleted). [getRecipeModelById]
+  /// intentionally resolves tombstoned recipes so diary entries stay
+  /// readable; callers that must not deep-link a deleted recipe (e.g. the
+  /// journey card's favorite tile) check this first and fall back instead.
+  Future<bool> isRecipeTombstoned(String recipeId) async {
+    final row = await (select(
+      recipes,
+    )..where((tbl) => tbl.id.equals(recipeId))).getSingleOrNull();
+    return row?.isDeleted ?? false;
+  }
+
   Future<List<RecipeModel>> getAllRecipes(String locale) async {
     // Browse surface: tombstoned recipes must not appear.
     final recipeDatas =

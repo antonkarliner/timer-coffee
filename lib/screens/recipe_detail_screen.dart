@@ -107,6 +107,10 @@ class RecipeDetailScreen extends StatelessWidget {
   final String? prefillGrindSize;
   final double? prefillWaterTemp;
   final String? prefillCoffeeBeansUuid;
+  /// Non-path route arg: when true, the app bar's favorite heart gets a
+  /// highlight treatment (halo + pulse) until first tapped. Set by the
+  /// journey card's "favorite a recipe" tile.
+  final bool highlightFavorite;
 
   const RecipeDetailScreen({
     super.key,
@@ -117,6 +121,7 @@ class RecipeDetailScreen extends StatelessWidget {
     this.prefillGrindSize,
     this.prefillWaterTemp,
     this.prefillCoffeeBeansUuid,
+    this.highlightFavorite = false,
   });
 
   @override
@@ -130,6 +135,7 @@ class RecipeDetailScreen extends StatelessWidget {
       prefillGrindSize: prefillGrindSize,
       prefillWaterTemp: prefillWaterTemp,
       prefillCoffeeBeansUuid: prefillCoffeeBeansUuid,
+      highlightFavorite: highlightFavorite,
     );
   }
 }
@@ -143,6 +149,7 @@ class RecipeDetailBase extends StatefulWidget {
   final String? prefillGrindSize;
   final double? prefillWaterTemp;
   final String? prefillCoffeeBeansUuid;
+  final bool highlightFavorite;
 
   const RecipeDetailBase({
     super.key,
@@ -153,6 +160,7 @@ class RecipeDetailBase extends StatefulWidget {
     this.prefillGrindSize,
     this.prefillWaterTemp,
     this.prefillCoffeeBeansUuid,
+    this.highlightFavorite = false,
   });
 
   @override
@@ -808,6 +816,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
           brewingMethodName: _brewingMethodName,
           idForActions: _effectiveRecipeId ?? widget.initialRecipeId,
           isSharing: _isSharing,
+          highlightFavorite: widget.highlightFavorite,
           onEdit: () => _navigateToEditRecipe(context, recipe),
           onCopy: () => _navigateToCopyRecipe(context, recipe),
           onShare: () => _onShare(context),
