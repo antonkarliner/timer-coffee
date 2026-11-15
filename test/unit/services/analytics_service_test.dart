@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:coffee_timer/services/analytics_service.dart';
@@ -10,6 +12,97 @@ void main() {
 
   tearDown(() {
     AnalyticsService.resetForTesting();
+  });
+
+  group('flush', () {
+    late AnalyticsService service;
+
+    setUp(() async {
+      final prefs = await SharedPreferences.getInstance();
+      service = await AnalyticsService.initialize(prefs);
+    });
+
+    test('serializes sends and flushes events tracked during a send', () async {
+      final firstSend = Completer<void>();
+      final batches = <List<Map<String, dynamic>>>[];
+      AnalyticsService.sendOverride = (events) async {
+        batches.add(events);
+        if (batches.length == 1) await firstSend.future;
+      };
+
+      service.track('app_opened');
+      final firstFlush = service.flushNow();
+      service.track('screen_viewed');
+      final nextFlush = service.flushNow();
+
+      expect(batches, hasLength(1));
+      expect(batches.single.single['event_name'], 'app_opened');
+      firstSend.complete();
+      await Future.wait([firstFlush, nextFlush]);
+
+      expect(batches, hasLength(2));
+      expect(batches[1].single['event_name'], 'screen_viewed');
+      expect(service.bufferLength, 0);
+    });
+
+    test('flushNow waits until the follow-up send completes', () async {
+      final firstSend = Completer<void>();
+      final secondSend = Completer<void>();
+      final secondStarted = Completer<void>();
+      var sends = 0;
+      AnalyticsService.sendOverride = (_) {
+        sends++;
+        if (sends == 1) return firstSend.future;
+        secondStarted.complete();
+        return secondSend.future;
+      };
+
+      service.track('app_opened');
+      final firstFlush = service.flushNow();
+      service.track('screen_viewed');
+      var completed = false;
+      final waitingFlush = service.flushNow().then((_) => completed = true);
+
+      firstSend.complete();
+      await secondStarted.future;
+      // Give an incorrectly completed flush future a chance to notify callers.
+      await Future<void>.delayed(Duration.zero);
+      expect(completed, isFalse);
+      expect(service.bufferLength, 1);
+
+      secondSend.complete();
+      await waitingFlush;
+      await firstFlush;
+      expect(completed, isTrue);
+      expect(service.bufferLength, 0);
+    });
+
+    test('failure keeps events buffered without an immediate follow-up', () async {
+      final firstSend = Completer<void>();
+      var sends = 0;
+      AnalyticsService.sendOverride = (_) {
+        sends++;
+        return firstSend.future;
+      };
+
+      service.track('app_opened');
+      final firstFlush = service.flushNow();
+      service.track('screen_viewed');
+      final waitingFlush = service.flushNow();
+      firstSend.completeError(StateError('offline'));
+      await Future.wait([firstFlush, waitingFlush]);
+
+      expect(sends, 1);
+      expect(service.bufferLength, 2);
+
+      // A later explicit flush can retry after the failed drain has ended.
+      AnalyticsService.sendOverride = (_) async {
+        sends++;
+      };
+      await service.flushNow();
+      expect(sends, 2);
+      expect(service.bufferLength, 0);
+    });
   });
 
   group('initialization', () {

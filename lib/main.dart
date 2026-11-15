@@ -52,6 +52,7 @@ import 'package:coffee_timer/services/resolved_app_locale.dart';
 import 'services/feature_flags/feature_flags_repository.dart';
 import 'services/onboarding_service.dart';
 import 'services/analytics_service.dart';
+import 'services/ios_background_task_service.dart';
 import 'services/authentication_service.dart';
 import 'services/local_notification_scheduler_service.dart';
 import 'services/date_time_format_service.dart';
@@ -804,7 +805,12 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
     if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.hidden ||
         state == AppLifecycleState.detached) {
-      widget.analyticsService.flushNow();
+      // On iOS, hold background time until the send finishes so the app
+      // is not suspended with events still in memory.
+      unawaited(
+        IosBackgroundTaskService.instance
+            .runWithBackgroundTime(widget.analyticsService.flushNow),
+      );
     } else if (state == AppLifecycleState.resumed) {
       unawaited(
         LocalNotificationSchedulerService.instance

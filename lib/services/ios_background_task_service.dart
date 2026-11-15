@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -24,6 +25,42 @@ class IosBackgroundTaskService {
 
   /// Whether a background task is currently active.
   bool get isRunning => _isRunning;
+
+  /// Runs work with iOS background time, used to finish analytics flushes
+  /// before suspension. This task is separate from the brewing task.
+  Future<void> runWithBackgroundTime(
+    Future<void> Function() work, {
+    Duration timeout = const Duration(seconds: 25),
+  }) async {
+    if (kIsWeb || !Platform.isIOS) {
+      await work();
+      return;
+    }
+
+    try {
+      try {
+        await _channel.invokeMethod<bool>('beginAnalyticsFlushTask');
+      } on PlatformException catch (e) {
+        debugPrint('[IosBackgroundTask] analytics start failed: $e');
+      } on MissingPluginException catch (e) {
+        debugPrint('[IosBackgroundTask] analytics start unavailable: $e');
+      }
+
+      try {
+        await work().timeout(timeout);
+      } on TimeoutException catch (e) {
+        debugPrint('[IosBackgroundTask] work timed out: $e');
+      } catch (e) {
+        debugPrint('[IosBackgroundTask] work failed: $e');
+      }
+    } finally {
+      try {
+        await _channel.invokeMethod<bool>('endAnalyticsFlushTask');
+      } catch (e) {
+        debugPrint('[IosBackgroundTask] analytics end failed: $e');
+      }
+    }
+  }
 
   /// Request iOS to keep the Flutter process alive in the background.
   /// Safe to call multiple times — subsequent calls are no-ops.

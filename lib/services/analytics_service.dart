@@ -242,7 +242,11 @@ class AnalyticsService extends ChangeNotifier {
   final List<Map<String, dynamic>> _buffer = [];
   Timer? _flushTimer;
   int _consecutiveFailures = 0;
-  bool _isFlushing = false;
+  Future<void>? _inFlight;
+  bool _flushAgain = false;
+
+  @visibleForTesting
+  static Future<void> Function(List<Map<String, dynamic>> events)? sendOverride;
 
   // ──────────────────── Initialization ────────────────────
 
@@ -372,7 +376,7 @@ class AnalyticsService extends ChangeNotifier {
     _buffer.add(event);
 
     // Auto-flush at threshold (non-blocking)
-    if (_buffer.length >= _flushThreshold && !_isFlushing) {
+    if (_buffer.length >= _flushThreshold && _inFlight == null) {
       scheduleMicrotask(_flush);
     }
   }
@@ -403,7 +407,8 @@ class AnalyticsService extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Forces an immediate flush. Called when app goes to background.
+  /// Flushes buffered events, waiting for any requested follow-up send too.
+  /// Failed sends stay buffered, subject to the repeated-failure drop policy.
   Future<void> flushNow() => _flush();
 
   // ──────────────────── Private ────────────────────
@@ -421,49 +426,70 @@ class AnalyticsService extends ChangeNotifier {
     }
   }
 
-  Future<void> _flush() async {
-    if (_isFlushing || _buffer.isEmpty) return;
-    _isFlushing = true;
-
-    // Inject client-side country fallback (server-side detection takes priority)
-    if (_country != null) {
-      for (final event in _buffer) {
-        event.putIfAbsent('country', () => _country!);
-      }
+  Future<void> _flush() {
+    final inFlight = _inFlight;
+    if (inFlight != null) {
+      _flushAgain = true;
+      return inFlight;
     }
+    if (_buffer.isEmpty) return Future<void>.value();
 
-    // Snapshot current buffer
-    final batch = List<Map<String, dynamic>>.from(_buffer);
+    // All callers share this future, including any requested follow-up sends.
+    _inFlight = _drain().whenComplete(() {
+      _inFlight = null;
+    });
+    return _inFlight!;
+  }
 
-    try {
-      await Supabase.instance.client.functions.invoke(
-        _edgeFunctionName,
-        body: {'events': batch},
-      );
+  Future<void> _drain() async {
+    do {
+      _flushAgain = false;
 
-      // Success — clear flushed events
-      _buffer.removeRange(0, batch.length.clamp(0, _buffer.length));
-      _consecutiveFailures = 0;
-    } catch (e) {
-      _consecutiveFailures++;
-      AppLogger.warning(
-        'Analytics flush failed ($_consecutiveFailures consecutive): $e',
-      );
-
-      // After too many failures, drop oldest half to prevent memory growth
-      if (_consecutiveFailures >= _maxConsecutiveFailures) {
-        final halfSize = _buffer.length ~/ 2;
-        if (halfSize > 0) {
-          _buffer.removeRange(0, halfSize);
+      // Inject client-side country fallback (server-side detection takes priority)
+      if (_country != null) {
+        for (final event in _buffer) {
+          event.putIfAbsent('country', () => _country!);
         }
-        _consecutiveFailures = 0;
-        AppLogger.warning(
-          'Analytics: dropped oldest $halfSize events after repeated failures',
-        );
       }
-    } finally {
-      _isFlushing = false;
-    }
+
+      // Snapshot current buffer
+      final batch = List<Map<String, dynamic>>.from(_buffer);
+
+      try {
+        final send = sendOverride;
+        if (send != null) {
+          await send(batch).timeout(const Duration(seconds: 20));
+        } else {
+          await Supabase.instance.client.functions.invoke(
+            _edgeFunctionName,
+            body: {'events': batch},
+          ).timeout(const Duration(seconds: 20));
+        }
+
+        // Success — clear flushed events
+        _buffer.removeRange(0, batch.length.clamp(0, _buffer.length));
+        _consecutiveFailures = 0;
+      } catch (e) {
+        _consecutiveFailures++;
+        AppLogger.warning(
+          'Analytics flush failed ($_consecutiveFailures consecutive): $e',
+        );
+
+        // After too many failures, drop oldest half to prevent memory growth
+        if (_consecutiveFailures >= _maxConsecutiveFailures) {
+          final halfSize = _buffer.length ~/ 2;
+          if (halfSize > 0) {
+            _buffer.removeRange(0, halfSize);
+          }
+          _consecutiveFailures = 0;
+          AppLogger.warning(
+            'Analytics: dropped oldest $halfSize events after repeated failures',
+          );
+        }
+        // Leave retries to a later flush rather than hammering while offline.
+        break;
+      }
+    } while (_flushAgain && _buffer.isNotEmpty);
   }
 
   @override
@@ -478,5 +504,6 @@ class AnalyticsService extends ChangeNotifier {
   static void resetForTesting() {
     _instance?.dispose();
     _instance = null;
+    sendOverride = null;
   }
 }

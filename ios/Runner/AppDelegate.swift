@@ -10,6 +10,7 @@ import flutter_local_notifications
 
   // MARK: - Background task for keeping Flutter alive during brewing
   private var brewingBackgroundTaskId: UIBackgroundTaskIdentifier = .invalid
+  private var analyticsFlushTaskId: UIBackgroundTaskIdentifier = .invalid
   private var inlinePhotoPickerCoordinator: InlinePhotoPickerCoordinator?
 
   override func application(
@@ -50,6 +51,11 @@ import flutter_local_notifications
           result(true)
         case "stopBrewingBackgroundTask":
           self.stopBrewingBackgroundTask()
+          result(true)
+        case "beginAnalyticsFlushTask":
+          result(self.beginAnalyticsFlushTask())
+        case "endAnalyticsFlushTask":
+          self.endAnalyticsFlushTask()
           result(true)
         default:
           result(FlutterMethodNotImplemented)
@@ -158,6 +164,22 @@ import flutter_local_notifications
     print("[BackgroundTask] Ending brewing background task (id=\(brewingBackgroundTaskId.rawValue))")
     UIApplication.shared.endBackgroundTask(brewingBackgroundTaskId)
     brewingBackgroundTaskId = .invalid
+  }
+
+  private func beginAnalyticsFlushTask() -> Bool {
+    endAnalyticsFlushTask()
+    analyticsFlushTaskId = UIApplication.shared.beginBackgroundTask(
+      withName: "AnalyticsFlush"
+    ) { [weak self] in
+      self?.endAnalyticsFlushTask()
+    }
+    return analyticsFlushTaskId != .invalid
+  }
+
+  private func endAnalyticsFlushTask() {
+    guard analyticsFlushTaskId != .invalid else { return }
+    UIApplication.shared.endBackgroundTask(analyticsFlushTaskId)
+    analyticsFlushTaskId = .invalid
   }
 
   // MARK: - Add-only photo library writes
