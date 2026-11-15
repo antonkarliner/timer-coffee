@@ -4,6 +4,12 @@ submit_for_review(true)
 precheck_include_in_app_purchases(false)
 force (true)
 
+# Age-rating answers re-sent with every upload. Apple made the social media
+# question mandatory for submissions (Sept 2026); while it was unanswered,
+# 3.10.2's Submit for Review failed with "must provide a value for the
+# attribute 'socialMedia'". Only the keys in the file are changed.
+app_rating_config_path('./fastlane/age_rating.json')
+
 # Add IDFA settings
 submission_information({
     add_id_info_limits_tracking: false,
