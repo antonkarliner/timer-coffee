@@ -1,7 +1,18 @@
 Novità:
-• Hai notato un errore nella pagina di una torrefazione? Tocca ⋮ nel profilo della torrefazione e scegli “Segnala un errore”. Seleziona cosa non va, aggiungi il valore corretto se lo conosci e invia la segnalazione. Esaminiamo ogni segnalazione.
-• Se gestisci una torrefazione, puoi rivendicarne la pagina dallo stesso menu o dal link “Questa è la tua torrefazione?” nel profilo.
+• La scheda Primi passi ha un nuovo ultimo passaggio: «Attiva i promemoria di preparazione». Toccala per consentire le notifiche direttamente dalla scheda.
+• Nella scheda Primi passi, «Aggiungi una ricetta ai preferiti» ora apre la ricetta che hai preparato più di recente ed evidenzia il cuore, così puoi salvarla con un solo tocco.
+• Dopo due o più preparazioni della stessa ricetta, il passaggio «Prova un'altra ricetta» ora suggerisce una ricetta specifica per lo stesso metodo. Toccala per aprire quella ricetta.
+• Dopo la tua prima preparazione, riceverai un promemoria la mattina successiva invece di aspettare fino al quinto giorno. Apre la tua ricetta e non avvia un timer. Non lo riceverai se il promemoria giornaliero del mattino è già attivo.
+• Non hai ancora preparato il caffè? Tocca «Prepara più tardi» su qualsiasi ricetta per scegliere un orario e ti invieremo un promemoria con quella ricetta pronta da preparare.
 
 Miglioramenti:
-• Il controllo delle ricette tramite IA è stato rimosso. Ora l’app controlla sempre autonomamente le quantità nei passaggi della ricetta e ti chiede comunque conferma quando una quantità potrebbe riferirsi al caffè o all’acqua.
-• Le torrefazioni hanno un’unica icona di negozio in tutta l’app, che viene usata al posto del logo della torrefazione finché non ne viene aggiunto uno.
+• I promemoria di freschezza del caffè ora sono attivi per impostazione predefinita. Se li avevi già disattivati, rimarranno disattivati. Puoi modificarli in qualsiasi momento in Impostazioni → Notifiche.
+• Se hai già aperto l'app al mattino, il promemoria giornaliero del mattino verrà saltato per quel giorno.
+• Quando scrivi una ricetta, l'app riconosce più spesso quali quantità nei passaggi sono di caffè e quali di acqua.
+• Un elenco vuoto di Ricette preferite ora mostra come aggiungervi una ricetta.
+
+Correzioni di bug:
+• Corretto un problema per cui i promemoria non venivano impostati dopo aver consentito le notifiche al termine della prima preparazione.
+• Corretto un problema per cui i promemoria di preparazione del giorno 5 e del giorno 10 a volte scomparivano dopo aver riaperto l'app.
+• Corretto un problema per cui i nomi lunghi dei chicchi e delle torrefazioni andavano a capo nel mezzo di una parola nella pagina del caffè.
+• Corretto un problema per cui l'etichetta «Tazza migliore» si sovrapponeva alle valutazioni nel grafico Percorso del caffè.

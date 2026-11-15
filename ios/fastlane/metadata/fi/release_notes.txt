@@ -1,7 +1,18 @@
 Uutta:
-• Huomasitko virheen paahtimon sivulla? Napauta paahtimon profiilissa ⋮ ja valitse ”Ilmoita virheestä”. Valitse, mikä on vialla, lisää oikea arvo, jos tiedät sen, ja lähetä ilmoitus. Käsittelemme jokaisen ilmoituksen.
-• Jos pyörität paahtimoa, voit vaatia sen sivun itsellesi samasta valikosta tai profiilin ”Onko tämä sinun paahtimosi?” -linkistä.
+• Ensiaskeleet-kortissa on uusi viimeinen vaihe: ”Ota valmistusmuistutukset käyttöön”. Napauta sitä salliaksesi ilmoitukset suoraan kortista.
+• Ensiaskeleet-kortin ”Lisää resepti suosikkeihin” avaa nyt viimeksi käyttämäsi reseptin ja korostaa sydämen, joten voit tallentaa sen yhdellä napautuksella.
+• Kun olet valmistanut samalla reseptillä vähintään kaksi kertaa, ”Kokeile toista reseptiä” -vaihe ehdottaa nyt tiettyä reseptiä samalle valmistusmenetelmälle. Avaa resepti napauttamalla sitä.
+• Ensimmäisen valmistuksesi jälkeen saat yhden muistutuksen seuraavana aamuna sen sijaan, että odottaisit viidenteen päivään asti. Se avaa reseptisi eikä käynnistä ajastinta. Et saa sitä, jos päivittäinen aamukahvimuistutuksesi on jo käytössä.
+• Etkö ole vielä valmistanut kahvia? Napauta minkä tahansa reseptin kohdalla ”Valmista myöhemmin” valitaksesi ajan, niin muistutamme sinua, kun resepti on valmis valmistettavaksi.
 
 Parannukset:
-• Reseptin tekoälytarkistus on poistettu. Sovellus tarkistaa nyt aina itse reseptivaiheidesi määrät ja kysyy sinulta edelleen, kun määrä voi tarkoittaa joko kahvia tai vettä.
-• Paahtimoilla on yksi myymäläkuvake kaikkialla sovelluksessa, ja se toimii paahtimon logon sijaisena, kunnes logo lisätään.
+• Kahvin tuoreusmuistutukset ovat nyt oletusarvoisesti käytössä. Jos poistit ne aiemmin käytöstä, ne pysyvät pois käytöstä. Voit muuttaa tätä milloin tahansa kohdassa Asetukset → Ilmoitukset.
+• Jos olet jo avannut sovelluksen aamulla, päivittäinen aamukahvimuistutus ohittaa kyseisen päivän.
+• Kun kirjoitat reseptiä, sovellus tunnistaa nyt useammin, mitkä vaiheiden määristä ovat kahvia ja mitkä vettä.
+• Tyhjä Suosikkireseptit-luettelo näyttää nyt, miten resepti lisätään siihen.
+
+Virheenkorjaukset:
+• Korjattu ongelma, jossa muistutuksia ei asetettu, kun sallit ilmoitukset ensimmäisen valmistuksesi lopussa.
+• Korjattu ongelma, jossa päivän 5 ja päivän 10 valmistusmuistutukset saattoivat joskus kadota, kun avasit sovelluksen uudelleen.
+• Korjattu ongelma, jossa pitkät kahvipapujen ja paahtimoiden nimet katkesivat kesken sanan papusivulla.
+• Korjattu ongelma, jossa ”Paras kupillinen” -teksti meni päällekkäin arvostelujen kanssa Kahvipavun matka -kaaviossa.

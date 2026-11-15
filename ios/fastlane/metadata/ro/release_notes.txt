@@ -1,7 +1,18 @@
 Noutăți:
-• Ai observat o greșeală pe pagina unei prăjitorii? Atinge ⋮ în profilul prăjitoriei și alege „Raportează o eroare”. Selectează ce nu este în regulă, adaugă valoarea corectă dacă o știi și trimite raportul. Analizăm fiecare raport.
-• Dacă administrezi o prăjitorie, îi poți revendica pagina din același meniu sau din linkul „Aceasta este prăjitoria ta?” din profil.
+• Cardul Primii pași are un nou ultim pas: „Activează mementourile de preparare”. Atinge-l pentru a permite notificările direct din card.
+• Pe cardul Primii pași, „Adaugă o rețetă la favorite” deschide acum rețeta pe care ai preparat-o cel mai recent și evidențiază inima, astfel încât să o poți salva cu o singură atingere.
+• După două sau mai multe preparări ale aceleiași rețete, pasul „Încearcă o altă rețetă” sugerează acum o rețetă specifică pentru aceeași metodă. Atinge-o pentru a deschide rețeta respectivă.
+• După prima ta preparare, primești un memento a doua zi dimineață, în loc să aștepți până în ziua a cincea. Acesta îți deschide rețeta și nu pornește un cronometru. Nu îl vei primi dacă mementoul tău zilnic de dimineață este deja activat.
+• Nu ai preparat încă? Atinge „Prepară mai târziu” la orice rețetă pentru a alege o oră, iar noi îți vom trimite un memento cu rețeta respectivă gata de preparat.
 
 Îmbunătățiri:
-• Verificarea rețetei cu AI a fost eliminată. Acum, aplicația verifică întotdeauna singură cantitățile din pașii rețetei tale și îți cere în continuare lămuriri atunci când o cantitate ar putea însemna fie cafea, fie apă.
-• Prăjitoriile au aceeași pictogramă de magazin în toată aplicația, iar aceasta înlocuiește logo-ul unei prăjitorii până când este adăugat unul.
+• Mementourile de prospețime a cafelei sunt acum activate implicit. Dacă le-ai dezactivat anterior, rămân dezactivate. Le poți modifica oricând din Setări → Notificări.
+• Dacă ai deschis deja aplicația dimineața, mementoul tău zilnic de dimineață va fi omis în acea zi.
+• Când scrii o rețetă, aplicația recunoaște mai des care cantități din pași sunt de cafea și care sunt de apă.
+• O listă goală de Rețete Favorite arată acum cum să adaugi o rețetă în ea.
+
+Corectări de erori:
+• Am remediat problema în care mementourile nu erau setate după ce permiteai notificările la finalul primei tale preparări.
+• Am remediat problema în care mementourile de preparare din ziua 5 și ziua 10 dispăreau uneori după redeschiderea aplicației.
+• Am remediat problema în care numele lungi de boabe și prăjitorii se întrerupeau în mijlocul unui cuvânt pe pagina boabelor.
+• Am remediat problema în care eticheta „Cea mai bună ceașcă” se suprapunea peste evaluări în graficul Parcursul cafelei.

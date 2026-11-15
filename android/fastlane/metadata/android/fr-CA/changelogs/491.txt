@@ -1,0 +1,11 @@
+Nouveautés :
+• Premiers pas : activez les rappels d’un toucher; l’ajout aux favoris ouvre la dernière préparation; une autre recette est suggérée.
+• Rappel le matin suivant la première préparation.
+• Pas de préparation? Touchez « Préparer plus tard » et choisissez l’heure.
+
+Améliorations :
+• Rappels de fraîcheur activés par défaut, sauf désactivation.
+
+Correctifs :
+• Les rappels arrivent de nouveau sans ouvrir « Alarmes et rappels » à chaque lancement.
+• Les longs noms de grains restent entiers.

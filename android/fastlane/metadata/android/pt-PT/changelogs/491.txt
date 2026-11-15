@@ -1,0 +1,11 @@
+Novo:
+• Primeiros passos: ative lembretes com um toque; «Adicionar aos favoritos» abre o último preparo e «Experimente outra receita» sugere uma.
+• Lembrete na manhã após o primeiro preparo.
+• Ainda não preparou? Toque em «Preparar mais tarde» e escolha uma hora.
+
+Melhorado:
+• Lembretes de frescura ativos por predefinição, salvo se os desativou.
+
+Corrigido:
+• Lembretes voltam a chegar sem abrir «Alarmes e lembretes» em cada início.
+• Nomes longos de grãos já não são divididos a meio.

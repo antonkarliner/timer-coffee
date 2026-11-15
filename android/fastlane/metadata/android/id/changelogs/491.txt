@@ -1,0 +1,11 @@
+Baru:
+• Kartu Langkah pertama: sekali ketuk aktifkan pengingat seduhan; “Tambahkan resep ke favorit” membuka seduhan terakhir, “Coba resep lain” meminta nama.
+• Pengingat pada pagi setelah seduhan pertama.
+• Belum menyeduh? Ketuk “Seduh nanti” di resep dan pilih waktu.
+
+Ditingkatkan:
+• Pengingat kesegaran aktif bawaan, kecuali dinonaktifkan.
+
+Diperbaiki:
+• Pengingat kembali diterima tanpa membuka “Alarm & pengingat” tiap peluncuran.
+• Nama biji kopi panjang tak terputus di tengah kata.

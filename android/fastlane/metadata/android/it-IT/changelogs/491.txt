@@ -1,0 +1,11 @@
+Nuovo:
+• Primi passi: attiva i promemoria con un tocco; “Aggiungi una ricetta ai preferiti” apre l’ultima preparazione; “Prova un'altra ricetta” ne indica una.
+• Promemoria il mattino dopo la prima preparazione.
+• Non hai preparato? Tocca “Prepara più tardi” e scegli l’ora.
+
+Migliorie:
+• Promemoria freschezza attivi di default, se non disattivati.
+
+Correzioni:
+• I promemoria arrivano di nuovo, senza aprire “Sveglie e promemoria” a ogni avvio.
+• I nomi lunghi dei chicchi non si spezzano più.

@@ -1,0 +1,11 @@
+Nieuw:
+• Eerste-stappenkaart: schakel brouwupdates met één tik in; 'Favoriet' opent je laatste zet en 'Probeer een ander recept' noemt er een.
+• Eén herinnering de ochtend na je eerste zetbeurt.
+• Nog niet gezet? Tik in een recept op 'Later zetten' en kies een tijd.
+
+Verbeterd:
+• Versheidsherinneringen staan standaard aan, tenzij uitgezet.
+
+Opgelost:
+• Herinneringen komen weer aan zonder bij elke start 'Alarmen en herinneringen' te openen.
+• Lange boonnamen breken niet meer midden in woorden.

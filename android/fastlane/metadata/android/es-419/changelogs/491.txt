@@ -1,0 +1,11 @@
+Nuevo:
+• Primeros pasos: activa recordatorios en un toque; «Añade una receta a favoritos» abre la última y «Prueba otra receta» nombra una.
+• Recordatorio la mañana tras tu primera preparación.
+• ¿Aún no preparaste? «Preparar más tarde» permite elegir hora.
+
+Mejorado:
+• Recordatorios de frescura activos por defecto, salvo si desactivaste.
+
+Corregido:
+• Recordatorios llegan de nuevo sin abrir «Alarmas y recordatorios» en cada inicio.
+• Nombres largos de granos ya no se parten a media palabra.

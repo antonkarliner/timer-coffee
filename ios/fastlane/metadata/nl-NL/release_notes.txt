@@ -1,7 +1,18 @@
 Wat is er nieuw:
-• Zie je een fout op de pagina van een branderij? Tik op ⋮ in het branderijprofiel en kies ‘Fout melden’. Kies wat er niet klopt, voeg de juiste waarde toe als je die weet en verzend de melding. We bekijken elke melding.
-• Als je een branderij runt, kun je de pagina claimen via hetzelfde menu of via de link ‘Is dit jouw branderij?’ op het profiel.
+• De kaart Eerste stappen heeft een nieuwe laatste stap: ‘Zet brouwupdates aan’. Tik erop om rechtstreeks vanaf de kaart notificaties toe te staan.
+• Op de kaart Eerste stappen opent ‘Voeg een recept toe aan favorieten’ nu het recept dat je het recentst hebt gezet en wordt het hart gemarkeerd, zodat je het met één tik kunt opslaan.
+• Na twee of meer zetbeurten met hetzelfde recept stelt de stap ‘Probeer een ander recept’ nu een specifiek recept voor dezelfde zetmethode voor. Tik erop om dat recept te openen.
+• Na je eerste zetbeurt krijg je de volgende ochtend één herinnering, in plaats van te wachten tot dag vijf. Deze opent je recept en start geen timer. Je krijgt deze niet als je dagelijkse ochtendherinnering al aanstaat.
+• Nog niet gezet? Tik bij een recept op ‘Later zetten’ om een tijd te kiezen, dan sturen we je een herinnering met dat recept klaar om te starten.
 
 Verbeteringen:
-• De AI-receptcontrole is verwijderd. De app controleert nu altijd zelf de hoeveelheden in je receptstappen en vraagt je nog steeds wanneer een hoeveelheid zowel koffie als water kan betekenen.
-• Branderijen hebben overal in de app één winkelpictogram, dat het logo van een branderij vervangt totdat er een is toegevoegd.
+• Versheidsherinneringen staan nu standaard aan. Als je ze eerder hebt uitgezet, blijven ze uit. Je kunt dit op elk moment wijzigen via Instellingen → Notificaties.
+• Als je de app ’s ochtends al hebt geopend, wordt je dagelijkse ochtendherinnering die dag overgeslagen.
+• Wanneer je een recept schrijft, herkent de app vaker welke hoeveelheden in je stappen koffie zijn en welke water.
+• Een lege lijst met Favoriete recepten laat nu zien hoe je er een recept aan toevoegt.
+
+Bugfixes:
+• Opgelost: herinneringen werden niet ingesteld nadat je aan het einde van je eerste zetbeurt notificaties had toegestaan.
+• Opgelost: de zetherinneringen voor dag 5 en dag 10 verdwenen soms nadat je de app opnieuw had geopend.
+• Opgelost: lange namen van bonen en branderijen werden midden in een woord afgebroken op de bonenpagina.
+• Opgelost: het label ‘Beste kop’ overlapte beoordelingen in de grafiek van de Bonenreis.

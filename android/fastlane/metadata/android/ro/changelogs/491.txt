@@ -1,0 +1,11 @@
+Nou:
+• Primii pași: activează mementourile cu o atingere; „Adaugă o rețetă la favorite” deschide ultima preparare; „Încearcă o altă rețetă” o denumește.
+• Memento dimineața după prima preparare.
+• N-ai preparat? Atinge „Prepară mai târziu” la o rețetă și alege ora.
+
+Îmbunătățit:
+• Mementourile de prospețime sunt active implicit, dacă nu le-ai oprit.
+
+Remediat:
+• Mementourile revin, fără să deschizi „Alarme și mementouri” la fiecare lansare.
+• Numele lungi de boabe nu se mai rup în mijlocul lor.

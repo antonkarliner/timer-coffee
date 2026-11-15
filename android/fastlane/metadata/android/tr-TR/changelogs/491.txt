@@ -1,0 +1,11 @@
+Yeni:
+• İlk Adımlar: tek dokunuşla güncellemeleri açın; “Favorilere ekle” son demlemenizi, “Başka bir tarif deneyin” bir tarifin adını gösterir.
+• İlk demlemeden sonraki sabah bir hatırlatıcı.
+• Demlemediniz mi? Tarifte “Sonra demle”ye dokunup saat seçin.
+
+İyileştirildi:
+• Tazelik hatırlatıcıları varsayılan olarak açık, kapatmadıysanız.
+
+Düzeltildi:
+• Hatırlatıcılar her açılışta “Alarmlar ve hatırlatıcılar” açılmadan yine gelir.
+• Uzun çekirdek adları artık kelime ortasında bölünmez.

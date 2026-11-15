@@ -1,7 +1,18 @@
 Novidades:
-• Encontrou um erro na página de uma torrefação? Toque em ⋮ no perfil da torrefação e escolha “Reportar um erro”. Selecione o que está errado, adicione o valor correto se souber e envie. Analisamos cada relato.
-• Se você administra uma torrefação, pode reivindicar a página dela pelo mesmo menu ou pelo link “Esta torrefação é sua?” no perfil.
+• O cartão Primeiros passos tem uma nova etapa final: “Ative os lembretes de preparo”. Toque nela para permitir notificações diretamente pelo cartão.
+• No cartão Primeiros passos, “Adicione uma receita aos favoritos” agora abre a receita que você preparou mais recentemente e destaca o coração, para que você possa salvá-la com um toque.
+• Após dois ou mais preparos da mesma receita, a etapa “Experimente outra receita” agora sugere uma receita específica para o mesmo método. Toque nela para abrir essa receita.
+• Após seu primeiro preparo, você receberá um lembrete na manhã seguinte, em vez de esperar até o quinto dia. Ele abre sua receita e não inicia um temporizador. Você não o receberá se seu lembrete matinal diário já estiver ativado.
+• Ainda não preparou café? Toque em “Preparar mais tarde” em qualquer receita para escolher um horário, e enviaremos um lembrete com essa receita pronta para preparar.
 
 Melhorias:
-• A verificação de receitas por IA foi removida. Agora, o app sempre verifica as quantidades nos passos da sua receita por conta própria e ainda pergunta quando uma quantidade pode se referir tanto ao café quanto à água.
-• As torrefações têm um único ícone de loja em todo o app, que substitui o logo de uma torrefação até que um seja adicionado.
+• Os lembretes de frescor do café agora vêm ativados por padrão. Se você os desativou antes, eles permanecerão desativados. Você pode alterar isso a qualquer momento em Configurações → Notificações.
+• Se você já abriu o app pela manhã, seu lembrete matinal diário será ignorado naquele dia.
+• Ao escrever uma receita, o app agora reconhece com mais frequência quais quantidades nos passos são de café e quais são de água.
+• Uma lista vazia de Receitas Favoritas agora mostra como adicionar uma receita a ela.
+
+Correções de bugs:
+• Corrigido um problema que impedia a configuração de lembretes após você permitir notificações ao final do seu primeiro preparo.
+• Corrigido um problema em que os lembretes de preparo do dia 5 e do dia 10 às vezes desapareciam após você reabrir o app.
+• Corrigido um problema em que nomes longos de grãos e torrefações quebravam no meio de uma palavra na página do grão.
+• Corrigido um problema em que o rótulo “Melhor xícara” sobrepunha as classificações no gráfico do Percurso do café.

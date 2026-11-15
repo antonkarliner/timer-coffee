@@ -1,7 +1,18 @@
 Yang Baru:
-• Melihat kesalahan di halaman roaster? Ketuk ⋮ pada profil roaster dan pilih “Laporkan kesalahan”. Pilih yang salah, tambahkan nilai yang benar jika Anda mengetahuinya, lalu kirimkan. Kami meninjau setiap laporan.
-• Jika Anda mengelola roastery, Anda dapat mengklaim halamannya dari menu yang sama, atau dari tautan “Apakah ini roaster Anda?” di profil.
+• Kartu Langkah pertama kini memiliki langkah terakhir baru: “Aktifkan pengingat seduhan”. Ketuk untuk mengizinkan notifikasi langsung dari kartu.
+• Pada kartu Langkah pertama, “Tambahkan resep ke favorit” kini membuka resep yang paling baru Anda seduh dan menyorot ikon hati, sehingga Anda dapat menyimpannya dengan satu ketukan.
+• Setelah dua kali atau lebih menyeduh resep yang sama, langkah “Coba resep lain” kini menyarankan resep tertentu untuk metode yang sama. Ketuk untuk membuka resep tersebut.
+• Setelah seduhan pertama Anda, Anda akan menerima satu pengingat keesokan paginya, alih-alih menunggu hingga hari kelima. Pengingat ini membuka resep Anda dan tidak memulai timer. Anda tidak akan menerimanya jika pengingat seduh pagi harian sudah aktif.
+• Belum pernah menyeduh? Ketuk “Seduh nanti” pada resep apa pun untuk memilih waktu, dan kami akan mengingatkan Anda dengan resep tersebut siap diseduh.
 
 Peningkatan:
-• Pemeriksaan resep AI telah dihapus. Aplikasi kini selalu memeriksa sendiri jumlah dalam langkah resep Anda, dan tetap menanyakan kepada Anda saat suatu jumlah dapat berarti kopi atau air.
-• Roaster memiliki satu ikon etalase di seluruh aplikasi, yang digunakan sebagai pengganti logo roaster hingga logo ditambahkan.
+• Pengingat kesegaran kopi kini aktif secara bawaan. Jika sebelumnya Anda menonaktifkannya, pengingat tersebut akan tetap nonaktif. Anda dapat mengubahnya kapan saja di Pengaturan → Notifikasi.
+• Jika Anda sudah membuka aplikasi pada pagi hari, pengingat seduh pagi harian akan melewati hari itu.
+• Saat menulis resep, aplikasi kini lebih sering mengenali jumlah dalam langkah yang merupakan kopi dan yang merupakan air.
+• Daftar Resep favorit yang kosong kini menunjukkan cara menambahkan resep ke dalamnya.
+
+Perbaikan Bug:
+• Memperbaiki pengingat yang tidak disetel setelah Anda mengizinkan notifikasi di akhir seduhan pertama.
+• Memperbaiki pengingat seduh hari ke-5 dan ke-10 yang terkadang hilang setelah Anda membuka kembali aplikasi.
+• Memperbaiki nama biji kopi dan roaster yang panjang terpotong di tengah kata pada halaman biji kopi.
+• Memperbaiki label “Cangkir terbaik” yang tumpang tindih dengan peringkat pada grafik perjalanan biji kopi.

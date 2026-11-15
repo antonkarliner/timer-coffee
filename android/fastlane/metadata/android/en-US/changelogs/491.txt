@@ -1,0 +1,11 @@
+New:
+• First Steps card: turn on brew updates in one tap, “Favorite a recipe” opens your last brew, and “Try another recipe” names one.
+• One reminder the morning after your first brew.
+• Not brewed yet? Tap “Brew later” on a recipe and choose a time.
+
+Improved:
+• Freshness reminders are on by default, unless you turned them off.
+
+Fixed:
+• Reminders arrive again, without opening “Alarms & reminders” on every launch.
+• Long bean names no longer break mid-word.

@@ -1,0 +1,11 @@
+Novo:
+• Prvi koraci: dodirom uključi podsjetnike za pripremu; „Dodaj recept u favorite” otvara zadnju pripremu, a „Isprobaj drugi recept” traži naziv.
+• Podsjetnik jutro nakon prve pripreme.
+• Nisi pripremao/la? Na receptu dodirni „Pripremi kasnije” i odaberi vrijeme.
+
+Poboljšano:
+• Podsjetnici o svježini zadano su uključeni, osim ako su isključeni.
+
+Ispravljeno:
+• Podsjetnici opet stižu bez otvaranja „Alarmi i podsjetnici” pri svakom pokretanju.
+• Dugi nazivi zrna ne lome se usred riječi.

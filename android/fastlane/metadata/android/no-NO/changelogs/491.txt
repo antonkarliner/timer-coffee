@@ -1,0 +1,11 @@
+Nytt:
+• Første steg: Aktiver bryggevarsler med ett trykk. «Legg til en oppskrift i favoritter» åpner siste brygg, og «Prøv en annen oppskrift» foreslår en.
+• Én påminnelse morgenen etter første brygg.
+• Ikke brygget ennå? Trykk «Brygg senere» i en oppskrift og velg tidspunkt.
+
+Forbedret:
+• Ferskhetspåminnelser er på som standard, med mindre du har slått dem av.
+
+Fikset:
+• Påminnelser kommer igjen uten å åpne «Alarmer og påminnelser» ved oppstart.
+• Lange bønnenavn deles ikke lenger midt i ord.

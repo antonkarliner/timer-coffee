@@ -1,0 +1,11 @@
+Neu:
+• Karte „Erste Schritte“: Erinnerungen per Tipp aktivieren; Favorit öffnet letzte Brühung, „Anderes Rezept“ benennt eins.
+• Erinnerung am Morgen nach erster Brühung.
+• Noch nicht gebrüht? Bei Rezept „Später brühen“ tippen, Uhrzeit wählen.
+
+Verbessert:
+• Frische-Erinnerungen sind standardmäßig an, außer du hast sie ausgeschaltet.
+
+Behoben:
+• Erinnerungen kommen wieder an, ohne „Wecker & Erinnerungen“ bei jedem Start zu öffnen.
+• Lange Bohnennamen brechen nicht mehr im Wort um.

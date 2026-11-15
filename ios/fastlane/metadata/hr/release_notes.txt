@@ -1,7 +1,18 @@
 Što je novo:
-• Uočili ste pogrešku na stranici pržionice? Dodirnite ⋮ na profilu pržionice i odaberite „Prijaviti pogrešku”. Odaberite što nije u redu, dodajte ispravnu vrijednost ako je znate i pošaljite prijavu. Pregledavamo svaku prijavu.
-• Ako vodite pržionicu, možete preuzeti vlasništvo nad njezinom stranicom iz istog izbornika ili putem poveznice „Je li ovo vaša pržionica?” na profilu.
+• Kartica Prvi koraci ima novi posljednji korak: „Uključi podsjetnike za pripremu”. Dodirni ga da omogućiš obavijesti izravno s kartice.
+• Na kartici Prvi koraci opcija „Dodaj recept u favorite” sada otvara recept koji si zadnji pripremao/la i ističe srce kako bi ga mogao/la spremiti jednim dodirom.
+• Nakon dvije ili više priprema prema istom receptu, korak „Isprobaj drugi recept” sada predlaže određeni recept za istu metodu pripreme. Dodirni ga da otvoriš taj recept.
+• Nakon prve pripreme primit ćeš jedan podsjetnik sljedećeg jutra umjesto da čekaš peti dan. Otvara tvoj recept i ne pokreće mjerač vremena. Nećeš ga primiti ako je tvoj dnevni jutarnji podsjetnik već uključen.
+• Još nisi pripremao/la kavu? Dodirni „Pripremi kasnije” na bilo kojem receptu da odabereš vrijeme, a mi ćemo te podsjetiti s tim receptom spremnim za pripremu.
 
 Poboljšanja:
-• Provjera recepta uz pomoć AI-ja uklonjena je. Aplikacija sada uvijek sama provjerava količine u koracima recepta te vas i dalje pita kada se količina može odnositi na kavu ili vodu.
-• Pržionice sada imaju jednu ikonu trgovine u cijeloj aplikaciji, koja služi kao zamjena za logotip pržionice dok se ne doda logotip.
+• Podsjetnici o svježini kave sada su zadano uključeni. Ako si ih prije isključio/la, ostat će isključeni. To možeš promijeniti u bilo kojem trenutku u Postavke → Obavijesti.
+• Ako si već otvorio/la aplikaciju ujutro, tvoj dnevni jutarnji podsjetnik preskočit će taj dan.
+• Kada pišeš recept, aplikacija sada češće prepoznaje koje su količine u koracima kava, a koje voda.
+• Prazan popis Omiljeni recepti sada prikazuje kako mu dodati recept.
+
+Ispravci grešaka:
+• Ispravljeno je nepostavljanje podsjetnika nakon što dopustiš obavijesti na kraju prve pripreme.
+• Ispravljeno je povremeno nestajanje podsjetnika za pripremu 5. i 10. dana nakon ponovnog otvaranja aplikacije.
+• Ispravljeno je prelamanje dugih naziva zrna i pržionica usred riječi na stranici zrna.
+• Ispravljeno je preklapanje oznake „Najbolja šalica” s ocjenama na grafikonu Putovanja zrna kave.

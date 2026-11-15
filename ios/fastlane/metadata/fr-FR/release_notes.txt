@@ -1,7 +1,18 @@
 Nouveautés :
-• Vous avez repéré une erreur sur la page d’un torréfacteur ? Touchez ⋮ sur le profil du torréfacteur et choisissez « Signaler une erreur ». Sélectionnez ce qui ne va pas, ajoutez la valeur correcte si vous la connaissez, puis envoyez le signalement. Nous examinons chaque signalement.
-• Si vous gérez un torréfacteur, vous pouvez revendiquer sa page depuis le même menu, ou via le lien « C’est votre torréfacteur ? » sur le profil.
+• La carte Premiers pas comporte une nouvelle dernière étape : « Activez les rappels de préparation ». Touchez-la pour autoriser les notifications directement depuis la carte.
+• Sur la carte Premiers pas, « Ajoutez une recette aux favoris » ouvre désormais la recette que vous avez préparée le plus récemment et met en évidence le cœur, afin que vous puissiez l’enregistrer en un seul geste.
+• Après deux préparations ou plus de la même recette, l’étape « Essayez une autre recette » suggère désormais une recette précise utilisant la même méthode d’extraction. Touchez-la pour ouvrir cette recette.
+• Après votre première préparation, vous recevez un rappel le lendemain matin au lieu d’attendre le cinquième jour. Il ouvre votre recette sans lancer de minuteur. Vous ne le recevrez pas si votre rappel quotidien du matin est déjà activé.
+• Vous n’avez pas encore préparé de café ? Touchez « Préparer plus tard » sur n’importe quelle recette pour choisir une heure, et nous vous enverrons un rappel avec cette recette prête à être préparée.
 
 Améliorations :
-• La vérification des recettes par IA a été supprimée. L’app vérifie désormais toujours elle-même les quantités indiquées dans les étapes de votre recette et vous demande toujours confirmation lorsqu’une quantité peut correspondre au café ou à l’eau.
-• Les torréfacteurs utilisent désormais une même icône de boutique dans toute l’app, qui remplace le logo d’un torréfacteur jusqu’à ce qu’un logo soit ajouté.
+• Les rappels de fraîcheur du café sont désormais activés par défaut. Si vous les aviez désactivés auparavant, ils restent désactivés. Vous pouvez les modifier à tout moment dans Paramètres → Notifications.
+• Si vous avez déjà ouvert l’app le matin, votre rappel quotidien du matin est ignoré ce jour-là.
+• Lorsque vous rédigez une recette, l’app reconnaît plus souvent quelles quantités de vos étapes concernent le café et lesquelles concernent l’eau.
+• Une liste Recettes favorites vide indique désormais comment y ajouter une recette.
+
+Corrections de bugs :
+• Correction d’un problème empêchant la configuration des rappels après avoir autorisé les notifications à la fin de votre première préparation.
+• Correction d’un problème où les rappels de préparation du 5e et du 10e jour disparaissaient parfois après la réouverture de l’app.
+• Correction d’un problème où les longs noms de grains et de torréfacteurs se coupaient au milieu d’un mot sur la page du grain.
+• Correction d’un problème où l’étiquette « Meilleure tasse » chevauchait les évaluations sur le graphique du Parcours du café.

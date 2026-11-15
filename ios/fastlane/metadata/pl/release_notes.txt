@@ -1,7 +1,18 @@
 Co nowego:
-• Zauważyłeś błąd na stronie palarni? Stuknij ⋮ w profilu palarni i wybierz „Zgłoś błąd”. Wybierz, co jest nie tak, dodaj prawidłową wartość, jeśli ją znasz, i wyślij zgłoszenie. Rozpatrujemy każde zgłoszenie.
-• Jeśli prowadzisz palarnię, możesz zgłosić własność jej strony z tego samego menu lub przez link „To Twoja palarnia?” w profilu.
+• Karta Pierwsze kroki ma nowy ostatni krok: „Włącz przypomnienia o parzeniu”. Dotknij go, aby zezwolić na powiadomienia bezpośrednio z karty.
+• Na karcie Pierwsze kroki opcja „Dodaj przepis do ulubionych” otwiera teraz ostatnio używany przepis i wyróżnia serce, dzięki czemu możesz zapisać go jednym dotknięciem.
+• Po dwóch lub większej liczbie parzeń według tego samego przepisu krok „Wypróbuj inny przepis” sugeruje teraz konkretny przepis dla tej samej metody. Dotknij go, aby otworzyć ten przepis.
+• Po pierwszym parzeniu otrzymasz jedno przypomnienie następnego ranka, zamiast czekać do piątego dnia. Otworzy ono Twój przepis i nie uruchomi timera. Nie otrzymasz go, jeśli codzienne poranne przypomnienie jest już włączone.
+• Jeszcze nie parzyłeś? Dotknij „Zaparz później” przy dowolnym przepisie, aby wybrać godzinę, a przypomnimy Ci o nim, gdy będzie gotowy do zaparzenia.
 
 Ulepszenia:
-• Usunięto sprawdzanie przepisów przez AI. Aplikacja teraz zawsze sama sprawdza ilości w krokach przepisu i nadal pyta Cię, gdy dana ilość może oznaczać kawę lub wodę.
-• Palarnie mają jedną ikonę witryny w całej aplikacji, która zastępuje logo palarni, dopóki nie zostanie ono dodane.
+• Przypomnienia o świeżości kawy są teraz domyślnie włączone. Jeśli wcześniej je wyłączyłeś, pozostaną wyłączone. Możesz to zmienić w każdej chwili w Ustawienia → Powiadomienia.
+• Jeśli rano otworzyłeś już aplikację, codzienne poranne przypomnienie zostanie pominięte tego dnia.
+• Podczas tworzenia przepisu aplikacja częściej rozpoznaje, które ilości w krokach dotyczą kawy, a które wody.
+• Pusta lista Ulubione przepisy pokazuje teraz, jak dodać do niej przepis.
+
+Poprawki błędów:
+• Naprawiono problem z nieustawianiem przypomnień po zezwoleniu na powiadomienia na końcu pierwszego parzenia.
+• Naprawiono problem z przypomnieniami o parzeniu w 5. i 10. dniu, które czasami znikały po ponownym otwarciu aplikacji.
+• Naprawiono problem z łamaniem długich nazw ziaren i palarni w środku wyrazu na stronie ziarna.
+• Naprawiono problem z nakładaniem się etykiety „Najlepsza filiżanka” na oceny na wykresie Historii ziarna.

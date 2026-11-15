@@ -1,7 +1,18 @@
 Hva er nytt:
-• Har du oppdaget en feil på siden til et brenneri? Trykk på ⋮ på brenneriprofilen og velg «Rapporter en feil». Velg hva som er galt, legg til riktig verdi hvis du kjenner den, og send rapporten. Vi ser gjennom hver rapport.
-• Hvis du driver et brenneri, kan du gjøre krav på siden fra samme meny eller fra lenken «Er dette ditt brenneri?» på profilen.
+• Kortet Første steg har et nytt siste steg: «Slå på bryggevarsler». Trykk på det for å tillate varsler direkte fra kortet.
+• På kortet Første steg åpner «Legg til en oppskrift i favoritter» nå oppskriften du brygget sist og fremhever hjertet, slik at du kan lagre den med ett trykk.
+• Etter to eller flere brygg av samme oppskrift foreslår steget «Prøv en annen oppskrift» nå en bestemt oppskrift for samme metode. Trykk på den for å åpne oppskriften.
+• Etter ditt første brygg får du én påminnelse neste morgen i stedet for å vente til dag fem. Den åpner oppskriften din og starter ikke en timer. Du får den ikke hvis den daglige morgenpåminnelsen allerede er på.
+• Har du ikke brygget ennå? Trykk på «Brygg senere» på en hvilken som helst oppskrift for å velge et tidspunkt, så minner vi deg på det med oppskriften klar til bruk.
 
 Forbedringer:
-• AI-kontrollen av oppskrifter er fjernet. Appen kontrollerer nå alltid mengdene i oppskriftsstegene dine selv, og spør fortsatt når en mengde kan bety enten kaffe eller vann.
-• Brennerier har ett butikkfrontikon i hele appen, og det brukes som erstatning for et brenneris logo til en logo er lagt til.
+• Ferskhetspåminnelser for kaffe er nå aktivert som standard. Hvis du har slått dem av tidligere, forblir de av. Du kan når som helst endre dette i Innstillinger → Varsler.
+• Hvis du allerede har åpnet appen om morgenen, hopper den daglige morgenpåminnelsen over den dagen.
+• Når du skriver en oppskrift, gjenkjenner appen oftere hvilke mengder i stegene som er kaffe, og hvilke som er vann.
+• En tom liste over Favorittoppskrifter viser nå hvordan du legger til en oppskrift i den.
+
+Feilrettinger:
+• Rettet en feil der påminnelser ikke ble satt etter at du tillot varsler på slutten av ditt første brygg.
+• Rettet en feil der bryggepåminnelsene for dag 5 og dag 10 noen ganger forsvant etter at du åpnet appen igjen.
+• Rettet en feil der lange navn på bønner og brennerier ble brutt midt i et ord på bønnesiden.
+• Rettet en feil der etiketten «Beste kopp» overlappet vurderinger i diagrammet for Bønnereise.

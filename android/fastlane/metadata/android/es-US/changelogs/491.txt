@@ -1,0 +1,11 @@
+Nuevo:
+• En Primeros pasos, activa recordatorios; “Favorito” abre tu última preparación y “Prueba otra receta” nombra una.
+• Un recordatorio la mañana tras tu primera preparación.
+• ¿Aún no? Toca “Preparar más tarde” en una receta y elige hora.
+
+Mejorado:
+• Los recordatorios de frescura se activan por defecto, salvo si los desactivaste.
+
+Corregido:
+• Los recordatorios llegan sin abrir “Alarmas y recordatorios” al iniciar.
+• Los nombres largos de granos ya no se parten.

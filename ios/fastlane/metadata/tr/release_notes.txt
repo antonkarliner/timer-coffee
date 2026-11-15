@@ -1,7 +1,18 @@
 Yenilikler:
-• Bir kavurucunun sayfasında hata mı fark ettiniz? Kavurucu profilindeki ⋮ simgesine dokunun ve “Hata bildir”i seçin. Sorunun ne olduğunu seçin, biliyorsanız doğru değeri ekleyin ve gönderin. Her bildirimi inceliyoruz.
-• Bir kahve kavurucusu işletiyorsanız, sayfasını aynı menüden veya profildeki “Bu sizin kavurucunuz mu?” bağlantısından sahiplenebilirsiniz.
+• İlk Adımlar kartında yeni bir son adım var: “Demleme güncellemelerini açın”. Bildirimlere doğrudan karttan izin vermek için buna dokunun.
+• İlk Adımlar kartında “Bir tarifi favorilere ekleyin” artık en son demlediğiniz tarifi açıyor ve kalbi vurguluyor; böylece tek dokunuşla kaydedebilirsiniz.
+• Aynı tarifle iki veya daha fazla demleme yaptıktan sonra, “Başka bir tarif deneyin” adımı artık aynı yöntem için belirli bir tarif öneriyor. Tarifi açmak için ona dokunun.
+• İlk demlemenizden sonra, beşinci günü beklemek yerine ertesi sabah bir hatırlatma alırsınız. Hatırlatma tarifinizi açar ve zamanlayıcı başlatmaz. Günlük sabah hatırlatıcınız zaten açıksa bunu almazsınız.
+• Henüz demlemediniz mi? İstediğiniz tarifte “Sonra demle” seçeneğine dokunarak bir saat belirleyin; tarifiniz demlemeye hazır olduğunda size hatırlatacağız.
 
 İyileştirmeler:
-• Yapay zekâ tarif kontrolü kaldırıldı. Uygulama artık tarif adımlarınızdaki miktarları her zaman kendisi kontrol ediyor ve bir miktarın kahve mi su mu olabileceği belirsiz olduğunda size sormaya devam ediyor.
-• Kavurucular artık uygulama genelinde tek bir mağaza vitrini simgesi kullanıyor ve logo eklenene kadar bu simge kavurucunun logosu yerine geçiyor.
+• Kahve tazelik hatırlatıcıları artık varsayılan olarak açık. Daha önce kapattıysanız kapalı kalırlar. Bunu istediğiniz zaman Ayarlar → Bildirimler bölümünden değiştirebilirsiniz.
+• Sabah uygulamayı zaten açtıysanız günlük sabah hatırlatıcınız o gün için atlanır.
+• Tarif yazarken uygulama artık adımlarınızdaki hangi miktarların kahveye, hangilerinin suya ait olduğunu daha sık tanıyor.
+• Boş bir Favori Tarifler listesi artık listeye nasıl tarif ekleyeceğinizi gösteriyor.
+
+Hata Düzeltmeleri:
+• İlk demlemenizin sonunda bildirimlere izin verdikten sonra hatırlatıcıların ayarlanmaması düzeltildi.
+• 5. ve 10. gün demleme hatırlatıcılarının uygulamayı yeniden açtıktan sonra bazen kaybolması düzeltildi.
+• Uzun çekirdek ve kahve kavurucusu adlarının çekirdek sayfasında kelimenin ortasında bölünmesi düzeltildi.
+• Çekirdek yolculuğu grafiğinde “En iyi fincan” etiketinin puanlamaların üzerine gelmesi düzeltildi.

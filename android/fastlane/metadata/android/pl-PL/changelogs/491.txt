@@ -1,0 +1,11 @@
+Nowości:
+• Pierwsze kroki: jednym dotknięciem włącz przypomnienia; „Ulubione” otwiera ostatnie parzenie, a „Wypróbuj inny przepis” wskazuje przepis.
+• Przypomnienie następnego ranka po pierwszym parzeniu.
+• Jeszcze nie parzysz? Wybierz „Zaparz później” i godzinę.
+
+Ulepszenia:
+• Przypomnienia o świeżości są włączone domyślnie, chyba że je wyłączono.
+
+Poprawki:
+• Przypomnienia znów działają bez otwierania „Alarmów i przypomnień” przy starcie.
+• Długie nazwy ziaren nie łamią się w słowach.

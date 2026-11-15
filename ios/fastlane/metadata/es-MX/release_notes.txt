@@ -1,7 +1,18 @@
 Novedades:
-• ¿Detectaste un error en la página de una tostaduría? Toca ⋮ en el perfil de la tostaduría y elige “Reportar un error”. Selecciona qué está mal, agrega el valor correcto si lo conoces y envíalo. Revisamos cada reporte.
-• Si tienes una tostaduría, puedes reclamar su página desde el mismo menú o desde el enlace “¿Esta es tu tostaduría?” en el perfil.
+• La tarjeta de Primeros pasos tiene un nuevo último paso: «Activa los recordatorios de preparación». Tócalo para permitir las notificaciones directamente desde la tarjeta.
+• En la tarjeta de Primeros pasos, «Añade una receta a favoritos» ahora abre la receta que preparaste más recientemente y resalta el corazón para que puedas guardarla con un toque.
+• Después de dos o más preparaciones con la misma receta, el paso «Prueba otra receta» ahora sugiere una receta específica para el mismo método. Tócala para abrir esa receta.
+• Después de tu primera preparación, recibirás un recordatorio a la mañana siguiente en lugar de esperar hasta el quinto día. Abre tu receta y no inicia un temporizador. No lo recibirás si ya tienes activado el recordatorio diario de café matutino.
+• ¿Aún no has preparado café? Toca «Preparar más tarde» en cualquier receta para elegir una hora y te recordaremos con esa receta lista para empezar.
 
 Mejoras:
-• Se eliminó la revisión de recetas con IA. Ahora la app siempre revisa por sí misma las cantidades en los pasos de tu receta y aún te pregunta cuando una cantidad podría referirse al café o al agua.
-• Las tostadurías tienen un solo ícono de tienda en toda la app, que sustituye el logo de una tostaduría hasta que se agregue uno.
+• Los recordatorios de frescura del café ahora están activados de forma predeterminada. Si los desactivaste antes, permanecerán desactivados. Puedes cambiarlo cuando quieras en Configuración → Notificaciones.
+• Si ya abriste la app por la mañana, tu recordatorio diario de café matutino se omitirá ese día.
+• Al escribir una receta, la app reconoce con mayor frecuencia qué cantidades de los pasos corresponden al café y cuáles al agua.
+• Una lista vacía de Recetas favoritas ahora muestra cómo añadirle una receta.
+
+Correcciones de errores:
+• Se corrigió un problema por el que no se configuraban recordatorios después de permitir las notificaciones al final de tu primera preparación.
+• Se corrigió un problema por el que los recordatorios de preparación del día 5 y del día 10 a veces desaparecían después de volver a abrir la app.
+• Se corrigió un problema por el que los nombres largos de granos y tostadurías se dividían en medio de una palabra en la página de granos.
+• Se corrigió un problema por el que la etiqueta «Mejor taza» se superponía con las calificaciones en la gráfica del recorrido del café.

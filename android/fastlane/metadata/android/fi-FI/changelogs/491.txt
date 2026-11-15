@@ -1,0 +1,11 @@
+Uutta:
+• Ensiaskeleet: valmistusmuistutukset päälle napautuksella; ”Lisää resepti suosikkeihin” avaa viime uuton, ”Kokeile toista reseptiä” nimeää sen.
+• Muistutus ensimmäistä uuttoa seuraavana aamuna.
+• Ei uuttoja? Napauta ”Valmista myöhemmin” ja valitse aika.
+
+Parannettu:
+• Tuoreusmuistutukset ovat oletuksena päällä, ellet poistanut niitä.
+
+Korjattu:
+• Muistutukset taas ilman, että ”Hälytykset ja muistutukset” avautuu joka käynnistyksellä.
+• Pitkät papunimet eivät katkea kesken sanan.
