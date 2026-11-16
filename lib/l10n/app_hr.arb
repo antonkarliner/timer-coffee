@@ -1701,5 +1701,15 @@
   "forYouSettingSubtitle": "Na Središtu prikazuje dostupna zrna odabrana za tebe",
   "forYouHiddenMessage": "Prijedlozi zrna su isključeni. Možeš ih ponovno uključiti u Postavkama.",
   "roasterStockTitle": "Trenutno na stanju",
-  "roasterStockDecaf": "Bez kofeina"
+  "roasterStockDecaf": "Bez kofeina",
+  "stockProcessWashed": "Prana obrada",
+  "stockProcessNatural": "Prirodna obrada",
+  "stockProcessHoney": "Medena obrada",
+  "stockProcessExperimental": "Eksperimentalna obrada",
+  "stockProcessWetHulled": "Mokro ljuštenje",
+  "stockFlavorChocolate": "Čokolada",
+  "stockFlavorStoneFruit": "Koštičavo voće",
+  "stockFlavorTeaLike": "Čajne note",
+  "stockFlavorWiney": "Vinske note",
+  "stockFlavorEarthy": "Zemljane note"
 }

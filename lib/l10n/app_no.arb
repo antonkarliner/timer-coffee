@@ -1811,5 +1811,15 @@
   "forYouSettingSubtitle": "Viser bønner på lager valgt for deg på Hub",
   "forYouHiddenMessage": "Bønneforslag er slått av. Du kan slå dem på igjen i Innstillinger.",
   "roasterStockTitle": "På lager nå",
-  "roasterStockDecaf": "Koffeinfri"
+  "roasterStockDecaf": "Koffeinfri",
+  "stockProcessWashed": "Vasket",
+  "stockProcessNatural": "Bærtørket",
+  "stockProcessHoney": "Honey-prosess",
+  "stockProcessExperimental": "Eksperimentell prosess",
+  "stockProcessWetHulled": "Våtskrellet",
+  "stockFlavorChocolate": "Sjokolade",
+  "stockFlavorStoneFruit": "Steinfrukt",
+  "stockFlavorTeaLike": "Teaktig",
+  "stockFlavorWiney": "Vinaktig",
+  "stockFlavorEarthy": "Jordaktig"
 }

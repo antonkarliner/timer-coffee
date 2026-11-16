@@ -1581,5 +1581,15 @@
   "forYouSettingSubtitle": "Affiche sur le Hub des grains en stock choisis pour vous",
   "forYouHiddenMessage": "Les suggestions de grains sont désactivées. Vous pouvez les réactiver dans les Paramètres.",
   "roasterStockTitle": "En stock actuellement",
-  "roasterStockDecaf": "Décaféiné"
+  "roasterStockDecaf": "Décaféiné",
+  "stockProcessWashed": "Lavé",
+  "stockProcessNatural": "Nature",
+  "stockProcessHoney": "Procédé honey",
+  "stockProcessExperimental": "Procédé expérimental",
+  "stockProcessWetHulled": "Décorticage humide",
+  "stockFlavorChocolate": "Chocolat",
+  "stockFlavorStoneFruit": "Fruits à noyau",
+  "stockFlavorTeaLike": "Notes de thé",
+  "stockFlavorWiney": "Vineux",
+  "stockFlavorEarthy": "Terreux"
 }

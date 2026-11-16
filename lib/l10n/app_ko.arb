@@ -1701,5 +1701,15 @@
   "forYouSettingSubtitle": "허브에서 지금 구매 가능한 맞춤 원두를 표시해요",
   "forYouHiddenMessage": "원두 추천이 꺼져 있어요. 설정에서 다시 켤 수 있어요.",
   "roasterStockTitle": "현재 판매 중",
-  "roasterStockDecaf": "디카페인"
+  "roasterStockDecaf": "디카페인",
+  "stockProcessWashed": "워시드",
+  "stockProcessNatural": "내추럴",
+  "stockProcessHoney": "허니 프로세스",
+  "stockProcessExperimental": "실험적 가공",
+  "stockProcessWetHulled": "웻 헐링",
+  "stockFlavorChocolate": "초콜릿",
+  "stockFlavorStoneFruit": "핵과류",
+  "stockFlavorTeaLike": "차 같은",
+  "stockFlavorWiney": "와인 같은",
+  "stockFlavorEarthy": "흙내음"
 }

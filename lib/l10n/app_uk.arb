@@ -1581,5 +1581,15 @@
   "forYouSettingSubtitle": "Показує в Центрі зерно в наявності, підібране для вас",
   "forYouHiddenMessage": "Рекомендації зерна вимкнено. Ви можете знову увімкнути їх у налаштуваннях.",
   "roasterStockTitle": "Зараз у наявності",
-  "roasterStockDecaf": "Без кофеїну"
+  "roasterStockDecaf": "Без кофеїну",
+  "stockProcessWashed": "Мита",
+  "stockProcessNatural": "Натуральна",
+  "stockProcessHoney": "Хані",
+  "stockProcessExperimental": "Експериментальна обробка",
+  "stockProcessWetHulled": "Вет-хал",
+  "stockFlavorChocolate": "Шоколад",
+  "stockFlavorStoneFruit": "Кісточкові фрукти",
+  "stockFlavorTeaLike": "Чайні ноти",
+  "stockFlavorWiney": "Винні ноти",
+  "stockFlavorEarthy": "Землисті ноти"
 }

@@ -1581,5 +1581,15 @@
   "forYouSettingSubtitle": "Mostra nell’Hub chicchi disponibili scelti per te",
   "forYouHiddenMessage": "I suggerimenti di chicchi sono disattivati. Puoi riattivarli nelle Impostazioni.",
   "roasterStockTitle": "Disponibile ora",
-  "roasterStockDecaf": "Decaffeinato"
+  "roasterStockDecaf": "Decaffeinato",
+  "stockProcessWashed": "Lavato",
+  "stockProcessNatural": "Naturale",
+  "stockProcessHoney": "Processo honey",
+  "stockProcessExperimental": "Processo sperimentale",
+  "stockProcessWetHulled": "Decorticazione a umido",
+  "stockFlavorChocolate": "Cioccolato",
+  "stockFlavorStoneFruit": "Frutta a nocciolo",
+  "stockFlavorTeaLike": "Note di tè",
+  "stockFlavorWiney": "Vinoso",
+  "stockFlavorEarthy": "Terroso"
 }

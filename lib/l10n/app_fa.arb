@@ -1703,5 +1703,15 @@
   "forYouSettingSubtitle": "نمایش دانه‌های موجود برگزیده برای شما در مرکز",
   "forYouHiddenMessage": "پیشنهاد دانه‌ها خاموش است. می‌توانید آن را در تنظیمات دوباره روشن کنید.",
   "roasterStockTitle": "اکنون موجود است",
-  "roasterStockDecaf": "بدون کافئین"
+  "roasterStockDecaf": "بدون کافئین",
+  "stockProcessWashed": "شسته",
+  "stockProcessNatural": "طبیعی",
+  "stockProcessHoney": "فرآوری عسلی",
+  "stockProcessExperimental": "فرآوری تجربی",
+  "stockProcessWetHulled": "پوست‌گیری مرطوب",
+  "stockFlavorChocolate": "شکلات",
+  "stockFlavorStoneFruit": "میوه‌های هسته‌دار",
+  "stockFlavorTeaLike": "چای‌مانند",
+  "stockFlavorWiney": "شراب‌مانند",
+  "stockFlavorEarthy": "خاکی"
 }

@@ -1581,5 +1581,15 @@
   "forYouSettingSubtitle": "Menampilkan biji yang tersedia dan dipilih untuk Anda di Hub",
   "forYouHiddenMessage": "Saran biji dimatikan. Anda dapat mengaktifkannya kembali di Pengaturan.",
   "roasterStockTitle": "Tersedia sekarang",
-  "roasterStockDecaf": "Tanpa kafein"
+  "roasterStockDecaf": "Tanpa kafein",
+  "stockProcessWashed": "Proses basah",
+  "stockProcessNatural": "Proses natural",
+  "stockProcessHoney": "Proses honey",
+  "stockProcessExperimental": "Proses eksperimental",
+  "stockProcessWetHulled": "Giling basah",
+  "stockFlavorChocolate": "Cokelat",
+  "stockFlavorStoneFruit": "Buah berbiji keras",
+  "stockFlavorTeaLike": "Seperti teh",
+  "stockFlavorWiney": "Seperti anggur",
+  "stockFlavorEarthy": "Tanah"
 }

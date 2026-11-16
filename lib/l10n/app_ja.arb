@@ -1581,5 +1581,15 @@
   "forYouSettingSubtitle": "ハブにあなた向けの在庫ありの豆を表示します",
   "forYouHiddenMessage": "豆のおすすめはオフです。設定でもう一度オンにできます。",
   "roasterStockTitle": "現在販売中",
-  "roasterStockDecaf": "カフェインレス"
+  "roasterStockDecaf": "カフェインレス",
+  "stockProcessWashed": "ウォッシュド",
+  "stockProcessNatural": "ナチュラル",
+  "stockProcessHoney": "ハニープロセス",
+  "stockProcessExperimental": "実験的プロセス",
+  "stockProcessWetHulled": "ウェットハル",
+  "stockFlavorChocolate": "チョコレート",
+  "stockFlavorStoneFruit": "ストーンフルーツ",
+  "stockFlavorTeaLike": "紅茶のような",
+  "stockFlavorWiney": "ワインのような",
+  "stockFlavorEarthy": "アーシー"
 }

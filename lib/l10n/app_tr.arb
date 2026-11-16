@@ -1581,5 +1581,15 @@
   "forYouSettingSubtitle": "Hub’da sizin için seçilmiş stoktaki çekirdekleri gösterir",
   "forYouHiddenMessage": "Çekirdek önerileri kapalı. Ayarlar’dan yeniden açabilirsiniz.",
   "roasterStockTitle": "Şu an stokta",
-  "roasterStockDecaf": "Kafeinsiz"
+  "roasterStockDecaf": "Kafeinsiz",
+  "stockProcessWashed": "Yıkanmış",
+  "stockProcessNatural": "Doğal",
+  "stockProcessHoney": "Bal işleme",
+  "stockProcessExperimental": "Deneysel işleme",
+  "stockProcessWetHulled": "Islak kabuk soyma",
+  "stockFlavorChocolate": "Çikolata",
+  "stockFlavorStoneFruit": "Çekirdekli meyve",
+  "stockFlavorTeaLike": "Çayımsı",
+  "stockFlavorWiney": "Şarabımsı",
+  "stockFlavorEarthy": "Topraksı"
 }

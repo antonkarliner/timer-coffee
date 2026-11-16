@@ -1581,5 +1581,15 @@
   "forYouSettingSubtitle": "عرض الحبوب المتوفرة المختارة لك في المركز",
   "forYouHiddenMessage": "اقتراحات الحبوب غير مفعّلة. يمكنك إعادة تفعيلها من الإعدادات.",
   "roasterStockTitle": "متوفر الآن",
-  "roasterStockDecaf": "منزوع الكافيين"
+  "roasterStockDecaf": "منزوع الكافيين",
+  "stockProcessWashed": "مغسولة",
+  "stockProcessNatural": "طبيعية",
+  "stockProcessHoney": "معالجة عسلية",
+  "stockProcessExperimental": "معالجة تجريبية",
+  "stockProcessWetHulled": "تقشير رطب",
+  "stockFlavorChocolate": "شوكولاتة",
+  "stockFlavorStoneFruit": "فواكه ذات نواة",
+  "stockFlavorTeaLike": "شبيهة بالشاي",
+  "stockFlavorWiney": "نبيذية",
+  "stockFlavorEarthy": "ترابية"
 }

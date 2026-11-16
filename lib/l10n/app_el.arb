@@ -1851,5 +1851,15 @@
   "forYouSettingSubtitle": "Εμφάνιση διαθέσιμων κόκκων επιλεγμένων για εσάς στο Κέντρο",
   "forYouHiddenMessage": "Οι προτάσεις κόκκων είναι ανενεργές. Μπορείτε να τις ενεργοποιήσετε ξανά στις Ρυθμίσεις.",
   "roasterStockTitle": "Διαθέσιμο τώρα",
-  "roasterStockDecaf": "Χωρίς καφεΐνη"
+  "roasterStockDecaf": "Χωρίς καφεΐνη",
+  "stockProcessWashed": "Πλυμένος",
+  "stockProcessNatural": "Φυσική επεξεργασία",
+  "stockProcessHoney": "Επεξεργασία honey",
+  "stockProcessExperimental": "Πειραματική επεξεργασία",
+  "stockProcessWetHulled": "Υγρή αποφλοίωση",
+  "stockFlavorChocolate": "Σοκολάτα",
+  "stockFlavorStoneFruit": "Πυρηνόκαρπα",
+  "stockFlavorTeaLike": "Νότες τσαγιού",
+  "stockFlavorWiney": "Νότες κρασιού",
+  "stockFlavorEarthy": "Γήινος"
 }

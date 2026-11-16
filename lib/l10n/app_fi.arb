@@ -1433,5 +1433,15 @@
   "forYouSettingSubtitle": "Näyttää Hubissa sinulle valitut varastossa olevat pavut",
   "forYouHiddenMessage": "Papusuositukset on poistettu käytöstä. Voit ottaa ne käyttöön uudelleen asetuksissa.",
   "roasterStockTitle": "Nyt saatavilla",
-  "roasterStockDecaf": "Kofeiiniton"
+  "roasterStockDecaf": "Kofeiiniton",
+  "stockProcessWashed": "Pesty",
+  "stockProcessNatural": "Natural",
+  "stockProcessHoney": "Honey-käsittely",
+  "stockProcessExperimental": "Kokeellinen käsittely",
+  "stockProcessWetHulled": "Märkäkuorittu",
+  "stockFlavorChocolate": "Suklaa",
+  "stockFlavorStoneFruit": "Kivihedelmät",
+  "stockFlavorTeaLike": "Teemäinen",
+  "stockFlavorWiney": "Viinimäinen",
+  "stockFlavorEarthy": "Maanläheinen"
 }

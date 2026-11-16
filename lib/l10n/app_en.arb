@@ -3253,5 +3253,45 @@
   "roasterStockTitle": "In stock now",
   "@roasterStockTitle": {"description": "Section title on a roaster's profile page: the coffee they currently sell."},
   "roasterStockDecaf": "Decaf",
-  "@roasterStockDecaf": {"description": "Short marker appended to a stock item's summary line for decaffeinated coffee."}
+  "@roasterStockDecaf": {"description": "Short marker appended to a stock item's summary line for decaffeinated coffee."},
+  "stockProcessWashed": "Washed",
+  "@stockProcessWashed": {
+    "description": "Label for a coffee processing method shown on a roaster’s in-stock bean card; coffee-trade term — use the term roasters use in that language."
+  },
+  "stockProcessNatural": "Natural",
+  "@stockProcessNatural": {
+    "description": "Label for a coffee processing method shown on a roaster’s in-stock bean card; coffee-trade term — use the term roasters use in that language."
+  },
+  "stockProcessHoney": "Honey process",
+  "@stockProcessHoney": {
+    "description": "Label for a coffee processing method shown on a roaster’s in-stock bean card; coffee-trade term — use the term roasters use in that language."
+  },
+  "stockProcessExperimental": "Experimental process",
+  "@stockProcessExperimental": {
+    "description": "Label for a coffee processing method shown on a roaster’s in-stock bean card; coffee-trade term — use the term roasters use in that language."
+  },
+  "stockProcessWetHulled": "Wet-hulled",
+  "@stockProcessWetHulled": {
+    "description": "Label for a coffee processing method shown on a roaster’s in-stock bean card; coffee-trade term — use the term roasters use in that language."
+  },
+  "stockFlavorChocolate": "Chocolate",
+  "@stockFlavorChocolate": {
+    "description": "Label for a flavour family shown on a roaster’s in-stock bean card; coffee-trade term — use the term roasters use in that language."
+  },
+  "stockFlavorStoneFruit": "Stone fruit",
+  "@stockFlavorStoneFruit": {
+    "description": "Label for a flavour family shown on a roaster’s in-stock bean card; coffee-trade term — use the term roasters use in that language."
+  },
+  "stockFlavorTeaLike": "Tea-like",
+  "@stockFlavorTeaLike": {
+    "description": "Label for a flavour family shown on a roaster’s in-stock bean card; coffee-trade term — use the term roasters use in that language."
+  },
+  "stockFlavorWiney": "Winey",
+  "@stockFlavorWiney": {
+    "description": "Label for a flavour family shown on a roaster’s in-stock bean card; coffee-trade term — use the term roasters use in that language."
+  },
+  "stockFlavorEarthy": "Earthy",
+  "@stockFlavorEarthy": {
+    "description": "Label for a flavour family shown on a roaster’s in-stock bean card; coffee-trade term — use the term roasters use in that language."
+  }
 }

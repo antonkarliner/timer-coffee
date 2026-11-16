@@ -1581,5 +1581,15 @@
   "forYouSettingSubtitle": "Afișează în Hub boabe pe stoc alese pentru tine",
   "forYouHiddenMessage": "Sugestiile de boabe sunt dezactivate. Le poți reacțiva din Setări.",
   "roasterStockTitle": "Disponibil acum",
-  "roasterStockDecaf": "Fără cofeină"
+  "roasterStockDecaf": "Fără cofeină",
+  "stockProcessWashed": "Spălată",
+  "stockProcessNatural": "Naturală",
+  "stockProcessHoney": "Procesare honey",
+  "stockProcessExperimental": "Procesare experimentală",
+  "stockProcessWetHulled": "Decojire umedă",
+  "stockFlavorChocolate": "Ciocolată",
+  "stockFlavorStoneFruit": "Fructe cu sâmbure",
+  "stockFlavorTeaLike": "Note de ceai",
+  "stockFlavorWiney": "Note de vin",
+  "stockFlavorEarthy": "Note de pământ"
 }

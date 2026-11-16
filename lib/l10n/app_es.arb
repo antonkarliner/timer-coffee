@@ -1581,5 +1581,15 @@
   "forYouSettingSubtitle": "Muestra en el Hub granos disponibles elegidos para ti",
   "forYouHiddenMessage": "Las sugerencias de granos están desactivadas. Puedes volver a activarlas en Configuración.",
   "roasterStockTitle": "Disponible ahora",
-  "roasterStockDecaf": "Descafeinado"
+  "roasterStockDecaf": "Descafeinado",
+  "stockProcessWashed": "Lavado",
+  "stockProcessNatural": "Natural",
+  "stockProcessHoney": "Proceso honey",
+  "stockProcessExperimental": "Proceso experimental",
+  "stockProcessWetHulled": "Trillado húmedo",
+  "stockFlavorChocolate": "Chocolate",
+  "stockFlavorStoneFruit": "Fruta de hueso",
+  "stockFlavorTeaLike": "Notas de té",
+  "stockFlavorWiney": "Vinoso",
+  "stockFlavorEarthy": "Terroso"
 }

@@ -11,6 +11,7 @@ import 'package:coffee_timer/widgets/containers/section_card.dart';
 import 'package:coffee_timer/widgets/roaster_stock_section.dart';
 import 'package:coffee_timer/widgets/stock_bean_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -125,6 +126,8 @@ RoasterStockItem stock(
   String name = 'Test Bean',
   String? imageUrl,
   List<String> origins = const [],
+  String? processFamily,
+  List<String> flavorFamilies = const [],
   bool isDecaf = false,
   String? productUrl,
 }) =>
@@ -133,6 +136,8 @@ RoasterStockItem stock(
       beanName: name,
       imageUrl: imageUrl,
       originCountryCodes: origins,
+      processFamily: processFamily,
+      flavorFamilies: flavorFamilies,
       isDecaf: isDecaf,
       productUrl: productUrl,
     );
@@ -539,6 +544,71 @@ void main() {
       expect(find.text('· $_decafMarker'), findsNothing);
       expect(tester.takeException(), isNull);
     });
+
+    testWidgets('attributes precede decaf and For you; only three known flavours',
+        (tester) async {
+      final picks = await _picksProvider([pick('s1')]);
+      addTearDown(picks.dispose);
+      final client = _FakeStockClient(
+        result: RoasterStockResult(items: [
+          stock('s1', origins: ['ET'], processFamily: 'natural',
+              flavorFamilies: ['unknown', 'berry', 'floral', 'other', 'citrus',
+                'chocolate', 'earthy'], isDecaf: true),
+        ]),
+      );
+      await _pumpSection(tester, client: client, picks: picks);
+      await tester.pumpAndSettle();
+
+      expect(tester.widget<StockBeanCard>(find.byType(StockBeanCard)).subtitle,
+          'Ethiopia · Natural · Berry, Floral, Citrus · Decaf · For you');
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('attributes work without origins; empty and unknown stay absent',
+        (tester) async {
+      final client = _FakeStockClient(
+        result: RoasterStockResult(items: [
+          stock('s1', processFamily: 'washed', flavorFamilies: ['tea_like']),
+          stock('s2', processFamily: 'honey'),
+          stock('s3', flavorFamilies: ['unknown', 'chocolate']),
+          stock('s4', processFamily: 'other', flavorFamilies: ['unknown']),
+          stock('s5'),
+        ]),
+      );
+      await _pumpSection(tester, client: client);
+      await tester.pumpAndSettle();
+      await tester.ensureVisible(find.text(_showMoreLabel));
+      await tester.tap(find.text(_showMoreLabel));
+      await tester.pumpAndSettle();
+
+      expect(tester.widgetList<StockBeanCard>(find.byType(StockBeanCard))
+          .map((card) => card.subtitle),
+          ['Washed · Tea-like', 'Honey process', 'Chocolate', null, null]);
+      expect(tester.takeException(), isNull);
+    });
+
+    for (final (locale, expected) in [
+      ('de', 'Gewaschen · Schokolade, Steinobst, Teeartig'),
+      ('ar', 'مغسولة · شوكولاتة، فواكه ذات نواة، شبيهة بالشاي'),
+      ('fa', 'شسته، شکلات، میوه‌های هسته‌دار، چای‌مانند'),
+    ]) {
+      testWidgets('$locale translates attributes and separates flavours',
+          (tester) async {
+        final client = _FakeStockClient(
+          result: RoasterStockResult(items: [
+            stock('s1', processFamily: 'washed',
+                flavorFamilies: ['chocolate', 'stone_fruit', 'tea_like']),
+          ]),
+        );
+        await _pumpSection(tester, client: client, locale: Locale(locale));
+        await tester.pumpAndSettle();
+
+        expect(tester.widget<StockBeanCard>(find.byType(StockBeanCard)).subtitle,
+            expected);
+        expect(find.text(expected), findsOneWidget);
+        expect(tester.takeException(), isNull);
+      });
+    }
 
     testWidgets('no price shown', (tester) async {
       final client = _FakeStockClient(
@@ -970,6 +1040,8 @@ void main() {
               's$i',
               name: longName,
               origins: i.isEven ? ['BR', 'XX'] : [],
+              processFamily: 'experimental',
+              flavorFamilies: ['chocolate', 'stone_fruit', 'tea_like', 'earthy'],
               isDecaf: i.isOdd,
               productUrl: 'https://shop.example.com/very/long/path/b$i',
             ),
@@ -983,6 +1055,17 @@ void main() {
         textScaler: TextScaler.linear(1.3),
       );
       await tester.pumpAndSettle();
+      final firstCard = find.byType(StockBeanCard).first;
+      final subtitle = tester.widget<StockBeanCard>(firstCard).subtitle!;
+      final subtitleFinder = find.descendant(
+        of: firstCard,
+        matching: find.text(subtitle),
+      );
+      final text = tester.widget<Text>(subtitleFinder);
+      expect(text.maxLines, 2);
+      expect(text.overflow, TextOverflow.ellipsis);
+      expect(tester.renderObject<RenderParagraph>(subtitleFinder)
+          .didExceedMaxLines, isTrue);
     }
 
     testWidgets('120-char names, de', (tester) async {

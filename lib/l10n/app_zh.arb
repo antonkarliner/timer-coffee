@@ -1581,5 +1581,15 @@
   "forYouSettingSubtitle": "在“中心区”显示为你挑选的有货咖啡豆",
   "forYouHiddenMessage": "咖啡豆推荐已关闭。你可以在设置中重新打开。",
   "roasterStockTitle": "现货出售",
-  "roasterStockDecaf": "低因"
+  "roasterStockDecaf": "低因",
+  "stockProcessWashed": "水洗",
+  "stockProcessNatural": "日晒",
+  "stockProcessHoney": "蜜处理",
+  "stockProcessExperimental": "实验性处理",
+  "stockProcessWetHulled": "湿刨",
+  "stockFlavorChocolate": "巧克力",
+  "stockFlavorStoneFruit": "核果",
+  "stockFlavorTeaLike": "茶感",
+  "stockFlavorWiney": "酒香",
+  "stockFlavorEarthy": "泥土风味"
 }

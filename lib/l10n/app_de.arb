@@ -1581,5 +1581,15 @@
   "forYouSettingSubtitle": "Zeigt auf dem Hub Bohnen auf Lager, die für dich ausgewählt wurden",
   "forYouHiddenMessage": "Bohnen-Vorschläge sind aus. Du kannst sie in den Einstellungen wieder einschalten.",
   "roasterStockTitle": "Jetzt vorrätig",
-  "roasterStockDecaf": "Entkoffeiniert"
+  "roasterStockDecaf": "Entkoffeiniert",
+  "stockProcessWashed": "Gewaschen",
+  "stockProcessNatural": "Natural",
+  "stockProcessHoney": "Honey-Aufbereitung",
+  "stockProcessExperimental": "Experimentelle Aufbereitung",
+  "stockProcessWetHulled": "Nass geschält",
+  "stockFlavorChocolate": "Schokolade",
+  "stockFlavorStoneFruit": "Steinobst",
+  "stockFlavorTeaLike": "Teeartig",
+  "stockFlavorWiney": "Weinartig",
+  "stockFlavorEarthy": "Erdig"
 }

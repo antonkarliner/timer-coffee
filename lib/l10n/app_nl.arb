@@ -1581,5 +1581,15 @@
   "forYouSettingSubtitle": "Toont op de Hub bonen op voorraad die voor jou zijn gekozen",
   "forYouHiddenMessage": "Bonensuggesties zijn uitgeschakeld. Je kunt ze weer inschakelen in de Instellingen.",
   "roasterStockTitle": "Nu op voorraad",
-  "roasterStockDecaf": "Cafeïnevrij"
+  "roasterStockDecaf": "Cafeïnevrij",
+  "stockProcessWashed": "Gewassen",
+  "stockProcessNatural": "Natural",
+  "stockProcessHoney": "Honey-verwerking",
+  "stockProcessExperimental": "Experimentele verwerking",
+  "stockProcessWetHulled": "Nat gepeld",
+  "stockFlavorChocolate": "Chocolade",
+  "stockFlavorStoneFruit": "Steenfruit",
+  "stockFlavorTeaLike": "Theeachtig",
+  "stockFlavorWiney": "Wijnachtig",
+  "stockFlavorEarthy": "Aards"
 }

@@ -8,6 +8,7 @@ import 'package:coffee_timer/services/clients/roaster_stock_client.dart';
 import 'package:coffee_timer/services/feature_flags/feature_flags_repository.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/utils/country_names.dart';
+import 'package:coffee_timer/utils/stock_attribute_labels.dart';
 import 'package:coffee_timer/utils/stock_links.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:coffee_timer/widgets/containers/section_card.dart';
@@ -327,9 +328,8 @@ class _RoasterStockSectionState extends State<RoasterStockSection> {
     );
   }
 
-  /// Origin country names (codes the app cannot name are skipped), then the
-  /// decaf marker, then — for items already on the user's "For you" list —
-  /// the "For you" marker.
+  /// Origins, process, up to three recognized flavours, then decaf and the
+  /// "For you" marker. The flavour list stays together as one summary part.
   String? _secondaryLine(
     BuildContext context,
     AppLocalizations l10n,
@@ -337,10 +337,21 @@ class _RoasterStockSectionState extends State<RoasterStockSection> {
     bool isPick,
   ) {
     final names = <String>[];
+    final locale = Localizations.localeOf(context);
     for (final code in item.originCountryCodes) {
-      final name = localizedCountryName(code, Localizations.localeOf(context));
+      final name = localizedCountryName(code, locale);
       if (name != null && name.trim().isNotEmpty) names.add(name);
     }
+    final process = stockProcessLabel(l10n, item.processFamily);
+    if (process != null) names.add(process);
+    final flavors = item.flavorFamilies
+        .map((value) => stockFlavorLabel(l10n, value))
+        .whereType<String>()
+        .take(3);
+    // Preserve translated casing; Arabic and Persian use the Arabic comma.
+    final listSeparator =
+        const {'ar', 'fa'}.contains(locale.languageCode) ? '، ' : ', ';
+    if (flavors.isNotEmpty) names.add(flavors.join(listSeparator));
     if (item.isDecaf) names.add(l10n.roasterStockDecaf);
     if (isPick) names.add(l10n.forYouTitle);
     if (names.isEmpty) return null;

@@ -1581,5 +1581,15 @@
   "forYouSettingSubtitle": "Показывает на Хабе зёрна в наличии, подобранные для вас",
   "forYouHiddenMessage": "Рекомендации зерна отключены. Вы можете снова включить их в настройках.",
   "roasterStockTitle": "Сейчас в наличии",
-  "roasterStockDecaf": "Без кофеина"
+  "roasterStockDecaf": "Без кофеина",
+  "stockProcessWashed": "Мытая",
+  "stockProcessNatural": "Натуральная",
+  "stockProcessHoney": "Хани",
+  "stockProcessExperimental": "Экспериментальная обработка",
+  "stockProcessWetHulled": "Вет-халл",
+  "stockFlavorChocolate": "Шоколад",
+  "stockFlavorStoneFruit": "Косточковые фрукты",
+  "stockFlavorTeaLike": "Чайные ноты",
+  "stockFlavorWiney": "Винные ноты",
+  "stockFlavorEarthy": "Землистые ноты"
 }

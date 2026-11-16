@@ -1581,5 +1581,15 @@
   "forYouSettingSubtitle": "Mostra no Hub grãos em estoque escolhidos para você",
   "forYouHiddenMessage": "As sugestões de grãos estão desativadas. Você pode reativá-las nas Configurações.",
   "roasterStockTitle": "Disponível agora",
-  "roasterStockDecaf": "Descafeinado"
+  "roasterStockDecaf": "Descafeinado",
+  "stockProcessWashed": "Lavado",
+  "stockProcessNatural": "Natural",
+  "stockProcessHoney": "Processo honey",
+  "stockProcessExperimental": "Processo experimental",
+  "stockProcessWetHulled": "Descascamento úmido",
+  "stockFlavorChocolate": "Chocolate",
+  "stockFlavorStoneFruit": "Frutas de caroço",
+  "stockFlavorTeaLike": "Notas de chá",
+  "stockFlavorWiney": "Vinhoso",
+  "stockFlavorEarthy": "Terroso"
 }

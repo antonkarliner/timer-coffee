@@ -1581,5 +1581,15 @@
   "forYouSettingSubtitle": "Pokazuje w Hubie ziarna na stanie, wybrane dla ciebie",
   "forYouHiddenMessage": "Sugestie ziaren są wyłączone. Możesz włączyć je ponownie w Ustawieniach.",
   "roasterStockTitle": "Dostępne teraz",
-  "roasterStockDecaf": "Bez kofeiny"
+  "roasterStockDecaf": "Bez kofeiny",
+  "stockProcessWashed": "Myta",
+  "stockProcessNatural": "Naturalna",
+  "stockProcessHoney": "Obróbka honey",
+  "stockProcessExperimental": "Obróbka eksperymentalna",
+  "stockProcessWetHulled": "Łuskanie na mokro",
+  "stockFlavorChocolate": "Czekolada",
+  "stockFlavorStoneFruit": "Owoce pestkowe",
+  "stockFlavorTeaLike": "Nuty herbaciane",
+  "stockFlavorWiney": "Winne",
+  "stockFlavorEarthy": "Ziemiste"
 }
