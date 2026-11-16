@@ -1697,5 +1697,7 @@
   "forYouNotForMe": "관심 없어요",
   "forYouSettingTitle": "원두 추천",
   "forYouSettingSubtitle": "허브에서 지금 구매 가능한 맞춤 원두를 표시해요",
-  "forYouHiddenMessage": "원두 추천이 꺼져 있어요. 설정에서 다시 켤 수 있어요."
+  "forYouHiddenMessage": "원두 추천이 꺼져 있어요. 설정에서 다시 켤 수 있어요.",
+  "roasterStockTitle": "현재 판매 중",
+  "roasterStockDecaf": "디카페인"
 }

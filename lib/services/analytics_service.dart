@@ -124,6 +124,9 @@ class AnalyticsService extends ChangeNotifier {
     'for_you_unavailable': 'beans',
     'for_you_setting_toggled': 'beans',
     'for_you_expanded': 'beans',
+    // Roaster profile "In stock now" (plan 017 Phase 5d)
+    'roaster_stock_shown': 'beans',
+    'roaster_stock_link_opened': 'beans',
     // General
     'app_opened': 'general',
     'screen_viewed': 'general',

@@ -1577,5 +1577,7 @@
   "forYouNotForMe": "Bana göre değil",
   "forYouSettingTitle": "Çekirdek önerileri",
   "forYouSettingSubtitle": "Hub’da sizin için seçilmiş stoktaki çekirdekleri gösterir",
-  "forYouHiddenMessage": "Çekirdek önerileri kapalı. Ayarlar’dan yeniden açabilirsiniz."
+  "forYouHiddenMessage": "Çekirdek önerileri kapalı. Ayarlar’dan yeniden açabilirsiniz.",
+  "roasterStockTitle": "Şu an stokta",
+  "roasterStockDecaf": "Kafeinsiz"
 }

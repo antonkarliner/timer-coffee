@@ -1577,5 +1577,7 @@
   "forYouNotForMe": "ليس لي",
   "forYouSettingTitle": "اقتراحات الحبوب",
   "forYouSettingSubtitle": "عرض الحبوب المتوفرة المختارة لك في المركز",
-  "forYouHiddenMessage": "اقتراحات الحبوب غير مفعّلة. يمكنك إعادة تفعيلها من الإعدادات."
+  "forYouHiddenMessage": "اقتراحات الحبوب غير مفعّلة. يمكنك إعادة تفعيلها من الإعدادات.",
+  "roasterStockTitle": "متوفر الآن",
+  "roasterStockDecaf": "منزوع الكافيين"
 }

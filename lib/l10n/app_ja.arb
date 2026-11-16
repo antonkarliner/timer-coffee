@@ -1577,5 +1577,7 @@
   "forYouNotForMe": "興味がない",
   "forYouSettingTitle": "豆のおすすめ",
   "forYouSettingSubtitle": "ハブにあなた向けの在庫ありの豆を表示します",
-  "forYouHiddenMessage": "豆のおすすめはオフです。設定でもう一度オンにできます。"
+  "forYouHiddenMessage": "豆のおすすめはオフです。設定でもう一度オンにできます。",
+  "roasterStockTitle": "現在販売中",
+  "roasterStockDecaf": "カフェインレス"
 }

@@ -1577,5 +1577,7 @@
   "forYouNotForMe": "No es para mí",
   "forYouSettingTitle": "Sugerencias de granos",
   "forYouSettingSubtitle": "Muestra en el Hub granos disponibles elegidos para ti",
-  "forYouHiddenMessage": "Las sugerencias de granos están desactivadas. Puedes volver a activarlas en Configuración."
+  "forYouHiddenMessage": "Las sugerencias de granos están desactivadas. Puedes volver a activarlas en Configuración.",
+  "roasterStockTitle": "Disponible ahora",
+  "roasterStockDecaf": "Descafeinado"
 }

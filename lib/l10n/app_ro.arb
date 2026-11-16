@@ -1577,5 +1577,7 @@
   "forYouNotForMe": "Nu pentru mine",
   "forYouSettingTitle": "Sugestii de boabe",
   "forYouSettingSubtitle": "Afișează în Hub boabe pe stoc alese pentru tine",
-  "forYouHiddenMessage": "Sugestiile de boabe sunt dezactivate. Le poți reacțiva din Setări."
+  "forYouHiddenMessage": "Sugestiile de boabe sunt dezactivate. Le poți reacțiva din Setări.",
+  "roasterStockTitle": "Disponibil acum",
+  "roasterStockDecaf": "Fără cofeină"
 }

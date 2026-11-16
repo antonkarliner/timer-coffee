@@ -136,13 +136,31 @@ void main() {
     expect(row.value, isTrue);
     expect(provider.optOutCalls, isEmpty);
     expect(eventsNamed('for_you_setting_toggled'), isEmpty);
+    // Plan 017 phase 5d: the row moved into the usage-analytics section,
+    // directly after the general-analytics row and before the footer note.
     final section = tester.widget<SettingsSection>(
       find.ancestor(
         of: suggestionsRow(),
         matching: find.byType(SettingsSection),
       ),
     );
-    expect(section.header, l10n.settingsYourDataHeader);
+    expect(section.header, l10n.settingsUsageAnalyticsHeader);
+    expect(section.footer, l10n.settingsUsageAnalyticsFooter);
+    final children = section.children
+        .whereType<SettingsSwitchRow>()
+        .toList(growable: false);
+    expect(children, hasLength(4));
+    expect(
+      children.last.identifier,
+      'settingsBeanSuggestionsSwitch',
+      reason: 'the suggestions row is the section’s last row, i.e. '
+          'rendered above the footer',
+    );
+    expect(
+      children[children.length - 2].identifier,
+      'settingsAnalyticsGeneralSwitch',
+      reason: 'directly after "Share general usage analytics"',
+    );
 
     await tester.ensureVisible(suggestionsRow());
     await tester.tap(find.text(l10n.forYouSettingTitle));

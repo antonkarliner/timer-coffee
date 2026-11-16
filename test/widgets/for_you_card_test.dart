@@ -7,7 +7,9 @@ import 'package:coffee_timer/models/bean_recommendation_model.dart';
 import 'package:coffee_timer/providers/recommendation_provider.dart';
 import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/services/clients/bean_recommendation_client.dart';
+import 'package:coffee_timer/utils/stock_links.dart';
 import 'package:coffee_timer/widgets/for_you_card.dart';
+import 'package:coffee_timer/widgets/stock_bean_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -513,7 +515,7 @@ void main() {
       expect(find.text('Bean 1'), findsOneWidget);
       expect(find.text('Bean 2'), findsNothing);
       expect(find.text('Bean 5'), findsNothing);
-      expect(find.byType(Divider), findsNothing);
+      expect(find.byType(StockBeanCard), findsOneWidget);
 
       await tester.tap(find.text(_showMoreLabel));
       await tester.pumpAndSettle();
@@ -523,10 +525,10 @@ void main() {
       expect(find.text('Bean 3'), findsOneWidget);
       expect(find.text('Bean 4'), findsNothing);
       expect(find.text('Bean 5'), findsNothing);
-      expect(find.byType(Divider), findsNWidgets(2));
+      expect(find.byType(StockBeanCard), findsNWidgets(3));
     });
 
-    testWidgets('maxItems: 1 → one row, no divider, no expand control',
+    testWidgets('maxItems: 1 → one card, no expand control',
         (tester) async {
       final items = List.generate(
         5,
@@ -537,7 +539,7 @@ void main() {
 
       expect(find.text('Bean 1'), findsOneWidget);
       expect(find.text('Bean 2'), findsNothing);
-      expect(find.byType(Divider), findsNothing);
+      expect(find.byType(StockBeanCard), findsOneWidget);
       expect(find.text(_showMoreLabel), findsNothing,
           reason: 'expanding could never reveal anything at maxItems 1');
     });
@@ -628,18 +630,30 @@ void main() {
     });
   });
 
-  group('buildForYouProductUrl', () {
-    test('adds the three UTM parameters', () {
-      final uri = buildForYouProductUrl('https://shop.example.com/beans/abc');
+  group('buildStockProductUrl', () {
+    test('adds the three UTM parameters with the for_you campaign', () {
+      final uri = buildStockProductUrl(
+        'https://shop.example.com/beans/abc',
+        campaign: 'for_you',
+      );
       expect(uri, isNotNull);
       expect(uri!.queryParameters['utm_source'], 'timer.coffee');
       expect(uri.queryParameters['utm_medium'], 'app');
       expect(uri.queryParameters['utm_campaign'], 'for_you');
     });
 
+    test('the roaster-profile surface carries its own campaign', () {
+      final uri = buildStockProductUrl(
+        'https://shop.example.com/beans/abc',
+        campaign: 'roaster_profile',
+      );
+      expect(uri!.queryParameters['utm_campaign'], 'roaster_profile');
+    });
+
     test('preserves existing query parameters', () {
-      final uri = buildForYouProductUrl(
+      final uri = buildStockProductUrl(
         'https://shop.example.com/beans/abc?grind=filter&size=250g',
+        campaign: 'for_you',
       );
       expect(uri!.queryParameters['grind'], 'filter');
       expect(uri.queryParameters['size'], '250g');
@@ -647,8 +661,9 @@ void main() {
     });
 
     test('does not overwrite a utm_* the URL already has', () {
-      final uri = buildForYouProductUrl(
+      final uri = buildStockProductUrl(
         'https://shop.example.com/a?utm_source=newsletter',
+        campaign: 'for_you',
       );
       expect(uri!.queryParameters['utm_source'], 'newsletter');
       expect(uri.queryParameters['utm_medium'], 'app',
@@ -656,18 +671,25 @@ void main() {
     });
 
     test('keeps http (not just https)', () {
-      final uri = buildForYouProductUrl('http://shop.example.com/a');
+      final uri = buildStockProductUrl(
+        'http://shop.example.com/a',
+        campaign: 'for_you',
+      );
       expect(uri, isNotNull);
       expect(uri!.scheme, 'http');
     });
 
     test('rejects non-http(s), junk and empty', () {
-      expect(buildForYouProductUrl('javascript:alert(1)'), isNull);
-      expect(buildForYouProductUrl('ftp://files.example.com/a.zip'), isNull);
-      expect(buildForYouProductUrl('not a url'), isNull);
-      expect(buildForYouProductUrl('   '), isNull);
-      expect(buildForYouProductUrl(''), isNull);
-      expect(buildForYouProductUrl(null), isNull);
+      expect(buildStockProductUrl('javascript:alert(1)', campaign: 'for_you'),
+          isNull);
+      expect(
+          buildStockProductUrl('ftp://files.example.com/a.zip',
+              campaign: 'for_you'),
+          isNull);
+      expect(buildStockProductUrl('not a url', campaign: 'for_you'), isNull);
+      expect(buildStockProductUrl('   ', campaign: 'for_you'), isNull);
+      expect(buildStockProductUrl('', campaign: 'for_you'), isNull);
+      expect(buildStockProductUrl(null, campaign: 'for_you'), isNull);
     });
   });
 
@@ -884,21 +906,24 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      // Collapsed: the first pick only, no dividers, Show more present.
+      // Collapsed: the first pick only, one card, no dividers, Show more
+      // present.
       expect(find.text('Bean A'), findsOneWidget);
       expect(find.text('Bean B'), findsNothing);
-      expect(find.byType(Divider), findsNothing);
+      expect(find.byType(StockBeanCard), findsOneWidget);
       expect(find.text(_showMoreLabel), findsOneWidget);
 
       await tester.tap(find.text(_showMoreLabel));
       await tester.pumpAndSettle();
 
-      // maxItems caps the expansion at three rows.
+      // maxItems caps the expansion at three cards.
       expect(find.text('Bean A'), findsOneWidget);
       expect(find.text('Bean B'), findsOneWidget);
       expect(find.text('Bean C'), findsOneWidget);
       expect(find.text('Bean D'), findsNothing);
-      expect(find.byType(Divider), findsNWidgets(2));
+      expect(find.byType(StockBeanCard), findsNWidgets(3));
+      expect(find.byType(Divider), findsNothing,
+          reason: 'separate cards have no dividers between rows');
       expect(find.text(_showLessLabel), findsOneWidget);
       expect(events('for_you_expanded'), hasLength(1));
       expect(events('for_you_expanded').single['category'], 'beans');
@@ -969,8 +994,8 @@ void main() {
     });
 
     test('launch mode: in-app browser natively, platform default on web', () {
-      expect(forYouLaunchMode(isWeb: false), LaunchMode.inAppBrowserView);
-      expect(forYouLaunchMode(isWeb: true), LaunchMode.platformDefault);
+      expect(stockLaunchMode(isWeb: false), LaunchMode.inAppBrowserView);
+      expect(stockLaunchMode(isWeb: true), LaunchMode.platformDefault);
     });
   });
 }

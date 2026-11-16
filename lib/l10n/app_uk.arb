@@ -1577,5 +1577,7 @@
   "forYouNotForMe": "Не моє",
   "forYouSettingTitle": "Рекомендації зерна",
   "forYouSettingSubtitle": "Показує в Центрі зерно в наявності, підібране для вас",
-  "forYouHiddenMessage": "Рекомендації зерна вимкнено. Ви можете знову увімкнути їх у налаштуваннях."
+  "forYouHiddenMessage": "Рекомендації зерна вимкнено. Ви можете знову увімкнути їх у налаштуваннях.",
+  "roasterStockTitle": "Зараз у наявності",
+  "roasterStockDecaf": "Без кофеїну"
 }

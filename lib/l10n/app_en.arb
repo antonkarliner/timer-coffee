@@ -3241,5 +3241,9 @@
   "forYouSettingSubtitle": "Show in-stock beans picked for you on the Hub",
   "@forYouSettingSubtitle": {"description": "Description under the 'Bean suggestions' Settings switch: what it shows and where."},
   "forYouHiddenMessage": "Bean suggestions are off. You can turn them back on in Settings.",
-  "@forYouHiddenMessage": {"description": "Snackbar shown when the ‘For you’ card’s hide control turns bean suggestions off; its Undo action turns them back on and reloads the card."}
+  "@forYouHiddenMessage": {"description": "Snackbar shown when the ‘For you’ card’s hide control turns bean suggestions off; its Undo action turns them back on and reloads the card."},
+  "roasterStockTitle": "In stock now",
+  "@roasterStockTitle": {"description": "Section title on a roaster's profile page: the coffee they currently sell."},
+  "roasterStockDecaf": "Decaf",
+  "@roasterStockDecaf": {"description": "Short marker appended to a stock item's summary line for decaffeinated coffee."}
 }

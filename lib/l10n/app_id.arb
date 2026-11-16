@@ -1577,5 +1577,7 @@
   "forYouNotForMe": "Bukan untuk saya",
   "forYouSettingTitle": "Saran biji",
   "forYouSettingSubtitle": "Menampilkan biji yang tersedia dan dipilih untuk Anda di Hub",
-  "forYouHiddenMessage": "Saran biji dimatikan. Anda dapat mengaktifkannya kembali di Pengaturan."
+  "forYouHiddenMessage": "Saran biji dimatikan. Anda dapat mengaktifkannya kembali di Pengaturan.",
+  "roasterStockTitle": "Tersedia sekarang",
+  "roasterStockDecaf": "Tanpa kafein"
 }

@@ -51,6 +51,10 @@ class CoffeeBeanCard extends StatelessWidget {
     this.sortOption = SortOption.dateAdded,
   });
 
+  /// Side of the square photo/logo slot at the card's leading edge. Static
+  /// so the stock card (plan 017 phase 5d) reuses the exact same size.
+  static const double photoSlotSize = 80.0;
+
   @override
   Widget build(BuildContext context) {
     // subtle gradient in light mode for better white logo visibility
@@ -60,8 +64,6 @@ class CoffeeBeanCard extends StatelessWidget {
     final iconColor = Theme.of(
       context,
     ).colorScheme.onSurface.withAlpha((255 * 0.6).round());
-
-    const double logoHeight = 80.0;
 
     final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
       context,
@@ -107,20 +109,20 @@ class CoffeeBeanCard extends StatelessWidget {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: SizedBox(
-                          height: logoHeight,
-                          width: logoHeight,
+                          height: photoSlotSize,
+                          width: photoSlotSize,
                           child: bean.photoUrl != null
                               ? CachedNetworkImage(
                                   imageUrl:
                                       SupabaseEndpointResolver.localizeStorageUrl(
                                         bean.photoUrl!,
                                       ),
-                                  height: logoHeight,
-                                  width: logoHeight,
+                                  height: photoSlotSize,
+                                  width: photoSlotSize,
                                   fit: BoxFit.cover,
                                   errorWidget: (_, _, _) => Icon(
                                     Coffeico.bag_with_bean,
-                                    size: logoHeight,
+                                    size: photoSlotSize,
                                     color: iconColor,
                                   ),
                                 )
@@ -141,7 +143,7 @@ class CoffeeBeanCard extends StatelessWidget {
                                           child: RoasterLogo(
                                             originalUrl: originalUrl,
                                             mirrorUrl: mirrorUrl,
-                                            height: logoHeight,
+                                            height: photoSlotSize,
                                             borderRadius: 8.0,
                                             forceFit: BoxFit.contain,
                                           ),
@@ -150,7 +152,7 @@ class CoffeeBeanCard extends StatelessWidget {
                                     }
                                     return Icon(
                                       Coffeico.bag_with_bean,
-                                      size: logoHeight,
+                                      size: photoSlotSize,
                                       color: iconColor,
                                     );
                                   },

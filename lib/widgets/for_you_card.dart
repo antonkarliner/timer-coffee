@@ -2,10 +2,8 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../app_router.gr.dart';
 import '../models/bean_recommendation_model.dart';
@@ -13,51 +11,13 @@ import '../providers/recommendation_provider.dart';
 import '../services/analytics_service.dart';
 import '../theme/design_tokens.dart';
 import '../utils/country_names.dart';
+import '../utils/stock_links.dart';
 import 'base_buttons.dart';
-import 'roaster_logo.dart';
+import 'stock_bean_card.dart';
 
-/// Adds Timer.Coffee UTM parameters to a recommendation's product link.
-///
-/// Only http/https URLs are accepted — anything else (or an unparseable
-/// string) returns null and the link is not offered. UTM parameters the
-/// roaster already put on their link are preserved, not overwritten.
-@visibleForTesting
-Uri? buildForYouProductUrl(String? rawUrl) {
-  if (rawUrl == null) return null;
-  final trimmed = rawUrl.trim();
-  if (trimmed.isEmpty) return null;
-  final uri = Uri.tryParse(trimmed);
-  if (uri == null) return null;
-  if (uri.scheme != 'http' && uri.scheme != 'https') return null;
-  if (uri.host.isEmpty) return null;
-  Map<String, String> params;
-  try {
-    params = Map<String, String>.from(uri.queryParameters);
-  } on FormatException {
-    // Malformed percent-encoding in the query: open the link as-is rather
-    // than lose it (or crash) over attribution.
-    return uri;
-  }
-  const utm = {
-    'utm_source': 'timer.coffee',
-    'utm_medium': 'app',
-    'utm_campaign': 'for_you',
-  };
-  utm.forEach((key, value) => params.putIfAbsent(key, () => value));
-  return uri.replace(queryParameters: params);
-}
-
-/// Launch mode for a pick's "View at roaster" link: the in-app browser
-/// (SFSafariViewController on iOS, Custom Tabs on Android) so the user stays
-/// in the app; on web the platform default. A parameter instead of the
-/// `kIsWeb` constant so the choice is unit-testable without a platform
-/// channel.
-@visibleForTesting
-LaunchMode forYouLaunchMode({bool isWeb = kIsWeb}) =>
-    isWeb ? LaunchMode.platformDefault : LaunchMode.inAppBrowserView;
-
-/// The Hub's "For you" card (plan 017, phase 5a): up to [maxItems] in-stock
-/// beans picked for the user by the recommendation backend.
+/// The Hub's "For you" card (plan 017, phase 5a; restyled in phase 5d): up
+/// to [maxItems] in-stock beans picked for the user by the recommendation
+/// backend, each rendered as its own [StockBeanCard].
 ///
 /// Renders NOTHING unless the provider is ready with at least one pick —
 /// no skeleton, no spinner, no empty and no error state: most users will
@@ -191,101 +151,109 @@ class _ForYouCardState extends State<ForYouCard> {
         .take(_expanded ? available.length : 1)
         .toList(growable: false);
 
-    // Container matches CoffeeJourneyCard exactly so the two Hub cards line
-    // up: flat card, AppRadius.card, outlineVariant hairline, same margins.
+    // Phase 5d restyle: no enclosing card — a section header that lines up
+    // with the Hub's SettingsSection headers (same horizontal inset), then
+    // each pick as its own StockBeanCard, then the expand control. The only
+    // outer padding is vertical; the base side margins live on each piece.
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.base,
-        vertical: AppSpacing.sm,
-      ),
-      child: Card(
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppRadius.card),
-          side: BorderSide(
-            color: theme.colorScheme.outlineVariant,
-            width: AppStroke.border,
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.base),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Title row with the hide control at its trailing edge — the
-              // Row is direction-aware, so "trailing" stays trailing in RTL.
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      l10n.forYouTitle,
-                      style: AppTextStyles.sectionHeader,
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Title row with the hide control at its trailing edge — the Row
+          // is direction-aware, so "trailing" stays trailing in RTL. Same
+          // inset as SettingsSectionHeader so the Hub headers line up.
+          Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(
+              AppSpacing.base,
+              AppSpacing.sm,
+              AppSpacing.base,
+              AppSpacing.xs,
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    l10n.forYouTitle,
+                    style: AppTextStyles.sectionHeader,
+                  ),
+                ),
+                Semantics(
+                  identifier: 'forYouHide',
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.close,
+                      size: AppIconSize.small,
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                    onPressed: _hideFromCard,
+                    tooltip: MaterialLocalizations.of(
+                      context,
+                    ).closeButtonTooltip,
+                    // The journey card's zero-constraints button shrinks
+                    // below the 44×44 minimum tap target; this one keeps
+                    // the full-size Material target via a token (48 ≥ 44).
+                    constraints: const BoxConstraints(
+                      minWidth: AppSpacing.xxl,
+                      minHeight: AppSpacing.xxl,
                     ),
                   ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(
+              AppSpacing.base,
+              0,
+              AppSpacing.base,
+              0,
+            ),
+            child: Text(
+              l10n.forYouSubtitle,
+              style: AppTextStyles.caption.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          // One card per pick.
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.base),
+            child: Column(
+              children: [
+                for (final (index, item) in visible.indexed) ...[
+                  if (index > 0) const SizedBox(height: AppSpacing.sm),
                   Semantics(
-                    identifier: 'forYouHide',
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.close,
-                        size: AppIconSize.small,
-                        color: theme.colorScheme.onSurfaceVariant,
+                    identifier: 'forYouItem_$index',
+                    child: _ForYouRow(item: item, index: index),
+                  ),
+                ],
+                // Show more / Show less — hidden entirely for a single pick,
+                // and gone again when dismissals shrink the card back to one.
+                // AnimatedSize (around the column above) animates the change.
+                if (available.length > 1) ...[
+                  const SizedBox(height: AppSpacing.xs),
+                  Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: AppTextButton(
+                      label: _expanded ? l10n.showLess : l10n.showMore,
+                      onPressed: _toggleExpanded,
+                      isFullWidth: false,
+                      padding: const EdgeInsetsDirectional.only(
+                        end: AppSpacing.base,
+                        top: AppSpacing.xs,
+                        bottom: AppSpacing.xs,
                       ),
-                      onPressed: _hideFromCard,
-                      tooltip: MaterialLocalizations.of(
-                        context,
-                      ).closeButtonTooltip,
-                      // The journey card's zero-constraints button shrinks
-                      // below the 44×44 minimum tap target; this one keeps
-                      // the full-size Material target via a token (48 ≥ 44).
-                      constraints: const BoxConstraints(
-                        minWidth: AppSpacing.xxl,
-                        minHeight: AppSpacing.xxl,
-                      ),
+                      textStyle: AppTextStyles.body,
                     ),
                   ),
                 ],
-              ),
-              const SizedBox(height: AppSpacing.xs),
-              Text(
-                l10n.forYouSubtitle,
-                style: AppTextStyles.caption.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.sm),
-              for (final (index, item) in visible.indexed) ...[
-                if (index > 0)
-                  Divider(
-                    height: 1,
-                    thickness: 0.5,
-                    color: theme.colorScheme.outlineVariant,
-                  ),
-                Semantics(
-                  identifier: 'forYouItem_$index',
-                  child: _ForYouRow(item: item, index: index),
-                ),
               ],
-              // Show more / Show less — hidden entirely for a single pick,
-              // and gone again when dismissals shrink the card back to one.
-              // AnimatedSize (around the card above) animates the change.
-              if (available.length > 1) ...[
-                const SizedBox(height: AppSpacing.xs),
-                AppTextButton(
-                  label: _expanded ? l10n.showLess : l10n.showMore,
-                  onPressed: _toggleExpanded,
-                  isFullWidth: false,
-                  padding: const EdgeInsetsDirectional.only(
-                    end: AppSpacing.base,
-                    top: AppSpacing.xs,
-                    bottom: AppSpacing.xs,
-                  ),
-                  textStyle: AppTextStyles.body,
-                ),
-              ],
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -351,8 +319,8 @@ class _ForYouCardState extends State<ForYouCard> {
   }
 }
 
-/// One recommended bean. Stateless on purpose: the provider owns all state
-/// and notifies on every change.
+/// One recommended bean, rendered as its own [StockBeanCard]. Stateless on
+/// purpose: the provider owns all state and notifies on every change.
 class _ForYouRow extends StatelessWidget {
   const _ForYouRow({required this.item, required this.index});
 
@@ -361,11 +329,13 @@ class _ForYouRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
     final slug = item.roasterSlug;
     final hasSlug = slug != null && slug.isNotEmpty;
-    final productUri = buildForYouProductUrl(item.productUrl);
+    final productUri = buildStockProductUrl(
+      item.productUrl,
+      campaign: 'for_you',
+    );
 
     final roasterLine = item.mode == 'your_roaster'
         ? '${item.roasterName}'
@@ -373,106 +343,56 @@ class _ForYouRow extends StatelessWidget {
         : item.roasterName;
     final reasonLine = _reasonOrOriginLine(l10n, Localizations.localeOf(context));
 
-    return InkWell(
-      // Tapping the row body (not the buttons) opens the roaster's profile.
+    return StockBeanCard(
+      title: item.beanName,
+      subtitle: roasterLine,
+      body: reasonLine,
+      imageUrl: item.imageUrl,
+      logoUrl: item.roasterLogoUrl,
+      logoMirrorUrl: item.roasterLogoMirrorUrl,
+      // Tapping the card body (not the buttons) opens the roaster's profile.
       onTap: hasSlug
           ? () {
-              _track('for_you_pick_tapped');
+              _track(context, 'for_you_pick_tapped');
               context.router.push(RoasterProfileRoute(slug: slug));
             }
           : null,
-      borderRadius: BorderRadius.circular(AppRadius.small),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            RoasterLogo(
-              originalUrl: item.roasterLogoUrl,
-              mirrorUrl: item.roasterLogoMirrorUrl,
-              placeholderIcon: Icons.storefront_outlined,
-            ),
-            const SizedBox(width: AppSpacing.sm),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    item.beanName,
-                    style: AppTextStyles.itemTitle,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: AppSpacing.xs),
-                  Text(
-                    roasterLine,
-                    style: AppTextStyles.caption.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  if (reasonLine != null) ...[
-                    const SizedBox(height: AppSpacing.xs),
-                    Text(
-                      reasonLine,
-                      style: AppTextStyles.body,
-                      // Reasons run to ~140 characters; three lines cut
-                      // most of them off on a phone.
-                      maxLines: 4,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                  const SizedBox(height: AppSpacing.xs),
-                  // Wrap, not Row: the two localized labels together can
-                  // exceed a 320 pt row and must wrap onto a second line.
-                  Wrap(
-                    spacing: AppSpacing.sm,
-                    runSpacing: AppSpacing.xs,
-                    children: [
-                      if (productUri != null)
-                        Semantics(
-                          identifier: 'forYouView_$index',
-                          child: AppTextButton(
-                            label: l10n.forYouViewAtRoaster,
-                            onPressed: () {
-                              _openAtRoaster(context, productUri);
-                            },
-                            isFullWidth: false,
-                            // No leading inset: the label lines up with
-                            // the text above it.
-                            padding: const EdgeInsetsDirectional.only(
-                              end: AppSpacing.base,
-                              top: AppSpacing.xs,
-                              bottom: AppSpacing.xs,
-                            ),
-                            textStyle: AppTextStyles.body,
-                          ),
-                        ),
-                      Semantics(
-                        identifier: 'forYouDismiss_$index',
-                        child: AppTextButton(
-                          label: l10n.forYouNotForMe,
-                          onPressed: () {
-                            _dismiss(context);
-                          },
-                          isFullWidth: false,
-                          padding: const EdgeInsetsDirectional.only(
-                            end: AppSpacing.base,
-                            top: AppSpacing.xs,
-                            bottom: AppSpacing.xs,
-                          ),
-                          textStyle: AppTextStyles.body,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+      actions: [
+        if (productUri != null)
+          Semantics(
+            identifier: 'forYouView_$index',
+            child: AppTextButton(
+              label: l10n.forYouViewAtRoaster,
+              onPressed: () {
+                _openAtRoaster(context, productUri);
+              },
+              isFullWidth: false,
+              // No leading inset: the label lines up with the text above it.
+              padding: const EdgeInsetsDirectional.only(
+                end: AppSpacing.base,
+                top: AppSpacing.xs,
+                bottom: AppSpacing.xs,
               ),
+              textStyle: AppTextStyles.body,
             ),
-          ],
+          ),
+        Semantics(
+          identifier: 'forYouDismiss_$index',
+          child: AppTextButton(
+            label: l10n.forYouNotForMe,
+            onPressed: () {
+              _dismiss(context);
+            },
+            isFullWidth: false,
+            padding: const EdgeInsetsDirectional.only(
+              end: AppSpacing.base,
+              top: AppSpacing.xs,
+              bottom: AppSpacing.xs,
+            ),
+            textStyle: AppTextStyles.body,
+          ),
         ),
-      ),
+      ],
     );
   }
 
@@ -492,34 +412,20 @@ class _ForYouRow extends StatelessWidget {
   }
 
   void _openAtRoaster(BuildContext context, Uri uri) {
-    _track('for_you_link_opened');
+    _track(context, 'for_you_link_opened');
     final provider = context.read<RecommendationProvider>();
     // Fire-and-forget attribution; it must never delay opening the page.
     unawaited(provider.logLinkOpened(item.stockId));
-    unawaited(_launch(uri));
-  }
-
-  Future<void> _launch(Uri uri) async {
-    try {
-      if (await launchUrl(uri, mode: forYouLaunchMode())) return;
-    } catch (_) {
-      // No in-app surface on this device (or the plugin channel is missing,
-      // e.g. in tests): fall back to the system browser below.
-    }
-    try {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } catch (_) {
-      // No app on this device can open the link; nothing to show.
-    }
+    unawaited(launchStockProductLink(uri));
   }
 
   void _dismiss(BuildContext context) {
-    _track('for_you_dismissed');
+    _track(context, 'for_you_dismissed');
     // Not awaited: the provider notifies and the row disappears.
     unawaited(context.read<RecommendationProvider>().dismiss(item.stockId));
   }
 
-  void _track(String event) {
+  void _track(BuildContext context, String event) {
     AnalyticsService.maybeInstance?.track(
       event,
       properties: {

@@ -1807,5 +1807,7 @@
   "forYouNotForMe": "Ikke for meg",
   "forYouSettingTitle": "Bønneforslag",
   "forYouSettingSubtitle": "Viser bønner på lager valgt for deg på Hub",
-  "forYouHiddenMessage": "Bønneforslag er slått av. Du kan slå dem på igjen i Innstillinger."
+  "forYouHiddenMessage": "Bønneforslag er slått av. Du kan slå dem på igjen i Innstillinger.",
+  "roasterStockTitle": "På lager nå",
+  "roasterStockDecaf": "Koffeinfri"
 }

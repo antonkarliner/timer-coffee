@@ -230,4 +230,209 @@ void main() {
           BeanRecommendationStatus.unknown);
     });
   });
+
+  // The payload shape documented for RPC `get_roaster_stock` (plan 017
+  // phase 5d).
+  Map<String, dynamic> fullStockItemJson() => {
+    'stock_id': '0f2f9d1e-1c3b-4a2d-9f6e-5a7b8c9d0e1f',
+    'bean_name': 'Yirgacheffe Washed',
+    'image_url': 'https://cdn.example.com/bag.png',
+    'origin_country_codes': ['ET', 'KE'],
+    'process_family': 'washed',
+    'roast_level': 'light',
+    'flavor_families': ['berry', 'citrus'],
+    'is_decaf': true,
+    'price_amount': 14.5,
+    'currency': 'EUR',
+    'product_url': 'https://shop.example.com/yirgacheffe',
+    'first_seen_at': '2026-11-16T10:00:00+00:00',
+  };
+
+  Map<String, dynamic> fullStockResultJson() => {
+    'total': 1,
+    'items': [fullStockItemJson()],
+  };
+
+  group('RoasterStockItem.fromJson', () {
+    test('parses a full item', () {
+      final item = RoasterStockItem.fromJson(fullStockItemJson())!;
+      expect(item.stockId, '0f2f9d1e-1c3b-4a2d-9f6e-5a7b8c9d0e1f');
+      expect(item.beanName, 'Yirgacheffe Washed');
+      expect(item.imageUrl, 'https://cdn.example.com/bag.png');
+      expect(item.originCountryCodes, ['ET', 'KE']);
+      expect(item.processFamily, 'washed');
+      expect(item.roastLevel, 'light');
+      expect(item.flavorFamilies, ['berry', 'citrus']);
+      expect(item.isDecaf, isTrue);
+      expect(item.priceAmount, 14.5);
+      expect(item.currency, 'EUR');
+      expect(item.productUrl, 'https://shop.example.com/yirgacheffe');
+      expect(item.firstSeenAt, DateTime.utc(2026, 11, 16, 10));
+    });
+
+    test('defaults optionals when missing', () {
+      final item = RoasterStockItem.fromJson({
+        'stock_id': 'stock-1',
+        'bean_name': 'Kirinyaga AA',
+      })!;
+      expect(item.stockId, 'stock-1');
+      expect(item.beanName, 'Kirinyaga AA');
+      expect(item.imageUrl, isNull);
+      expect(item.originCountryCodes, isEmpty);
+      expect(item.processFamily, isNull);
+      expect(item.roastLevel, isNull);
+      expect(item.flavorFamilies, isEmpty);
+      expect(item.isDecaf, isFalse);
+      expect(item.priceAmount, isNull);
+      expect(item.currency, isNull);
+      expect(item.productUrl, isNull);
+      expect(item.firstSeenAt, isNull);
+    });
+
+    test('null when not a map', () {
+      expect(RoasterStockItem.fromJson(null), isNull);
+      expect(RoasterStockItem.fromJson('nope'), isNull);
+      expect(RoasterStockItem.fromJson(42), isNull);
+      expect(RoasterStockItem.fromJson(<String>[]), isNull);
+    });
+
+    test('null when stock_id is missing or blank', () {
+      expect(RoasterStockItem.fromJson(
+        fullStockItemJson()..remove('stock_id'),
+      ), isNull);
+      expect(RoasterStockItem.fromJson(
+        fullStockItemJson()..['stock_id'] = '   ',
+      ), isNull);
+      expect(RoasterStockItem.fromJson(
+        fullStockItemJson()..['stock_id'] = 42,
+      ), isNull);
+    });
+
+    test('null when bean_name is missing or blank', () {
+      expect(RoasterStockItem.fromJson(
+        fullStockItemJson()..remove('bean_name'),
+      ), isNull);
+      expect(RoasterStockItem.fromJson(
+        fullStockItemJson()..['bean_name'] = '',
+      ), isNull);
+    });
+
+    test('is_decaf defaults to false on any non-bool value', () {
+      for (final value in [null, 'true', 1, <dynamic>[]]) {
+        final item = RoasterStockItem.fromJson(
+          fullStockItemJson()..['is_decaf'] = value,
+        )!;
+        expect(item.isDecaf, isFalse, reason: 'is_decaf: $value');
+      }
+    });
+
+    test('price_amount accepts num and numeric strings, rejects junk',
+        () {
+      expect(
+        RoasterStockItem.fromJson(
+          fullStockItemJson()..['price_amount'] = 12,
+        )!.priceAmount,
+        12.0,
+      );
+      expect(
+        RoasterStockItem.fromJson(
+          fullStockItemJson()..['price_amount'] = '13.25',
+        )!.priceAmount,
+        13.25,
+      );
+      expect(
+        RoasterStockItem.fromJson(
+          fullStockItemJson()..['price_amount'] = 'cheap',
+        )!.priceAmount,
+        isNull,
+      );
+    });
+
+    test('first_seen_at parses valid strings and nulls junk', () {
+      expect(
+        RoasterStockItem.fromJson(
+          fullStockItemJson()..['first_seen_at'] = 'not a date',
+        )!.firstSeenAt,
+        isNull,
+      );
+      expect(
+        RoasterStockItem.fromJson(
+          fullStockItemJson()..['first_seen_at'] = 123,
+        )!.firstSeenAt,
+        isNull,
+      );
+    });
+  });
+
+  group('RoasterStockResult.fromJson', () {
+    test('parses total and items', () {
+      final result = RoasterStockResult.fromJson(fullStockResultJson());
+      expect(result.total, 1);
+      expect(result.items, hasLength(1));
+      expect(result.items.first.beanName, 'Yirgacheffe Washed');
+    });
+
+    test('empty result on a non-map payload', () {
+      for (final payload in [null, 'nope', 42]) {
+        final result = RoasterStockResult.fromJson(payload);
+        expect(result.total, 0, reason: 'payload: $payload');
+        expect(result.items, isEmpty, reason: 'payload: $payload');
+      }
+    });
+
+    test('empty result when the documented empty shape arrives', () {
+      final result = RoasterStockResult.fromJson({
+        'items': <dynamic>[],
+        'total': 0,
+      });
+      expect(result.total, 0);
+      expect(result.items, isEmpty);
+    });
+
+    test('total falls back to 0 on a non-numeric value', () {
+      final result = RoasterStockResult.fromJson(
+        fullStockResultJson()..['total'] = 'ten',
+      );
+      expect(result.total, 0);
+    });
+
+    test('total accepts any num (int or double)', () {
+      expect(
+        RoasterStockResult.fromJson(
+          fullStockResultJson()..['total'] = 7,
+        ).total,
+        7,
+      );
+      expect(
+        RoasterStockResult.fromJson(
+          fullStockResultJson()..['total'] = 7.0,
+        ).total,
+        7,
+      );
+    });
+
+    test('skips unusable items but keeps usable ones', () {
+      final result = RoasterStockResult.fromJson(
+        fullStockResultJson()
+          ..['items'] = [
+            fullStockItemJson(),
+            {'bean_name': 'no stock id'},
+            'not-a-map',
+            null,
+          ],
+      );
+      expect(result.items, hasLength(1));
+      expect(result.items.first.stockId,
+          '0f2f9d1e-1c3b-4a2d-9f6e-5a7b8c9d0e1f');
+    });
+
+    test('never throws on a garbage payload', () {
+      final result = RoasterStockResult.fromJson({
+        'total': true,
+        'items': {'0': 'not a list'},
+      });
+      expect(result.total, 0);
+      expect(result.items, isEmpty);
+    });
+  });
 }

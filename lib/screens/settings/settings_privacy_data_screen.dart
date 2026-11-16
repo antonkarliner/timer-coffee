@@ -94,6 +94,25 @@ class SettingsPrivacyDataScreen extends StatelessWidget {
               value: analytics.generalEnabled,
               onChanged: (value) => _setGeneral(analytics, value),
             ),
+            // Plan 017 phase 5d: the bean-suggestions switch moved up here,
+            // directly after the general-analytics row and before the
+            // section footer — the suggestions belong with what they share
+            // analytics plumbing with. Same gating (feature flag or
+            // FOR_YOU_DEBUG), same behaviour and analytics as before.
+            if (recommendations != null)
+              SettingsSwitchRow(
+                identifier: 'settingsBeanSuggestionsSwitch',
+                title: l10n.forYouSettingTitle,
+                subtitle: l10n.forYouSettingSubtitle,
+                value: !recommendations.optedOut,
+                onChanged: (value) {
+                  recommendations.setOptedOut(!value);
+                  AnalyticsService.maybeInstance?.track(
+                    'for_you_setting_toggled',
+                    properties: {'enabled': value, 'source': 'settings'},
+                  );
+                },
+              ),
           ],
         ),
         SettingsSection(
@@ -109,22 +128,6 @@ class SettingsPrivacyDataScreen extends StatelessWidget {
                 ),
               ),
             ),
-            // Your data: opting out also deletes the stored picks. Append
-            // the optional row so the export/policy children keep their state.
-            if (recommendations != null)
-              SettingsSwitchRow(
-                identifier: 'settingsBeanSuggestionsSwitch',
-                title: l10n.forYouSettingTitle,
-                subtitle: l10n.forYouSettingSubtitle,
-                value: !recommendations.optedOut,
-                onChanged: (value) {
-                  recommendations.setOptedOut(!value);
-                  AnalyticsService.maybeInstance?.track(
-                    'for_you_setting_toggled',
-                    properties: {'enabled': value, 'source': 'settings'},
-                  );
-                },
-              ),
           ],
         ),
       ],

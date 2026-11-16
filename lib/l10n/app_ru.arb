@@ -1577,5 +1577,7 @@
   "forYouNotForMe": "Не моё",
   "forYouSettingTitle": "Рекомендации зерна",
   "forYouSettingSubtitle": "Показывает на Хабе зёрна в наличии, подобранные для вас",
-  "forYouHiddenMessage": "Рекомендации зерна отключены. Вы можете снова включить их в настройках."
+  "forYouHiddenMessage": "Рекомендации зерна отключены. Вы можете снова включить их в настройках.",
+  "roasterStockTitle": "Сейчас в наличии",
+  "roasterStockDecaf": "Без кофеина"
 }

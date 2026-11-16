@@ -21,6 +21,8 @@ import '../widgets/base_buttons.dart';
 import '../widgets/containers/section_card.dart';
 import '../widgets/roaster/roaster_report_sheet.dart';
 import '../widgets/roaster_logo.dart';
+import '../widgets/roaster_stock_section.dart';
+import '../services/clients/roaster_stock_client.dart';
 import '../widgets/smart_back_button.dart';
 import '../widgets/roaster_profile/aggregate_rating.dart';
 import '../widgets/roaster_profile/review_card.dart';
@@ -564,6 +566,25 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
               ),
             ),
           ),
+
+        // In stock now (plan 017 phase 5d) — sits directly above the
+        // reviews section; invisible (and quiet) unless the feature is on
+        // and the roaster has stock.
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.base,
+              vertical: AppSpacing.sm,
+            ),
+            child: RoasterStockSection(
+              slug: profile.slug,
+              roasterName: profile.roasterName,
+              logoUrl: profile.roasterLogoUrl,
+              logoMirrorUrl: profile.roasterLogoMirrorUrl,
+              client: SupabaseRoasterStockClient(Supabase.instance.client),
+            ),
+          ),
+        ),
 
         // Reviews section — unified card
         SliverToBoxAdapter(

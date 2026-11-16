@@ -1699,5 +1699,7 @@
   "forYouNotForMe": "برای من نیست",
   "forYouSettingTitle": "پیشنهاد دانه‌ها",
   "forYouSettingSubtitle": "نمایش دانه‌های موجود برگزیده برای شما در مرکز",
-  "forYouHiddenMessage": "پیشنهاد دانه‌ها خاموش است. می‌توانید آن را در تنظیمات دوباره روشن کنید."
+  "forYouHiddenMessage": "پیشنهاد دانه‌ها خاموش است. می‌توانید آن را در تنظیمات دوباره روشن کنید.",
+  "roasterStockTitle": "اکنون موجود است",
+  "roasterStockDecaf": "بدون کافئین"
 }
