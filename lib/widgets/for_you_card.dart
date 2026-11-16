@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -46,6 +47,15 @@ Uri? buildForYouProductUrl(String? rawUrl) {
   return uri.replace(queryParameters: params);
 }
 
+/// Launch mode for a pick's "View at roaster" link: the in-app browser
+/// (SFSafariViewController on iOS, Custom Tabs on Android) so the user stays
+/// in the app; on web the platform default. A parameter instead of the
+/// `kIsWeb` constant so the choice is unit-testable without a platform
+/// channel.
+@visibleForTesting
+LaunchMode forYouLaunchMode({bool isWeb = kIsWeb}) =>
+    isWeb ? LaunchMode.platformDefault : LaunchMode.inAppBrowserView;
+
 /// The Hub's "For you" card (plan 017, phase 5a): up to [maxItems] in-stock
 /// beans picked for the user by the recommendation backend.
 ///
@@ -73,30 +83,45 @@ class _ForYouCardState extends State<ForYouCard> {
   bool _shownTracked = false;
   final Set<String> _unavailableStatusesTracked = {};
 
+  /// Widget state only — never persisted. A freshly created card starts
+  /// collapsed, showing the first pick; expanding reveals up to
+  /// [ForYouCard.maxItems].
+  bool _expanded = false;
+
   /// Capture the rendered state, then report after the frame. Lifetime
   /// guards survive rebuilds, locale changes and optimistic dismissals.
+  /// `for_you_shown`'s `count` is the rows visible at that moment — 1 while
+  /// collapsed — and `available` is the picks the card could show
+  /// (≤ [ForYouCard.maxItems]).
   void _scheduleVisibilityAnalytics(RecommendationProvider provider) {
-    final items = provider.state == RecommendationState.ready
+    final available = provider.state == RecommendationState.ready
         ? provider.items.take(widget.maxItems).toList(growable: false)
         : const <BeanRecommendation>[];
+    final visible = available
+        .take(_expanded ? available.length : 1)
+        .toList(growable: false);
     final status = provider.state == RecommendationState.hidden
         ? provider.unavailableStatus
         : null;
     final country = provider.lastCountryCode;
-    if ((_shownTracked || items.isEmpty) &&
+    if ((_shownTracked || visible.isEmpty) &&
         (status == null || _unavailableStatusesTracked.contains(status))) {
       return;
     }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      if (!_shownTracked && items.isNotEmpty) {
+      if (!_shownTracked && visible.isNotEmpty) {
         _shownTracked = true;
         final modes =
-            items.map((item) => item.mode ?? 'unknown').toSet().toList()
+            visible.map((item) => item.mode ?? 'unknown').toSet().toList()
               ..sort();
         AnalyticsService.maybeInstance?.track(
           'for_you_shown',
-          properties: {'count': items.length, 'modes': modes.join(',')},
+          properties: {
+            'count': visible.length,
+            'modes': modes.join(','),
+            'available': available.length,
+          },
         );
       }
       if (status != null && _unavailableStatusesTracked.add(status)) {
@@ -158,7 +183,13 @@ class _ForYouCardState extends State<ForYouCard> {
   Widget _buildCard(BuildContext context, RecommendationProvider provider) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
-    final items = provider.items.take(widget.maxItems).toList(growable: false);
+    final available = provider.items
+        .take(widget.maxItems)
+        .toList(growable: false);
+    // Collapsed shows the first pick only; expanded shows up to maxItems.
+    final visible = available
+        .take(_expanded ? available.length : 1)
+        .toList(growable: false);
 
     // Container matches CoffeeJourneyCard exactly so the two Hub cards line
     // up: flat card, AppRadius.card, outlineVariant hairline, same margins.
@@ -182,7 +213,39 @@ class _ForYouCardState extends State<ForYouCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(l10n.forYouTitle, style: AppTextStyles.sectionHeader),
+              // Title row with the hide control at its trailing edge — the
+              // Row is direction-aware, so "trailing" stays trailing in RTL.
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      l10n.forYouTitle,
+                      style: AppTextStyles.sectionHeader,
+                    ),
+                  ),
+                  Semantics(
+                    identifier: 'forYouHide',
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.close,
+                        size: AppIconSize.small,
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                      onPressed: _hideFromCard,
+                      tooltip: MaterialLocalizations.of(
+                        context,
+                      ).closeButtonTooltip,
+                      // The journey card's zero-constraints button shrinks
+                      // below the 44×44 minimum tap target; this one keeps
+                      // the full-size Material target via a token (48 ≥ 44).
+                      constraints: const BoxConstraints(
+                        minWidth: AppSpacing.xxl,
+                        minHeight: AppSpacing.xxl,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               const SizedBox(height: AppSpacing.xs),
               Text(
                 l10n.forYouSubtitle,
@@ -191,7 +254,7 @@ class _ForYouCardState extends State<ForYouCard> {
                 ),
               ),
               const SizedBox(height: AppSpacing.sm),
-              for (final (index, item) in items.indexed) ...[
+              for (final (index, item) in visible.indexed) ...[
                 if (index > 0)
                   Divider(
                     height: 1,
@@ -203,8 +266,85 @@ class _ForYouCardState extends State<ForYouCard> {
                   child: _ForYouRow(item: item, index: index),
                 ),
               ],
+              // Show more / Show less — hidden entirely for a single pick,
+              // and gone again when dismissals shrink the card back to one.
+              // AnimatedSize (around the card above) animates the change.
+              if (available.length > 1) ...[
+                const SizedBox(height: AppSpacing.xs),
+                AppTextButton(
+                  label: _expanded ? l10n.showLess : l10n.showMore,
+                  onPressed: _toggleExpanded,
+                  isFullWidth: false,
+                  padding: const EdgeInsetsDirectional.only(
+                    end: AppSpacing.base,
+                    top: AppSpacing.xs,
+                    bottom: AppSpacing.xs,
+                  ),
+                  textStyle: AppTextStyles.body,
+                ),
+              ],
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  /// Expands, or collapses back. Expansion is widget state only — never
+  /// persisted — and collapsing fires nothing.
+  void _toggleExpanded() {
+    final expanding = !_expanded;
+    setState(() => _expanded = expanding);
+    if (!expanding) return;
+    // Rows shown after the expand, computed at tap time so a dismissal that
+    // raced the tap cannot report a stale number.
+    final count = context
+        .read<RecommendationProvider>()
+        .items
+        .take(widget.maxItems)
+        .length;
+    AnalyticsService.maybeInstance?.track(
+      'for_you_expanded',
+      properties: {'count': count},
+    );
+  }
+
+  /// Hides the card from the card itself: opts out via the provider (which
+  /// notifies, so the card unmounts) and offers an Undo snackbar. Everything
+  /// the Undo action needs — provider, messenger, strings, locale tag — is
+  /// captured before the opt-out lands: the action fires after this State is
+  /// gone, and touching `context` or `mounted` there is a real crash path,
+  /// not a style nit.
+  void _hideFromCard() {
+    final provider = context.read<RecommendationProvider>();
+    final messenger = ScaffoldMessenger.of(context);
+    final l10n = AppLocalizations.of(context)!;
+    final localeTag = Localizations.localeOf(context).toLanguageTag();
+    AnalyticsService.maybeInstance?.track(
+      'for_you_setting_toggled',
+      properties: {'enabled': false, 'source': 'card'},
+    );
+    unawaited(provider.setOptedOut(true));
+    messenger.showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.floating,
+        content: Text(l10n.forYouHiddenMessage),
+        action: SnackBarAction(
+          label: l10n.undo,
+          onPressed: () {
+            AnalyticsService.maybeInstance?.track(
+              'for_you_setting_toggled',
+              properties: {'enabled': true, 'source': 'card_undo'},
+            );
+            // Sequential on purpose: the provider must be re-enabled
+            // before the reload, or ensureLoaded would only hit the
+            // opt-out gate again.
+            unawaited(
+              provider
+                  .setOptedOut(false)
+                  .then((_) => provider.ensureLoaded(localeTag)),
+            );
+          },
         ),
       ),
     );
@@ -360,6 +500,12 @@ class _ForYouRow extends StatelessWidget {
   }
 
   Future<void> _launch(Uri uri) async {
+    try {
+      if (await launchUrl(uri, mode: forYouLaunchMode())) return;
+    } catch (_) {
+      // No in-app surface on this device (or the plugin channel is missing,
+      // e.g. in tests): fall back to the system browser below.
+    }
     try {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     } catch (_) {

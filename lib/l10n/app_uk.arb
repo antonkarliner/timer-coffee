@@ -1576,5 +1576,6 @@
   "forYouViewAtRoaster": "Переглянути в обсмажувача",
   "forYouNotForMe": "Не моє",
   "forYouSettingTitle": "Рекомендації зерна",
-  "forYouSettingSubtitle": "Показує в Центрі зерно в наявності, підібране для вас"
+  "forYouSettingSubtitle": "Показує в Центрі зерно в наявності, підібране для вас",
+  "forYouHiddenMessage": "Рекомендації зерна вимкнено. Ви можете знову увімкнути їх у налаштуваннях."
 }

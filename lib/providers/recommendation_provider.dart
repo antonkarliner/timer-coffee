@@ -180,7 +180,10 @@ class RecommendationProvider extends ChangeNotifier {
   /// Opts the user out of recommendations. The preference is persisted
   /// first; `deleteMine()` runs best-effort afterwards (its failure does
   /// not undo the opt-out). Re-enabling resets to [RecommendationState.idle]
-  /// so the next [ensureLoaded] loads fresh.
+  /// so the next [ensureLoaded] loads fresh — and clears the current user's
+  /// generate-throttle entry: `deleteMine()` erased the server-side picks,
+  /// so without the reset the 6-hour client throttle would keep the
+  /// re-enabled card empty until the window elapsed.
   Future<void> setOptedOut(bool value) async {
     if (value == _optedOut) return;
     _optedOut = value;
@@ -203,6 +206,14 @@ class RecommendationProvider extends ChangeNotifier {
         );
       }
     } else {
+      // The throttle entry must go before the state reset notifies: a
+      // re-enable (e.g. the card's Undo) chains ensureLoaded immediately,
+      // and that load is only allowed to generate again if the entry is
+      // already gone.
+      final userId = _currentUserId();
+      if (userId != null) {
+        await _prefs.remove(_throttleKey(userId));
+      }
       _state = RecommendationState.idle;
       _items = const [];
       _isFirstLoad = false;

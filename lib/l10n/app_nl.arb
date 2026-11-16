@@ -1576,5 +1576,6 @@
   "forYouViewAtRoaster": "Bekijk bij de branderij",
   "forYouNotForMe": "Niet voor mij",
   "forYouSettingTitle": "Bonensuggesties",
-  "forYouSettingSubtitle": "Toont op de Hub bonen op voorraad die voor jou zijn gekozen"
+  "forYouSettingSubtitle": "Toont op de Hub bonen op voorraad die voor jou zijn gekozen",
+  "forYouHiddenMessage": "Bonensuggesties zijn uitgeschakeld. Je kunt ze weer inschakelen in de Instellingen."
 }

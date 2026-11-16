@@ -1696,5 +1696,6 @@
   "forYouViewAtRoaster": "Pogledaj kod pržionice",
   "forYouNotForMe": "Nije za mene",
   "forYouSettingTitle": "Prijedlozi zrna",
-  "forYouSettingSubtitle": "Na Središtu prikazuje dostupna zrna odabrana za tebe"
+  "forYouSettingSubtitle": "Na Središtu prikazuje dostupna zrna odabrana za tebe",
+  "forYouHiddenMessage": "Prijedlozi zrna su isključeni. Možeš ih ponovno uključiti u Postavkama."
 }

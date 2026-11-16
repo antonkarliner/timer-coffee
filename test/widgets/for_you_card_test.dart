@@ -14,6 +14,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // English ARB strings the tests interact with.
 const _title = 'For you';
@@ -21,6 +22,11 @@ const _subtitle = 'In stock now, picked from what you brew';
 const _yourRoasterMarker = 'Your roaster';
 const _viewLabel = 'View at roaster';
 const _dismissLabel = 'Not for me';
+const _showMoreLabel = 'Show more';
+const _showLessLabel = 'Show less';
+const _undoLabel = 'Undo';
+const _hiddenMessage =
+    'Bean suggestions are off. You can turn them back on in Settings.';
 
 /// Hand-written fake — no Supabase anywhere in these tests (same shape as
 /// the one in test/unit/providers/recommendation_provider_test.dart).
@@ -253,9 +259,11 @@ void main() {
       await tester.pumpAndSettle();
       expect(events('for_you_shown'), hasLength(1));
       expect(events('for_you_shown').single['category'], 'beans');
+      // Collapsed is the default: one row visible, three picks available.
       expect(events('for_you_shown').single['properties'], {
-        'count': 3,
-        'modes': 'near_you,your_roaster',
+        'count': 1,
+        'modes': 'your_roaster',
+        'available': 3,
       });
 
       await tester.pumpWidget(_Harness(provider: env.provider));
@@ -293,6 +301,13 @@ void main() {
           ],
         );
         await tester.pumpAndSettle();
+
+        // Collapsed by default: expand so the second pick's row exists.
+        await tester.tap(find.text(_showMoreLabel));
+        await tester.pumpAndSettle();
+        expect(events('for_you_expanded'), hasLength(1));
+        expect(events('for_you_expanded').single['category'], 'beans');
+        expect(events('for_you_expanded').single['properties'], {'count': 2});
 
         await tester.tap(find.text('Bean B'));
         await tester.pumpAndSettle();
@@ -485,7 +500,8 @@ void main() {
   });
 
   group('rows', () {
-    testWidgets('ready with 5 items → exactly maxItems rows', (tester) async {
+    testWidgets('ready with 5 items → collapsed one row, expanded maxItems',
+        (tester) async {
       final items = List.generate(
         5,
         (i) => rec('s$i', name: 'Bean ${i + 1}'),
@@ -495,6 +511,14 @@ void main() {
 
       expect(find.text(_title), findsOneWidget);
       expect(find.text('Bean 1'), findsOneWidget);
+      expect(find.text('Bean 2'), findsNothing);
+      expect(find.text('Bean 5'), findsNothing);
+      expect(find.byType(Divider), findsNothing);
+
+      await tester.tap(find.text(_showMoreLabel));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Bean 1'), findsOneWidget);
       expect(find.text('Bean 2'), findsOneWidget);
       expect(find.text('Bean 3'), findsOneWidget);
       expect(find.text('Bean 4'), findsNothing);
@@ -502,7 +526,8 @@ void main() {
       expect(find.byType(Divider), findsNWidgets(2));
     });
 
-    testWidgets('maxItems: 1 → one row, no divider', (tester) async {
+    testWidgets('maxItems: 1 → one row, no divider, no expand control',
+        (tester) async {
       final items = List.generate(
         5,
         (i) => rec('s$i', name: 'Bean ${i + 1}'),
@@ -513,6 +538,8 @@ void main() {
       expect(find.text('Bean 1'), findsOneWidget);
       expect(find.text('Bean 2'), findsNothing);
       expect(find.byType(Divider), findsNothing);
+      expect(find.text(_showMoreLabel), findsNothing,
+          reason: 'expanding could never reveal anything at maxItems 1');
     });
 
     testWidgets('reason shown when present', (tester) async {
@@ -659,8 +686,11 @@ void main() {
 
       expect(env.client.dismissedIds, ['s1']);
       expect(find.text('Bean A'), findsNothing);
-      expect(find.text('Bean B'), findsOneWidget);
+      expect(find.text('Bean B'), findsOneWidget,
+          reason: 'the next pick takes the collapsed first row');
       expect(find.text(_title), findsOneWidget);
+      expect(find.text(_showMoreLabel), findsNothing,
+          reason: 'one pick left → the expand control disappears');
     });
 
     testWidgets('dismissing the last row removes the card', (tester) async {
@@ -745,6 +775,11 @@ void main() {
       );
       expect(find.text('Für dich'), findsOneWidget);
       expect(tester.takeException(), isNull);
+
+      await tester.tap(find.text('Mehr anzeigen'));
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull,
+          reason: 'expanded rows must fit the same small surface');
     });
 
     testWidgets('320x640, text scale 1.3, 120-char name, ru', (tester) async {
@@ -756,6 +791,10 @@ void main() {
             'ноты, и это зерно идеально подходит под ваши заваривания. ',
       );
       expect(find.text('Для вас'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+
+      await tester.tap(find.text('Показать ещё'));
+      await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
     });
 
@@ -769,6 +808,12 @@ void main() {
             'مناسب تماماً لتحضيراتك الأخيرة. ',
       );
       expect(find.text('لك'), findsOneWidget);
+      // The hide control renders at the trailing (left) edge in RTL.
+      expect(find.byIcon(Icons.close), findsOneWidget);
+      expect(tester.takeException(), isNull);
+
+      await tester.tap(find.text('عرض المزيد'));
+      await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
     });
   });
@@ -787,18 +832,145 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.bySemanticsIdentifier('forYouCard'), findsOneWidget);
+      expect(find.bySemanticsIdentifier('forYouHide'), findsOneWidget);
+      // Collapsed: only the first pick is in the tree.
       expect(find.bySemanticsIdentifier('forYouItem_0'), findsOneWidget);
-      expect(find.bySemanticsIdentifier('forYouItem_1'), findsOneWidget);
+      expect(find.bySemanticsIdentifier('forYouItem_1'), findsNothing,
+          reason: 'the second pick is hidden while collapsed');
       expect(find.bySemanticsIdentifier('forYouView_0'), findsOneWidget);
       expect(find.bySemanticsIdentifier('forYouDismiss_0'), findsOneWidget);
+
+      await tester.tap(find.text(_showMoreLabel));
+      await tester.pumpAndSettle();
+
+      expect(find.bySemanticsIdentifier('forYouItem_1'), findsOneWidget);
+      expect(find.bySemanticsIdentifier('forYouDismiss_1'), findsOneWidget);
       expect(find.bySemanticsIdentifier('forYouView_1'), findsNothing,
           reason: 'second item has no usable productUrl');
-      expect(find.bySemanticsIdentifier('forYouDismiss_1'), findsOneWidget);
       expect(tester.takeException(), isNull);
 
       // Must be disposed inside the test body: the binding verifies handles
       // are gone before tearDowns run.
       handle.dispose();
+    });
+  });
+
+  group('expansion, hiding and launch mode', () {
+    // Same real-buffer pattern as the analytics group above.
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      AnalyticsService.resetForTesting();
+      await AnalyticsService.initialize(await SharedPreferences.getInstance());
+      AnalyticsService.sendOverride = (_) async {};
+    });
+    tearDown(AnalyticsService.resetForTesting);
+
+    List<Map<String, dynamic>> events(String name) => AnalyticsService
+        .instance
+        .bufferedEventsForTesting
+        .where((event) => event['event_name'] == name)
+        .toList();
+
+    testWidgets('collapse → expand → collapse fires for_you_expanded only '
+        'on expand, with the rows now shown', (tester) async {
+      await _pumpCard(
+        tester,
+        items: [
+          rec('s1', name: 'Bean A'),
+          rec('s2', name: 'Bean B'),
+          rec('s3', name: 'Bean C'),
+          rec('s4', name: 'Bean D'),
+        ],
+      );
+      await tester.pumpAndSettle();
+
+      // Collapsed: the first pick only, no dividers, Show more present.
+      expect(find.text('Bean A'), findsOneWidget);
+      expect(find.text('Bean B'), findsNothing);
+      expect(find.byType(Divider), findsNothing);
+      expect(find.text(_showMoreLabel), findsOneWidget);
+
+      await tester.tap(find.text(_showMoreLabel));
+      await tester.pumpAndSettle();
+
+      // maxItems caps the expansion at three rows.
+      expect(find.text('Bean A'), findsOneWidget);
+      expect(find.text('Bean B'), findsOneWidget);
+      expect(find.text('Bean C'), findsOneWidget);
+      expect(find.text('Bean D'), findsNothing);
+      expect(find.byType(Divider), findsNWidgets(2));
+      expect(find.text(_showLessLabel), findsOneWidget);
+      expect(events('for_you_expanded'), hasLength(1));
+      expect(events('for_you_expanded').single['category'], 'beans');
+      expect(events('for_you_expanded').single['properties'], {'count': 3});
+
+      await tester.tap(find.text(_showLessLabel));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Bean A'), findsOneWidget);
+      expect(find.text('Bean B'), findsNothing);
+      expect(find.text(_showMoreLabel), findsOneWidget);
+      // Collapsing must not fire the event again.
+      expect(events('for_you_expanded'), hasLength(1));
+    });
+
+    testWidgets('a single pick has no expand control', (tester) async {
+      await _pumpCard(tester, items: [rec('s1', name: 'Bean A')]);
+      await tester.pumpAndSettle();
+      expect(find.text('Bean A'), findsOneWidget);
+      expect(find.text(_showMoreLabel), findsNothing);
+      expect(find.text(_showLessLabel), findsNothing);
+    });
+
+    testWidgets('hide control opts out, hides the card and offers Undo; '
+        'Undo opts back in and reloads', (tester) async {
+      final env = await _pumpCard(tester, items: [rec('s1', name: 'Bean A')]);
+      await tester.pumpAndSettle();
+      expect(find.text('Bean A'), findsOneWidget);
+      final callsBefore = env.provider.ensureLoadedCalls;
+
+      await tester.tap(find.byIcon(Icons.close));
+      await tester.pumpAndSettle();
+
+      expect(env.provider.optedOut, isTrue);
+      expect(find.text(_title), findsNothing);
+      expect(find.text('Bean A'), findsNothing);
+      expect(find.text(_hiddenMessage), findsOneWidget);
+      expect(find.text(_undoLabel), findsOneWidget);
+      expect(
+        events('for_you_setting_toggled').map((e) => e['properties']),
+        [
+          {'enabled': false, 'source': 'card'},
+        ],
+      );
+      expect(
+        events('for_you_setting_toggled').map((e) => e['category']),
+        everyElement('beans'),
+      );
+
+      await tester.tap(find.text(_undoLabel));
+      await tester.pumpAndSettle();
+
+      expect(env.provider.optedOut, isFalse);
+      expect(env.provider.ensureLoadedCalls, callsBefore + 1,
+          reason: 'Undo must reload — setOptedOut(false) resets to idle, so '
+              'without ensureLoaded the card would stay empty');
+      expect(env.provider.locales.last, 'en');
+      expect(find.text(_title), findsOneWidget);
+      expect(find.text('Bean A'), findsOneWidget);
+      expect(
+        events('for_you_setting_toggled').map((e) => e['properties']),
+        [
+          {'enabled': false, 'source': 'card'},
+          {'enabled': true, 'source': 'card_undo'},
+        ],
+      );
+      expect(tester.takeException(), isNull);
+    });
+
+    test('launch mode: in-app browser natively, platform default on web', () {
+      expect(forYouLaunchMode(isWeb: false), LaunchMode.inAppBrowserView);
+      expect(forYouLaunchMode(isWeb: true), LaunchMode.platformDefault);
     });
   });
 }

@@ -123,6 +123,7 @@ class AnalyticsService extends ChangeNotifier {
     'for_you_dismissed': 'beans',
     'for_you_unavailable': 'beans',
     'for_you_setting_toggled': 'beans',
+    'for_you_expanded': 'beans',
     // General
     'app_opened': 'general',
     'screen_viewed': 'general',

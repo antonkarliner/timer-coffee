@@ -3239,5 +3239,7 @@
   "forYouSettingTitle": "Bean suggestions",
   "@forYouSettingTitle": {"description": "Title of the Settings switch that turns the 'For you' bean suggestions on the Hub on or off."},
   "forYouSettingSubtitle": "Show in-stock beans picked for you on the Hub",
-  "@forYouSettingSubtitle": {"description": "Description under the 'Bean suggestions' Settings switch: what it shows and where."}
+  "@forYouSettingSubtitle": {"description": "Description under the 'Bean suggestions' Settings switch: what it shows and where."},
+  "forYouHiddenMessage": "Bean suggestions are off. You can turn them back on in Settings.",
+  "@forYouHiddenMessage": {"description": "Snackbar shown when the ‘For you’ card’s hide control turns bean suggestions off; its Undo action turns them back on and reloads the card."}
 }

@@ -1576,5 +1576,6 @@
   "forYouViewAtRoaster": "Voir chez le torréfacteur",
   "forYouNotForMe": "Pas pour moi",
   "forYouSettingTitle": "Suggestions de grains",
-  "forYouSettingSubtitle": "Affiche sur le Hub des grains en stock choisis pour vous"
+  "forYouSettingSubtitle": "Affiche sur le Hub des grains en stock choisis pour vous",
+  "forYouHiddenMessage": "Les suggestions de grains sont désactivées. Vous pouvez les réactiver dans les Paramètres."
 }

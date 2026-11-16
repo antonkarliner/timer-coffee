@@ -170,8 +170,8 @@ void main() {
       isFalse,
     );
     expect(eventsNamed('for_you_setting_toggled').map((e) => e['properties']), [
-      {'enabled': false},
-      {'enabled': true},
+      {'enabled': false, 'source': 'settings'},
+      {'enabled': true, 'source': 'settings'},
     ]);
     expect(
       eventsNamed('for_you_setting_toggled').map((e) => e['category']),

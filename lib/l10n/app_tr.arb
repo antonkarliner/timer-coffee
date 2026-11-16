@@ -1576,5 +1576,6 @@
   "forYouViewAtRoaster": "Kavurucuda incele",
   "forYouNotForMe": "Bana göre değil",
   "forYouSettingTitle": "Çekirdek önerileri",
-  "forYouSettingSubtitle": "Hub’da sizin için seçilmiş stoktaki çekirdekleri gösterir"
+  "forYouSettingSubtitle": "Hub’da sizin için seçilmiş stoktaki çekirdekleri gösterir",
+  "forYouHiddenMessage": "Çekirdek önerileri kapalı. Ayarlar’dan yeniden açabilirsiniz."
 }

@@ -121,7 +121,7 @@ class SettingsPrivacyDataScreen extends StatelessWidget {
                   recommendations.setOptedOut(!value);
                   AnalyticsService.maybeInstance?.track(
                     'for_you_setting_toggled',
-                    properties: {'enabled': value},
+                    properties: {'enabled': value, 'source': 'settings'},
                   );
                 },
               ),

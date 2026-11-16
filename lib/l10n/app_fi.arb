@@ -1428,5 +1428,6 @@
   "forYouViewAtRoaster": "Katso paahtimolla",
   "forYouNotForMe": "Ei minulle",
   "forYouSettingTitle": "Papusuositukset",
-  "forYouSettingSubtitle": "Näyttää Hubissa sinulle valitut varastossa olevat pavut"
+  "forYouSettingSubtitle": "Näyttää Hubissa sinulle valitut varastossa olevat pavut",
+  "forYouHiddenMessage": "Papusuositukset on poistettu käytöstä. Voit ottaa ne käyttöön uudelleen asetuksissa."
 }

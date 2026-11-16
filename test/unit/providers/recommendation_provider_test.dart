@@ -688,6 +688,35 @@ void main() {
         expect(p.state, RecommendationState.ready);
         expect(p.items.single.stockId, 'a');
       });
+
+      test('opt out → opt in → ensureLoaded generates again despite the '
+          'throttle', () async {
+        final p = make();
+        client.fetchResult = result(hasRecommendations: false);
+        client.generateStatus = BeanRecommendationStatus.insufficientHistory;
+        await p.ensureLoaded('en');
+        expect(client.generateCount, 1);
+        expect(
+          prefs.getInt('bean_recs_last_generate_user-1'),
+          now.millisecondsSinceEpoch,
+          reason: 'the generate recorded its throttle entry',
+        );
+
+        await p.setOptedOut(true);
+        await p.setOptedOut(false);
+        expect(
+          prefs.getInt('bean_recs_last_generate_user-1'),
+          isNull,
+          reason: 'opt-in must clear the generate-throttle entry',
+        );
+
+        // Same clock: still inside the 6-hour window, so only the removed
+        // entry — not elapsed time — lets generate run again. Without the
+        // reset the re-enabled card would stay hidden until the window
+        // elapsed.
+        await p.ensureLoaded('en');
+        expect(client.generateCount, 2);
+      });
     });
 
     group('logLinkOpened', () {

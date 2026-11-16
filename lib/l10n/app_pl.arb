@@ -1576,5 +1576,6 @@
   "forYouViewAtRoaster": "Zobacz u palarni",
   "forYouNotForMe": "Nie dla mnie",
   "forYouSettingTitle": "Sugestie ziaren",
-  "forYouSettingSubtitle": "Pokazuje w Hubie ziarna na stanie, wybrane dla ciebie"
+  "forYouSettingSubtitle": "Pokazuje w Hubie ziarna na stanie, wybrane dla ciebie",
+  "forYouHiddenMessage": "Sugestie ziaren są wyłączone. Możesz włączyć je ponownie w Ustawieniach."
 }
