@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/coffee_beans_model.dart';
+import '../../theme/design_tokens.dart';
 import '../../models/ui_state/coffee_beans_sort_options.dart';
 import '../../models/ui_state/coffee_beans_view_state.dart';
 import 'coffee_bean_card.dart';
@@ -13,6 +14,9 @@ import 'coffee_bean_card.dart';
 class CoffeeBeansListView extends StatelessWidget {
   /// List of coffee beans to display
   final List<CoffeeBeansModel> beans;
+
+  /// Optional full-width content that scrolls above the beans.
+  final Widget? header;
 
   /// Current view state
   final CoffeeBeansViewState viewState;
@@ -37,6 +41,7 @@ class CoffeeBeansListView extends StatelessWidget {
     required this.beans,
     required this.viewState,
     this.scrollController,
+    this.header,
     required this.onDelete,
     required this.onFavoriteToggle,
     required this.onTap,
@@ -48,12 +53,24 @@ class CoffeeBeansListView extends StatelessWidget {
     return ListView.builder(
       controller: scrollController,
       physics: const AlwaysScrollableScrollPhysics(),
-      padding: const EdgeInsets.all(16.0),
-      itemCount: beans.length,
+      // Keep the header full-width: ForYouCard supplies its own side insets.
+      padding: header == null
+          ? const EdgeInsets.all(16.0)
+          : const EdgeInsets.symmetric(vertical: AppSpacing.base),
+      itemCount: beans.length + (header == null ? 0 : 1),
       itemBuilder: (context, index) {
-        final bean = beans[index];
+        if (header != null && index == 0) {
+          return header!;
+        }
+        final bean = beans[index - (header == null ? 0 : 1)];
         return Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
+          padding: header == null
+              ? const EdgeInsets.only(bottom: 8.0)
+              : const EdgeInsets.only(
+                  left: AppSpacing.base,
+                  right: AppSpacing.base,
+                  bottom: AppSpacing.sm,
+                ),
           child: CoffeeBeanCard(
             key: ValueKey(bean.beansUuid),
             bean: bean,

@@ -11,6 +11,27 @@ import '../l10n/app_localizations.dart';
 import '../theme/design_tokens.dart';
 import '../widgets/base_buttons.dart';
 import '../widgets/undo_snackbar.dart';
+import '../widgets/for_you_card.dart';
+
+@visibleForTesting
+bool? debugForYouOnMyBeansOverride;
+
+bool get _forYouOnMyBeans =>
+    debugForYouOnMyBeansOverride ?? const bool.fromEnvironment('FOR_YOU_DEBUG');
+
+/// Shared eligibility check so tests need not initialize the screen's services.
+@visibleForTesting
+bool shouldShowForYouOnMyBeans({
+  required bool hasBeans,
+  required String searchQuery,
+  required bool hasActiveFilters,
+  required bool isEditMode,
+}) =>
+    _forYouOnMyBeans &&
+    hasBeans &&
+    searchQuery.isEmpty &&
+    !hasActiveFilters &&
+    !isEditMode;
 
 @RoutePage()
 class CoffeeBeansScreen extends StatefulWidget {
@@ -189,10 +210,22 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
       }
     }
 
+    // Trial placement for evaluation (plan 083 Phase 2), debug builds only.
+    final header =
+        shouldShowForYouOnMyBeans(
+          hasBeans: beans.isNotEmpty,
+          searchQuery: controller.viewState.searchQuery,
+          hasActiveFilters: controller.hasActiveFilters,
+          isEditMode: controller.viewState.isEditMode,
+        )
+        ? const ForYouCard()
+        : null;
+
     // Display content based on view mode
     return controller.viewState.viewMode == ViewMode.list
         ? CoffeeBeansListView(
             beans: beans,
+            header: header,
             viewState: controller.viewState,
             scrollController: controller.scrollController,
             onDelete: (bean) => _handleDelete(context, controller, bean),
@@ -204,6 +237,7 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
           )
         : CoffeeBeansGridView(
             beans: beans,
+            header: header,
             viewState: controller.viewState,
             scrollController: controller.scrollController,
             onDelete: (bean) => _handleDelete(context, controller, bean),
