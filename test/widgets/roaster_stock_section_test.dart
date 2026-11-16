@@ -296,6 +296,118 @@ void main() {
     });
   });
 
+  group('section expansion', () {
+    testWidgets('starts expanded; header hides and restores cards and note '
+        'without repeating analytics or fetching', (tester) async {
+      final client = _FakeStockClient(
+        result: RoasterStockResult(items: [stock('s1', name: 'Bean 1')]),
+      );
+      await _pumpSection(tester, client: client);
+      await tester.pumpAndSettle();
+
+      expect(find.text('Bean 1').hitTestable(), findsOneWidget);
+      expect(find.text(_sourceNote).hitTestable(), findsOneWidget);
+      expect(events('roaster_stock_shown'), hasLength(1));
+
+      await tester.tap(find.text(_sectionTitle));
+      await tester.pumpAndSettle();
+      expect(find.text(_sectionTitle).hitTestable(), findsOneWidget);
+      expect(find.byType(StockBeanCard), findsNothing);
+      expect(find.text(_sourceNote), findsNothing);
+      expect(events('roaster_stock_shown'), hasLength(1));
+
+      await tester.tap(find.text(_sectionTitle));
+      await tester.pumpAndSettle();
+      expect(find.text('Bean 1').hitTestable(), findsOneWidget);
+      expect(find.text(_sourceNote).hitTestable(), findsOneWidget);
+      expect(events('roaster_stock_shown'), hasLength(1));
+      expect(client.fetchCount, 1);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('Show more state survives header collapse and expansion',
+        (tester) async {
+      final client = _FakeStockClient(
+        result: RoasterStockResult(items: [
+          for (var i = 0; i < 6; i++) stock('s$i', name: 'Bean $i'),
+        ]),
+      );
+      await _pumpSection(tester, client: client);
+      await tester.pumpAndSettle();
+      expect(find.byType(StockBeanCard), findsNWidgets(4));
+
+      await tester.ensureVisible(find.text(_showMoreLabel));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(_showMoreLabel));
+      await tester.pumpAndSettle();
+      expect(find.byType(StockBeanCard), findsNWidgets(6));
+
+      await tester.ensureVisible(find.text(_sectionTitle));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(_sectionTitle));
+      await tester.pumpAndSettle();
+      expect(find.byType(StockBeanCard), findsNothing);
+      await tester.tap(find.text(_sectionTitle));
+      await tester.pumpAndSettle();
+      expect(find.byType(StockBeanCard), findsNWidgets(6));
+      expect(find.text(_showLessLabel), findsOneWidget);
+      expect(find.text(_showMoreLabel), findsNothing);
+      expect(events('roaster_stock_shown'), hasLength(1));
+
+      await tester.ensureVisible(find.text(_showLessLabel));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(_showLessLabel));
+      await tester.pumpAndSettle();
+      expect(find.byType(StockBeanCard), findsNWidgets(4));
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('a highlight rebuild does not scroll a collapsed section',
+        (tester) async {
+      final controller = ScrollController();
+      addTearDown(controller.dispose);
+      var scrollStarts = 0;
+      Widget wrapSection(Widget section) =>
+          NotificationListener<ScrollStartNotification>(
+            onNotification: (_) {
+              scrollStarts++;
+              return false;
+            },
+            child: SingleChildScrollView(
+              controller: controller,
+              child: Column(children: [
+                const SizedBox(height: 1000),
+                section,
+                const SizedBox(height: 1000),
+              ]),
+            ),
+          );
+      final client = _FakeStockClient(
+        result: RoasterStockResult(items: [stock('s1', name: 'Bean 1')]),
+      );
+      await _pumpSection(tester, client: client, wrapSection: wrapSection);
+      await tester.pumpAndSettle();
+      await tester.ensureVisible(find.text(_sectionTitle));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(_sectionTitle));
+      await tester.pumpAndSettle();
+      controller.jumpTo(0);
+      scrollStarts = 0;
+
+      await _pumpSection(
+        tester,
+        client: client,
+        highlightStockId: 's1',
+        wrapSection: wrapSection,
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(StockBeanCard), findsNothing);
+      expect(controller.offset, 0);
+      expect(scrollStarts, 0);
+      expect(tester.takeException(), isNull);
+    });
+  });
+
   group('source note', () {
     testWidgets('part of the section: shown under the cards when it is',
         (tester) async {

@@ -80,6 +80,9 @@ class _RoasterStockSectionState extends State<RoasterStockSection> {
   bool _shownTracked = false;
   bool _highlightScrollScheduled = false;
 
+  // SectionCard owns the header toggle; mirror it to guard deferred scrolling.
+  bool _sectionExpanded = true;
+
   /// Widget state only — never persisted. Collapsed shows up to
   /// [_collapsedCount] cards; expanding reveals everything fetched.
   bool _expanded = false;
@@ -168,7 +171,9 @@ class _RoasterStockSectionState extends State<RoasterStockSection> {
     return SectionCard(
       title: l10n.roasterStockTitle,
       icon: Icons.storefront_outlined,
-      isCollapsible: false,
+      isCollapsible: true,
+      initiallyExpanded: true,
+      onExpansionChanged: (expanded) => _sectionExpanded = expanded,
       paddingChild: false,
       semanticIdentifier: 'roasterStockSection',
       child: Padding(
@@ -268,10 +273,12 @@ class _RoasterStockSectionState extends State<RoasterStockSection> {
   /// Wait until the highlighted cards have layout, then reveal the section
   /// once. Rebuilds and subsequent expansion must not move the user again.
   void _scheduleHighlightScroll() {
-    if (_highlightScrollScheduled) return;
+    if (!_sectionExpanded || _highlightScrollScheduled) return;
     _highlightScrollScheduled = true;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted || Scrollable.maybeOf(context) == null) return;
+      if (!mounted || !_sectionExpanded || Scrollable.maybeOf(context) == null) {
+        return;
+      }
       unawaited(Scrollable.ensureVisible(
         context,
         duration: const Duration(milliseconds: 250),
