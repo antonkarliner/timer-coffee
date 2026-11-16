@@ -29,11 +29,13 @@ class RecommendationProvider extends ChangeNotifier {
     required Future<String?> Function(String localeCode) countryCodeLookup,
     required SharedPreferences prefs,
     DateTime Function()? clock,
+    bool debugMode = false,
   }) : _client = client,
        _currentUserId = currentUserId,
        _featureFlagEnabled = featureFlagEnabled,
        _countryCodeLookup = countryCodeLookup,
        _prefs = prefs,
+       _debugMode = debugMode,
        _clock = clock ?? DateTime.now {
     // SharedPreferences is already loaded by the time main() constructs this
     // provider, so a synchronous read is safe.
@@ -54,6 +56,7 @@ class RecommendationProvider extends ChangeNotifier {
   final bool Function() _featureFlagEnabled;
   final Future<String?> Function(String localeCode) _countryCodeLookup;
   final SharedPreferences _prefs;
+  final bool _debugMode;
   final DateTime Function() _clock;
 
   RecommendationState _state = RecommendationState.idle;
@@ -64,6 +67,10 @@ class RecommendationProvider extends ChangeNotifier {
   bool _optedOut = false;
   bool _disposed = false;
   Future<void>? _inFlight;
+  Future<void>? _backgroundInFlight;
+  BeanRecommendationStatus? _lastGenerateStatus;
+  DateTime? _lastGenerateAt;
+  bool _lastGenerateFailed = false;
 
   /// Set once the server has decided the state for
   /// [_loadedUserId]/[_loadedLocale]. Gate-hiding (flag off, anonymous,
@@ -96,9 +103,28 @@ class RecommendationProvider extends ChangeNotifier {
 
   bool get optedOut => _optedOut;
 
+  /// Last generate answer; null before any call or when the call threw.
+  BeanRecommendationStatus? get lastGenerateStatus => _lastGenerateStatus;
+
+  /// Start time of the last generate call, from the injected clock.
+  DateTime? get lastGenerateAt => _lastGenerateAt;
+
+  /// Whether the last generate call threw (as opposed to a non-ok answer).
+  bool get lastGenerateFailed => _lastGenerateFailed;
+
   /// Called by the card on first build. Safe to call repeatedly; concurrent
   /// calls share one in-flight load. Never throws.
-  Future<void> ensureLoaded(String localeCode) async {
+  Future<void> ensureLoaded(String localeCode) => _ensureLoaded(localeCode);
+
+  /// Explicitly regenerates picks, bypassing the client throttle and asking
+  /// the server for fresh picks. Shares the normal load's gates and guard.
+  Future<void> refresh(String localeCode) =>
+      _ensureLoaded(localeCode, forceRefresh: true);
+
+  Future<void> _ensureLoaded(
+    String localeCode, {
+    bool forceRefresh = false,
+  }) async {
     if (_disposed) return;
     // The card calls this while it is being built. Everything below can
     // notify listeners synchronously (the gates do), and notifying during a
@@ -113,12 +139,13 @@ class RecommendationProvider extends ChangeNotifier {
         if (_state != RecommendationState.hidden) _applyHidden();
         return;
       }
-      final inFlight = _inFlight;
+      final inFlight = _inFlight ?? _backgroundInFlight;
       if (inFlight != null) {
         await inFlight;
         return;
       }
-      if (_decided &&
+      if (!forceRefresh &&
+          _decided &&
           _loadedUserId == userId &&
           _loadedLocale == localeCode &&
           (_state == RecommendationState.ready ||
@@ -127,15 +154,11 @@ class RecommendationProvider extends ChangeNotifier {
         // this user and locale.
         return;
       }
-      final load = _load(localeCode, userId);
+      final load = _load(localeCode, userId, forceRefresh: forceRefresh);
       _inFlight = load;
       await load.whenComplete(() => _inFlight = null);
     } catch (e, st) {
-      AppLogger.error(
-        'ensureLoaded failed',
-        errorObject: e,
-        stackTrace: st,
-      );
+      AppLogger.error('ensureLoaded failed', errorObject: e, stackTrace: st);
     }
   }
 
@@ -211,7 +234,7 @@ class RecommendationProvider extends ChangeNotifier {
       // and that load is only allowed to generate again if the entry is
       // already gone.
       final userId = _currentUserId();
-      if (userId != null) {
+      if (!_debugMode && userId != null) {
         await _prefs.remove(_throttleKey(userId));
       }
       _state = RecommendationState.idle;
@@ -227,12 +250,28 @@ class RecommendationProvider extends ChangeNotifier {
 
   /// One cold load for (user, locale). Never throws; never notifies after
   /// dispose; bails out quietly if the user opted out mid-flight.
-  Future<void> _load(String localeCode, String userId) async {
+  Future<void> _load(
+    String localeCode,
+    String userId, {
+    bool forceRefresh = false,
+  }) async {
     try {
       _state = RecommendationState.loading;
       _isFirstLoad = false;
       _unavailableStatus = null;
       _notify();
+
+      if (forceRefresh) {
+        final (status, fresh) = await _generateAndRefetch(
+          localeCode,
+          userId,
+          forceRefresh: true,
+        );
+        if (_aborted) return;
+        _decide(userId, localeCode);
+        _applyGenerated(status, fresh);
+        return;
+      }
 
       final result = await _client.fetch(locale: localeCode);
       if (_aborted) return;
@@ -249,7 +288,7 @@ class RecommendationProvider extends ChangeNotifier {
         if (result.stale) {
           // Stale-while-revalidate: keep showing the old list and refresh
           // in the background. Failure changes nothing.
-          unawaited(_backgroundRefresh(localeCode, userId));
+          _startBackgroundRefresh(localeCode, userId);
         }
         return;
       }
@@ -267,7 +306,7 @@ class RecommendationProvider extends ChangeNotifier {
         // hidden unless items come back.
         _decide(userId, localeCode);
         _applyHidden();
-        unawaited(_backgroundRefresh(localeCode, userId));
+        _startBackgroundRefresh(localeCode, userId);
         return;
       }
 
@@ -279,17 +318,7 @@ class RecommendationProvider extends ChangeNotifier {
       final (status, fresh) = await _generateAndRefetch(localeCode, userId);
       if (_aborted) return;
       _decide(userId, localeCode);
-      if (fresh != null && fresh.items.isNotEmpty) {
-        _applyReady(_filterDismissed(fresh.items));
-      } else if (status == BeanRecommendationStatus.insufficientHistory) {
-        _applyHidden(unavailableStatus: 'insufficient_history');
-      } else if (status == BeanRecommendationStatus.noSupply) {
-        _applyHidden(unavailableStatus: 'no_supply');
-      } else {
-        // Throttled, rate limited, or ok-but-empty: behave as if nothing
-        // new came back.
-        _applyHidden();
-      }
+      _applyGenerated(status, fresh);
     } catch (e, st) {
       AppLogger.error(
         'Failed to load bean recommendations',
@@ -299,6 +328,35 @@ class RecommendationProvider extends ChangeNotifier {
       _decide(userId, localeCode);
       _applyHidden(unavailableStatus: 'error');
     }
+  }
+
+  /// Both first generation and explicit refresh apply the same terminal state.
+  void _applyGenerated(
+    BeanRecommendationStatus status,
+    RecommendationResult? fresh,
+  ) {
+    final items = _filterDismissed(fresh?.items ?? const []);
+    if (items.isNotEmpty) {
+      _applyReady(items);
+    } else {
+      _items = const [];
+      _applyHidden(
+        unavailableStatus: switch (status) {
+          BeanRecommendationStatus.insufficientHistory =>
+            'insufficient_history',
+          BeanRecommendationStatus.noSupply => 'no_supply',
+          _ => null,
+        },
+      );
+    }
+  }
+
+  // Keep background generation inside the shared guard too: debug mode has
+  // no throttle to prevent a manual refresh racing an ongoing revalidation.
+  void _startBackgroundRefresh(String localeCode, String userId) {
+    final refresh = _backgroundRefresh(localeCode, userId);
+    _backgroundInFlight = refresh;
+    unawaited(refresh.whenComplete(() => _backgroundInFlight = null));
   }
 
   /// Stale-while-revalidate refresh: generate (subject to the throttle) and
@@ -320,15 +378,20 @@ class RecommendationProvider extends ChangeNotifier {
   /// status and the fresh result (null unless generate returned ok and the
   /// refetch succeeded). The throttle timestamp is recorded *before* the
   /// call so a slow in-flight generate also blocks re-entry.
-  Future<(BeanRecommendationStatus, RecommendationResult?)>
-  _generateAndRefetch(String localeCode, String userId) async {
-    if (_isThrottled(userId)) {
+  Future<(BeanRecommendationStatus, RecommendationResult?)> _generateAndRefetch(
+    String localeCode,
+    String userId, {
+    bool forceRefresh = false,
+  }) async {
+    if (!_debugMode && !forceRefresh && _isThrottled(userId)) {
       return (BeanRecommendationStatus.unknown, null);
     }
-    await _prefs.setInt(
-      _throttleKey(userId),
-      _clock().millisecondsSinceEpoch,
-    );
+    if (!_debugMode) {
+      await _prefs.setInt(
+        _throttleKey(userId),
+        _clock().millisecondsSinceEpoch,
+      );
+    }
     String? countryCode;
     try {
       countryCode = await _countryCodeLookup(localeCode);
@@ -344,13 +407,22 @@ class RecommendationProvider extends ChangeNotifier {
         stackTrace: st,
       );
     }
+    if (_aborted) return (BeanRecommendationStatus.unknown, null);
     BeanRecommendationStatus status;
+    _lastGenerateAt = _clock();
+    _lastGenerateStatus = null;
+    _lastGenerateFailed = false;
     try {
       status = await _client.generate(
         locale: localeCode,
         countryCode: countryCode,
+        forceRefresh: forceRefresh,
       );
+      _lastGenerateStatus = status;
+      if (!_aborted) _notify();
     } catch (e, st) {
+      _lastGenerateFailed = true;
+      if (!_aborted) _notify();
       AppLogger.warning(
         'recommend-beans invocation failed',
         errorObject: e,
@@ -358,7 +430,7 @@ class RecommendationProvider extends ChangeNotifier {
       );
       return (BeanRecommendationStatus.unknown, null);
     }
-    if (status != BeanRecommendationStatus.ok) {
+    if (_aborted || status != BeanRecommendationStatus.ok) {
       return (status, null);
     }
     try {
@@ -399,7 +471,9 @@ class RecommendationProvider extends ChangeNotifier {
   List<BeanRecommendation> _filterDismissed(List<BeanRecommendation> items) =>
       _sessionDismissals.isEmpty
       ? items
-      : items.where((item) => !_sessionDismissals.contains(item.stockId)).toList();
+      : items
+            .where((item) => !_sessionDismissals.contains(item.stockId))
+            .toList();
 
   /// Whether the provider should stop applying results (disposed, or the
   /// user opted out mid-flight — in which case setOptedOut already put the

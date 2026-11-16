@@ -29,6 +29,7 @@ class _FakeClient implements BeanRecommendationClient {
   final List<String> dismissedIds = [];
   final List<String> clickedIds = [];
   final List<String> clickSurfaces = [];
+  final List<bool> forceRefreshCalls = [];
   final List<String> generateLocales = [];
   final List<String?> generateCountryCodes = [];
 
@@ -48,6 +49,7 @@ class _FakeClient implements BeanRecommendationClient {
     bool forceRefresh = false,
   }) async {
     generateCount++;
+    forceRefreshCalls.add(forceRefresh);
     generateLocales.add(locale);
     generateCountryCodes.add(countryCode);
     final impl = generateImpl;
@@ -118,10 +120,12 @@ void main() {
 
     RecommendationProvider make({
       Future<String?> Function(String localeCode)? countryCodeLookup,
+      bool debugMode = false,
     }) {
       final c = _FakeClient();
       client = c;
       final p = RecommendationProvider(
+        debugMode: debugMode,
         client: c,
         currentUserId: () => userId,
         featureFlagEnabled: () => flagOn,
@@ -165,6 +169,222 @@ void main() {
       }
       created.clear();
       disposed.clear();
+    });
+
+    group('tester mode and explicit refresh', () {
+      const throttleKey = 'bean_recs_last_generate_user-1';
+
+      for (final seeded in [false, true]) {
+        test(
+          'debug ignores throttle without writing it (seeded: $seeded)',
+          () async {
+            final stamp = now
+                .subtract(const Duration(minutes: 1))
+                .millisecondsSinceEpoch;
+            if (seeded) await prefs.setInt(throttleKey, stamp);
+            final p = make(debugMode: true);
+            client.fetchResult = result(hasRecommendations: false);
+            client.generateStatus =
+                BeanRecommendationStatus.insufficientHistory;
+
+            await p.ensureLoaded('en');
+            await p.ensureLoaded('fr');
+            expect(client.generateCount, 2);
+            expect(client.forceRefreshCalls, [false, false]);
+            expect(prefs.getInt(throttleKey), seeded ? stamp : null);
+
+            await p.setOptedOut(true);
+            await p.setOptedOut(false);
+            await p.refresh('fr');
+            expect(client.generateCount, 3);
+            expect(prefs.getInt(throttleKey), seeded ? stamp : null);
+          },
+        );
+      }
+
+      test(
+        'refresh bypasses throttle and a previous decision, applies items',
+        () async {
+          final p = make();
+          client.fetchResult = result(items: [item('old')]);
+          await p.ensureLoaded('en');
+          await prefs.setInt(throttleKey, now.millisecondsSinceEpoch);
+          client.fetchResult = result(items: [item('fresh')]);
+
+          await p.refresh('fr-FR');
+          expect(client.forceRefreshCalls, [true]);
+          expect(client.generateLocales, ['fr-FR']);
+          expect(client.fetchCount, 2);
+          expect(p.state, RecommendationState.ready);
+          expect(p.items.single.stockId, 'fresh');
+          expect(p.unavailableStatus, isNull);
+          await p.ensureLoaded('fr-FR');
+          expect(client.fetchCount, 2);
+        },
+      );
+
+      for (final (status, reason) in [
+        (BeanRecommendationStatus.insufficientHistory, 'insufficient_history'),
+        (BeanRecommendationStatus.noSupply, 'no_supply'),
+        (BeanRecommendationStatus.ok, null),
+        (BeanRecommendationStatus.unknown, null),
+      ]) {
+        test('refresh hides empty results with status $status', () async {
+          final p = make();
+          client.fetchResult = result(items: [item('old')]);
+          await p.ensureLoaded('en');
+          client.generateStatus = status;
+          client.fetchResult = result();
+          await p.refresh('en');
+          expect(p.state, RecommendationState.hidden);
+          expect(p.items, isEmpty);
+          expect(p.unavailableStatus, reason);
+          expect(client.forceRefreshCalls, [true]);
+        });
+      }
+
+      for (final gate in ['flag', 'user', 'opt-out']) {
+        test('refresh is gated by $gate', () async {
+          if (gate == 'flag') flagOn = false;
+          if (gate == 'user') userId = null;
+          if (gate == 'opt-out') {
+            await prefs.setBool(RecommendationProvider.optOutPrefKey, true);
+          }
+          final p = make(debugMode: true);
+          await p.refresh('en');
+          expect(client.generateCount, 0);
+          expect(client.fetchCount, 0);
+          expect(p.lastGenerateAt, isNull);
+        });
+      }
+
+      test(
+        'diagnostics track normal generation, throwing call and recovery',
+        () async {
+          final p = make();
+          expect(p.lastGenerateStatus, isNull);
+          expect(p.lastGenerateAt, isNull);
+          expect(p.lastGenerateFailed, isFalse);
+          client.fetchResult = result(hasRecommendations: false);
+          client.generateStatus = BeanRecommendationStatus.noSupply;
+          await p.ensureLoaded('en');
+          expect(p.lastGenerateStatus, BeanRecommendationStatus.noSupply);
+          expect(p.lastGenerateAt, now);
+          expect(p.lastGenerateFailed, isFalse);
+
+          now = now.add(const Duration(minutes: 1));
+          client.generateError = StateError('offline');
+          await p.refresh('en');
+          expect(p.lastGenerateStatus, isNull);
+          expect(p.lastGenerateAt, now);
+          expect(p.lastGenerateFailed, isTrue);
+          expect(p.state, RecommendationState.hidden);
+
+          client.generateError = null;
+          client.generateStatus = BeanRecommendationStatus.ok;
+          client.fetchResult = result(items: [item('recovered')]);
+          await p.refresh('en');
+          expect(p.lastGenerateStatus, BeanRecommendationStatus.ok);
+          expect(p.lastGenerateFailed, isFalse);
+          expect(p.items.single.stockId, 'recovered');
+        },
+      );
+
+      test(
+        'refetch failure hides but preserves successful generate diagnostics',
+        () async {
+          final p = make();
+          client.fetchError = StateError('offline');
+          await p.refresh('en');
+          expect(p.state, RecommendationState.hidden);
+          expect(p.lastGenerateStatus, BeanRecommendationStatus.ok);
+          expect(p.lastGenerateFailed, isFalse);
+        },
+      );
+
+      test('refresh joins an in-flight ensureLoaded', () async {
+        final p = make(debugMode: true);
+        final gate = Completer<RecommendationResult?>();
+        client.fetchImpl = (_) => gate.future;
+        final load = p.ensureLoaded('en');
+        await settle();
+        var refreshed = false;
+        final refresh = p.refresh('en').then((_) => refreshed = true);
+        await settle();
+        expect(refreshed, isFalse);
+        expect(client.generateCount, 0);
+        gate.complete(result(items: [item('shared')]));
+        await Future.wait([load, refresh]);
+        expect(client.fetchCount, 1);
+        expect(p.items.single.stockId, 'shared');
+      });
+
+      test(
+        'ensureLoaded and another refresh join an in-flight refresh',
+        () async {
+          final p = make(debugMode: true);
+          final gate = Completer<BeanRecommendationStatus>();
+          client.generateImpl = (_, cc) => gate.future;
+          client.fetchResult = result(items: [item('shared')]);
+          final refresh = p.refresh('en');
+          await settle();
+          final load = p.ensureLoaded('en');
+          final secondRefresh = p.refresh('en');
+          await settle();
+          expect(client.generateCount, 1);
+          gate.complete(BeanRecommendationStatus.ok);
+          await Future.wait([refresh, load, secondRefresh]);
+          expect(client.forceRefreshCalls, [true]);
+          expect(client.fetchCount, 1);
+          expect(p.items.single.stockId, 'shared');
+        },
+      );
+
+      test('refresh joins stale background generation in debug mode', () async {
+        final p = make(debugMode: true);
+        final gate = Completer<BeanRecommendationStatus>();
+        client.generateImpl = (_, cc) => gate.future;
+        client.fetchImpl = (_) async => client.fetchCount == 1
+            ? result(stale: true, items: [item('old')])
+            : result(items: [item('new')]);
+        await p.ensureLoaded('en');
+        final refresh = p.refresh('en');
+        await settle();
+        expect(client.generateCount, 1);
+        gate.complete(BeanRecommendationStatus.ok);
+        await refresh;
+        expect(client.generateCount, 1);
+        expect(p.items.single.stockId, 'new');
+      });
+
+      for (final abort in ['dispose', 'opt-out']) {
+        test(
+          'refresh finishing after $abort never notifies or applies picks',
+          () async {
+            final p = make();
+            final gate = Completer<BeanRecommendationStatus>();
+            client.generateImpl = (_, cc) => gate.future;
+            client.fetchResult = result(items: [item('late')]);
+            final refresh = p.refresh('en');
+            await settle();
+            var notifications = 0;
+            p.addListener(() => notifications++);
+            if (abort == 'dispose') {
+              disposeInTearDown(p);
+              p.dispose();
+            } else {
+              await p.setOptedOut(true);
+            }
+            notifications = 0;
+            gate.complete(BeanRecommendationStatus.ok);
+            await refresh;
+            expect(p.items, isEmpty);
+            expect(notifications, 0);
+            await p.refresh('en');
+            expect(client.generateCount, 1);
+          },
+        );
+      }
     });
 
     group('lastCountryCode', () {

@@ -1344,6 +1344,7 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
           create: (_) {
             final regionService = RegionService(Supabase.instance.client);
             return RecommendationProvider(
+              debugMode: const bool.fromEnvironment('FOR_YOU_DEBUG'),
               client: SupabaseBeanRecommendationClient(
                 Supabase.instance.client,
               ),

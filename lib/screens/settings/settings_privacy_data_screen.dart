@@ -5,6 +5,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../models/bean_recommendation_model.dart';
 import '../../providers/recommendation_provider.dart';
 import '../../services/analytics_service.dart';
 import '../../services/feature_flags/feature_flags_repository.dart';
@@ -21,6 +22,35 @@ import '../../widgets/smart_back_button.dart';
 @RoutePage()
 class SettingsPrivacyDataScreen extends StatelessWidget {
   const SettingsPrivacyDataScreen({super.key});
+
+  /// Keeps the generated parameterless route intact while allowing widget
+  /// tests to exercise the build-time debug tool.
+  @visibleForTesting
+  static bool? forYouDebugOverride;
+
+  static bool get _forYouDebug =>
+      forYouDebugOverride ?? const bool.fromEnvironment('FOR_YOU_DEBUG');
+
+  String _debugSubtitle(RecommendationProvider provider) {
+    final at = provider.lastGenerateAt?.toLocal();
+    final time = at == null
+        ? '-'
+        : '${at.hour.toString().padLeft(2, '0')}:'
+              '${at.minute.toString().padLeft(2, '0')}';
+    final status = provider.lastGenerateFailed
+        ? 'failed'
+        : switch (provider.lastGenerateStatus) {
+            BeanRecommendationStatus.insufficientHistory =>
+              'insufficient_history',
+            BeanRecommendationStatus.noSupply => 'no_supply',
+            BeanRecommendationStatus.ok => 'ok',
+            BeanRecommendationStatus.unknown => 'unknown',
+            null => '-',
+          };
+    return 'state: ${provider.state.name} · '
+        'reason: ${provider.unavailableStatus ?? '-'} · '
+        'items: ${provider.items.length} · last: $status $time';
+  }
 
   // Product decision D6a: nothing is ever reported about the general switch,
   // in either direction — hence no handler-side analytics at all. The brews
@@ -60,8 +90,7 @@ class SettingsPrivacyDataScreen extends StatelessWidget {
     final analytics = context.watch<AnalyticsService>();
     final flags = context.watch<Map<String, bool>?>();
     final suggestionsAvailable =
-        const bool.fromEnvironment('FOR_YOU_DEBUG') ||
-        (flags?[FeatureFlagKeys.beanRecommendations] ?? false);
+        _forYouDebug || (flags?[FeatureFlagKeys.beanRecommendations] ?? false);
     final recommendations = suggestionsAvailable
         ? context.watch<RecommendationProvider>()
         : null;
@@ -112,6 +141,16 @@ class SettingsPrivacyDataScreen extends StatelessWidget {
                     properties: {'enabled': value, 'source': 'settings'},
                   );
                 },
+              ),
+            // Debug tools use hard-coded English, like DebugNotificationPanel.
+            if (_forYouDebug && recommendations != null)
+              SettingsActionRow(
+                identifier: 'settingsDebugRefreshSuggestions',
+                title: 'Debug: refresh suggestions',
+                subtitle: _debugSubtitle(recommendations),
+                onTap: () => recommendations.refresh(
+                  Localizations.localeOf(context).toLanguageTag(),
+                ),
               ),
           ],
         ),

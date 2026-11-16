@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:coffee_timer/models/bean_recommendation_model.dart';
 import 'package:coffee_timer/providers/recommendation_provider.dart';
 import 'package:coffee_timer/screens/settings/settings_privacy_data_screen.dart';
 import 'package:coffee_timer/services/analytics_service.dart';
@@ -19,6 +20,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class _RecommendationClient extends Mock implements BeanRecommendationClient {
   int deleteCount = 0;
+  BeanRecommendationStatus status = BeanRecommendationStatus.noSupply;
+  bool generateFailed = false;
+
+  @override
+  Future<BeanRecommendationStatus> generate({
+    required String locale,
+    String? countryCode,
+    bool forceRefresh = false,
+  }) async {
+    if (generateFailed) throw StateError('offline');
+    return status;
+  }
 
   @override
   Future<void> deleteMine() async {
@@ -34,9 +47,17 @@ class _RecommendationProvider extends RecommendationProvider {
         currentUserId: () => 'user-1',
         featureFlagEnabled: () => true,
         countryCodeLookup: (_) async => null,
+        clock: () => DateTime(2026, 11, 16, 19, 42),
       );
 
   final List<bool> optOutCalls = [];
+  final List<String> refreshCalls = [];
+
+  @override
+  Future<void> refresh(String localeCode) {
+    refreshCalls.add(localeCode);
+    return super.refresh(localeCode);
+  }
 
   @override
   Future<void> setOptedOut(bool value) {
@@ -64,6 +85,7 @@ void main() {
   });
 
   tearDown(() {
+    SettingsPrivacyDataScreen.forYouDebugOverride = null;
     AnalyticsService.resetForTesting();
     initialPrefs = const {};
     // rootBundle caches the policy's load future; one created in an earlier
@@ -117,6 +139,83 @@ void main() {
     addTearDown(provider.dispose);
     return (provider, client);
   }
+
+  Finder debugRow() => find.byWidgetPredicate(
+    (widget) =>
+        widget is SettingsActionRow &&
+        widget.identifier == 'settingsDebugRefreshSuggestions',
+  );
+
+  testWidgets('debug row absent by default even with feature flag on', (
+    tester,
+  ) async {
+    final (provider, _) = await recommendations();
+    await tester.pumpWidget(
+      app(
+        flags: {FeatureFlagKeys.beanRecommendations: true},
+        recommendations: provider,
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(suggestionsRow(), findsOneWidget);
+    expect(debugRow(), findsNothing);
+  });
+
+  testWidgets(
+    'debug flag alone shows row below switch and tap refreshes locale',
+    (tester) async {
+      SettingsPrivacyDataScreen.forYouDebugOverride = true;
+      final (provider, client) = await recommendations();
+      await tester.pumpWidget(
+        app(locale: const Locale('en', 'GB'), recommendations: provider),
+      );
+      await tester.pumpAndSettle();
+      expect(debugRow(), findsOneWidget);
+      expect(
+        tester.widget<SettingsActionRow>(debugRow()).subtitle,
+        'state: idle · reason: - · items: 0 · last: - -',
+      );
+      final section = tester.widget<SettingsSection>(
+        find.ancestor(of: debugRow(), matching: find.byType(SettingsSection)),
+      );
+      final index = section.children.indexWhere(
+        (row) => row is SettingsActionRow,
+      );
+      expect(
+        (section.children[index - 1] as SettingsSwitchRow).identifier,
+        'settingsBeanSuggestionsSwitch',
+      );
+
+      await tester.ensureVisible(debugRow());
+      await tester.tap(find.text('Debug: refresh suggestions'));
+      await tester.pumpAndSettle();
+      // The app ships `en`, not `en_GB`: an en-GB device resolves to `en`,
+      // and that resolved tag is what the screen must pass on.
+      expect(provider.refreshCalls, ['en']);
+      expect(
+        tester.widget<SettingsActionRow>(debugRow()).subtitle,
+        'state: hidden · reason: no_supply · items: 0 · last: no_supply 19:42',
+      );
+
+      client.status = BeanRecommendationStatus.insufficientHistory;
+      await provider.refresh('en-GB');
+      await tester.pumpAndSettle();
+      expect(
+        tester.widget<SettingsActionRow>(debugRow()).subtitle,
+        'state: hidden · reason: insufficient_history · items: 0 · '
+        'last: insufficient_history 19:42',
+      );
+
+      client.generateFailed = true;
+      await provider.refresh('en-GB');
+      await tester.pumpAndSettle();
+      expect(
+        tester.widget<SettingsActionRow>(debugRow()).subtitle,
+        'state: hidden · reason: - · items: 0 · last: failed 19:42',
+      );
+      expect(tester.takeException(), isNull);
+    },
+  );
 
   testWidgets('suggestions switch reflects opt-out, persists toggles and '
       'reports enabled in the beans category', (tester) async {
