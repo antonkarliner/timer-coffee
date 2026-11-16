@@ -1129,6 +1129,8 @@
   "roasterDisclaimerTrademark": "Bu sayfada gösterilen tüm marka adları, logolar ve ticari markalar ilgili sahiplerine aittir. Bir kavurucunun bu platformda listelenmesi, Timer.Coffee ile herhangi bir bağlantı veya Timer.Coffee tarafından onay anlamına gelmez.",
   "roasterDisclaimerReviews": "Yorumlar Timer.Coffee kullanıcıları tarafından yazılır ve Timer.Coffee ekibi tarafından doğrulanmamıştır. Timer.Coffee, kullanıcıların gönderdiği içeriğin doğruluğundan veya güvenilirliğinden sorumlu değildir.",
   "roasterDisclaimerDetails": "Kavurucu bilgileri (konum, web sitesi, sosyal bağlantılar) kavurucuların kendileri tarafından sağlanır veya kamuya açık kayıtlardan alınır ve her zaman güncel olmayabilir.",
+  "stockSourceNote": "Listeler, kavurucuların kamuya açık web sitelerinden alınmıştır ve güncel olmayabilir. Timer.Coffee diğer sitelerdeki içerikten sorumlu değildir.",
+  "roasterDisclaimerStock": "Stokta gösterilen çekirdekler, kavurucunun kamuya açık web sitesinden toplanır. Eksik veya güncel olmayabilirler ve Timer.Coffee harici sitelerdeki içerik, fiyat veya stok durumundan sorumlu değildir.",
   "yourReview": "Yorumun",
   "addReview": "Yorum ekle",
   "writeReview": "Yorum yaz",

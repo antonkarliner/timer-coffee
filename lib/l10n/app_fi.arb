@@ -981,6 +981,8 @@
   "roasterDisclaimerTrademark": "Kaikki tällä sivulla näkyvät brändinimet, logot ja tavaramerkit kuuluvat niiden omistajille. Paahtimon listaaminen tällä alustalla ei tarkoita yhteyttä Timer.Coffeehen eikä Timer.Coffeen suositusta.",
   "roasterDisclaimerReviews": "Arvostelut ovat Timer.Coffee-käyttäjien kirjoittamia, eikä Timer.Coffee-tiimi ole vahvistanut niitä. Timer.Coffee ei vastaa käyttäjien lähettämän sisällön paikkansapitävyydestä tai luotettavuudesta.",
   "roasterDisclaimerDetails": "Paahtimon tiedot (sijainti, verkkosivusto, sosiaalisen median linkit) ovat paahtimoiden itsensä antamia tai julkisista lähteistä kerättyjä, eivätkä ne välttämättä ole aina ajan tasalla.",
+  "stockSourceNote": "Luettelot on haettu paahtimoiden julkisilta verkkosivuilta, ja ne voivat olla vanhentuneita. Timer.Coffee ei ole vastuussa muiden sivustojen sisällöstä.",
+  "roasterDisclaimerStock": "Varastossa näytetyt pavut on kerätty paahtimon julkiselta verkkosivustolta. Ne voivat olla puutteellisia tai vanhentuneita, eikä Timer.Coffee ole vastuussa ulkoisten sivustojen sisällöstä, hinnoista tai saatavuudesta.",
   "yourReview": "Arvostelusi",
   "addReview": "Lisää arvostelu",
   "writeReview": "Kirjoita arvostelu",

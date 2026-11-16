@@ -176,7 +176,13 @@ class _ForYouCardState extends State<ForYouCard> {
                 Expanded(
                   child: Text(
                     l10n.forYouTitle,
-                    style: AppTextStyles.sectionHeader,
+                    // Same style as the Hub's own section headers ("Your
+                    // Coffee"), so the block reads as one more section.
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: theme.colorScheme.primary,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 0,
+                    ),
                   ),
                 ),
                 Semantics(
@@ -251,6 +257,26 @@ class _ForYouCardState extends State<ForYouCard> {
                   ),
                 ],
               ],
+            ),
+          ),
+          // Source note — part of the block, so it hides with it (it lives
+          // inside _buildCard, which only renders when the block does); same
+          // horizontal inset as the header above.
+          Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(
+              AppSpacing.base,
+              AppSpacing.sm,
+              AppSpacing.base,
+              0,
+            ),
+            child: Semantics(
+              identifier: 'forYouSourceNote',
+              child: Text(
+                l10n.stockSourceNote,
+                style: AppTextStyles.caption.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
             ),
           ),
         ],

@@ -1359,6 +1359,8 @@
   "roasterDisclaimerTrademark": "Alle merkenavn, logoer og varemerker som vises på denne siden, tilhører sine respektive eiere. At et brenneri er oppført på denne plattformen, innebærer ingen tilknytning til eller anbefaling fra Timer.Coffee.",
   "roasterDisclaimerReviews": "Anmeldelser er skrevet av Timer.Coffee-brukere og er ikke verifisert av Timer.Coffee-teamet. Timer.Coffee er ikke ansvarlig for nøyaktigheten eller påliteligheten til innhold sendt inn av brukere.",
   "roasterDisclaimerDetails": "Detaljer om brenneriet (sted, nettsted, sosiale lenker) oppgis av brenneriene selv eller hentes fra offentlige kilder, og er ikke nødvendigvis alltid oppdaterte.",
+  "stockSourceNote": "Listene er hentet fra brennerienes offentlige nettsider og kan være utdaterte. Timer.Coffee er ikke ansvarlig for innhold på andre nettsteder.",
+  "roasterDisclaimerStock": "Bønnene som vises som på lager, er hentet fra brenneriets offentlige nettside. De kan være ufullstendige eller utdaterte, og Timer.Coffee er ikke ansvarlig for innhold, priser eller tilgjengelighet på eksterne nettsteder.",
   "yourReview": "Din anmeldelse",
   "addReview": "Legg til anmeldelse",
   "writeReview": "Skriv en anmeldelse",

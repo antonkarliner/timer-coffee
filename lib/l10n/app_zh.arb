@@ -1129,6 +1129,8 @@
   "roasterDisclaimerTrademark": "本页面显示的所有品牌名称、标志和商标均归其各自所有者所有。在本平台列出某个烘焙商，并不表示其与 Timer.Coffee 存在关联，也不表示 Timer.Coffee 对其背书。",
   "roasterDisclaimerReviews": "评价由 Timer.Coffee 用户撰写，尚未经过 Timer.Coffee 团队验证。Timer.Coffee 不对用户提交内容的准确性或可靠性负责。",
   "roasterDisclaimerDetails": "烘焙商详情（位置、网站、社交链接）由烘焙商自行提供，或来自公开记录，可能并非始终为最新信息。",
+  "stockSourceNote": "列表信息来自烘焙商的公开网站，可能不是最新内容。Timer.Coffee 对其他网站的内容不承担责任。",
+  "roasterDisclaimerStock": "显示为有货的咖啡豆收集自烘焙商的公开网站。信息可能不完整或已过时，Timer.Coffee 对外部网站的内容、价格或库存情况不承担责任。",
   "yourReview": "你的评价",
   "addReview": "添加评价",
   "writeReview": "写评价",

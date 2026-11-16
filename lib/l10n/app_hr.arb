@@ -1249,6 +1249,8 @@
   "roasterDisclaimerTrademark": "Svi nazivi marki, logotipi i zaštitni znakovi prikazani na ovoj stranici pripadaju njihovim vlasnicima. Uvrštavanje pržionice na ovu platformu ne podrazumijeva povezanost s Timer.Coffeeom niti preporuku Timer.Coffeea.",
   "roasterDisclaimerReviews": "Recenzije pišu korisnici Timer.Coffeea i tim Timer.Coffeea ih nije provjerio. Timer.Coffee nije odgovoran za točnost ni pouzdanost sadržaja koji šalju korisnici.",
   "roasterDisclaimerDetails": "Podatke o pržionici (lokacija, web stranica, poveznice na društvene mreže) pružaju same pržionice ili su preuzeti iz javnih izvora i možda nisu uvijek ažurni.",
+  "stockSourceNote": "Popisi potječu s javnih web stranica pržionica i mogu biti zastarjeli. Timer.Coffee nije odgovoran za sadržaj drugih stranica.",
+  "roasterDisclaimerStock": "Zrna prikazana kao dostupna prikupljena su s javno dostupne web stranice pržionice. Mogu biti nepotpuna ili zastarjela, a Timer.Coffee nije odgovoran za sadržaj, cijene ili dostupnost na vanjskim stranicama.",
   "yourReview": "Tvoja recenzija",
   "addReview": "Dodaj recenziju",
   "writeReview": "Napiši recenziju",

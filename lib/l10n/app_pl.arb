@@ -1129,6 +1129,8 @@
   "roasterDisclaimerTrademark": "Wszystkie nazwy marek, logo i znaki towarowe wyświetlane na tej stronie należą do ich właścicieli. Umieszczenie palarni na tej platformie nie oznacza powiązania z Timer.Coffee ani rekomendacji ze strony Timer.Coffee.",
   "roasterDisclaimerReviews": "Recenzje są pisane przez użytkowników Timer.Coffee i nie zostały zweryfikowane przez zespół Timer.Coffee. Timer.Coffee nie ponosi odpowiedzialności za dokładność ani wiarygodność treści przesyłanych przez użytkowników.",
   "roasterDisclaimerDetails": "Dane palarni (lokalizacja, strona internetowa, linki społecznościowe) są podawane przez same palarnie lub pochodzą z publicznych źródeł i mogą nie zawsze być aktualne.",
+  "stockSourceNote": "Listy pochodzą z publicznych stron internetowych palarni i mogą być nieaktualne. Timer.Coffee nie odpowiada za treści innych witryn.",
+  "roasterDisclaimerStock": "Ziarna wyświetlane jako dostępne są zbierane z publicznie dostępnej strony internetowej palarni. Mogą być niekompletne lub nieaktualne, a Timer.Coffee nie odpowiada za treści, ceny ani dostępność na zewnętrznych witrynach.",
   "yourReview": "Twoja recenzja",
   "addReview": "Dodaj recenzję",
   "writeReview": "Napisz recenzję",

@@ -412,6 +412,12 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
         currentUserId == profile.adminUserId;
     final isVerified = profile.adminUserId != null &&
         profile.adminUserId!.isNotEmpty;
+    // The stock-source paragraph in the Disclaimer card shows only when the
+    // in-stock section itself can — same gate RoasterStockSection uses.
+    final flags = context.watch<Map<String, bool>?>();
+    final stockFeatureAvailable =
+        const bool.fromEnvironment('FOR_YOU_DEBUG') ||
+            (flags?[FeatureFlagKeys.beanRecommendations] ?? false);
 
     final bgStart =
         isLight ? Colors.grey.shade400 : Colors.grey.shade800;
@@ -763,6 +769,11 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
                   _DisclaimerItem(text: l10n.roasterDisclaimerReviews),
                   const SizedBox(height: AppSpacing.sm),
                   _DisclaimerItem(text: l10n.roasterDisclaimerDetails),
+                  // Stock feature only: where the in-stock listings come from.
+                  if (stockFeatureAvailable) ...[
+                    const SizedBox(height: AppSpacing.sm),
+                    _DisclaimerItem(text: l10n.roasterDisclaimerStock),
+                  ],
                   // Unclaimed pages only: invite the roaster to claim.
                   if (!isVerified) ...[
                     const SizedBox(height: AppSpacing.sm),

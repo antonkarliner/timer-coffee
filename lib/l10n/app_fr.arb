@@ -1129,6 +1129,8 @@
   "roasterDisclaimerTrademark": "Tous les noms de marque, logos et marques commerciales affichés sur cette page appartiennent à leurs propriétaires respectifs. La présence d’un torréfacteur sur cette plateforme n’implique aucune affiliation avec Timer.Coffee ni approbation de sa part.",
   "roasterDisclaimerReviews": "Les avis sont rédigés par des utilisateurs de Timer.Coffee et n’ont pas été vérifiés par l’équipe Timer.Coffee. Timer.Coffee n’est pas responsable de l’exactitude ni de la fiabilité du contenu soumis par les utilisateurs.",
   "roasterDisclaimerDetails": "Les informations sur le torréfacteur (localisation, site web, liens sociaux) sont fournies par les torréfacteurs eux-mêmes ou issues de sources publiques, et peuvent ne pas toujours être à jour.",
+  "stockSourceNote": "Les listes proviennent des sites web publics des torréfacteurs et peuvent être obsolètes. Timer.Coffee n’est pas responsable du contenu des autres sites.",
+  "roasterDisclaimerStock": "Les cafés présentés comme en stock sont collectés sur le site web public du torréfacteur. Ils peuvent être incomplets ou obsolètes, et Timer.Coffee n’est pas responsable du contenu, des prix ou de la disponibilité sur les sites externes.",
   "yourReview": "Votre avis",
   "addReview": "Ajouter un avis",
   "writeReview": "Écrire un avis",

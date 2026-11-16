@@ -1896,6 +1896,14 @@
   "roasterDisclaimerTrademark": "All brand names, logos, and trademarks displayed on this page belong to their respective owners. Listing a roaster on this platform does not imply any affiliation with or endorsement by Timer.Coffee.",
   "roasterDisclaimerReviews": "Reviews are written by Timer.Coffee users and have not been verified by the Timer.Coffee team. Timer.Coffee is not responsible for the accuracy or reliability of user-submitted content.",
   "roasterDisclaimerDetails": "Roaster details (location, website, social links) are provided by the roasters themselves or sourced from public records and may not always be current.",
+  "stockSourceNote": "Listings come from roasters’ public websites and may be out of date. Timer.Coffee isn’t responsible for content on other sites.",
+  "@stockSourceNote": {
+    "description": "Caption at the bottom of the bean listings (the Hub’s “For you” block and the roaster profile’s “In stock now” section): the listings were collected from the roasters’ public websites, may be out of date, and Timer.Coffee is not responsible for content on other sites"
+  },
+  "roasterDisclaimerStock": "Beans shown as in stock are collected from the roaster’s publicly available website. They may be incomplete or out of date, and Timer.Coffee is not responsible for the content, prices or availability on external sites.",
+  "@roasterDisclaimerStock": {
+    "description": "Disclaimer paragraph shown with the other roaster disclaimer paragraphs when the in-stock bean listings feature is available: the beans shown as in stock are collected from the roaster’s public website and may be incomplete or out of date, and Timer.Coffee is not responsible for the content, prices or availability on external sites"
+  },
   "yourReview": "Your Review",
   "addReview": "Add Review",
   "writeReview": "Write a Review",

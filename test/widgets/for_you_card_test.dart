@@ -29,6 +29,16 @@ const _showLessLabel = 'Show less';
 const _undoLabel = 'Undo';
 const _hiddenMessage =
     'Bean suggestions are off. You can turn them back on in Settings.';
+const _sourceNote =
+    'Listings come from roasters’ public websites and may be out of date. '
+    'Timer.Coffee isn’t responsible for content on other sites.';
+const _sourceNoteDe = 'Die Auflistungen stammen von den öffentlichen '
+    'Webseiten der Röstereien und können veraltet sein. Timer.Coffee ist '
+    'nicht für Inhalte auf anderen Seiten verantwortlich.';
+const _sourceNoteRu = 'Списки взяты с публичных сайтов обжарщиков и могут '
+    'быть устаревшими. Timer.Coffee не отвечает за содержимое других сайтов.';
+const _sourceNoteAr = 'تأتي القوائم من مواقع المحامص العامة وقد تكون قديمة. '
+    'لا يتحمل Timer.Coffee مسؤولية المحتوى على المواقع الأخرى.';
 
 /// Hand-written fake — no Supabase anywhere in these tests (same shape as
 /// the one in test/unit/providers/recommendation_provider_test.dart).
@@ -465,6 +475,8 @@ void main() {
       expect(env.client.fetchCount, 0, reason: 'gates fire before any fetch');
       expect(find.text(_title), findsNothing);
       expect(find.text(_dismissLabel), findsNothing);
+      expect(find.text(_sourceNote), findsNothing,
+          reason: 'the source note is part of the block');
       expect(tester.takeException(), isNull);
     });
 
@@ -634,6 +646,41 @@ void main() {
     });
   });
 
+  group('source note', () {
+    testWidgets('part of the block: shown under the picks when it is',
+        (tester) async {
+      final handle = tester.ensureSemantics();
+      await _pumpCard(tester, items: [rec('s1', name: 'Bean A')]);
+      await tester.pumpAndSettle();
+
+      expect(find.text(_sourceNote), findsOneWidget);
+      expect(find.bySemanticsIdentifier('forYouSourceNote'), findsOneWidget);
+      expect(
+        tester.getBottomRight(find.text(_sourceNote)).dy,
+        greaterThan(tester.getBottomRight(find.text('Bean A')).dy),
+        reason: 'the note sits under the picks (and the expand control)',
+      );
+      expect(tester.takeException(), isNull);
+      handle.dispose();
+    });
+
+    testWidgets('goes with the block: gone after the last row is dismissed',
+        (tester) async {
+      await _pumpCard(tester, items: [rec('s1', name: 'Bean A')]);
+      await tester.pumpAndSettle();
+      expect(find.text(_sourceNote), findsOneWidget);
+
+      await tester.tap(find.text(_dismissLabel));
+      await tester.pumpAndSettle();
+
+      expect(find.text(_title), findsNothing,
+          reason: 'the block itself is gone');
+      expect(find.text(_sourceNote), findsNothing,
+          reason: 'the note is part of the block, not a sibling');
+      expect(tester.takeException(), isNull);
+    });
+  });
+
   group('buildStockProductUrl', () {
     test('adds the three UTM parameters with the for_you campaign', () {
       final uri = buildStockProductUrl(
@@ -800,10 +847,13 @@ void main() {
             'diese Bohne genau zu deinen letzten Brühungen passt. ',
       );
       expect(find.text('Für dich'), findsOneWidget);
+      expect(find.text(_sourceNoteDe), findsOneWidget,
+          reason: 'the long German note must wrap without overflowing');
       expect(tester.takeException(), isNull);
 
       await tester.tap(find.text('Mehr anzeigen'));
       await tester.pumpAndSettle();
+      expect(find.text(_sourceNoteDe), findsOneWidget);
       expect(tester.takeException(), isNull,
           reason: 'expanded rows must fit the same small surface');
     });
@@ -817,10 +867,13 @@ void main() {
             'ноты, и это зерно идеально подходит под ваши заваривания. ',
       );
       expect(find.text('Для вас'), findsOneWidget);
+      expect(find.text(_sourceNoteRu), findsOneWidget,
+          reason: 'the long Russian note must wrap without overflowing');
       expect(tester.takeException(), isNull);
 
       await tester.tap(find.text('Показать ещё'));
       await tester.pumpAndSettle();
+      expect(find.text(_sourceNoteRu), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
 
@@ -834,12 +887,15 @@ void main() {
             'مناسب تماماً لتحضيراتك الأخيرة. ',
       );
       expect(find.text('لك'), findsOneWidget);
+      expect(find.text(_sourceNoteAr), findsOneWidget,
+          reason: 'the long Arabic note must wrap without overflowing (RTL)');
       // The hide control renders at the trailing (left) edge in RTL.
       expect(find.byIcon(Icons.close), findsOneWidget);
       expect(tester.takeException(), isNull);
 
       await tester.tap(find.text('عرض المزيد'));
       await tester.pumpAndSettle();
+      expect(find.text(_sourceNoteAr), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
   });
@@ -859,6 +915,7 @@ void main() {
 
       expect(find.bySemanticsIdentifier('forYouCard'), findsOneWidget);
       expect(find.bySemanticsIdentifier('forYouHide'), findsOneWidget);
+      expect(find.bySemanticsIdentifier('forYouSourceNote'), findsOneWidget);
       // Collapsed: only the first pick is in the tree.
       expect(find.bySemanticsIdentifier('forYouItem_0'), findsOneWidget);
       expect(find.bySemanticsIdentifier('forYouItem_1'), findsNothing,

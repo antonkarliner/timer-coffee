@@ -22,6 +22,16 @@ const _showMoreLabel = 'Show more';
 const _showLessLabel = 'Show less';
 const _forYouMarker = 'For you';
 const _decafMarker = 'Decaf';
+const _sourceNote =
+    'Listings come from roasters’ public websites and may be out of date. '
+    'Timer.Coffee isn’t responsible for content on other sites.';
+const _sourceNoteDe = 'Die Auflistungen stammen von den öffentlichen '
+    'Webseiten der Röstereien und können veraltet sein. Timer.Coffee ist '
+    'nicht für Inhalte auf anderen Seiten verantwortlich.';
+const _sourceNoteRu = 'Списки взяты с публичных сайтов обжарщиков и могут '
+    'быть устаревшими. Timer.Coffee не отвечает за содержимое других сайтов.';
+const _sourceNoteAr = 'تأتي القوائم من مواقع المحامص العامة وقد تكون قديمة. '
+    'لا يتحمل Timer.Coffee مسؤولية المحتوى على المواقع الأخرى.';
 
 /// Hand-written fake — no Supabase anywhere in these tests.
 class _FakeStockClient implements RoasterStockClient {
@@ -282,6 +292,44 @@ void main() {
       expect(client.fetchCount, 1, reason: 'loads once, not per rebuild');
       expect(client.fetchedSlug, 'botanica');
       expect(client.fetchedLimit, 30);
+      expect(tester.takeException(), isNull);
+    });
+  });
+
+  group('source note', () {
+    testWidgets('part of the section: shown under the cards when it is',
+        (tester) async {
+      final handle = tester.ensureSemantics();
+      final client = _FakeStockClient(
+        result: RoasterStockResult(items: [stock('s1', name: 'Bean 1')]),
+      );
+      await _pumpSection(tester, client: client);
+      await tester.pumpAndSettle();
+
+      expect(find.text(_sourceNote), findsOneWidget);
+      expect(
+        find.bySemanticsIdentifier('roasterStockSourceNote'),
+        findsOneWidget,
+      );
+      expect(
+        tester.getBottomRight(find.text(_sourceNote)).dy,
+        greaterThan(tester.getBottomRight(find.text('Bean 1')).dy),
+        reason: 'the note sits under the cards (and the expand control)',
+      );
+      expect(tester.takeException(), isNull);
+      handle.dispose();
+    });
+
+    testWidgets('goes with the section: absent when the flag is off',
+        (tester) async {
+      final client = _FakeStockClient(
+        result: RoasterStockResult(items: [stock('s1')]),
+      );
+      await _pumpSection(tester, client: client, flags: const {});
+      await tester.pumpAndSettle();
+
+      expect(find.byType(SectionCard), findsNothing);
+      expect(find.text(_sourceNote), findsNothing);
       expect(tester.takeException(), isNull);
     });
   });
@@ -784,6 +832,8 @@ void main() {
       expect(find.bySemanticsIdentifier('roasterStockItem_2'), findsOneWidget);
       expect(find.bySemanticsIdentifier('roasterStockItem_3'), findsNothing);
       expect(find.bySemanticsIdentifier('roasterStockView_0'), findsOneWidget);
+      expect(find.bySemanticsIdentifier('roasterStockSourceNote'),
+          findsOneWidget);
       expect(find.bySemanticsIdentifier('roasterStockView_1'), findsNothing,
           reason: 'the second item has no usable productUrl');
       expect(tester.takeException(), isNull);
@@ -826,12 +876,15 @@ void main() {
     testWidgets('120-char names, de', (tester) async {
       await pumpStress(tester, const Locale('de'), 'Kaffeebohnen' * 10);
       expect(find.text('Jetzt vorrätig'), findsOneWidget);
+      expect(find.text(_sourceNoteDe), findsOneWidget,
+          reason: 'the long German note must wrap without overflowing');
       expect(tester.takeException(), isNull);
 
       await tester.ensureVisible(find.text('Mehr anzeigen'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Mehr anzeigen'));
       await tester.pumpAndSettle();
+      expect(find.text(_sourceNoteDe), findsOneWidget);
       expect(tester.takeException(), isNull,
           reason: 'expanded cards must fit the same small surface');
     });
@@ -839,24 +892,30 @@ void main() {
     testWidgets('120-char names, ru', (tester) async {
       await pumpStress(tester, const Locale('ru'), 'Кофейное зерно ' * 8);
       expect(find.text('Сейчас в наличии'), findsOneWidget);
+      expect(find.text(_sourceNoteRu), findsOneWidget,
+          reason: 'the long Russian note must wrap without overflowing');
       expect(tester.takeException(), isNull);
 
       await tester.ensureVisible(find.text('Показать ещё'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Показать ещё'));
       await tester.pumpAndSettle();
+      expect(find.text(_sourceNoteRu), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
 
     testWidgets('120-char names, ar (RTL)', (tester) async {
       await pumpStress(tester, const Locale('ar'), 'حبوب البن الممتازة ' * 7);
       expect(find.text('متوفر الآن'), findsOneWidget);
+      expect(find.text(_sourceNoteAr), findsOneWidget,
+          reason: 'the long Arabic note must wrap without overflowing (RTL)');
       expect(tester.takeException(), isNull);
 
       await tester.ensureVisible(find.text('عرض المزيد'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('عرض المزيد'));
       await tester.pumpAndSettle();
+      expect(find.text(_sourceNoteAr), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
   });

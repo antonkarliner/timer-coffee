@@ -208,6 +208,18 @@ class _RoasterStockSectionState extends State<RoasterStockSection> {
                 ),
               ),
             ],
+            // Source note — part of the section (inside the same
+            // `items.isEmpty` gate), under the cards and the expand control.
+            const SizedBox(height: AppSpacing.sm),
+            Semantics(
+              identifier: 'roasterStockSourceNote',
+              child: Text(
+                l10n.stockSourceNote,
+                style: AppTextStyles.caption.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ),
           ],
         ),
       ),

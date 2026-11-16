@@ -1249,6 +1249,8 @@
   "roasterDisclaimerTrademark": "이 페이지에 표시된 모든 브랜드명, 로고 및 상표는 각 소유자에게 귀속됩니다. 이 플랫폼에 로스터리를 등록했다는 사실이 Timer.Coffee와의 제휴 또는 Timer.Coffee의 보증을 의미하지는 않습니다.",
   "roasterDisclaimerReviews": "리뷰는 Timer.Coffee 사용자가 작성한 것이며 Timer.Coffee 팀이 검증하지 않았습니다. Timer.Coffee는 사용자가 제출한 콘텐츠의 정확성이나 신뢰성에 대해 책임지지 않습니다.",
   "roasterDisclaimerDetails": "로스터리 세부 정보(위치, 웹사이트, 소셜 링크)는 로스터리가 직접 제공하거나 공개 기록에서 가져온 것으로, 항상 최신 정보가 아닐 수 있습니다.",
+  "stockSourceNote": "목록은 로스터리의 공개 웹사이트에서 가져온 것으로 오래되었을 수 있습니다. Timer.Coffee는 다른 사이트의 콘텐츠에 대해 책임지지 않습니다.",
+  "roasterDisclaimerStock": "재고 있음으로 표시된 원두는 로스터리의 공개 웹사이트에서 수집됩니다. 정보가 불완전하거나 오래되었을 수 있으며, Timer.Coffee는 외부 사이트의 콘텐츠, 가격 또는 재고 상황에 대해 책임지지 않습니다.",
   "yourReview": "내 리뷰",
   "addReview": "리뷰 추가",
   "writeReview": "리뷰 작성",

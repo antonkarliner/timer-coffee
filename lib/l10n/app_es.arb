@@ -1129,6 +1129,8 @@
   "roasterDisclaimerTrademark": "Todos los nombres de marca, logotipos y marcas comerciales que aparecen en esta página pertenecen a sus respectivos propietarios. Incluir una tostaduría en esta plataforma no implica afiliación ni respaldo por parte de Timer.Coffee.",
   "roasterDisclaimerReviews": "Las reseñas las escriben usuarios de Timer.Coffee y no han sido verificadas por el equipo de Timer.Coffee. Timer.Coffee no se responsabiliza de la exactitud ni la fiabilidad del contenido enviado por los usuarios.",
   "roasterDisclaimerDetails": "Los detalles de la tostaduría (ubicación, sitio web, enlaces sociales) los proporcionan las propias tostadurías o proceden de registros públicos, y puede que no siempre estén actualizados.",
+  "stockSourceNote": "Las listas provienen de los sitios web públicos de las tostadurías y pueden estar desactualizadas. Timer.Coffee no es responsable del contenido de otros sitios.",
+  "roasterDisclaimerStock": "Los granos mostrados como disponibles se recopilan del sitio web público de la tostaduría. Pueden estar incompletos o desactualizados, y Timer.Coffee no es responsable del contenido, los precios ni la disponibilidad en sitios externos.",
   "yourReview": "Tu reseña",
   "addReview": "Añadir reseña",
   "writeReview": "Escribir una reseña",
