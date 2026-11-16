@@ -354,7 +354,10 @@ class _ForYouRow extends StatelessWidget {
       onTap: hasSlug
           ? () {
               _track(context, 'for_you_pick_tapped');
-              context.router.push(RoasterProfileRoute(slug: slug));
+              context.router.push(RoasterProfileRoute(
+                slug: slug,
+                highlightStockId: item.stockId,
+              ));
             }
           : null,
       actions: [

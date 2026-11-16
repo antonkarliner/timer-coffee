@@ -155,10 +155,21 @@ Future<void> _pumpSection(
   required RoasterStockClient client,
   Map<String, bool> flags = const {FeatureFlagKeys.beanRecommendations: true},
   RecommendationProvider? picks,
+  String? highlightStockId,
+  Widget Function(Widget)? wrapSection,
   String? Function()? currentUserId,
   Locale locale = const Locale('en'),
   TextScaler textScaler = TextScaler.noScaling,
 }) async {
+  final section = RoasterStockSection(
+    slug: 'botanica',
+    roasterName: 'Botanica Coffee Roasters',
+    highlightStockId: highlightStockId,
+    logoUrl: 'https://cdn.example.com/logo.png',
+    logoMirrorUrl: 'https://mirror.example.com/logo.png',
+    client: client,
+    currentUserId: currentUserId ?? (() => 'user-1'),
+  );
   await tester.pumpWidget(
     MultiProvider(
       providers: [
@@ -174,18 +185,7 @@ Future<void> _pumpSection(
           builder: (context) => MediaQuery(
             data: MediaQuery.of(context).copyWith(textScaler: textScaler),
             child: Scaffold(
-              body: ListView(
-                children: [
-                  RoasterStockSection(
-                    slug: 'botanica',
-                    roasterName: 'Botanica Coffee Roasters',
-                    logoUrl: 'https://cdn.example.com/logo.png',
-                    logoMirrorUrl: 'https://mirror.example.com/logo.png',
-                    client: client,
-                    currentUserId: currentUserId ?? (() => 'user-1'),
-                  ),
-                ],
-              ),
+              body: wrapSection?.call(section) ?? ListView(children: [section]),
             ),
           ),
         ),
@@ -435,6 +435,7 @@ void main() {
         'count': 3,
         'total': 3,
         'picks': 1,
+        'highlighted': false,
       });
       expect(tester.takeException(), isNull);
     });
@@ -453,6 +454,7 @@ void main() {
         'count': 1,
         'total': 1,
         'picks': 0,
+        'highlighted': false,
       });
       expect(tester.takeException(), isNull);
     });
@@ -479,6 +481,154 @@ void main() {
       expect(cards.map((c) => c.title), ['Bean 1', 'Bean 2'],
           reason: 'opted out → no picks → no pinning, no marker');
       expect(find.text(_forYouMarker), findsNothing);
+      expect(tester.takeException(), isNull);
+    });
+  });
+
+  group('highlighted stock', () {
+    for (final alreadyPicked in [false, true]) {
+      testWidgets('highlighted bean is first and marked while collapsed '
+          '(already picked: $alreadyPicked)', (tester) async {
+        final picks = await _picksProvider([
+          for (var i = 1; i <= 4; i++) pick('s$i'),
+          if (alreadyPicked) pick('s5'),
+        ]);
+        final client = _FakeStockClient(
+          result: RoasterStockResult(items: [
+            for (var i = 0; i < 6; i++) stock('s$i', name: 'Bean $i'),
+          ]),
+        );
+        await _pumpSection(
+          tester,
+          client: client,
+          picks: picks,
+          highlightStockId: 's5',
+        );
+        await tester.pumpAndSettle();
+
+        final cards = tester
+            .widgetList<StockBeanCard>(find.byType(StockBeanCard))
+            .toList();
+        expect(cards.map((card) => card.title),
+            ['Bean 5', 'Bean 1', 'Bean 2', 'Bean 3']);
+        expect(cards.first.subtitle, _forYouMarker);
+        expect(find.text('Bean 4'), findsNothing);
+        expect(find.text(_showMoreLabel), findsOneWidget);
+        expect(events('roaster_stock_shown').single['properties'], {
+          'count': 4,
+          'total': 6,
+          'picks': alreadyPicked ? 5 : 4,
+          'highlighted': true,
+        });
+        expect(tester.takeException(), isNull);
+      });
+    }
+
+    testWidgets('missing highlighted bean preserves pinned order and counts',
+        (tester) async {
+      final picks = await _picksProvider([
+        for (var i = 1; i <= 4; i++) pick('s$i'),
+      ]);
+      final client = _FakeStockClient(
+        result: RoasterStockResult(items: [
+          for (var i = 0; i < 6; i++) stock('s$i', name: 'Bean $i'),
+        ]),
+      );
+      await _pumpSection(
+        tester,
+        client: client,
+        picks: picks,
+        highlightStockId: 'sold-out',
+      );
+      await tester.pumpAndSettle();
+
+      final cards = tester
+          .widgetList<StockBeanCard>(find.byType(StockBeanCard))
+          .toList();
+      expect(cards.map((card) => card.title),
+          ['Bean 1', 'Bean 2', 'Bean 3', 'Bean 4']);
+      expect(cards.map((card) => card.subtitle), everyElement(_forYouMarker));
+      expect(events('roaster_stock_shown').single['properties'], {
+        'count': 4,
+        'total': 6,
+        'picks': 4,
+        'highlighted': false,
+      });
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('highlight works without an enclosing Scrollable',
+        (tester) async {
+      final client = _FakeStockClient(
+        result: RoasterStockResult(items: [stock('s1', name: 'Bean 1')]),
+      );
+      await _pumpSection(
+        tester,
+        client: client,
+        highlightStockId: 's1',
+        wrapSection: (section) => section,
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byType(Scrollable), findsNothing);
+      expect(find.text('Bean 1'), findsOneWidget);
+      expect(find.text(_forYouMarker), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('reveals section after loading, only once across rebuilds',
+        (tester) async {
+      final controller = ScrollController();
+      addTearDown(controller.dispose);
+      var scrollStarts = 0;
+      Widget wrapSection(Widget section) =>
+          NotificationListener<ScrollStartNotification>(
+            onNotification: (_) {
+              scrollStarts++;
+              return false;
+            },
+            child: SingleChildScrollView(
+              controller: controller,
+              child: Column(children: [
+                const SizedBox(height: 1000),
+                section,
+                const SizedBox(height: 1000),
+              ]),
+            ),
+          );
+      final gate = Completer<RoasterStockResult?>();
+      final client = _GatedClient(gate);
+      await _pumpSection(
+        tester,
+        client: client,
+        highlightStockId: 's1',
+        wrapSection: wrapSection,
+      );
+      await tester.pumpAndSettle();
+      expect(controller.offset, 0);
+      expect(scrollStarts, 0);
+
+      gate.complete(RoasterStockResult(items: [stock('s1', name: 'Bean 1')]));
+      await tester.pumpAndSettle();
+      expect(controller.offset, greaterThan(0));
+      expect(scrollStarts, 1);
+      final sectionTop = tester.getTopLeft(find.byType(SectionCard)).dy;
+      expect(sectionTop, inInclusiveRange(0, 100));
+      expect(find.text('Bean 1').hitTestable(), findsOneWidget);
+
+      controller.jumpTo(0);
+      scrollStarts = 0;
+      await _pumpSection(
+        tester,
+        client: client,
+        highlightStockId: 's1',
+        wrapSection: wrapSection,
+      );
+      await tester.pumpAndSettle();
+      expect(controller.offset, 0,
+          reason: 'a rebuild must not scroll the user back to the section');
+      expect(scrollStarts, 0);
+      expect(events('roaster_stock_shown'), hasLength(1));
       expect(tester.takeException(), isNull);
     });
   });

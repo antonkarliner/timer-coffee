@@ -33,6 +33,7 @@ class RoasterStockSection extends StatefulWidget {
     super.key,
     required this.slug,
     required this.roasterName,
+    this.highlightStockId,
     this.logoUrl,
     this.logoMirrorUrl,
     RoasterStockClient? client,
@@ -47,6 +48,9 @@ class RoasterStockSection extends StatefulWidget {
   /// The roaster's display name (kept for the call site's readability; the
   /// section shows stock items, whose cards carry bean names).
   final String roasterName;
+
+  /// The stock item requested by the incoming profile link, if still in stock.
+  final String? highlightStockId;
 
   /// Roaster logo fallbacks for stock items without a product photo.
   final String? logoUrl;
@@ -74,6 +78,7 @@ class _RoasterStockSectionState extends State<RoasterStockSection> {
   bool _loading = false;
   String? _loadedSlug;
   bool _shownTracked = false;
+  bool _highlightScrollScheduled = false;
 
   /// Widget state only — never persisted. Collapsed shows up to
   /// [_collapsedCount] cards; expanding reveals everything fetched.
@@ -151,11 +156,14 @@ class _RoasterStockSectionState extends State<RoasterStockSection> {
 
     final l10n = AppLocalizations.of(context)!;
     final pickIds = _currentPickIds();
+    final highlighted =
+        items.any((item) => item.stockId == widget.highlightStockId);
     final ordered = _orderWithPicksFirst(items, pickIds);
     final visible = _expanded
         ? ordered
         : ordered.take(_collapsedCount).toList(growable: false);
-    _scheduleShownAnalytics(ordered, pickIds);
+    _scheduleShownAnalytics(ordered, pickIds, highlighted: highlighted);
+    if (highlighted) _scheduleHighlightScroll();
 
     return SectionCard(
       title: l10n.roasterStockTitle,
@@ -178,7 +186,8 @@ class _RoasterStockSectionState extends State<RoasterStockSection> {
                   item,
                   index,
                   l10n,
-                  isPick: pickIds.contains(item.stockId),
+                  isPick: pickIds.contains(item.stockId) ||
+                      item.stockId == widget.highlightStockId,
                 ),
               ),
             ],
@@ -220,21 +229,43 @@ class _RoasterStockSectionState extends State<RoasterStockSection> {
     }
   }
 
-  /// Items the user already has on their "For you" list go first, keeping
-  /// the roaster-list order within each group.
+  /// The linked bean goes before the user's other "For you" picks, keeping
+  /// the roaster-list order within each remaining group.
   List<RoasterStockItem> _orderWithPicksFirst(
     List<RoasterStockItem> items,
     Set<String> pickIds,
   ) {
-    if (pickIds.isEmpty) return items;
+    final highlighted = items
+        .where((item) => item.stockId == widget.highlightStockId)
+        .toList(growable: false);
+    if (pickIds.isEmpty && highlighted.isEmpty) return items;
     final pinned = items
-        .where((item) => pickIds.contains(item.stockId))
+        .where((item) =>
+            pickIds.contains(item.stockId) &&
+            item.stockId != widget.highlightStockId)
         .toList(growable: false);
-    if (pinned.isEmpty) return items;
+    if (pinned.isEmpty && highlighted.isEmpty) return items;
     final rest = items
-        .where((item) => !pickIds.contains(item.stockId))
+        .where((item) =>
+            !pickIds.contains(item.stockId) &&
+            item.stockId != widget.highlightStockId)
         .toList(growable: false);
-    return [...pinned, ...rest];
+    return [...highlighted, ...pinned, ...rest];
+  }
+
+  /// Wait until the highlighted cards have layout, then reveal the section
+  /// once. Rebuilds and subsequent expansion must not move the user again.
+  void _scheduleHighlightScroll() {
+    if (_highlightScrollScheduled) return;
+    _highlightScrollScheduled = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || Scrollable.maybeOf(context) == null) return;
+      unawaited(Scrollable.ensureVisible(
+        context,
+        duration: const Duration(milliseconds: 250),
+        alignment: 0.1,
+      ));
+    });
   }
 
   Widget _stockCard(
@@ -307,8 +338,9 @@ class _RoasterStockSectionState extends State<RoasterStockSection> {
   /// roaster name.
   void _scheduleShownAnalytics(
     List<RoasterStockItem> ordered,
-    Set<String> pickIds,
-  ) {
+    Set<String> pickIds, {
+    required bool highlighted,
+  }) {
     if (_shownTracked) return;
     _shownTracked = true;
     final count = ordered.length < _collapsedCount
@@ -324,6 +356,7 @@ class _RoasterStockSectionState extends State<RoasterStockSection> {
           'count': count,
           'total': ordered.length,
           'picks': pickCount,
+          'highlighted': highlighted,
         },
       );
     });

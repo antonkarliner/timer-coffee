@@ -37,10 +37,12 @@ import '../app_router.gr.dart';
 @RoutePage()
 class RoasterProfileScreen extends StatefulWidget {
   final String slug;
+  final String? highlightStockId;
 
   const RoasterProfileScreen({
     super.key,
     @PathParam('slug') required this.slug,
+    @QueryParam('bean') this.highlightStockId,
   });
 
   @override
@@ -578,6 +580,7 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
             ),
             child: RoasterStockSection(
               slug: profile.slug,
+              highlightStockId: widget.highlightStockId,
               roasterName: profile.roasterName,
               logoUrl: profile.roasterLogoUrl,
               logoMirrorUrl: profile.roasterLogoMirrorUrl,

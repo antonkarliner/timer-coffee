@@ -318,6 +318,10 @@ void main() {
           (router.pushedRoute as RoasterProfileRoute).args!.slug,
           'roaster-slug',
         );
+        expect(
+          (router.pushedRoute as RoasterProfileRoute).args!.highlightStockId,
+          's2',
+        );
         await tester.tap(find.text(_viewLabel));
         await tester.pumpAndSettle();
         await tester.tap(find.text(_dismissLabel).last);
