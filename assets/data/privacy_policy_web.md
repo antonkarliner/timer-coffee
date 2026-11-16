@@ -1,6 +1,6 @@
 # Privacy Policy for Timer.Coffee (Web Version)
 
-Last Updated: 14.10.2026
+Last Updated: 16.11.2026
 
 1. INTRODUCTION
 
@@ -65,7 +65,7 @@ e. AI-Assisted Features and Content Processing
 
 We use AI tools mainly to save you manual work, such as reading a coffee bag label for you instead of making you type every field by hand.
 
-- Timer.Coffee uses third-party AI providers, which may include Groq, Google Gemini or Vertex AI, and OpenAI, to support coffee label or bean recognition, content moderation, and certain translation or notification-processing features.
+- Timer.Coffee uses third-party AI providers, which may include Groq, Google Gemini or Vertex AI, OpenAI, Anthropic, and Z.ai, to support coffee label or bean recognition, content moderation, and certain translation or notification-processing features.
 - For coffee label or bean recognition, submitted images are sent to these providers so they can extract bean information for you.
 - We currently do not write the submitted recognition images to our main application tables as part of normal operation.
 - In the mobile app, during a camera-based AI scan, you can explicitly choose to keep the photos. If you opt in, only the final camera photos you confirm are copied locally into your device's Photos or Gallery. This local copy is separate from the temporary image processing used for AI recognition and from the optional bean cover photo upload to Supabase Storage available to signed-in users. This saving feature does not request photo-library browsing access, and Timer.Coffee does not use it to later read or browse the saved copies. This option is not offered, and no Photos or Gallery copy is initiated, in the web application.
@@ -74,6 +74,7 @@ We use AI tools mainly to save you manual work, such as reading a coffee bag lab
 - If you upload a profile picture, that image is intentionally stored as part of the profile feature and is separate from temporary recognition input.
 - If you upload a cover photo for a bean record via the mobile app, the image is compressed on your device and stored in Supabase Storage. The resulting URL is saved in your bean record and syncs to the web application. This feature is only available to signed-in, non-anonymous users and cannot be initiated from the web app.
 - When you tap "Translate" (or "Translate all reviews") on a public bean review, the review text is sent to OpenAI to detect its source language and produce a translation in your current app language. Translations are cached on our servers and reused for any reader requesting the same language, so each (review, language) pair is only sent to OpenAI once. Editing your review invalidates the cached translations for that review.
+- For bean records that sync to our servers, the text of four fields (origin, processing method, roast level and tasting notes) is sent to one of the third-party AI providers named above so it can be sorted into standard categories, such as a country code, "washed", "light" or "berry". Each distinct piece of text is sent once, on its own, without your account, any user identifier or the rest of the bean record. The resulting category is stored on our servers and reused for everyone who typed the same text. We use these categories to group and compare beans, for example on roaster pages, and to work out which coffees are similar to ones you have had. Please do not put personal information in these fields.
 - Earlier versions of the app offered an optional AI recipe review, which sent the recipe you were creating or editing to an AI provider to check how its coffee and water amounts were written. This feature has been removed; recipe amounts are now checked by the app itself and are not sent to an AI provider.
 - If you used that review and consented to diagnostics, we stored private diagnostic records containing source and corrected step templates, locale and language hints, validation issues, provider and model details, token or usage metadata, timestamps, and an anonymized or pseudonymous user reference. We keep these records only to improve how the app reads recipe amounts. They are not exposed to public clients and will be deleted no later than 9 April 2027.
 - Because AI-assisted features may involve third-party processing and diagnostic logging, you should avoid submitting sensitive personal data unless it is necessary for the feature you are using.
@@ -137,7 +138,7 @@ We rely on other providers for parts of the website that we do not run ourselves
 - Supabase for authentication, database storage, Edge Functions, and file storage
 - Vercel or similar website infrastructure and analytics tooling
 - Apple and Google for sign-in, if you choose those sign-in methods
-- AI providers such as Groq, Google, and OpenAI for the AI-assisted features described above
+- AI providers such as Groq, Google, OpenAI, Anthropic, and Z.ai for the AI-assisted features described above
 - Resend for sending transactional emails, such as data export confirmation codes and download links
 
 These providers may process data on our behalf so the feature you asked for actually works.
