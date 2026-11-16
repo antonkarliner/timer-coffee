@@ -136,6 +136,7 @@ class FeatureFlagKeys {
   static const roasterBackendColor = 'roaster_backend_color';
   static const helpCenter = 'help_center';
   static const String pourLayoutExperiment = 'pour_layout_experiment';
+  static const beanRecommendations = 'bean_recommendations';
 }
 
 extension FeatureFlagsX on FeatureFlagsRepository {
@@ -149,4 +150,6 @@ extension FeatureFlagsX on FeatureFlagsRepository {
   bool get roasterBackendColor =>
       isEnabled(FeatureFlagKeys.roasterBackendColor);
   bool get helpCenter => isEnabled(FeatureFlagKeys.helpCenter);
+  bool get beanRecommendations =>
+      isEnabled(FeatureFlagKeys.beanRecommendations);
 }

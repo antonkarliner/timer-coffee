@@ -61,10 +61,13 @@ import 'services/collection_new_badge_service.dart';
 import 'services/collections_preferences_service.dart';
 import 'services/moments_service.dart';
 import 'services/brew_recording_service.dart';
+import 'services/clients/bean_recommendation_client.dart';
+import 'services/region_service.dart';
 import 'controllers/stats_controller.dart';
 import 'providers/roaster_profile_provider.dart';
 import 'providers/bean_review_provider.dart';
 import 'providers/roasters_provider.dart';
+import 'providers/recommendation_provider.dart';
 import 'providers/recipe_collection_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -735,6 +738,7 @@ void main() async {
       analyticsService: analyticsService,
       momentsService: momentsService,
       brewRecordingService: brewRecordingService,
+      prefs: prefs,
     ),
   );
 
@@ -761,6 +765,7 @@ class CoffeeTimerApp extends StatefulWidget {
   final AnalyticsService analyticsService;
   final MomentsService momentsService;
   final BrewRecordingService brewRecordingService;
+  final SharedPreferences prefs;
 
   const CoffeeTimerApp({
     super.key,
@@ -779,6 +784,7 @@ class CoffeeTimerApp extends StatefulWidget {
     required this.analyticsService,
     required this.momentsService,
     required this.brewRecordingService,
+    required this.prefs,
   });
 
   @override
@@ -1330,6 +1336,26 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
             widget.database,
             ctx.read<CollectionNewBadgeService>(),
           ),
+        ),
+        // Plan 017 Phase 4: bean recommendations data layer. Inert —
+        // nothing reads it yet, and the provider loads nothing on its own
+        // (the card calls ensureLoaded when it exists).
+        ChangeNotifierProvider<RecommendationProvider>(
+          create: (_) {
+            final regionService = RegionService(Supabase.instance.client);
+            return RecommendationProvider(
+              client: SupabaseBeanRecommendationClient(
+                Supabase.instance.client,
+              ),
+              currentUserId: () =>
+                  Supabase.instance.client.auth.currentUser?.id,
+              featureFlagEnabled: () =>
+                  widget.featureFlagsRepository.beanRecommendations,
+              countryCodeLookup: (localeCode) =>
+                  regionService.getCountryCode(localeCode: localeCode),
+              prefs: widget.prefs,
+            );
+          },
         ),
         StreamProvider<Map<String, bool>>(
           create: (_) => widget.featureFlagsRepository.stream,
