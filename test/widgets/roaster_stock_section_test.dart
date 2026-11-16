@@ -310,6 +310,9 @@ void main() {
       expect(find.text('Bean 4'), findsNothing);
       expect(find.text(_showMoreLabel), findsOneWidget);
 
+      // Four cards are taller than the 800×600 test surface.
+      await tester.ensureVisible(find.text(_showMoreLabel));
+      await tester.pumpAndSettle();
       await tester.tap(find.text(_showMoreLabel));
       await tester.pumpAndSettle();
       expect(find.byType(StockBeanCard), findsNWidgets(6));

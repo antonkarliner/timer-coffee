@@ -80,60 +80,70 @@ class StockBeanCard extends StatelessWidget {
           onTap: onTap,
           child: Padding(
             padding: const EdgeInsets.all(AppSpacing.cardPadding),
-            child: Row(
+            // Photo beside the name; the reason and the actions run the full
+            // width underneath. Beside an 80 pt photo a 140-character reason
+            // was cut off after four short lines.
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                _StockPhotoSlot(
-                  imageUrl: imageUrl,
-                  logoUrl: logoUrl,
-                  logoMirrorUrl: logoMirrorUrl,
-                ),
-                const SizedBox(width: AppSpacing.sm),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        title,
-                        style: AppTextStyles.itemTitle,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      if (subtitle != null && subtitle!.isNotEmpty) ...[
-                        const SizedBox(height: AppSpacing.xs),
-                        Text(
-                          subtitle!,
-                          style: AppTextStyles.caption.copyWith(
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _StockPhotoSlot(
+                      imageUrl: imageUrl,
+                      logoUrl: logoUrl,
+                      logoMirrorUrl: logoMirrorUrl,
+                    ),
+                    const SizedBox(width: AppSpacing.sm),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            title,
+                            style: AppTextStyles.itemTitle,
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                      if (body != null && body!.trim().isNotEmpty) ...[
-                        const SizedBox(height: AppSpacing.xs),
-                        Text(
-                          body!,
-                          style: AppTextStyles.body,
-                          maxLines: 4,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                      // Wrap, not Row: localized action labels together can
-                      // exceed a 320 pt row and must wrap onto a second line.
-                      if (actions.isNotEmpty) ...[
-                        const SizedBox(height: AppSpacing.xs),
-                        Wrap(
-                          spacing: AppSpacing.sm,
-                          runSpacing: AppSpacing.xs,
-                          children: actions,
-                        ),
-                      ],
-                    ],
-                  ),
+                          if (subtitle != null && subtitle!.isNotEmpty) ...[
+                            const SizedBox(height: AppSpacing.xs),
+                            Text(
+                              subtitle!,
+                              style: AppTextStyles.caption.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurfaceVariant,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
+                if (body != null && body!.trim().isNotEmpty) ...[
+                  const SizedBox(height: AppSpacing.sm),
+                  Text(
+                    body!,
+                    style: AppTextStyles.body,
+                    maxLines: 4,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+                // Wrap, not Row: localized action labels together can exceed
+                // a 320 pt row and must wrap onto a second line.
+                if (actions.isNotEmpty) ...[
+                  const SizedBox(height: AppSpacing.xs),
+                  Wrap(
+                    spacing: AppSpacing.sm,
+                    runSpacing: AppSpacing.xs,
+                    children: actions,
+                  ),
+                ],
               ],
             ),
           ),

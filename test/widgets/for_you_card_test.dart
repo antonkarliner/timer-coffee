@@ -933,6 +933,9 @@ void main() {
       expect(events('for_you_expanded').single['category'], 'beans');
       expect(events('for_you_expanded').single['properties'], {'count': 3});
 
+      // Three full cards are taller than the 800×600 test surface.
+      await tester.ensureVisible(find.text(_showLessLabel));
+      await tester.pumpAndSettle();
       await tester.tap(find.text(_showLessLabel));
       await tester.pumpAndSettle();
 
