@@ -116,6 +116,13 @@ class AnalyticsService extends ChangeNotifier {
     'review_nudge_card_shown': 'beans',
     // Deletion instrumentation (plan 056 Phase 5)
     'bean_deleted': 'beans',
+    // Personalised bean suggestions (plan 017 Phase 5b)
+    'for_you_shown': 'beans',
+    'for_you_pick_tapped': 'beans',
+    'for_you_link_opened': 'beans',
+    'for_you_dismissed': 'beans',
+    'for_you_unavailable': 'beans',
+    'for_you_setting_toggled': 'beans',
     // General
     'app_opened': 'general',
     'screen_viewed': 'general',

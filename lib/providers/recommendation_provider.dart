@@ -60,6 +60,7 @@ class RecommendationProvider extends ChangeNotifier {
   List<BeanRecommendation> _items = const [];
   bool _isFirstLoad = false;
   String? _unavailableStatus;
+  String? _lastCountryCode;
   bool _optedOut = false;
   bool _disposed = false;
   Future<void>? _inFlight;
@@ -88,6 +89,10 @@ class RecommendationProvider extends ChangeNotifier {
   /// `insufficient_history`, `no_supply`, `error`, or null — for later
   /// analytics; never surfaced in the UI.
   String? get unavailableStatus => _unavailableStatus;
+
+  /// Last successful country lookup, normalised to a two-letter code.
+  /// Unknown until a lookup returns a valid code; lookup failures keep it.
+  String? get lastCountryCode => _lastCountryCode;
 
   bool get optedOut => _optedOut;
 
@@ -316,6 +321,11 @@ class RecommendationProvider extends ChangeNotifier {
     String? countryCode;
     try {
       countryCode = await _countryCodeLookup(localeCode);
+      final normalized = countryCode?.toUpperCase();
+      _lastCountryCode =
+          normalized != null && RegExp(r'^[A-Z]{2}$').hasMatch(normalized)
+          ? normalized
+          : null;
     } catch (e, st) {
       AppLogger.warning(
         'Country lookup for recommendations failed',

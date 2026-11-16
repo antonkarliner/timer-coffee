@@ -1,8 +1,11 @@
 import 'dart:convert';
 
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:coffee_timer/providers/recommendation_provider.dart';
 import 'package:coffee_timer/screens/settings/settings_privacy_data_screen.dart';
 import 'package:coffee_timer/services/analytics_service.dart';
+import 'package:coffee_timer/services/clients/bean_recommendation_client.dart';
+import 'package:coffee_timer/services/feature_flags/feature_flags_repository.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/widgets/settings/data_export_section.dart';
 import 'package:coffee_timer/widgets/settings/settings_list.dart';
@@ -10,8 +13,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+class _RecommendationClient extends Mock implements BeanRecommendationClient {
+  int deleteCount = 0;
+
+  @override
+  Future<void> deleteMine() async {
+    deleteCount++;
+  }
+}
+
+/// Retains the real persistence/notification behaviour while recording the
+/// switch's calls (no Supabase or recommendation load is needed on this page).
+class _RecommendationProvider extends RecommendationProvider {
+  _RecommendationProvider({required super.client, required super.prefs})
+    : super(
+        currentUserId: () => 'user-1',
+        featureFlagEnabled: () => true,
+        countryCodeLookup: (_) async => null,
+      );
+
+  final List<bool> optOutCalls = [];
+
+  @override
+  Future<void> setOptedOut(bool value) {
+    optOutCalls.add(value);
+    return super.setOptedOut(value);
+  }
+}
 
 /// Page test for SettingsPrivacyDataScreen (Settings → Privacy & data).
 ///
@@ -46,16 +78,180 @@ void main() {
   List<Map<String, dynamic>> eventsNamed(String name) =>
       allEvents().where((event) => event['event_name'] == name).toList();
 
-  Widget app({Locale locale = const Locale('en')}) =>
+  Widget app({
+    Locale locale = const Locale('en'),
+    Map<String, bool> flags = const {},
+    RecommendationProvider? recommendations,
+  }) => MultiProvider(
+    providers: [
       ChangeNotifierProvider<AnalyticsService>.value(
         value: AnalyticsService.instance,
-        child: MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          locale: locale,
-          home: const SettingsPrivacyDataScreen(),
+      ),
+      Provider<Map<String, bool>>.value(value: flags),
+      if (recommendations != null)
+        ChangeNotifierProvider<RecommendationProvider>.value(
+          value: recommendations,
         ),
-      );
+    ],
+    child: MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: locale,
+      home: const SettingsPrivacyDataScreen(),
+    ),
+  );
+
+  Finder suggestionsRow() => find.byWidgetPredicate(
+    (widget) =>
+        widget is SettingsSwitchRow &&
+        widget.identifier == 'settingsBeanSuggestionsSwitch',
+  );
+
+  Future<(_RecommendationProvider, _RecommendationClient)> recommendations({
+    bool optedOut = false,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(RecommendationProvider.optOutPrefKey, optedOut);
+    final client = _RecommendationClient();
+    final provider = _RecommendationProvider(client: client, prefs: prefs);
+    addTearDown(provider.dispose);
+    return (provider, client);
+  }
+
+  testWidgets('suggestions switch reflects opt-out, persists toggles and '
+      'reports enabled in the beans category', (tester) async {
+    final (provider, client) = await recommendations();
+    await tester.pumpWidget(
+      app(
+        flags: {FeatureFlagKeys.beanRecommendations: true},
+        recommendations: provider,
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final row = tester.widget<SettingsSwitchRow>(suggestionsRow());
+    final l10n = AppLocalizations.of(tester.element(suggestionsRow()))!;
+    expect(row.title, l10n.forYouSettingTitle);
+    expect(row.subtitle, l10n.forYouSettingSubtitle);
+    expect(row.value, isTrue);
+    expect(provider.optOutCalls, isEmpty);
+    expect(eventsNamed('for_you_setting_toggled'), isEmpty);
+    final section = tester.widget<SettingsSection>(
+      find.ancestor(
+        of: suggestionsRow(),
+        matching: find.byType(SettingsSection),
+      ),
+    );
+    expect(section.header, l10n.settingsYourDataHeader);
+
+    await tester.ensureVisible(suggestionsRow());
+    await tester.tap(find.text(l10n.forYouSettingTitle));
+    await tester.pumpAndSettle();
+    expect(provider.optOutCalls, [true]);
+    expect(provider.optedOut, isTrue);
+    expect(client.deleteCount, 1);
+    expect(tester.widget<SettingsSwitchRow>(suggestionsRow()).value, isFalse);
+    expect(
+      (await SharedPreferences.getInstance()).getBool(
+        RecommendationProvider.optOutPrefKey,
+      ),
+      isTrue,
+    );
+
+    await tester.tap(find.text(l10n.forYouSettingTitle));
+    await tester.pumpAndSettle();
+    expect(provider.optOutCalls, [true, false]);
+    expect(provider.optedOut, isFalse);
+    expect(tester.widget<SettingsSwitchRow>(suggestionsRow()).value, isTrue);
+    expect(
+      (await SharedPreferences.getInstance()).getBool(
+        RecommendationProvider.optOutPrefKey,
+      ),
+      isFalse,
+    );
+    expect(eventsNamed('for_you_setting_toggled').map((e) => e['properties']), [
+      {'enabled': false},
+      {'enabled': true},
+    ]);
+    expect(
+      eventsNamed('for_you_setting_toggled').map((e) => e['category']),
+      everyElement('beans'),
+    );
+    expect(eventsNamed('setting_changed'), isEmpty);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('suggestions switch watches an initially stored opt-out', (
+    tester,
+  ) async {
+    final (provider, _) = await recommendations(optedOut: true);
+    await tester.pumpWidget(
+      app(
+        flags: {FeatureFlagKeys.beanRecommendations: true},
+        recommendations: provider,
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(tester.widget<SettingsSwitchRow>(suggestionsRow()).value, isFalse);
+
+    await provider.setOptedOut(false);
+    await tester.pumpAndSettle();
+    expect(tester.widget<SettingsSwitchRow>(suggestionsRow()).value, isTrue);
+    expect(
+      eventsNamed('for_you_setting_toggled'),
+      isEmpty,
+      reason: 'external preference changes are not switch taps',
+    );
+  });
+
+  testWidgets('flag off hides suggestions and preserves existing data rows', (
+    tester,
+  ) async {
+    final (provider, _) = await recommendations();
+    await tester.pumpWidget(
+      app(
+        flags: {FeatureFlagKeys.beanRecommendations: true},
+        recommendations: provider,
+      ),
+    );
+    await tester.pumpAndSettle();
+    final exportElement = tester.element(find.byType(DataExportSection));
+    expect(suggestionsRow(), findsOneWidget);
+
+    await tester.pumpWidget(
+      app(
+        flags: {FeatureFlagKeys.beanRecommendations: false},
+        recommendations: provider,
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(suggestionsRow(), findsNothing);
+    expect(find.byType(SettingsSwitchRow), findsNWidgets(3));
+    expect(tester.element(find.byType(DataExportSection)), same(exportElement));
+    expect(provider.optOutCalls, isEmpty);
+    expect(allEvents(), isEmpty);
+  });
+
+  testWidgets('bean analytics opt-out suppresses suggestion toggle events', (
+    tester,
+  ) async {
+    final (provider, client) = await recommendations();
+    await AnalyticsService.instance.setBeansEnabled(false);
+    await tester.pumpWidget(
+      app(
+        flags: {FeatureFlagKeys.beanRecommendations: true},
+        recommendations: provider,
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(suggestionsRow());
+    final row = tester.widget<SettingsSwitchRow>(suggestionsRow());
+    await tester.tap(find.text(row.title));
+    await tester.pumpAndSettle();
+    expect(provider.optedOut, isTrue);
+    expect(client.deleteCount, 1);
+    expect(allEvents(), isEmpty);
+  });
 
   testWidgets('renders both sections, the three switches with their '
       'subtitles, the export row and the policy row', (tester) async {

@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../app_router.gr.dart';
 import '../models/bean_recommendation_model.dart';
 import '../providers/recommendation_provider.dart';
+import '../services/analytics_service.dart';
 import '../theme/design_tokens.dart';
 import '../utils/country_names.dart';
 import 'base_buttons.dart';
@@ -69,6 +70,46 @@ class _ForYouCardState extends State<ForYouCard> {
   /// call, which [didChangeDependencies] uses to skip the initial pass (so
   /// `ensureLoaded` really fires only after the first frame).
   String? _localeTag;
+  bool _shownTracked = false;
+  final Set<String> _unavailableStatusesTracked = {};
+
+  /// Capture the rendered state, then report after the frame. Lifetime
+  /// guards survive rebuilds, locale changes and optimistic dismissals.
+  void _scheduleVisibilityAnalytics(RecommendationProvider provider) {
+    final items = provider.state == RecommendationState.ready
+        ? provider.items.take(widget.maxItems).toList(growable: false)
+        : const <BeanRecommendation>[];
+    final status = provider.state == RecommendationState.hidden
+        ? provider.unavailableStatus
+        : null;
+    final country = provider.lastCountryCode;
+    if ((_shownTracked || items.isEmpty) &&
+        (status == null || _unavailableStatusesTracked.contains(status))) {
+      return;
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      if (!_shownTracked && items.isNotEmpty) {
+        _shownTracked = true;
+        final modes =
+            items.map((item) => item.mode ?? 'unknown').toSet().toList()
+              ..sort();
+        AnalyticsService.maybeInstance?.track(
+          'for_you_shown',
+          properties: {'count': items.length, 'modes': modes.join(',')},
+        );
+      }
+      if (status != null && _unavailableStatusesTracked.add(status)) {
+        AnalyticsService.maybeInstance?.track(
+          'for_you_unavailable',
+          properties: {
+            'status': status,
+            'country': ?country,
+          },
+        );
+      }
+    });
+  }
 
   @override
   void initState() {
@@ -99,6 +140,7 @@ class _ForYouCardState extends State<ForYouCard> {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<RecommendationProvider>();
+    _scheduleVisibilityAnalytics(provider);
     final ready =
         provider.state == RecommendationState.ready &&
         provider.items.isNotEmpty;
@@ -194,7 +236,10 @@ class _ForYouRow extends StatelessWidget {
     return InkWell(
       // Tapping the row body (not the buttons) opens the roaster's profile.
       onTap: hasSlug
-          ? () => context.router.push(RoasterProfileRoute(slug: slug))
+          ? () {
+              _track('for_you_pick_tapped');
+              context.router.push(RoasterProfileRoute(slug: slug));
+            }
           : null,
       borderRadius: BorderRadius.circular(AppRadius.small),
       child: Padding(
@@ -307,6 +352,7 @@ class _ForYouRow extends StatelessWidget {
   }
 
   void _openAtRoaster(BuildContext context, Uri uri) {
+    _track('for_you_link_opened');
     final provider = context.read<RecommendationProvider>();
     // Fire-and-forget attribution; it must never delay opening the page.
     unawaited(provider.logLinkOpened(item.stockId));
@@ -322,7 +368,19 @@ class _ForYouRow extends StatelessWidget {
   }
 
   void _dismiss(BuildContext context) {
+    _track('for_you_dismissed');
     // Not awaited: the provider notifies and the row disappears.
     unawaited(context.read<RecommendationProvider>().dismiss(item.stockId));
+  }
+
+  void _track(String event) {
+    AnalyticsService.maybeInstance?.track(
+      event,
+      properties: {
+        'stock_id': item.stockId,
+        'position': index,
+        'mode': item.mode ?? 'unknown',
+      },
+    );
   }
 }

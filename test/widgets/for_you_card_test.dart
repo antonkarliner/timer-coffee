@@ -1,13 +1,17 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
+import 'package:coffee_timer/app_router.gr.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/bean_recommendation_model.dart';
 import 'package:coffee_timer/providers/recommendation_provider.dart';
+import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/services/clients/bean_recommendation_client.dart';
 import 'package:coffee_timer/widgets/for_you_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,6 +28,7 @@ class _FakeClient implements BeanRecommendationClient {
   RecommendationResult? fetchResult;
   Future<RecommendationResult?> Function(String? locale)? fetchImpl;
   Object? dismissError;
+  BeanRecommendationStatus generateStatus = BeanRecommendationStatus.ok;
 
   int fetchCount = 0;
   final List<String> dismissedIds = [];
@@ -42,8 +47,7 @@ class _FakeClient implements BeanRecommendationClient {
     required String locale,
     String? countryCode,
     bool forceRefresh = false,
-  }) async =>
-      BeanRecommendationStatus.ok;
+  }) async => generateStatus;
 
   @override
   Future<void> dismiss(String stockId) async {
@@ -70,6 +74,7 @@ class _CountingProvider extends RecommendationProvider {
     required super.featureFlagEnabled,
     required super.countryCodeLookup,
     required super.prefs,
+    super.clock,
   });
 
   int ensureLoadedCalls = 0;
@@ -167,6 +172,9 @@ Future<({_CountingProvider provider, _FakeClient client})> _pumpCard(
   int maxItems = 3,
   bool flagOn = true,
   TextScaler textScaler = TextScaler.noScaling,
+  DateTime Function()? clock,
+  Future<String?> Function(String localeCode)? countryCodeLookup,
+  StackRouter? router,
 }) async {
   final c = client ?? _FakeClient();
   SharedPreferences.setMockInitialValues({});
@@ -175,8 +183,9 @@ Future<({_CountingProvider provider, _FakeClient client})> _pumpCard(
     client: c,
     currentUserId: () => 'user-1',
     featureFlagEnabled: () => flagOn,
-    countryCodeLookup: (localeCode) async => 'DE',
+    countryCodeLookup: countryCodeLookup ?? (localeCode) async => 'DE',
     prefs: prefs,
+    clock: clock,
   );
   if (items.isNotEmpty) {
     c.fetchResult = RecommendationResult(
@@ -185,18 +194,243 @@ Future<({_CountingProvider provider, _FakeClient client})> _pumpCard(
     );
   }
   addTearDown(provider.dispose);
-  await tester.pumpWidget(
-    _Harness(
-      provider: provider,
-      locale: locale,
-      maxItems: maxItems,
-      textScaler: textScaler,
-    ),
+  Widget app = _Harness(
+    provider: provider,
+    locale: locale,
+    maxItems: maxItems,
+    textScaler: textScaler,
   );
+  if (router != null) {
+    app = StackRouterScope(controller: router, stateHash: 0, child: app);
+  }
+  await tester.pumpWidget(app);
   return (provider: provider, client: c);
 }
 
+/// Same route recorder used by coffee_journey_card_try_recipe_test.dart.
+class _RecordingStackRouter extends Mock implements StackRouter {
+  PageRouteInfo? pushedRoute;
+
+  @override
+  Future<T?> push<T extends Object?>(
+    PageRouteInfo route, {
+    OnNavigationFailure? onFailure,
+  }) async {
+    pushedRoute = route;
+    return null;
+  }
+}
+
 void main() {
+  group('analytics', () {
+    // Initialise outside the widget test's fake-async zone, as the existing
+    // journey-card and Settings tests do. Assertions inspect the real buffer.
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      AnalyticsService.resetForTesting();
+      await AnalyticsService.initialize(await SharedPreferences.getInstance());
+      AnalyticsService.sendOverride = (_) async {};
+    });
+    tearDown(AnalyticsService.resetForTesting);
+
+    List<Map<String, dynamic>> events(String name) => AnalyticsService
+        .instance
+        .bufferedEventsForTesting
+        .where((event) => event['event_name'] == name)
+        .toList();
+
+    testWidgets('shown counts only displayed rows and fires once across '
+        'rebuilds, locale changes and dismissals', (tester) async {
+      final env = await _pumpCard(
+        tester,
+        items: [
+          rec('s1', mode: 'your_roaster'),
+          rec('s2', mode: 'near_you'),
+          rec('s3', mode: 'your_roaster'),
+          rec('s4', mode: 'not_displayed'),
+        ],
+      );
+      await tester.pumpAndSettle();
+      expect(events('for_you_shown'), hasLength(1));
+      expect(events('for_you_shown').single['category'], 'beans');
+      expect(events('for_you_shown').single['properties'], {
+        'count': 3,
+        'modes': 'near_you,your_roaster',
+      });
+
+      await tester.pumpWidget(_Harness(provider: env.provider));
+      await tester.pumpAndSettle();
+      await tester.pumpWidget(
+        _Harness(provider: env.provider, locale: const Locale('de')),
+      );
+      await tester.pumpAndSettle();
+      // Dismiss all rows, including the previously capped fourth pick.
+      for (final id in ['s1', 's2', 's3', 's4']) {
+        await env.provider.dismiss(id);
+        await tester.pumpAndSettle();
+      }
+      expect(find.byType(Card), findsNothing);
+      expect(events('for_you_shown'), hasLength(1));
+      expect(events('for_you_unavailable'), isEmpty);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets(
+      'row taps, link opens and dismissals carry displayed position',
+      (tester) async {
+        final router = _RecordingStackRouter();
+        final env = await _pumpCard(
+          tester,
+          router: router,
+          items: [
+            rec('s1', name: 'Bean A', mode: 'your_roaster'),
+            rec(
+              's2',
+              name: 'Bean B',
+              mode: 'near_you',
+              productUrl: 'https://shop.example.com/b',
+            ),
+          ],
+        );
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.text('Bean B'));
+        await tester.pumpAndSettle();
+        expect(router.pushedRoute, isA<RoasterProfileRoute>());
+        expect(
+          (router.pushedRoute as RoasterProfileRoute).args!.slug,
+          'roaster-slug',
+        );
+        await tester.tap(find.text(_viewLabel));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text(_dismissLabel).last);
+        await tester.pumpAndSettle();
+
+        for (final name in [
+          'for_you_pick_tapped',
+          'for_you_link_opened',
+          'for_you_dismissed',
+        ]) {
+          expect(events(name), hasLength(1));
+          expect(events(name).single['category'], 'beans');
+          expect(events(name).single['properties'], {
+            'stock_id': 's2',
+            'position': 1,
+            'mode': 'near_you',
+          });
+        }
+        expect(env.client.clickedIds, ['s2']);
+        expect(env.client.dismissedIds, ['s2']);
+        await tester.tap(find.text(_dismissLabel));
+        await tester.pumpAndSettle();
+        expect(events('for_you_dismissed').last['properties'], {
+          'stock_id': 's1',
+          'position': 0,
+          'mode': 'your_roaster',
+        });
+        expect(
+          events('for_you_pick_tapped'),
+          hasLength(1),
+          reason: 'nested buttons must not count as profile taps',
+        );
+        expect(events('for_you_shown'), hasLength(1));
+        expect(tester.takeException(), isNull);
+      },
+    );
+
+    testWidgets('unavailable fires once per status with the lookup country', (
+      tester,
+    ) async {
+      var now = DateTime(2026, 11, 16);
+      final client = _FakeClient()
+        ..fetchResult = const RecommendationResult(hasRecommendations: false)
+        ..generateStatus = BeanRecommendationStatus.insufficientHistory;
+      final env = await _pumpCard(
+        tester,
+        client: client,
+        clock: () => now,
+        countryCodeLookup: (_) async => 'fr',
+      );
+      await tester.pumpAndSettle();
+      expect(events('for_you_unavailable').single['properties'], {
+        'status': 'insufficient_history',
+        'country': 'FR',
+      });
+
+      await tester.pumpWidget(_Harness(provider: env.provider));
+      await tester.pumpAndSettle();
+      now = now.add(const Duration(hours: 7));
+      client.generateStatus = BeanRecommendationStatus.noSupply;
+      await tester.pumpWidget(
+        _Harness(provider: env.provider, locale: const Locale('de')),
+      );
+      await tester.pumpAndSettle();
+      expect(events('for_you_unavailable').last['properties'], {
+        'status': 'no_supply',
+        'country': 'FR',
+      });
+
+      now = now.add(const Duration(hours: 7));
+      client.generateStatus = BeanRecommendationStatus.insufficientHistory;
+      await tester.pumpWidget(
+        _Harness(provider: env.provider, locale: const Locale('ru')),
+      );
+      await tester.pumpAndSettle();
+      expect(events('for_you_unavailable'), hasLength(2));
+      client.fetchResult = null;
+      await tester.pumpWidget(
+        _Harness(provider: env.provider, locale: const Locale('fr')),
+      );
+      await tester.pumpAndSettle();
+      expect(events('for_you_unavailable'), hasLength(3));
+      expect(events('for_you_unavailable').last['properties'], {
+        'status': 'error',
+        'country': 'FR',
+      });
+      expect(
+        events('for_you_unavailable').map((e) => e['category']),
+        everyElement('beans'),
+      );
+      expect(events('for_you_shown'), isEmpty);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('unavailable omits country when no lookup has succeeded', (
+      tester,
+    ) async {
+      final env = await _pumpCard(tester);
+      await tester.pumpAndSettle();
+      expect(events('for_you_unavailable').single['properties'], {
+        'status': 'error',
+      });
+      await tester.pumpWidget(
+        _Harness(provider: env.provider, locale: const Locale('de')),
+      );
+      await tester.pumpAndSettle();
+      expect(events('for_you_unavailable'), hasLength(1));
+    });
+
+    testWidgets('flag gate and an empty answer without status emit nothing', (
+      tester,
+    ) async {
+      await _pumpCard(tester, flagOn: false);
+      await tester.pumpAndSettle();
+      await _pumpCard(
+        tester,
+        client: _FakeClient()
+          ..fetchResult = const RecommendationResult(hasRecommendations: true),
+      );
+      await tester.pumpAndSettle();
+      expect(AnalyticsService.instance.bufferedEventsForTesting, isEmpty);
+    });
+
+    testWidgets('zero displayed rows do not count as shown', (tester) async {
+      await _pumpCard(tester, maxItems: 0, items: [rec('s1')]);
+      await tester.pumpAndSettle();
+      expect(events('for_you_shown'), isEmpty);
+    });
+  });
+
   group('non-ready states render nothing', () {
     testWidgets('hidden (flag off) → empty, no exception', (tester) async {
       final env = await _pumpCard(

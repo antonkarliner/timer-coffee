@@ -5,7 +5,9 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../providers/recommendation_provider.dart';
 import '../../services/analytics_service.dart';
+import '../../services/feature_flags/feature_flags_repository.dart';
 import '../../services/settings_analytics.dart';
 import '../../theme/design_tokens.dart';
 import '../../widgets/markdown/app_markdown_style.dart';
@@ -56,6 +58,13 @@ class SettingsPrivacyDataScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final analytics = context.watch<AnalyticsService>();
+    final flags = context.watch<Map<String, bool>?>();
+    final suggestionsAvailable =
+        const bool.fromEnvironment('FOR_YOU_DEBUG') ||
+        (flags?[FeatureFlagKeys.beanRecommendations] ?? false);
+    final recommendations = suggestionsAvailable
+        ? context.watch<RecommendationProvider>()
+        : null;
 
     return SettingsPageScaffold(
       title: l10n.settingsPrivacyDataTitle,
@@ -100,6 +109,22 @@ class SettingsPrivacyDataScreen extends StatelessWidget {
                 ),
               ),
             ),
+            // Your data: opting out also deletes the stored picks. Append
+            // the optional row so the export/policy children keep their state.
+            if (recommendations != null)
+              SettingsSwitchRow(
+                identifier: 'settingsBeanSuggestionsSwitch',
+                title: l10n.forYouSettingTitle,
+                subtitle: l10n.forYouSettingSubtitle,
+                value: !recommendations.optedOut,
+                onChanged: (value) {
+                  recommendations.setOptedOut(!value);
+                  AnalyticsService.maybeInstance?.track(
+                    'for_you_setting_toggled',
+                    properties: {'enabled': value},
+                  );
+                },
+              ),
           ],
         ),
       ],

@@ -116,14 +116,16 @@ void main() {
     /// Tracks a manual dispose so tearDown never double-disposes.
     void disposeInTearDown(RecommendationProvider p) => disposed.add(p);
 
-    RecommendationProvider make() {
+    RecommendationProvider make({
+      Future<String?> Function(String localeCode)? countryCodeLookup,
+    }) {
       final c = _FakeClient();
       client = c;
       final p = RecommendationProvider(
         client: c,
         currentUserId: () => userId,
         featureFlagEnabled: () => flagOn,
-        countryCodeLookup: (localeCode) async => 'DE',
+        countryCodeLookup: countryCodeLookup ?? (localeCode) async => 'DE',
         prefs: prefs,
         clock: () => now,
       );
@@ -163,6 +165,66 @@ void main() {
       }
       created.clear();
       disposed.clear();
+    });
+
+    group('lastCountryCode', () {
+      test(
+        'null until lookup, upper-cased and updated by later lookups',
+        () async {
+          String? country = 'fr';
+          final p = make(countryCodeLookup: (_) async => country);
+          client.fetchResult = result(hasRecommendations: false);
+          client.generateStatus = BeanRecommendationStatus.noSupply;
+          expect(p.lastCountryCode, isNull);
+
+          await p.ensureLoaded('en');
+          expect(p.lastCountryCode, 'FR');
+          // The analytics getter must not alter the generate request.
+          expect(client.generateCountryCodes, ['fr']);
+
+          country = 'de';
+          now = now.add(const Duration(hours: 7));
+          await p.ensureLoaded('de');
+          expect(p.lastCountryCode, 'DE');
+
+          country = null;
+          now = now.add(const Duration(hours: 7));
+          await p.ensureLoaded('ru');
+          expect(p.lastCountryCode, isNull);
+
+          country = 'not-a-code';
+          now = now.add(const Duration(hours: 7));
+          await p.ensureLoaded('fr');
+          expect(p.lastCountryCode, isNull);
+        },
+      );
+
+      test(
+        'lookup failures never throw and preserve the last known code',
+        () async {
+          var fail = true;
+          final p = make(
+            countryCodeLookup: (_) async {
+              if (fail) throw StateError('lookup unavailable');
+              return 'gb';
+            },
+          );
+          client.fetchResult = result(hasRecommendations: false);
+          client.generateStatus = BeanRecommendationStatus.noSupply;
+
+          await p.ensureLoaded('en');
+          expect(p.lastCountryCode, isNull);
+          fail = false;
+          now = now.add(const Duration(hours: 7));
+          await p.ensureLoaded('de');
+          expect(p.lastCountryCode, 'GB');
+          fail = true;
+          now = now.add(const Duration(hours: 7));
+          await p.ensureLoaded('fr');
+          expect(p.lastCountryCode, 'GB');
+          expect(client.generateCountryCodes, [null, 'gb', null]);
+        },
+      );
     });
 
     group('gates (hidden, no network)', () {
