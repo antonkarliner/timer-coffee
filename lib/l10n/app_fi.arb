@@ -1421,5 +1421,12 @@
   "brewLaterConfirm": "Aseta muistutus",
   "brewLaterCancel": "Peruuta muistutus",
   "brewLaterDenied": "Ilmoitukset ovat pois päältä, joten emme voi muistuttaa sinua.",
-  "brewLaterOpenSettings": "Avaa asetukset"
+  "brewLaterOpenSettings": "Avaa asetukset",
+  "forYouTitle": "Sinulle",
+  "forYouSubtitle": "Varastossa nyt, valittu sen perusteella, mitä uutat",
+  "forYouYourRoaster": "Oma paahtimo",
+  "forYouViewAtRoaster": "Katso paahtimolla",
+  "forYouNotForMe": "Ei minulle",
+  "forYouSettingTitle": "Papusuositukset",
+  "forYouSettingSubtitle": "Näyttää Hubissa sinulle valitut varastossa olevat pavut"
 }

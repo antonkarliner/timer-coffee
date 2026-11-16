@@ -1689,5 +1689,12 @@
   "brewLaterConfirm": "알림 설정",
   "brewLaterCancel": "알림 취소",
   "brewLaterDenied": "알림이 꺼져 있어 알려드릴 수 없습니다.",
-  "brewLaterOpenSettings": "설정 열기"
+  "brewLaterOpenSettings": "설정 열기",
+  "forYouTitle": "나를 위한",
+  "forYouSubtitle": "지금 구매 가능, 내 추출을 기반으로 골랐어요",
+  "forYouYourRoaster": "내 로스터리",
+  "forYouViewAtRoaster": "로스터리에서 보기",
+  "forYouNotForMe": "관심 없어요",
+  "forYouSettingTitle": "원두 추천",
+  "forYouSettingSubtitle": "허브에서 지금 구매 가능한 맞춤 원두를 표시해요"
 }

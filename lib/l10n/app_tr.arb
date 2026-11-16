@@ -1569,5 +1569,12 @@
   "brewLaterConfirm": "Hatırlatma ayarla",
   "brewLaterCancel": "Hatırlatmayı iptal et",
   "brewLaterDenied": "Bildirimler kapalı, bu yüzden sana hatırlatamayız.",
-  "brewLaterOpenSettings": "Ayarları aç"
+  "brewLaterOpenSettings": "Ayarları aç",
+  "forYouTitle": "Senin için",
+  "forYouSubtitle": "Şu anda stokta, demlemelerine göre seçildi",
+  "forYouYourRoaster": "Senin kavurucun",
+  "forYouViewAtRoaster": "Kavurucuda incele",
+  "forYouNotForMe": "Bana göre değil",
+  "forYouSettingTitle": "Çekirdek önerileri",
+  "forYouSettingSubtitle": "Hub’da sizin için seçilmiş stoktaki çekirdekleri gösterir"
 }

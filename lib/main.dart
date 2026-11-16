@@ -1350,6 +1350,8 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
               currentUserId: () =>
                   Supabase.instance.client.auth.currentUser?.id,
               featureFlagEnabled: () =>
+                  // Build-time test switch: --dart-define=FOR_YOU_DEBUG=true.
+                  const bool.fromEnvironment('FOR_YOU_DEBUG') ||
                   widget.featureFlagsRepository.beanRecommendations,
               countryCodeLookup: (localeCode) =>
                   regionService.getCountryCode(localeCode: localeCode),

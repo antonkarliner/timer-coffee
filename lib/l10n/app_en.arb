@@ -3225,5 +3225,19 @@
   "brewLaterDenied": "Notifications are off, so we can’t remind you.",
   "@brewLaterDenied": {"description": "Message shown in the brew-later sheet when notifications could not be enabled."},
   "brewLaterOpenSettings": "Open Settings",
-  "@brewLaterOpenSettings": {"description": "Button in the brew-later sheet's denied state that opens the system notification settings."}
+  "@brewLaterOpenSettings": {"description": "Button in the brew-later sheet's denied state that opens the system notification settings."},
+  "forYouTitle": "For you",
+  "@forYouTitle": {"description": "Title of the Hub's 'For you' card showing in-stock beans picked for the user."},
+  "forYouSubtitle": "In stock now, picked from what you brew",
+  "@forYouSubtitle": {"description": "One-line caption under the 'For you' card title: the picks are in stock and chosen based on the user's brews."},
+  "forYouYourRoaster": "Your roaster",
+  "@forYouYourRoaster": {"description": "Marker appended after a roaster name in a 'For you' pick when the bean comes from a roaster the user already buys from."},
+  "forYouViewAtRoaster": "View at roaster",
+  "@forYouViewAtRoaster": {"description": "Button on a 'For you' pick that opens the bean's product page in the roaster's online shop."},
+  "forYouNotForMe": "Not for me",
+  "@forYouNotForMe": {"description": "Button on a 'For you' pick that hides the suggestion and tells the recommendations the user is not interested."},
+  "forYouSettingTitle": "Bean suggestions",
+  "@forYouSettingTitle": {"description": "Title of the Settings switch that turns the 'For you' bean suggestions on the Hub on or off."},
+  "forYouSettingSubtitle": "Show in-stock beans picked for you on the Hub",
+  "@forYouSettingSubtitle": {"description": "Description under the 'Bean suggestions' Settings switch: what it shows and where."}
 }

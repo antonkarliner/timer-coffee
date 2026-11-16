@@ -1569,5 +1569,12 @@
   "brewLaterConfirm": "Imposta promemoria",
   "brewLaterCancel": "Annulla promemoria",
   "brewLaterDenied": "Le notifiche sono disattivate, non possiamo avvisarti.",
-  "brewLaterOpenSettings": "Apri impostazioni"
+  "brewLaterOpenSettings": "Apri impostazioni",
+  "forYouTitle": "Per te",
+  "forYouSubtitle": "Disponibile ora, scelto in base a cosa prepari",
+  "forYouYourRoaster": "La tua torrefazione",
+  "forYouViewAtRoaster": "Vedi presso la torrefazione",
+  "forYouNotForMe": "Non per me",
+  "forYouSettingTitle": "Suggerimenti di chicchi",
+  "forYouSettingSubtitle": "Mostra nell’Hub chicchi disponibili scelti per te"
 }

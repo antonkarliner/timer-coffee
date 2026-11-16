@@ -1569,5 +1569,12 @@
   "brewLaterConfirm": "Установити нагадування",
   "brewLaterCancel": "Скасувати нагадування",
   "brewLaterDenied": "Сповіщення вимкнено, тож ми не зможемо вам нагадати.",
-  "brewLaterOpenSettings": "Відкрити налаштування"
+  "brewLaterOpenSettings": "Відкрити налаштування",
+  "forYouTitle": "Для вас",
+  "forYouSubtitle": "У наявності — підібрано за вашими заварюваннями",
+  "forYouYourRoaster": "Ваш обсмажувач",
+  "forYouViewAtRoaster": "Переглянути в обсмажувача",
+  "forYouNotForMe": "Не моє",
+  "forYouSettingTitle": "Рекомендації зерна",
+  "forYouSettingSubtitle": "Показує в Центрі зерно в наявності, підібране для вас"
 }

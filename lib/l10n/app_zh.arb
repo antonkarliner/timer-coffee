@@ -1569,5 +1569,12 @@
   "brewLaterConfirm": "设置提醒",
   "brewLaterCancel": "取消提醒",
   "brewLaterDenied": "通知已关闭，我们无法提醒你。",
-  "brewLaterOpenSettings": "打开设置"
+  "brewLaterOpenSettings": "打开设置",
+  "forYouTitle": "为你推荐",
+  "forYouSubtitle": "现在有售，根据你的冲煮挑选",
+  "forYouYourRoaster": "你的烘焙商",
+  "forYouViewAtRoaster": "在烘焙商处查看",
+  "forYouNotForMe": "不感兴趣",
+  "forYouSettingTitle": "咖啡豆推荐",
+  "forYouSettingSubtitle": "在“中心区”显示为你挑选的有货咖啡豆"
 }

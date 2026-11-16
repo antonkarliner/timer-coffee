@@ -1569,5 +1569,12 @@
   "brewLaterConfirm": "Ustaw przypomnienie",
   "brewLaterCancel": "Anuluj przypomnienie",
   "brewLaterDenied": "Powiadomienia są wyłączone, więc nie możemy przypomnieć.",
-  "brewLaterOpenSettings": "Otwórz ustawienia"
+  "brewLaterOpenSettings": "Otwórz ustawienia",
+  "forYouTitle": "Dla ciebie",
+  "forYouSubtitle": "Dostępne teraz, wybrane na podstawie tego, co parzysz",
+  "forYouYourRoaster": "Twoja palarnia",
+  "forYouViewAtRoaster": "Zobacz u palarni",
+  "forYouNotForMe": "Nie dla mnie",
+  "forYouSettingTitle": "Sugestie ziaren",
+  "forYouSettingSubtitle": "Pokazuje w Hubie ziarna na stanie, wybrane dla ciebie"
 }

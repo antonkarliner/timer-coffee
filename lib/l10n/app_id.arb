@@ -1569,5 +1569,12 @@
   "brewLaterConfirm": "Atur pengingat",
   "brewLaterCancel": "Batalkan pengingat",
   "brewLaterDenied": "Notifikasi mati, jadi kami tidak bisa mengingatkan Anda.",
-  "brewLaterOpenSettings": "Buka Pengaturan"
+  "brewLaterOpenSettings": "Buka Pengaturan",
+  "forYouTitle": "Untuk Anda",
+  "forYouSubtitle": "Tersedia sekarang, dipilih dari yang Anda seduh",
+  "forYouYourRoaster": "Roaster Anda",
+  "forYouViewAtRoaster": "Lihat di roaster",
+  "forYouNotForMe": "Bukan untuk saya",
+  "forYouSettingTitle": "Saran biji",
+  "forYouSettingSubtitle": "Menampilkan biji yang tersedia dan dipilih untuk Anda di Hub"
 }

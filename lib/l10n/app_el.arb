@@ -1839,5 +1839,12 @@
   "brewLaterConfirm": "Ορισμός υπενθύμισης",
   "brewLaterCancel": "Ακύρωση υπενθύμισης",
   "brewLaterDenied": "Οι ειδοποιήσεις είναι ανενεργές, οπότε δεν μπορούμε να σου υπενθυμίσουμε.",
-  "brewLaterOpenSettings": "Άνοιγμα ρυθμίσεων"
+  "brewLaterOpenSettings": "Άνοιγμα ρυθμίσεων",
+  "forYouTitle": "Για εσάς",
+  "forYouSubtitle": "Διαθέσιμο τώρα, επιλεγμένο από ό,τι παρασκευάζετε",
+  "forYouYourRoaster": "Ο καβουρδιστής σας",
+  "forYouViewAtRoaster": "Προβολή στον καβουρδιστή",
+  "forYouNotForMe": "Όχι για εμένα",
+  "forYouSettingTitle": "Προτάσεις κόκκων",
+  "forYouSettingSubtitle": "Εμφάνιση διαθέσιμων κόκκων επιλεγμένων για εσάς στο Κέντρο"
 }

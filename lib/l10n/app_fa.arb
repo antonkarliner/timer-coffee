@@ -1691,5 +1691,12 @@
   "brewLaterConfirm": "تنظیم یادآوری",
   "brewLaterCancel": "لغو یادآوری",
   "brewLaterDenied": "اعلان‌ها خاموش‌اند، پس نمی‌توانیم یادت بیاندازیم.",
-  "brewLaterOpenSettings": "باز کردن تنظیمات"
+  "brewLaterOpenSettings": "باز کردن تنظیمات",
+  "forYouTitle": "برای شما",
+  "forYouSubtitle": "هم‌اکنون موجود، برگزیده از دم‌آوری‌های شما",
+  "forYouYourRoaster": "رُستری شما",
+  "forYouViewAtRoaster": "مشاهده در رُستری",
+  "forYouNotForMe": "برای من نیست",
+  "forYouSettingTitle": "پیشنهاد دانه‌ها",
+  "forYouSettingSubtitle": "نمایش دانه‌های موجود برگزیده برای شما در مرکز"
 }

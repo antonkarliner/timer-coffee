@@ -1569,5 +1569,12 @@
   "brewLaterConfirm": "リマインダーを設定",
   "brewLaterCancel": "リマインダーをキャンセル",
   "brewLaterDenied": "通知がオフのため、リマインドできません。",
-  "brewLaterOpenSettings": "設定を開く"
+  "brewLaterOpenSettings": "設定を開く",
+  "forYouTitle": "あなたへ",
+  "forYouSubtitle": "今買える豆を、あなたの抽出から選びました",
+  "forYouYourRoaster": "あなたのロースター",
+  "forYouViewAtRoaster": "ロースターで見る",
+  "forYouNotForMe": "興味がない",
+  "forYouSettingTitle": "豆のおすすめ",
+  "forYouSettingSubtitle": "ハブにあなた向けの在庫ありの豆を表示します"
 }

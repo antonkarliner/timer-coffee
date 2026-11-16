@@ -1569,5 +1569,12 @@
   "brewLaterConfirm": "Définir le rappel",
   "brewLaterCancel": "Annuler le rappel",
   "brewLaterDenied": "Les notifications sont désactivées, nous ne pouvons pas vous le rappeler.",
-  "brewLaterOpenSettings": "Ouvrir les paramètres"
+  "brewLaterOpenSettings": "Ouvrir les paramètres",
+  "forYouTitle": "Pour vous",
+  "forYouSubtitle": "En stock, choisi d’après ce que vous préparez",
+  "forYouYourRoaster": "Votre torréfacteur",
+  "forYouViewAtRoaster": "Voir chez le torréfacteur",
+  "forYouNotForMe": "Pas pour moi",
+  "forYouSettingTitle": "Suggestions de grains",
+  "forYouSettingSubtitle": "Affiche sur le Hub des grains en stock choisis pour vous"
 }

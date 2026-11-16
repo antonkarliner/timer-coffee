@@ -1569,5 +1569,12 @@
   "brewLaterConfirm": "Setează memento",
   "brewLaterCancel": "Anulează memento",
   "brewLaterDenied": "Notificările sunt dezactivate, deci nu-ți putem trimite memento.",
-  "brewLaterOpenSettings": "Deschide setările"
+  "brewLaterOpenSettings": "Deschide setările",
+  "forYouTitle": "Pentru tine",
+  "forYouSubtitle": "Pe stoc acum, ales din ce prepari",
+  "forYouYourRoaster": "Prăjitorul tău",
+  "forYouViewAtRoaster": "Vezi la prăjitor",
+  "forYouNotForMe": "Nu pentru mine",
+  "forYouSettingTitle": "Sugestii de boabe",
+  "forYouSettingSubtitle": "Afișează în Hub boabe pe stoc alese pentru tine"
 }

@@ -1569,5 +1569,12 @@
   "brewLaterConfirm": "Definir lembrete",
   "brewLaterCancel": "Cancelar lembrete",
   "brewLaterDenied": "As notificações estão desativadas, por isso não podemos lembrar você.",
-  "brewLaterOpenSettings": "Abrir configurações"
+  "brewLaterOpenSettings": "Abrir configurações",
+  "forYouTitle": "Para você",
+  "forYouSubtitle": "Em estoque agora, escolhido a partir do que você prepara",
+  "forYouYourRoaster": "Sua torrefação",
+  "forYouViewAtRoaster": "Ver na torrefação",
+  "forYouNotForMe": "Não é para mim",
+  "forYouSettingTitle": "Sugestões de grãos",
+  "forYouSettingSubtitle": "Mostra no Hub grãos em estoque escolhidos para você"
 }

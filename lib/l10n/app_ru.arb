@@ -1569,5 +1569,12 @@
   "brewLaterConfirm": "Установить напоминание",
   "brewLaterCancel": "Отменить напоминание",
   "brewLaterDenied": "Уведомления отключены, поэтому мы не сможем вам напомнить.",
-  "brewLaterOpenSettings": "Открыть настройки"
+  "brewLaterOpenSettings": "Открыть настройки",
+  "forYouTitle": "Для вас",
+  "forYouSubtitle": "В наличии — подобрано по вашим завариваниям",
+  "forYouYourRoaster": "Ваш обжарщик",
+  "forYouViewAtRoaster": "Смотреть у обжарщика",
+  "forYouNotForMe": "Не моё",
+  "forYouSettingTitle": "Рекомендации зерна",
+  "forYouSettingSubtitle": "Показывает на Хабе зёрна в наличии, подобранные для вас"
 }

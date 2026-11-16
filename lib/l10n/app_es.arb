@@ -1569,5 +1569,12 @@
   "brewLaterConfirm": "Crear recordatorio",
   "brewLaterCancel": "Cancelar recordatorio",
   "brewLaterDenied": "Las notificaciones están desactivadas, así que no podemos recordártelo.",
-  "brewLaterOpenSettings": "Abrir configuración"
+  "brewLaterOpenSettings": "Abrir configuración",
+  "forYouTitle": "Para ti",
+  "forYouSubtitle": "Disponible ahora, elegido a partir de lo que preparas",
+  "forYouYourRoaster": "Tu tostaduría",
+  "forYouViewAtRoaster": "Ver en la tostaduría",
+  "forYouNotForMe": "No es para mí",
+  "forYouSettingTitle": "Sugerencias de granos",
+  "forYouSettingSubtitle": "Muestra en el Hub granos disponibles elegidos para ti"
 }

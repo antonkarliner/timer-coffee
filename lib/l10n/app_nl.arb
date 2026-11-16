@@ -1569,5 +1569,12 @@
   "brewLaterConfirm": "Herinnering instellen",
   "brewLaterCancel": "Herinnering annuleren",
   "brewLaterDenied": "Meldingen staan uit, dus we kunnen je niet herinneren.",
-  "brewLaterOpenSettings": "Instellingen openen"
+  "brewLaterOpenSettings": "Instellingen openen",
+  "forYouTitle": "Voor jou",
+  "forYouSubtitle": "Nu op voorraad, gekozen op basis van wat je brouwt",
+  "forYouYourRoaster": "Jouw branderij",
+  "forYouViewAtRoaster": "Bekijk bij de branderij",
+  "forYouNotForMe": "Niet voor mij",
+  "forYouSettingTitle": "Bonensuggesties",
+  "forYouSettingSubtitle": "Toont op de Hub bonen op voorraad die voor jou zijn gekozen"
 }

@@ -1569,5 +1569,12 @@
   "brewLaterConfirm": "Erinnerung setzen",
   "brewLaterCancel": "Erinnerung löschen",
   "brewLaterDenied": "Benachrichtigungen sind aus – wir können dich nicht erinnern.",
-  "brewLaterOpenSettings": "Einstellungen öffnen"
+  "brewLaterOpenSettings": "Einstellungen öffnen",
+  "forYouTitle": "Für dich",
+  "forYouSubtitle": "Auf Lager, ausgewählt anhand deiner Brühungen",
+  "forYouYourRoaster": "Deine Rösterei",
+  "forYouViewAtRoaster": "Bei der Rösterei ansehen",
+  "forYouNotForMe": "Nicht für mich",
+  "forYouSettingTitle": "Bohnen-Vorschläge",
+  "forYouSettingSubtitle": "Zeigt auf dem Hub Bohnen auf Lager, die für dich ausgewählt wurden"
 }

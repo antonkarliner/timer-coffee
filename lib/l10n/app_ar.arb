@@ -1569,5 +1569,12 @@
   "brewLaterConfirm": "تعيين التذكير",
   "brewLaterCancel": "إلغاء التذكير",
   "brewLaterDenied": "الإشعارات مغلقة، لذا لا يمكننا تذكيرك.",
-  "brewLaterOpenSettings": "فتح الإعدادات"
+  "brewLaterOpenSettings": "فتح الإعدادات",
+  "forYouTitle": "لك",
+  "forYouSubtitle": "متوفر الآن، منتقى من تحضيراتك",
+  "forYouYourRoaster": "محمصتك",
+  "forYouViewAtRoaster": "عرض لدى المحمصة",
+  "forYouNotForMe": "ليس لي",
+  "forYouSettingTitle": "اقتراحات الحبوب",
+  "forYouSettingSubtitle": "عرض الحبوب المتوفرة المختارة لك في المركز"
 }

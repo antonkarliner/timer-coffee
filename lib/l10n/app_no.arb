@@ -1799,5 +1799,12 @@
   "brewLaterConfirm": "Sett påminnelse",
   "brewLaterCancel": "Avbryt påminnelse",
   "brewLaterDenied": "Varsler er av, så vi kan ikke minne deg på det.",
-  "brewLaterOpenSettings": "Åpne innstillinger"
+  "brewLaterOpenSettings": "Åpne innstillinger",
+  "forYouTitle": "For deg",
+  "forYouSubtitle": "På lager nå, valgt ut fra det du brygger",
+  "forYouYourRoaster": "Ditt brenneri",
+  "forYouViewAtRoaster": "Se hos brenneriet",
+  "forYouNotForMe": "Ikke for meg",
+  "forYouSettingTitle": "Bønneforslag",
+  "forYouSettingSubtitle": "Viser bønner på lager valgt for deg på Hub"
 }

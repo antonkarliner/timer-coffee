@@ -9,6 +9,7 @@ import '../utils/app_material_symbols.dart';
 import '../services/settings_analytics.dart';
 import '../widgets/account/account_entry_tile.dart';
 import '../widgets/coffee_journey_card.dart';
+import '../widgets/for_you_card.dart';
 import '../widgets/settings/settings_list.dart';
 import '../services/authentication_service.dart';
 import 'pulse_screen.dart';
@@ -53,6 +54,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
         ),
         children: [
           const CoffeeJourneyCard(location: JourneyCardLocation.hub),
+          const ForYouCard(),
           SettingsSection(
             header: l10n.hubSectionYourCoffee,
             children: [

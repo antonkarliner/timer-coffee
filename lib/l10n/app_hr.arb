@@ -1689,5 +1689,12 @@
   "brewLaterConfirm": "Postavi podsjetnik",
   "brewLaterCancel": "Otkaži podsjetnik",
   "brewLaterDenied": "Obavijesti su isključene, pa te ne možemo podsjetiti.",
-  "brewLaterOpenSettings": "Otvori postavke"
+  "brewLaterOpenSettings": "Otvori postavke",
+  "forYouTitle": "Za tebe",
+  "forYouSubtitle": "Dostupno sada, odabrano prema onome što pripremaš",
+  "forYouYourRoaster": "Tvoja pržionica",
+  "forYouViewAtRoaster": "Pogledaj kod pržionice",
+  "forYouNotForMe": "Nije za mene",
+  "forYouSettingTitle": "Prijedlozi zrna",
+  "forYouSettingSubtitle": "Na Središtu prikazuje dostupna zrna odabrana za tebe"
 }
