@@ -235,30 +235,41 @@ void main() {
     expect(row.value, isTrue);
     expect(provider.optOutCalls, isEmpty);
     expect(eventsNamed('for_you_setting_toggled'), isEmpty);
-    // Plan 017 phase 5d: the row moved into the usage-analytics section,
-    // directly after the general-analytics row and before the footer note.
+    // Account-linked suggestions follow the analytics-only footer in their
+    // own unheaded section, before Your data.
     final section = tester.widget<SettingsSection>(
       find.ancestor(
         of: suggestionsRow(),
         matching: find.byType(SettingsSection),
       ),
     );
-    expect(section.header, l10n.settingsUsageAnalyticsHeader);
-    expect(section.footer, l10n.settingsUsageAnalyticsFooter);
-    final children = section.children
-        .whereType<SettingsSwitchRow>()
+    expect(section.header, isNull);
+    expect(section.footer, isNull);
+    final children = section.children.whereType<SettingsSwitchRow>().toList(
+      growable: false,
+    );
+    expect(children, hasLength(1));
+    expect(children.single.identifier, 'settingsBeanSuggestionsSwitch');
+    final sections = tester
+        .widgetList<SettingsSection>(find.byType(SettingsSection))
         .toList(growable: false);
-    expect(children, hasLength(4));
+    expect(sections, hasLength(3));
+    expect(sections[0].header, l10n.settingsUsageAnalyticsHeader);
+    expect(sections[0].footer, l10n.settingsUsageAnalyticsFooter);
+    expect(sections[0].children, hasLength(3));
     expect(
-      children.last.identifier,
-      'settingsBeanSuggestionsSwitch',
-      reason: 'the suggestions row is the section’s last row, i.e. '
-          'rendered above the footer',
+      (sections[0].children.last as SettingsSwitchRow).identifier,
+      'settingsAnalyticsGeneralSwitch',
+    );
+    expect(sections[1], same(section));
+    expect(sections[2].header, l10n.settingsYourDataHeader);
+    expect(
+      tester.getBottomLeft(find.text(l10n.settingsUsageAnalyticsFooter)).dy,
+      lessThan(tester.getTopLeft(suggestionsRow()).dy),
     );
     expect(
-      children[children.length - 2].identifier,
-      'settingsAnalyticsGeneralSwitch',
-      reason: 'directly after "Share general usage analytics"',
+      tester.getBottomLeft(suggestionsRow()).dy,
+      lessThan(tester.getTopLeft(find.text(l10n.settingsYourDataHeader)).dy),
     );
 
     await tester.ensureVisible(suggestionsRow());
@@ -343,6 +354,8 @@ void main() {
     );
     await tester.pumpAndSettle();
     expect(suggestionsRow(), findsNothing);
+    expect(debugRow(), findsNothing);
+    expect(find.byType(SettingsSection), findsNWidgets(2));
     expect(find.byType(SettingsSwitchRow), findsNWidgets(3));
     expect(tester.element(find.byType(DataExportSection)), same(exportElement));
     expect(provider.optOutCalls, isEmpty);

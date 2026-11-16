@@ -123,12 +123,16 @@ class SettingsPrivacyDataScreen extends StatelessWidget {
               value: analytics.generalEnabled,
               onChanged: (value) => _setGeneral(analytics, value),
             ),
-            // Plan 017 phase 5d: the bean-suggestions switch moved up here,
-            // directly after the general-analytics row and before the
-            // section footer — the suggestions belong with what they share
-            // analytics plumbing with. Same gating (feature flag or
-            // FOR_YOU_DEBUG), same behaviour and analytics as before.
-            if (recommendations != null)
+          ],
+        ),
+        // Always occupy this slot. Dropping the entry would shift "Your
+        // data" to another index and remount it, losing the export section's
+        // state (the remount trap in CLAUDE.md).
+        if (recommendations == null)
+          const SizedBox.shrink()
+        else
+          SettingsSection(
+            children: [
               SettingsSwitchRow(
                 identifier: 'settingsBeanSuggestionsSwitch',
                 title: l10n.forYouSettingTitle,
@@ -142,18 +146,18 @@ class SettingsPrivacyDataScreen extends StatelessWidget {
                   );
                 },
               ),
-            // Debug tools use hard-coded English, like DebugNotificationPanel.
-            if (_forYouDebug && recommendations != null)
-              SettingsActionRow(
-                identifier: 'settingsDebugRefreshSuggestions',
-                title: 'Debug: refresh suggestions',
-                subtitle: _debugSubtitle(recommendations),
-                onTap: () => recommendations.refresh(
-                  Localizations.localeOf(context).toLanguageTag(),
+              // Debug tools use hard-coded English, like DebugNotificationPanel.
+              if (_forYouDebug)
+                SettingsActionRow(
+                  identifier: 'settingsDebugRefreshSuggestions',
+                  title: 'Debug: refresh suggestions',
+                  subtitle: _debugSubtitle(recommendations),
+                  onTap: () => recommendations.refresh(
+                    Localizations.localeOf(context).toLanguageTag(),
+                  ),
                 ),
-              ),
-          ],
-        ),
+            ],
+          ),
         SettingsSection(
           header: l10n.settingsYourDataHeader,
           children: [
