@@ -15,6 +15,22 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// ever sees [hidden].
 enum RecommendationState { idle, loading, ready, hidden }
 
+/// Plan 086: lifecycle of the taste profile on its own screen. Unlike the
+/// card, the screen does show an error state (with retry).
+enum TasteProfileLoadState { idle, loading, ready, error }
+
+/// Outcome of [RecommendationProvider.setTastePreference].
+enum TastePreferenceWriteResult {
+  ok,
+
+  /// The server refused: the user already has the maximum number of
+  /// adjustments. The change was rolled back.
+  limitReached,
+
+  /// Network or server error. The change was rolled back.
+  failed,
+}
+
 /// Provides the "For You" bean recommendations. Phase 4 is data-layer only:
 /// nothing reads this provider yet, and it loads nothing on its own — the
 /// card (a later phase) calls [ensureLoaded] on first build.
@@ -28,9 +44,13 @@ class RecommendationProvider extends ChangeNotifier {
     required bool Function() featureFlagEnabled,
     required Future<String?> Function(String localeCode) countryCodeLookup,
     required SharedPreferences prefs,
+    TasteProfileClient? tasteClient,
     DateTime Function()? clock,
     bool debugMode = false,
   }) : _client = client,
+       _tasteClient =
+           tasteClient ??
+           (client is TasteProfileClient ? client as TasteProfileClient : null),
        _currentUserId = currentUserId,
        _featureFlagEnabled = featureFlagEnabled,
        _countryCodeLookup = countryCodeLookup,
@@ -52,6 +72,7 @@ class RecommendationProvider extends ChangeNotifier {
   static const generateThrottle = Duration(hours: 6);
 
   final BeanRecommendationClient _client;
+  final TasteProfileClient? _tasteClient;
   final String? Function() _currentUserId;
   final bool Function() _featureFlagEnabled;
   final Future<String?> Function(String localeCode) _countryCodeLookup;
@@ -84,6 +105,21 @@ class RecommendationProvider extends ChangeNotifier {
   /// cannot resurrect them.
   final Set<String> _sessionDismissals = {};
 
+  // Plan 086: the visible, editable taste profile.
+  TasteProfile? _tasteProfile;
+
+  /// What the server last confirmed; [_tasteProfile] is this plus any
+  /// optimistic writes still in flight.
+  TasteProfile? _tasteConfirmed;
+  String? _tasteProfileUserId;
+  TasteProfileLoadState _tasteProfileState = TasteProfileLoadState.idle;
+  Future<void>? _tasteProfileInFlight;
+
+  /// Latest write token per `dimension:value`; a value with a token still has
+  /// a write in flight, so its display is not settled yet.
+  final Map<String, int> _tasteWriteTokens = {};
+  int _nextTasteWriteToken = 0;
+
   RecommendationState get state => _state;
 
   /// Unmodifiable view of the current picks.
@@ -111,6 +147,173 @@ class RecommendationProvider extends ChangeNotifier {
 
   /// Whether the last generate call threw (as opposed to a non-ok answer).
   bool get lastGenerateFailed => _lastGenerateFailed;
+
+  /// The signed-in user's taste profile, or null before it loaded (or after
+  /// the user changed).
+  TasteProfile? get tasteProfile =>
+      _tasteProfileUserId != null && _tasteProfileUserId == _currentUserId()
+      ? _tasteProfile
+      : null;
+
+  TasteProfileLoadState get tasteProfileState =>
+      _tasteProfileUserId == null || _tasteProfileUserId == _currentUserId()
+      ? _tasteProfileState
+      : TasteProfileLoadState.idle;
+
+  /// Loads the taste profile (plan 086). Concurrent calls share one request.
+  /// Keeps a previously loaded profile visible while reloading; on failure
+  /// the state becomes [TasteProfileLoadState.error]. Never throws.
+  Future<void> loadTasteProfile() {
+    return _tasteProfileInFlight ??= _loadTasteProfile().whenComplete(
+      () => _tasteProfileInFlight = null,
+    );
+  }
+
+  Future<void> _loadTasteProfile() async {
+    final tasteClient = _tasteClient;
+    final userId = _currentUserId();
+    if (tasteClient == null || userId == null) {
+      _tasteProfile = null;
+      _tasteProfileUserId = null;
+      _tasteProfileState = TasteProfileLoadState.error;
+      _notify();
+      return;
+    }
+    if (_tasteProfileUserId != userId) {
+      _tasteProfile = null;
+      _tasteConfirmed = null;
+      _tasteWriteTokens.clear();
+    }
+    _tasteProfileUserId = userId;
+    _tasteProfileState = TasteProfileLoadState.loading;
+    _notify();
+    try {
+      final profile = await tasteClient.fetchTasteProfile();
+      if (_disposed || _currentUserId() != userId) return;
+      if (profile == null) {
+        _tasteProfileState = TasteProfileLoadState.error;
+      } else {
+        _tasteProfile = profile;
+        _tasteConfirmed = profile;
+        _tasteProfileState = TasteProfileLoadState.ready;
+      }
+    } catch (e, st) {
+      AppLogger.error(
+        'Failed to load taste profile',
+        errorObject: e,
+        stackTrace: st,
+      );
+      if (_disposed || _currentUserId() != userId) return;
+      _tasteProfileState = TasteProfileLoadState.error;
+    }
+    _notify();
+  }
+
+  /// Sets (or clears, with null) one taste adjustment. The change shows at
+  /// once; once no newer write to the same value is pending, the display
+  /// settles on what the server confirmed (so a refusal rolls back to the
+  /// last confirmed value). After a successful Never, picks
+  /// that match it leave the in-memory suggestions, using the same rules as
+  /// the server. Never throws.
+  Future<TastePreferenceWriteResult> setTastePreference(
+    TasteDimension dimension,
+    String value,
+    TastePreference? preference,
+  ) async {
+    final tasteClient = _tasteClient;
+    final userId = _currentUserId();
+    final profile = tasteProfile;
+    final key = dimension.normalize(value);
+    if (tasteClient == null ||
+        userId == null ||
+        profile == null ||
+        key.isEmpty) {
+      return TastePreferenceWriteResult.failed;
+    }
+    final previous = profile.preferenceFor(dimension, key);
+    if (previous == preference) return TastePreferenceWriteResult.ok;
+
+    final tokenKey = '${dimension.wire}:$key';
+    final token = ++_nextTasteWriteToken;
+    _tasteWriteTokens[tokenKey] = token;
+    _tasteProfile = profile.withPreference(dimension, key, preference);
+    _notify();
+
+    TastePreferenceWriteResult result;
+    try {
+      await tasteClient.setTastePreference(dimension, key, preference);
+      result = TastePreferenceWriteResult.ok;
+    } on TastePreferenceLimitException {
+      result = TastePreferenceWriteResult.limitReached;
+    } catch (e, st) {
+      AppLogger.warning(
+        'Failed to save taste preference',
+        errorObject: e,
+        stackTrace: st,
+      );
+      result = TastePreferenceWriteResult.failed;
+    }
+    if (_disposed || _currentUserId() != userId) return result;
+
+    if (_tasteWriteTokens[tokenKey] == token) {
+      _tasteWriteTokens.remove(tokenKey);
+    }
+    final confirmed = _tasteConfirmed;
+    if (result == TastePreferenceWriteResult.ok && confirmed != null) {
+      _tasteConfirmed = confirmed.withPreference(dimension, key, preference);
+    }
+    // Once no newer write to this value is pending, show what the server
+    // holds: a failure rolls back to the last confirmed value, never to an
+    // earlier optimistic one.
+    if (!_tasteWriteTokens.containsKey(tokenKey)) {
+      final current = _tasteProfile;
+      final settled = _tasteConfirmed?.preferenceFor(dimension, key);
+      if (current != null && current.preferenceFor(dimension, key) != settled) {
+        _tasteProfile = current.withPreference(dimension, key, settled);
+        _notify();
+      }
+      if (result == TastePreferenceWriteResult.ok &&
+          settled == TastePreference.never) {
+        _dropNeverMatches();
+      }
+    }
+    return result;
+  }
+
+  /// Removes picks the current Never adjustments exclude. Mirrors
+  /// `score_stock_for_user` / `get_my_recommendations`: an origin excludes a
+  /// bean only when every one of its origins is Never; process and roast by
+  /// exact match; flavour on any overlap.
+  void _dropNeverMatches() {
+    final profile = _tasteProfile;
+    if (profile == null || _items.isEmpty) return;
+    final origins = profile.neverValues(TasteDimension.origin);
+    final processes = profile.neverValues(TasteDimension.process);
+    final roasts = profile.neverValues(TasteDimension.roast);
+    final flavors = profile.neverValues(TasteDimension.flavor);
+    bool excluded(BeanRecommendation item) {
+      final itemOrigins = item.originCountryCodes
+          .map((c) => c.toUpperCase())
+          .toList();
+      if (itemOrigins.isNotEmpty && itemOrigins.every(origins.contains)) {
+        return true;
+      }
+      final process = item.processFamily?.toLowerCase();
+      if (process != null && processes.contains(process)) return true;
+      final roast = item.roastLevel?.toLowerCase();
+      if (roast != null && roasts.contains(roast)) return true;
+      return item.flavorFamilies.any((f) => flavors.contains(f.toLowerCase()));
+    }
+
+    final remaining = _items.where((i) => !excluded(i)).toList(growable: false);
+    if (remaining.length == _items.length) return;
+    _items = remaining;
+    if (_items.isEmpty) {
+      _state = RecommendationState.hidden;
+      _unavailableStatus = null;
+    }
+    _notify();
+  }
 
   /// Called by the card on first build. Safe to call repeatedly; concurrent
   /// calls share one in-flight load. Never throws.

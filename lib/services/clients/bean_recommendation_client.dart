@@ -31,8 +31,36 @@ abstract class BeanRecommendationClient {
   Future<void> deleteMine();
 }
 
+/// Thrown by [TasteProfileClient.setTastePreference] when the server refuses
+/// a new adjustment because the user already has the maximum (60).
+class TastePreferenceLimitException implements Exception {
+  const TastePreferenceLimitException();
+
+  @override
+  String toString() => 'TastePreferenceLimitException';
+}
+
+/// Plan 086: transport for the visible, editable taste profile. Kept apart
+/// from [BeanRecommendationClient] so existing fakes of that interface stay
+/// valid; [SupabaseBeanRecommendationClient] implements both.
+abstract class TasteProfileClient {
+  /// Reads RPC `get_my_taste_profile`. Returns null without a session.
+  Future<TasteProfile?> fetchTasteProfile();
+
+  /// RPC `set_my_taste_preference`: sets [preference] for [value] in
+  /// [dimension], or clears it when [preference] is null. Throws
+  /// [TastePreferenceLimitException] at the 60-row cap; any other failure
+  /// is rethrown as-is.
+  Future<void> setTastePreference(
+    TasteDimension dimension,
+    String value,
+    TastePreference? preference,
+  );
+}
+
 /// Thin wrapper around Supabase, mirroring `BeansLabelParserClient`.
-class SupabaseBeanRecommendationClient implements BeanRecommendationClient {
+class SupabaseBeanRecommendationClient
+    implements BeanRecommendationClient, TasteProfileClient {
   SupabaseBeanRecommendationClient(this.supabase);
 
   final SupabaseClient supabase;
@@ -72,10 +100,10 @@ class SupabaseBeanRecommendationClient implements BeanRecommendationClient {
     // `ignoreDuplicates` (without an explicit conflict target) turns this
     // into `ON CONFLICT DO NOTHING`, so a repeated dismissal is a harmless
     // no-op regardless of which unique constraint catches it.
-    await supabase
-        .from('bean_recommendation_feedback')
-        .upsert({'stock_id': stockId, 'action': 'dismissed'},
-            ignoreDuplicates: true);
+    await supabase.from('bean_recommendation_feedback').upsert({
+      'stock_id': stockId,
+      'action': 'dismissed',
+    }, ignoreDuplicates: true);
   }
 
   @override
@@ -89,5 +117,33 @@ class SupabaseBeanRecommendationClient implements BeanRecommendationClient {
   @override
   Future<void> deleteMine() async {
     await supabase.rpc('delete_my_recommendations');
+  }
+
+  @override
+  Future<TasteProfile?> fetchTasteProfile() async {
+    final data = await supabase.rpc('get_my_taste_profile');
+    return TasteProfile.fromJson(data);
+  }
+
+  @override
+  Future<void> setTastePreference(
+    TasteDimension dimension,
+    String value,
+    TastePreference? preference,
+  ) async {
+    try {
+      await supabase.rpc(
+        'set_my_taste_preference',
+        params: {
+          'p_dimension': dimension.wire,
+          'p_value': dimension.normalize(value),
+          'p_preference': preference?.wire,
+        },
+      );
+    } on PostgrestException catch (e) {
+      // 54000 = program_limit_exceeded, raised at the 60-row cap.
+      if (e.code == '54000') throw const TastePreferenceLimitException();
+      rethrow;
+    }
   }
 }

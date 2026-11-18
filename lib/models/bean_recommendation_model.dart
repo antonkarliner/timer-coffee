@@ -157,10 +157,9 @@ class RecommendationResult {
         : const <BeanRecommendation>[];
     final dynamic generatedAt = json['generated_at'];
     return RecommendationResult(
-      hasRecommendations:
-          json['has_recommendations'] is bool
-              ? json['has_recommendations'] as bool
-              : false,
+      hasRecommendations: json['has_recommendations'] is bool
+          ? json['has_recommendations'] as bool
+          : false,
       generatedAt: generatedAt is String
           ? DateTime.tryParse(generatedAt)
           : null,
@@ -269,6 +268,204 @@ class RoasterStockResult {
     return RoasterStockResult(
       total: total is num ? total.toInt() : 0,
       items: items,
+    );
+  }
+}
+
+/// Plan 086: one of the four taste dimensions the user can adjust.
+enum TasteDimension {
+  origin('origin'),
+  process('process'),
+  roast('roast'),
+  flavor('flavor');
+
+  const TasteDimension(this.wire);
+
+  /// Value used by RPCs `get_my_taste_profile` / `set_my_taste_preference`.
+  final String wire;
+
+  static TasteDimension? fromWire(Object? raw) {
+    for (final d in values) {
+      if (d.wire == raw) return d;
+    }
+    return null;
+  }
+
+  /// Normalises a value the way `set_my_taste_preference` does: origins are
+  /// upper-case ISO alpha-2 codes, everything else lower-case.
+  String normalize(String value) {
+    final trimmed = value.trim();
+    return this == TasteDimension.origin
+        ? trimmed.toUpperCase()
+        : trimmed.toLowerCase();
+  }
+}
+
+/// Plan 086: a stored More / Less / Never adjustment.
+enum TastePreference {
+  more('more'),
+  less('less'),
+  never('never');
+
+  const TastePreference(this.wire);
+
+  final String wire;
+
+  static TastePreference? fromWire(Object? raw) {
+    for (final p in values) {
+      if (p.wire == raw) return p;
+    }
+    return null;
+  }
+}
+
+/// One entry of a computed taste distribution, e.g. `ET` at 0.43.
+class TasteShare {
+  final String value;
+
+  /// Share of this value in the user's history, 0..1.
+  final double share;
+
+  const TasteShare({required this.value, required this.share});
+}
+
+/// One stored adjustment.
+class TasteAdjustment {
+  final TasteDimension dimension;
+  final String value;
+  final TastePreference preference;
+
+  const TasteAdjustment({
+    required this.dimension,
+    required this.value,
+    required this.preference,
+  });
+}
+
+/// Plan 086: the answer of RPC `get_my_taste_profile` — the computed history
+/// (before adjustments), counts, and the user's stored adjustments.
+class TasteProfile {
+  /// Top values per dimension, sorted by share descending. Every dimension
+  /// is present (possibly empty).
+  final Map<TasteDimension, List<TasteShare>> distributions;
+  final int beanCount;
+  final int brewCount;
+
+  /// Same threshold as `recommend-beans`: enough history to suggest beans.
+  final bool enoughHistory;
+  final List<TasteAdjustment> preferences;
+
+  const TasteProfile({
+    this.distributions = const {},
+    this.beanCount = 0,
+    this.brewCount = 0,
+    this.enoughHistory = false,
+    this.preferences = const [],
+  });
+
+  List<TasteShare> sharesFor(TasteDimension dimension) =>
+      distributions[dimension] ?? const [];
+
+  /// The stored adjustment for [value] in [dimension], or null.
+  TastePreference? preferenceFor(TasteDimension dimension, String value) {
+    final key = dimension.normalize(value);
+    for (final p in preferences) {
+      if (p.dimension == dimension && p.value == key) return p.preference;
+    }
+    return null;
+  }
+
+  /// Values the user marked Never in [dimension].
+  Set<String> neverValues(TasteDimension dimension) => {
+    for (final p in preferences)
+      if (p.dimension == dimension && p.preference == TastePreference.never)
+        p.value,
+  };
+
+  /// Copy with one adjustment set ([preference] non-null) or cleared (null).
+  TasteProfile withPreference(
+    TasteDimension dimension,
+    String value,
+    TastePreference? preference,
+  ) {
+    final key = dimension.normalize(value);
+    final next = [
+      for (final p in preferences)
+        if (!(p.dimension == dimension && p.value == key)) p,
+      if (preference != null)
+        TasteAdjustment(
+          dimension: dimension,
+          value: key,
+          preference: preference,
+        ),
+    ];
+    return TasteProfile(
+      distributions: distributions,
+      beanCount: beanCount,
+      brewCount: brewCount,
+      enoughHistory: enoughHistory,
+      preferences: List.unmodifiable(next),
+    );
+  }
+
+  /// Parses the RPC payload. Returns null when [json] is not a JSON object
+  /// (the RPC returns null without a session). Unusable entries are skipped.
+  /// Never throws.
+  static TasteProfile? fromJson(Object? json) {
+    if (json is! Map) return null;
+    final distributions = <TasteDimension, List<TasteShare>>{};
+    for (final dimension in TasteDimension.values) {
+      final raw = json[dimension.wire];
+      final shares = <TasteShare>[];
+      if (raw is List) {
+        for (final entry in raw) {
+          if (entry is! Map) continue;
+          final value = entry['value'];
+          final share = entry['share'];
+          final parsedShare = share is num
+              ? share.toDouble()
+              : (share is String ? double.tryParse(share) : null);
+          if (value is! String || value.trim().isEmpty || parsedShare == null) {
+            continue;
+          }
+          shares.add(
+            TasteShare(value: dimension.normalize(value), share: parsedShare),
+          );
+        }
+      }
+      shares.sort((a, b) => b.share.compareTo(a.share));
+      distributions[dimension] = List.unmodifiable(shares);
+    }
+    final preferences = <TasteAdjustment>[];
+    final rawPrefs = json['preferences'];
+    if (rawPrefs is List) {
+      for (final entry in rawPrefs) {
+        if (entry is! Map) continue;
+        final dimension = TasteDimension.fromWire(entry['dimension']);
+        final preference = TastePreference.fromWire(entry['preference']);
+        final value = entry['value'];
+        if (dimension == null ||
+            preference == null ||
+            value is! String ||
+            value.trim().isEmpty) {
+          continue;
+        }
+        preferences.add(
+          TasteAdjustment(
+            dimension: dimension,
+            value: dimension.normalize(value),
+            preference: preference,
+          ),
+        );
+      }
+    }
+    int count(Object? raw) => raw is num ? raw.toInt() : 0;
+    return TasteProfile(
+      distributions: Map.unmodifiable(distributions),
+      beanCount: count(json['bean_count']),
+      brewCount: count(json['brew_count']),
+      enoughHistory: json['enough_history'] == true,
+      preferences: List.unmodifiable(preferences),
     );
   }
 }
