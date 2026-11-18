@@ -33,6 +33,7 @@ const _retry = 'Retry';
 const _more = 'More';
 const _never = 'Never';
 const _noChange = 'No change';
+const _adjust = 'Adjust';
 
 /// Hand-written fake — no Supabase anywhere in these tests (same shape as
 /// the one in test/unit/providers/recommendation_taste_profile_test.dart).
@@ -234,6 +235,8 @@ void main() {
     expect(etRow.title, 'Ethiopia');
     expect(etRow.subtitle, '43%$_ofYourCoffees');
     expect(_choice(tester, 'tasteItem_origin_ET'), 'none');
+    expect(etRow.valueLabel, _adjust,
+        reason: 'an unset row reads as a call to action, not "No change"');
     expect(etRow.options.map((o) => o.label), [
       _noChange,
       _more,
@@ -370,12 +373,14 @@ void main() {
       );
     await pumpWith(tester, client);
     expect(_choice(tester, 'tasteItem_origin_KE'), 'more');
+    expect(_row(tester, 'tasteItem_origin_KE').valueLabel, isNull,
+        reason: 'a set row shows its option label');
+    expect(find.text(_more), findsOneWidget);
 
     await tester.ensureVisible(find.text('Kenya'));
     await tester.tap(find.text('Kenya'));
     await tester.pumpAndSettle();
-    // "No change" is both the sheet option and other rows' value; tap the
-    // sheet option by its identifier.
+    // Tap the sheet option by its identifier.
     await tester.tap(
       find.byWidgetPredicate(
         (w) =>
@@ -386,6 +391,7 @@ void main() {
 
     expect(client.setCalls.single, (TasteDimension.origin, 'KE', null));
     expect(_choice(tester, 'tasteItem_origin_KE'), 'none');
+    expect(_row(tester, 'tasteItem_origin_KE').valueLabel, _adjust);
     expect(tester.takeException(), isNull);
   });
 

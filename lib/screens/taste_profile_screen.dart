@@ -326,6 +326,9 @@ class _TasteProfileScreenState extends State<TasteProfileScreen> {
                 ).format(share.share),
               ),
               current: _Choice.of(profile.preferenceFor(dim, share.value)),
+              valueLabel: profile.preferenceFor(dim, share.value) == null
+                  ? l10n.tasteChoiceAdjust
+                  : null,
               sheetTitle: label,
               options: _preferenceOptions(l10n),
               onChanged: (choice) => unawaited(

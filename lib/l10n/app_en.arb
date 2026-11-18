@@ -3395,6 +3395,10 @@
   "@tasteNotInHistory": {
     "description": "Row subtitle for an adjustment the user added for a value not (yet) in their brewing history."
   },
+  "tasteChoiceAdjust": "Adjust",
+  "@tasteChoiceAdjust": {
+    "description": "Value shown on a taste-profile row with no preference set; tapping it opens More / Less / Never. A short imperative verb."
+  },
   "tasteChoiceNoChange": "No change",
   "@tasteChoiceNoChange": {
     "description": "Choice label: leave this value as it is (clears any existing adjustment)."

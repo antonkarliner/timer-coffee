@@ -19,7 +19,9 @@
 ///    `ListTile.trailing`, whose intrinsic width once broke German titles
 ///    mid-word. The sign-in method rows on the Account page are the one
 ///    exception: a text action (Change, Link, Unlink) or its progress
-///    indicator.
+///    indicator. A choice with nothing set may show a short call to action
+///    in the value slot instead (`SettingsChoiceRow.valueLabel`, e.g. the
+///    taste profile’s “Adjust”); the sheet still names every option.
 /// 5. The only non-row blocks are visual options, choices whose options are
 ///    pictures (brewing-screen layout cards, the app-icon grid): equal-width
 ///    options, label under the picture, a tap selects at once, and the
@@ -520,6 +522,7 @@ class SettingsChoiceRow<T> extends StatelessWidget {
     required this.onChanged,
     this.sheetTitle,
     this.subtitle,
+    this.valueLabel,
   });
 
   final String identifier;
@@ -529,6 +532,11 @@ class SettingsChoiceRow<T> extends StatelessWidget {
   final ValueChanged<T> onChanged;
   final String? sheetTitle;
   final String? subtitle;
+
+  /// Shown in the value slot instead of the current option's label, e.g. a
+  /// short call to action while nothing is set. The sheet still lists every
+  /// option under its own label.
+  final String? valueLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -540,7 +548,7 @@ class SettingsChoiceRow<T> extends StatelessWidget {
     return SettingsValueRow(
       identifier: identifier,
       title: title,
-      value: currentLabel ?? '',
+      value: valueLabel ?? currentLabel ?? '',
       subtitle: subtitle,
       onTap: () async {
         final value = await showSettingsChoiceSheet<T>(
