@@ -101,6 +101,10 @@ class AppRouter extends RootStackRouter {
           path: '/settings/privacy',
         ),
         AutoRoute(
+          page: TasteProfileRoute.page,
+          path: '/taste-profile',
+        ),
+        AutoRoute(
           page: FavoriteRecipesRoute.page,
           path: '/favorites',
         ),

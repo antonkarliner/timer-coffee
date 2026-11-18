@@ -14,8 +14,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image/image.dart' as img; // Use prefix to avoid conflicts
 import '../app_router.gr.dart';
+import '../providers/recommendation_provider.dart';
 import '../services/account_identity_service.dart';
 import '../services/analytics_service.dart';
+import '../services/feature_flags/feature_flags_repository.dart';
 import '../services/notification_service.dart';
 import '../theme/design_tokens.dart';
 import '../widgets/confirm_delete_dialog.dart';
@@ -881,6 +883,18 @@ class _AccountScreenState extends State<AccountScreen> {
     }
 
     // Main content
+    // The taste profile row follows the same availability rule as the
+    // suggestions section on the Privacy & data page: the build-time debug
+    // switch or the feature flag, and then the provider, only when available.
+    final suggestionsAvailable =
+        const bool.fromEnvironment('FOR_YOU_DEBUG') ||
+        (context.watch<Map<String, bool>?>()?[FeatureFlagKeys
+                .beanRecommendations] ??
+            false);
+    final recommendations = suggestionsAvailable
+        ? context.watch<RecommendationProvider>()
+        : null;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.account),
@@ -907,6 +921,10 @@ class _AccountScreenState extends State<AccountScreen> {
         onDeletePicture: _confirmAndDeletePicture,
         onSignOut: _showSignOutConfirmation,
         onDeleteAccount: _showDeleteAccountConfirmation,
+        onOpenTasteProfile:
+            recommendations != null && !recommendations.optedOut
+            ? () => context.router.push(const TasteProfileRoute())
+            : null,
       ),
     );
   }
@@ -931,6 +949,7 @@ class AccountScreenBody extends StatelessWidget {
     required this.onDeletePicture,
     required this.onSignOut,
     required this.onDeleteAccount,
+    this.onOpenTasteProfile,
     this.signInMethodsService,
   });
 
@@ -943,6 +962,10 @@ class AccountScreenBody extends StatelessWidget {
   final VoidCallback onDeletePicture;
   final VoidCallback onSignOut;
   final VoidCallback onDeleteAccount;
+
+  /// Opens the taste profile screen; null when bean suggestions are
+  /// unavailable or opted out (then the row is an empty slot).
+  final VoidCallback? onOpenTasteProfile;
 
   /// Test seam: forwarded to [SignInMethodsSection], whose default constructs
   /// the real service and needs a live Supabase.
@@ -1070,6 +1093,21 @@ class AccountScreenBody extends StatelessWidget {
         SettingsSection(
           children: [SignInMethodsSection(service: signInMethodsService)],
         ),
+        // Always occupy this slot, even when bean suggestions are unavailable:
+        // dropping the section would shift the rows below it and remount them
+        // (the remount trap in CLAUDE.md).
+        onOpenTasteProfile == null
+            ? const SizedBox.shrink()
+            : SettingsSection(
+                children: [
+                  SettingsNavRow(
+                    identifier: 'accountTasteProfileRow',
+                    title: l10n.tasteProfileTitle,
+                    subtitle: l10n.tasteProfileEntrySubtitle,
+                    onTap: onOpenTasteProfile!,
+                  ),
+                ],
+              ),
         SettingsSection(
           children: [
             SettingsActionRow(

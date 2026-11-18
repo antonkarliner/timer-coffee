@@ -3293,5 +3293,199 @@
   "stockFlavorEarthy": "Earthy",
   "@stockFlavorEarthy": {
     "description": "Label for a flavour family shown on a roaster’s in-stock bean card; coffee-trade term — use the term roasters use in that language."
+  },
+  "tasteProfileTitle": "Your taste profile",
+  "@tasteProfileTitle": {
+    "description": "Title of the taste profile screen: what the app thinks the user likes (origins, processes, roasts, flavors) and how they can steer their bean suggestions. Distinct from the brew-review Taste Profile screen."
+  },
+  "tasteProfileEntrySubtitle": "What we think you like, and how to steer your bean suggestions",
+  "@tasteProfileEntrySubtitle": {
+    "description": "Subtitle of the Account-page row that opens the taste profile screen."
+  },
+  "tasteProfileIntro": "Worked out from the beans you add and brew. It shapes your bean suggestions.",
+  "@tasteProfileIntro": {
+    "description": "First line of the taste profile screen’s summary; explains where the profile comes from."
+  },
+  "tasteNotEnoughHistory": "Add at least 3 beans and log 5 brews, and we’ll work out what you like. You can already tell us below.",
+  "@tasteNotEnoughHistory": {
+    "description": "Shown instead of the summary lines when there is not enough history yet. The numbers (3 beans, 5 brews) are fixed thresholds — keep them."
+  },
+  "tasteSummaryOrigins": "{shape, select, single{Origin you drink most: {items}} other{Origins you drink most: {items}}}",
+  "@tasteSummaryOrigins": {
+    "description": "Summary line naming the coffee origins (producing countries) the user drinks most; shown only when there is enough history. {items} is one country name (shape = single) or two joined with “and” (shape = other); use the singular or plural wording accordingly.",
+    "placeholders": {
+      "shape": {
+        "type": "String",
+        "example": "single"
+      },
+      "items": {
+        "type": "String"
+      }
+    }
+  },
+  "tasteSummaryProcess": "Most common process: {process}",
+  "@tasteSummaryProcess": {
+    "description": "Summary line naming the most common processing method (a coffee-trade term: washed, natural, honey, wet-hulled, experimental).",
+    "placeholders": {
+      "process": {
+        "type": "String"
+      }
+    }
+  },
+  "tasteSummaryRoast": "Most common roast: {roast}",
+  "@tasteSummaryRoast": {
+    "description": "Summary line naming the most common roast level (a coffee-trade term: light, medium-light, medium, medium-dark, dark).",
+    "placeholders": {
+      "roast": {
+        "type": "String"
+      }
+    }
+  },
+  "tasteSummaryFlavors": "{shape, select, single{Flavor you drink most: {items}} other{Flavors you drink most: {items}}}",
+  "@tasteSummaryFlavors": {
+    "description": "Summary line naming the flavour families the user drinks most; shown only when there is enough history. {items} is one flavour name (shape = single) or two joined with “and” (shape = other); use the singular or plural wording accordingly.",
+    "placeholders": {
+      "shape": {
+        "type": "String",
+        "example": "single"
+      },
+      "items": {
+        "type": "String"
+      }
+    }
+  },
+  "tasteListPair": "{first} and {second}",
+  "@tasteListPair": {
+    "description": "Joins exactly two item names, e.g. “Ethiopia and Kenya”.",
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "second": {
+        "type": "String"
+      }
+    }
+  },
+  "tasteSectionOrigin": "Origin",
+  "@tasteSectionOrigin": {
+    "description": "Header of the origin section on the taste profile screen: the coffee-producing countries in the user’s history."
+  },
+  "tasteSectionProcess": "Process",
+  "@tasteSectionProcess": {
+    "description": "Header of the process section: how the coffee was processed (a coffee-trade term)."
+  },
+  "tasteSectionRoast": "Roast",
+  "@tasteSectionRoast": {
+    "description": "Header of the roast section: roast level (a coffee-trade term)."
+  },
+  "tasteSectionFlavor": "Flavor",
+  "@tasteSectionFlavor": {
+    "description": "Header of the flavor section: flavour families."
+  },
+  "tasteShareOfCoffees": "{share} of your coffees",
+  "@tasteShareOfCoffees": {
+    "description": "Row subtitle: how much of the user’s history this value accounts for. {share} is an already-formatted percentage, e.g. 43%.",
+    "placeholders": {
+      "share": {
+        "type": "String"
+      }
+    }
+  },
+  "tasteNotInHistory": "Not in your history yet",
+  "@tasteNotInHistory": {
+    "description": "Row subtitle for an adjustment the user added for a value not (yet) in their brewing history."
+  },
+  "tasteChoiceNoChange": "No change",
+  "@tasteChoiceNoChange": {
+    "description": "Choice label: leave this value as it is (clears any existing adjustment)."
+  },
+  "tasteChoiceMore": "More",
+  "@tasteChoiceMore": {
+    "description": "Short choice label: suggest this value more often in bean suggestions."
+  },
+  "tasteChoiceMoreSubtitle": "Suggest it more often",
+  "@tasteChoiceMoreSubtitle": {
+    "description": "Subtitle under the More choice label."
+  },
+  "tasteChoiceLess": "Less",
+  "@tasteChoiceLess": {
+    "description": "Short choice label: suggest this value less often in bean suggestions."
+  },
+  "tasteChoiceLessSubtitle": "Suggest it less often",
+  "@tasteChoiceLessSubtitle": {
+    "description": "Subtitle under the Less choice label."
+  },
+  "tasteChoiceNever": "Never",
+  "@tasteChoiceNever": {
+    "description": "Short choice label: never suggest this value at all."
+  },
+  "tasteChoiceNeverSubtitle": "Don’t suggest it at all",
+  "@tasteChoiceNeverSubtitle": {
+    "description": "Subtitle under the Never choice label."
+  },
+  "tasteAddOrigin": "Add an origin",
+  "@tasteAddOrigin": {
+    "description": "Action row: add an adjustment for a coffee-producing country not in the list yet."
+  },
+  "tasteAddProcess": "Add a process",
+  "@tasteAddProcess": {
+    "description": "Action row: add an adjustment for a processing method not in the list yet (coffee-trade term)."
+  },
+  "tasteAddRoast": "Add a roast",
+  "@tasteAddRoast": {
+    "description": "Action row: add an adjustment for a roast level not in the list yet (coffee-trade term)."
+  },
+  "tasteAddFlavor": "Add a flavor",
+  "@tasteAddFlavor": {
+    "description": "Action row: add an adjustment for a flavour family not in the list yet."
+  },
+  "tasteAddPreferenceTitle": "How should we treat {item}?",
+  "@tasteAddPreferenceTitle": {
+    "description": "Title of the second sheet in the add flow; {item} is an origin, process, roast or flavor name. More / Less / Never decide how bean suggestions treat it.",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "tasteTimingNote": "Never applies right away. More and Less apply the next time your suggestions are rebuilt, within about an hour.",
+  "@tasteTimingNote": {
+    "description": "Footer of the last section; explains when adjustments take effect. Never / More / Less are the choice labels above."
+  },
+  "tasteLoadFailed": "Couldn’t load your taste profile",
+  "@tasteLoadFailed": {
+    "description": "Shown with a Retry button when the taste profile could not be loaded."
+  },
+  "tasteSaveFailed": "Couldn’t save that change. Try again.",
+  "@tasteSaveFailed": {
+    "description": "Snack bar shown when saving an adjustment failed."
+  },
+  "tasteLimitReached": "You’ve reached the limit of 60 changes. Clear some to add more.",
+  "@tasteLimitReached": {
+    "description": "Snack bar shown when the server refuses a new adjustment because the user already has the maximum (60)."
+  },
+  "tasteRoastLight": "Light",
+  "@tasteRoastLight": {
+    "description": "Roast level label on the taste profile screen; coffee-trade term — the lightest of the five levels."
+  },
+  "tasteRoastMediumLight": "Medium-light",
+  "@tasteRoastMediumLight": {
+    "description": "Roast level label on the taste profile screen; coffee-trade term."
+  },
+  "tasteRoastMedium": "Medium",
+  "@tasteRoastMedium": {
+    "description": "Roast level label on the taste profile screen; coffee-trade term."
+  },
+  "tasteRoastMediumDark": "Medium-dark",
+  "@tasteRoastMediumDark": {
+    "description": "Roast level label on the taste profile screen; coffee-trade term."
+  },
+  "tasteRoastDark": "Dark",
+  "@tasteRoastDark": {
+    "description": "Roast level label on the taste profile screen; coffee-trade term — the darkest of the five levels."
+  },
+  "tasteProcessOther": "Other process",
+  "@tasteProcessOther": {
+    "description": "Label for the catch-all processing method on the taste profile screen; coffee-trade term."
   }
 }
