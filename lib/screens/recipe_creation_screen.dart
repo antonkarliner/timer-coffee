@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/app_bar_title.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:auto_route/auto_route.dart';
@@ -628,19 +629,13 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(_currentPage == 0 ? Icons.edit : Icons.format_list_numbered),
-              const SizedBox(width: 8),
-              Text(
-                _currentPage == 0
-                    ? (widget.recipe != null
-                          ? l10n.recipeCreationScreenEditRecipeTitle
-                          : l10n.recipeCreationScreenCreateRecipeTitle)
-                    : l10n.recipeCreationScreenRecipeStepsTitle,
-              ),
-            ],
+          title: AppBarTitle(
+            text: _currentPage == 0
+                ? (widget.recipe != null
+                      ? l10n.recipeCreationScreenEditRecipeTitle
+                      : l10n.recipeCreationScreenCreateRecipeTitle)
+                : l10n.recipeCreationScreenRecipeStepsTitle,
+            icon: _currentPage == 0 ? Icons.edit : Icons.format_list_numbered,
           ),
           leading: _currentPage == 1
               ? IconButton(

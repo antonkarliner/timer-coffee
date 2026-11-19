@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/app_bar_title.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/rendering.dart';
 import '../models/recipe_model.dart';
@@ -115,20 +116,17 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
           identifier: 'recipeListBackButton',
           child: const SmartBackButton(),
         ),
-        title: Row(
-          children: [
-            Semantics(
+        title: FutureBuilder<String>(
+          future: Provider.of<RecipeProvider>(context, listen: false)
+              .getBrewingMethodName(widget.brewingMethodId ?? ""),
+          builder: (context, snapshot) => AppBarTitle(
+            text: snapshot.data ??
+                AppLocalizations.of(context)!.loadingEllipsis,
+            leading: Semantics(
               identifier: 'brewingMethodIcon_${widget.brewingMethodId}',
               child: getIconByBrewingMethod(widget.brewingMethodId),
             ),
-            const SizedBox(width: 8),
-            FutureBuilder<String>(
-              future: Provider.of<RecipeProvider>(context, listen: false)
-                  .getBrewingMethodName(widget.brewingMethodId ?? ""),
-              builder: (context, snapshot) => Text(snapshot.data ??
-                  AppLocalizations.of(context)!.loadingEllipsis), // Changed
-            ),
-          ],
+          ),
         ),
         // No actions here; moved to BottomAppBar
       ),

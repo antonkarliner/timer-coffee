@@ -9,6 +9,7 @@ import 'package:coffee_timer/providers/recipe_provider.dart';
 import 'package:coffee_timer/utils/app_material_symbols.dart';
 import 'package:coffee_timer/utils/icon_utils.dart';
 import 'package:flutter/material.dart';
+import '../widgets/app_bar_title.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/onboarding_service.dart';
@@ -1359,13 +1360,9 @@ class _PulseScreenState extends State<PulseScreen>
     return Scaffold(
       appBar: AppBar(
         leading: const SmartBackButton(),
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const VitalSignsIcon(),
-            const SizedBox(width: 8),
-            Text(AppLocalizations.of(context)!.pulseTitle),
-          ],
+        title: AppBarTitle(
+          text: AppLocalizations.of(context)!.pulseTitle,
+          leading: const VitalSignsIcon(),
         ),
       ),
       body: _isLoading
