@@ -142,11 +142,11 @@ class _ContributionSheetState extends State<_ContributionSheet> {
                   alignment: Alignment.center,
                   children: [
                     Container(
-                      width: 40,
-                      height: 4,
+                      width: AppSpacing.xl,
+                      height: AppSpacing.xs,
                       decoration: BoxDecoration(
-                        color: colorScheme.onSurface.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(2),
+                        color: colorScheme.outlineVariant,
+                        borderRadius: BorderRadius.circular(AppRadius.small),
                       ),
                     ),
                     Align(

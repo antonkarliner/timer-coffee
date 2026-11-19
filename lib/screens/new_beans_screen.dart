@@ -720,6 +720,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         if (!mounted) return null;
         return await showModalBottomSheet<ImageSource>(
           context: context,
+          showDragHandle: true,
           builder: (_) =>
               ImagePickerSheet(onPick: (src) => Navigator.pop(context, src)),
         );
@@ -858,6 +859,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     final loc = AppLocalizations.of(context)!;
     final source = await showModalBottomSheet<ImageSource>(
       context: context,
+      showDragHandle: true,
       builder: (_) => SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,

@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import '../../theme/design_tokens.dart';
 
@@ -112,7 +114,7 @@ class _SectionCardState extends State<SectionCard>
       curve: Curves.easeInOut,
     );
 
-    _iconRotation = Tween<double>(begin: 0.0, end: 0.5).animate(
+    _iconRotation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
 
@@ -216,8 +218,7 @@ class _SectionCardState extends State<SectionCard>
                 animation: _iconRotation,
                 builder: (context, child) {
                   return Transform.rotate(
-                    angle:
-                        _iconRotation.value * 3.14159, // 180 degrees in radians
+                    angle: _iconRotation.value * math.pi,
                     child: Icon(
                       Icons.expand_more,
                       color: colorScheme.onSurface.withValues(alpha: 0.6),

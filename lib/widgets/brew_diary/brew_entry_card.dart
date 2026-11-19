@@ -62,175 +62,172 @@ class BrewEntryCard extends StatelessWidget {
     return Semantics(
       identifier: '${semanticsIdentifierPrefix}_${entry.statUuid}',
       button: true,
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: AppSpacing.xxl * 4),
-        child: Card(
-          margin: EdgeInsets.zero,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppRadius.card),
-          ),
-          clipBehavior: Clip.antiAlias,
-          child: InkWell(
-            onTap: onTap,
-            child: Padding(
-              padding: const EdgeInsets.all(AppSpacing.cardPadding),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        getIconByBrewingMethod(entry.brewingMethodId).icon,
-                        size: AppIconSize.medium,
-                        color: colors.primary,
-                      ),
-                      const SizedBox(width: AppSpacing.sm),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              entry.recipeName,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: AppTextStyles.sectionHeader,
-                            ),
-                            Text(
-                              entry.methodName,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: AppTextStyles.caption,
-                            ),
-                            if (formattedDate != null)
-                              DirectionalValueText(
-                                formattedDate!,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: AppTextStyles.caption,
-                              ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: AppSpacing.xs),
-                      Semantics(
-                        identifier:
-                            '${bookmarkSemanticsIdentifierPrefix}_${entry.statUuid}',
-                        container: true,
-                        label: bookmarkLabel,
-                        button: true,
-                        enabled: !bookmarkTogglePending,
-                        toggled: entry.isMarked,
-                        onTap: bookmarkTogglePending ? null : onBookmarkToggle,
-                        child: ExcludeSemantics(
-                          child: GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: bookmarkTogglePending ? () {} : null,
-                            child: IconButton(
-                              tooltip: bookmarkLabel,
-                              icon: Icon(
-                                entry.isMarked
-                                    ? Icons.bookmark
-                                    : Icons.bookmark_outline,
-                                size: AppIconSize.small,
-                              ),
-                              color: colors.primary,
-                              onPressed: bookmarkTogglePending
-                                  ? null
-                                  : onBookmarkToggle,
-                            ),
+      child: Card(
+        margin: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.card),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.all(AppSpacing.cardPadding),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      getIconByBrewingMethod(entry.brewingMethodId).icon,
+                      size: AppIconSize.medium,
+                      color: colors.primary,
+                    ),
+                    const SizedBox(width: AppSpacing.sm),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            entry.recipeName,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTextStyles.itemTitle,
                           ),
-                        ),
-                      ),
-                      const SizedBox(width: AppSpacing.sm),
-                      Text(formattedTime, style: AppTextStyles.caption),
-                    ],
-                  ),
-                  if (showBeanIdentity && entry.beanName != null) ...[
-                    const SizedBox(height: AppSpacing.sm),
-                    Row(
-                      children: [
-                        _MiniLogo(logoUrls: logoUrls),
-                        const SizedBox(width: AppSpacing.sm),
-                        Expanded(
-                          child: Text(
-                            [entry.beanName, entry.roaster]
-                                .where((value) => value?.isNotEmpty ?? false)
-                                .join(loc.summarySeparator),
+                          Text(
+                            entry.methodName,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: AppTextStyles.caption,
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
-                  const SizedBox(height: AppSpacing.base),
-                  Wrap(
-                    spacing: AppSpacing.xs,
-                    runSpacing: AppSpacing.xs,
-                    children: [
-                      _FactChip(
-                        label:
-                            '${_amount(entry.coffeeAmount)}\u00A0g → ${_amount(entry.waterAmount)}\u00A0g',
+                          if (formattedDate != null)
+                            DirectionalValueText(
+                              formattedDate!,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTextStyles.caption,
+                            ),
+                        ],
                       ),
-                      if (entry.grindSize?.isNotEmpty ?? false)
-                        _FactChip(
-                          label: entry.grindSize!,
-                          maxLabelWidth: AppSpacing.xxl * 3,
+                    ),
+                    const SizedBox(width: AppSpacing.xs),
+                    Semantics(
+                      identifier:
+                          '${bookmarkSemanticsIdentifierPrefix}_${entry.statUuid}',
+                      container: true,
+                      label: bookmarkLabel,
+                      button: true,
+                      enabled: !bookmarkTogglePending,
+                      toggled: entry.isMarked,
+                      onTap: bookmarkTogglePending ? null : onBookmarkToggle,
+                      child: ExcludeSemantics(
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: bookmarkTogglePending ? () {} : null,
+                          child: IconButton(
+                            tooltip: bookmarkLabel,
+                            icon: Icon(
+                              entry.isMarked
+                                  ? Icons.bookmark
+                                  : Icons.bookmark_outline,
+                              size: AppIconSize.small,
+                            ),
+                            color: colors.primary,
+                            onPressed: bookmarkTogglePending
+                                ? null
+                                : onBookmarkToggle,
+                          ),
                         ),
-                      if (formatTemperatureChip(entry.waterTemp)
-                          case final temperature?)
-                        _FactChip(
-                          label: entry.waterTempIsDerived
-                              ? '~$temperature'
-                              : temperature,
+                      ),
+                    ),
+                    const SizedBox(width: AppSpacing.sm),
+                    Text(formattedTime, style: AppTextStyles.caption),
+                  ],
+                ),
+                if (showBeanIdentity && entry.beanName != null) ...[
+                  const SizedBox(height: AppSpacing.sm),
+                  Row(
+                    children: [
+                      _MiniLogo(logoUrls: logoUrls),
+                      const SizedBox(width: AppSpacing.sm),
+                      Expanded(
+                        child: Text(
+                          [entry.beanName, entry.roaster]
+                              .where((value) => value?.isNotEmpty ?? false)
+                              .join(loc.summarySeparator),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTextStyles.caption,
                         ),
-                      if (extraction != null)
-                        _FactChip(
-                          label: extraction,
-                          color: extractionYieldColors?.background,
-                          foreground: extractionYieldColors?.foreground,
-                        ),
-                      if (entry.tasteBalance case final taste?)
-                        _TasteChip(taste: taste, labels: tasteLabels),
-                      if (entry.rating case final rating?)
-                        _FactChip(label: '★ ${rating.toStringAsFixed(1)}'),
-                      if (isBestCup)
-                        _FactChip(
-                          label: loc.journeyBestCup,
-                          color: colors.primaryContainer,
-                          foreground: colors.onPrimaryContainer,
-                          icon: Icons.push_pin,
-                        ),
-                      ..._tagChips(entry.tagList),
+                      ),
                     ],
                   ),
-                  if (entry.notes?.trim().isNotEmpty ?? false) ...[
-                    const SizedBox(height: AppSpacing.sm),
-                    BrewNoteText(
-                      entry.notes!.trim(),
-                      style: AppTextStyles.body,
-                      // The card is a preview, so truncation is deliberate
-                      // here — pass both together. The detail sheet takes the
-                      // unbounded default and shows the note in full.
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                  if (onBrewAgain != null)
-                    Align(
-                      alignment: AlignmentDirectional.centerEnd,
-                      child: AppTextButton(
-                        label: loc.brewAgain,
-                        icon: Icons.replay,
-                        isFullWidth: false,
-                        height: AppButton.heightSmall,
-                        padding: AppButton.paddingSmall,
-                        onPressed: onBrewAgain,
-                      ),
-                    ),
                 ],
-              ),
+                const SizedBox(height: AppSpacing.base),
+                Wrap(
+                  spacing: AppSpacing.xs,
+                  runSpacing: AppSpacing.xs,
+                  children: [
+                    _FactChip(
+                      label:
+                          '${_amount(entry.coffeeAmount)}\u00A0g → ${_amount(entry.waterAmount)}\u00A0g',
+                    ),
+                    if (entry.grindSize?.isNotEmpty ?? false)
+                      _FactChip(
+                        label: entry.grindSize!,
+                        maxLabelWidth: AppSpacing.xxl * 3,
+                      ),
+                    if (formatTemperatureChip(entry.waterTemp)
+                        case final temperature?)
+                      _FactChip(
+                        label: entry.waterTempIsDerived
+                            ? '~$temperature'
+                            : temperature,
+                      ),
+                    if (extraction != null)
+                      _FactChip(
+                        label: extraction,
+                        color: extractionYieldColors?.background,
+                        foreground: extractionYieldColors?.foreground,
+                      ),
+                    if (entry.tasteBalance case final taste?)
+                      _TasteChip(taste: taste, labels: tasteLabels),
+                    if (entry.rating case final rating?)
+                      _FactChip(label: '★ ${rating.toStringAsFixed(1)}'),
+                    if (isBestCup)
+                      _FactChip(
+                        label: loc.journeyBestCup,
+                        color: colors.primaryContainer,
+                        foreground: colors.onPrimaryContainer,
+                        icon: Icons.push_pin,
+                      ),
+                    ..._tagChips(entry.tagList),
+                  ],
+                ),
+                if (entry.notes?.trim().isNotEmpty ?? false) ...[
+                  const SizedBox(height: AppSpacing.sm),
+                  BrewNoteText(
+                    entry.notes!.trim(),
+                    style: AppTextStyles.body,
+                    // The card is a preview, so truncation is deliberate
+                    // here — pass both together. The detail sheet takes the
+                    // unbounded default and shows the note in full.
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+                if (onBrewAgain != null)
+                  Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: AppTextButton(
+                      label: loc.brewAgain,
+                      icon: Icons.replay,
+                      isFullWidth: false,
+                      height: AppButton.heightSmall,
+                      padding: AppButton.paddingSmall,
+                      onPressed: onBrewAgain,
+                    ),
+                  ),
+              ],
             ),
           ),
         ),
