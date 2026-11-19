@@ -88,7 +88,6 @@ class CoffeeBeanCard extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          elevation: 4,
           clipBehavior: Clip.antiAlias,
           margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
           child: Stack(

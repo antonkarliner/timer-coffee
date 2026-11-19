@@ -85,7 +85,6 @@ class CoffeeBeanGridCard extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          elevation: 4,
           clipBehavior: Clip.antiAlias,
           child: Stack(
             children: [
