@@ -148,8 +148,11 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
   }
 
   void _openAddBeansPopup() {
-    showDialog(
+    showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      useSafeArea: true,
       builder: (dialogContext) {
         return AddCoffeeBeansWidget(
           onSelect: (String selectedBeanUuid) async {

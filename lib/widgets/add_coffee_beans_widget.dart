@@ -187,28 +187,33 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
-    final isLight = Theme.of(context).brightness == Brightness.light;
+    final primary = Theme.of(context).colorScheme.primary;
 
-    return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      insetPadding: const EdgeInsets.all(20),
+    return SafeArea(
+      top: false,
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxHeight: 450),
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.sizeOf(context).height * 0.75,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            AppBar(
-              title: Semantics(
-                identifier: 'selectCoffeeBeansAppBar',
-                label: loc.selectCoffeeBeans,
-                child: Text(loc.selectCoffeeBeans),
-              ),
-              automaticallyImplyLeading: false,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+            Semantics(
+              identifier: 'selectCoffeeBeansAppBar',
+              label: loc.selectCoffeeBeans,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.base,
+                ),
+                child: Text(
+                  loc.selectCoffeeBeans,
+                  style: AppTextStyles.title,
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
-            Expanded(
+            const SizedBox(height: AppSpacing.sm),
+            Flexible(
               child: isLoading
                   ? Center(
                       child: Semantics(
@@ -225,83 +230,56 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
                         child: Text(loc.error(error!)),
                       ),
                     )
-                  : Container(
-                      decoration: BoxDecoration(
-                        color: isLight ? null : null,
-                        gradient: isLight
-                            ? LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                                  Colors.grey.shade400,
-                                  Colors.grey.shade300,
-                                ],
-                              )
-                            : LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                                  Colors.grey.shade800,
-                                  Colors.grey.shade700,
-                                ],
-                              ),
+                  : ListView.builder(
+                      controller: _scrollController,
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.sm,
                       ),
-                      child: ListView.builder(
-                        controller: _scrollController,
-                        padding: const EdgeInsets.all(8.0),
-                        itemCount: beansList.length + 1,
-                        itemBuilder: (context, index) {
-                          if (index == 0) {
-                            return Semantics(
-                              identifier: 'addNewBeansTile',
-                              label: loc.addNewBeans,
-                              child: ListTile(
-                                contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 8.0,
-                                ),
-                                title: Text(
-                                  loc.addNewBeans,
-                                  style: TextStyle(
-                                    color:
-                                        Theme.of(context).brightness ==
-                                            Brightness.dark
-                                        ? Theme.of(context).colorScheme.primary
-                                        : Theme.of(context).primaryColor,
-                                  ),
-                                ),
-                                leading: Icon(
-                                  Icons.add,
-                                  color:
-                                      Theme.of(context).brightness ==
-                                          Brightness.dark
-                                      ? Theme.of(context).colorScheme.primary
-                                      : Theme.of(context).primaryColor,
-                                ),
-                                onTap: isSubmitting
-                                    ? null
-                                    : () async {
-                                        final result = await context.router
-                                            .push(NewBeansRoute());
-                                        if (result != null &&
-                                            result is String &&
-                                            mounted) {
-                                          setState(() {
-                                            selectedBeanUuid = result;
-                                            submissionError = null;
-                                          });
-                                          await _fetchCoffeeBeans(); // Refresh the list
-                                        }
-                                      },
+                      itemCount: beansList.length + 1,
+                      itemBuilder: (context, index) {
+                        if (index == 0) {
+                          return Semantics(
+                            identifier: 'addNewBeansTile',
+                            label: loc.addNewBeans,
+                            child: ListTile(
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: AppSpacing.sm,
                               ),
-                            );
-                          }
-                          return _buildBeanTile(beansList[index - 1], context);
-                        },
-                      ),
+                              title: Text(
+                                loc.addNewBeans,
+                                style: TextStyle(color: primary),
+                              ),
+                              leading: Icon(
+                                Icons.add,
+                                size: AppIconSize.medium,
+                                color: primary,
+                              ),
+                              onTap: isSubmitting
+                                  ? null
+                                  : () async {
+                                      final result = await context.router.push(
+                                        NewBeansRoute(),
+                                      );
+                                      if (result != null &&
+                                          result is String &&
+                                          mounted) {
+                                        setState(() {
+                                          selectedBeanUuid = result;
+                                          submissionError = null;
+                                        });
+                                        await _fetchCoffeeBeans(); // Refresh the list
+                                      }
+                                    },
+                            ),
+                          );
+                        }
+                        return _buildBeanTile(beansList[index - 1], context);
+                      },
                     ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(AppSpacing.base),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -324,9 +302,8 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
                           ? _submitSelection
                           : null,
                       isLoading: isSubmitting,
-                      isFullWidth: false,
-                      height: AppButton.heightSmall,
-                      padding: AppButton.paddingSmall,
+                      isFullWidth: true,
+                      height: AppButton.heightMedium,
                     ),
                   ),
                 ],

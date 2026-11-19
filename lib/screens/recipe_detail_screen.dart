@@ -495,8 +495,11 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
 
   /// Opens the add beans popup
   void _openAddBeansPopup(BuildContext context) {
-    showDialog(
+    showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      useSafeArea: true,
       builder: (context) {
         return AddCoffeeBeansWidget(
           onSelect: (String selectedBeanUuid) async {
