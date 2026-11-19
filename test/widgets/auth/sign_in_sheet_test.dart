@@ -184,16 +184,23 @@ void main() {
         isDark ? Colors.black : Colors.white,
       );
 
-      // One label style for all three titles (operator decision: one font).
-      for (final label in [
-        l10n.signInWithApple,
-        l10n.signInWithGoogle,
-        l10n.signInWithEmail,
-      ]) {
-        final style = tester.widget<Text>(find.text(label)).style!;
-        expect(style.fontSize, AppButton.label.fontSize);
-        expect(style.fontWeight, AppButton.label.fontWeight);
-      }
+      // Each title in its brand's type (operator decision 2026-11-19):
+      // Apple system font regular at 43 % of 48 pt, Google Sans Medium
+      // (bundled as ProviderLabelSans), Email the app's button label.
+      final appleStyle =
+          tester.widget<Text>(find.text(l10n.signInWithApple)).style!;
+      expect(appleStyle.fontFamily, '.SF Pro Text');
+      expect(appleStyle.fontWeight, FontWeight.w400);
+      expect(appleStyle.fontSize, AppButton.heightMedium * 0.43);
+      final googleStyle =
+          tester.widget<Text>(find.text(l10n.signInWithGoogle)).style!;
+      expect(googleStyle.fontFamily, 'ProviderLabelSans');
+      expect(googleStyle.fontWeight, FontWeight.w500);
+      expect(googleStyle.fontSize, AppButton.label.fontSize);
+      final emailStyle =
+          tester.widget<Text>(find.text(l10n.signInWithEmail)).style!;
+      expect(emailStyle.fontSize, AppButton.label.fontSize);
+      expect(emailStyle.fontWeight, AppButton.label.fontWeight);
 
       // Logos line up: the same left edge and the same 20 pt box, and every
       // title is centred on its button.
@@ -255,14 +262,17 @@ void main() {
             : 'assets/icons/google/google_g_light.png',
       );
 
-      // Shared geometry: 48 pt tall, 12 pt corner radius.
-      for (final button in [
-        _appleButton(),
-        _googleButton(),
-        emailFinder,
-      ]) {
+      // Shared geometry: 48 pt tall, 12 pt corner radius. Apple's 21 pt
+      // title wraps in the test font (much wider than SF), so it is only
+      // held to the 48 pt minimum here; on device it is 48 pt (checked on
+      // the simulator, evidence/090/a2d-*).
+      for (final button in [_googleButton(), emailFinder]) {
         expect(tester.getSize(button).height, AppButton.heightMedium);
       }
+      expect(
+        tester.getSize(_appleButton()).height,
+        greaterThanOrEqualTo(AppButton.heightMedium),
+      );
       expect(appleShape.borderRadius, BorderRadius.circular(AppRadius.card));
       expect(shape.borderRadius, BorderRadius.circular(AppRadius.card));
     });

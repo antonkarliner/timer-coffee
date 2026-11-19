@@ -142,6 +142,13 @@ flutter:
    - family: RobotoMono
      fonts:
      - asset: fonts/RobotoMono-Regular.ttf
+   # Google Sans Medium, trimmed (static wght 500, Latin/Greek/Cyrillic/Arabic)
+   # for the "Sign in with Google" label. OFL 1.1, see
+   # fonts/ProviderLabelSans-OFL.txt; renamed per Google's trademark notice.
+   - family: ProviderLabelSans
+     fonts:
+     - asset: fonts/ProviderLabelSans-Medium.ttf
+       weight: 500
   generate: true
 
   assets:

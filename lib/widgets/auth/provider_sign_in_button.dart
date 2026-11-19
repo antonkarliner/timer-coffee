@@ -2,21 +2,20 @@ import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:flutter/material.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-// The sign-in sheet's three buttons (Apple, Google, Email) share one frame so
-// they read as a set: the same 48 pt minimum height, 12 pt corners, the app's
-// button label style, and the logo pinned at the leading edge with the title
-// centred on the button. This is the layout most apps use for stacked
-// provider buttons. Both brand guidelines allow it:
-// - Apple's HIG lets a custom button change the title font, weight and size
-//   and inset the logo to line up with other providers' logos
+// The sign-in sheet's three buttons (Apple, Google, Email) share one frame:
+// the same 48 pt minimum height, 12 pt corners, and the logo pinned at the
+// leading edge with the title centred on the button (operator decision
+// 2026-11-19, plan 090 Track A). Each title uses its own brand's type:
+// - Apple: the system font, regular, at 43 % of the button height, as Apple's
+//   HIG asks for the title-to-height proportion; the HIG also allows insetting
+//   the logo to line up with other providers' logos
 //   (https://developer.apple.com/design/human-interface-guidelines/sign-in-with-apple,
-//   checked 2026-11-19). It also asks for a title at 43 % of the button
-//   height; we use the shared 16 pt label instead (operator decision
-//   2026-11-19, plan 090 Track A).
-// - Google asks for buttons of about the same size and visual weight as the
-//   other providers (https://developers.google.com/identity/branding-guidelines,
-//   checked 2026-11-19). Its label font is Google Sans Medium; we keep the
-//   app's own label style, a known deviation.
+//   checked 2026-11-19).
+// - Google: Google Sans Medium, as Google's branding guidelines ask
+//   (https://developers.google.com/identity/branding-guidelines, checked
+//   2026-11-19). Bundled as `ProviderLabelSans`, a trimmed copy under the
+//   OFL (see fonts/ProviderLabelSans-OFL.txt).
+// - Email: the app's own button label.
 
 /// Google's standard-colour G is drawn at its official 20 px; the Apple logo
 /// and the email icon use the same box so the three line up.
@@ -39,6 +38,7 @@ class _SignInButtonFrame extends StatelessWidget {
     required this.logo,
     required this.fill,
     required this.textColor,
+    required this.titleStyle,
     this.strokeColor,
   });
 
@@ -48,6 +48,7 @@ class _SignInButtonFrame extends StatelessWidget {
   final Widget logo;
   final Color fill;
   final Color textColor;
+  final TextStyle titleStyle;
   final Color? strokeColor;
 
   @override
@@ -98,7 +99,7 @@ class _SignInButtonFrame extends StatelessWidget {
                     child: Text(
                       label,
                       textAlign: TextAlign.center,
-                      style: AppButton.label.copyWith(color: textColor),
+                      style: titleStyle.copyWith(color: textColor),
                     ),
                   ),
                   // Mirrors the logo and gap so the title is centred on the
@@ -131,6 +132,16 @@ class AppleSignInButton extends StatelessWidget {
   static const Color _black = Color(0xFF000000);
   static const Color _white = Color(0xFFFFFFFF);
 
+  /// Apple's title: the system font, regular weight, 43 % of the button
+  /// height (≈ 21 pt at 48 pt), matching the system Sign in with Apple
+  /// button and the `sign_in_with_apple` package's own style.
+  static const TextStyle _title = TextStyle(
+    fontFamily: '.SF Pro Text',
+    fontSize: AppButton.heightMedium * 0.43,
+    fontWeight: FontWeight.w400,
+    letterSpacing: -0.41,
+  );
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -141,6 +152,7 @@ class AppleSignInButton extends StatelessWidget {
       onPressed: onPressed,
       fill: isDark ? _white : _black,
       textColor: contentColor,
+      titleStyle: _title,
       // The glyph is 25:31 (width:height); fit it to the shared logo height.
       logo: Center(
         child: SizedBox(
@@ -176,6 +188,13 @@ class GoogleSignInButton extends StatelessWidget {
   static const Color _darkStroke = Color(0xFF8E918F);
   static const Color _darkText = Color(0xFFE3E3E3);
 
+  /// Google Sans Medium (bundled as `ProviderLabelSans`) at the app's
+  /// button-label size.
+  static TextStyle get _title => AppButton.label.copyWith(
+    fontFamily: 'ProviderLabelSans',
+    fontWeight: FontWeight.w500,
+  );
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -186,6 +205,7 @@ class GoogleSignInButton extends StatelessWidget {
       fill: isDark ? _darkFill : _lightFill,
       strokeColor: isDark ? _darkStroke : _lightStroke,
       textColor: isDark ? _darkText : _lightText,
+      titleStyle: _title,
       logo: Image.asset(
         isDark
             ? 'assets/icons/google/google_g_dark.png'
@@ -219,6 +239,7 @@ class EmailSignInButton extends StatelessWidget {
       onPressed: onPressed,
       fill: scheme.primary,
       textColor: scheme.onPrimary,
+      titleStyle: AppButton.label,
       logo: Icon(Icons.email, size: _logoSize, color: scheme.onPrimary),
     );
   }
