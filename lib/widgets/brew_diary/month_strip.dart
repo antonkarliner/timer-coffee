@@ -179,15 +179,8 @@ class MonthStrip extends StatelessWidget {
     return Semantics(
       identifier: 'diaryMonthStrip',
       container: true,
-      child: Material(
-        color: theme.colorScheme.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppRadius.card),
-          side: BorderSide(
-            color: theme.colorScheme.outlineVariant,
-            width: AppStroke.border,
-          ),
-        ),
+      child: Card(
+        margin: EdgeInsets.zero,
         clipBehavior: Clip.antiAlias,
         child: Column(
           children: [

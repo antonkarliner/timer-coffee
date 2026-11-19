@@ -619,7 +619,6 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen>
           if (bean.photoUrl != null) ...[
             const SizedBox(height: AppSpacing.base),
             Card(
-              elevation: 4,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppRadius.card),
               ),

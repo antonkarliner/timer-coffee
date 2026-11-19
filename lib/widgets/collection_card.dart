@@ -66,7 +66,6 @@ class CollectionCard extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.card),
           ),
-          elevation: 4,
           clipBehavior: Clip.antiAlias,
           // Horizontal spacing handled by the parent carousel; keep only
           // a small vertical margin so the elevation shadow has room.
