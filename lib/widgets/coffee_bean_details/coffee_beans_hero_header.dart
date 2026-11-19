@@ -128,7 +128,6 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
       container: true,
       explicitChildNodes: true,
       child: Card(
-        elevation: 4,
         child: Container(
           width: double.infinity,
           decoration: BoxDecoration(
