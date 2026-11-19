@@ -112,7 +112,7 @@ class _ReviewCardState extends State<ReviewCard> {
                           Text(
                             review.beanOrigin!,
                             style: AppTextStyles.caption.copyWith(
-                              color: colorScheme.onSurface.withValues(alpha: 0.55),
+                              color: colorScheme.onSurfaceVariant,
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -121,7 +121,7 @@ class _ReviewCardState extends State<ReviewCard> {
                           Text(
                             roastDateLine,
                             style: AppTextStyles.caption.copyWith(
-                              color: colorScheme.onSurface.withValues(alpha: 0.55),
+                              color: colorScheme.outline,
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -135,7 +135,7 @@ class _ReviewCardState extends State<ReviewCard> {
                     _expanded
                         ? Icons.expand_less_rounded
                         : Icons.expand_more_rounded,
-                    color: colorScheme.onSurface.withValues(alpha: 0.5),
+                    color: colorScheme.onSurfaceVariant,
                     size: AppIconSize.medium,
                   ),
                 ],
@@ -152,7 +152,7 @@ class _ReviewCardState extends State<ReviewCard> {
                   Text(
                     review.reviewerDisplayName!,
                     style: AppTextStyles.caption.copyWith(
-                      color: colorScheme.onSurface.withValues(alpha: 0.6),
+                      color: colorScheme.onSurfaceVariant,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.xs),
