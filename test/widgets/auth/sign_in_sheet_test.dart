@@ -5,6 +5,7 @@ import 'package:coffee_timer/widgets/auth/provider_sign_in_button.dart';
 import 'package:coffee_timer/widgets/auth/sign_in_sheet.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -19,7 +20,7 @@ const _googleDarkFill = Color(0xFF131314);
 const _googleDarkStroke = Color(0xFF8E918F);
 const _googleDarkText = Color(0xFFE3E3E3);
 
-Finder _appleButton() => find.byType(SignInWithAppleButton);
+Finder _appleButton() => find.byType(AppleSignInButton);
 
 Finder _googleButton() => find.byType(GoogleSignInButton);
 
@@ -148,12 +149,34 @@ void main() {
       expect(elevated.style!.backgroundColor!.resolve({}), scheme.primary);
       expect(elevated.style!.foregroundColor!.resolve({}), scheme.onPrimary);
 
-      // Apple: black artwork on light, white on dark.
-      final apple = tester.widget<SignInWithAppleButton>(_appleButton());
-      expect(
-        apple.style,
-        isDark ? SignInWithAppleButtonStyle.white : SignInWithAppleButtonStyle.black,
+      // Apple: black fill with white logo and title on light, the reverse
+      // on dark.
+      final apple = tester.widget<Material>(
+        find.descendant(of: _appleButton(), matching: find.byType(Material)),
       );
+      final appleShape = apple.shape! as RoundedRectangleBorder;
+      expect(apple.color, isDark ? Colors.white : Colors.black);
+      final appleLogo = tester.widget<CustomPaint>(
+        find.descendant(
+          of: _appleButton(),
+          matching: find.byWidgetPredicate(
+            (w) => w is CustomPaint && w.painter is AppleLogoPainter,
+          ),
+        ),
+      );
+      expect(
+        (appleLogo.painter! as AppleLogoPainter).color,
+        isDark ? Colors.black : Colors.white,
+      );
+      final appleTitle = tester.widget<Text>(
+        find.text(l10n.signInWithApple),
+      );
+      expect(
+        appleTitle.style!.color,
+        isDark ? Colors.black : Colors.white,
+      );
+      // Apple's HIG: title at 43 % of the button height.
+      expect(appleTitle.style!.fontSize, AppButton.heightMedium * 0.43);
 
       // Google: fill, stroke and label per the branding guideline, with the
       // matching G artwork.
@@ -191,7 +214,7 @@ void main() {
       ]) {
         expect(tester.getSize(button).height, AppButton.heightMedium);
       }
-      expect(apple.borderRadius, BorderRadius.circular(AppRadius.card));
+      expect(appleShape.borderRadius, BorderRadius.circular(AppRadius.card));
       expect(shape.borderRadius, BorderRadius.circular(AppRadius.card));
     });
   }
@@ -264,5 +287,46 @@ void main() {
     await tester.tap(cancel);
     await tester.pumpAndSettle();
     expect(results, [SignInMethod.cancel]);
+  });
+
+  testWidgets('Apple grows with the text scale like Google and Email', (
+    tester,
+  ) async {
+    await tester.binding.setSurfaceSize(const Size(390, 1600));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await _openSheet(tester, results: [], textScaler: TextScaler.linear(3));
+
+    expect(tester.takeException(), isNull);
+    final apple = tester.getSize(_appleButton()).height;
+    // Grown well past 48 pt (the test font differs from SF, so the exact
+    // ratio to Google is checked on device, not here).
+    expect(apple, greaterThan(AppButton.heightMedium * 2));
+    // The logo scales with the title.
+    final logo = tester.getSize(
+      find.descendant(
+        of: _appleButton(),
+        matching: find.byWidgetPredicate(
+          (w) => w is CustomPaint && w.painter is AppleLogoPainter,
+        ),
+      ),
+    );
+    expect(logo.height, closeTo(AppButton.heightMedium * 0.43 * 3, 0.01));
+    // The title is never cut off: no line limit, no ellipsis, and the
+    // paragraph lays out without exceeding its lines.
+    final title = tester.widget<Text>(
+      find.descendant(
+        of: _appleButton(),
+        matching: find.text(_l10n(tester).signInWithApple),
+      ),
+    );
+    expect(title.maxLines, isNull);
+    expect(title.overflow, isNot(TextOverflow.ellipsis));
+    final paragraph = tester.renderObject<RenderParagraph>(
+      find.descendant(
+        of: _appleButton(),
+        matching: find.byType(RichText),
+      ),
+    );
+    expect(paragraph.didExceedMaxLines, isFalse);
   });
 }

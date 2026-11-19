@@ -1,6 +1,5 @@
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../theme/design_tokens.dart';
 import '../base_buttons.dart';
@@ -53,7 +52,6 @@ class SignInSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return SingleChildScrollView(
       child: Padding(
@@ -85,25 +83,10 @@ class SignInSheet extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     if (showApple) ...[
-                      Semantics(
-                        identifier: 'signInWithAppleButton',
-                        // The button has a fixed height, so a large text
-                        // scale would overflow it; Apple's own system button
-                        // ignores Dynamic Type the same way.
-                        child: MediaQuery.withNoTextScaling(
-                          child: SignInWithAppleButton(
-                            text: l10n.signInWithApple,
-                            height: AppButton.heightMedium,
-                            borderRadius: BorderRadius.circular(
-                              AppRadius.card,
-                            ),
-                            style: isDarkMode
-                                ? SignInWithAppleButtonStyle.white
-                                : SignInWithAppleButtonStyle.black,
-                            onPressed: () =>
-                                Navigator.pop(context, SignInMethod.apple),
-                          ),
-                        ),
+                      AppleSignInButton(
+                        label: l10n.signInWithApple,
+                        onPressed: () =>
+                            Navigator.pop(context, SignInMethod.apple),
                       ),
                       const SizedBox(height: AppSpacing.base),
                     ],

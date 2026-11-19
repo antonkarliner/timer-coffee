@@ -1,5 +1,111 @@
 import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:flutter/material.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+
+/// "Sign in with Apple" button following Apple's HIG
+/// (https://developer.apple.com/design/human-interface-guidelines/sign-in-with-apple,
+/// checked 2026-11-19): black fill on light, white on dark, logo and title in
+/// the contrasting colour, title at 43 % of the button height.
+///
+/// The logo is Apple's artwork as shipped by the `sign_in_with_apple`
+/// package ([AppleLogoPainter]). The package's own button has a fixed height
+/// and a one-line title, so it either clips or ignores Dynamic Type; this one
+/// keeps the package's proportions at 48 pt and, like the Google and Email
+/// buttons beside it, grows (wrapping its title) at large text sizes, so it
+/// is never smaller than them.
+class AppleSignInButton extends StatelessWidget {
+  const AppleSignInButton({
+    super.key,
+    required this.label,
+    required this.onPressed,
+  });
+
+  final String label;
+  final VoidCallback onPressed;
+
+  // Apple's mandated black / white treatments.
+  static const Color _black = Color(0xFF000000);
+  static const Color _white = Color(0xFFFFFFFF);
+
+  // The package's proportions, taken at our 48 pt height: title 43 % of the
+  // height, logo glyph 25:31 of the title size, logo box 28/44 of the height
+  // with a 4/44 bottom inset to sit the logo on the title's baseline.
+  static const double _height = AppButton.heightMedium;
+  static const double _titleSize = _height * 0.43;
+  static const double _logoBoxWidth = _height * 28 / 44;
+  static const double _logoGlyphWidth = _titleSize * 25 / 31;
+  static const double _logoBottomInset = _height * 4 / 44;
+  static const double _sidePadding = 16;
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final fill = isDark ? _white : _black;
+    final contentColor = isDark ? _black : _white;
+    // The logo follows the title's text scale so the two stay in proportion.
+    final scale =
+        MediaQuery.textScalerOf(context).scale(_titleSize) / _titleSize;
+
+    final shape = RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(AppRadius.card),
+    );
+
+    return Semantics(
+      button: true,
+      identifier: 'signInWithAppleButton',
+      child: Material(
+        color: fill,
+        shape: shape,
+        elevation: 0,
+        child: InkWell(
+          onTap: onPressed,
+          customBorder: shape,
+          child: Container(
+            constraints: const BoxConstraints(minHeight: _height),
+            padding: const EdgeInsets.symmetric(horizontal: _sidePadding),
+            alignment: Alignment.center,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Only the glyph scales; the space around it stays at its
+                // 48 pt size so the title keeps room at large text sizes.
+                Container(
+                  width: _logoBoxWidth + _logoGlyphWidth * (scale - 1),
+                  padding: EdgeInsets.only(bottom: _logoBottomInset * scale),
+                  alignment: Alignment.center,
+                  child: SizedBox(
+                    width: _logoGlyphWidth * scale,
+                    height: _titleSize * scale,
+                    child: CustomPaint(
+                      painter: AppleLogoPainter(color: contentColor),
+                    ),
+                  ),
+                ),
+                Flexible(
+                  // No line limit: the localised "Sign in with Apple" title
+                  // must never be cut off, so the button grows instead.
+                  child: Text(
+                    label,
+                    textAlign: TextAlign.center,
+                    // Apple's system font, as the package uses.
+                    style: TextStyle(
+                      inherit: false,
+                      fontSize: _titleSize,
+                      color: contentColor,
+                      fontFamily: '.SF Pro Text',
+                      letterSpacing: -0.41,
+                      textBaseline: TextBaseline.alphabetic,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 /// "Sign in with Google" button following Google's branding guidelines
 /// (https://developers.google.com/identity/branding-guidelines,
