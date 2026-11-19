@@ -170,6 +170,7 @@ class _SettingsLanguageRegionScreenState
 
     return SettingsPageScaffold(
       title: l10n.settingsLanguageRegionTitle,
+      titleIcon: Icons.language,
       children: [
         // Section 1 — Language: a single row, so no section header. Shown
         // only once the supported locales have loaded, in an always-present

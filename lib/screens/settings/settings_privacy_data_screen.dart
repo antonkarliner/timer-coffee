@@ -11,6 +11,7 @@ import '../../services/analytics_service.dart';
 import '../../services/feature_flags/feature_flags_repository.dart';
 import '../../services/settings_analytics.dart';
 import '../../theme/design_tokens.dart';
+import '../../widgets/app_bar_title.dart';
 import '../../widgets/markdown/app_markdown_style.dart';
 import '../../widgets/settings/data_export_section.dart';
 import '../../widgets/settings/settings_list.dart';
@@ -97,6 +98,7 @@ class SettingsPrivacyDataScreen extends StatelessWidget {
 
     return SettingsPageScaffold(
       title: l10n.settingsPrivacyDataTitle,
+      titleIcon: Icons.shield_outlined,
       children: [
         SettingsSection(
           header: l10n.settingsUsageAnalyticsHeader,
@@ -219,7 +221,10 @@ class _PrivacyPolicyPageState extends State<_PrivacyPolicyPage> {
           container: true,
           child: const SmartBackButton(),
         ),
-        title: Text(l10n.privacyPolicyTitle),
+        title: AppBarTitle(
+          text: l10n.privacyPolicyTitle,
+          icon: Icons.shield_outlined,
+        ),
       ),
       body: FutureBuilder<String>(
         future: _policy,
