@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../../theme/design_tokens.dart';
+import '../fields/labeled_field.dart';
 
 class RecipeBasicInfoCard extends StatelessWidget {
   final TextEditingController recipeNameController;
@@ -27,12 +28,10 @@ class RecipeBasicInfoCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            TextFormField(
+            LabeledField(
+              label: l10n.recipeCreationScreenRecipeNameLabel,
               controller: recipeNameController,
-              decoration: InputDecoration(
-                labelText: l10n.recipeCreationScreenRecipeNameLabel,
-                border: OutlineInputBorder(),
-              ),
+              textCapitalization: TextCapitalization.none,
               onChanged: onNameChanged,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -42,12 +41,12 @@ class RecipeBasicInfoCard extends StatelessWidget {
               },
             ),
             const SizedBox(height: AppSpacing.fieldGap),
-            TextFormField(
+            LabeledField(
+              label: l10n.recipeCreationScreenShortDescriptionLabel,
               controller: shortDescriptionController,
-              decoration: InputDecoration(
-                labelText: l10n.recipeCreationScreenShortDescriptionLabel,
-                border: OutlineInputBorder(),
-              ),
+              keyboardType: TextInputType.multiline,
+              textCapitalization: TextCapitalization.none,
+              isMultiline: true,
               maxLines: 3,
               onChanged: onShortDescriptionChanged,
             ),

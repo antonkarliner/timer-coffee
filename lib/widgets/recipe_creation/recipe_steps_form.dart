@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:uuid/uuid.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 import '../../models/brew_step_model.dart';
+import '../fields/labeled_field.dart';
+import '../fields/numeric_text_field.dart';
 
 class RecipeStepsForm extends StatefulWidget {
   final List<BrewStepModel> initialSteps;
@@ -247,12 +248,12 @@ class StepCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            TextFormField(
+            LabeledField(
+              label: l10n.recipeCreationScreenStepDescriptionLabel,
               initialValue: step.description,
-              decoration: InputDecoration(
-                labelText: l10n.recipeCreationScreenStepDescriptionLabel,
-                border: OutlineInputBorder(),
-              ),
+              keyboardType: TextInputType.multiline,
+              textCapitalization: TextCapitalization.none,
+              isMultiline: true,
               maxLines: 2,
               onChanged: (value) => onDescriptionChanged(value),
               validator: (value) {
@@ -268,18 +269,14 @@ class StepCard extends StatelessWidget {
                 children: [
                   Text(l10n.recipeCreationScreenStepTimeLabel),
                   Expanded(
-                    child: TextFormField(
-                      initialValue: step.time.inSeconds.toString(),
-                      decoration: InputDecoration(
-                        labelText: l10n.recipeCreationScreenSecondsLabel,
-                        border: OutlineInputBorder(),
+                    child: NumericTextField(
+                      label: l10n.recipeCreationScreenSecondsLabel,
+                      initialValue: step.time.inSeconds.toDouble(),
+                      allowDecimal: false,
+                      labelInsideField: true,
+                      onChanged: (value) => onTimeChanged?.call(
+                        Duration(seconds: value?.toInt() ?? 0),
                       ),
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      onChanged: (value) {
-                        final seconds = int.tryParse(value) ?? 0;
-                        onTimeChanged?.call(Duration(seconds: seconds));
-                      },
                     ),
                   ),
                 ],
