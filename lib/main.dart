@@ -10,7 +10,7 @@ import 'package:coffee_timer/models/supported_locale_model.dart';
 import 'package:coffee_timer/providers/database_provider.dart';
 import 'package:coffee_timer/purchase_manager.dart';
 import 'package:flutter/foundation.dart'
-    show kIsWeb, defaultTargetPlatform, TargetPlatform;
+    show kIsWeb, defaultTargetPlatform, TargetPlatform, SynchronousFuture;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'
     show SystemChrome, SystemUiMode, SystemUiOverlay;
@@ -44,6 +44,7 @@ import 'package:timezone/data/latest_all.dart' as tz;
 import 'firebase_options.dart';
 import './providers/user_stat_provider.dart';
 import './providers/beans_stats_provider.dart';
+import 'package:coffee_timer/utils/app_deep_link.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:coffee_timer/utils/date_digits.dart';
 import 'package:coffee_timer/utils/log_config.dart';
@@ -1183,6 +1184,15 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
     );
   }
 
+  /// Rewrites a host-form custom-scheme link (`timercoffee://taste-profile`)
+  /// to its route path when that path is a real route; anything else —
+  /// including the bare `timercoffee://` auth callback — is returned as is.
+  Uri _resolveAppDeepLink(Uri uri) {
+    final path = hostFormAppDeepLinkPath(uri);
+    if (path == null || !isKnownAppRoute(widget.appRouter, path)) return uri;
+    return Uri.parse(path);
+  }
+
   String? _routePathFromAppDeepLink(Uri uri) {
     final String routePath;
     if (uri.host.isNotEmpty) {
@@ -1381,9 +1391,15 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
             supportedLocales: widget.supportedLocales,
             routerConfig: widget.appRouter.config(
               navigatorObservers: () => [AnalyticsRouteObserver()],
+              // Platform links (cold and warm) pass through here first:
+              // `timercoffee://taste-profile` keeps the page in the host,
+              // which the matcher ignores, so it would land on Home.
+              deepLinkTransformer: (uri) =>
+                  SynchronousFuture(_resolveAppDeepLink(uri)),
               deepLinkBuilder: (deepLink) async {
                 final decision = await _completeOnboardingForInternalRoute(
-                  deepLink.uri,
+                  // The builder still sees the platform's original URI.
+                  _resolveAppDeepLink(deepLink.uri),
                   isValidInternalRoute: deepLink.isValid,
                 );
 
