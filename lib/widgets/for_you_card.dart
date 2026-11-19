@@ -319,8 +319,10 @@ class _ForYouCardState extends State<ForYouCard> {
       'for_you_setting_toggled',
       properties: {'enabled': false, 'source': 'card'},
     );
-    unawaited(provider.setOptedOut(true));
-    messenger.showSnackBar(
+    // The server deletion (picks, dismissals, taste adjustments) waits until
+    // the snackbar closes without Undo, so Undo restores everything.
+    unawaited(provider.setOptedOut(true, deferServerDelete: true));
+    final controller = messenger.showSnackBar(
       SnackBar(
         behavior: SnackBarBehavior.floating,
         content: Text(l10n.forYouHiddenMessage),
@@ -342,6 +344,13 @@ class _ForYouCardState extends State<ForYouCard> {
           },
         ),
       ),
+    );
+    unawaited(
+      controller.closed.then((reason) {
+        if (reason != SnackBarClosedReason.action) {
+          return provider.completePendingOptOut();
+        }
+      }),
     );
   }
 }

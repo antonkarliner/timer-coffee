@@ -60,9 +60,18 @@ class RecommendationProvider extends ChangeNotifier {
     // SharedPreferences is already loaded by the time main() constructs this
     // provider, so a synchronous read is safe.
     _optedOut = _prefs.getBool(optOutPrefKey) ?? false;
+    // An opt-out whose server-side deletion never ran (the app was closed
+    // while the card's Undo snackbar was up, or the call failed): finish it.
+    if (_optedOut && (_prefs.getBool(pendingDeleteKey) ?? false)) {
+      unawaited(completePendingOptOut());
+    }
   }
 
   static const optOutPrefKey = 'bean_recommendations_opt_out';
+
+  /// Set while an opt-out's server-side deletion is owed; cleared once
+  /// `deleteMine()` succeeds or the user opts back in.
+  static const pendingDeleteKey = 'bean_recommendations_pending_delete';
 
   static const _lastGenerateKeyPrefix = 'bean_recs_last_generate_';
 
@@ -411,10 +420,21 @@ class RecommendationProvider extends ChangeNotifier {
   /// generate-throttle entry: `deleteMine()` erased the server-side picks,
   /// so without the reset the 6-hour client throttle would keep the
   /// re-enabled card empty until the window elapsed.
-  Future<void> setOptedOut(bool value) async {
+  ///
+  /// With [deferServerDelete] the card can be hidden at once while the
+  /// server deletion waits for [completePendingOptOut] — the card's Undo
+  /// snackbar uses this so Undo loses nothing. Either way the deletion is
+  /// recorded as owed first, so it is retried on the next launch if it never
+  /// runs or fails.
+  Future<void> setOptedOut(bool value, {bool deferServerDelete = false}) async {
     if (value == _optedOut) return;
     _optedOut = value;
     await _prefs.setBool(optOutPrefKey, value);
+    if (value) {
+      await _prefs.setBool(pendingDeleteKey, true);
+    } else {
+      await _prefs.remove(pendingDeleteKey);
+    }
     if (_disposed) return;
     if (value) {
       _items = const [];
@@ -430,15 +450,7 @@ class RecommendationProvider extends ChangeNotifier {
       _tasteProfileState = TasteProfileLoadState.idle;
       _tasteWriteTokens.clear();
       _notify();
-      try {
-        await _client.deleteMine();
-      } catch (e, st) {
-        AppLogger.error(
-          'Failed to delete stored recommendations on opt-out',
-          errorObject: e,
-          stackTrace: st,
-        );
-      }
+      if (!deferServerDelete) await completePendingOptOut();
     } else {
       // The throttle entry must go before the state reset notifies: a
       // re-enable (e.g. the card's Undo) chains ensureLoaded immediately,
@@ -456,6 +468,25 @@ class RecommendationProvider extends ChangeNotifier {
       _loadedUserId = null;
       _loadedLocale = null;
       _notify();
+    }
+  }
+
+  /// Runs an owed opt-out deletion: stored picks, dismissals and taste
+  /// adjustments (`deleteMine()`). No-op unless the user is still opted out
+  /// and a deletion is pending. Never throws; a failure leaves it pending
+  /// for the next launch.
+  Future<void> completePendingOptOut() async {
+    if (_disposed || !_optedOut) return;
+    if (!(_prefs.getBool(pendingDeleteKey) ?? false)) return;
+    try {
+      await _client.deleteMine();
+      if (_optedOut) await _prefs.remove(pendingDeleteKey);
+    } catch (e, st) {
+      AppLogger.error(
+        'Failed to delete stored recommendations on opt-out',
+        errorObject: e,
+        stackTrace: st,
+      );
     }
   }
 

@@ -60,9 +60,9 @@ class _RecommendationProvider extends RecommendationProvider {
   }
 
   @override
-  Future<void> setOptedOut(bool value) {
+  Future<void> setOptedOut(bool value, {bool deferServerDelete = false}) {
     optOutCalls.add(value);
-    return super.setOptedOut(value);
+    return super.setOptedOut(value, deferServerDelete: deferServerDelete);
   }
 }
 

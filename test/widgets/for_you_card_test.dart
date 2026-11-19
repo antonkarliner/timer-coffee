@@ -68,8 +68,10 @@ class _FakeClient implements BeanRecommendationClient {
     clickedIds.add(stockId);
   }
 
+  int deleteMineCount = 0;
+
   @override
-  Future<void> deleteMine() async {}
+  Future<void> deleteMine() async => deleteMineCount++;
 }
 
 /// Real provider that records how `ensureLoaded` is invoked: how often,
@@ -983,6 +985,9 @@ void main() {
       expect(find.text('Bean A'), findsNothing);
       expect(find.text(_hiddenMessage), findsOneWidget);
       expect(find.text(_undoLabel), findsOneWidget);
+      expect(env.client.deleteMineCount, 0,
+          reason: 'the server deletion waits for the snackbar, so Undo '
+              'loses nothing');
       expect(
         events('for_you_setting_toggled').map((e) => e['properties']),
         [
@@ -1011,6 +1016,26 @@ void main() {
           {'enabled': true, 'source': 'card_undo'},
         ],
       );
+      expect(env.client.deleteMineCount, 0, reason: 'Undo deletes nothing');
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('hide control deletes on the server once the snackbar '
+        'closes without Undo', (tester) async {
+      final env = await _pumpCard(tester, items: [rec('s1', name: 'Bean A')]);
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byIcon(Icons.close));
+      await tester.pumpAndSettle();
+      expect(env.client.deleteMineCount, 0);
+
+      ScaffoldMessenger.of(
+        tester.element(find.text(_hiddenMessage)),
+      ).hideCurrentSnackBar();
+      await tester.pumpAndSettle();
+
+      expect(env.provider.optedOut, isTrue);
+      expect(env.client.deleteMineCount, 1);
       expect(tester.takeException(), isNull);
     });
 

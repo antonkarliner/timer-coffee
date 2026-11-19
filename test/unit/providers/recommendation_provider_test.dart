@@ -893,6 +893,73 @@ void main() {
         expect(p.state, RecommendationState.hidden);
       });
 
+      test('deleteMine failure leaves the deletion owed for next launch',
+          () async {
+        final p = make();
+        client.deleteMineError = Exception('offline');
+        await p.setOptedOut(true);
+        expect(prefs.getBool(RecommendationProvider.pendingDeleteKey), isTrue);
+        p.dispose();
+        disposed.add(p);
+
+        // Next launch: still opted out, the owed deletion runs and clears.
+        client.deleteMineError = null;
+        makeWith(existingClient: client);
+        await Future<void>.delayed(Duration.zero);
+        expect(client.deleteMineCount, 2);
+        expect(prefs.getBool(RecommendationProvider.pendingDeleteKey), isNull);
+      });
+
+      test('a successful opt-out leaves nothing owed', () async {
+        final p = make();
+        await p.setOptedOut(true);
+        expect(client.deleteMineCount, 1);
+        expect(prefs.getBool(RecommendationProvider.pendingDeleteKey), isNull);
+      });
+
+      test('deferred opt-out hides at once and deletes only on completion',
+          () async {
+        final p = make();
+        client.fetchResult = result(items: [item('a')]);
+        await p.ensureLoaded('en');
+
+        await p.setOptedOut(true, deferServerDelete: true);
+        expect(p.state, RecommendationState.hidden);
+        expect(p.items, isEmpty);
+        expect(client.deleteMineCount, 0);
+        expect(prefs.getBool(RecommendationProvider.pendingDeleteKey), isTrue);
+
+        await p.completePendingOptOut();
+        expect(client.deleteMineCount, 1);
+        expect(prefs.getBool(RecommendationProvider.pendingDeleteKey), isNull);
+
+        await p.completePendingOptOut();
+        expect(client.deleteMineCount, 1, reason: 'nothing owed any more');
+      });
+
+      test('undo of a deferred opt-out deletes nothing', () async {
+        final p = make();
+        await p.setOptedOut(true, deferServerDelete: true);
+        await p.setOptedOut(false);
+        expect(prefs.getBool(RecommendationProvider.pendingDeleteKey), isNull);
+
+        await p.completePendingOptOut();
+        expect(client.deleteMineCount, 0);
+      });
+
+      test('a deferred opt-out never completed is finished on next launch',
+          () async {
+        final p = make();
+        await p.setOptedOut(true, deferServerDelete: true);
+        expect(client.deleteMineCount, 0);
+        p.dispose();
+        disposed.add(p);
+
+        makeWith(existingClient: client);
+        await Future<void>.delayed(Duration.zero);
+        expect(client.deleteMineCount, 1);
+      });
+
       test('re-enable resets to idle and the next call loads', () async {
         final p = make();
         await p.setOptedOut(true);
