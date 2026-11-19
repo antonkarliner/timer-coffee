@@ -496,6 +496,29 @@ void main() {
       expect(provider.items, hasLength(1));
     });
 
+    test('opting out drops the loaded taste profile', () async {
+      client.profile = TasteProfile.fromJson(
+        _profileJson(
+          preferences: [
+            {'dimension': 'origin', 'value': 'KE', 'preference': 'more'},
+          ],
+        ),
+      );
+      await provider.loadTasteProfile();
+      expect(provider.tasteProfile, isNotNull);
+
+      await provider.setOptedOut(true);
+      expect(provider.tasteProfile, isNull,
+          reason: 'the server deleted the adjustments with the picks');
+      expect(provider.tasteProfileState, TasteProfileLoadState.idle);
+
+      // Re-enabling and reopening the screen loads fresh, with nothing stale.
+      client.profile = TasteProfile.fromJson(_profileJson());
+      await provider.setOptedOut(false);
+      await provider.loadTasteProfile();
+      expect(provider.tasteProfile!.preferences, isEmpty);
+    });
+
     test('notifies on load and on each optimistic change', () async {
       await provider.loadTasteProfile();
       final before = notifications;

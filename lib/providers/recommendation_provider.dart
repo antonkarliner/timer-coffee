@@ -405,7 +405,8 @@ class RecommendationProvider extends ChangeNotifier {
 
   /// Opts the user out of recommendations. The preference is persisted
   /// first; `deleteMine()` runs best-effort afterwards (its failure does
-  /// not undo the opt-out). Re-enabling resets to [RecommendationState.idle]
+  /// not undo the opt-out) and deletes the stored picks, dismissals and
+  /// taste-profile adjustments, whose local copy is dropped here too. Re-enabling resets to [RecommendationState.idle]
   /// so the next [ensureLoaded] loads fresh — and clears the current user's
   /// generate-throttle entry: `deleteMine()` erased the server-side picks,
   /// so without the reset the 6-hour client throttle would keep the
@@ -421,6 +422,13 @@ class RecommendationProvider extends ChangeNotifier {
       _state = RecommendationState.hidden;
       _isFirstLoad = false;
       _unavailableStatus = null;
+      // deleteMine() also deletes the taste-profile adjustments (plan 086),
+      // so a re-enable must not show the cached ones while it reloads.
+      _tasteProfile = null;
+      _tasteConfirmed = null;
+      _tasteProfileUserId = null;
+      _tasteProfileState = TasteProfileLoadState.idle;
+      _tasteWriteTokens.clear();
       _notify();
       try {
         await _client.deleteMine();
