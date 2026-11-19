@@ -9,6 +9,7 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import '../theme/design_tokens.dart';
+import '../widgets/app_bar_title.dart';
 import '../widgets/base_buttons.dart';
 import '../services/analytics_service.dart';
 
@@ -205,7 +206,10 @@ class _DonationScreenState extends State<DonationScreen> {
       appBar: AppBar(
         title: Semantics(
           identifier: 'supportDevelopmentTitle',
-          child: Text(AppLocalizations.of(context)!.supportdevelopment),
+          child: AppBarTitle(
+            text: AppLocalizations.of(context)!.supportdevelopment,
+            icon: Icons.volunteer_activism_outlined,
+          ),
         ),
       ),
       body: Padding(
