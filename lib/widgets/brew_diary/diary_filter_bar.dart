@@ -59,7 +59,7 @@ class DiaryFilterBar extends StatelessWidget {
           LabeledField(
             controller: searchController,
             label: loc.diarySearchHint,
-            hintText: loc.diarySearchHint,
+            labelInsideField: true,
             semanticIdentifier: 'brewDiarySearch',
             textInputAction: TextInputAction.search,
             textCapitalization: TextCapitalization.none,
