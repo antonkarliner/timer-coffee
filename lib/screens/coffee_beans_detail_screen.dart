@@ -16,6 +16,7 @@ import '../providers/coffee_beans_provider.dart';
 import '../providers/roaster_profile_provider.dart';
 import '../providers/user_stat_provider.dart';
 import '../controllers/coffee_beans_detail_controller.dart';
+import '../widgets/app_bar_title.dart';
 import '../widgets/base_buttons.dart';
 import '../widgets/coffee_bean_details/index.dart';
 import '../widgets/confirm_delete_dialog.dart';
@@ -246,15 +247,9 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen>
                   return Semantics(
                     identifier: 'coffeeBeansDetailsAppBar',
                     label: title,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Coffeico.bag_with_bean),
-                        const SizedBox(width: 8),
-                        Flexible(
-                          child: Text(title, overflow: TextOverflow.ellipsis),
-                        ),
-                      ],
+                    child: AppBarTitle(
+                      text: title,
+                      icon: Coffeico.bag_with_bean,
                     ),
                   );
                 },

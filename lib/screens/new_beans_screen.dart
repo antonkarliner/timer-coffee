@@ -16,6 +16,7 @@ import '../models/coffee_beans_model.dart';
 import '../providers/coffee_beans_provider.dart';
 import '../providers/user_stat_provider.dart';
 import '../utils/grind_suggestions.dart';
+import '../widgets/app_bar_title.dart';
 import '../widgets/fields/chip_input.dart';
 import 'package:coffee_timer/widgets/new_beans/optional_details/optional_details_card.dart';
 import 'package:coffee_timer/widgets/new_beans/required_info_card.dart';
@@ -1121,13 +1122,9 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
               title: Semantics(
                 identifier: 'newBeansAppBar',
                 label: isEditMode ? loc.editCoffeeBeans : loc.addCoffeeBeans,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(Coffeico.bean), // Add your desired icon here
-                    const SizedBox(width: 8), // Adjust spacing as needed
-                    Text(isEditMode ? loc.editCoffeeBeans : loc.addCoffeeBeans),
-                  ],
+                child: AppBarTitle(
+                  text: isEditMode ? loc.editCoffeeBeans : loc.addCoffeeBeans,
+                  icon: Coffeico.bean,
                 ),
               ),
               actions: const [],

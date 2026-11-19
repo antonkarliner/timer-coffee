@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/recipe_model.dart';
 import '../providers/recipe_provider.dart';
+import '../widgets/app_bar_title.dart';
 import '../widgets/favorite_button.dart';
 import '../widgets/smart_back_button.dart';
 import 'package:auto_route/auto_route.dart';
@@ -27,13 +28,9 @@ class FavoriteRecipesScreen extends StatelessWidget {
         ),
         title: Semantics(
           identifier: 'favoriteRecipesTitle',
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.favorite),
-              const SizedBox(width: 8),
-              Text(AppLocalizations.of(context)!.favoriterecipes),
-            ],
+          child: AppBarTitle(
+            text: AppLocalizations.of(context)!.favoriterecipes,
+            icon: Icons.favorite,
           ),
         ),
       ),

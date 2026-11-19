@@ -15,6 +15,7 @@ import '../services/analytics_service.dart';
 import '../services/collection_new_badge_service.dart';
 import '../theme/design_tokens.dart';
 import '../utils/icon_utils.dart';
+import '../widgets/app_bar_title.dart';
 import '../widgets/favorite_button.dart';
 import '../widgets/smart_back_button.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
@@ -77,14 +78,17 @@ class _CollectionDetailScreenState extends State<CollectionDetailScreen> {
           builder: (context, snapshot) {
             final c = snapshot.data?.collection;
             if (c == null) {
-              return Text(loc.loadingEllipsis);
+              return AppBarTitle(
+                text: loc.loadingEllipsis,
+                icon: Icons.collections_bookmark_outlined,
+              );
             }
-            return Row(
-              children: [
-                Text(c.emoji, style: const TextStyle(fontSize: 22)),
-                const SizedBox(width: AppSpacing.sm),
-                Flexible(child: Text(c.name, overflow: TextOverflow.ellipsis)),
-              ],
+            return AppBarTitle(
+              text: c.name,
+              leading: Text(
+                c.emoji,
+                style: const TextStyle(fontSize: AppIconSize.medium),
+              ),
             );
           },
         ),

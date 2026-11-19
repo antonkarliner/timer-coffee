@@ -5,8 +5,10 @@ import 'package:coffee_timer/models/diary_group.dart';
 import 'package:coffee_timer/providers/database_provider.dart';
 import 'package:coffee_timer/providers/user_stat_provider.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
+import 'package:coffee_timer/widgets/app_bar_title.dart';
 import 'package:coffee_timer/widgets/brew_diary/journey_view.dart';
 import 'package:coffee_timer/widgets/smart_back_button.dart';
+import 'package:coffeico_plus/coffeico_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -134,7 +136,10 @@ class _JourneyShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(leading: const SmartBackButton(), title: Text(title)),
+      appBar: AppBar(
+        leading: const SmartBackButton(),
+        title: AppBarTitle(text: title, icon: Coffeico.bag_with_bean),
+      ),
       body: Center(
         child: Padding(padding: const EdgeInsets.all(24), child: child),
       ),
