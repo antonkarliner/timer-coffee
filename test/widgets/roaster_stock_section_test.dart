@@ -302,6 +302,35 @@ void main() {
     });
   });
 
+  testWidgets('renders flat listings with a divider between each pair',
+      (tester) async {
+    final client = _FakeStockClient(
+      result: RoasterStockResult(items: [stock('s1'), stock('s2'), stock('s3')]),
+    );
+    await _pumpSection(tester, client: client);
+    await tester.pumpAndSettle();
+
+    final section = tester.widget<SectionCard>(find.byType(SectionCard));
+    final content = find.byWidget(section.child);
+    final listings = find.descendant(
+      of: content,
+      matching: find.byType(StockBeanCard),
+    );
+    expect(listings, findsNWidgets(3));
+    expect(tester.widgetList<StockBeanCard>(listings).map((c) => c.embedded),
+        everyElement(isTrue));
+    expect(
+      find.descendant(of: listings, matching: find.byType(Card)),
+      findsNothing,
+    );
+    // Scope to the content so the section header's divider is excluded.
+    expect(
+      find.descendant(of: content, matching: find.byType(Divider)),
+      findsNWidgets(2),
+    );
+    expect(tester.takeException(), isNull);
+  });
+
   group('section expansion', () {
     testWidgets('starts expanded; header hides and restores cards and note '
         'without repeating analytics or fetching', (tester) async {

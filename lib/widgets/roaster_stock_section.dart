@@ -184,7 +184,7 @@ class _RoasterStockSectionState extends State<RoasterStockSection> {
           mainAxisSize: MainAxisSize.min,
           children: [
             for (final (index, item) in visible.indexed) ...[
-              if (index > 0) const SizedBox(height: AppSpacing.sm),
+              if (index > 0) const Divider(height: AppSpacing.lg),
               Semantics(
                 identifier: 'roasterStockItem_$index',
                 child: _stockCard(
@@ -300,6 +300,7 @@ class _RoasterStockSectionState extends State<RoasterStockSection> {
     );
     void open() => _openProduct(context, item, index, isPick, productUri!);
     return StockBeanCard(
+      embedded: true,
       title: item.beanName,
       subtitle: _secondaryLine(context, l10n, item, isPick),
       imageUrl: item.imageUrl,

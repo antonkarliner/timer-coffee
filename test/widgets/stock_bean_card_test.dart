@@ -24,6 +24,7 @@ void main() {
   });
 
   Widget harness({
+    StockBeanCard? listing,
     String? imageUrl,
     String? logoUrl,
     String? logoMirrorUrl,
@@ -45,17 +46,18 @@ void main() {
             child: Scaffold(
               body: ListView(
                 children: [
-                  StockBeanCard(
-                    title: title,
-                    subtitle: subtitle,
-                    body: body,
-                    imageUrl: imageUrl,
-                    logoUrl: logoUrl,
-                    logoMirrorUrl: logoMirrorUrl,
-                    actions: actions,
-                    onTap: onTap,
-                    semanticsIdentifier: 'stockCard',
-                  ),
+                  listing ??
+                      StockBeanCard(
+                        title: title,
+                        subtitle: subtitle,
+                        body: body,
+                        imageUrl: imageUrl,
+                        logoUrl: logoUrl,
+                        logoMirrorUrl: logoMirrorUrl,
+                        actions: actions,
+                        onTap: onTap,
+                        semanticsIdentifier: 'stockCard',
+                      ),
                 ],
               ),
             ),
@@ -184,15 +186,62 @@ void main() {
   });
 
   group('content and actions', () {
-    testWidgets('renders title, subtitle and body text', (tester) async {
+    testWidgets('renders title, subtitle and body in a card by default',
+        (tester) async {
       await tester.pumpWidget(harness(
         subtitle: 'Test Roaster',
         body: 'Bright and juicy.',
       ));
+      expect(
+        find.descendant(
+          of: find.byType(StockBeanCard),
+          matching: find.byType(Card),
+        ),
+        findsOneWidget,
+      );
       expect(find.text('Yirgacheffe Washed'), findsOneWidget);
       expect(find.text('Test Roaster'), findsOneWidget);
       expect(find.text('Bright and juicy.'), findsOneWidget);
       expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('embedded listing renders and responds to taps without a card',
+        (tester) async {
+      final handle = tester.ensureSemantics();
+      var taps = 0;
+      await tester.pumpWidget(harness(
+        listing: StockBeanCard(
+          embedded: true,
+          title: 'Yirgacheffe Washed',
+          subtitle: 'Test Roaster',
+          body: 'Bright and juicy.',
+          onTap: () => taps++,
+          semanticsIdentifier: 'stockCard',
+          actions: [
+            AppTextButton(label: 'View', onPressed: () {}, isFullWidth: false),
+          ],
+        ),
+      ));
+
+      expect(
+        find.descendant(
+          of: find.byType(StockBeanCard),
+          matching: find.byType(Card),
+        ),
+        findsNothing,
+      );
+      expect(find.bySemanticsIdentifier('stockCard'), findsOneWidget);
+      expect(find.byIcon(Icons.storefront_outlined), findsOneWidget);
+      expect(find.text('Yirgacheffe Washed'), findsOneWidget);
+      expect(find.text('Test Roaster'), findsOneWidget);
+      expect(find.text('Bright and juicy.'), findsOneWidget);
+      expect(find.text('View'), findsOneWidget);
+
+      await tester.tap(find.text('Yirgacheffe Washed'));
+      await tester.pump();
+      expect(taps, 1);
+      expect(tester.takeException(), isNull);
+      handle.dispose();
     });
 
     testWidgets('no actions → none rendered; card tap fires onTap',
