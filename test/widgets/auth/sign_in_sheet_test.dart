@@ -1,17 +1,31 @@
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/visual/color_schemes.dart';
+import 'package:coffee_timer/widgets/auth/provider_sign_in_button.dart';
 import 'package:coffee_timer/widgets/auth/sign_in_sheet.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sign_in_button/sign_in_button.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 const _title = 'Sign in to Timer.Coffee';
 const _bodyText = 'Keep your coffee recipes across devices.';
 
-Finder _button(String text) => find.byWidgetPredicate(
-  (widget) => widget is SignInButtonBuilder && widget.text == text,
+// Google's brand-mandated colours, pinned here so a regression is caught.
+const _googleLightFill = Color(0xFFFFFFFF);
+const _googleLightStroke = Color(0xFF747775);
+const _googleLightText = Color(0xFF1F1F1F);
+const _googleDarkFill = Color(0xFF131314);
+const _googleDarkStroke = Color(0xFF8E918F);
+const _googleDarkText = Color(0xFFE3E3E3);
+
+Finder _appleButton() => find.byType(SignInWithAppleButton);
+
+Finder _googleButton() => find.byType(GoogleSignInButton);
+
+Finder _emailButton(AppLocalizations l10n) => find.byWidgetPredicate(
+  (widget) =>
+      widget is AppElevatedButton && widget.label == l10n.signInWithEmail,
 );
 
 AppLocalizations _l10n(WidgetTester tester) =>
@@ -23,12 +37,13 @@ Future<void> _openSheet(
   bool showApple = true,
   ColorScheme scheme = lightColorScheme,
   TextScaler textScaler = TextScaler.noScaling,
+  Locale locale = const Locale('en'),
 }) async {
   await tester.pumpWidget(
     MaterialApp(
       key: UniqueKey(),
       theme: ThemeData(colorScheme: scheme),
-      locale: const Locale('en'),
+      locale: locale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       builder: (context, child) => MediaQuery(
@@ -89,9 +104,9 @@ void main() {
       await _openSheet(tester, results: []);
       final l10n = _l10n(tester);
       final buttons = [
-        _button(l10n.signInWithApple),
-        _button(l10n.signInWithGoogle),
-        _button(l10n.signInWithEmail),
+        _appleButton(),
+        _googleButton(),
+        _emailButton(l10n),
       ];
 
       for (final button in buttons) {
@@ -111,50 +126,73 @@ void main() {
     await _openSheet(tester, results: [], showApple: false);
     final l10n = _l10n(tester);
 
-    expect(_button(l10n.signInWithApple), findsNothing);
-    expect(_button(l10n.signInWithGoogle), findsOneWidget);
-    expect(_button(l10n.signInWithEmail), findsOneWidget);
+    expect(_appleButton(), findsNothing);
+    expect(_googleButton(), findsOneWidget);
+    expect(_emailButton(l10n), findsOneWidget);
   });
 
   for (final scheme in [lightColorScheme, darkColorScheme]) {
-    testWidgets('uses email theme colours in ${scheme.brightness}', (
+    testWidgets('matches the brand colours in ${scheme.brightness}', (
       tester,
     ) async {
       await _openSheet(tester, results: [], scheme: scheme);
-      final email = _button(_l10n(tester).signInWithEmail);
-      final builder = tester.widget<SignInButtonBuilder>(email);
+      final l10n = _l10n(tester);
+      final isDark = scheme.brightness == Brightness.dark;
 
-      expect(builder.backgroundColor, scheme.primary);
-      expect(builder.textColor, scheme.onPrimary);
-      expect(builder.iconColor, scheme.onPrimary);
-      expect(
-        tester
-            .widget<MaterialButton>(
-              find.descendant(of: email, matching: find.byType(MaterialButton)),
-            )
-            .color,
-        scheme.primary,
+      // Email: the default primary / onPrimary elevated button.
+      final emailFinder = _emailButton(l10n);
+      expect(emailFinder, findsOneWidget);
+      final elevated = tester.widget<ElevatedButton>(
+        find.descendant(of: emailFinder, matching: find.byType(ElevatedButton)),
       );
+      expect(elevated.style!.backgroundColor!.resolve({}), scheme.primary);
+      expect(elevated.style!.foregroundColor!.resolve({}), scheme.onPrimary);
+
+      // Apple: black artwork on light, white on dark.
+      final apple = tester.widget<SignInWithAppleButton>(_appleButton());
       expect(
-        tester.widget<Text>(find.text(builder.text)).style!.color,
-        scheme.onPrimary,
-      );
-      expect(
-        tester.widget<Icon>(find.byIcon(Icons.email)).color,
-        scheme.onPrimary,
+        apple.style,
+        isDark ? SignInWithAppleButtonStyle.white : SignInWithAppleButtonStyle.black,
       );
 
-      final providers = tester.widgetList<SignInButton>(
-        find.byType(SignInButton),
+      // Google: fill, stroke and label per the branding guideline, with the
+      // matching G artwork.
+      final google = tester.widget<Material>(
+        find.descendant(
+          of: _googleButton(),
+          matching: find.byType(Material),
+        ),
       );
-      expect(providers.map((button) => button.button), [
-        scheme.brightness == Brightness.dark
-            ? Buttons.apple
-            : Buttons.appleDark,
-        scheme.brightness == Brightness.dark
-            ? Buttons.google
-            : Buttons.googleDark,
-      ]);
+      final shape = google.shape! as RoundedRectangleBorder;
+      expect(
+        google.color,
+        isDark ? _googleDarkFill : _googleLightFill,
+      );
+      expect(shape.side.color, isDark ? _googleDarkStroke : _googleLightStroke);
+      expect(
+        tester.widget<Text>(find.text(l10n.signInWithGoogle)).style!.color,
+        isDark ? _googleDarkText : _googleLightText,
+      );
+      final googleImage = tester.widget<Image>(
+        find.descendant(of: _googleButton(), matching: find.byType(Image)),
+      );
+      expect(
+        (googleImage.image as AssetImage).assetName,
+        isDark
+            ? 'assets/icons/google/google_g_dark.png'
+            : 'assets/icons/google/google_g_light.png',
+      );
+
+      // Shared geometry: 48 pt tall, 12 pt corner radius.
+      for (final button in [
+        _appleButton(),
+        _googleButton(),
+        emailFinder,
+      ]) {
+        expect(tester.getSize(button).height, AppButton.heightMedium);
+      }
+      expect(apple.borderRadius, BorderRadius.circular(AppRadius.card));
+      expect(shape.borderRadius, BorderRadius.circular(AppRadius.card));
     });
   }
 
@@ -187,6 +225,23 @@ void main() {
 
     expect(results, [null]);
     expect(find.byType(SignInSheet), findsNothing);
+  });
+
+  testWidgets('fits a 390 pt surface in de', (tester) async {
+    await tester.binding.setSurfaceSize(const Size(390, 900));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await _openSheet(tester, results: [], locale: const Locale('de'));
+    final l10n = _l10n(tester);
+
+    expect(tester.takeException(), isNull);
+    for (final button in [
+      _appleButton(),
+      _googleButton(),
+      _emailButton(l10n),
+    ]) {
+      expect(button, findsOneWidget);
+      expect(tester.getSize(button).height, AppButton.heightMedium);
+    }
   });
 
   testWidgets('scrolls at large text scales on a short surface', (
