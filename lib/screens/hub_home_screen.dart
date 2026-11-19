@@ -10,6 +10,7 @@ import '../services/settings_analytics.dart';
 import '../widgets/account/account_entry_tile.dart';
 import '../widgets/coffee_journey_card.dart';
 import '../widgets/for_you_card.dart';
+import '../widgets/hub_list_tile.dart';
 import '../widgets/settings/settings_list.dart';
 import '../services/authentication_service.dart';
 import 'pulse_screen.dart';
@@ -58,7 +59,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
           SettingsSection(
             header: l10n.hubSectionYourCoffee,
             children: [
-              _HubListTile(
+              HubListTile(
                 identifier: 'brewDiary',
                 label: l10n.brewdiary,
                 icon: Icons.library_books,
@@ -68,7 +69,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
                   context.router.push(BrewDiaryRoute());
                 },
               ),
-              _HubListTile(
+              HubListTile(
                 identifier: 'stats',
                 label: l10n.brewStats,
                 icon: Icons.bar_chart,
@@ -78,7 +79,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
                   context.router.push(StatsRoute());
                 },
               ),
-              _HubListTile(
+              HubListTile(
                 identifier: 'calculator',
                 label: l10n.extractionCalcTitle,
                 icon: Icons.calculate_outlined,
@@ -88,7 +89,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
                   context.router.push(ExtractionCalculatorRoute());
                 },
               ),
-              _HubListTile(
+              HubListTile(
                 identifier: 'userRecipes',
                 label: l10n.hubUserRecipesTitle,
                 icon: Icons.bookmarks_outlined,
@@ -103,7 +104,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
           SettingsSection(
             header: l10n.explore,
             children: [
-              _HubListTile(
+              HubListTile(
                 identifier: 'pulse',
                 label: l10n.pulseTitle,
                 iconWidget: const VitalSignsIcon(),
@@ -115,7 +116,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
                   );
                 },
               ),
-              _HubListTile(
+              HubListTile(
                 identifier: 'roasters',
                 label: l10n.roastersCatalogTitle,
                 icon: Icons.storefront_outlined,
@@ -125,7 +126,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
                   context.router.push(const RoastersRoute());
                 },
               ),
-              _HubListTile(
+              HubListTile(
                 identifier: 'blog',
                 label: l10n.blogTitle,
                 iconWidget: const NewsModeIcon(),
@@ -142,7 +143,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
           SettingsSection(
             header: l10n.hubSectionApp,
             children: [
-              _HubListTile(
+              HubListTile(
                 identifier: 'settings',
                 label: l10n.settings,
                 icon: Icons.settings,
@@ -152,7 +153,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
                   context.router.push(SettingsRoute());
                 },
               ),
-              _HubListTile(
+              HubListTile(
                 identifier: 'help',
                 label: l10n.helpAndFAQ,
                 icon: Icons.help_outline,
@@ -162,7 +163,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
                   context.router.push(const HelpHomeRoute());
                 },
               ),
-              _HubListTile(
+              HubListTile(
                 identifier: 'info',
                 label: l10n.about,
                 icon: Icons.info_outline,
@@ -179,57 +180,4 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
     );
   }
 
-}
-
-class _HubListTile extends StatelessWidget {
-  const _HubListTile({
-    required this.identifier,
-    required this.label,
-    required this.title,
-    required this.onTap,
-    this.icon,
-    this.iconWidget,
-    this.subtitle,
-    this.isCompact = false,
-  });
-
-  final String identifier;
-  final String label;
-  final IconData? icon;
-  final Widget? iconWidget;
-  final String title;
-  final String? subtitle;
-  final VoidCallback onTap;
-  final bool isCompact;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Semantics(
-      identifier: identifier,
-      label: label,
-      child: ListTile(
-        dense: isCompact,
-        visualDensity: isCompact ? VisualDensity.compact : null,
-        leading: iconWidget ?? Icon(icon),
-        title: Text(
-          title,
-          style: theme.textTheme.bodyLarge?.copyWith(
-            color: theme.colorScheme.onSurface,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        subtitle: subtitle == null
-            ? null
-            : Text(
-                subtitle!,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-              ),
-        onTap: onTap,
-      ),
-    );
-  }
 }
