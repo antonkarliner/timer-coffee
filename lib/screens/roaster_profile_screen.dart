@@ -405,7 +405,6 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
     final profile = _profile!;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final isLight = theme.brightness == Brightness.light;
     final currentUserId =
         Supabase.instance.client.auth.currentUser?.id;
     final isRoasterAdmin = currentUserId != null &&
@@ -418,11 +417,6 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
     final stockFeatureAvailable =
         const bool.fromEnvironment('FOR_YOU_DEBUG') ||
             (flags?[FeatureFlagKeys.beanRecommendations] ?? false);
-
-    final bgStart =
-        isLight ? Colors.grey.shade400 : Colors.grey.shade800;
-    final bgEnd =
-        isLight ? Colors.grey.shade300 : Colors.grey.shade700;
 
     return CustomScrollView(
       controller: _scrollController,
@@ -439,15 +433,8 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
             child: Card(
               margin: EdgeInsets.zero,
               clipBehavior: Clip.antiAlias,
-              child: Container(
+              child: SizedBox(
                 width: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [bgStart, bgEnd],
-                  ),
-                ),
                 child: Column(
                   children: [
                     // Logo area with padding
@@ -459,14 +446,23 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
                         AppSpacing.lg,
                       ),
                       child: Center(
-                        child: RoasterLogo(
-                          placeholderIcon: Icons.storefront_outlined,
-                          originalUrl: profile.roasterLogoUrl,
-                          mirrorUrl: profile.roasterLogoMirrorUrl,
-                          height: 140,
+                        child: Container(
                           width: 220,
-                          borderRadius: AppRadius.card,
-                          forceFit: BoxFit.contain,
+                          height: 140,
+                          decoration: BoxDecoration(
+                            color: colorScheme.surfaceContainerHighest,
+                            borderRadius: BorderRadius.circular(AppRadius.small),
+                          ),
+                          clipBehavior: Clip.antiAlias,
+                          child: RoasterLogo(
+                            placeholderIcon: Icons.storefront_outlined,
+                            originalUrl: profile.roasterLogoUrl,
+                            mirrorUrl: profile.roasterLogoMirrorUrl,
+                            height: 140,
+                            width: 220,
+                            borderRadius: AppRadius.card,
+                            forceFit: BoxFit.contain,
+                          ),
                         ),
                       ),
                     ),

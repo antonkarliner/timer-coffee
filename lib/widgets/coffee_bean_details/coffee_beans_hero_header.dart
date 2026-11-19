@@ -15,7 +15,7 @@ import 'quick_stat_chip.dart';
 /// A reusable hero header widget for coffee bean detail screens.
 ///
 /// This widget displays the main coffee bean information in a visually appealing
-/// hero header format with gradient background, roaster logo, bean details,
+/// hero header format with a roaster logo, bean details,
 /// favorite toggle functionality, and quick stats for roast date and cupping score.
 ///
 /// The component adapts to light/dark themes and provides proper contrast
@@ -48,12 +48,6 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
   /// Callback function called after favorite status is toggled
   final VoidCallback? onFavoriteToggle;
 
-  /// Optional custom gradient start color (defaults to theme-based gray)
-  final Color? gradientStartColor;
-
-  /// Optional custom gradient end color (defaults to theme-based gray)
-  final Color? gradientEndColor;
-
   /// Optional custom icon color for fallback logo (defaults to theme-based color)
   final Color? fallbackIconColor;
 
@@ -83,8 +77,6 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
     this.mirrorUrl,
     required this.coffeeBeansProvider,
     this.onFavoriteToggle,
-    this.gradientStartColor,
-    this.gradientEndColor,
     this.fallbackIconColor,
     this.primaryTextColor,
     this.secondaryTextColor,
@@ -102,15 +94,6 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
     final fmtSvc = Provider.of<DateTimeFormatService>(context);
     final datePattern = fmtSvc.datePattern('MMM d, yyyy');
     final theme = Theme.of(context);
-    final isLight = theme.brightness == Brightness.light;
-
-    // Theme-adaptive gradient colors - subtle gradient in light mode for better white logo visibility
-    final bgStart =
-        gradientStartColor ??
-        (isLight ? Colors.grey.shade400 : Colors.grey.shade800);
-    final bgEnd =
-        gradientEndColor ??
-        (isLight ? Colors.grey.shade300 : Colors.grey.shade700);
 
     // Theme-adaptive text colors
     final primaryColor = primaryTextColor ?? theme.colorScheme.onSurface;
@@ -128,16 +111,8 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
       container: true,
       explicitChildNodes: true,
       child: Card(
-        child: Container(
+        child: SizedBox(
           width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [bgStart, bgEnd],
-            ),
-          ),
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
@@ -183,9 +158,14 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
       label: loc.roasterLogoSemantic(bean.roaster),
       container: true,
       excludeSemantics: true,
-      child: SizedBox(
+      child: Container(
         height: logoHeight,
         width: effectiveLogoWidth,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(AppRadius.card),
+        ),
+        clipBehavior: Clip.antiAlias,
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 250),
           child: KeyedSubtree(
@@ -196,7 +176,7 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
                     mirrorUrl: mirrorUrl,
                     height: logoHeight,
                     width: effectiveLogoWidth,
-                    borderRadius: 12.0,
+                    borderRadius: AppRadius.card,
                     forceFit: BoxFit.contain,
                   )
                 : Icon(Coffeico.bag_with_bean, size: 60, color: iconColor),

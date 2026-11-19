@@ -18,7 +18,6 @@ class RoasterTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final isLight = Theme.of(context).brightness == Brightness.light;
     final isVerified =
         roaster.adminUserId != null && roaster.adminUserId!.isNotEmpty;
     final location = roaster.locationLabel;
@@ -37,14 +36,9 @@ class RoasterTile extends StatelessWidget {
               width: 56,
               height: 56,
               child: Container(
+                padding: const EdgeInsets.all(AppSpacing.xs),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: isLight
-                        ? [Colors.grey.shade400, Colors.grey.shade300]
-                        : [Colors.grey.shade800, Colors.grey.shade700],
-                  ),
+                  color: colorScheme.surfaceContainerHighest,
                   borderRadius: BorderRadius.circular(AppRadius.small),
                 ),
                 child: ClipRRect(
