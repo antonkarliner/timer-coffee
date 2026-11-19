@@ -57,6 +57,7 @@ Future<DiaryFilterSelection?> showDiaryFilterSheet(
   required DiaryFilterSelection initialSelection,
 }) => showModalBottomSheet<DiaryFilterSelection>(
   context: context,
+  showDragHandle: true,
   isScrollControlled: true,
   useSafeArea: true,
   shape: const RoundedRectangleBorder(
@@ -133,7 +134,7 @@ class _DiaryFilterSheetState extends State<_DiaryFilterSheet> {
       child: Padding(
         padding: EdgeInsets.only(
           left: AppSpacing.base,
-          top: AppSpacing.base,
+          top: AppSpacing.xs,
           right: AppSpacing.base,
           bottom: MediaQuery.viewInsetsOf(context).bottom + AppSpacing.base,
         ),

@@ -635,6 +635,7 @@ Future<void> _showCompareSheet(BuildContext context, List<DiaryEntry> entries) {
   DiaryEntry? second;
   return showModalBottomSheet<void>(
     context: context,
+    showDragHandle: true,
     isScrollControlled: true,
     useSafeArea: true,
     builder: (context) => StatefulBuilder(
@@ -656,7 +657,12 @@ Future<void> _showCompareSheet(BuildContext context, List<DiaryEntry> entries) {
         // together with the comparison table the content can exceed the
         // sheet height on phones.
         return SingleChildScrollView(
-          padding: const EdgeInsets.all(AppSpacing.base),
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.base,
+            AppSpacing.xs,
+            AppSpacing.base,
+            AppSpacing.base,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -670,9 +670,14 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
           MediaQuery.viewInsetsOf(context).bottom + AppSpacing.lg,
         ),
         children: [
+          // Drawn inside the ListView on purpose: the framework drag handle
+          // (showDragHandle) sits outside the DraggableScrollableSheet's
+          // scrollable, so dragging it up cannot expand the sheet. This bar
+          // scrolls with the list and keeps that gesture. Sized and coloured
+          // like the theme's handle.
           Center(
             child: Container(
-              width: AppSpacing.xxl,
+              width: AppSpacing.xl,
               height: AppSpacing.xs,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.outlineVariant,
