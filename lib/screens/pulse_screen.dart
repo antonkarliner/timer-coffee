@@ -599,7 +599,7 @@ class _PulseScreenState extends State<PulseScreen>
     return Icon(
       icon.icon ?? Icons.local_cafe_outlined,
       size: 18,
-      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.85),
+      color: Theme.of(context).colorScheme.onSurfaceVariant,
     );
   }
 
@@ -1072,7 +1072,7 @@ class _PulseScreenState extends State<PulseScreen>
                           fontSize: _lerp(15, 13, t),
                           height: 1.1,
                           fontWeight: FontWeight.w700,
-                          color: colorScheme.onSurface.withValues(alpha: 0.7),
+                          color: colorScheme.onSurfaceVariant,
                         ),
                       ),
                     ),
@@ -1120,7 +1120,7 @@ class _PulseScreenState extends State<PulseScreen>
                       child: Text(
                         '${l10n.pulseBrewsCount(summary.brews)} • ${summary.liters.toStringAsFixed(2)} ${l10n.litersUnit}',
                         style: textTheme.labelMedium?.copyWith(
-                          color: colorScheme.onSurface.withValues(alpha: 0.72),
+                          color: colorScheme.onSurfaceVariant,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -1157,7 +1157,7 @@ class _PulseScreenState extends State<PulseScreen>
               style: textTheme.labelSmall?.copyWith(
                 fontSize: 11,
                 height: 1.1,
-                color: colorScheme.onSurface.withValues(alpha: 0.65),
+                color: colorScheme.onSurfaceVariant,
               ),
             ),
             const SizedBox(height: 2),
@@ -1183,9 +1183,7 @@ class _PulseScreenState extends State<PulseScreen>
         _bucketLabel(context, bucket),
         style: Theme.of(context).textTheme.titleSmall?.copyWith(
           fontWeight: FontWeight.w700,
-          color: Theme.of(
-            context,
-          ).colorScheme.onSurface.withValues(alpha: 0.72),
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
         ),
       ),
     );
@@ -1289,9 +1287,7 @@ class _PulseScreenState extends State<PulseScreen>
                     Text(
                       _formatRelativeTime(entry.createdAt),
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.onSurface.withValues(alpha: 0.65),
+                        color: Theme.of(context).colorScheme.outline,
                       ),
                     ),
                   ],
@@ -1316,9 +1312,7 @@ class _PulseScreenState extends State<PulseScreen>
             Icon(
               isOffline ? Icons.wifi_off_rounded : Icons.timeline,
               size: 52,
-              color: Theme.of(
-                context,
-              ).colorScheme.onSurface.withValues(alpha: 0.35),
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
             const SizedBox(height: 16),
             Text(
@@ -1332,9 +1326,7 @@ class _PulseScreenState extends State<PulseScreen>
                 l10n.noInternetConnectionDesc,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withValues(alpha: 0.6),
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
               ),
             ],

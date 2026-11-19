@@ -37,20 +37,18 @@ class NextStepPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final secondaryColor = Theme.of(
-      context,
-    ).colorScheme.onSurface.withValues(alpha: 0.55);
+    final previewColor = Theme.of(context).colorScheme.onSurfaceVariant;
     return SizedBox(
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(label, style: TextStyle(color: secondaryColor, fontSize: 17)),
+          Text(label, style: TextStyle(color: previewColor, fontSize: 17)),
           const SizedBox(height: AppSpacing.xs),
           Text(
             description,
-            style: TextStyle(color: secondaryColor, fontSize: 20, height: 1.3),
+            style: TextStyle(color: previewColor, fontSize: 20, height: 1.3),
             textAlign: TextAlign.start,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
@@ -75,7 +73,7 @@ class BrewPausedLabel extends StatelessWidget {
       child: Text(
         label,
         style: AppTextStyles.fieldLabel.copyWith(
-          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
         ),
       ),
     );
