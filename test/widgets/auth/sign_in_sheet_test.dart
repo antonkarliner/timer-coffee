@@ -24,10 +24,7 @@ Finder _appleButton() => find.byType(AppleSignInButton);
 
 Finder _googleButton() => find.byType(GoogleSignInButton);
 
-Finder _emailButton(AppLocalizations l10n) => find.byWidgetPredicate(
-  (widget) =>
-      widget is AppElevatedButton && widget.label == l10n.signInWithEmail,
-);
+Finder _emailButton(AppLocalizations l10n) => find.byType(EmailSignInButton);
 
 AppLocalizations _l10n(WidgetTester tester) =>
     AppLocalizations.of(tester.element(find.byType(SignInSheet)))!;
@@ -140,14 +137,25 @@ void main() {
       final l10n = _l10n(tester);
       final isDark = scheme.brightness == Brightness.dark;
 
-      // Email: the default primary / onPrimary elevated button.
+      // Email: primary fill, onPrimary title and icon.
       final emailFinder = _emailButton(l10n);
       expect(emailFinder, findsOneWidget);
-      final elevated = tester.widget<ElevatedButton>(
-        find.descendant(of: emailFinder, matching: find.byType(ElevatedButton)),
+      final email = tester.widget<Material>(
+        find.descendant(of: emailFinder, matching: find.byType(Material)),
       );
-      expect(elevated.style!.backgroundColor!.resolve({}), scheme.primary);
-      expect(elevated.style!.foregroundColor!.resolve({}), scheme.onPrimary);
+      expect(email.color, scheme.primary);
+      expect(
+        tester.widget<Text>(find.text(l10n.signInWithEmail)).style!.color,
+        scheme.onPrimary,
+      );
+      expect(
+        tester
+            .widget<Icon>(
+              find.descendant(of: emailFinder, matching: find.byType(Icon)),
+            )
+            .color,
+        scheme.onPrimary,
+      );
 
       // Apple: black fill with white logo and title on light, the reverse
       // on dark.
@@ -175,8 +183,49 @@ void main() {
         appleTitle.style!.color,
         isDark ? Colors.black : Colors.white,
       );
-      // Apple's HIG: title at 43 % of the button height.
-      expect(appleTitle.style!.fontSize, AppButton.heightMedium * 0.43);
+
+      // One label style for all three titles (operator decision: one font).
+      for (final label in [
+        l10n.signInWithApple,
+        l10n.signInWithGoogle,
+        l10n.signInWithEmail,
+      ]) {
+        final style = tester.widget<Text>(find.text(label)).style!;
+        expect(style.fontSize, AppButton.label.fontSize);
+        expect(style.fontWeight, AppButton.label.fontWeight);
+      }
+
+      // Logos line up: the same left edge and the same 20 pt box, and every
+      // title is centred on its button.
+      final logoLefts = [
+        tester.getTopLeft(
+          find.descendant(
+            of: _appleButton(),
+            matching: find.byWidgetPredicate(
+              (w) => w is CustomPaint && w.painter is AppleLogoPainter,
+            ),
+          ),
+        ).dx,
+        tester.getTopLeft(
+          find.descendant(of: _googleButton(), matching: find.byType(Image)),
+        ).dx,
+        tester.getTopLeft(
+          find.descendant(of: emailFinder, matching: find.byType(Icon)),
+        ).dx,
+      ];
+      // Apple's glyph is narrower than its 20 pt box and centred in it.
+      expect(logoLefts[1], logoLefts[2]);
+      expect(logoLefts[0], closeTo(logoLefts[1] + (20 - 20 * 25 / 31) / 2, 0.01));
+      for (final (button, label) in [
+        (_appleButton(), l10n.signInWithApple),
+        (_googleButton(), l10n.signInWithGoogle),
+        (emailFinder, l10n.signInWithEmail),
+      ]) {
+        expect(
+          tester.getCenter(find.text(label)).dx,
+          closeTo(tester.getCenter(button).dx, 0.5),
+        );
+      }
 
       // Google: fill, stroke and label per the branding guideline, with the
       // matching G artwork.
@@ -263,7 +312,12 @@ void main() {
       _emailButton(l10n),
     ]) {
       expect(button, findsOneWidget);
-      expect(tester.getSize(button).height, AppButton.heightMedium);
+      // The test font is wider than SF, so a label may wrap here; the
+      // button then grows rather than clipping.
+      expect(
+        tester.getSize(button).height,
+        greaterThanOrEqualTo(AppButton.heightMedium),
+      );
     }
   });
 
@@ -289,7 +343,7 @@ void main() {
     expect(results, [SignInMethod.cancel]);
   });
 
-  testWidgets('Apple grows with the text scale like Google and Email', (
+  testWidgets('all three grow with the text scale and never cut a title', (
     tester,
   ) async {
     await tester.binding.setSurfaceSize(const Size(390, 1600));
@@ -297,20 +351,17 @@ void main() {
     await _openSheet(tester, results: [], textScaler: TextScaler.linear(3));
 
     expect(tester.takeException(), isNull);
-    final apple = tester.getSize(_appleButton()).height;
-    // Grown well past 48 pt (the test font differs from SF, so the exact
-    // ratio to Google is checked on device, not here).
-    expect(apple, greaterThan(AppButton.heightMedium * 2));
-    // The logo scales with the title.
-    final logo = tester.getSize(
-      find.descendant(
-        of: _appleButton(),
-        matching: find.byWidgetPredicate(
-          (w) => w is CustomPaint && w.painter is AppleLogoPainter,
-        ),
-      ),
-    );
-    expect(logo.height, closeTo(AppButton.heightMedium * 0.43 * 3, 0.01));
+    // All three grow (how far depends on each label's length).
+    for (final button in [
+      _appleButton(),
+      _googleButton(),
+      _emailButton(_l10n(tester)),
+    ]) {
+      expect(
+        tester.getSize(button).height,
+        greaterThan(AppButton.heightMedium),
+      );
+    }
     // The title is never cut off: no line limit, no ellipsis, and the
     // paragraph lays out without exceeding its lines.
     final title = tester.widget<Text>(

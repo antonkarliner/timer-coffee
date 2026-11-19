@@ -96,20 +96,10 @@ class SignInSheet extends StatelessWidget {
                           Navigator.pop(context, SignInMethod.google),
                     ),
                     const SizedBox(height: AppSpacing.base),
-                    Semantics(
-                      identifier: 'signInWithEmailButton',
-                      child: AppElevatedButton(
-                        label: l10n.signInWithEmail,
-                        icon: Icons.email,
-                        onPressed: () =>
-                            Navigator.pop(context, SignInMethod.email),
-                        height: AppButton.heightMedium,
-                        elevation: 0,
-                        // `height` is only a minimum: the default medium
-                        // padding would grow the button past the 48 pt token
-                        // height, so use the small padding to stay at 48.
-                        padding: AppButton.paddingSmall,
-                      ),
+                    EmailSignInButton(
+                      label: l10n.signInWithEmail,
+                      onPressed: () =>
+                          Navigator.pop(context, SignInMethod.email),
                     ),
                   ],
                 ),
