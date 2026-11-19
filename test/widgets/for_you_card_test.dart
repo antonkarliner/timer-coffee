@@ -8,6 +8,7 @@ import 'package:coffee_timer/providers/recommendation_provider.dart';
 import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/services/clients/bean_recommendation_client.dart';
 import 'package:coffee_timer/utils/stock_links.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:coffee_timer/widgets/for_you_card.dart';
 import 'package:coffee_timer/widgets/stock_bean_card.dart';
 import 'package:flutter/material.dart';
@@ -508,6 +509,23 @@ void main() {
   });
 
   group('rows', () {
+    testWidgets('actions use the default button label style', (tester) async {
+      await _pumpCard(tester, items: [
+        rec('s1', productUrl: 'https://shop.example.com/b1'),
+        rec('s2'),
+      ]);
+      await tester.pumpAndSettle();
+
+      expect(find.text(_viewLabel), findsOneWidget);
+      expect(find.text(_dismissLabel), findsOneWidget);
+      expect(find.text(_showMoreLabel), findsOneWidget);
+      expect(find.text('Your taste profile'), findsOneWidget);
+      final buttons =
+          tester.widgetList<AppTextButton>(find.byType(AppTextButton));
+      expect(buttons.length, greaterThanOrEqualTo(4));
+      expect(buttons.map((button) => button.textStyle), everyElement(isNull));
+    });
+
     testWidgets('ready with 5 items → collapsed one row, expanded maxItems',
         (tester) async {
       final items = List.generate(
