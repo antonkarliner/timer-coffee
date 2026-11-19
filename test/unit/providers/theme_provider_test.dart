@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:coffee_timer/providers/theme_provider.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
 
 void main() {
   setUp(() {
@@ -100,6 +101,38 @@ void main() {
   });
 
   group('lightTheme / darkTheme', () {
+    test('dialogs, bottom sheets and popup menus use design tokens', () {
+      for (final theme in [
+        ThemeProvider(ThemeMode.light).lightTheme,
+        ThemeProvider(ThemeMode.dark).darkTheme,
+      ]) {
+        expect(theme.dialogTheme.shape, isA<RoundedRectangleBorder>());
+        expect(
+          (theme.dialogTheme.shape! as RoundedRectangleBorder).borderRadius,
+          BorderRadius.circular(AppRadius.card),
+        );
+        expect(theme.dialogTheme.backgroundColor, isNull);
+
+        expect(theme.bottomSheetTheme.shape, isA<RoundedRectangleBorder>());
+        expect(
+          (theme.bottomSheetTheme.shape! as RoundedRectangleBorder).borderRadius,
+          const BorderRadius.vertical(top: Radius.circular(AppRadius.large)),
+        );
+        expect(
+          theme.bottomSheetTheme.dragHandleColor,
+          theme.colorScheme.outlineVariant,
+        );
+        expect(theme.bottomSheetTheme.showDragHandle, isNull);
+
+        expect(theme.popupMenuTheme.shape, isA<RoundedRectangleBorder>());
+        expect(
+          (theme.popupMenuTheme.shape! as RoundedRectangleBorder).borderRadius,
+          BorderRadius.circular(AppRadius.card),
+        );
+        expect(theme.popupMenuTheme.surfaceTintColor, Colors.transparent);
+      }
+    });
+
     test('app bars retain their colour when content scrolls under them', () {
       for (final theme in [
         ThemeProvider(ThemeMode.light).lightTheme,
