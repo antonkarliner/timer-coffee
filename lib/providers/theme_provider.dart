@@ -45,6 +45,8 @@ class ThemeProvider with ChangeNotifier {
         backgroundColor:
             isDark ? const Color(0xFF303030) : scheme.surface,
         foregroundColor: scheme.onSurface,
+        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
       ),
       // Input decoration theme for outlined fields
       inputDecorationTheme: InputDecorationTheme(

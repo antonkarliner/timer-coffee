@@ -104,8 +104,6 @@ class _GiftBoxListScreenState extends State<GiftBoxListScreen> {
         backgroundColor: Colors.transparent,
         foregroundColor: theme.colorScheme.primary,
         elevation: 0,
-        scrolledUnderElevation: 0,
-        surfaceTintColor: Colors.transparent,
         actions: [
           IconButton(
             tooltip: l10n.snow,

@@ -100,6 +100,16 @@ void main() {
   });
 
   group('lightTheme / darkTheme', () {
+    test('app bars retain their colour when content scrolls under them', () {
+      for (final theme in [
+        ThemeProvider(ThemeMode.light).lightTheme,
+        ThemeProvider(ThemeMode.dark).darkTheme,
+      ]) {
+        expect(theme.appBarTheme.scrolledUnderElevation, 0);
+        expect(theme.appBarTheme.surfaceTintColor, Colors.transparent);
+      }
+    });
+
     test('lightTheme uses Material 3', () {
       final provider = ThemeProvider(ThemeMode.light);
       expect(provider.lightTheme.useMaterial3, isTrue);

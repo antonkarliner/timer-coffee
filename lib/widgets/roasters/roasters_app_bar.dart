@@ -29,7 +29,6 @@ class RoastersAppBar extends StatelessWidget implements PreferredSizeWidget {
     final loc = AppLocalizations.of(context)!;
 
     return AppBar(
-      scrolledUnderElevation: 0,
       elevation: 0,
       leading: const SmartBackButton(),
       title: TextField(
