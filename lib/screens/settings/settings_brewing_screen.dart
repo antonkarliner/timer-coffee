@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:coffeico_plus/coffeico_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -140,6 +141,7 @@ class _SettingsBrewingScreenState extends State<SettingsBrewingScreen> {
 
     return SettingsPageScaffold(
       title: l10n.settingsBrewingTitle,
+      titleIcon: Coffeico.coffee_maker,
       children: [
         // The preview cards are a non-row block, so the section is headed.
         SettingsSection(

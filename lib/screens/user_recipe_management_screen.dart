@@ -165,6 +165,7 @@ class _UserRecipeManagementScreenState
     return Scaffold(
       appBar: ManagementAppBar(
         title: l10n.userRecipesTitle,
+        titleIcon: Icons.bookmarks_outlined,
         controller: _controller,
         onToggleEdit: () async {
           _controller.toggleEdit();

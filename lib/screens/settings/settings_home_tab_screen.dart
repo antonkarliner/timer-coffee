@@ -105,6 +105,7 @@ class SettingsHomeTabScreen extends StatelessWidget {
 
     return SettingsPageScaffold(
       title: l10n.settingsHomeScreenTitle,
+      titleIcon: Icons.home_outlined,
       children: [
         Consumer<CollectionsPreferencesService>(
           builder: (context, prefs, _) {
