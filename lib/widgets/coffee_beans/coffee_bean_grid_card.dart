@@ -53,14 +53,9 @@ class CoffeeBeanGridCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // subtle gradient in light mode for better white logo visibility
-    final isLight = Theme.of(context).brightness == Brightness.light;
-    final bgStart = isLight ? Colors.grey.shade400 : Colors.grey.shade800;
-    final bgEnd = isLight ? Colors.grey.shade300 : Colors.grey.shade700;
+    final colorScheme = Theme.of(context).colorScheme;
     // icon tint
-    final iconColor = Theme.of(
-      context,
-    ).colorScheme.onSurface.withAlpha((255 * 0.6).round());
+    final iconColor = colorScheme.onSurface.withAlpha((255 * 0.6).round());
 
     final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
       context,
@@ -88,66 +83,63 @@ class CoffeeBeanGridCard extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           child: Stack(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [bgStart, bgEnd],
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Header with favorite - reduced padding
-                    Container(
-                      height: 40, // Fixed height
-                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: Row(
-                        children: [
-                          const Spacer(),
-                          IconButton(
-                            iconSize: 18, // Reduced size
-                            padding: const EdgeInsets.all(4), // Reduced padding
-                            constraints: const BoxConstraints(
-                              minWidth: 32,
-                              minHeight: 32,
-                            ),
-                            icon: Icon(
-                              bean.isFavorite
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
-                              color: bean.isFavorite
-                                  ? (Theme.of(context).brightness ==
-                                            Brightness.light
-                                        ? const Color(0xff8e2e2d)
-                                        : const Color(0xffc66564))
-                                  : null,
-                            ),
-                            onPressed:
-                                onFavoriteToggle ??
-                                () async {
-                                  await coffeeBeansProvider
-                                      .toggleFavoriteStatus(
-                                        bean.beansUuid,
-                                        !bean.isFavorite,
-                                      );
-                                },
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Header with favorite - reduced padding
+                  Container(
+                    height: 40, // Fixed height
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: Row(
+                      children: [
+                        const Spacer(),
+                        IconButton(
+                          iconSize: 18, // Reduced size
+                          padding: const EdgeInsets.all(4), // Reduced padding
+                          constraints: const BoxConstraints(
+                            minWidth: 32,
+                            minHeight: 32,
                           ),
-                        ],
-                      ),
+                          icon: Icon(
+                            bean.isFavorite
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            color: bean.isFavorite
+                                ? (Theme.of(context).brightness ==
+                                          Brightness.light
+                                      ? const Color(0xff8e2e2d)
+                                      : const Color(0xffc66564))
+                                : null,
+                          ),
+                          onPressed:
+                              onFavoriteToggle ??
+                              () async {
+                                await coffeeBeansProvider.toggleFavoriteStatus(
+                                  bean.beansUuid,
+                                  !bean.isFavorite,
+                                );
+                              },
+                        ),
+                      ],
                     ),
+                  ),
 
-                    // Logo / photo section
-                    Expanded(
-                      flex: 3,
-                      child: Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: bean.photoUrl != null
-                            ? ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: CachedNetworkImage(
+                  // Logo / photo section
+                  Expanded(
+                    flex: 3,
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.sm,
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(AppRadius.small),
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: colorScheme.surfaceContainerHighest,
+                          ),
+                          child: bean.photoUrl != null
+                              ? CachedNetworkImage(
                                   imageUrl:
                                       SupabaseEndpointResolver.localizeStorageUrl(
                                         bean.photoUrl!,
@@ -160,130 +152,129 @@ class CoffeeBeanGridCard extends StatelessWidget {
                                     size: 50,
                                     color: iconColor,
                                   ),
-                                ),
-                              )
-                            : FutureBuilder<Map<String, String?>>(
-                                future: databaseProvider
-                                    .fetchCachedRoasterLogoUrls(bean.roaster),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    final originalUrl =
-                                        snapshot.data!['original'];
-                                    final mirrorUrl = snapshot.data!['mirror'];
-                                    if (originalUrl != null ||
-                                        mirrorUrl != null) {
-                                      return RoasterLogo(
-                                        originalUrl: originalUrl,
-                                        mirrorUrl: mirrorUrl,
-                                        height: 50,
-                                        borderRadius: 8.0,
-                                        forceFit: BoxFit.contain,
-                                      );
+                                )
+                              : FutureBuilder<Map<String, String?>>(
+                                  future: databaseProvider
+                                      .fetchCachedRoasterLogoUrls(bean.roaster),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      final originalUrl =
+                                          snapshot.data!['original'];
+                                      final mirrorUrl =
+                                          snapshot.data!['mirror'];
+                                      if (originalUrl != null ||
+                                          mirrorUrl != null) {
+                                        return RoasterLogo(
+                                          originalUrl: originalUrl,
+                                          mirrorUrl: mirrorUrl,
+                                          height: 50,
+                                          borderRadius: 8.0,
+                                          forceFit: BoxFit.contain,
+                                        );
+                                      }
                                     }
-                                  }
-                                  return Icon(
-                                    Coffeico.bag_with_bean,
-                                    size: 50,
-                                    color: iconColor,
-                                  );
-                                },
-                              ),
+                                    return Icon(
+                                      Coffeico.bag_with_bean,
+                                      size: 50,
+                                      color: iconColor,
+                                    );
+                                  },
+                                ),
+                        ),
                       ),
                     ),
+                  ),
 
-                    // Text information - flexible with minimum height
-                    Expanded(
-                      flex: 2,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize:
-                              MainAxisSize.min, // Important: minimize space
-                          children: [
-                            const SizedBox(height: 6),
-                            Flexible(
-                              // Use Flexible instead of fixed height
-                              child: AutoSizeText(
-                                bean.name,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onSurface,
-                                ),
-                                maxLines: 2, // Reduced from 3
-                                minFontSize: 10, // Reduced from 12
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            const SizedBox(height: 2), // Reduced spacing
-                            Text(
-                              bean.roaster,
+                  // Text information - flexible with minimum height
+                  Expanded(
+                    flex: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize:
+                            MainAxisSize.min, // Important: minimize space
+                        children: [
+                          const SizedBox(height: 6),
+                          Flexible(
+                            // Use Flexible instead of fixed height
+                            child: AutoSizeText(
+                              bean.name,
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
                                 color: Theme.of(context).colorScheme.onSurface,
                               ),
-                              maxLines: 1,
+                              maxLines: 2, // Reduced from 3
+                              minFontSize: 10, // Reduced from 12
                               overflow: TextOverflow.ellipsis,
                             ),
-                            const SizedBox(height: 2), // Reduced spacing
-                            Text(
-                              sortOption == SortOption.roastDate
-                                  ? (bean.roastDate != null
-                                        ? '${loc.roastDate}: ${app_date_utils.DateUtils.formatMediumDate(bean.roastDate!)}'
-                                        : bean.origin)
-                                  : bean.origin,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Theme.of(context).colorScheme.outline,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 2), // Reduced spacing
+                          Text(
+                            bean.roaster,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Theme.of(context).colorScheme.onSurface,
                             ),
-                          ],
-                        ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 2), // Reduced spacing
+                          Text(
+                            sortOption == SortOption.roastDate
+                                ? (bean.roastDate != null
+                                      ? '${loc.roastDate}: ${app_date_utils.DateUtils.formatMediumDate(bean.roastDate!)}'
+                                      : bean.origin)
+                                : bean.origin,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Theme.of(context).colorScheme.outline,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
                       ),
                     ),
+                  ),
 
-                    // Action buttons - only show in edit mode with fixed height
-                    if (isEditMode)
-                      Container(
-                        height: 40, // Fixed height
-                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            IconButton(
-                              iconSize: 18, // Reduced size
-                              padding: const EdgeInsets.all(4),
-                              constraints: const BoxConstraints(
-                                minWidth: 32,
-                                minHeight: 32,
-                              ),
-                              icon: const Icon(
-                                Icons.remove_circle_outline,
-                                color: Colors.red,
-                              ),
-                              onPressed: () async {
-                                final confirmed = await showDialog<bool>(
-                                  context: context,
-                                  builder: (context) => ConfirmDeleteDialog(
-                                    title: loc.beanDeleteTitle,
-                                    content: loc.beanDeleteMessage,
-                                    confirmLabel: loc.delete,
-                                    cancelLabel: loc.cancel,
-                                  ),
-                                );
-                                if (confirmed == true) onDelete();
-                              },
+                  // Action buttons - only show in edit mode with fixed height
+                  if (isEditMode)
+                    Container(
+                      height: 40, // Fixed height
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          IconButton(
+                            iconSize: 18, // Reduced size
+                            padding: const EdgeInsets.all(4),
+                            constraints: const BoxConstraints(
+                              minWidth: 32,
+                              minHeight: 32,
                             ),
-                          ],
-                        ),
+                            icon: const Icon(
+                              Icons.remove_circle_outline,
+                              color: Colors.red,
+                            ),
+                            onPressed: () async {
+                              final confirmed = await showDialog<bool>(
+                                context: context,
+                                builder: (context) => ConfirmDeleteDialog(
+                                  title: loc.beanDeleteTitle,
+                                  content: loc.beanDeleteMessage,
+                                  confirmLabel: loc.delete,
+                                  cancelLabel: loc.cancel,
+                                ),
+                              );
+                              if (confirmed == true) onDelete();
+                            },
+                          ),
+                        ],
                       ),
-                  ],
-                ),
+                    ),
+                ],
               ),
               // Weight label in top-left corner if available
               if (bean.validatedPackageWeightGrams != null)

@@ -11,9 +11,7 @@ import '../theme/design_tokens.dart';
 
 /// Full-width collection card shown on the Brewing Methods home.
 ///
-/// Visual treatment mirrors [CoffeeBeanCard] (Card + elevation + gradient
-/// background, horizontal logo/text layout) for a consistent look across
-/// the app's discovery surfaces.
+/// Uses the same themed card and horizontal layout as the bean list.
 class CollectionCard extends StatelessWidget {
   final RecipeCollectionModel collection;
   final int cardIndex;
@@ -33,9 +31,6 @@ class CollectionCard extends StatelessWidget {
     final hasNew = context.watch<CollectionNewBadgeService>().hasNew(
       collection.id,
     );
-    final isLight = theme.brightness == Brightness.light;
-    final bgStart = isLight ? Colors.grey.shade400 : Colors.grey.shade800;
-    final bgEnd = isLight ? Colors.grey.shade300 : Colors.grey.shade700;
 
     const double emojiBoxSize = 80.0;
     final hasDescription =
@@ -72,21 +67,17 @@ class CollectionCard extends StatelessWidget {
           margin: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
           child: Stack(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [bgStart, bgEnd],
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(AppSpacing.sm),
-                  child: Row(
-                    children: [
-                      // ───────── EMOJI SLOT ─────────
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(AppRadius.small),
+              Padding(
+                padding: const EdgeInsets.all(AppSpacing.sm),
+                child: Row(
+                  children: [
+                    // ───────── EMOJI SLOT ─────────
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(AppRadius.small),
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.surfaceContainerHighest,
+                        ),
                         child: Container(
                           height: emojiBoxSize,
                           width: emojiBoxSize,
@@ -100,41 +91,41 @@ class CollectionCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(width: AppSpacing.sm),
-                      // ───────── TEXT SECTION ─────────
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                    ),
+                    const SizedBox(width: AppSpacing.sm),
+                    // ───────── TEXT SECTION ─────────
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            collection.name,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: theme.colorScheme.onSurface,
+                            ),
+                          ),
+                          if (hasDescription) ...[
+                            const SizedBox(height: AppSpacing.xs),
                             Text(
-                              collection.name,
-                              maxLines: 1,
+                              collection.description!,
+                              maxLines: 3,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: theme.colorScheme.onSurface,
+                                fontSize: 14,
+                                color: theme.colorScheme.onSurfaceVariant
+                                    .withAlpha((255 * 0.85).round()),
                               ),
                             ),
-                            if (hasDescription) ...[
-                              const SizedBox(height: AppSpacing.xs),
-                              Text(
-                                collection.description!,
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: theme.colorScheme.onSurfaceVariant
-                                      .withAlpha((255 * 0.85).round()),
-                                ),
-                              ),
-                            ],
                           ],
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               if (hasNew)
