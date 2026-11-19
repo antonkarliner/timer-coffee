@@ -93,26 +93,10 @@ const Map<String, _Allowed> _allowlist = {
     "follow-up: text/icon fade not in plan 089's list (434 fallback coffee bag icon). "
     '48 is decoration: the 6% press overlay (`cs.onSurface`).',
   ),
-  'lib/widgets/roaster_contribution/contribution_sheet.dart': _Allowed(
-    1,
-    _Category.decoration,
-    'Contribution sheet drag handle.',
-  ),
-  'lib/widgets/roaster_profile/review_form.dart': _Allowed(
-    2,
-    _Category.heldUntil,
-    'TEMPORARY (added 2026-11-19): remove when plan 089 Phase 5b finishes these files. '
-    'Held for plan 087 Phases 6 and 8b (569 sheet drag handle, 647 review eligibility text).',
-  ),
   'lib/widgets/roaster_profile/taste_profile_sliders.dart': _Allowed(
     5,
     _Category.decoration,
     'Active and inactive tracks and thumb before interaction, plus the empty and background display tracks.',
-  ),
-  'lib/widgets/roasters/country_filter_sheet.dart': _Allowed(
-    1,
-    _Category.decoration,
-    'Country filter sheet drag handle.',
   ),
 };
 

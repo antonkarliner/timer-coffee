@@ -644,7 +644,7 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
                     Text(
                       l10n.reviewRequiresOwnedBeans,
                       style: AppTextStyles.caption.copyWith(
-                        color: colorScheme.onSurface.withValues(alpha: 0.5),
+                        color: colorScheme.onSurfaceVariant,
                       ),
                     )
                   else
