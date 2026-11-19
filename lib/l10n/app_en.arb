@@ -1898,7 +1898,7 @@
   "roasterDisclaimerDetails": "Roaster details (location, website, social links) are provided by the roasters themselves or sourced from public records and may not always be current.",
   "stockSourceNote": "Listings come from roasters’ public websites and may be out of date. Timer.Coffee isn’t responsible for content on other sites.",
   "@stockSourceNote": {
-    "description": "Caption at the bottom of the bean listings (the Hub’s “For you” block and the roaster profile’s “In stock now” section): the listings were collected from the roasters’ public websites, may be out of date, and Timer.Coffee is not responsible for content on other sites"
+    "description": "Caption at the bottom of the bean listings (the More tab’s “For you” block and the roaster profile’s “In stock now” section): the listings were collected from the roasters’ public websites, may be out of date, and Timer.Coffee is not responsible for content on other sites"
   },
   "roasterDisclaimerStock": "Beans shown as in stock are collected from the roaster’s publicly available website. They may be incomplete or out of date, and Timer.Coffee is not responsible for the content, prices or availability on external sites.",
   "@roasterDisclaimerStock": {
@@ -3235,7 +3235,7 @@
   "brewLaterOpenSettings": "Open Settings",
   "@brewLaterOpenSettings": {"description": "Button in the brew-later sheet's denied state that opens the system notification settings."},
   "forYouTitle": "For you",
-  "@forYouTitle": {"description": "Title of the Hub's 'For you' card showing in-stock beans picked for the user."},
+  "@forYouTitle": {"description": "Title of the More tab's 'For you' card showing in-stock beans picked for the user."},
   "forYouSubtitle": "In stock now, picked from what you brew",
   "@forYouSubtitle": {"description": "One-line caption under the 'For you' card title: the picks are in stock and chosen based on the user's brews."},
   "forYouYourRoaster": "Your roaster",
@@ -3245,8 +3245,8 @@
   "forYouNotForMe": "Not for me",
   "@forYouNotForMe": {"description": "Button on a 'For you' pick that hides the suggestion and tells the recommendations the user is not interested."},
   "forYouSettingTitle": "Bean suggestions",
-  "@forYouSettingTitle": {"description": "Title of the Settings switch that turns the 'For you' bean suggestions on the Hub on or off."},
-  "forYouSettingSubtitle": "Show in-stock beans picked for you on the Hub",
+  "@forYouSettingTitle": {"description": "Title of the Settings switch that turns the 'For you' bean suggestions on the More tab on or off."},
+  "forYouSettingSubtitle": "Show in-stock beans picked for you on the More tab",
   "@forYouSettingSubtitle": {"description": "Description under the 'Bean suggestions' Settings switch: what it shows and where."},
   "forYouHiddenMessage": "Bean suggestions are off. You can turn them back on in Settings.",
   "@forYouHiddenMessage": {"description": "Snackbar shown when the ‘For you’ card’s hide control turns bean suggestions off; its Undo action turns them back on and reloads the card."},
