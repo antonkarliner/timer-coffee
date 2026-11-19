@@ -47,7 +47,6 @@ class CoffeeBeansAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor ??
           Theme.of(context).colorScheme.surface,
-      scrolledUnderElevation: 0,
       elevation: 0,
       title: TextField(
         controller: searchController,

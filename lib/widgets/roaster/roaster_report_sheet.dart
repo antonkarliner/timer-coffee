@@ -275,8 +275,6 @@ class _RoasterReportSheetState extends State<_RoasterReportSheet> {
       onPopInvokedWithResult: (didPop, _) => _handleDismiss(didPop),
       child: Padding(
         padding: EdgeInsets.only(
-          left: AppSpacing.base,
-          right: AppSpacing.base,
           top: AppSpacing.base,
           bottom: MediaQuery.of(context).viewInsets.bottom + AppSpacing.base,
         ),
@@ -285,64 +283,88 @@ class _RoasterReportSheetState extends State<_RoasterReportSheet> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(l10n.roasterReportTitle, style: AppTextStyles.title),
-              const SizedBox(height: AppSpacing.xs),
-              Text(
-                l10n.roasterReportSubtitle(widget.roasterName),
-                style: AppTextStyles.body.copyWith(
-                  color: colorScheme.onSurface.withValues(alpha: 0.6),
+              Padding(
+                padding: const EdgeInsetsDirectional.symmetric(
+                  horizontal: AppSpacing.base,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(l10n.roasterReportTitle, style: AppTextStyles.title),
+                    const SizedBox(height: AppSpacing.xs),
+                    Text(
+                      l10n.roasterReportSubtitle(widget.roasterName),
+                      style: AppTextStyles.body.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.base),
+                  ],
                 ),
               ),
-              const SizedBox(height: AppSpacing.base),
               SettingsInlineChoice<String?>(
                 options: options,
                 current: category,
                 onChanged: _selectCategory,
               ),
-              // Always-present slot for the optional correction field; keeps
-              // the widget type at this tree position stable
-              // (SizedBox.shrink() when the category has no correction
-              // field). The field's text lives in this state's controller,
-              // so a remount cannot lose it.
               Padding(
-                padding: const EdgeInsets.only(top: AppSpacing.base),
-                child: category != null && hasSuggestedValueField
-                    ? LabeledField(
-                        label: l10n.roasterReportCorrectValueLabel,
-                        hintText: _hintFor(l10n, category),
-                        controller: _suggestedValueController,
-                        maxLength: _maxSuggestedValueLength,
+                padding: const EdgeInsetsDirectional.symmetric(
+                  horizontal: AppSpacing.base,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // Always-present slot for the optional correction field; keeps
+                    // the widget type at this tree position stable
+                    // (SizedBox.shrink() when the category has no correction
+                    // field). The field's text lives in this state's controller,
+                    // so a remount cannot lose it.
+                    Padding(
+                      padding: const EdgeInsets.only(top: AppSpacing.base),
+                      child: category != null && hasSuggestedValueField
+                          ? LabeledField(
+                              label: l10n.roasterReportCorrectValueLabel,
+                              hintText: _hintFor(l10n, category),
+                              controller: _suggestedValueController,
+                              maxLength: _maxSuggestedValueLength,
+                              onChanged: (_) => setState(() {}),
+                            )
+                          : const SizedBox.shrink(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: AppSpacing.base),
+                      child: LabeledField(
+                        label: category == 'other'
+                            ? l10n.roasterReportDetailsRequired
+                            : l10n.roasterReportDetailsOptional,
+                        controller: _detailsController,
+                        isMultiline: true,
+                        minLines: 3,
+                        maxLines: 6,
+                        maxLength: _maxDetailsLength,
                         onChanged: (_) => setState(() {}),
-                      )
-                    : const SizedBox.shrink(),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: AppSpacing.base),
-                child: LabeledField(
-                  label: category == 'other'
-                      ? l10n.roasterReportDetailsRequired
-                      : l10n.roasterReportDetailsOptional,
-                  controller: _detailsController,
-                  isMultiline: true,
-                  minLines: 3,
-                  maxLines: 6,
-                  maxLength: _maxDetailsLength,
-                  onChanged: (_) => setState(() {}),
+                      ),
+                    ),
+                    // Always-present inline error slot; renders nothing while
+                    // empty, so surrounding widget types never change.
+                    Text(
+                      _error ?? '',
+                      style: AppTextStyles.body.copyWith(
+                        color: colorScheme.error,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.lg),
+                    AppElevatedButton(
+                      label: l10n.roasterReportSubmit,
+                      onPressed: _canSubmit ? _submit : null,
+                      isLoading: _submitting,
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                  ],
                 ),
               ),
-              // Always-present inline error slot; renders nothing while
-              // empty, so surrounding widget types never change.
-              Text(
-                _error ?? '',
-                style: AppTextStyles.body.copyWith(color: colorScheme.error),
-              ),
-              const SizedBox(height: AppSpacing.lg),
-              AppElevatedButton(
-                label: l10n.roasterReportSubmit,
-                onPressed: _canSubmit ? _submit : null,
-                isLoading: _submitting,
-              ),
-              const SizedBox(height: AppSpacing.sm),
             ],
           ),
         ),

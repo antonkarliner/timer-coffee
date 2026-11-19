@@ -45,6 +45,27 @@ class ThemeProvider with ChangeNotifier {
         backgroundColor:
             isDark ? const Color(0xFF303030) : scheme.surface,
         foregroundColor: scheme.onSurface,
+        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
+      ),
+      dialogTheme: DialogThemeData(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.card),
+        ),
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(AppRadius.large),
+          ),
+        ),
+        dragHandleColor: scheme.outlineVariant,
+      ),
+      popupMenuTheme: PopupMenuThemeData(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.card),
+        ),
+        surfaceTintColor: Colors.transparent,
       ),
       // Input decoration theme for outlined fields
       inputDecorationTheme: InputDecorationTheme(
