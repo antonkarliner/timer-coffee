@@ -118,7 +118,7 @@ class FavoriteRecipesScreen extends StatelessWidget {
             Icon(
               Icons.favorite_border_rounded,
               size: AppIconSize.emptyState,
-              color: theme.colorScheme.onSurface.withValues(alpha: 0.35),
+              color: theme.colorScheme.onSurfaceVariant,
             ),
             const SizedBox(height: AppSpacing.base),
             Text(
@@ -130,7 +130,7 @@ class FavoriteRecipesScreen extends StatelessWidget {
             Text(
               loc.noFavoriteRecipesMessage,
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                color: theme.colorScheme.onSurfaceVariant,
               ),
               textAlign: TextAlign.center,
             ),

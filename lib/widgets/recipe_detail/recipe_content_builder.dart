@@ -142,7 +142,7 @@ class _RecipeContentBuilderState extends State<RecipeContentBuilder> {
           Text(
             loc.recipeByPrefix,
             style: AppTextStyles.caption.copyWith(
-              color: colorScheme.onSurface.withValues(alpha: 0.6),
+              color: colorScheme.onSurfaceVariant,
             ),
           ),
           Text(
@@ -306,9 +306,7 @@ class _RecipeContentBuilderState extends State<RecipeContentBuilder> {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: AppTextStyles.caption.copyWith(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withValues(alpha: 0.6),
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                 ),
               ),
