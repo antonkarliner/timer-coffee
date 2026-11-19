@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 
-enum _Category { decoration, keptByVerdict, heldUntil, unreviewed }
+enum _Category { decoration, keptByVerdict, unreviewed }
 
 class _Allowed {
   const _Allowed(this.count, this.category, this.reason);
@@ -25,11 +25,9 @@ const Map<String, _Allowed> _allowlist = {
     "follow-up: text/icon fade not in plan 089's list (171 beans loading error icon).",
   ),
   'lib/screens/roaster_profile_screen.dart': _Allowed(
-    4,
-    _Category.heldUntil,
-    'TEMPORARY (added 2026-11-19): remove when plan 089 Phase 5b finishes these files. '
-    'Held for plan 087 Phases 6 and 8b (482 divider, 640 bags logged, '
-    '735 review eligibility, 908 disclaimer bullet and text).',
+    1,
+    _Category.decoration,
+    'Divider on the roaster hero card (~481).',
   ),
   'lib/screens/roasters_screen.dart': _Allowed(
     3,
