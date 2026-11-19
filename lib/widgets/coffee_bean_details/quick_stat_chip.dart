@@ -117,7 +117,7 @@ class QuickStatChip extends StatelessWidget {
               Text(
                 subtitle!,
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.55),
+                  color: theme.colorScheme.outline,
                 ),
                 textAlign: TextAlign.center,
               ),

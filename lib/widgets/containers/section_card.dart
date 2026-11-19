@@ -202,7 +202,7 @@ class _SectionCardState extends State<SectionCard>
                     Text(
                       widget.subtitle!,
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: colorScheme.onSurface.withValues(alpha: 0.7),
+                        color: colorScheme.onSurfaceVariant,
                       ),
                     ),
                   ],
@@ -221,7 +221,7 @@ class _SectionCardState extends State<SectionCard>
                     angle: _iconRotation.value * math.pi,
                     child: Icon(
                       Icons.expand_more,
-                      color: colorScheme.onSurface.withValues(alpha: 0.6),
+                      color: colorScheme.onSurfaceVariant,
                     ),
                   );
                 },
