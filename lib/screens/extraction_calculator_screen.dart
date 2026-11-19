@@ -16,6 +16,7 @@ import '../widgets/base_buttons.dart';
 import '../widgets/containers/sticky_action_bar.dart';
 import '../widgets/extraction_calculator/learn_sections.dart';
 import '../widgets/fields/numeric_text_field.dart';
+import '../widgets/app_bar_title.dart';
 import '../widgets/smart_back_button.dart';
 
 @immutable
@@ -225,13 +226,9 @@ class _ExtractionCalculatorScreenState
           : null,
       appBar: AppBar(
         leading: const SmartBackButton(),
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.calculate_outlined),
-            const SizedBox(width: AppSpacing.sm),
-            Text(l10n.extractionCalcTitle),
-          ],
+        title: AppBarTitle(
+          text: l10n.extractionCalcTitle,
+          icon: Icons.calculate_outlined,
         ),
       ),
       body: SafeArea(

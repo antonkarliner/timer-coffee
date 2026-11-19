@@ -3,6 +3,7 @@ import 'package:coffee_timer/controllers/stats_controller.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/recipe_model.dart';
 import 'package:coffee_timer/providers/beans_stats_provider.dart';
+import '../widgets/app_bar_title.dart';
 import '../widgets/smart_back_button.dart';
 import 'package:coffee_timer/providers/database_provider.dart';
 import 'package:coffee_timer/providers/recipe_provider.dart';
@@ -214,13 +215,9 @@ class _StatsScreenState extends State<StatsScreen> {
       child: Scaffold(
         appBar: AppBar(
           leading: const SmartBackButton(),
-          title: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.bar_chart),
-              const SizedBox(width: 8),
-              Text(l10n.brewStats),
-            ],
+          title: AppBarTitle(
+            text: l10n.brewStats,
+            icon: Icons.bar_chart,
           ),
         ),
         body: SingleChildScrollView(
