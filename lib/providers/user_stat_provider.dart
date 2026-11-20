@@ -918,6 +918,13 @@ class UserStatProvider extends ChangeNotifier {
     return await db.userStatsDao.fetchTopRecipes(start, end);
   }
 
+  Future<List<({String recipeId, int count})>> fetchTopRecipesWithCountsForPeriod(
+    DateTime start,
+    DateTime end,
+  ) {
+    return db.userStatsDao.fetchTopRecipesWithCounts(start, end);
+  }
+
   DateTime getStartOfToday() {
     final now = DateTime.now();
     return DateTime(now.year, now.month, now.day);
