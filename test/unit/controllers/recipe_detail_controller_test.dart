@@ -51,19 +51,16 @@ void main() {
       expect(controller.waterTemperatureFromRecipe, isFalse);
     });
 
-    test(
-      'emptying temperature clears the field but effective value falls back '
-      'to the loaded value',
-      () {
-        controller.setInitialWaterTemperature(93);
-        controller.markWaterTemperatureManuallyEdited(91);
-        controller.markWaterTemperatureManuallyEdited(null);
+    test('emptying temperature clears the field but effective value falls back '
+        'to the loaded value', () {
+      controller.setInitialWaterTemperature(93);
+      controller.markWaterTemperatureManuallyEdited(91);
+      controller.markWaterTemperatureManuallyEdited(null);
 
-        expect(controller.waterTemperature, isNull);
-        expect(controller.waterTemperatureFromRecipe, isTrue);
-        expect(controller.effectiveWaterTemperature, 93);
-      },
-    );
+      expect(controller.waterTemperature, isNull);
+      expect(controller.waterTemperatureFromRecipe, isTrue);
+      expect(controller.effectiveWaterTemperature, 93);
+    });
 
     test('emptying genuinely null temperature does not invent a default', () {
       controller.setInitialWaterTemperature(null);
@@ -418,6 +415,90 @@ void main() {
       controller.setGrindSuggestion('24', null);
       controller.markGrindSizeManuallyEdited();
       expect(controller.suggestedGrindSize, isNull);
+    });
+  });
+
+  group('setInitialAmounts - saved ratios', () {
+    test('restores the recipe ratio when editing coffee', () {
+      controller.setInitialAmounts(
+        coffeeAmount: 11.0,
+        waterAmount: 183.3,
+        recipeCoffeeAmount: 30,
+        recipeWaterAmount: 500,
+      );
+      expect(controller.initialRatio, closeTo(500 / 30, 1e-9));
+
+      controller.setEditingCoffee(true);
+      controller.coffeeController.text = '30';
+      controller.updateAmounts('other-recipe');
+
+      expect(controller.waterController.text, '500.0');
+    });
+
+    test('restores the recipe ratio when editing water', () {
+      controller.setInitialAmounts(
+        coffeeAmount: 11.0,
+        waterAmount: 183.3,
+        recipeCoffeeAmount: 30,
+        recipeWaterAmount: 500,
+      );
+
+      controller.setEditingCoffee(false);
+      controller.waterController.text = '500';
+      controller.updateAmounts('other-recipe');
+
+      expect(controller.coffeeController.text, '30.0');
+    });
+
+    test('restores the recipe ratio from an already drifted pair', () {
+      controller.setInitialAmounts(
+        coffeeAmount: 30,
+        waterAmount: 499.9,
+        recipeCoffeeAmount: 30,
+        recipeWaterAmount: 500,
+      );
+
+      expect(controller.initialRatio, closeTo(500 / 30, 1e-9));
+    });
+
+    test('preserves a genuinely different custom ratio', () {
+      controller.setInitialAmounts(
+        coffeeAmount: 20,
+        waterAmount: 300,
+        recipeCoffeeAmount: 30,
+        recipeWaterAmount: 500,
+      );
+
+      expect(controller.initialRatio, closeTo(15.0, 1e-9));
+    });
+
+    test('uses the supplied amounts when recipe amounts are omitted', () {
+      controller.setInitialAmounts(coffeeAmount: 20, waterAmount: 320);
+
+      expect(controller.initialRatio, closeTo(16.0, 1e-9));
+    });
+  });
+
+  group('applyBrewAgainPrefill - saved ratios', () {
+    setUp(() {
+      controller.setInitialAmounts(
+        coffeeAmount: 30,
+        waterAmount: 500,
+        recipeCoffeeAmount: 30,
+        recipeWaterAmount: 500,
+      );
+    });
+
+    test('restores the recipe ratio for rounded amounts', () {
+      controller.applyBrewAgainPrefill(coffeeAmount: 11.0, waterAmount: 183.3);
+
+      expect(controller.initialRatio, closeTo(500 / 30, 1e-9));
+    });
+
+    test('preserves a genuinely different prefill ratio', () {
+      controller.applyBrewAgainPrefill(coffeeAmount: 16.0, waterAmount: 250.0);
+
+      expect(controller.initialRatio, closeTo(15.625, 1e-9));
     });
   });
 }

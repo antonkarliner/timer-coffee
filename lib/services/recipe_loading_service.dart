@@ -131,6 +131,8 @@ class RecipeLoadingService {
     controller.setInitialAmounts(
       coffeeAmount: customCoffee,
       waterAmount: customWater,
+      recipeCoffeeAmount: recipe.coffeeAmount,
+      recipeWaterAmount: recipe.waterAmount,
     );
 
     // Set grind size (custom takes precedence over default)

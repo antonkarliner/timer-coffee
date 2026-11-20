@@ -15,6 +15,11 @@ class RecipeDetailController extends ChangeNotifier {
   final TextEditingController grindSizeController = TextEditingController();
 
   double initialRatio = 16.0; // default ratio
+
+  /// Canonical water-to-coffee ratio. Recalculating it from saved amounts
+  /// rounded to 0.1 can cause it to drift.
+  double? recipeRatio;
+
   bool editingCoffee = false;
   double? originalCoffee;
   double? originalWater;
@@ -80,20 +85,43 @@ class RecipeDetailController extends ChangeNotifier {
   void setInitialAmounts({
     required double coffeeAmount,
     required double waterAmount,
+    double? recipeCoffeeAmount,
+    double? recipeWaterAmount,
   }) {
     originalCoffee = coffeeAmount;
     originalWater = waterAmount;
 
-    // Ensure amounts are positive before calculating ratio
-    if (coffeeAmount > 0) {
-      initialRatio = waterAmount / coffeeAmount;
+    if (recipeCoffeeAmount != null &&
+        recipeWaterAmount != null &&
+        recipeCoffeeAmount > 0 &&
+        recipeWaterAmount > 0) {
+      recipeRatio = recipeWaterAmount / recipeCoffeeAmount;
     } else {
-      initialRatio = 16.0; // Default if invalid
+      recipeRatio = null;
     }
+    initialRatio = _resolveRatio(coffeeAmount, waterAmount);
 
     coffeeController.text = coffeeAmount.toString();
     waterController.text = waterAmount.toString();
     notifyListeners();
+  }
+
+  double _resolveRatio(double coffee, double water) {
+    final canonicalRatio = recipeRatio;
+    if (coffee <= 0 || water <= 0) {
+      return canonicalRatio != null && canonicalRatio > 0
+          ? canonicalRatio
+          : 16.0;
+    }
+
+    final raw = water / coffee;
+    if (canonicalRatio != null &&
+        canonicalRatio > 0 &&
+        (raw - canonicalRatio).abs() <=
+            canonicalRatio * (0.05 / coffee + 0.05 / water) + 1e-9) {
+      return canonicalRatio;
+    }
+    return raw;
   }
 
   // Method to handle amount updates and potentially slider updates for recipe 1002
@@ -194,7 +222,7 @@ class RecipeDetailController extends ChangeNotifier {
   void _applyAmounts(double coffee, double water) {
     coffeeController.text = coffee.toString();
     waterController.text = water.toString();
-    initialRatio = water / coffee;
+    initialRatio = _resolveRatio(coffee, water);
   }
 
   void applyBrewAgainPrefill({
