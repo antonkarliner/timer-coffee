@@ -1,5 +1,6 @@
 import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:coffee_timer/widgets/confirm_delete_dialog.dart';
+import 'package:coffeico_plus/coffeico_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
@@ -177,7 +178,8 @@ class CoffeeBeansInfoCard extends StatelessWidget {
         title = loc.inventory;
         break;
       case CoffeeBeansInfoCardType.flavor:
-        icon = Icons.local_cafe;
+        // Cupping = tasting; Icons.local_cafe is the support / donate cup.
+        icon = Coffeico.cupping_bowl;
         title = loc.flavorProfile;
         break;
       case CoffeeBeansInfoCardType.notes:

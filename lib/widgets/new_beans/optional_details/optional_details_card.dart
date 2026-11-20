@@ -253,7 +253,8 @@ class _OptionalDetailsCardState extends State<OptionalDetailsCard> {
         // Flavor Profile Section
         SectionCard(
           title: loc.flavorProfile,
-          icon: Icons.local_cafe,
+          // Cupping = tasting; Icons.local_cafe is the support / donate cup.
+          icon: Coffeico.cupping_bowl,
           semanticIdentifier: 'flavorProfileSection',
           child: FlavorProfileSection(
             tastingNotes: _tastingNotes,
