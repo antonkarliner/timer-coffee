@@ -238,7 +238,7 @@ class _LabeledFieldState extends State<LabeledField> {
       // Add tap handler when field is read-only
       onTap: widget.readOnly && widget.onTap != null ? widget.onTap : null,
       decoration: InputDecoration(
-        labelText: widget.labelInsideField
+        labelText: widget.labelInsideField && widget.label.isNotEmpty
             ? '${widget.label}${widget.required ? ' *' : ''}'
             : null,
         labelStyle: widget.labelStyle,
@@ -313,7 +313,7 @@ class _LabeledFieldState extends State<LabeledField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (!widget.labelInsideField) ...[
+        if (!widget.labelInsideField && widget.label.isNotEmpty) ...[
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

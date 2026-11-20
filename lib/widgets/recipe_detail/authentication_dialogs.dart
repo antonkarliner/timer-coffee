@@ -1,11 +1,12 @@
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
+import 'package:coffee_timer/widgets/fields/labeled_field.dart';
 import 'package:coffee_timer/widgets/fields/otp_code_field.dart';
 import 'package:flutter/material.dart';
 
 /// Widget that shows the email input dialog.
-class EmailSignInDialog extends StatelessWidget {
+class EmailSignInDialog extends StatefulWidget {
   const EmailSignInDialog({
     super.key,
     required this.onEmailSubmitted,
@@ -16,23 +17,37 @@ class EmailSignInDialog extends StatelessWidget {
   final VoidCallback? onCancel;
 
   @override
+  State<EmailSignInDialog> createState() => _EmailSignInDialogState();
+}
+
+class _EmailSignInDialogState extends State<EmailSignInDialog> {
+  final TextEditingController _emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final emailController = TextEditingController();
 
     return AlertDialog(
       title: Text(l10n.enterEmail),
-      content: TextField(
-        controller: emailController,
+      content: LabeledField(
+        label: '',
+        hintText: l10n.emailHint,
+        controller: _emailController,
         keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(hintText: l10n.emailHint),
+        textCapitalization: TextCapitalization.none,
       ),
       actions: <Widget>[
         AppTextButton(
           label: l10n.cancel,
           onPressed: () {
             Navigator.of(context).pop();
-            onCancel?.call();
+            widget.onCancel?.call();
           },
           isFullWidth: false,
           height: AppButton.heightSmall,
@@ -42,7 +57,7 @@ class EmailSignInDialog extends StatelessWidget {
           label: l10n.sendOTP,
           onPressed: () {
             Navigator.of(context).pop();
-            onEmailSubmitted(emailController.text);
+            widget.onEmailSubmitted(_emailController.text);
           },
           isFullWidth: false,
           height: AppButton.heightSmall,

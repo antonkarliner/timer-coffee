@@ -8,6 +8,7 @@ import '../../providers/bean_review_provider.dart';
 import '../../theme/design_tokens.dart';
 import '../../utils/app_logger.dart';
 import '../../widgets/base_buttons.dart';
+import '../fields/labeled_field.dart';
 
 /// Shows the roaster's reply to a review inline.
 /// If [isRoasterAdmin] is true an edit/reply action is shown.
@@ -120,13 +121,14 @@ class _ReviewReplyState extends State<ReviewReply> {
           ),
           if (_isEditing) ...[
             const SizedBox(height: AppSpacing.sm),
-            TextField(
+            LabeledField(
+              label: '',
+              hintText: l10n.replyToReview,
               controller: _controller,
+              keyboardType: TextInputType.multiline,
+              textCapitalization: TextCapitalization.none,
+              isMultiline: true,
               maxLines: 3,
-              decoration: InputDecoration(
-                hintText: l10n.replyToReview,
-                border: const OutlineInputBorder(),
-              ),
             ),
             const SizedBox(height: AppSpacing.sm),
             AppElevatedButton(
