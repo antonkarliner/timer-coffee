@@ -124,7 +124,7 @@ class SupabaseBeanRecommendationClient
 
   @override
   Future<void> deleteMine() async {
-    await supabase.rpc('delete_my_recommendations');
+    await supabase.rpc('opt_out_and_delete_my_recommendations');
   }
 
   @override
