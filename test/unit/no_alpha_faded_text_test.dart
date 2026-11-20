@@ -36,10 +36,9 @@ const Map<String, _Allowed> _allowlist = {
     '164 offline description, 192 empty catalog or search message).',
   ),
   'lib/screens/stats_screen.dart': _Allowed(
-    4,
+    1,
     _Category.unreviewed,
-    "follow-up: text/icon fade not in plan 089's list (77 thumbnail fallback icon, "
-    '375 brewed coffee and 430 personal / 916 global top recipes “No data” text).',
+    "follow-up: text/icon fade not in plan 089's list (79 thumbnail fallback icon).",
   ),
   'lib/widgets/brewing/layout_preview_cards.dart': _Allowed(
     1,
@@ -86,10 +85,9 @@ const Map<String, _Allowed> _allowlist = {
     "follow-up: text/icon fade not in plan 089's list (383 unselected time wheel labels).",
   ),
   'lib/widgets/recipe_detail/bean_selection_row.dart': _Allowed(
-    2,
-    _Category.unreviewed,
-    "follow-up: text/icon fade not in plan 089's list (434 fallback coffee bag icon). "
-    '48 is decoration: the 6% press overlay (`cs.onSurface`).',
+    1,
+    _Category.decoration,
+    'The 6% press overlay (`cs.onSurface`, ~301).',
   ),
   'lib/widgets/roaster_profile/taste_profile_sliders.dart': _Allowed(
     5,
