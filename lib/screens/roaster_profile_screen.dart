@@ -55,6 +55,9 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
   bool _loadingProfile = true;
   String? _error;
   RoasterColorResult? _roasterColorResult;
+  // Set once the header logo reports its shape, so its backing can hug a
+  // square logo instead of letterboxing it in the wide 220×140 area.
+  bool _headerLogoIsHorizontal = false;
 
   // Review state
   bool _loadingReviews = true;
@@ -446,22 +449,33 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
                         AppSpacing.lg,
                       ),
                       child: Center(
+                        // The backing hugs the logo with an 8 pt margin:
+                        // 140×140 for square or tall logos, 220×140 for wide
+                        // ones, so white logos stay visible without empty
+                        // side bands.
                         child: Container(
-                          width: 220,
-                          height: 140,
+                          padding: const EdgeInsets.all(AppSpacing.sm),
                           decoration: BoxDecoration(
                             color: colorScheme.surfaceContainerHighest,
-                            borderRadius: BorderRadius.circular(AppRadius.small),
+                            borderRadius: BorderRadius.circular(AppRadius.card),
                           ),
-                          clipBehavior: Clip.antiAlias,
                           child: RoasterLogo(
                             placeholderIcon: Icons.storefront_outlined,
                             originalUrl: profile.roasterLogoUrl,
                             mirrorUrl: profile.roasterLogoMirrorUrl,
                             height: 140,
-                            width: 220,
-                            borderRadius: AppRadius.card,
+                            width: _headerLogoIsHorizontal ? 220 : 140,
+                            borderRadius: AppRadius.small,
                             forceFit: BoxFit.contain,
+                            onAspectRatioDetermined: (isHorizontal) {
+                              if (!mounted ||
+                                  isHorizontal == _headerLogoIsHorizontal) {
+                                return;
+                              }
+                              setState(
+                                () => _headerLogoIsHorizontal = isHorizontal,
+                              );
+                            },
                           ),
                         ),
                       ),
