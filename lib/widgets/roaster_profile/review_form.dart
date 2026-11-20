@@ -26,6 +26,7 @@ import '../../theme/design_tokens.dart';
 import '../../widgets/base_buttons.dart';
 import '../../widgets/unsaved_changes_dialog.dart';
 import '../containers/section_card.dart';
+import '../fields/labeled_field.dart';
 import 'flavor_notes_picker.dart';
 import 'star_rating.dart';
 import 'taste_profile_sliders.dart';
@@ -689,18 +690,15 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
                 const SizedBox(height: AppSpacing.base),
 
                 // Review text
-                Text(l10n.reviewTextLabel, style: lineTitleStyle),
-                const SizedBox(height: AppSpacing.xs),
-                TextField(
+                LabeledField(
+                  label: l10n.reviewTextLabel,
+                  labelStyle: lineTitleStyle,
+                  hintText: l10n.reviewTextLabel,
                   controller: _reviewController,
+                  isMultiline: true,
                   maxLines: 4,
-                  decoration: InputDecoration(
-                    hintText: l10n.reviewTextLabel,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(AppRadius.field),
-                    ),
-                    contentPadding: const EdgeInsets.all(AppSpacing.base),
-                  ),
+                  keyboardType: TextInputType.multiline,
+                  textCapitalization: TextCapitalization.none,
                 ),
                 const SizedBox(height: AppSpacing.base),
 
@@ -717,46 +715,14 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
                     ),
                   )
                 else
-                  TextFormField(
+                  LabeledField(
+                    label: l10n.reviewBrewMethodLabel,
+                    labelStyle: lineTitleStyle,
+                    hintText: l10n.reviewBrewMethodHint,
                     controller: _brewMethodController,
                     readOnly: true,
                     onTap: () => _showBrewMethodModal(context),
-                    decoration: InputDecoration(
-                      labelText: l10n.reviewBrewMethodLabel,
-                      hintText: l10n.reviewBrewMethodHint,
-                      suffixIcon: const Icon(Icons.keyboard_arrow_down),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.base,
-                        vertical: AppSpacing.sm,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(AppRadius.field),
-                        borderSide: BorderSide(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? Colors.grey.shade500
-                              : Colors.grey.shade300,
-                          width: AppStroke.border,
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(AppRadius.field),
-                        borderSide: BorderSide(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? Colors.grey.shade500
-                              : Colors.grey.shade300,
-                          width: AppStroke.border,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(AppRadius.field),
-                        borderSide: BorderSide(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? Colors.grey.shade300
-                              : Colors.grey.shade700,
-                          width: AppStroke.focus,
-                        ),
-                      ),
-                    ),
+                    suffixIcon: const Icon(Icons.keyboard_arrow_down),
                   ),
                 const SizedBox(height: AppSpacing.base),
 
