@@ -575,7 +575,7 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
               ),
               child: SectionCard(
                 title: l10n.roasterRecipes,
-                icon: Icons.menu_book_outlined,
+                icon: Coffeico.menu,
                 isCollapsible: true,
                 initiallyExpanded: true,
                 paddingChild: false,

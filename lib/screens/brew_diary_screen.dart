@@ -24,6 +24,7 @@ import 'package:coffee_timer/widgets/brew_diary/diary_filter_sheet.dart';
 import 'package:coffee_timer/widgets/brew_diary/diary_group_list.dart';
 import 'package:coffee_timer/widgets/brew_diary/journey_view.dart';
 import 'package:coffee_timer/widgets/brew_diary/month_strip.dart';
+import 'package:coffeico_plus/coffeico_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -443,7 +444,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
               const SizedBox(height: AppSpacing.base),
               AppTextButton(
                 label: loc.mts_emptyDiaryAction,
-                icon: Icons.local_cafe,
+                icon: Coffeico.coffee_maker,
                 onPressed: () => context.router.navigate(const HomeRoute()),
               ),
             ],

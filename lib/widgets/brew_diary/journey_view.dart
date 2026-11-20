@@ -393,14 +393,14 @@ class _JourneyLogo extends StatelessWidget {
       height: _height,
       child: Center(
         child: logoUrls == null
-            ? const Icon(Coffeico.bean, size: AppIconSize.large)
+            ? const Icon(Coffeico.bag_with_bean, size: AppIconSize.large)
             : FutureBuilder<Map<String, String?>>(
                 future: logoUrls,
                 builder: (context, snapshot) {
                   final original = snapshot.data?['original'];
                   final mirror = snapshot.data?['mirror'];
                   if (original == null && mirror == null) {
-                    return const Icon(Coffeico.bean, size: AppIconSize.large);
+                    return const Icon(Coffeico.bag_with_bean, size: AppIconSize.large);
                   }
                   return RoasterLogo(
                     originalUrl: original,

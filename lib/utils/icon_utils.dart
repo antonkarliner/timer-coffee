@@ -35,5 +35,6 @@ Icon getIconByBrewingMethod(String? brewingMethodId) {
     "cupping": Icon(Coffeico.cupping_bowl),
   };
 
-  return icons[brewingMethodId] ?? const Icon(Coffeico.bean);
+  // Unknown method: the generic brewing glyph (same as the Brew tab).
+  return icons[brewingMethodId] ?? const Icon(Coffeico.coffee_maker);
 }
