@@ -132,6 +132,8 @@
   "coffeeBrewed": "Café infusé :",
   "litersUnit": "L",
   "mostUsedRecipes": "Recettes les plus utilisées :",
+  "statsCoffeeBrewedLabel": "Café infusé",
+  "statsMostUsedRecipesLabel": "Recettes les plus utilisées",
   "globalStats": "Statistiques globales",
   "unknownRecipe": "Recette inconnue",
   "diaryOrphanedRecipeName": "Recette supprimée · {brewingMethod}",

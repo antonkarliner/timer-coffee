@@ -138,6 +138,8 @@
   "coffeeBrewed": "Καφές που παρασκευάστηκε:",
   "litersUnit": "L",
   "mostUsedRecipes": "Πιο συχνά χρησιμοποιημένες συνταγές:",
+  "statsCoffeeBrewedLabel": "Καφές που παρασκευάστηκε",
+  "statsMostUsedRecipesLabel": "Πιο συχνά χρησιμοποιημένες συνταγές",
   "globalStats": "Παγκόσμια στατιστικά",
   "unknownRecipe": "Άγνωστη συνταγή",
   "diaryOrphanedRecipeName": "Διαγραμμένη συνταγή · {brewingMethod}",

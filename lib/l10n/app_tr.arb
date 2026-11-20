@@ -123,6 +123,8 @@
   "coffeeBrewed": "Demlenen kahve:",
   "litersUnit": "L",
   "mostUsedRecipes": "En çok kullanılan tarifler:",
+  "statsCoffeeBrewedLabel": "Demlenen kahve",
+  "statsMostUsedRecipesLabel": "En çok kullanılan tarifler",
   "globalStats": "Genel veriler",
   "unknownRecipe": "Bilinmeyen Tarif",
   "diaryOrphanedRecipeName": "Silinen tarif · {brewingMethod}",

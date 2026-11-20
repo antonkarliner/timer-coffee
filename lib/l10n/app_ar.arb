@@ -127,6 +127,8 @@
   "coffeeBrewed": "القهوة المُحضرة:",
   "litersUnit": "لتر",
   "mostUsedRecipes": "وصفات القهوة الأكثر استخدامًا:",
+  "statsCoffeeBrewedLabel": "القهوة المُحضرة",
+  "statsMostUsedRecipesLabel": "وصفات القهوة الأكثر استخدامًا",
   "globalStats": "إحصائيات عامة",
   "unknownRecipe": "وصفة غير معروفة",
   "diaryOrphanedRecipeName": "وصفة محذوفة · {brewingMethod}",

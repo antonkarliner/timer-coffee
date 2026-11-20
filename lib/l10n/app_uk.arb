@@ -123,6 +123,8 @@
   "coffeeBrewed": "Зварено кави:",
   "litersUnit": "л",
   "mostUsedRecipes": "Найчастіше використовувані рецепти:",
+  "statsCoffeeBrewedLabel": "Зварено кави",
+  "statsMostUsedRecipesLabel": "Найчастіше використовувані рецепти",
   "globalStats": "Глобальна статистика",
   "unknownRecipe": "Невідомий рецепт",
   "diaryOrphanedRecipeName": "Видалений рецепт · {brewingMethod}",

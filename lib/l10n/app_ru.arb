@@ -132,6 +132,8 @@
   "coffeeBrewed": "Сварено кофе:",
   "litersUnit": "л",
   "mostUsedRecipes": "Самые используемые рецепты:",
+  "statsCoffeeBrewedLabel": "Сварено кофе",
+  "statsMostUsedRecipesLabel": "Самые используемые рецепты",
   "globalStats": "Глобальная статистика",
   "unknownRecipe": "Неизвестный рецепт",
   "diaryOrphanedRecipeName": "Удалённый рецепт · {brewingMethod}",

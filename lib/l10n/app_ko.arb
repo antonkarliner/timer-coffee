@@ -138,6 +138,8 @@
   "coffeeBrewed": "추출량",
   "litersUnit": "L",
   "mostUsedRecipes": "자주 사용한 레시피",
+  "statsCoffeeBrewedLabel": "추출량",
+  "statsMostUsedRecipesLabel": "자주 사용한 레시피",
   "globalStats": "전 세계 통계",
   "unknownRecipe": "알 수 없는 레시피",
   "diaryOrphanedRecipeName": "삭제된 레시피 · {brewingMethod}",

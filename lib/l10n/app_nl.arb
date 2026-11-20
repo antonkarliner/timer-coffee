@@ -132,6 +132,8 @@
   "coffeeBrewed": "Koffie gezet",
   "litersUnit": "L",
   "mostUsedRecipes": "Meest gebruikte recepten",
+  "statsCoffeeBrewedLabel": "Koffie gezet",
+  "statsMostUsedRecipesLabel": "Meest gebruikte recepten",
   "globalStats": "Wereldwijde statistieken",
   "unknownRecipe": "Onbekend recept",
   "diaryOrphanedRecipeName": "Verwijderd recept · {brewingMethod}",

@@ -132,6 +132,8 @@
   "coffeeBrewed": "淹れたコーヒー:",
   "litersUnit": "リットル",
   "mostUsedRecipes": "最も使用されたレシピ:",
+  "statsCoffeeBrewedLabel": "淹れたコーヒー",
+  "statsMostUsedRecipesLabel": "最も使用されたレシピ",
   "globalStats": "グローバル統計",
   "unknownRecipe": "不明なレシピ",
   "diaryOrphanedRecipeName": "削除されたレシピ · {brewingMethod}",

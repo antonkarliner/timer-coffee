@@ -140,6 +140,8 @@
   "coffeeBrewed": "قهوه دم‌شده",
   "litersUnit": "لیتر",
   "mostUsedRecipes": "پرکاربردترین دستورها",
+  "statsCoffeeBrewedLabel": "قهوه دم‌شده",
+  "statsMostUsedRecipesLabel": "پرکاربردترین دستورها",
   "globalStats": "آمار جهانی",
   "unknownRecipe": "دستور ناشناخته",
   "diaryOrphanedRecipeName": "دستور پخت حذف‌شده، {brewingMethod}",

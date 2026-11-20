@@ -138,6 +138,8 @@
   "coffeeBrewed": "Kaffe brygget:",
   "litersUnit": "L",
   "mostUsedRecipes": "Mest brukte oppskrifter:",
+  "statsCoffeeBrewedLabel": "Kaffe brygget",
+  "statsMostUsedRecipesLabel": "Mest brukte oppskrifter",
   "globalStats": "Global statistikk",
   "unknownRecipe": "Ukjent oppskrift",
   "diaryOrphanedRecipeName": "Slettet oppskrift · {brewingMethod}",

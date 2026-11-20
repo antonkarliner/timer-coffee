@@ -132,6 +132,8 @@
   "coffeeBrewed": "Gebrühte Kaffeemenge:",
   "litersUnit": "L",
   "mostUsedRecipes": "Meistgenutzte Rezepte:",
+  "statsCoffeeBrewedLabel": "Gebrühte Kaffeemenge",
+  "statsMostUsedRecipesLabel": "Meistgenutzte Rezepte",
   "globalStats": "Globale Statistiken",
   "unknownRecipe": "Unbekanntes Rezept",
   "diaryOrphanedRecipeName": "Gelöschtes Rezept · {brewingMethod}",

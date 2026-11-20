@@ -330,6 +330,8 @@
   "coffeeBrewed": "Kahvia uutettu:",
   "litersUnit": "L",
   "mostUsedRecipes": "Eniten käytetyt reseptit:",
+  "statsCoffeeBrewedLabel": "Kahvia uutettu",
+  "statsMostUsedRecipesLabel": "Eniten käytetyt reseptit",
   "globalStats": "Maailmanlaajuiset tilastot",
   "unknownRecipe": "Tuntematon resepti",
   "diaryOrphanedRecipeName": "Poistettu resepti · {brewingMethod}",

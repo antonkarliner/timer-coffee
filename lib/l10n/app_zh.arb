@@ -123,6 +123,8 @@
   "coffeeBrewed": "咖啡冲煮：",
   "litersUnit": "升",
   "mostUsedRecipes": "最常用配方：",
+  "statsCoffeeBrewedLabel": "咖啡冲煮",
+  "statsMostUsedRecipesLabel": "最常用配方",
   "globalStats": "全球统计数据",
   "unknownRecipe": "未知配方",
   "diaryOrphanedRecipeName": "已删除的配方 · {brewingMethod}",

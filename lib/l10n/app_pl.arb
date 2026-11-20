@@ -132,6 +132,8 @@
   "coffeeBrewed": "Zaparzonej kawy:",
   "litersUnit": "l",
   "mostUsedRecipes": "Najczęściej używane przepisy:",
+  "statsCoffeeBrewedLabel": "Zaparzonej kawy",
+  "statsMostUsedRecipesLabel": "Najczęściej używane przepisy",
   "globalStats": "Statystyki globalne",
   "unknownRecipe": "Nieznany przepis",
   "diaryOrphanedRecipeName": "Usunięty przepis · {brewingMethod}",

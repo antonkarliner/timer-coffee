@@ -138,6 +138,8 @@
   "coffeeBrewed": "Pripremljeno kave:",
   "litersUnit": "L",
   "mostUsedRecipes": "Najčešće korišteni recepti:",
+  "statsCoffeeBrewedLabel": "Pripremljeno kave",
+  "statsMostUsedRecipesLabel": "Najčešće korišteni recepti",
   "globalStats": "Globalna statistika",
   "unknownRecipe": "Nepoznat recept",
   "diaryOrphanedRecipeName": "Izbrisani recept · {brewingMethod}",

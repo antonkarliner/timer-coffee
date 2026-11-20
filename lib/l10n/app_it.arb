@@ -132,6 +132,8 @@
   "coffeeBrewed": "Caffè preparato:",
   "litersUnit": "L",
   "mostUsedRecipes": "Ricette più utilizzate:",
+  "statsCoffeeBrewedLabel": "Caffè preparato",
+  "statsMostUsedRecipesLabel": "Ricette più utilizzate",
   "globalStats": "Statistiche globali",
   "unknownRecipe": "Ricetta sconosciuta",
   "diaryOrphanedRecipeName": "Ricetta eliminata · {brewingMethod}",
