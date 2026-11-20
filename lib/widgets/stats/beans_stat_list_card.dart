@@ -163,6 +163,7 @@ class BeansStatListCard<T> extends StatelessWidget {
   void _openFullModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      showDragHandle: true,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
@@ -211,13 +212,21 @@ class _FullListModal<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    // Transparent so the list shows the sheet's own colour: the framework
+    // drag handle sits above this widget, and a painted surface here would
+    // leave the handle strip a different shade in dark mode.
     return Material(
-      color: Theme.of(context).colorScheme.surface,
+      type: MaterialType.transparency,
       child: Column(
         children: [
           // AppBar-like header (styled to match the card header; no divider)
           Padding(
-            padding: const EdgeInsets.fromLTRB(12.0, 12.0, 8.0, 8.0),
+            padding: const EdgeInsets.fromLTRB(
+              12.0,
+              AppSpacing.xs,
+              AppSpacing.sm,
+              AppSpacing.sm,
+            ),
             child: Row(
               children: [
                 leadingIcon,

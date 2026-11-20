@@ -437,7 +437,6 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
               AppSpacing.sm,
             ),
             child: Card(
-              elevation: 4,
               margin: EdgeInsets.zero,
               clipBehavior: Clip.antiAlias,
               child: Container(

@@ -11,6 +11,7 @@ Future<void> showCountryFilterSheet(
 ) {
   return showModalBottomSheet(
     context: context,
+    showDragHandle: true,
     isScrollControlled: true,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
@@ -41,21 +42,6 @@ class _CountryFilterSheet extends StatelessWidget {
       builder: (context, scrollController) {
         return Column(
           children: [
-            // Handle bar
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
-              child: Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onSurface
-                      .withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-            ),
             Padding(
               padding: EdgeInsets.fromLTRB(
                 AppSpacing.base,

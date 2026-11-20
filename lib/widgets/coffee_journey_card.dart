@@ -65,14 +65,6 @@ class CoffeeJourneyCard extends StatelessWidget {
         vertical: AppSpacing.sm,
       ),
       child: Card(
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppRadius.card),
-          side: BorderSide(
-            color: theme.colorScheme.outlineVariant,
-            width: AppStroke.border,
-          ),
-        ),
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.base),
           child: Column(

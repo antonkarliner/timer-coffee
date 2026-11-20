@@ -56,6 +56,7 @@ Future<void> showBrewEvalSheet(
 }) {
   return showModalBottomSheet<void>(
     context: context,
+    showDragHandle: true,
     isScrollControlled: true,
     useSafeArea: true,
     builder: (_) => BrewEvalSheet(
@@ -213,7 +214,7 @@ class _BrewEvalSheetState extends State<BrewEvalSheet> {
         padding: EdgeInsets.only(
           left: AppSpacing.base,
           right: AppSpacing.base,
-          top: AppSpacing.base,
+          top: AppSpacing.xs,
           bottom: AppSpacing.base + MediaQuery.of(context).viewInsets.bottom,
         ),
         child: SingleChildScrollView(
