@@ -1,182 +1,65 @@
-import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
-import '../base_buttons.dart';
-import '../../theme/design_tokens.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:flutter/material.dart';
 
-/// Generic card that shows a capped preview list and a "Show more" modal for full lists.
-class BeansStatListCard<T> extends StatelessWidget {
-  const BeansStatListCard({
+import 'stats_row.dart';
+
+class BeansStatRow<T> extends StatelessWidget {
+  const BeansStatRow({
     super.key,
+    required this.identifier,
+    required this.icon,
     required this.label,
-    required this.leadingIcon,
-    this.countFuture,
-    required this.previewListFuture,
+    required this.countFuture,
     required this.fullListFuture,
     required this.itemBuilder,
     required this.emptyText,
   });
 
+  final String identifier;
+  final IconData icon;
   final String label;
-  final Widget leadingIcon;
-  final Future<int> Function(BuildContext)? countFuture;
-  final Future<List<T>> Function(BuildContext) previewListFuture;
+  final Future<int> Function(BuildContext) countFuture;
   final Future<List<T>> Function(BuildContext) fullListFuture;
-  final Widget Function(BuildContext, T, {bool isPreview}) itemBuilder;
+  final Widget Function(BuildContext, T) itemBuilder;
   final String emptyText;
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    return FutureBuilder<int>(
+      future: countFuture(context),
+      builder: (context, snapshot) {
+        final isLoading = snapshot.connectionState != ConnectionState.done;
+        final count = snapshot.data ?? 0;
+        final canOpenList = !isLoading && !snapshot.hasError && count > 0;
 
-    return Card(
-      elevation: 0.5,
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                leadingIcon,
-                const SizedBox(width: 8),
-                Expanded(
-                  child: FutureBuilder<int?>(
-                    future: countFuture != null
-                        ? countFuture!(context)
-                        : Future.value(null),
-                    builder: (ctx, snapshot) {
-                      final countWidget = snapshot.connectionState ==
-                              ConnectionState.waiting
-                          ? const SizedBox(
-                              height: 16,
-                              width: 16,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : (snapshot.hasError
-                              ? Text(': —',
-                                  style: textTheme.bodyMedium
-                                      ?.copyWith(fontWeight: FontWeight.bold))
-                              : (snapshot.data == null
-                                  ? const SizedBox.shrink()
-                                  : Text(': ${snapshot.data}',
-                                      style: textTheme.bodyMedium?.copyWith(
-                                          fontWeight: FontWeight.bold))));
-                      return Text.rich(
-                        TextSpan(
-                          style: textTheme.bodyMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                          children: [
-                            TextSpan(text: label),
-                            if (countFuture != null) const TextSpan(text: ' '),
-                            if (countFuture != null)
-                              WidgetSpan(
-                                alignment: PlaceholderAlignment.middle,
-                                child: countWidget,
-                              ),
-                          ],
-                        ),
-                        softWrap: true,
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-
-            // Preview list
-            FutureBuilder<List<T>>(
-              future: previewListFuture(context),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const SizedBox(
-                    height: 24,
-                    width: 24,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  );
-                }
-
-                if (snapshot.hasError) {
-                  return Text('—', style: textTheme.bodyMedium);
-                }
-
-                final preview = snapshot.data ?? <T>[];
-
-                if (preview.isEmpty) {
-                  // Empty preview: show subdued empty text
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text(emptyText,
-                        style: textTheme.bodyMedium
-                            ?.copyWith(color: Theme.of(context).hintColor)),
-                  );
-                }
-
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ...preview.map((t) => Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: itemBuilder(context, t, isPreview: true),
-                        )),
-                    const SizedBox(height: 4),
-                    // Decide whether to show "Show more" by fetching full list length
-                    FutureBuilder<List<T>>(
-                      future: fullListFuture(context),
-                      builder: (context, fullSnapshot) {
-                        if (fullSnapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          // While checking full length we skip showing button to avoid layout shift
-                          return const SizedBox.shrink();
-                        }
-                        if (fullSnapshot.hasError) {
-                          return const SizedBox.shrink();
-                        }
-                        final full = fullSnapshot.data ?? <T>[];
-                        if (full.length > preview.length) {
-                          return Align(
-                            alignment: Alignment.centerRight,
-                            child: AppTextButton(
-                              label: AppLocalizations.of(context)!.showMore,
-                              onPressed: () => _openFullModal(context),
-                              isFullWidth: false,
-                              height: AppButton.heightSmall,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: AppSpacing.sm),
-                            ),
-                          );
-                        }
-                        return const SizedBox.shrink();
-                      },
-                    ),
-                  ],
-                );
-              },
-            ),
-          ],
-        ),
-      ),
+        return StatsRow(
+          identifier: identifier,
+          icon: icon,
+          label: label,
+          value: snapshot.hasError ? '—' : count.toString(),
+          mutedValue: !canOpenList,
+          isLoading: isLoading,
+          onTap: canOpenList ? () => _openFullModal(context, count) : null,
+        );
+      },
     );
   }
 
-  void _openFullModal(BuildContext context) {
-    showModalBottomSheet(
+  void _openFullModal(BuildContext context, int count) {
+    showModalBottomSheet<void>(
       context: context,
       showDragHandle: true,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
       clipBehavior: Clip.antiAlias,
-      builder: (ctx) {
+      builder: (context) {
         return DraggableScrollableSheet(
           expand: false,
           builder: (context, scrollController) {
             return _FullListModal<T>(
               label: label,
-              leadingIcon: leadingIcon,
-              countFuture: countFuture,
+              icon: icon,
+              count: count,
               fullListFuture: fullListFuture,
               itemBuilder: itemBuilder,
               emptyText: emptyText,
@@ -189,12 +72,11 @@ class BeansStatListCard<T> extends StatelessWidget {
   }
 }
 
-class _FullListModal<T> extends StatelessWidget {
+class _FullListModal<T> extends StatefulWidget {
   const _FullListModal({
-    super.key,
     required this.label,
-    required this.leadingIcon,
-    this.countFuture,
+    required this.icon,
+    required this.count,
     required this.fullListFuture,
     required this.itemBuilder,
     required this.emptyText,
@@ -202,16 +84,26 @@ class _FullListModal<T> extends StatelessWidget {
   });
 
   final String label;
-  final Widget leadingIcon;
-  final Future<int> Function(BuildContext)? countFuture;
+  final IconData icon;
+  final int count;
   final Future<List<T>> Function(BuildContext) fullListFuture;
-  final Widget Function(BuildContext, T, {bool isPreview}) itemBuilder;
+  final Widget Function(BuildContext, T) itemBuilder;
   final String emptyText;
   final ScrollController scrollController;
 
   @override
+  State<_FullListModal<T>> createState() => _FullListModalState<T>();
+}
+
+class _FullListModalState<T> extends State<_FullListModal<T>> {
+  // Fetch once per opening so dragging the sheet does not reload the list.
+  late final Future<List<T>> _fullList = widget.fullListFuture(context);
+
+  @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+    final mutedBody = AppTextStyles.body.copyWith(color: colorScheme.outline);
+
     // Transparent so the list shows the sheet's own colour: the framework
     // drag handle sits above this widget, and a painted surface here would
     // leave the handle strip a different shade in dark mode.
@@ -219,59 +111,24 @@ class _FullListModal<T> extends StatelessWidget {
       type: MaterialType.transparency,
       child: Column(
         children: [
-          // AppBar-like header (styled to match the card header; no divider)
           Padding(
             padding: const EdgeInsets.fromLTRB(
-              12.0,
+              AppSpacing.base,
               AppSpacing.xs,
-              AppSpacing.sm,
+              AppSpacing.base,
               AppSpacing.sm,
             ),
             child: Row(
               children: [
-                leadingIcon,
-                const SizedBox(width: 8),
-                Expanded(
-                  child: FutureBuilder<int?>(
-                    future: countFuture != null
-                        ? countFuture!(context)
-                        : Future.value(null),
-                    builder: (ctx, snapshot) {
-                      final countWidget = snapshot.connectionState ==
-                              ConnectionState.waiting
-                          ? const SizedBox(
-                              height: 16,
-                              width: 16,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : (snapshot.hasError
-                              ? Text(': —',
-                                  style: textTheme.bodyMedium
-                                      ?.copyWith(fontWeight: FontWeight.bold))
-                              : (snapshot.data == null
-                                  ? const SizedBox.shrink()
-                                  : Text(': ${snapshot.data}',
-                                      style: textTheme.bodyMedium?.copyWith(
-                                          fontWeight: FontWeight.bold))));
-                      return Text.rich(
-                        TextSpan(
-                          style: textTheme.bodyMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                          children: [
-                            TextSpan(text: label),
-                            if (countFuture != null) const TextSpan(text: ' '),
-                            if (countFuture != null)
-                              WidgetSpan(
-                                alignment: PlaceholderAlignment.middle,
-                                child: countWidget,
-                              ),
-                          ],
-                        ),
-                        softWrap: true,
-                      );
-                    },
-                  ),
+                Icon(
+                  widget.icon,
+                  size: AppIconSize.medium,
+                  color: colorScheme.onSurface,
                 ),
+                const SizedBox(width: AppSpacing.base),
+                Expanded(child: Text(widget.label, style: AppTextStyles.title)),
+                const SizedBox(width: AppSpacing.sm),
+                Text(widget.count.toString(), style: mutedBody),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
                   icon: const Icon(Icons.close),
@@ -281,11 +138,14 @@ class _FullListModal<T> extends StatelessWidget {
           ),
           Expanded(
             child: FutureBuilder<List<T>>(
-              future: fullListFuture(context),
+              future: _fullList,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
-                      child: CircularProgressIndicator(strokeWidth: 2));
+                    child: CircularProgressIndicator(
+                      strokeWidth: AppStroke.focus,
+                    ),
+                  );
                 }
                 if (snapshot.hasError) {
                   return Center(
@@ -294,23 +154,18 @@ class _FullListModal<T> extends StatelessWidget {
                 }
                 final list = snapshot.data ?? <T>[];
                 if (list.isEmpty) {
-                  return Center(
-                    child: Text(emptyText,
-                        style: textTheme.bodyMedium
-                            ?.copyWith(color: Theme.of(context).hintColor)),
-                  );
+                  return Center(child: Text(widget.emptyText, style: mutedBody));
                 }
                 return ListView.builder(
-                  controller: scrollController,
+                  controller: widget.scrollController,
                   itemCount: list.length,
                   itemBuilder: (context, index) {
-                    final item = list[index];
                     return Padding(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 12.0,
-                        vertical: 8.0,
+                        horizontal: AppSpacing.base,
+                        vertical: AppSpacing.sm,
                       ),
-                      child: itemBuilder(context, item, isPreview: false),
+                      child: widget.itemBuilder(context, list[index]),
                     );
                   },
                 );

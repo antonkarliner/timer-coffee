@@ -246,16 +246,16 @@ void main() {
     await tester.pumpWidget(
       localizedApp(
         Scaffold(
-          body: BeansStatListCard<int>(
+          body: BeansStatRow<int>(
+            identifier: 'testStatsBeans',
+            icon: Icons.coffee,
             label: 'Test stats',
-            leadingIcon: const Icon(Icons.coffee),
-            previewListFuture: (_) async => const [1],
+            countFuture: (_) async => 2,
             fullListFuture: (_) async {
               fullListCalls += 1;
-              if (fullListCalls > 1) throw StateError(rawFailure);
-              return const [1, 2];
+              throw StateError(rawFailure);
             },
-            itemBuilder: (_, item, {isPreview = false}) => Text('$item'),
+            itemBuilder: (_, item) => Text('$item'),
             emptyText: 'Empty',
           ),
         ),
@@ -263,12 +263,13 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    final l10n = AppLocalizations.of(
-      tester.element(find.byType(BeansStatListCard<int>)),
-    )!;
-    await tester.tap(find.text(l10n.showMore));
+    final row = find.bySemanticsIdentifier('testStatsBeans');
+    final l10n = AppLocalizations.of(tester.element(row))!;
+    expect(fullListCalls, 0);
+    await tester.tap(row);
     await tester.pumpAndSettle();
 
+    expect(fullListCalls, 1);
     expect(find.text(l10n.failedToLoadData), findsOneWidget);
     expect(find.textContaining(rawFailure), findsNothing);
   });

@@ -12,6 +12,8 @@ import 'package:coffee_timer/screens/stats_screen.dart';
 import 'package:coffee_timer/services/date_time_format_service.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/utils/version_vector.dart';
+import 'package:coffee_timer/widgets/stats/beans_stat_list_card.dart';
+import 'package:coffee_timer/widgets/stats/stats_row.dart';
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -116,9 +118,122 @@ void main() {
     });
   }
 
-  testWidgets('screen has two flat stats cards and standalone bean tiles', (
-    tester,
-  ) async {
+  group('BeansStatRow', () {
+    const identifier = 'statsBeans_test';
+    const label = 'Total beans brewed';
+    Finder row() => find.bySemanticsIdentifier(identifier);
+    final chevron = find.byIcon(Icons.chevron_right);
+    final sheet = find.byType(BottomSheet);
+    final colonCount = find.textContaining(
+      RegExp(r' : |: \d'),
+      findRichText: true,
+      skipOffstage: false,
+    );
+
+    Widget app({
+      required Future<int> Function(BuildContext) countFuture,
+      required Future<List<int>> Function(BuildContext) fullListFuture,
+    }) {
+      return MaterialApp(
+        home: Scaffold(
+          body: BeansStatRow<int>(
+            identifier: identifier,
+            icon: Icons.coffee,
+            label: label,
+            countFuture: countFuture,
+            fullListFuture: fullListFuture,
+            itemBuilder: (_, item) => Text('Bean $item'),
+            emptyText: 'No beans',
+          ),
+        ),
+      );
+    }
+
+    testWidgets('positive count opens the full list', (tester) async {
+      final count = Completer<int>();
+      var countCalls = 0;
+      var fullListCalls = 0;
+      await tester.pumpWidget(
+        app(
+          countFuture: (_) {
+            countCalls++;
+            return count.future;
+          },
+          fullListFuture: (_) async {
+            fullListCalls++;
+            return [1, 2, 3];
+          },
+        ),
+      );
+
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      expect(chevron, findsNothing);
+      count.complete(3);
+      await tester.pumpAndSettle();
+
+      final value = find.text('3');
+      final colors = Theme.of(tester.element(value)).colorScheme;
+      expect(tester.widget<Text>(value).style?.color, colors.onSurface);
+      expect(chevron, findsOneWidget);
+      expect(colonCount, findsNothing);
+      expect(countCalls, 1);
+      expect(fullListCalls, 0);
+
+      await tester.tap(row());
+      await tester.pumpAndSettle();
+
+      expect(sheet, findsOneWidget);
+      Finder inSheet(String text) =>
+          find.descendant(of: sheet, matching: find.text(text));
+      expect(inSheet(label), findsOneWidget);
+      expect(tester.widget<Text>(inSheet('3')).style?.color, colors.outline);
+      for (final item in [1, 2, 3]) {
+        expect(inSheet('Bean $item'), findsOneWidget);
+      }
+      expect(colonCount, findsNothing);
+      expect(countCalls, 1);
+      expect(fullListCalls, 1);
+    });
+
+    testWidgets('zero count is muted and cannot open the sheet', (tester) async {
+      await tester.pumpWidget(
+        app(
+          countFuture: (_) async => 0,
+          fullListFuture: (_) async => fail('The row must not load the list'),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final value = find.text('0');
+      final colors = Theme.of(tester.element(value)).colorScheme;
+      expect(tester.widget<Text>(value).style?.color, colors.outline);
+      expect(chevron, findsNothing);
+      expect(colonCount, findsNothing);
+      await tester.tap(row());
+      await tester.pumpAndSettle();
+      expect(sheet, findsNothing);
+    });
+
+    testWidgets('count error shows a muted dash without a chevron', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        app(
+          countFuture: (_) async => throw StateError('Count failed'),
+          fullListFuture: (_) async => fail('The row must not load the list'),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final value = find.text('—');
+      final colors = Theme.of(tester.element(value)).colorScheme;
+      expect(tester.widget<Text>(value).style?.color, colors.outline);
+      expect(chevron, findsNothing);
+      expect(colonCount, findsNothing);
+    });
+  });
+
+  testWidgets('screen has three flat stats cards', (tester) async {
     tester.view.devicePixelRatio = 1;
     tester.view.physicalSize = const Size(390, 1100);
     addTearDown(tester.view.reset);
@@ -180,14 +295,17 @@ void main() {
     expect(tester.takeException(), isNull);
 
     final l10n = AppLocalizations.of(tester.element(find.byType(StatsScreen)))!;
-    final groupIds = ['statsGroup_yours', 'statsGroup_global'];
+    final groupIds = [
+      'statsGroup_yours',
+      'statsGroup_beans',
+      'statsGroup_global',
+    ];
     final cards = find.byType(Card);
+    final groups = find.bySemanticsIdentifier(RegExp(r'^statsGroup_'));
+    expect(groups, findsNWidgets(3));
     expect(
-      find.ancestor(
-        of: find.bySemanticsIdentifier(RegExp(r'^statsGroup_')),
-        matching: cards,
-      ),
-      findsNWidgets(2),
+      find.ancestor(of: groups, matching: cards),
+      findsNWidgets(3),
     );
     for (final id in groupIds) {
       final group = find.bySemanticsIdentifier(id);
@@ -200,7 +318,8 @@ void main() {
       find.descendant(of: cards, matching: cards),
       findsNothing,
     );
-    expect(cards, findsNWidgets(7));
+    expect(cards, findsNWidgets(3));
+    expect(find.bySemanticsIdentifier(RegExp(r'^statsBeans_')), findsNWidgets(5));
     expect(find.text(l10n.coffeeBrewed), findsNothing);
     expect(find.text(l10n.mostUsedRecipes), findsNothing);
     expect(find.text(l10n.statsCoffeeBrewedLabel), findsNWidgets(2));

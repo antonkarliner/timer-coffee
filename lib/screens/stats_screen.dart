@@ -19,6 +19,7 @@ import 'package:provider/provider.dart';
 import '../app_router.gr.dart';
 import 'package:coffee_timer/models/beans_stats_models.dart';
 import 'package:coffee_timer/widgets/stats/beans_stat_list_card.dart';
+import 'package:coffee_timer/widgets/stats/stats_row.dart';
 import 'package:coffee_timer/widgets/roaster_logo.dart';
 import '../services/onboarding_service.dart';
 
@@ -340,323 +341,296 @@ class _BeansStatsSection extends StatelessWidget {
       padding: const EdgeInsetsDirectional.symmetric(
         horizontal: AppSpacing.base,
       ),
-      child: Wrap(
-        spacing: 8,
-        runSpacing: 8,
-        children: [
-          // Total Beans Brewed
-          BeansStatListCard<BeanUsage>(
-            label: l10n.totalBeansBrewedLabel,
-            leadingIcon: const Icon(Coffeico.bag_with_bean),
-            countFuture: (ctx) => Provider.of<BeansStatsProvider>(
-              ctx,
-              listen: false,
-            ).getTotalBeansBrewedCount(startDate, endDate),
-            previewListFuture: (ctx) => Provider.of<BeansStatsProvider>(
-              ctx,
-              listen: false,
-            ).getTopBeansFull(startDate, endDate, limit: 10),
-            fullListFuture: (ctx) => Provider.of<BeansStatsProvider>(
-              ctx,
-              listen: false,
-            ).getTopBeansFull(startDate, endDate, limit: 999),
-            itemBuilder: (ctx, bean, {isPreview = false}) => InkWell(
-              onTap: () => context.router.push(
-                CoffeeBeansDetailRoute(uuid: bean.beansUuid),
-              ),
-              child: Row(
-                children: [
-                  FutureBuilder<Map<String, String?>>(
-                    future: Provider.of<DatabaseProvider>(
-                      ctx,
-                      listen: false,
-                    ).fetchCachedRoasterLogoUrls(bean.roaster),
-                    builder: (ctx2, snap) {
-                      if (snap.connectionState ==
-                          ConnectionState.waiting) {
-                        return SizedBox(
-                          height: isPreview ? 28 : 48,
-                          width: isPreview ? 42 : 72,
-                          child: const Center(
-                            child: SizedBox(
-                              height: 16,
-                              width: 16,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                              ),
-                            ),
-                          ),
-                        );
-                      }
-                      if (snap.hasData) {
-                        final originalUrl = snap.data!['original'];
-                        final mirrorUrl = snap.data!['mirror'];
-                        if (originalUrl != null || mirrorUrl != null) {
-                          return _StatsRoasterLogoPlate(
-                            originalUrl: originalUrl,
-                            mirrorUrl: mirrorUrl,
-                            height: isPreview ? 28 : 48,
-                            borderRadius: 8.0,
-                          );
-                        }
-                      }
-                      final iconColor = Theme.of(ctx2)
-                          .colorScheme
-                          .onSurface
-                          .withAlpha((255 * 0.6).round());
-                      return Icon(
-                        Coffeico.bag_with_bean,
-                        size: isPreview ? 28 : 48,
-                        color: iconColor,
-                      );
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  Flexible(
-                    child: Text(
-                      bean.name,
-                      style: TextStyle(
-                        color: Theme.of(ctx).colorScheme.secondary,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            emptyText: l10n.noData,
-          ),
-
-          // New Beans Tried
-          BeansStatListCard<BeanUsage>(
-            label: l10n.newBeansTriedLabel,
-            leadingIcon: const Icon(Icons.fiber_new),
-            countFuture: (ctx) => Provider.of<BeansStatsProvider>(
-              ctx,
-              listen: false,
-            ).getNewBeansTriedCount(startDate, endDate),
-            previewListFuture: (ctx) => Provider.of<BeansStatsProvider>(
-              ctx,
-              listen: false,
-            ).getNewBeansList(startDate, endDate, limit: 10),
-            fullListFuture: (ctx) => Provider.of<BeansStatsProvider>(
-              ctx,
-              listen: false,
-            ).getNewBeansList(startDate, endDate, limit: 999),
-            itemBuilder: (ctx, bean, {isPreview = false}) => InkWell(
-              onTap: () => context.router.push(
-                CoffeeBeansDetailRoute(uuid: bean.beansUuid),
-              ),
-              child: Row(
-                children: [
-                  FutureBuilder<Map<String, String?>>(
-                    future: Provider.of<DatabaseProvider>(
-                      ctx,
-                      listen: false,
-                    ).fetchCachedRoasterLogoUrls(bean.roaster),
-                    builder: (ctx2, snap) {
-                      if (snap.connectionState ==
-                          ConnectionState.waiting) {
-                        return SizedBox(
-                          height: isPreview ? 28 : 48,
-                          width: isPreview ? 42 : 72,
-                          child: const Center(
-                            child: SizedBox(
-                              height: 16,
-                              width: 16,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                              ),
-                            ),
-                          ),
-                        );
-                      }
-                      if (snap.hasData) {
-                        final originalUrl = snap.data!['original'];
-                        final mirrorUrl = snap.data!['mirror'];
-                        if (originalUrl != null || mirrorUrl != null) {
-                          return _StatsRoasterLogoPlate(
-                            originalUrl: originalUrl,
-                            mirrorUrl: mirrorUrl,
-                            height: isPreview ? 28 : 48,
-                            borderRadius: 8.0,
-                          );
-                        }
-                      }
-                      final iconColor = Theme.of(ctx2)
-                          .colorScheme
-                          .onSurface
-                          .withAlpha((255 * 0.6).round());
-                      return Icon(
-                        Coffeico.bag_with_bean,
-                        size: isPreview ? 28 : 48,
-                        color: iconColor,
-                      );
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  Flexible(
-                    child: Text(
-                      bean.name,
-                      style: TextStyle(
-                        color: Theme.of(ctx).colorScheme.secondary,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            emptyText: l10n.noData,
-          ),
-
-          // Origins explored
-          BeansStatListCard<String>(
-            label: l10n.originsExploredLabel,
-            leadingIcon: const Icon(Icons.public),
-            countFuture: (ctx) => Provider.of<BeansStatsProvider>(
-              ctx,
-              listen: false,
-            ).getOriginsExploredCount(startDate, endDate),
-            previewListFuture: (ctx) => Provider.of<BeansStatsProvider>(
-              ctx,
-              listen: false,
-            ).getDistinctOriginsList(startDate, endDate, limit: 10),
-            fullListFuture: (ctx) => Provider.of<BeansStatsProvider>(
-              ctx,
-              listen: false,
-            ).getDistinctOriginsList(startDate, endDate, limit: 999),
-            itemBuilder: (ctx, origin, {isPreview = false}) => Row(
-              children: [
-                const Icon(Icons.public, size: 20),
-                const SizedBox(width: 8),
-                Flexible(
-                  child: Text(origin, overflow: TextOverflow.ellipsis),
-                ),
-              ],
-            ),
-            emptyText: l10n.noData,
-          ),
-
-          // Regions explored
-          BeansStatListCard<String>(
-            label: l10n.regionsExploredLabel,
-            leadingIcon: const Icon(Icons.place),
-            countFuture: (ctx) => Provider.of<BeansStatsProvider>(
-              ctx,
-              listen: false,
-            ).getRegionsExploredCount(startDate, endDate),
-            previewListFuture: (ctx) => Provider.of<BeansStatsProvider>(
-              ctx,
-              listen: false,
-            ).getDistinctRegionsList(startDate, endDate, limit: 10),
-            fullListFuture: (ctx) => Provider.of<BeansStatsProvider>(
-              ctx,
-              listen: false,
-            ).getDistinctRegionsList(startDate, endDate, limit: 999),
-            itemBuilder: (ctx, region, {isPreview = false}) => Row(
-              children: [
-                const Icon(Icons.place, size: 20),
-                const SizedBox(width: 8),
-                Flexible(
-                  child: Text(region, overflow: TextOverflow.ellipsis),
-                ),
-              ],
-            ),
-            emptyText: l10n.noData,
-          ),
-
-          // New roasters discovered
-          BeansStatListCard<String>(
-            label: l10n.newRoastersDiscoveredLabel,
-            leadingIcon: const Icon(Icons.storefront),
-            countFuture: (ctx) => Provider.of<BeansStatsProvider>(
-              ctx,
-              listen: false,
-            ).getNewRoastersDiscovered(startDate, endDate),
-            previewListFuture: (ctx) =>
-                Provider.of<BeansStatsProvider>(
+      child: Card(
+        margin: EdgeInsets.zero,
+        clipBehavior: Clip.antiAlias,
+        child: Semantics(
+          identifier: 'statsGroup_beans',
+          explicitChildNodes: true,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              BeansStatRow<BeanUsage>(
+                identifier: 'statsBeans_total',
+                icon: Coffeico.bag_with_bean,
+                label: l10n.totalBeansBrewedLabel,
+                countFuture: (ctx) => Provider.of<BeansStatsProvider>(
                   ctx,
                   listen: false,
-                ).getNewRoastersDiscoveredList(
-                  startDate,
-                  endDate,
-                  limit: 10,
-                ),
-            fullListFuture: (ctx) =>
-                Provider.of<BeansStatsProvider>(
+                ).getTotalBeansBrewedCount(startDate, endDate),
+                fullListFuture: (ctx) => Provider.of<BeansStatsProvider>(
                   ctx,
                   listen: false,
-                ).getNewRoastersDiscoveredList(
-                  startDate,
-                  endDate,
-                  limit: 999,
+                ).getTopBeansFull(startDate, endDate, limit: 999),
+                itemBuilder: (ctx, bean) => InkWell(
+                  onTap: () => context.router.push(
+                    CoffeeBeansDetailRoute(uuid: bean.beansUuid),
+                  ),
+                  child: Row(
+                    children: [
+                      FutureBuilder<Map<String, String?>>(
+                        future: Provider.of<DatabaseProvider>(
+                          ctx,
+                          listen: false,
+                        ).fetchCachedRoasterLogoUrls(bean.roaster),
+                        builder: (ctx2, snap) {
+                          if (snap.connectionState ==
+                              ConnectionState.waiting) {
+                            return const SizedBox(
+                              height: 48,
+                              width: 72,
+                              child: Center(
+                                child: SizedBox(
+                                  height: 16,
+                                  width: 16,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+                          if (snap.hasData) {
+                            final originalUrl = snap.data!['original'];
+                            final mirrorUrl = snap.data!['mirror'];
+                            if (originalUrl != null || mirrorUrl != null) {
+                              return _StatsRoasterLogoPlate(
+                                originalUrl: originalUrl,
+                                mirrorUrl: mirrorUrl,
+                                height: 48,
+                                borderRadius: AppRadius.small,
+                              );
+                            }
+                          }
+                          final iconColor = Theme.of(ctx2).colorScheme.outline;
+                          return Icon(
+                            Coffeico.bag_with_bean,
+                            size: 48,
+                            color: iconColor,
+                          );
+                        },
+                      ),
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          bean.name,
+                          style: TextStyle(
+                            color: Theme.of(ctx).colorScheme.secondary,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-            itemBuilder: (ctx, roaster, {isPreview = false}) => InkWell(
-              onTap: () => _navigateToRoasterProfile(context, roaster),
-              child: Row(
-                children: [
-                  FutureBuilder<Map<String, String?>>(
-                    future: Provider.of<DatabaseProvider>(
+                emptyText: l10n.noData,
+              ),
+              const StatsRowDivider(),
+              BeansStatRow<BeanUsage>(
+                identifier: 'statsBeans_new',
+                icon: Coffeico.bean,
+                label: l10n.newBeansTriedLabel,
+                countFuture: (ctx) => Provider.of<BeansStatsProvider>(
+                  ctx,
+                  listen: false,
+                ).getNewBeansTriedCount(startDate, endDate),
+                fullListFuture: (ctx) => Provider.of<BeansStatsProvider>(
+                  ctx,
+                  listen: false,
+                ).getNewBeansList(startDate, endDate, limit: 999),
+                itemBuilder: (ctx, bean) => InkWell(
+                  onTap: () => context.router.push(
+                    CoffeeBeansDetailRoute(uuid: bean.beansUuid),
+                  ),
+                  child: Row(
+                    children: [
+                      FutureBuilder<Map<String, String?>>(
+                        future: Provider.of<DatabaseProvider>(
+                          ctx,
+                          listen: false,
+                        ).fetchCachedRoasterLogoUrls(bean.roaster),
+                        builder: (ctx2, snap) {
+                          if (snap.connectionState ==
+                              ConnectionState.waiting) {
+                            return const SizedBox(
+                              height: 48,
+                              width: 72,
+                              child: Center(
+                                child: SizedBox(
+                                  height: 16,
+                                  width: 16,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+                          if (snap.hasData) {
+                            final originalUrl = snap.data!['original'];
+                            final mirrorUrl = snap.data!['mirror'];
+                            if (originalUrl != null || mirrorUrl != null) {
+                              return _StatsRoasterLogoPlate(
+                                originalUrl: originalUrl,
+                                mirrorUrl: mirrorUrl,
+                                height: 48,
+                                borderRadius: AppRadius.small,
+                              );
+                            }
+                          }
+                          final iconColor = Theme.of(ctx2).colorScheme.outline;
+                          return Icon(
+                            Coffeico.bag_with_bean,
+                            size: 48,
+                            color: iconColor,
+                          );
+                        },
+                      ),
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          bean.name,
+                          style: TextStyle(
+                            color: Theme.of(ctx).colorScheme.secondary,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                emptyText: l10n.noData,
+              ),
+              const StatsRowDivider(),
+              BeansStatRow<String>(
+                identifier: 'statsBeans_origins',
+                icon: Icons.public,
+                label: l10n.originsExploredLabel,
+                countFuture: (ctx) => Provider.of<BeansStatsProvider>(
+                  ctx,
+                  listen: false,
+                ).getOriginsExploredCount(startDate, endDate),
+                fullListFuture: (ctx) => Provider.of<BeansStatsProvider>(
+                  ctx,
+                  listen: false,
+                ).getDistinctOriginsList(startDate, endDate, limit: 999),
+                itemBuilder: (ctx, origin) => Row(
+                  children: [
+                    const Icon(Icons.public, size: 20),
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: Text(origin, overflow: TextOverflow.ellipsis),
+                    ),
+                  ],
+                ),
+                emptyText: l10n.noData,
+              ),
+              const StatsRowDivider(),
+              BeansStatRow<String>(
+                identifier: 'statsBeans_regions',
+                icon: Icons.place,
+                label: l10n.regionsExploredLabel,
+                countFuture: (ctx) => Provider.of<BeansStatsProvider>(
+                  ctx,
+                  listen: false,
+                ).getRegionsExploredCount(startDate, endDate),
+                fullListFuture: (ctx) => Provider.of<BeansStatsProvider>(
+                  ctx,
+                  listen: false,
+                ).getDistinctRegionsList(startDate, endDate, limit: 999),
+                itemBuilder: (ctx, region) => Row(
+                  children: [
+                    const Icon(Icons.place, size: 20),
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: Text(region, overflow: TextOverflow.ellipsis),
+                    ),
+                  ],
+                ),
+                emptyText: l10n.noData,
+              ),
+              const StatsRowDivider(),
+              BeansStatRow<String>(
+                identifier: 'statsBeans_roasters',
+                icon: Icons.storefront_outlined,
+                label: l10n.newRoastersDiscoveredLabel,
+                countFuture: (ctx) => Provider.of<BeansStatsProvider>(
+                  ctx,
+                  listen: false,
+                ).getNewRoastersDiscovered(startDate, endDate),
+                fullListFuture: (ctx) =>
+                    Provider.of<BeansStatsProvider>(
                       ctx,
                       listen: false,
-                    ).fetchCachedRoasterLogoUrls(roaster),
-                    builder: (ctx2, snap) {
-                      if (snap.connectionState ==
-                          ConnectionState.waiting) {
-                        return SizedBox(
-                          height: isPreview ? 28 : 40,
-                          width: isPreview ? 28 : 40,
-                          child: const Center(
-                            child: SizedBox(
-                              height: 16,
-                              width: 16,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                              ),
-                            ),
-                          ),
-                        );
-                      }
-                      if (snap.hasData) {
-                        final originalUrl = snap.data!['original'];
-                        final mirrorUrl = snap.data!['mirror'];
-                        if (originalUrl != null || mirrorUrl != null) {
-                          return _StatsRoasterLogoPlate(
-                            placeholderIcon: Icons.storefront_outlined,
-                            originalUrl: originalUrl,
-                            mirrorUrl: mirrorUrl,
-                            height: isPreview ? 28 : 40,
-                            borderRadius: 8.0,
-                          );
-                        }
-                      }
-                      final iconColor = Theme.of(ctx2)
-                          .colorScheme
-                          .onSurface
-                          .withAlpha((255 * 0.6).round());
-                      return Icon(
-                        Icons.storefront_outlined,
-                        size: isPreview ? 28 : 40,
-                        color: iconColor,
-                      );
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  Flexible(
-                    child: Text(
-                      roaster,
-                      overflow: TextOverflow.ellipsis,
+                    ).getNewRoastersDiscoveredList(
+                      startDate,
+                      endDate,
+                      limit: 999,
                     ),
+                itemBuilder: (ctx, roaster) => InkWell(
+                  onTap: () => _navigateToRoasterProfile(context, roaster),
+                  child: Row(
+                    children: [
+                      FutureBuilder<Map<String, String?>>(
+                        future: Provider.of<DatabaseProvider>(
+                          ctx,
+                          listen: false,
+                        ).fetchCachedRoasterLogoUrls(roaster),
+                        builder: (ctx2, snap) {
+                          if (snap.connectionState ==
+                              ConnectionState.waiting) {
+                            return const SizedBox(
+                              height: 40,
+                              width: 40,
+                              child: Center(
+                                child: SizedBox(
+                                  height: 16,
+                                  width: 16,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+                          if (snap.hasData) {
+                            final originalUrl = snap.data!['original'];
+                            final mirrorUrl = snap.data!['mirror'];
+                            if (originalUrl != null || mirrorUrl != null) {
+                              return _StatsRoasterLogoPlate(
+                                placeholderIcon: Icons.storefront_outlined,
+                                originalUrl: originalUrl,
+                                mirrorUrl: mirrorUrl,
+                                height: 40,
+                                borderRadius: AppRadius.small,
+                              );
+                            }
+                          }
+                          final iconColor = Theme.of(ctx2).colorScheme.outline;
+                          return Icon(
+                            Icons.storefront_outlined,
+                            size: 40,
+                            color: iconColor,
+                          );
+                        },
+                      ),
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          roaster,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
+                emptyText: l10n.noData,
               ),
-            ),
-            emptyText: l10n.noData,
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -710,11 +684,6 @@ class _StatsGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final divider = Divider(
-      height: AppStroke.border,
-      thickness: AppStroke.border,
-      color: Theme.of(context).colorScheme.outlineVariant,
-    );
 
     return Padding(
       padding: const EdgeInsetsDirectional.symmetric(
@@ -737,7 +706,7 @@ class _StatsGroup extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   coffeeRow,
-                  divider,
+                  const StatsRowDivider(),
                   StatsRow(
                     identifier: '${prefix}_statsRow_mostUsedRecipes',
                     icon: Coffeico.menu,
@@ -748,7 +717,7 @@ class _StatsGroup extends StatelessWidget {
                   ),
                   if (recipes != null)
                     for (final (index, entry) in recipes.indexed) ...[
-                      divider,
+                      const StatsRowDivider(),
                       FutureBuilder<RecipeModel?>(
                         future: context
                             .read<RecipeProvider>()
@@ -783,96 +752,6 @@ class _StatsGroup extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-@visibleForTesting
-class StatsRow extends StatelessWidget {
-  const StatsRow({
-    super.key,
-    required this.identifier,
-    required this.icon,
-    required this.label,
-    this.value,
-    this.mutedValue = false,
-    this.isLoading = false,
-    this.isRecipe = false,
-    this.onTap,
-  });
-
-  final String identifier;
-  final IconData icon;
-  final String label;
-  final String? value;
-  final bool mutedValue;
-  final bool isLoading;
-  final bool isRecipe;
-  final VoidCallback? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final trailingValue = value;
-    final row = ConstrainedBox(
-      constraints: const BoxConstraints(minHeight: AppButton.heightMedium),
-      child: Padding(
-        padding: const EdgeInsetsDirectional.symmetric(
-          horizontal: AppSpacing.base,
-          vertical: AppSpacing.sm,
-        ),
-        child: Row(
-          children: [
-            SizedBox.square(
-              dimension: AppIconSize.medium,
-              child: Icon(
-                icon,
-                size: AppIconSize.medium,
-                color: colorScheme.onSurface,
-              ),
-            ),
-            const SizedBox(width: AppSpacing.base),
-            Expanded(
-              child: Text(
-                label,
-                style: isRecipe ? AppTextStyles.body : AppTextStyles.itemTitle,
-                maxLines: isRecipe ? 2 : null,
-                overflow: isRecipe ? TextOverflow.ellipsis : null,
-              ),
-            ),
-            if (isLoading || trailingValue != null)
-              const SizedBox(width: AppSpacing.sm),
-            if (isLoading)
-              const SizedBox.square(
-                dimension: AppIconSize.small,
-                child: CircularProgressIndicator(strokeWidth: AppStroke.focus),
-              )
-            else if (trailingValue != null)
-              Text(
-                trailingValue,
-                textAlign: TextAlign.right,
-                style: AppTextStyles.body.copyWith(
-                  color: mutedValue
-                      ? colorScheme.outline
-                      : colorScheme.onSurface,
-                  fontFeatures: const [FontFeature.tabularFigures()],
-                ),
-              ),
-            if (onTap != null)
-              Icon(
-                Icons.chevron_right,
-                size: AppIconSize.medium,
-                color: colorScheme.onSurfaceVariant,
-              ),
-          ],
-        ),
-      ),
-    );
-
-    return Semantics(
-      identifier: identifier,
-      button: onTap != null ? true : null,
-      child: onTap == null ? row : InkWell(onTap: onTap, child: row),
     );
   }
 }
