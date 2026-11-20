@@ -28,6 +28,7 @@ import '../widgets/recipe_detail/recipe_content_builder.dart';
 import '../widgets/recipe_detail/floating_nav_button.dart';
 import '../widgets/add_coffee_beans_widget.dart';
 import '../widgets/brew_later_link.dart';
+import '../widgets/brewing/bottom_action_row.dart';
 
 // Screens
 import '../screens/preparation_screen.dart';
@@ -801,15 +802,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       web.document.title = l10n.recipeDetailWebTitle(recipe.name);
     }
 
-    final double fabHeight = 76.0 + 16.0;
-    // Standard FloatingActionButton diameter — the link must never run under
-    // it (see the PositionedDirectional below).
-    const double fabDiameter = 56.0;
-    // Screen width minus the link's own start inset, the FAB's end inset, the
-    // FAB itself and a base-sized gap between the two.
-    final double brewLaterMaxWidth = MediaQuery.of(context).size.width -
-        AppSpacing.base * 3 -
-        fabDiameter;
+    const fabHeight = AppButton.heightLarge + AppSpacing.xl + AppSpacing.xs;
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -829,9 +822,15 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
           animation: _controller,
           builder: (context, _) {
             return Stack(
+              fit: StackFit.expand,
               children: [
                 Padding(
-                  padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, fabHeight),
+                  padding: EdgeInsetsDirectional.fromSTEB(
+                    AppSpacing.base,
+                    AppSpacing.base,
+                    AppSpacing.base,
+                    fabHeight + MediaQuery.paddingOf(context).bottom,
+                  ),
                   child: SingleChildScrollView(
                     child: RecipeContentBuilder(
                       recipe: recipe,
@@ -857,23 +856,19 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
                   ),
                 ),
                 PositionedDirectional(
-                  bottom: AppSpacing.base,
-                  end: AppSpacing.base,
-                  child: FloatingNavButton(
-                    onPressed: () =>
-                        _saveCustomAmountsAndNavigate(context, recipe),
-                  ),
-                ),
-                PositionedDirectional(
-                  bottom: AppSpacing.base,
-                  start: AppSpacing.base,
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: brewLaterMaxWidth),
-                    child: BrewLaterLink(
+                  start: 0,
+                  end: 0,
+                  bottom: 0,
+                  child: BottomActionRow(
+                    leading: BrewLaterLink(
                       recipeId: _effectiveRecipeId ?? recipe.id,
                       methodId: recipe.brewingMethodId,
                       recipeName: recipe.name,
                       source: 'recipe_detail',
+                    ),
+                    action: FloatingNavButton(
+                      onPressed: () =>
+                          _saveCustomAmountsAndNavigate(context, recipe),
                     ),
                   ),
                 ),
