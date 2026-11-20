@@ -30,6 +30,8 @@ import '../services/analytics_service.dart';
 import '../services/advanced_features_service.dart';
 import '../services/recipe_expression_service.dart';
 import '../theme/design_tokens.dart';
+import '../utils/icon_utils.dart';
+import '../widgets/app_bar_title.dart';
 import '../visual/color_schemes.dart';
 import '../widgets/brewing/brew_timer_ring.dart';
 import '../widgets/brewing/localized_number_text.dart';
@@ -1988,7 +1990,10 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       appBar: AppBar(
         title: Semantics(
           identifier: 'brewingProcessTitle',
-          child: Text(_stepLabelText(context)),
+          child: AppBarTitle(
+            text: _stepLabelText(context),
+            leading: getIconByBrewingMethod(widget.recipe.brewingMethodId),
+          ),
         ),
       ),
       // Tap anywhere to skip the end sequence (plan 061 R5). The behaviour

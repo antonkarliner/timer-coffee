@@ -21,6 +21,8 @@ import '../services/settings_analytics.dart';
 import '../services/feature_flags/feature_flags_repository.dart';
 import '../services/onboarding_service.dart';
 import '../theme/design_tokens.dart';
+import '../utils/icon_utils.dart';
+import '../widgets/app_bar_title.dart';
 import '../utils/recipe_step_resolution.dart';
 import '../widgets/brew_later_link.dart';
 import '../widgets/brewing/layout_choice_sheet.dart';
@@ -392,7 +394,10 @@ class _PreparationScreenState extends State<PreparationScreen> {
         ),
         title: Semantics(
           identifier: 'preparationScreenTitle',
-          child: Text(appLocalizations.preparation),
+          child: AppBarTitle(
+            text: appLocalizations.preparation,
+            leading: getIconByBrewingMethod(widget.recipe.brewingMethodId),
+          ),
         ),
         actions: [
           Semantics(

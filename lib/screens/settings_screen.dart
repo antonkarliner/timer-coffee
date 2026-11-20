@@ -180,6 +180,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return SettingsPageScaffold(
       title: l10n.settings,
+      titleIcon: Icons.settings,
       children: [
         // Two headerless sections (settings_list.dart rule 2): the account
         // card alone, then the six category rows.

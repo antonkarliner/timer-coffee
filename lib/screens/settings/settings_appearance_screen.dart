@@ -127,6 +127,7 @@ class _SettingsAppearanceScreenState extends State<SettingsAppearanceScreen> {
 
     return SettingsPageScaffold(
       title: l10n.settingsAppearanceTitle,
+      titleIcon: Icons.palette_outlined,
       children: [
         // No header: a single-row section would only repeat the row's title.
         SettingsSection(

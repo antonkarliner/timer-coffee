@@ -230,14 +230,14 @@ class _BrewRow extends StatelessWidget {
               Text(
                 dateFormat.format(stat.createdAt.toLocal()),
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                  color: theme.colorScheme.outline,
                 ),
               ),
               if (stat.notes != null && stat.notes!.isNotEmpty)
                 Text(
                   stat.notes!.split('\n').first,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                    color: theme.colorScheme.outline,
                     fontStyle: FontStyle.italic,
                   ),
                   maxLines: 1,

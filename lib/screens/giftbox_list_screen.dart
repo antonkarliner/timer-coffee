@@ -16,6 +16,7 @@ import '../theme/design_tokens.dart';
 import '../utils/app_logger.dart';
 import '../widgets/gift_discount_chip.dart';
 import '../utils/region_labels.dart';
+import '../widgets/app_bar_title.dart';
 import '../widgets/base_buttons.dart';
 
 @RoutePage()
@@ -99,7 +100,10 @@ class _GiftBoxListScreenState extends State<GiftBoxListScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text(l10n.holidayGiftBoxTitle),
+        title: AppBarTitle(
+          text: l10n.holidayGiftBoxTitle,
+          icon: Icons.card_giftcard,
+        ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         foregroundColor: theme.colorScheme.primary,

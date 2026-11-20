@@ -12,6 +12,7 @@ import '../theme/design_tokens.dart';
 import '../utils/app_logger.dart';
 import '../widgets/base_buttons.dart';
 import '../widgets/fields/labeled_field.dart';
+import '../widgets/app_bar_title.dart';
 import '../widgets/smart_back_button.dart';
 
 @RoutePage()
@@ -106,13 +107,9 @@ class _HelpHomeScreenState extends State<HelpHomeScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: const SmartBackButton(),
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.help_outline),
-            const SizedBox(width: AppSpacing.sm),
-            Text(l10n.helpAndFAQ),
-          ],
+        title: AppBarTitle(
+          text: l10n.helpAndFAQ,
+          icon: Icons.help_outline,
         ),
       ),
       body: RefreshIndicator(

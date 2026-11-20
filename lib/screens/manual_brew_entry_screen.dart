@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/app_bar_title.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:uuid/uuid.dart';
@@ -470,13 +471,9 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.add_circle_outline),
-              const SizedBox(width: 8),
-              Text(loc.addBrewEntry),
-            ],
+          title: AppBarTitle(
+            text: loc.addBrewEntry,
+            icon: Icons.add_circle_outline,
           ),
         ),
         body: _isLoading

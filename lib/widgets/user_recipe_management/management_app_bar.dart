@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../../controllers/user_recipe_management_controller.dart';
+import '../app_bar_title.dart';
 import '../smart_back_button.dart';
 
 class ManagementAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
+  final IconData? titleIcon;
   final UserRecipeManagementController controller;
   final VoidCallback onToggleEdit;
   final VoidCallback? onCreate;
@@ -12,6 +14,7 @@ class ManagementAppBar extends StatelessWidget implements PreferredSizeWidget {
   const ManagementAppBar({
     super.key,
     required this.title,
+    this.titleIcon,
     required this.controller,
     required this.onToggleEdit,
     this.onCreate,
@@ -25,7 +28,9 @@ class ManagementAppBar extends StatelessWidget implements PreferredSizeWidget {
     final l10n = AppLocalizations.of(context)!;
     return AppBar(
       leading: const SmartBackButton(),
-      title: Text(title),
+      title: titleIcon == null
+          ? Text(title)
+          : AppBarTitle(text: title, icon: titleIcon),
       actions: [
         if (onCreate != null)
           IconButton(

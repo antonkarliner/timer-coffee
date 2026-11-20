@@ -55,7 +55,11 @@ class _SettingsNotificationsScreenState
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     if (kIsWeb) {
-      return SettingsPageScaffold(title: l10n.notifications, children: const []);
+      return SettingsPageScaffold(
+        title: l10n.notifications,
+        titleIcon: Icons.notifications_outlined,
+        children: const [],
+      );
     }
 
     return ListenableBuilder(
@@ -64,6 +68,7 @@ class _SettingsNotificationsScreenState
         final l10n = AppLocalizations.of(context)!;
         return SettingsPageScaffold(
           title: l10n.notifications,
+          titleIcon: Icons.notifications_outlined,
           children: [
             SettingsSection(
               children: [

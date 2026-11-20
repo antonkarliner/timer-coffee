@@ -22,6 +22,7 @@ import '../services/notification_service.dart';
 import '../theme/design_tokens.dart';
 import '../widgets/confirm_delete_dialog.dart';
 import '../utils/app_logger.dart'; // Import AppLogger
+import '../widgets/app_bar_title.dart';
 import '../widgets/base_buttons.dart';
 import '../widgets/account/sign_in_methods_section.dart';
 import '../widgets/settings/settings_list.dart';
@@ -868,7 +869,9 @@ class _AccountScreenState extends State<AccountScreen> {
     // Use loading state
     if (_isLoading) {
       return Scaffold(
-        appBar: AppBar(title: Text(l10n.account)),
+        appBar: AppBar(
+          title: AppBarTitle(text: l10n.account, icon: Icons.person_outline),
+        ),
         body: const Center(child: CircularProgressIndicator()),
       );
     }
@@ -877,7 +880,9 @@ class _AccountScreenState extends State<AccountScreen> {
     if (errorMessage != null && _displayName == null) {
       // Only show full error if no data at all
       return Scaffold(
-        appBar: AppBar(title: Text(l10n.account)),
+        appBar: AppBar(
+          title: AppBarTitle(text: l10n.account, icon: Icons.person_outline),
+        ),
         body: Center(child: Text(errorMessage)),
       );
     }
@@ -897,7 +902,7 @@ class _AccountScreenState extends State<AccountScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.account),
+        title: AppBarTitle(text: l10n.account, icon: Icons.person_outline),
         actions: [
           // Add Edit/Done button to AppBar
           IconButton(

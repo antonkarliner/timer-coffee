@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../app_bar_title.dart';
 
 /// Title row for Recipe Detail AppBar: brewing method icon + method name.
 ///
@@ -15,18 +16,9 @@ class RecipeDetailTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        brewingMethodIcon,
-        const SizedBox(width: 8),
-        Flexible(
-          child: Text(
-            brewingMethodName,
-            style: Theme.of(context).textTheme.titleLarge,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ],
+    return AppBarTitle(
+      text: brewingMethodName,
+      leading: brewingMethodIcon,
     );
   }
 }

@@ -48,6 +48,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 import '../../theme/design_tokens.dart';
+import '../app_bar_title.dart';
 import '../app_switch_list_tile.dart';
 import '../smart_back_button.dart';
 
@@ -740,11 +741,13 @@ class SettingsPageScaffold extends StatelessWidget {
   const SettingsPageScaffold({
     super.key,
     required this.title,
+    this.titleIcon,
     required this.children,
     this.backButtonIdentifier = 'settingsBackButton',
   });
 
   final String title;
+  final IconData? titleIcon;
   final List<Widget> children;
   final String backButtonIdentifier;
 
@@ -760,7 +763,9 @@ class SettingsPageScaffold extends StatelessWidget {
           container: true,
           child: const SmartBackButton(),
         ),
-        title: Text(title),
+        title: titleIcon == null
+            ? Text(title)
+            : AppBarTitle(text: title, icon: titleIcon),
       ),
       body: ListView(
         padding: EdgeInsetsDirectional.only(

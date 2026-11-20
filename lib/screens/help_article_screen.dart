@@ -10,6 +10,7 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../models/help_models.dart';
 import '../providers/database_provider.dart';
 import '../theme/design_tokens.dart';
+import '../widgets/app_bar_title.dart';
 import '../widgets/base_buttons.dart';
 import '../widgets/markdown/app_markdown_style.dart';
 import '../widgets/smart_back_button.dart';
@@ -73,7 +74,10 @@ class _HelpArticleScreenState extends State<HelpArticleScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: const SmartBackButton(),
-        title: Text(widget.title ?? _article?.title ?? l10n.helpAndFAQ),
+        title: AppBarTitle(
+          text: widget.title ?? _article?.title ?? l10n.helpAndFAQ,
+          icon: Icons.help_outline,
+        ),
       ),
       body: _buildBody(l10n),
     );

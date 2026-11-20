@@ -95,7 +95,7 @@ class RoasterTile extends StatelessWidget {
                     Text(
                       location,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: colorScheme.onSurface.withValues(alpha: 0.6),
+                            color: colorScheme.onSurfaceVariant,
                           ),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,

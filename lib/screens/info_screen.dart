@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/launch_popup_model.dart';
+import '../widgets/app_bar_title.dart';
 import '../widgets/smart_back_button.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -68,13 +69,9 @@ class _InfoScreenState extends State<InfoScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: const SmartBackButton(),
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.info_outline),
-            const SizedBox(width: 8),
-            Text(l10n.about),
-          ],
+        title: AppBarTitle(
+          text: l10n.about,
+          icon: Icons.info_outline,
         ),
       ),
       body: ListView(

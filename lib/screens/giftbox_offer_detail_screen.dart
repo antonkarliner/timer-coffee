@@ -20,6 +20,7 @@ import '../widgets/gift_discount_chip.dart';
 import 'package:coffee_timer/config/supabase_endpoint_resolver.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../utils/region_labels.dart';
+import '../widgets/app_bar_title.dart';
 import '../widgets/base_buttons.dart';
 
 @RoutePage()
@@ -168,7 +169,10 @@ class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text(offer?.partnerName ?? l10n.holidayGiftBoxTitle),
+        title: AppBarTitle(
+          text: offer?.partnerName ?? l10n.holidayGiftBoxTitle,
+          icon: Icons.card_giftcard,
+        ),
         backgroundColor: Colors.transparent,
         foregroundColor: theme.colorScheme.primary,
         elevation: 0,

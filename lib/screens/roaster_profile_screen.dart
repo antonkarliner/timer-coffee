@@ -17,6 +17,7 @@ import '../providers/recipe_provider.dart';
 import '../providers/roaster_profile_provider.dart';
 import '../services/analytics_service.dart';
 import '../theme/design_tokens.dart';
+import '../widgets/app_bar_title.dart';
 import '../widgets/base_buttons.dart';
 import '../widgets/containers/section_card.dart';
 import '../widgets/roaster/roaster_report_sheet.dart';
@@ -302,7 +303,10 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
           : null,
       appBar: AppBar(
         leading: const SmartBackButton(),
-        title: Text(_profile?.roasterName ?? ''),
+        title: AppBarTitle(
+          text: _profile?.roasterName ?? '',
+          icon: Icons.storefront_outlined,
+        ),
         actions: _buildAppBarActions(l10n),
       ),
       body: _loadingProfile
@@ -636,7 +640,7 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
                           child: Text(
                             l10n.roasterBagsLogged(profile.loggedBagCount),
                             style: AppTextStyles.caption.copyWith(
-                              color: colorScheme.onSurface.withValues(alpha: 0.6),
+                              color: colorScheme.onSurfaceVariant,
                             ),
                           ),
                         ),
@@ -730,8 +734,7 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
                               Text(
                                 l10n.reviewRequiresOwnedBeans,
                                 style: AppTextStyles.caption.copyWith(
-                                  color:
-                                      colorScheme.onSurface.withValues(alpha: 0.6),
+                                  color: colorScheme.onSurfaceVariant,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
@@ -904,7 +907,7 @@ class _DisclaimerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6);
+    final color = Theme.of(context).colorScheme.onSurfaceVariant;
     final style = AppTextStyles.caption.copyWith(color: color);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,

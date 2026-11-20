@@ -165,6 +165,7 @@ class _TasteProfileScreenState extends State<TasteProfileScreen> {
 
     return SettingsPageScaffold(
       title: l10n.tasteProfileTitle,
+      titleIcon: Icons.tune,
       children: [
         // First slot: spinner while loading, load-failure with retry, or
         // nothing once a profile exists — a reload keeps the profile visible.

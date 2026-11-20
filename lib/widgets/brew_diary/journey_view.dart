@@ -12,6 +12,7 @@ import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:coffee_timer/utils/grind_value.dart';
 import 'package:coffee_timer/utils/icon_utils.dart';
 import 'package:coffee_timer/utils/temperature_format.dart';
+import 'package:coffee_timer/widgets/app_bar_title.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:coffee_timer/widgets/brew_diary/brew_detail_sheet.dart';
 import 'package:coffee_timer/widgets/brew_diary/brew_entry_card.dart';
@@ -48,19 +49,9 @@ class JourneyView extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           leading: SmartBackButton(),
-          title: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Coffeico.bag_with_bean, size: AppIconSize.medium),
-              const SizedBox(width: AppSpacing.sm),
-              Flexible(
-                child: Text(
-                  group.title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
+          title: AppBarTitle(
+            text: group.title,
+            icon: Coffeico.bag_with_bean,
           ),
         ),
         body: _BeanJourney(

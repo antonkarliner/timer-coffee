@@ -13,6 +13,7 @@ import 'package:coffee_timer/services/date_time_format_service.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:coffee_timer/utils/diary_digest.dart';
+import 'package:coffee_timer/widgets/app_bar_title.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:coffee_timer/widgets/containers/section_card.dart';
 import 'package:coffee_timer/widgets/smart_back_button.dart';
@@ -819,13 +820,9 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
         title: Semantics(
           identifier: 'brewDiaryAppBar',
           label: loc.brewdiary,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.library_books, size: AppIconSize.medium),
-              const SizedBox(width: AppSpacing.sm),
-              Text(loc.brewdiary),
-            ],
+          child: AppBarTitle(
+            text: loc.brewdiary,
+            icon: Icons.library_books,
           ),
         ),
         actions: [

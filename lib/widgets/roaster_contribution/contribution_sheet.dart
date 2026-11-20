@@ -172,7 +172,7 @@ class _ContributionSheetState extends State<_ContributionSheet> {
               Text(
                 l10n.roasterContributionSheetSubtitle,
                 style: AppTextStyles.caption.copyWith(
-                  color: colorScheme.onSurface.withValues(alpha: 0.6),
+                  color: colorScheme.onSurfaceVariant,
                 ),
               ),
               const SizedBox(height: AppSpacing.base),

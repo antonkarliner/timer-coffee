@@ -21,6 +21,7 @@ import '../providers/user_stat_provider.dart';
 import '../providers/coffee_beans_provider.dart';
 import 'package:uuid/uuid.dart';
 import '../theme/design_tokens.dart';
+import '../widgets/app_bar_title.dart';
 import '../utils/app_logger.dart';
 import '../utils/country_names.dart';
 import '../widgets/notification_permission_dialog.dart';
@@ -1272,7 +1273,10 @@ class _FinishScreenState extends State<FinishScreen> {
       appBar: AppBar(
         title: Semantics(
           identifier: 'finishBrewTitle',
-          child: Text(AppLocalizations.of(context)!.finishbrew),
+          child: AppBarTitle(
+            text: AppLocalizations.of(context)!.finishbrew,
+            icon: Icons.check_circle_outline,
+          ),
         ),
       ),
       body: Stack(

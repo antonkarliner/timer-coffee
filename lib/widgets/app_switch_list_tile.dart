@@ -38,7 +38,7 @@ class AppSwitchListTile extends StatelessWidget {
               child: Text(
                 subtitle!,
                 style: textTheme.labelSmall?.copyWith(
-                  color: colorScheme.onSurfaceVariant.withValues(alpha: 1),
+                  color: colorScheme.onSurfaceVariant,
                   height: 1.2,
                 ),
               ),
