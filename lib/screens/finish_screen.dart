@@ -641,8 +641,30 @@ class _FinishScreenState extends State<FinishScreen> {
     );
   }
 
+  String? _brewUserId(AppDatabase database) {
+    final scope = database.accountScope;
+    return scope == null
+        ? Supabase.instance.client.auth.currentUser?.id
+        : scope.currentUser?.id;
+  }
+
+  Future<String?> _beanUuidForBrew(AppDatabase database) async {
+    final prefs = await SharedPreferences.getInstance();
+    final uuid = prefs.getString('selectedBeanUuid');
+    if (uuid == null || database.accountScope == null) return uuid;
+    try {
+      final bean = await database.coffeeBeansDao.fetchCoffeeBeansByUuid(uuid);
+      return bean == null ? null : uuid;
+    } catch (error) {
+      AppLogger.warning('Could not resolve selected brew bean', errorObject: error);
+      return null;
+    }
+  }
+
   void insertBrewingDataToSupabase() async {
-    final userId = Supabase.instance.client.auth.currentUser?.id;
+    final database = context.read<AppDatabase>();
+    final userId = _brewUserId(database);
+    final client = database.accountScope?.client ?? Supabase.instance.client;
     // Pure read, no side effects — safe to resolve regardless of sign-in
     // state (previously only read inside the `user != null` branch).
     final locale = Localizations.localeOf(context);
@@ -657,7 +679,7 @@ class _FinishScreenState extends State<FinishScreen> {
 
     String? countryCode;
     if (userId != null) {
-      final regionService = RegionService(Supabase.instance.client);
+      final regionService = RegionService(client);
       countryCode = await regionService
           .getCountryCode(localeCode: locale.toLanguageTag())
           .catchError((_) => null);
@@ -672,13 +694,11 @@ class _FinishScreenState extends State<FinishScreen> {
       request: request,
       // Do not chain .select() here: client roles cannot read
       // global_stats.user_id, so returning the row fails the insert with 42501.
-      insertGlobalStat: (data) =>
-          Supabase.instance.client.from('global_stats').insert(data),
+      insertGlobalStat: (data) => client.from('global_stats').insert(data),
     );
   }
 
   Future<void> insertBrewingDataToAppDatabase() async {
-    final userId = Supabase.instance.client.auth.currentUser?.id;
     final recordingService = Provider.of<BrewRecordingService>(
       context,
       listen: false,
@@ -688,11 +708,10 @@ class _FinishScreenState extends State<FinishScreen> {
       listen: false,
     );
     final database = Provider.of<AppDatabase>(context, listen: false);
+    final userId = _brewUserId(database);
     final locale = Localizations.localeOf(context);
 
-    // Fetch the coffee beans UUID from SharedPreferences
-    final prefs = await SharedPreferences.getInstance();
-    final coffeeBeansUuid = prefs.getString('selectedBeanUuid');
+    final coffeeBeansUuid = await _beanUuidForBrew(database);
 
     final request = _buildBrewRecordingRequest(
       userId: userId,
@@ -834,12 +853,11 @@ class _FinishScreenState extends State<FinishScreen> {
     final database = Provider.of<AppDatabase>(context, listen: false);
     final locale = Localizations.localeOf(context);
 
-    // Get the selected bean UUID from SharedPreferences
-    final prefs = await SharedPreferences.getInstance();
-    final coffeeBeansUuid = prefs.getString('selectedBeanUuid');
+    final userId = _brewUserId(database);
+    final coffeeBeansUuid = await _beanUuidForBrew(database);
 
     final request = _buildBrewRecordingRequest(
-      userId: Supabase.instance.client.auth.currentUser?.id,
+      userId: userId,
       locale: locale,
       coffeeBeansUuid: coffeeBeansUuid,
     );

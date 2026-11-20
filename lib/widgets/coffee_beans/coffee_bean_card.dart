@@ -1,9 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:coffeico_plus/coffeico_plus.dart';
-import 'package:coffee_timer/config/supabase_endpoint_resolver.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 
@@ -15,6 +13,7 @@ import '../../models/ui_state/coffee_beans_sort_options.dart';
 import '../../utils/date_utils.dart' as app_date_utils;
 import '../confirm_delete_dialog.dart';
 import '../roaster_logo.dart';
+import 'private_bean_photo.dart';
 import '../delete_button.dart';
 
 /// A stateless widget representing a coffee bean card in list view.
@@ -101,15 +100,13 @@ class CoffeeBeanCard extends StatelessWidget {
                           color: colorScheme.surfaceContainerHighest,
                         ),
                         child: bean.photoUrl != null
-                            ? CachedNetworkImage(
-                                imageUrl:
-                                    SupabaseEndpointResolver.localizeStorageUrl(
-                                      bean.photoUrl!,
-                                    ),
+                            ? PrivateBeanPhoto(
+                                reference: bean.photoUrl!,
+                                beanId: bean.beansUuid,
                                 height: photoSlotSize,
                                 width: photoSlotSize,
                                 fit: BoxFit.cover,
-                                errorWidget: (_, _, _) => Icon(
+                                fallback: Icon(
                                   Coffeico.bag_with_bean,
                                   size: photoSlotSize,
                                   color: iconColor,

@@ -9,11 +9,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../database/account_data_store.dart';
 import '../database/database.dart';
 import '../providers/coffee_beans_provider.dart';
 import '../providers/database_provider.dart';
 import '../providers/recipe_provider.dart';
-import '../providers/user_recipe_provider.dart';
 import '../providers/user_stat_provider.dart';
 import '../utils/app_logger.dart';
 import '../utils/input_validator.dart';
@@ -28,7 +28,7 @@ import 'onboarding_service.dart';
 @visibleForTesting
 class PostSignInSteps {
   const PostSignInSteps({
-    required this.updateRecipeIds,
+    required this.transferLocalData,
     required this.migrate,
     required this.syncData,
     required this.registerFcmToken,
@@ -37,7 +37,7 @@ class PostSignInSteps {
   });
 
   final Future<void> Function(String oldUserId, String newUserId)
-  updateRecipeIds;
+  transferLocalData;
   final Future<void> Function(String oldUserId, String newUserId) migrate;
   final Future<void> Function() syncData;
   final Future<void> Function() registerFcmToken;
@@ -54,7 +54,7 @@ class _SignInSession {
     required this.scaffoldMessenger,
     required this.navigator,
     required this.databaseProvider,
-    required this.userRecipeProvider,
+    required this.accountDataStore,
     required this.recipeProvider,
     required this.userStatProvider,
     required this.coffeeBeansProvider,
@@ -69,7 +69,7 @@ class _SignInSession {
   final ScaffoldMessengerState? scaffoldMessenger;
   final NavigatorState navigator;
   final DatabaseProvider? databaseProvider;
-  final UserRecipeProvider? userRecipeProvider;
+  final AccountDataStore? accountDataStore;
   final RecipeProvider? recipeProvider;
   final UserStatProvider? userStatProvider;
   final CoffeeBeansProvider? coffeeBeansProvider;
@@ -83,7 +83,7 @@ class _SignInContext {
     required this.scaffoldMessenger,
     required this.navigator,
     required this.databaseProvider,
-    required this.userRecipeProvider,
+    required this.accountDataStore,
     required this.recipeProvider,
     required this.userStatProvider,
     required this.coffeeBeansProvider,
@@ -95,7 +95,7 @@ class _SignInContext {
   final ScaffoldMessengerState? scaffoldMessenger;
   final NavigatorState navigator;
   final DatabaseProvider? databaseProvider;
-  final UserRecipeProvider? userRecipeProvider;
+  final AccountDataStore? accountDataStore;
   final RecipeProvider? recipeProvider;
   final UserStatProvider? userStatProvider;
   final CoffeeBeansProvider? coffeeBeansProvider;
@@ -246,7 +246,7 @@ class AuthenticationService {
         !kIsWeb &&
         newUser != null &&
         newUser.id != session.oldUserId) {
-      await _completeSignIn(session, method);
+      await _completeSignIn(session, method, newUser.id);
       return true;
     }
 
@@ -305,7 +305,7 @@ class AuthenticationService {
             oldAccessToken: pending.oldAccessToken,
             source: pending.source,
           );
-          await _completeSignIn(session, pending.method);
+          await _completeSignIn(session, pending.method, currentUser!.id);
       }
     } finally {
       _webResumeInFlight = false;
@@ -494,7 +494,7 @@ class AuthenticationService {
         return session.l10n.invalidOTP;
       }
 
-      unawaited(_completeSignIn(session, 'email'));
+      unawaited(_completeSignIn(session, 'email', response.session!.user.id));
       return null;
     } on AuthException catch (error) {
       AppLogger.error('Error verifying OTP', errorObject: error);
@@ -532,55 +532,69 @@ class AuthenticationService {
   static Future<void> _completeSignIn(
     _SignInSession session,
     String method,
+    String newUserId,
   ) async {
     final user = Supabase.instance.client.auth.currentUser;
-    if (user == null) return;
-    final newUserId = user.id;
+    final store = session.accountDataStore;
+    if (user == null || user.id != newUserId || store == null) return;
+    final database = store.openAccount(newUserId);
+    final samePartition = identical(session.database, database);
+    final databaseProvider = samePartition && session.databaseProvider != null
+        ? session.databaseProvider!
+        : DatabaseProvider(database);
+    final coffeeBeansProvider =
+        samePartition && session.coffeeBeansProvider != null
+        ? session.coffeeBeansProvider!
+        : CoffeeBeansProvider(database, databaseProvider);
+    final userStatProvider = samePartition && session.userStatProvider != null
+        ? session.userStatProvider!
+        : UserStatProvider(database, coffeeBeansProvider);
 
     final steps = PostSignInSteps(
-      updateRecipeIds: (oldUserId, migratedUserId) async {
-        final provider = session.userRecipeProvider;
-        if (provider == null) {
-          throw StateError('UserRecipeProvider is unavailable');
-        }
-        await provider.updateUserRecipeIdsAfterLogin(oldUserId, migratedUserId);
-      },
+      transferLocalData: store.migrateVerifiedGuest,
       migrate: (oldUserId, migratedUserId) async {
-        final response = await Supabase.instance.client.functions.invoke(
+        final oldAccessToken = session.oldAccessToken;
+        if (oldAccessToken == null || oldAccessToken.isEmpty) {
+          throw StateError('Missing proof of the guest account');
+        }
+        final response = await database.accountScope!.client.functions.invoke(
           'update-id-after-signin',
           body: {
             'oldUserId': oldUserId,
             'newUserId': migratedUserId,
-            'oldAccessToken': ?session.oldAccessToken,
+            'oldAccessToken': oldAccessToken,
           },
         );
-        if (response.status != 200) {
-          throw Exception(
-            'Failed to update user ID (status ${response.status})',
-          );
+        if (response.status != 200 ||
+            !isVerifiedGuestMigration(response.data)) {
+          throw StateError('Failed to verify the guest account migration');
         }
       },
       syncData: () async {
-        final databaseProvider = session.databaseProvider;
-        final recipeProvider = session.recipeProvider;
-        final userStatProvider = session.userStatProvider;
-        final coffeeBeansProvider = session.coffeeBeansProvider;
-        if (databaseProvider == null ||
-            recipeProvider == null ||
-            userStatProvider == null ||
-            coffeeBeansProvider == null) {
-          throw StateError('Post-sign-in providers are unavailable');
+        if (store.currentUserId != newUserId) return;
+        // Local guest data was copied only after the guest proof was accepted.
+        // Sync through the destination database and its own credentials.
+        if (await databaseProvider.uploadUserPreferencesToSupabase()) {
+          await databaseProvider.fetchAndInsertUserPreferencesFromSupabase();
         }
-        await databaseProvider.uploadUserPreferencesToSupabase();
-        await databaseProvider.fetchAndInsertUserPreferencesFromSupabase();
         await databaseProvider.syncUserRecipes(newUserId);
         await databaseProvider.syncImportedRecipes(newUserId);
-        await recipeProvider.fetchAllRecipes();
+        if (samePartition && session.navigator.mounted) {
+          await session.recipeProvider?.fetchAllRecipes();
+        }
         await userStatProvider.syncUserStats();
         await coffeeBeansProvider.syncCoffeeBeans();
       },
-      registerFcmToken: registerFcmTokenForCurrentUser,
-      reconcileMilestones: () => _reconcileMilestonesAfterSync(session),
+      registerFcmToken: () async {
+        if (store.currentUserId == newUserId) {
+          await registerFcmTokenForCurrentUser();
+        }
+      },
+      reconcileMilestones: () async {
+        if (samePartition && store.currentUserId == newUserId) {
+          await _reconcileMilestonesAfterSync(session);
+        }
+      },
       onDataSyncError: (error) => _showSnackBar(
         session,
         session.l10n.errorSyncingData(error.toString()),
@@ -614,6 +628,13 @@ class AuthenticationService {
   }
 
   @visibleForTesting
+  static bool isVerifiedGuestMigration(Object? data) {
+    if (data is! Map) return false;
+    return data['oldUserDeleted'] == true ||
+        data['skipped'] == 'already_migrated';
+  }
+
+  @visibleForTesting
   static Future<void> runPostSignIn({
     required PostSignInSteps steps,
     required String? oldUserId,
@@ -625,25 +646,29 @@ class AuthenticationService {
   }) async {
     var migrated = false;
     if (oldUserId != null && oldUserId != newUserId) {
-      // A failed local rename must not skip the server-side migration.
-      try {
-        await steps.updateRecipeIds(oldUserId, newUserId);
-      } catch (error) {
-        AppLogger.error(
-          'Failed to rename anonymous recipes after sign-in',
-          errorObject: error,
-        );
-        _track('sign_in_sync_failed', {'source': source, 'step': 'recipe_ids'});
-      }
       try {
         await steps.migrate(oldUserId, newUserId);
         migrated = true;
       } catch (error) {
         AppLogger.error(
-          'Failed to migrate anonymous user data after sign-in',
+          'Failed to verify anonymous user data migration after sign-in',
           errorObject: error,
         );
         _track('sign_in_sync_failed', {'source': source, 'step': 'migration'});
+      }
+      if (migrated) {
+        try {
+          await steps.transferLocalData(oldUserId, newUserId);
+        } catch (error) {
+          AppLogger.error(
+            'Failed to transfer local anonymous user data after sign-in',
+            errorObject: error,
+          );
+          _track('sign_in_sync_failed', {
+            'source': source,
+            'step': 'recipe_ids',
+          });
+        }
       }
     }
 
@@ -685,14 +710,7 @@ class AuthenticationService {
       final user = Supabase.instance.client.auth.currentUser;
       if (user == null || kIsWeb) return;
 
-      final notificationService = NotificationService.instance;
-      final token = await notificationService.fcm.getToken();
-      if (token != null) {
-        await notificationService.fcm.storeFcmToken(user.id, token);
-      }
-      notificationService.fcm.onTokenRefresh((newToken) async {
-        await notificationService.fcm.storeFcmToken(user.id, newToken);
-      });
+      await NotificationService.instance.fcm.ensureActiveToken();
     } catch (error) {
       AppLogger.error(
         'Failed to register FCM token for current user',
@@ -738,7 +756,7 @@ class AuthenticationService {
       scaffoldMessenger: ScaffoldMessenger.maybeOf(context),
       navigator: Navigator.of(context),
       databaseProvider: _maybeProvider<DatabaseProvider>(context),
-      userRecipeProvider: _maybeProvider<UserRecipeProvider>(context),
+      accountDataStore: _maybeProvider<AccountDataStore>(context),
       recipeProvider: _maybeProvider<RecipeProvider>(context),
       userStatProvider: _maybeProvider<UserStatProvider>(context),
       coffeeBeansProvider: _maybeProvider<CoffeeBeansProvider>(context),
@@ -761,7 +779,7 @@ class AuthenticationService {
       scaffoldMessenger: signInContext.scaffoldMessenger,
       navigator: signInContext.navigator,
       databaseProvider: signInContext.databaseProvider,
-      userRecipeProvider: signInContext.userRecipeProvider,
+      accountDataStore: signInContext.accountDataStore,
       recipeProvider: signInContext.recipeProvider,
       userStatProvider: signInContext.userStatProvider,
       coffeeBeansProvider: signInContext.coffeeBeansProvider,

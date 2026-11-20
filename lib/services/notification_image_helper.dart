@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:crypto/crypto.dart';
-import 'package:http/http.dart' as http;
-import 'package:image/image.dart' as img;
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 import 'package:coffee_timer/utils/app_logger.dart';
+
+import 'roaster_logo_client.dart';
 
 /// Downloads a roaster logo and normalizes it into a PNG suitable for a local
 /// notification attachment.
@@ -21,53 +21,34 @@ import 'package:coffee_timer/utils/app_logger.dart';
 ///  - Decoding then re-encoding guarantees the bytes match the extension, so the
 ///    same cached file works on both iOS and Android.
 class NotificationImageHelper {
-  static const Duration _timeout = Duration(seconds: 5);
-
-  /// Reject absurdly large downloads before decoding (logos are small).
-  static const int _maxDownloadBytes = 5 * 1024 * 1024;
-
-  /// Cap the longest edge so the attachment stays lightweight.
-  static const int _maxDimension = 512;
-
   static Future<String?> downloadLogoToCache(String url) async {
     if (!(Platform.isAndroid || Platform.isIOS)) return null;
     try {
       final tmp = await getTemporaryDirectory();
-      final dir = Directory(p.join(tmp.path, 'notif_logos'));
-      if (!await dir.exists()) {
-        await dir.create(recursive: true);
-      }
+      // Previous app versions cached files produced by the unbounded loader.
+      final dir = Directory(p.join(tmp.path, 'notif_logos_bounded_v1'));
+      await dir.create(recursive: true);
 
       // Always a .png — the file is re-encoded below.
       final hash = sha1.convert(utf8.encode(url)).toString();
       final file = File(p.join(dir.path, '$hash.png'));
-      if (await file.exists() && await file.length() > 0) {
-        return file.path;
+      if (await file.exists()) {
+        final size = await file.length();
+        if (size > 0 && size <= RoasterLogoClient.byteLimit) return file.path;
       }
 
-      final response = await http.get(Uri.parse(url)).timeout(_timeout);
-      if (response.statusCode != 200) return null;
-      if (response.bodyBytes.isEmpty) return null;
-      if (response.bodyBytes.length > _maxDownloadBytes) return null;
-
-      // Decode any raster format (jpg/png/webp/gif). Non-raster sources such as
-      // SVG return null → caller falls back to a text-only notification.
-      final decoded = img.decodeImage(response.bodyBytes);
-      if (decoded == null) {
-        AppLogger.debug('Notification logo: undecodable format for $url');
-        return null;
+      final uri = Uri.parse(url);
+      if (RoasterLogoClient.isSvg(uri)) return null;
+      final bytes = await RoasterLogoClient.download(uri);
+      final temporary = File(
+        '${file.path}.${DateTime.now().microsecondsSinceEpoch}.tmp',
+      );
+      try {
+        await temporary.writeAsBytes(bytes, flush: true);
+        await temporary.rename(file.path);
+      } finally {
+        if (await temporary.exists()) await temporary.delete();
       }
-
-      final resized = (decoded.width > _maxDimension ||
-              decoded.height > _maxDimension)
-          ? img.copyResize(
-              decoded,
-              width: decoded.width >= decoded.height ? _maxDimension : null,
-              height: decoded.height > decoded.width ? _maxDimension : null,
-            )
-          : decoded;
-
-      await file.writeAsBytes(img.encodePng(resized), flush: true);
       return file.path;
     } catch (e) {
       AppLogger.debug('Notification logo download failed: $e');

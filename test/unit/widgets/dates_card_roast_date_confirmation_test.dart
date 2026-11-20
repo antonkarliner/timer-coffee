@@ -729,7 +729,11 @@ void main() {
           tester.element(find.byType(NewBeansScreen)),
         )!;
         await tester.tap(find.text(loc.aiScanLabel));
+        await tester.pumpAndSettle();
+        expect(find.text(loc.firstTimePopupMessage), findsOneWidget);
+        await tester.tap(find.text(loc.ok));
         await tester.pump();
+        await tester.pump(const Duration(milliseconds: 350));
         expect(imageController.started, isTrue);
 
         // Legacy backend/app shape: `roastDate` present, but the two new

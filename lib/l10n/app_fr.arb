@@ -762,6 +762,7 @@
   "@unpublishRecipeDialogMakePrivate": {
     "description": "Texte du bouton pour rendre la recette privée"
   },
+  "recipeUnpublishPending": "La recette sera rendue privée à la prochaine synchronisation. Le lien peut rester actif jusque-là.",
   "recipeUnpublishSuccess": "Recette dépubliée avec succès",
   "@recipeUnpublishSuccess": {
     "description": "Message de succès lorsque la publication d'une recette est annulée"
@@ -1223,6 +1224,7 @@
   "moderationDisplayNameFailedBody": "Votre nom d'affichage n'a pas pu être enregistré car : {reason}",
   "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "moderationRulesBody": "Le contenu que vous partagez sur Timer.Coffee est vérifié automatiquement. Les envois peuvent être refusés s'ils contiennent :\n\n- **Liens ou coordonnées** : URL, numéros de téléphone, adresses e-mail ou versions masquées de ces informations\n- **Contenu haineux ou offensant** : discours haineux, harcèlement ou discrimination de toute nature\n- **Contenu explicite** : contenu sexuellement explicite ou descriptions graphiques de violence\n- **Contenu dangereux** : promotion de l'automutilation ou d'autres activités dangereuses\n\nCes règles s'appliquent à la publication d'une recette (les recettes privées ne sont pas vérifiées), au texte des avis sur les grains, à votre nom d'affichage et aux photos de profil. Les notes et autres champs non textuels ne sont pas concernés.\n\nSi votre envoi est refusé, vous verrez une raison et pourrez le modifier puis le renvoyer. Il n'existe pas de procédure d'appel manuelle. Si vous pensez qu'il s'agit d'une erreur, essayez de reformuler votre contenu.",
+  "originalRecipeByPrefix": "Recette originale de ",
   "recipeByPrefix": "Recette de ",
   "roastersCatalogTitle": "Torréfacteurs",
   "hubRoastersSubtitle": "Parcourir tous les torréfacteurs de café",

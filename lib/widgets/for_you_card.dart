@@ -440,9 +440,10 @@ class _ForYouRow extends StatelessWidget {
 
   void _openAtRoaster(BuildContext context, Uri uri) {
     _track(context, 'for_you_link_opened');
-    final provider = context.read<RecommendationProvider>();
     // Fire-and-forget attribution; it must never delay opening the page.
-    unawaited(provider.logLinkOpened(item.stockId));
+    if (AnalyticsService.maybeInstance?.canTrackBeans == true) {
+      unawaited(context.read<RecommendationProvider>().logLinkOpened(item.stockId));
+    }
     unawaited(launchStockProductLink(uri));
   }
 

@@ -31,6 +31,11 @@ abstract class BeanRecommendationClient {
   Future<void> deleteMine();
 }
 
+abstract interface class RecommendationPreferenceClient {
+  Future<bool> fetchOptOut();
+  Future<void> setOptOut(bool optedOut);
+}
+
 /// Thrown by [TasteProfileClient.setTastePreference] when the server refuses
 /// a new adjustment because the user already has the maximum (60).
 class TastePreferenceLimitException implements Exception {
@@ -60,7 +65,10 @@ abstract class TasteProfileClient {
 
 /// Thin wrapper around Supabase, mirroring `BeansLabelParserClient`.
 class SupabaseBeanRecommendationClient
-    implements BeanRecommendationClient, TasteProfileClient {
+    implements
+        BeanRecommendationClient,
+        TasteProfileClient,
+        RecommendationPreferenceClient {
   SupabaseBeanRecommendationClient(this.supabase);
 
   final SupabaseClient supabase;
@@ -117,6 +125,18 @@ class SupabaseBeanRecommendationClient
   @override
   Future<void> deleteMine() async {
     await supabase.rpc('delete_my_recommendations');
+  }
+
+  @override
+  Future<bool> fetchOptOut() async =>
+      await supabase.rpc('get_my_recommendation_opt_out') as bool;
+
+  @override
+  Future<void> setOptOut(bool optedOut) async {
+    await supabase.rpc(
+      'set_my_recommendation_opt_out',
+      params: {'p_opted_out': optedOut},
+    );
   }
 
   @override

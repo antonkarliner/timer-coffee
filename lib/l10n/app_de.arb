@@ -762,6 +762,7 @@
   "@unpublishRecipeDialogMakePrivate": {
     "description": "Schaltflächentext, um das Rezept als privat zu markieren"
   },
+  "recipeUnpublishPending": "Das Rezept wird noch privat gestellt. Der Link kann bis zum Abschluss der Synchronisierung weiterhin funktionieren.",
   "recipeUnpublishSuccess": "Rezeptveröffentlichung erfolgreich aufgehoben",
   "@recipeUnpublishSuccess": {
     "description": "Erfolgsmeldung, wenn die Veröffentlichung eines Rezepts aufgehoben wird"
@@ -1223,6 +1224,7 @@
   "moderationDisplayNameFailedBody": "Dein Anzeigename konnte nicht gespeichert werden, weil: {reason}",
   "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "moderationRulesBody": "Inhalte, die du auf Timer.Coffee teilst, werden automatisch geprüft. Beiträge können abgelehnt werden, wenn sie Folgendes enthalten:\n\n- **Links oder Kontaktdaten**: URLs, Telefonnummern, E-Mail-Adressen oder verschleierte Varianten davon\n- **Hasserfüllte oder beleidigende Inhalte**: Hassrede, Belästigung oder Diskriminierung jeder Art\n- **Explizite Inhalte**: sexuell explizites Material oder drastische Gewaltdarstellungen\n- **Gefährliche Inhalte**: Förderung von Selbstverletzung oder anderen gefährlichen Aktivitäten\n\nDiese Regeln gelten beim Veröffentlichen eines Rezepts (private Rezepte werden nicht geprüft), für Bewertungstexte zu Bohnen, deinen Anzeigenamen und Profilbilder. Bewertungen mit Sternen und andere nicht textliche Felder sind nicht betroffen.\n\nWenn dein Beitrag abgelehnt wird, siehst du einen Grund und kannst ihn bearbeiten und erneut einreichen. Es gibt kein manuelles Einspruchsverfahren. Wenn du glaubst, dass die Ablehnung ein Fehler war, formuliere deinen Inhalt um.",
+  "originalRecipeByPrefix": "Originalrezept von ",
   "recipeByPrefix": "Rezept von ",
   "roastersCatalogTitle": "Röstereien",
   "hubRoastersSubtitle": "Alle Kaffeeröstereien durchsuchen",

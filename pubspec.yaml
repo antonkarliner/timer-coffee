@@ -101,6 +101,11 @@ dependency_overrides:
       url: https://github.com/antonkarliner/flutter_live_activities.git
       ref: bd20c2dae8c65590ea5592023e7441ed8748c5d2
 dev_dependencies:
+  firebase_core_platform_interface: ^6.0.2
+  firebase_messaging_platform_interface: ^4.7.7
+  url_launcher_platform_interface: ^2.3.2
+  integration_test:
+    sdk: flutter
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0

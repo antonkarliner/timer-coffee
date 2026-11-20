@@ -7,6 +7,7 @@ import 'package:coffee_timer/services/recipe_import_sharing_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -69,6 +70,72 @@ void main() {
     await tester.pumpWidget(buildHost());
     return tester.element(find.byKey(const Key('share-host')));
   }
+
+  testWidgets('opening an adaptation and its original only loads previews', (
+    tester,
+  ) async {
+    final context = await pumpHost(tester);
+    const sourceId = 'usr-roaster-original';
+    const adaptationId = 'usr-editor-adaptation';
+    when(recipeProvider.currentLocale).thenReturn(const Locale('en'));
+
+    Map<String, dynamic> published(String id, String vendor, String step) => {
+      'id': id,
+      'vendor_id': vendor,
+      'import_id': id == adaptationId ? sourceId : null,
+      'original_author_id': id == adaptationId ? 'roaster' : null,
+      'brewing_method_id': 'v60',
+      'coffee_amount': 15,
+      'water_amount': 250,
+      'water_temp': 94,
+      'brew_time': 60,
+      'user_recipe_localizations': [
+        {
+          'locale': 'en',
+          'name': 'Test recipe',
+          'grind_size': '',
+          'short_description': '',
+        },
+      ],
+      'user_steps': [
+        {
+          'id': 'step',
+          'locale': 'en',
+          'step_order': 1,
+          'description': step,
+          'time': '60',
+        },
+      ],
+    };
+
+    when(recipeProvider.getRecipeById(any)).thenAnswer((_) async => null);
+    when(
+      databaseProvider.fetchFullPublicUserRecipeData(adaptationId),
+    ).thenAnswer(
+      (_) async => published(adaptationId, 'usr-editor', 'Adapted bloom'),
+    );
+    when(databaseProvider.fetchFullPublicUserRecipeData(sourceId)).thenAnswer(
+      (_) async => published(sourceId, 'usr-roaster', 'Original bloom'),
+    );
+
+    final adaptation =
+        await RecipeImportSharingService.performInitialRecipeCheck(
+          context: context,
+          potentialImportId: adaptationId,
+        );
+    final original = await RecipeImportSharingService.performInitialRecipeCheck(
+      context: context,
+      potentialImportId: sourceId,
+    );
+    expect(adaptation.newRecipeId, isNull);
+    expect(original.newRecipeId, isNull);
+    expect(adaptation.preview?.vendorId, 'usr-editor');
+    expect(adaptation.preview?.steps.single.description, 'Adapted bloom');
+    expect(original.preview?.vendorId, 'usr-roaster');
+    expect(original.preview?.steps.single.description, 'Original bloom');
+    verifyNever(databaseProvider.syncUserRecipes(any));
+    verifyNever(recipeProvider.fetchAllRecipes());
+  });
 
   testWidgets('sharing rejects an already unmounted context', (tester) async {
     final context = await pumpHost(tester);

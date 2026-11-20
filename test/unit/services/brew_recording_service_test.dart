@@ -11,12 +11,14 @@
 
 import 'dart:async';
 
+import 'package:coffee_timer/database/account_database_scope.dart';
 import 'package:coffee_timer/database/database.dart';
 import 'package:coffee_timer/providers/coffee_beans_provider.dart';
 import 'package:coffee_timer/providers/database_provider.dart';
 import 'package:coffee_timer/providers/user_stat_provider.dart';
 import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/services/brew_recording_service.dart';
+import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -222,6 +224,48 @@ void main() {
       );
 
       expect(userStatProvider.insertCalls, 0);
+    });
+
+    test('records a guided brew in a scoped offline diary', () async {
+      final scope = AccountDatabaseScope(
+        userId: null,
+        partitionId: 'offline:fixture',
+        supabaseUrl: 'https://account.example',
+        supabaseKey: 'anon-key',
+        currentSession: () => null,
+      );
+      final offline = AppDatabase(
+        NativeDatabase.memory(),
+        accountScope: scope,
+        enableForeignKeyConstraints: false,
+      );
+      final provider = UserStatProvider(
+        offline,
+        CoffeeBeansProvider(offline, DatabaseProvider(offline)),
+      );
+      addTearDown(() async {
+        provider.dispose();
+        await offline.close();
+        await scope.client.dispose();
+      });
+      var nudges = 0;
+      Future<void> schedule({
+        required AppDatabase database,
+        required String beansUuid,
+        required String locale,
+      }) async {
+        nudges++;
+      }
+
+      await BrewRecordingService().recordLocalBrew(
+        request: _request(userId: null, coffeeBeansUuid: 'bean-1'),
+        userStatProvider: provider,
+        database: offline,
+        scheduleBeanReviewNudge: schedule,
+        scheduleRoasterContribNudge: schedule,
+      );
+      expect(await offline.select(offline.userStats).get(), hasLength(1));
+      expect(nudges, 0);
     });
 
     test('rethrows on insert failure and does not mark the UUID recorded', () async {

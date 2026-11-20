@@ -10,7 +10,6 @@ enum EmailChangeRequest {
   sent,
   invalidEmail,
   sameAsCurrent,
-  emailTaken,
   rateLimited,
   failed,
 }
@@ -303,7 +302,8 @@ class AccountIdentityService {
 
   EmailChangeRequest _mapEmailRequestError(AuthException error) {
     if (error.code == _emailExistsCode) {
-      return EmailChangeRequest.emailTaken;
+      // Match the normal confirmation flow without disclosing address ownership.
+      return EmailChangeRequest.sent;
     }
     if (error.statusCode == '429' ||
         error.code == _overEmailSendRateLimitCode) {

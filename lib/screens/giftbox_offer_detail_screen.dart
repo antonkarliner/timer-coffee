@@ -14,6 +14,7 @@ import 'package:uuid/uuid.dart';
 import '../models/gift_offer_model.dart';
 import '../providers/database_provider.dart';
 import '../providers/snow_provider.dart';
+import '../services/analytics_service.dart';
 import '../theme/design_tokens.dart';
 import '../utils/app_logger.dart';
 import '../widgets/gift_discount_chip.dart';
@@ -46,11 +47,13 @@ class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
   int _promoCopySeq = 0;
   bool _showPromoCopied = false;
 
-  Future<String?> _getOrCreateInstallId() async {
+  Future<String?> _getOrCreateInstallId(AnalyticsService analytics) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      var iid = prefs.getString(_installIdKey);
-      iid ??= const Uuid().v4();
+      if (!analytics.canTrackGeneral) return null;
+      final existing = prefs.getString(_installIdKey);
+      if (existing != null) return existing;
+      final iid = const Uuid().v4();
       await prefs.setString(_installIdKey, iid);
       return iid;
     } catch (_) {
@@ -84,15 +87,18 @@ class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
     final slug = (offer.slug ?? widget.slug).trim();
 
     // Fallback: no slug? open direct partner URL
-    if (slug.isEmpty || offer.websiteUrl == null || offer.websiteUrl!.isEmpty) {
-      return Uri.parse(offer.websiteUrl ?? '');
-    }
+    final directUri = Uri.parse(offer.websiteUrl ?? '');
+    if (slug.isEmpty || directUri.toString().isEmpty) return directUri;
+    final analytics = AnalyticsService.maybeInstance;
+    if (analytics == null || !analytics.canTrackGeneral) return directUri;
 
     final locale = Localizations.localeOf(context).toLanguageTag();
     final platform = _platformParam();
 
-    final iid = await _getOrCreateInstallId();
     final appVersion = await _getAppVersion();
+    if (!analytics.canTrackGeneral) return directUri;
+    final iid = await _getOrCreateInstallId(analytics);
+    if (!analytics.canTrackGeneral) return directUri;
 
     return Uri.https('timer.coffee', '/go/$slug', {
       'src': 'app',

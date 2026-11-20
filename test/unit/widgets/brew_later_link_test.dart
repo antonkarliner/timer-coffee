@@ -193,7 +193,7 @@ void main() {
     expect(shown, hasLength(1));
     expect(shown.single['properties'], {
       'source': 'recipe_detail',
-      'recipe_id': 'recipe-1',
+      'recipe_id': 'custom-recipe',
       'state': 'idle',
     });
 
@@ -257,7 +257,7 @@ void main() {
     expect(shown, hasLength(1));
     expect(shown.single['properties'], {
       'source': 'recipe_detail',
-      'recipe_id': 'recipe-1',
+      'recipe_id': 'custom-recipe',
       'state': 'set',
     });
   });
@@ -296,7 +296,7 @@ void main() {
     expect(tapped, hasLength(1));
     expect(tapped.single['properties'], {
       'source': 'recipe_detail',
-      'recipe_id': 'recipe-1',
+      'recipe_id': 'custom-recipe',
       'state': 'idle',
     });
   });
@@ -330,7 +330,7 @@ void main() {
       expect(scheduled, hasLength(1));
       expect(scheduled.single['properties'], {
         'source': 'recipe_detail',
-        'recipe_id': 'recipe-1',
+        'recipe_id': 'custom-recipe',
         'hours_ahead': 2, // 105 minutes, rounded
         'permission': 'already_granted',
         'day': 'today',
@@ -374,7 +374,7 @@ void main() {
       expect(denied, hasLength(1));
       expect(denied.single['properties'], {
         'source': 'recipe_detail',
-        'recipe_id': 'recipe-1',
+        'recipe_id': 'custom-recipe',
       });
 
       await tester.tap(find.text(_openSettingsLabel));
@@ -385,7 +385,7 @@ void main() {
       expect(opened, hasLength(1));
       expect(opened.single['properties'], {
         'source': 'recipe_detail',
-        'recipe_id': 'recipe-1',
+        'recipe_id': 'custom-recipe',
       });
     },
   );
@@ -410,7 +410,7 @@ void main() {
       expect(scheduled, hasLength(1));
       expect(scheduled.single['properties'], {
         'source': 'recipe_detail',
-        'recipe_id': 'recipe-1',
+        'recipe_id': 'custom-recipe',
         'hours_ahead': 2,
         'permission': 'granted_now',
         'day': 'today',

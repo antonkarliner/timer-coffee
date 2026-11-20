@@ -30,6 +30,22 @@ void main() {
     SharedPreferences.setMockInitialValues({});
   });
 
+  test('changing accounts discards an in-flight acknowledgement', () async {
+    String owner = 'first';
+    final first = Completer<Object?>();
+    final service = RoasterContributionService.forTesting(
+      targetLoader: unusedTargetLoader,
+      currentUserId: () => owner,
+      acknowledgementLoader: () => owner == 'first' ? first.future : Future.value([]),
+    );
+    final pending = service.fetchPendingAcknowledgement();
+    owner = 'second';
+    expect(await service.fetchPendingAcknowledgement(), isNull);
+    first.complete([ackRow()]);
+    expect(await pending, isNull);
+    expect(await service.fetchPendingAcknowledgement(), isNull);
+  });
+
   test('caches successful target lookups by normalized roaster name', () async {
     var callCount = 0;
     final service = RoasterContributionService.forTesting(

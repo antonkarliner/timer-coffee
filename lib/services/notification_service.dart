@@ -1,3 +1,4 @@
+import 'local_notification_scheduler_service.dart';
 import 'dart:async';
 import 'dart:ui' show Locale;
 import 'package:coffee_timer/l10n/app_localizations.dart';
@@ -206,6 +207,9 @@ class NotificationService {
       fcmProvider.onNotificationTapped.listen(onNotificationTapped.add);
 
       _initialized = true;
+      if (!initialMaster) {
+        await LocalNotificationSchedulerService.instance.cancelEngagementReminders();
+      }
       AppLogger.debug(
           'NotificationService initialized successfully with enhanced PermissionService');
     } catch (e) {
@@ -304,6 +308,7 @@ class NotificationService {
     // sends the user to the "Alarms & reminders" settings page (plan 081).
     final canExact = await ExactAlarmService.canScheduleExactAlarms();
 
+    if (!await _settingsService.isMasterEnabled()) return;
     await _localManager.scheduleNotification(
       id: id,
       title: title,
@@ -313,6 +318,9 @@ class NotificationService {
       payload: payload,
       imagePath: imagePath,
     );
+    if (!await _settingsService.isMasterEnabled()) {
+      await _localManager.cancelNotification(id);
+    }
   }
 
   /// Request permissions using Firebase-first approach through enhanced PermissionService
@@ -374,7 +382,10 @@ class NotificationService {
     if (enabled) {
       await fcmProvider.enableNotifications(userId);
     } else {
-      await fcmProvider.disableNotifications(userId: userId);
+      await Future.wait([
+        LocalNotificationSchedulerService.instance.cancelEngagementReminders(),
+        fcmProvider.disableNotifications(userId: userId),
+      ]);
     }
 
     // Always emit current state after changes
@@ -423,7 +434,10 @@ class NotificationService {
 
     try {
       final fcmProvider = fcm;
-      await fcmProvider.disableNotifications(userId: userId);
+      await Future.wait([
+        LocalNotificationSchedulerService.instance.cancelEngagementReminders(),
+        fcmProvider.disableNotifications(userId: userId),
+      ]);
       AppLogger.debug('Successfully disabled notifications via FcmProvider');
     } catch (e) {
       AppLogger.error('Failed to disable notifications via FcmProvider',

@@ -47,6 +47,8 @@ class SupabaseEndpointResolver {
   /// URL helpers below.
   static String _activeEndpoint = directUrl;
 
+  static String get activeUrl => _activeEndpoint;
+
   /// Whether this session is routing through the proxy (blocked-region path).
   static bool get usingProxy => _activeEndpoint == proxyUrl;
 

@@ -1185,7 +1185,7 @@ void main() {
       final delivered = presumedDeliveredFor('bean_freshness');
       expect(delivered.length, 1);
       expect(delivered.single['properties']['trigger'], equals('rest'));
-      expect(delivered.single['properties']['bean_uuid'], equals('bean-1'));
+      expect(delivered.single['properties']['bean_uuid'], isNull);
       expect(await pendingRecord(), isNull);
       final p = await SharedPreferences.getInstance();
       expect(p.getInt(lastFiredKey), equals(firedAt.millisecondsSinceEpoch));
@@ -1288,9 +1288,10 @@ void main() {
     // ── analytics ─────────────────────────────────────────────────────────
 
     test(
-        'an armed alert emits one notification_scheduled with its uuid and trigger',
+        'an armed alert reports its trigger without the bean inventory ID',
         () async {
       await enableFreshness();
+      await AnalyticsService.instance.setBeansEnabled(false);
       await db.coffeeBeansDao.insertCoffeeBeans(
         _makeBean(
           uuid: 'bean-1',
@@ -1305,7 +1306,7 @@ void main() {
               e['event_name'] == 'notification_scheduled' &&
               (e['properties'] as Map?)?['notification_type'] ==
                   'bean_freshness');
-      expect(events.single['properties']['bean_uuid'], equals('bean-1'));
+      expect(events.single['properties']['bean_uuid'], isNull);
       expect(events.single['properties']['trigger'], equals('rest'));
     });
 

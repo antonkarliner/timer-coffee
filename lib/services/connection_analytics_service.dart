@@ -5,6 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../config/supabase_endpoint_resolver.dart';
 import '../utils/app_logger.dart';
+import 'analytics_service.dart';
 
 /// Reports whether this session reached Supabase directly or through the reverse
 /// proxy (the blocked-region path — see [SupabaseEndpointResolver]). The intent
@@ -14,12 +15,13 @@ import '../utils/app_logger.dart';
 class ConnectionAnalyticsService {
   ConnectionAnalyticsService._();
 
-  /// SharedPreferences key holding the last report as `"yyyy-mm-dd|endpoint"`.
+  /// UTC day of the last report. Older versions also recorded the endpoint.
   static const _lastReportKey = 'connection_analytics_last_report';
+  static bool _reportInFlight = false;
 
   /// Test seam: sends the event. Defaults to the `log_connection_endpoint` RPC.
-  static Future<void> Function(String endpoint, String platform) debugSendEvent =
-      _sendViaRpc;
+  static Future<void> Function(String endpoint, String platform)
+  debugSendEvent = _sendViaRpc;
 
   static Future<void> _sendViaRpc(String endpoint, String platform) =>
       Supabase.instance.client.rpc(
@@ -27,29 +29,29 @@ class ConnectionAnalyticsService {
         params: {'p_endpoint': endpoint, 'p_platform': platform},
       );
 
-  /// Sends one connection event if none has been sent today (or if the endpoint
-  /// changed since the last report — e.g. the user travelled into a blocked
-  /// region between launches). Fully fire-and-forget: any failure is swallowed
-  /// and the report is not marked sent, so it retries on the next launch.
+  /// Sends at most one connection event per UTC day while General Analytics
+  /// is enabled. A failed send is eligible for retry on the next launch.
   static Future<void> reportConnectionType() async {
+    if (_reportInFlight) return;
+    _reportInFlight = true;
     try {
-      final endpoint = SupabaseEndpointResolver.usingProxy ? 'proxy' : 'direct';
-      final today = _todayUtc();
-      final marker = '$today|$endpoint';
-
       final prefs = await SharedPreferences.getInstance();
-      if (prefs.getString(_lastReportKey) == marker) {
-        // Already reported this endpoint today — nothing to do.
-        return;
-      }
+      if (AnalyticsService.maybeInstance?.canTrackGeneral != true) return;
+      final today = _todayUtc();
+      if (prefs.getString(_lastReportKey)?.split('|').first == today) return;
 
+      final endpoint = SupabaseEndpointResolver.usingProxy ? 'proxy' : 'direct';
       await debugSendEvent(endpoint, _platform());
 
       // Mark sent only after the RPC succeeds, so an offline launch retries.
-      await prefs.setString(_lastReportKey, marker);
+      await prefs.setString(_lastReportKey, today);
       AppLogger.debug('Connection analytics: reported "$endpoint"');
     } catch (e) {
-      AppLogger.debug('Connection analytics: report skipped (${e.runtimeType})');
+      AppLogger.debug(
+        'Connection analytics: report skipped (${e.runtimeType})',
+      );
+    } finally {
+      _reportInFlight = false;
     }
   }
 

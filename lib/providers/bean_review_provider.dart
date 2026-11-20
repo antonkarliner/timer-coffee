@@ -70,7 +70,7 @@ class BeanReviewProvider extends ChangeNotifier {
   /// Returns true if a result (review or confirmed absence) is in the cache.
   /// Listeners can use this to detect when a bean's review was invalidated.
   bool isUserBeanReviewCached(String beansUuid) =>
-      _userBeanReviewCache.containsKey(beansUuid);
+      _userBeanReviewCache.containsKey('${Supabase.instance.client.auth.currentUser?.id}_$beansUuid');
 
   /// Fetches paginated reviews for a roaster. Appends results to cache.
   Future<List<BeanReviewModel>> fetchReviewsForRoaster(
@@ -142,13 +142,12 @@ class BeanReviewProvider extends ChangeNotifier {
   /// Fetches the current user's review for a specific bean UUID.
   /// Returns null if the user hasn't reviewed this bean yet.
   Future<BeanReviewModel?> fetchUserReviewByBeanUuid(String beansUuid) async {
-    if (_userBeanReviewCache.containsKey(beansUuid)) {
-      return _userBeanReviewCache[beansUuid];
-    }
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null) return null;
-
     final persistentKey = '${user.id}_$beansUuid';
+    if (_userBeanReviewCache.containsKey(persistentKey)) {
+      return _userBeanReviewCache[persistentKey];
+    }
     final persisted = await _userReviewPersistentCache.read(
       persistentKey,
       maxAge: const Duration(hours: 12),
@@ -158,7 +157,8 @@ class BeanReviewProvider extends ChangeNotifier {
       final review = rawReview != null
           ? BeanReviewModel.fromJson(rawReview)
           : null;
-      _userBeanReviewCache[beansUuid] = review;
+      if (Supabase.instance.client.auth.currentUser?.id != user.id) return null;
+      _userBeanReviewCache[persistentKey] = review;
       return review;
     }
 
@@ -173,13 +173,14 @@ class BeanReviewProvider extends ChangeNotifier {
       final review = response != null
           ? BeanReviewModel.fromJson(Map<String, dynamic>.from(response as Map))
           : null;
-      _userBeanReviewCache[beansUuid] = review;
+      if (Supabase.instance.client.auth.currentUser?.id != user.id) return null;
+      _userBeanReviewCache[persistentKey] = review;
       await _userReviewPersistentCache.write(persistentKey, {
         'review': response != null
             ? Map<String, dynamic>.from(response as Map)
             : null,
       });
-      return review;
+      return Supabase.instance.client.auth.currentUser?.id == user.id ? review : null;
     } catch (error) {
       AppLogger.error(
         'Error fetching user review by bean uuid',
@@ -236,9 +237,9 @@ class BeanReviewProvider extends ChangeNotifier {
       }).timeout(NetworkTimeouts.handshake);
       if (roasterProfileId != null) _invalidateCacheForRoaster(roasterProfileId);
       if (coffeeBeansUuid != null) {
-        _userBeanReviewCache.remove(coffeeBeansUuid);
         final uid = Supabase.instance.client.auth.currentUser?.id;
         if (uid != null) {
+          _userBeanReviewCache.remove('${uid}_$coffeeBeansUuid');
           unawaited(
             _userReviewPersistentCache.remove('${uid}_$coffeeBeansUuid'),
           );
@@ -254,7 +255,7 @@ class BeanReviewProvider extends ChangeNotifier {
       AnalyticsService.instance.track(
         'review_added',
         properties: {
-          'bean_uuid': ?coffeeBeansUuid,
+          'has_bean': coffeeBeansUuid != null,
           'has_roaster_profile': roasterProfileId != null,
           'has_text': reviewText != null && reviewText.isNotEmpty,
           'rating': rating.round(),
@@ -302,7 +303,6 @@ class BeanReviewProvider extends ChangeNotifier {
       AnalyticsService.instance.track(
         'review_added_after_notification',
         properties: {
-          'bean_uuid': beansUuid,
           'notification_type': 'bean_review_nudge',
           'trigger': ?trigger,
           'seconds_since_tap': secondsSinceTap,
@@ -368,7 +368,7 @@ class BeanReviewProvider extends ChangeNotifier {
       AnalyticsService.instance.track(
         'review_edited',
         properties: {
-          'bean_uuid': ?coffeeBeansUuid,
+          'has_bean': coffeeBeansUuid != null,
           'rating': rating.round(),
           'has_text': reviewText != null && reviewText.isNotEmpty,
           'has_taste_profile': hasTasteProfile,
@@ -379,9 +379,9 @@ class BeanReviewProvider extends ChangeNotifier {
 
       if (roasterProfileId != null) _invalidateCacheForRoaster(roasterProfileId);
       if (coffeeBeansUuid != null) {
-        _userBeanReviewCache.remove(coffeeBeansUuid);
         final uid = Supabase.instance.client.auth.currentUser?.id;
         if (uid != null) {
+          _userBeanReviewCache.remove('${uid}_$coffeeBeansUuid');
           unawaited(
             _userReviewPersistentCache.remove('${uid}_$coffeeBeansUuid'),
           );
@@ -419,7 +419,7 @@ class BeanReviewProvider extends ChangeNotifier {
       AnalyticsService.instance.track(
         'review_deleted',
         properties: {
-          'bean_uuid': ?coffeeBeansUuid,
+          'has_bean': coffeeBeansUuid != null,
           'has_roaster_profile': roasterProfileId != null,
         },
       );
@@ -436,9 +436,9 @@ class BeanReviewProvider extends ChangeNotifier {
         _ratingsCache.remove(roasterProfileId);
       }
       if (coffeeBeansUuid != null) {
-        _userBeanReviewCache.remove(coffeeBeansUuid);
         final uid = Supabase.instance.client.auth.currentUser?.id;
         if (uid != null) {
+          _userBeanReviewCache.remove('${uid}_$coffeeBeansUuid');
           unawaited(
             _userReviewPersistentCache.remove('${uid}_$coffeeBeansUuid'),
           );

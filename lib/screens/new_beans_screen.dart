@@ -1,7 +1,7 @@
+import '../widgets/coffee_beans/private_bean_photo.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
-import 'package:coffee_timer/config/supabase_endpoint_resolver.dart';
 import 'package:coffee_timer/utils/version_vector.dart';
 import 'package:coffeico_plus/coffeico_plus.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
@@ -101,7 +101,6 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   bool isEditMode = false;
   bool isLoading = false;
   Map<String, dynamic>? collectedData;
-  bool hasShownPopup = false;
   bool hasCompletedFirstImageRecognition = false;
 
   // Real, work-driven stage of the current AI label scan (null when no
@@ -136,7 +135,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
 
   // Photo cover state
   File? _pendingPhotoFile; // local file awaiting upload on save
-  String? _photoUrl; // stored URL (loaded in edit mode or set after upload)
+  String? _photoUrl; // owned cover reference, or a legacy storage URL
   List<XFile>?
   _lastOcrImages; // images from the last OCR scan (for the inline cover chooser)
   bool _isSaving =
@@ -483,14 +482,17 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       // If user selected a new photo, upload it now (before saving the bean)
       String? resolvedPhotoUrl = _photoUrl;
       if (_pendingPhotoFile != null) {
-        final photoService = BeanPhotoService(Supabase.instance.client);
+        final photoService = BeanPhotoService.forDatabase(
+          coffeeBeansProvider.db,
+        );
         final uploaded = await photoService.uploadPhoto(
           _pendingPhotoFile!,
           beansUuid,
         );
-        if (uploaded != null) {
-          resolvedPhotoUrl = uploaded;
+        if (uploaded == null) {
+          throw StateError('Cover photo upload failed');
         }
+        resolvedPhotoUrl = uploaded;
       }
 
       final tastingNotes = chipsWithPending(
@@ -606,9 +608,21 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   }
 
   Future<void> _showImagePickerOptions() async {
-    if (!hasShownPopup) {
-      await _showFirstTimePopup();
-    } else {
+    final owner = Supabase.instance.client.auth.currentUser?.id;
+    final prefs = await SharedPreferences.getInstance();
+    if (!mounted || owner != Supabase.instance.client.auth.currentUser?.id) {
+      return;
+    }
+    if (owner == null || prefs.getBool('bean_label_notice_v1_$owner') != true) {
+      final accepted = await _showFirstTimePopup();
+      if (!accepted || !mounted || owner != Supabase.instance.client.auth.currentUser?.id) {
+        return;
+      }
+      if (owner != null) {
+        await prefs.setBool('bean_label_notice_v1_$owner', true);
+      }
+    }
+    if (mounted && owner == Supabase.instance.client.auth.currentUser?.id) {
       await _startImageFlow();
     }
   }
@@ -630,7 +644,6 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
 
   Future<void> _checkFirstTimePopup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    hasShownPopup = prefs.getBool('hasShownPopup') ?? false;
     hasCompletedFirstImageRecognition =
         prefs.getBool('hasCompletedFirstImageRecognition') ?? false;
   }
@@ -898,10 +911,10 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     });
   }
 
-  Future<void> _showFirstTimePopup() async {
+  Future<bool> _showFirstTimePopup() async {
     final loc = AppLocalizations.of(context)!;
 
-    await showDialog(
+    return await showDialog<bool>(
       context: context,
       builder: (context) {
         return AlertDialog(
@@ -913,14 +926,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
               height: 56,
               child: AppElevatedButton(
                 label: loc.ok,
-                onPressed: () async {
-                  Navigator.pop(context);
-                  SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  prefs.setBool('hasShownPopup', true);
-                  hasShownPopup = true;
-                  await _startImageFlow();
-                },
+                onPressed: () => Navigator.pop(context, true),
                 height: 56,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
@@ -932,7 +938,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
           ],
         );
       },
-    );
+    ) ?? false;
   }
 
   void _fillFields(Map<String, dynamic> data) {
@@ -1313,14 +1319,13 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                             width: double.infinity,
                             fit: BoxFit.cover,
                           )
-                        : Image.network(
-                            SupabaseEndpointResolver.localizeStorageUrl(
-                              _photoUrl!,
-                            ),
+                        : PrivateBeanPhoto(
+                            reference: _photoUrl!,
+                            beanId: widget.uuid!,
                             height: 160,
                             width: double.infinity,
                             fit: BoxFit.cover,
-                            errorBuilder: (_, _, _) => const SizedBox(
+                            fallback: const SizedBox(
                               height: 160,
                               child: Center(child: Icon(Icons.broken_image)),
                             ),

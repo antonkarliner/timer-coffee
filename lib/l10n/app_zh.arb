@@ -762,6 +762,7 @@
   "@unpublishRecipeDialogMakePrivate": {
     "description": "用于将配方设为私有的按钮文本"
   },
+  "recipeUnpublishPending": "正在等待将食谱设为私密。同步完成前，链接可能仍然有效。",
   "recipeUnpublishSuccess": "配方已成功取消发布",
   "@recipeUnpublishSuccess": {
     "description": "配方取消发布时的成功消息"
@@ -1223,6 +1224,7 @@
   "moderationDisplayNameFailedBody": "你的显示名称无法保存，原因：{reason}",
   "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "moderationRulesBody": "你在 Timer.Coffee 分享的内容会自动审核。如包含以下内容，提交可能会被拒绝：\n\n- **链接或联系方式**：URL、电话号码、电子邮件地址，或任何变形隐藏写法\n- **仇恨或冒犯性内容**：仇恨言论、骚扰或任何形式的歧视\n- **露骨内容**：露骨的性内容或对暴力的细节描写\n- **危险内容**：宣扬自伤或其他危险活动\n\n这些规则适用于发布配方时（私人配方不会审核）、咖啡豆评价文本、显示名称和头像。评分及其他非文本字段不受影响。\n\n如果你的提交被拒绝，你会看到原因，并可以编辑后重新提交。当前没有人工申诉流程。如果你认为这是误判，请尝试改写内容。",
+  "originalRecipeByPrefix": "原食谱作者：",
   "recipeByPrefix": "配方来自 ",
   "roastersCatalogTitle": "烘焙商",
   "hubRoastersSubtitle": "浏览所有咖啡烘焙商",

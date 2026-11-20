@@ -337,7 +337,7 @@ void main() {
     expect(events, hasLength(1), reason: 'exactly one suggestion event');
     expect(events.single['properties'], {
       'milestone': 'try_recipe',
-      'recipe_id': 'recipe-2',
+      'recipe_id': 'custom-recipe',
       'location': 'home',
     });
   });
@@ -601,7 +601,7 @@ void main() {
     expect(events, hasLength(1), reason: 'exactly one suggestion event');
     expect(events.single['properties'], {
       'milestone': 'try_recipe',
-      'recipe_id': 'recipe-2',
+      'recipe_id': 'custom-recipe',
       'location': 'hub',
     });
   });

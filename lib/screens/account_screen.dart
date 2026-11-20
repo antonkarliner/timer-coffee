@@ -25,6 +25,7 @@ import '../utils/app_logger.dart'; // Import AppLogger
 import '../widgets/app_bar_title.dart';
 import '../widgets/base_buttons.dart';
 import '../widgets/account/sign_in_methods_section.dart';
+import '../widgets/account/account_identity.dart';
 import '../widgets/fields/labeled_field.dart';
 import '../widgets/settings/settings_list.dart';
 
@@ -54,6 +55,18 @@ enum _ProfileLoadError { userNotFound, cachedData }
 @visibleForTesting
 String accountDeletionFailureReason(Object error) =>
     error is FunctionException ? 'server' : 'error';
+
+/// The upload path is derived from the signed-in owner. A retry also succeeds
+/// if Storage removed the bytes but the previous profile update failed.
+Future<void> removeAccountPicture(SupabaseClient client, String ownerId) async {
+  final pictures = client.storage.from('user-profile-pictures');
+  await pictures.remove([ownerId]);
+  if (await pictures.exists(ownerId)) {
+    throw StateError('Profile picture removal was not confirmed');
+  }
+  await client.from('user_public_profiles').update({'profile_picture_url': null})
+      .eq('user_id', ownerId).select('user_id').single();
+}
 
 @RoutePage()
 class AccountScreen extends StatefulWidget {
@@ -89,7 +102,7 @@ class _AccountScreenState extends State<AccountScreen> {
     });
 
     final supabase = Supabase.instance.client;
-    final userId = widget.userId;
+    final userId = Supabase.instance.client.auth.currentUser?.id ?? '';
 
     if (userId.isEmpty) {
       // Should not happen if screen is protected, but handle defensively
@@ -117,37 +130,27 @@ class _AccountScreenState extends State<AccountScreen> {
           .eq('user_id', userId)
           .maybeSingle();
 
+      if (supabase.auth.currentUser?.id != userId) return;
       if (response != null) {
         _displayName = response['display_name'] as String?;
         _profilePictureUrl = response['profile_picture_url'] as String?;
 
-        // Save to SharedPreferences as fallback (only for current user)
-        if (_displayName != null) {
-          await prefs.setString('user_display_name', _displayName!);
-        } else {
-          await prefs.remove('user_display_name');
-        }
+        await writeDisplayNameCache(prefs, userId, _displayName);
         if (_profilePictureUrl != null) {
-          await prefs.setString(
-            'user_profile_picture_url',
-            _profilePictureUrl!,
-          );
-          // Persist which user this URL belongs to so we don't show it after sign-out
-          await prefs.setString('user_profile_picture_user_id', userId);
+          await prefs.setString('user_profile_picture_url_$userId', _profilePictureUrl!);
         } else {
-          await prefs.remove('user_profile_picture_url');
-          await prefs.remove('user_profile_picture_user_id');
+          await prefs.remove('user_profile_picture_url_$userId');
         }
       } else {
         // Fetch failed, try loading from SharedPreferences (only for current user)
-        _displayName = prefs.getString('user_display_name');
-        _profilePictureUrl = prefs.getString('user_profile_picture_url');
+        _displayName = readTrustedDisplayName(prefs, userId);
+        _profilePictureUrl = prefs.getString('user_profile_picture_url_$userId');
       }
     } catch (e) {
       AppLogger.error("Error loading profile", errorObject: e);
       // Load from SharedPreferences on error (only for current user)
-      _displayName = prefs.getString('user_display_name');
-      _profilePictureUrl = prefs.getString('user_profile_picture_url');
+      _displayName = readTrustedDisplayName(prefs, userId);
+      _profilePictureUrl = prefs.getString('user_profile_picture_url_$userId');
       _profileLoadError = _ProfileLoadError.cachedData;
     } finally {
       // Use default if still null
@@ -230,7 +233,7 @@ class _AccountScreenState extends State<AccountScreen> {
     final l10n = AppLocalizations.of(context)!;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     final supabase = Supabase.instance.client;
-    final userId = widget.userId;
+    final userId = Supabase.instance.client.auth.currentUser?.id ?? '';
 
     if (userId.isEmpty) {
       scaffoldMessenger.showSnackBar(
@@ -330,7 +333,7 @@ class _AccountScreenState extends State<AccountScreen> {
 
       // 3. Update SharedPreferences
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('user_display_name', newName);
+      await writeDisplayNameCache(prefs, userId, newName);
 
       // 4. Update local state
       if (mounted) {
@@ -426,7 +429,7 @@ class _AccountScreenState extends State<AccountScreen> {
     final l10n = AppLocalizations.of(context)!;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     final supabase = Supabase.instance.client;
-    final userId = widget.userId;
+    final userId = Supabase.instance.client.auth.currentUser?.id ?? '';
 
     if (userId.isEmpty) {
       scaffoldMessenger.showSnackBar(
@@ -522,9 +525,7 @@ class _AccountScreenState extends State<AccountScreen> {
 
       // Update SharedPreferences
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('user_profile_picture_url', newImageUrl);
-      // Persist the user id alongside the URL to avoid showing another user's avatar
-      await prefs.setString('user_profile_picture_user_id', userId);
+      await prefs.setString('user_profile_picture_url_$userId', newImageUrl);
 
       AnalyticsService.maybeInstance?.track(
         'profile_updated',
@@ -652,7 +653,7 @@ class _AccountScreenState extends State<AccountScreen> {
     final l10n = AppLocalizations.of(context)!;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     final supabase = Supabase.instance.client;
-    final userId = widget.userId;
+    final userId = Supabase.instance.client.auth.currentUser?.id ?? '';
 
     if (userId.isEmpty) {
       scaffoldMessenger.showSnackBar(
@@ -664,16 +665,11 @@ class _AccountScreenState extends State<AccountScreen> {
     setState(() => _isLoading = true);
 
     try {
-      // Update Supabase DB - set URL to null
-      await supabase
-          .from('user_public_profiles')
-          .update({'profile_picture_url': null})
-          .eq('user_id', userId);
+      await removeAccountPicture(supabase, userId);
 
       // Update SharedPreferences
       final prefs = await SharedPreferences.getInstance();
-      await prefs.remove('user_profile_picture_url');
-      await prefs.remove('user_profile_picture_user_id');
+      await prefs.remove('user_profile_picture_url_$userId');
 
       AnalyticsService.maybeInstance?.track(
         'profile_updated',
@@ -730,12 +726,9 @@ class _AccountScreenState extends State<AccountScreen> {
       // Release this device's push token while still signed in (RLS only lets
       // the owner delete it), so the next account on this device can claim it
       // and this account stops receiving the device's notifications.
-      await NotificationService.instance.fcm.unregisterDeviceToken(
-        widget.userId,
+      await NotificationService.instance.fcm.signOutAfterDetaching(
+        () => Supabase.instance.client.auth.signOut(),
       );
-
-      // Sign out the user
-      await Supabase.instance.client.auth.signOut();
 
       AnalyticsService.maybeInstance?.track('signed_out');
 
@@ -756,7 +749,7 @@ class _AccountScreenState extends State<AccountScreen> {
       await Supabase.instance.client.auth.signInAnonymously();
 
       // Navigate to hub_home_screen after sign out
-      router.navigate(const HubHomeRoute());
+      if (mounted) router.navigate(const HubHomeRoute());
     } catch (e) {
       AppLogger.error('Error signing out', errorObject: e);
       if (mounted) {
@@ -792,7 +785,7 @@ class _AccountScreenState extends State<AccountScreen> {
   Future<void> _deleteAccount() async {
     if (!mounted) return;
     final l10n = AppLocalizations.of(context)!;
-    final userId = widget.userId;
+    final userId = Supabase.instance.client.auth.currentUser?.id ?? '';
 
     // Set when this attempt already reported its outcome, so exactly one
     // event is emitted per attempt (the non-200 branch below throws into the

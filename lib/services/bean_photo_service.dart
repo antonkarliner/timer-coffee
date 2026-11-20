@@ -1,76 +1,109 @@
 import 'dart:io';
 import 'dart:typed_data';
+
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:image/image.dart' as img;
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:uuid/uuid.dart';
+
 import '../config/supabase_endpoint_resolver.dart';
+import '../database/database.dart';
 import '../utils/app_logger.dart';
 
-/// Service for compressing and uploading bean cover photos to Supabase Storage.
-///
-/// Path convention: bean-photos/{userId}/{beansUuid}.jpg
-/// Compression: 800px longest side, JPEG quality 70 (~50-80KB per photo)
+/// Owned object identifiers travel in the existing photo_url field. The
+/// stored legacy signed URL is treated only as an object-key reference.
 class BeanPhotoService {
   static const String _bucket = 'bean-photos';
   static const int _maxSidePx = 800;
   static const int _jpegQuality = 60;
+  static const int readLinkSeconds = 5 * 60;
 
-  final SupabaseClient _supabase;
+  final SupabaseClient _client;
+  final User? Function() _currentUser;
 
-  BeanPhotoService(this._supabase);
+  BeanPhotoService(this._client, this._currentUser);
 
-  /// Compresses [imageFile] and uploads it to Supabase Storage.
-  /// Returns the public URL on success, or null on failure.
+  factory BeanPhotoService.forDatabase(AppDatabase db) {
+    final scope = db.accountScope;
+    if (scope != null) {
+      return BeanPhotoService(scope.client, () => scope.currentUser);
+    }
+    final client = Supabase.instance.client;
+    return BeanPhotoService(client, () => client.auth.currentUser);
+  }
+
+  static String? ownedObjectKey(
+    String? reference, {
+    required String ownerId,
+    required String beanId,
+  }) {
+    if (reference == null || !RegExp(r'^[a-zA-Z0-9_-]+$').hasMatch(beanId)) {
+      return null;
+    }
+    String key = reference;
+    final uri = Uri.tryParse(reference);
+    if (uri == null) return null;
+    if (uri.hasScheme || uri.hasAuthority) {
+      final direct = Uri.parse(SupabaseEndpointResolver.directUrl);
+      final proxy = Uri.parse(SupabaseEndpointResolver.proxyUrl);
+      if (uri.scheme != 'https' ||
+          uri.userInfo.isNotEmpty ||
+          (uri.authority != direct.authority &&
+              uri.authority != proxy.authority)) {
+        return null;
+      }
+      const prefix = '/storage/v1/object/sign/bean-photos/';
+      if (!uri.path.startsWith(prefix)) return null;
+      key = uri.path.substring(prefix.length);
+    }
+
+    final expected = RegExp(
+      '^${RegExp.escape(ownerId)}/${RegExp.escape(beanId)}'
+      '(?:--[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12})?\\.jpg\$',
+    );
+    return expected.hasMatch(key) ? key : null;
+  }
+
   Future<String?> uploadPhoto(File imageFile, String beansUuid) async {
-    if (kIsWeb) return null; // Web has no file system access in this flow
-
-    final user = _supabase.auth.currentUser;
+    if (kIsWeb) return null;
+    final user = _currentUser();
     if (user == null || user.isAnonymous) return null;
 
     try {
-      // Compress
       final compressed = await _compress(imageFile);
-      if (compressed == null) return null;
-
-      final path = '${user.id}/$beansUuid.jpg';
-
-      // Upload (upsert so re-saves overwrite the old photo)
-      await _supabase.storage.from(_bucket).uploadBinary(
+      if (compressed == null || _currentUser()?.id != user.id) return null;
+      final path = '${user.id}/$beansUuid--${const Uuid().v7()}.jpg';
+      await _client.storage
+          .from(_bucket)
+          .uploadBinary(
             path,
             compressed,
             fileOptions: const FileOptions(
               contentType: 'image/jpeg',
-              upsert: true,
+              cacheControl: '300',
             ),
           );
-
-      // Return a signed URL valid for 10 years (effectively permanent for user data)
-      final signedUrl = await _supabase.storage
-          .from(_bucket)
-          .createSignedUrl(path, 60 * 60 * 24 * 365 * 10);
-
-      AppLogger.debug('[BeanPhotoService] Uploaded photo for bean $beansUuid');
-      // Store the canonical direct-host URL so proxy-region uploads don't leak
-      // an api.timer.coffee host into shared data.
-      return SupabaseEndpointResolver.canonicalizeStorageUrl(signedUrl);
-    } catch (e) {
-      AppLogger.error('[BeanPhotoService] Upload failed', errorObject: e);
+      return path;
+    } catch (error) {
+      AppLogger.warning('Bean photo upload failed', errorObject: error);
       return null;
     }
   }
 
-  /// Deletes the stored photo for [beansUuid]. Fire-and-forget; errors are logged.
-  Future<void> deletePhoto(String beansUuid) async {
-    final user = _supabase.auth.currentUser;
-    if (user == null) return;
-
+  /// Resolve a short-lived display link only while this account is active.
+  Future<String?> readUrl(String reference, String beanId) async {
+    final user = _currentUser();
+    if (user == null || user.isAnonymous) return null;
+    final key = ownedObjectKey(reference, ownerId: user.id, beanId: beanId);
+    if (key == null) return null;
     try {
-      final path = '${user.id}/$beansUuid.jpg';
-      await _supabase.storage.from(_bucket).remove([path]);
-      AppLogger.debug('[BeanPhotoService] Deleted photo for bean $beansUuid');
-    } catch (e) {
-      AppLogger.warning('[BeanPhotoService] Delete failed (non-critical)',
-          errorObject: e);
+      final url = await _client.storage
+          .from(_bucket)
+          .createSignedUrl(key, readLinkSeconds);
+      return _currentUser()?.id == user.id ? url : null;
+    } catch (error) {
+      AppLogger.warning('Bean photo could not be opened', errorObject: error);
+      return null;
     }
   }
 
@@ -84,13 +117,19 @@ class BeanPhotoService {
       final img.Image resized;
       if (decoded.width >= decoded.height) {
         resized = decoded.width > _maxSidePx
-            ? img.copyResize(decoded, width: _maxSidePx,
-                interpolation: img.Interpolation.average)
+            ? img.copyResize(
+                decoded,
+                width: _maxSidePx,
+                interpolation: img.Interpolation.average,
+              )
             : decoded;
       } else {
         resized = decoded.height > _maxSidePx
-            ? img.copyResize(decoded, height: _maxSidePx,
-                interpolation: img.Interpolation.average)
+            ? img.copyResize(
+                decoded,
+                height: _maxSidePx,
+                interpolation: img.Interpolation.average,
+              )
             : decoded;
       }
 

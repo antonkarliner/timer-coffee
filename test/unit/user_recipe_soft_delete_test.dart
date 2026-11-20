@@ -1,4 +1,6 @@
 import 'package:coffee_timer/database/database.dart';
+import 'package:coffee_timer/database/account_database_scope.dart';
+import 'package:drift/native.dart';
 import 'package:coffee_timer/models/user_stat_model.dart';
 import 'package:coffee_timer/providers/user_recipe_provider.dart';
 import 'package:coffee_timer/utils/version_vector.dart';
@@ -6,8 +8,6 @@ import 'package:drift/drift.dart' show Value;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../helpers/test_database.dart';
 
 void main() {
   setUpAll(() async {
@@ -22,7 +22,28 @@ void main() {
   late UserRecipeProvider provider;
 
   setUp(() {
-    db = openTestDatabase();
+    db = AppDatabase(
+      NativeDatabase.memory(),
+      enableForeignKeyConstraints: false,
+      accountScope: AccountDatabaseScope(
+        userId: 'user-1',
+        partitionId: 'user-1',
+        supabaseUrl: 'http://localhost:54321',
+        supabaseKey: 'test-anon-key',
+        currentSession: () => Session(
+          accessToken: 'local-test-session',
+          tokenType: 'bearer',
+          user: User(
+            id: 'user-1',
+            appMetadata: const {},
+            userMetadata: const {},
+            aud: 'authenticated',
+            createdAt: '',
+            isAnonymous: true,
+          ),
+        ),
+      ),
+    );
     provider = UserRecipeProvider(db);
   });
 
@@ -82,54 +103,73 @@ void main() {
     await provider.loadUserRecipes();
   }
 
+  test('deleteUserRecipe tombstones the recipe and keeps its diary entries '
+      'intact and readable', () async {
+    await seedCustomRecipeWithBrew();
+
+    await provider.deleteUserRecipe('usr-user-1-recipe');
+
+    // The recipe row survives as a tombstone...
+    final row = await (db.select(
+      db.recipes,
+    )..where((r) => r.id.equals('usr-user-1-recipe'))).getSingle();
+    expect(row.isDeleted, isTrue);
+    expect(row.deletedAt, isNotNull);
+
+    // ...the user_stats row still exists...
+    final stat = await db.userStatsDao.fetchStatByUuid('stat-1');
+    expect(stat, isNotNull);
+
+    // ...and fetchDiaryEntries still returns the brew with its recipe name.
+    final entries = await db.userStatsDao.fetchDiaryEntries('en');
+    expect(entries, hasLength(1));
+    expect(entries.single.statUuid, 'stat-1');
+    expect(entries.single.recipeName, 'My V60 recipe');
+    expect(entries.single.methodName, 'V60');
+
+    // The deleted recipe leaves the provider state.
+    expect(
+      provider.userRecipes.any((r) => r.id == 'usr-user-1-recipe'),
+      isFalse,
+    );
+  });
+
   test(
-    'deleteUserRecipe tombstones the recipe and keeps its diary entries '
-    'intact and readable',
+    'a content edit keeps the public audience and stages the revision',
     () async {
       await seedCustomRecipeWithBrew();
+      const recipeId = 'usr-user-1-recipe';
+      await db.recipesDao.updateRecipe(
+        recipeId,
+        const RecipesCompanion(isPublic: Value(true)),
+      );
+      final current = await db.recipesDao.getRecipeModelById(recipeId, 'en');
 
-      await provider.deleteUserRecipe('usr-user-1-recipe');
+      await provider.updateUserRecipe(
+        current!.copyWith(name: 'A private draft', isPublic: false),
+      );
 
-      // The recipe row survives as a tombstone...
-      final row = await (db.select(db.recipes)
-            ..where((r) => r.id.equals('usr-user-1-recipe')))
-          .getSingle();
-      expect(row.isDeleted, isTrue);
-      expect(row.deletedAt, isNotNull);
-
-      // ...the user_stats row still exists...
-      final stat = await db.userStatsDao.fetchStatByUuid('stat-1');
-      expect(stat, isNotNull);
-
-      // ...and fetchDiaryEntries still returns the brew with its recipe name.
-      final entries = await db.userStatsDao.fetchDiaryEntries('en');
-      expect(entries, hasLength(1));
-      expect(entries.single.statUuid, 'stat-1');
-      expect(entries.single.recipeName, 'My V60 recipe');
-      expect(entries.single.methodName, 'V60');
-
-      // The deleted recipe leaves the provider state.
+      final stored = await db.select(db.recipes).getSingle();
+      expect(stored.isPublic, isTrue);
+      expect(stored.needsModerationReview, isTrue);
       expect(
-        provider.userRecipes.any((r) => r.id == 'usr-user-1-recipe'),
-        isFalse,
+        (await db.recipesDao.getRecipeModelById(recipeId, 'en'))?.name,
+        'A private draft',
       );
     },
   );
 
-  test(
-    'a tombstoned recipe is invisible on browse surfaces but still openable '
-    'from diary history',
-    () async {
-      await seedCustomRecipeWithBrew();
-      await provider.deleteUserRecipe('usr-user-1-recipe');
+  test('a tombstoned recipe is invisible on browse surfaces but still openable '
+      'from diary history', () async {
+    await seedCustomRecipeWithBrew();
+    await provider.deleteUserRecipe('usr-user-1-recipe');
 
-      expect(await db.recipesDao.getAllRecipes('en'), isEmpty);
-      expect(
-        await db.recipesDao.getRecipeModelById('usr-user-1-recipe', 'en'),
-        isNotNull,
-      );
-    },
-  );
+    expect(await db.recipesDao.getAllRecipes('en'), isEmpty);
+    expect(
+      await db.recipesDao.getRecipeModelById('usr-user-1-recipe', 'en'),
+      isNotNull,
+    );
+  });
 
   test(
     'saving (or importing) over a deleted recipe id makes it visible again',
@@ -147,9 +187,9 @@ void main() {
       // tombstone, mirroring what a re-import does.
       await provider.updateUserRecipe(model!);
 
-      final row = await (db.select(db.recipes)
-            ..where((r) => r.id.equals('usr-user-1-recipe')))
-          .getSingle();
+      final row = await (db.select(
+        db.recipes,
+      )..where((r) => r.id.equals('usr-user-1-recipe'))).getSingle();
       expect(row.isDeleted, isFalse);
       expect(row.deletedAt, isNull);
 

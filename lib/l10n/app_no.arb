@@ -980,6 +980,7 @@
   "@unpublishRecipeDialogMakePrivate": {
     "description": "Button text to make the recipe private"
   },
+  "recipeUnpublishPending": "Oppskriften blir privat når synkroniseringen er ferdig. Lenken kan fortsatt virke frem til da.",
   "recipeUnpublishSuccess": "Oppskriften er nå privat",
   "@recipeUnpublishSuccess": {
     "description": "Success message when a recipe is unpublished"
@@ -1453,6 +1454,7 @@
   "moderationDisplayNameFailedBody": "Visningsnavnet ditt kunne ikke lagres fordi: {reason}",
   "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "moderationRulesBody": "Innhold du deler på Timer.Coffee blir automatisk gjennomgått. Innsendinger kan avvises hvis de inneholder:\n\n- **Lenker eller kontaktinformasjon**: URL-er, telefonnumre, e-postadresser eller skjulte varianter av dette\n- **Hatefullt eller støtende innhold**: hatefulle ytringer, trakassering eller diskriminering av noe slag\n- **Eksplisitt innhold**: seksuelt eksplisitt materiale eller grafiske beskrivelser av vold\n- **Farlig innhold**: promotering av selvskading eller andre farlige aktiviteter\n\nDisse reglene gjelder når du publiserer en oppskrift (private oppskrifter blir ikke gjennomgått), for tekst i bønneanmeldelser, visningsnavnet ditt og profilbilder. Vurderinger og andre felt som ikke er tekst, påvirkes ikke.\n\nHvis innsendingen avvises, får du se en grunn og kan redigere og sende inn på nytt. Det finnes ingen manuell klageprosess. Hvis du mener avvisningen var en feil, kan du prøve å formulere innholdet på nytt.",
+  "originalRecipeByPrefix": "Original oppskrift av ",
   "recipeByPrefix": "Oppskrift av ",
   "roastersCatalogTitle": "Brennerier",
   "hubRoastersSubtitle": "Bla gjennom alle kaffebrennerier",

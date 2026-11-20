@@ -64,6 +64,7 @@ app.*.map.json
 node_modules
 deno.lock
 ios/fastlane/Preview.html
+ios/fastlane/private-review-contact/
 ios/fastlane/report.xml
 android/fastlane/report.xml
 android/last_successful_run.txt

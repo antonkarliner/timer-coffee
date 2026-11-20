@@ -762,6 +762,7 @@
   "@unpublishRecipeDialogMakePrivate": {
     "description": "Tekst przycisku, aby ustawić przepis jako prywatny"
   },
+  "recipeUnpublishPending": "Zmiana przepisu na prywatny oczekuje na synchronizację. Link może działać do czasu jej zakończenia.",
   "recipeUnpublishSuccess": "Pomyślnie cofnięto publikację przepisu",
   "@recipeUnpublishSuccess": {
     "description": "Komunikat o sukcesie po cofnięciu publikacji przepisu"
@@ -1223,6 +1224,7 @@
   "moderationDisplayNameFailedBody": "Twoja nazwa wyświetlana nie mogła zostać zapisana, ponieważ: {reason}",
   "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "moderationRulesBody": "Treści udostępniane w Timer.Coffee są sprawdzane automatycznie. Zgłoszenia mogą zostać odrzucone, jeśli zawierają:\n\n- **Linki lub dane kontaktowe**: adresy URL, numery telefonów, adresy e-mail albo ich ukryte wersje\n- **Treści nienawistne lub obraźliwe**: mowę nienawiści, nękanie albo dyskryminację dowolnego rodzaju\n- **Treści jednoznaczne**: materiały o charakterze seksualnym albo drastyczne opisy przemocy\n- **Treści niebezpieczne**: promowanie samookaleczeń lub innych niebezpiecznych działań\n\nTe zasady obowiązują podczas publikowania przepisu (prywatne przepisy nie są sprawdzane), w tekście recenzji ziaren, nazwie wyświetlanej i zdjęciach profilowych. Oceny oraz inne pola nietekstowe nie są objęte kontrolą.\n\nJeśli zgłoszenie zostanie odrzucone, zobaczysz powód i możesz je edytować oraz wysłać ponownie. Nie ma ręcznego procesu odwoławczego. Jeśli uważasz, że odrzucenie było pomyłką, spróbuj przeformułować treść.",
+  "originalRecipeByPrefix": "Oryginalny przepis: ",
   "recipeByPrefix": "Przepis od ",
   "roastersCatalogTitle": "Palarnie",
   "hubRoastersSubtitle": "Przeglądaj wszystkie palarnie kawy",

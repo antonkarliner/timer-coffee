@@ -6,8 +6,6 @@ import flutter_local_notifications
 @main
 @objc class AppDelegate: FlutterAppDelegate, FlutterImplicitEngineDelegate {
 
-  private let pendingExternalUrlKey = "pending_external_url"
-
   // MARK: - Background task for keeping Flutter alive during brewing
   private var brewingBackgroundTaskId: UIBackgroundTaskIdentifier = .invalid
   private var analyticsFlushTaskId: UIBackgroundTaskIdentifier = .invalid
@@ -269,77 +267,5 @@ import flutter_local_notifications
     }
   }
 
-  // MARK: - Push notification tap handling (FCM/APNs)
-
-  // Called when user taps a notification (or taps an action button).
-  @available(iOS 10.0, *)
-  override func userNotificationCenter(
-    _ center: UNUserNotificationCenter,
-    didReceive response: UNNotificationResponse,
-    withCompletionHandler completionHandler: @escaping () -> Void
-  ) {
-    let userInfo = response.notification.request.content.userInfo
-
-    // Debug (optional)
-    print("🔔 AppDelegate: Notification tap received. userInfo keys: \(Array(userInfo.keys))")
-
-    if let urlString = extractExternalUrl(from: userInfo) {
-      print("🌐 AppDelegate: Storing pending external URL: \(urlString)")
-      storePendingExternalUrl(urlString)
-    } else {
-      print("ℹ️ AppDelegate: No external URL found in notification payload")
-    }
-
-    // Important: forward to Flutter/Firebase handlers
-    super.userNotificationCenter(center, didReceive: response, withCompletionHandler: completionHandler)
-  }
-
-  private func storePendingExternalUrl(_ urlString: String) {
-    UserDefaults.standard.set(urlString, forKey: pendingExternalUrlKey)
-    // synchronize() is generally unnecessary nowadays, but harmless if you want immediate flush:
-    // UserDefaults.standard.synchronize()
-  }
-
-  private func extractExternalUrl(from userInfo: [AnyHashable: Any]) -> String? {
-    // Your backend sends these:
-    // - external_url
-    // - validated_url
-    // - open_in_browser ("true"/true)
-    // - link_type ("external_url")
-    let linkType = (userInfo["link_type"] as? String)?.lowercased()
-    let openInBrowser = boolFromAny(userInfo["open_in_browser"]) ?? false
-
-    // Only treat as "open in browser" if your flags indicate it,
-    // OR if it's clearly an external domain.
-    let candidates: [String?] = [
-      userInfo["validated_url"] as? String,
-      userInfo["external_url"] as? String,
-      userInfo["url"] as? String,
-      userInfo["link"] as? String
-    ]
-
-    for candidate in candidates {
-      guard let s = candidate?.trimmingCharacters(in: .whitespacesAndNewlines),
-            !s.isEmpty,
-            let url = URL(string: s) else { continue }
-
-      if openInBrowser || linkType == "external_url" || ExternalLinkRouting.shouldOpenExternally(url) {
-        return url.absoluteString
-      }
-    }
-
-    return nil
-  }
-
-  private func boolFromAny(_ value: Any?) -> Bool? {
-    if let b = value as? Bool { return b }
-    if let n = value as? NSNumber { return n.boolValue }
-    if let s = value as? String {
-      let v = s.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-      if ["true", "1", "yes", "y"].contains(v) { return true }
-      if ["false", "0", "no", "n"].contains(v) { return false }
-    }
-    return nil
-  }
-
+  // FlutterAppDelegate forwards notification taps to the registered plugins.
 }

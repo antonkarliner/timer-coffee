@@ -762,6 +762,7 @@
   "@unpublishRecipeDialogMakePrivate": {
     "description": "Textul butonului pentru a seta rețeta ca privată"
   },
+  "recipeUnpublishPending": "Trecerea rețetei în modul privat așteaptă sincronizarea. Linkul poate funcționa până la finalizarea acesteia.",
   "recipeUnpublishSuccess": "Publicarea rețetei a fost anulată cu succes",
   "@recipeUnpublishSuccess": {
     "description": "Mesaj de succes la anularea publicării unei rețete"
@@ -1223,6 +1224,7 @@
   "moderationDisplayNameFailedBody": "Numele tău afișat nu a putut fi salvat deoarece: {reason}",
   "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "moderationRulesBody": "Conținutul pe care îl distribui pe Timer.Coffee este verificat automat. Trimiterile pot fi respinse dacă includ:\n\n- **Linkuri sau date de contact**: URL-uri, numere de telefon, adrese de e-mail sau variante ascunse ale acestora\n- **Conținut instigator la ură sau ofensator**: discurs instigator la ură, hărțuire sau discriminare de orice fel\n- **Conținut explicit**: material sexual explicit sau descrieri grafice ale violenței\n- **Conținut periculos**: promovarea autovătămării sau a altor activități periculoase\n\nAceste reguli se aplică la publicarea unei rețete (rețetele private nu sunt verificate), textului recenziilor despre boabe, numelui tău afișat și pozelor de profil. Evaluările și alte câmpuri care nu sunt text nu sunt afectate.\n\nDacă trimiterea ta este respinsă, vei vedea motivul și o vei putea edita și retrimite. Nu există un proces manual de apel. Dacă crezi că respingerea a fost o greșeală, încearcă să reformulezi conținutul.",
+  "originalRecipeByPrefix": "Rețeta originală de ",
   "recipeByPrefix": "Rețetă de la ",
   "roastersCatalogTitle": "Prăjitorii",
   "hubRoastersSubtitle": "Răsfoiește toate prăjitoriile de cafea",

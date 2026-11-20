@@ -308,6 +308,9 @@ void main() {
       tester.element(find.byType(NewBeansScreen)),
     )!;
     await tester.tap(find.text(l10n.aiScanLabel));
+    await tester.pumpAndSettle();
+    expect(find.text(l10n.firstTimePopupMessage), findsOneWidget);
+    await tester.tap(find.text(l10n.ok));
     await tester.pump();
     expect(imageController.started, isTrue);
 
@@ -383,6 +386,9 @@ void main() {
       tester.element(find.byType(NewBeansScreen)),
     )!;
     await tester.tap(find.text(l10n.aiScanLabel));
+    await tester.pumpAndSettle();
+    expect(find.text(l10n.firstTimePopupMessage), findsOneWidget);
+    await tester.tap(find.text(l10n.ok));
     await tester.pump();
 
     final firstPreview = imageController.showPreview(

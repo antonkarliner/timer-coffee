@@ -912,6 +912,7 @@
   "@unpublishRecipeDialogMakePrivate": {
     "description": "Button text to make the recipe private"
   },
+  "recipeUnpublishPending": "Promjena recepta u privatan je na čekanju. Poveznica može raditi do završetka sinkronizacije.",
   "recipeUnpublishSuccess": "Objavljivanje recepta uspješno poništeno",
   "@recipeUnpublishSuccess": {
     "description": "Success message when a recipe is unpublished"
@@ -1343,6 +1344,7 @@
   "moderationDisplayNameFailedBody": "Tvoje ime za prikaz nije moglo biti spremljeno jer: {reason}",
   "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "moderationRulesBody": "Sadržaj koji dijeliš na Timer.Coffee automatski se pregledava. Objave mogu biti odbijene ako sadrže:\n\n- **Poveznice ili kontakt podatke**: URL-ove, telefonske brojeve, adrese e-pošte ili njihove prikrivene verzije\n- **Mrzilački ili uvredljiv sadržaj**: govor mržnje, uznemiravanje ili diskriminaciju bilo koje vrste\n- **Eksplicitan sadržaj**: seksualno eksplicitan materijal ili grafičke opise nasilja\n- **Opasan sadržaj**: promicanje samoozljeđivanja ili drugih opasnih aktivnosti\n\nOva pravila vrijede pri objavi recepta (privatni recepti se ne pregledavaju), za tekst recenzija zrna, tvoje ime za prikaz i profilne fotografije. Ocjene i druga netekstualna polja nisu obuhvaćena.\n\nAko je tvoja objava odbijena, vidjet ćeš razlog i možeš je urediti te ponovno poslati. Ne postoji ručni postupak žalbe. Ako misliš da je odbijanje pogreška, pokušaj preformulirati sadržaj.",
+  "originalRecipeByPrefix": "Izvorni recept: ",
   "recipeByPrefix": "Recept od ",
   "roastersCatalogTitle": "Pržionice",
   "hubRoastersSubtitle": "Pregledaj sve pržionice kave",

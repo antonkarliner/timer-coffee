@@ -762,6 +762,7 @@
   "@unpublishRecipeDialogMakePrivate": {
     "description": "Testo del pulsante per rendere la ricetta privata"
   },
+  "recipeUnpublishPending": "La modifica della ricetta in privata è in sospeso. Il link potrebbe funzionare fino al termine della sincronizzazione.",
   "recipeUnpublishSuccess": "Pubblicazione della ricetta annullata con successo",
   "@recipeUnpublishSuccess": {
     "description": "Messaggio di successo quando la pubblicazione di una ricetta viene annullata"
@@ -1223,6 +1224,7 @@
   "moderationDisplayNameFailedBody": "Il tuo nome visualizzato non è stato salvato perché: {reason}",
   "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "moderationRulesBody": "I contenuti che condividi su Timer.Coffee vengono controllati automaticamente. Gli invii possono essere rifiutati se contengono:\n\n- **Link o dettagli di contatto**: URL, numeri di telefono, indirizzi e-mail o versioni offuscate di questi dati\n- **Contenuti offensivi o d'odio**: incitamento all'odio, molestie o discriminazioni di qualsiasi tipo\n- **Contenuti espliciti**: materiale sessualmente esplicito o descrizioni grafiche di violenza\n- **Contenuti pericolosi**: promozione dell'autolesionismo o di altre attività pericolose\n\nQueste regole si applicano quando pubblichi una ricetta (le ricette private non vengono controllate), al testo delle recensioni sui chicchi, al tuo nome visualizzato e alle immagini del profilo. Le valutazioni e gli altri campi non testuali non sono interessati.\n\nSe il tuo invio viene rifiutato, vedrai il motivo e potrai modificarlo e inviarlo di nuovo. Non esiste una procedura di ricorso manuale. Se pensi che il rifiuto sia un errore, prova a riformulare il contenuto.",
+  "originalRecipeByPrefix": "Ricetta originale di ",
   "recipeByPrefix": "Ricetta di ",
   "roastersCatalogTitle": "Torrefazioni",
   "hubRoastersSubtitle": "Sfoglia tutte le torrefazioni di caffè",

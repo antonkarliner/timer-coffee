@@ -1,3 +1,4 @@
+import 'bean_photo_service.dart';
 import 'dart:convert';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -90,16 +91,15 @@ class DataExportUnknownError extends DataExportResult {
 /// This service owns no UI or localized strings by design: every outcome is
 /// a typed [DataExportResult] so Phase 4's UI layer can localize each case.
 class DataExportService {
-  DataExportService({required AppDatabase database, SupabaseClient? client})
-    : _database = database,
-      _clientOverride = client;
+  DataExportService({required AppDatabase database}) : _database = database;
 
   final AppDatabase _database;
-  final SupabaseClient? _clientOverride;
 
   /// Resolved lazily so constructing this service never requires Supabase to
   /// be initialized (useful for tests that only exercise [buildLocalDump]).
-  SupabaseClient get _client => _clientOverride ?? Supabase.instance.client;
+  SupabaseClient get _client => _database.accountScope!.client;
+
+  bool get _hasActiveOwner => _database.accountScope?.currentUser != null;
 
   static const String _functionName = 'export-user-data';
 
@@ -112,10 +112,8 @@ class DataExportService {
   /// Excludes catalog/reference data — the shipped recipe catalog, brewing
   /// methods, supported locales, coffee facts, help content, and recipe
   /// collections are never user-owned and are never included. Custom
-  /// recipes are identified by the `usr-` id prefix (mirrors
-  /// [RecipesDao.getUserRecipes], the same convention the backend uses via
-  /// `vendor_id = 'usr-{user_id}'`); their steps and localizations are
-  /// filtered to match so the catalog's steps/localizations never leak in.
+  /// recipes must belong to the partition owner. Their steps and localizations
+  /// are selected from those parent IDs.
   Future<Map<String, dynamic>> buildLocalDump() async {
     final beans = await _database.coffeeBeansDao.fetchAllCoffeeBeans();
     final stats = await _database.userStatsDao.fetchAllStats();
@@ -124,7 +122,10 @@ class DataExportService {
         .get();
 
     // Custom (user-created) recipes only — never the shipped catalog.
-    final customRecipes = await _database.recipesDao.getUserRecipes();
+    final owner = _database.accountScope?.userId;
+    final customRecipes = (await _database.recipesDao.getUserRecipes())
+        .where((recipe) => owner == null || recipe.vendorId == 'usr-$owner')
+        .toList();
     final customRecipeIds = customRecipes.map((r) => r.id).toList();
 
     List<Step> steps = const [];
@@ -162,6 +163,7 @@ class DataExportService {
     if (!InputValidator.isValidEmail(trimmed)) {
       return const DataExportInvalidEmail();
     }
+    if (!_hasActiveOwner) return const DataExportExpiredOrNoRequest();
 
     try {
       await _client.functions.invoke(
@@ -184,6 +186,7 @@ class DataExportService {
   /// backend can merge it with the user's remote data and email a download
   /// link. Guards the payload size client-side before making the call.
   Future<DataExportResult> confirmAndSend(String code) async {
+    if (!_hasActiveOwner) return const DataExportExpiredOrNoRequest();
     final trimmedCode = code.trim();
 
     final Map<String, dynamic> localData;
@@ -201,6 +204,7 @@ class DataExportService {
     if (serializedSize > kDataExportMaxPayloadBytes) {
       return const DataExportPayloadTooLarge();
     }
+    if (!_hasActiveOwner) return const DataExportExpiredOrNoRequest();
 
     try {
       await _client.functions.invoke(
@@ -338,9 +342,15 @@ class DataExportService {
     'is_favorite': bean.isFavorite,
     'version_vector': bean.versionVector,
     'is_deleted': bean.isDeleted,
-    // A remote/CDN URL string, not raw binary — safe to include as-is. No
-    // photo bytes are ever read or embedded in the dump.
-    'photo_url': bean.photoUrl,
+    // Keep the storage identifier without exporting bearer access.
+    'photo_url': switch (_database.accountScope?.userId) {
+      final owner? => BeanPhotoService.ownedObjectKey(
+        bean.photoUrl,
+        ownerId: owner,
+        beanId: bean.beansUuid,
+      ),
+      null => null,
+    },
     'review_nudge_scheduled_at': bean.reviewNudgeScheduledAt
         ?.toUtc()
         .toIso8601String(),

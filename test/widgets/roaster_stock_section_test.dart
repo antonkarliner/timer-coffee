@@ -210,7 +210,9 @@ Future<void> _pumpSection(
   );
 }
 
-void main() {
+void main() => registerStockTests();
+
+void registerStockTests({bool securityCasesOnly = false}) {
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
     AnalyticsService.resetForTesting();
@@ -223,6 +225,70 @@ void main() {
       .instance.bufferedEventsForTesting
       .where((event) => event['event_name'] == name)
       .toList();
+
+  group('Link consent and recommendation labels', () {
+    for (final alreadyPicked in [false, true]) {
+      testWidgets('highlighted bean is first and only real picks are marked '
+          '(already picked: $alreadyPicked)', (tester) async {
+        final picks = await _picksProvider([
+          for (var i = 1; i <= 4; i++) pick('s$i'),
+          if (alreadyPicked) pick('s5'),
+        ]);
+        final client = _FakeStockClient(
+          result: RoasterStockResult(items: [
+            for (var i = 0; i < 6; i++) stock('s$i', name: 'Bean $i'),
+          ]),
+        );
+        await _pumpSection(
+          tester,
+          client: client,
+          picks: picks,
+          highlightStockId: 's5',
+        );
+        await tester.pumpAndSettle();
+
+        final cards = tester
+            .widgetList<StockBeanCard>(find.byType(StockBeanCard))
+            .toList();
+        expect(cards.map((card) => card.title),
+            ['Bean 5', 'Bean 1', 'Bean 2', 'Bean 3']);
+        expect(cards.first.subtitle, alreadyPicked ? _forYouMarker : isNot(_forYouMarker));
+        expect(find.text('Bean 4'), findsNothing);
+        expect(find.text(_showMoreLabel), findsOneWidget);
+        expect(events('roaster_stock_shown').single['properties'], {
+          'count': 4,
+          'total': 6,
+          'picks': alreadyPicked ? 5 : 4,
+          'highlighted': true,
+        });
+        expect(tester.takeException(), isNull);
+      });
+    }
+
+    testWidgets('bean analytics off opens the product without a referral',
+        (tester) async {
+      final launcher = _RecordingLauncher()..install();
+      addTearDown(launcher.uninstall);
+      await AnalyticsService.instance.setBeansEnabled(false);
+      final client = _FakeStockClient(
+        result: RoasterStockResult(items: [
+          stock('s1', productUrl: 'https://shop.example.com/b1'),
+        ]),
+      );
+      await _pumpSection(tester, client: client);
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text(_viewLabel));
+      await tester.pumpAndSettle();
+
+      expect(launcher.launched.single.url, startsWith('https://shop.example.com/b1'));
+      expect(client.clickedIds, isEmpty);
+      expect(events('roaster_stock_link_opened'), isEmpty);
+    });
+
+  });
+
+  if (securityCasesOnly) return;
 
   group('visibility and fetching', () {
     testWidgets('flag off → nothing rendered and no fetch', (tester) async {
@@ -774,44 +840,6 @@ void main() {
   });
 
   group('highlighted stock', () {
-    for (final alreadyPicked in [false, true]) {
-      testWidgets('highlighted bean is first and marked while collapsed '
-          '(already picked: $alreadyPicked)', (tester) async {
-        final picks = await _picksProvider([
-          for (var i = 1; i <= 4; i++) pick('s$i'),
-          if (alreadyPicked) pick('s5'),
-        ]);
-        final client = _FakeStockClient(
-          result: RoasterStockResult(items: [
-            for (var i = 0; i < 6; i++) stock('s$i', name: 'Bean $i'),
-          ]),
-        );
-        await _pumpSection(
-          tester,
-          client: client,
-          picks: picks,
-          highlightStockId: 's5',
-        );
-        await tester.pumpAndSettle();
-
-        final cards = tester
-            .widgetList<StockBeanCard>(find.byType(StockBeanCard))
-            .toList();
-        expect(cards.map((card) => card.title),
-            ['Bean 5', 'Bean 1', 'Bean 2', 'Bean 3']);
-        expect(cards.first.subtitle, _forYouMarker);
-        expect(find.text('Bean 4'), findsNothing);
-        expect(find.text(_showMoreLabel), findsOneWidget);
-        expect(events('roaster_stock_shown').single['properties'], {
-          'count': 4,
-          'total': 6,
-          'picks': alreadyPicked ? 5 : 4,
-          'highlighted': true,
-        });
-        expect(tester.takeException(), isNull);
-      });
-    }
-
     testWidgets('missing highlighted bean preserves pinned order and counts',
         (tester) async {
       final picks = await _picksProvider([
@@ -860,7 +888,7 @@ void main() {
 
       expect(find.byType(Scrollable), findsNothing);
       expect(find.text('Bean 1'), findsOneWidget);
-      expect(find.text(_forYouMarker), findsOneWidget);
+      expect(find.text(_forYouMarker), findsNothing);
       expect(tester.takeException(), isNull);
     });
 

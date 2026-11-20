@@ -133,7 +133,7 @@ void main() {
     bool optedOut = false,
   }) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(RecommendationProvider.optOutPrefKey, optedOut);
+    await prefs.setBool(RecommendationProvider.optOutKeyFor('user-1'), optedOut);
     final client = _RecommendationClient();
     final provider = _RecommendationProvider(client: client, prefs: prefs);
     addTearDown(provider.dispose);
@@ -281,7 +281,7 @@ void main() {
     expect(tester.widget<SettingsSwitchRow>(suggestionsRow()).value, isFalse);
     expect(
       (await SharedPreferences.getInstance()).getBool(
-        RecommendationProvider.optOutPrefKey,
+        RecommendationProvider.optOutKeyFor('user-1'),
       ),
       isTrue,
     );
@@ -293,7 +293,7 @@ void main() {
     expect(tester.widget<SettingsSwitchRow>(suggestionsRow()).value, isTrue);
     expect(
       (await SharedPreferences.getInstance()).getBool(
-        RecommendationProvider.optOutPrefKey,
+        RecommendationProvider.optOutKeyFor('user-1'),
       ),
       isFalse,
     );

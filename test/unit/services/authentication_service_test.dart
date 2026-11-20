@@ -21,14 +21,14 @@ void main() {
   }
 
   PostSignInSteps steps({
-    Future<void> Function(String, String)? updateRecipeIds,
+    Future<void> Function(String, String)? transferLocalData,
     Future<void> Function(String, String)? migrate,
     Future<void> Function()? syncData,
     Future<void> Function()? registerFcmToken,
     Future<void> Function()? reconcileMilestones,
   }) {
     return PostSignInSteps(
-      updateRecipeIds: updateRecipeIds ?? (_, _) async {},
+      transferLocalData: transferLocalData ?? (_, _) async {},
       migrate: migrate ?? (_, _) async {},
       syncData: syncData ?? () async {},
       registerFcmToken: registerFcmToken ?? () async {},
@@ -41,7 +41,7 @@ void main() {
 
     await AuthenticationService.runPostSignIn(
       steps: steps(
-        updateRecipeIds: (oldUserId, newUserId) async {
+        transferLocalData: (oldUserId, newUserId) async {
           expect((oldUserId, newUserId), ('anonymous', 'registered'));
           order.add('recipe_ids');
         },
@@ -67,8 +67,8 @@ void main() {
     );
 
     expect(order, [
-      'recipe_ids',
       'migration',
+      'recipe_ids',
       'completed_event',
       'data_sync',
       'fcm',
@@ -83,7 +83,7 @@ void main() {
 
       await AuthenticationService.runPostSignIn(
         steps: steps(
-          updateRecipeIds: (_, _) async => updateCalled = true,
+          transferLocalData: (_, _) async => updateCalled = true,
           migrate: (_, _) async => migrationCalled = true,
         ),
         oldUserId: oldUserId,
@@ -103,59 +103,68 @@ void main() {
     });
   }
 
-  test('migration failure is tracked and data sync still runs', () async {
-    var dataSynced = false;
+  test(
+    'migration failure preserves the guest partition and still syncs the destination',
+    () async {
+      var dataSynced = false;
+      var localTransferAttempted = false;
 
-    await AuthenticationService.runPostSignIn(
-      steps: steps(
-        migrate: (_, _) async => throw StateError('migration failed'),
-        syncData: () async => dataSynced = true,
-      ),
-      oldUserId: 'anonymous',
-      newUserId: 'registered',
-      source: 'hub',
-      method: 'apple',
-      userCreatedAt: now,
-      now: now,
-    );
+      await AuthenticationService.runPostSignIn(
+        steps: steps(
+          migrate: (_, _) async => throw StateError('migration failed'),
+          transferLocalData: (_, _) async => localTransferAttempted = true,
+          syncData: () async => dataSynced = true,
+        ),
+        oldUserId: 'anonymous',
+        newUserId: 'registered',
+        source: 'hub',
+        method: 'apple',
+        userCreatedAt: now,
+        now: now,
+      );
 
-    expect(dataSynced, isTrue);
-    expect(eventsNamed('sign_in_sync_failed').single['properties'], {
-      'source': 'hub',
-      'step': 'migration',
-    });
-    expect(
-      eventsNamed('sign_in_completed').single['properties'],
-      containsPair('migrated', false),
-    );
-  });
+      expect(dataSynced, isTrue);
+      expect(localTransferAttempted, isFalse);
+      expect(eventsNamed('sign_in_sync_failed').single['properties'], {
+        'source': 'hub',
+        'step': 'migration',
+      });
+      expect(
+        eventsNamed('sign_in_completed').single['properties'],
+        containsPair('migrated', false),
+      );
+    },
+  );
 
-  test('recipe-rename failure is tracked and migration still runs', () async {
-    var migrationCalled = false;
+  test(
+    'local transfer failure is tracked after the remote migration',
+    () async {
+      var migrationCalled = false;
 
-    await AuthenticationService.runPostSignIn(
-      steps: steps(
-        updateRecipeIds: (_, _) async => throw StateError('rename failed'),
-        migrate: (_, _) async => migrationCalled = true,
-      ),
-      oldUserId: 'anonymous',
-      newUserId: 'registered',
-      source: 'hub',
-      method: 'email',
-      userCreatedAt: now,
-      now: now,
-    );
+      await AuthenticationService.runPostSignIn(
+        steps: steps(
+          transferLocalData: (_, _) async => throw StateError('rename failed'),
+          migrate: (_, _) async => migrationCalled = true,
+        ),
+        oldUserId: 'anonymous',
+        newUserId: 'registered',
+        source: 'hub',
+        method: 'email',
+        userCreatedAt: now,
+        now: now,
+      );
 
-    expect(migrationCalled, isTrue);
-    expect(eventsNamed('sign_in_sync_failed').single['properties'], {
-      'source': 'hub',
-      'step': 'recipe_ids',
-    });
-    expect(
-      eventsNamed('sign_in_completed').single['properties'],
-      containsPair('migrated', true),
-    );
-  });
+      expect(migrationCalled, isTrue);
+      expect(eventsNamed('sign_in_sync_failed').single['properties'], {
+        'source': 'hub',
+        'step': 'recipe_ids',
+      });
+      expect(
+        eventsNamed('sign_in_completed').single['properties'],
+        containsPair('migrated', true),
+      );
+    },
+  );
 
   test('data-sync failure is tracked and does not throw', () async {
     var fcmRegistered = false;

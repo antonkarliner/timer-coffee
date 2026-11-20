@@ -614,6 +614,7 @@
   "@unpublishRecipeDialogMakePrivate": {
     "description": "Painikkeen teksti reseptin tekemiseksi yksityiseksi"
   },
+  "recipeUnpublishPending": "Reseptin muuttaminen yksityiseksi odottaa synkronointia. Linkki voi toimia, kunnes synkronointi on valmis.",
   "recipeUnpublishSuccess": "Reseptin julkaisu poistettu onnistuneesti",
   "@recipeUnpublishSuccess": {
     "description": "Onnistumisviesti, kun reseptin julkaisu poistetaan"
@@ -1075,6 +1076,7 @@
   "moderationDisplayNameFailedBody": "Näyttönimeäsi ei voitu tallentaa, koska: {reason}",
   "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "moderationRulesBody": "Timer.Coffeessa jakamasi sisältö tarkistetaan automaattisesti. Lähetykset voidaan hylätä, jos ne sisältävät:\n\n- **Linkkejä tai yhteystietoja**: URL-osoitteita, puhelinnumeroita, sähköpostiosoitteita tai niiden peiteltyjä versioita\n- **Vihamielistä tai loukkaavaa sisältöä**: vihapuhetta, häirintää tai kaikenlaista syrjintää\n- **Eksplisiittistä sisältöä**: seksuaalisesti eksplisiittistä materiaalia tai graafisia väkivaltakuvauksia\n- **Vaarallista sisältöä**: itsensä vahingoittamisen tai muiden vaarallisten toimien edistämistä\n\nNämä säännöt koskevat reseptin julkaisemista (yksityisiä reseptejä ei tarkisteta), papuarvostelujen tekstiä, näyttönimeäsi ja profiilikuvia. Arvosanat ja muut ei-tekstikentät eivät vaikutu.\n\nJos lähetyksesi hylätään, näet syyn ja voit muokata sisältöä ja lähettää sen uudelleen. Manuaalista valitusprosessia ei ole. Jos uskot hylkäyksen olleen virhe, kokeile muotoilla sisältö uudelleen.",
+  "originalRecipeByPrefix": "Alkuperäinen resepti: ",
   "recipeByPrefix": "Resepti paahtimolta ",
   "roastersCatalogTitle": "Paahtimot",
   "hubRoastersSubtitle": "Selaa kaikkia kahvipaahtimoita",

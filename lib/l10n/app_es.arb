@@ -762,6 +762,7 @@
   "@unpublishRecipeDialogMakePrivate": {
     "description": "Texto del botón para hacer la receta privada"
   },
+  "recipeUnpublishPending": "El cambio de la receta a privada está pendiente. El enlace puede seguir funcionando hasta que termine la sincronización.",
   "recipeUnpublishSuccess": "Receta despublicada con éxito",
   "@recipeUnpublishSuccess": {
     "description": "Mensaje de éxito cuando una receta es despublicada"
@@ -1223,6 +1224,7 @@
   "moderationDisplayNameFailedBody": "Tu nombre visible no pudo guardarse porque: {reason}",
   "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "moderationRulesBody": "El contenido que compartes en Timer.Coffee se revisa automáticamente. Las publicaciones pueden rechazarse si contienen:\n\n- **Enlaces o datos de contacto**: URLs, números de teléfono, direcciones de correo electrónico o versiones ocultas de estos datos\n- **Contenido ofensivo o de odio**: discurso de odio, acoso o discriminación de cualquier tipo\n- **Contenido explícito**: material sexualmente explícito o descripciones gráficas de violencia\n- **Contenido peligroso**: promoción de autolesiones u otras actividades peligrosas\n\nEstas reglas se aplican al publicar una receta (las recetas privadas no se revisan), al texto de reseñas de granos, a tu nombre visible y a las fotos de perfil. Las calificaciones y otros campos que no son texto no se ven afectados.\n\nSi tu publicación se rechaza, verás el motivo y podrás editarla y enviarla de nuevo. No hay un proceso de apelación manual. Si crees que el rechazo fue un error, intenta reformular el contenido.",
+  "originalRecipeByPrefix": "Receta original de ",
   "recipeByPrefix": "Receta de ",
   "roastersCatalogTitle": "Tostadurías",
   "hubRoastersSubtitle": "Explora todas las tostadurías de café",

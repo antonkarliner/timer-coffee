@@ -1,3 +1,14 @@
+# CI may supply these through its secret store. Local releases can use the
+# gitignored contact files, including those moved from legacy metadata.
+contact = {}
+%w[email_address phone_number].each do |field|
+  file = File.join(File.dirname(configfile_path), 'private-review-contact', "#{field}.txt")
+  value = ENV["APP_REVIEW_#{field.upcase}"]
+  value = File.read(file).strip if value.to_s.empty? && File.file?(file)
+  contact[field.to_sym] = value unless value.to_s.empty?
+end
+app_review_information(contact) unless contact.empty?
+
 username(ENV['APPLE_ID'])
 skip_screenshots(true)
 submit_for_review(true)

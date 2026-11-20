@@ -84,6 +84,16 @@ class BeanWeightAdjustmentException implements Exception {
 }
 
 class CoffeeBeansProvider with ChangeNotifier {
+  SupabaseClient get _client =>
+      db.accountScope?.client ?? Supabase.instance.client;
+
+  User? get _currentUser {
+    final scope = db.accountScope;
+    return scope == null
+        ? Supabase.instance.client.auth.currentUser
+        : scope.currentUser;
+  }
+
   final AppDatabase db;
   final DatabaseProvider databaseProvider;
   final String deviceId;
@@ -341,12 +351,12 @@ class CoffeeBeansProvider with ChangeNotifier {
 
     await db.coffeeBeansDao.insertCoffeeBeans(newBeans);
 
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user != null && !user.isAnonymous) {
       try {
         final supabaseData = _coffeeBeansModelToJson(newBeans);
         supabaseData['user_id'] = user.id;
-        await Supabase.instance.client
+        await _client
             .from('user_coffee_beans')
             .upsert(supabaseData)
             .timeout(const Duration(seconds: 3));
@@ -403,12 +413,12 @@ class CoffeeBeansProvider with ChangeNotifier {
       throw e;
     }
 
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user != null && !user.isAnonymous) {
       try {
         final supabaseData = _coffeeBeansModelToJson(updatedBeans);
         supabaseData['user_id'] = user.id;
-        await Supabase.instance.client
+        await _client
             .from('user_coffee_beans')
             .upsert(supabaseData, onConflict: 'user_id,beans_uuid')
             .timeout(const Duration(seconds: 3));
@@ -478,14 +488,14 @@ class CoffeeBeansProvider with ChangeNotifier {
       },
     );
 
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user != null && !user.isAnonymous) {
       try {
         final supabaseData = _coffeeBeansModelToJson(updatedBeans);
         supabaseData['user_id'] = user.id;
 
         // Add a 2-second timeout to the Supabase upsert operation
-        await Supabase.instance.client
+        await _client
             .from('user_coffee_beans')
             .upsert(supabaseData, onConflict: 'user_id,beans_uuid')
             .timeout(const Duration(seconds: 2));
@@ -566,13 +576,13 @@ class CoffeeBeansProvider with ChangeNotifier {
     // Remote sync is best-effort and fire-and-forget — never block the caller
     // on the network. Local DB is the source of truth; syncNewCoffeeBeans()
     // reconciles.
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user != null && !user.isAnonymous) {
       final supabaseData = _coffeeBeansModelToJson(restoredBeans);
       supabaseData['user_id'] = user.id;
       unawaited(() async {
         try {
-          await Supabase.instance.client
+          await _client
               .from('user_coffee_beans')
               .upsert(supabaseData, onConflict: 'user_id,beans_uuid')
               .timeout(const Duration(seconds: 2));
@@ -740,7 +750,7 @@ class CoffeeBeansProvider with ChangeNotifier {
   Future<void> backfillMissingUuids() async {}
 
   Future<void> batchUploadCoffeeBeans() async {
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user == null || user.isAnonymous) {
       AppLogger.debug('No user logged in or user is anonymous');
       return;
@@ -758,7 +768,7 @@ class CoffeeBeansProvider with ChangeNotifier {
       final batch = beansData.skip(i).take(batchSize).toList();
 
       try {
-        await Supabase.instance.client.from('user_coffee_beans').upsert(batch);
+        await _client.from('user_coffee_beans').upsert(batch);
         AppLogger.debug('Uploaded batch ${i ~/ batchSize + 1}');
       } catch (e) {
         AppLogger.error(
@@ -772,14 +782,14 @@ class CoffeeBeansProvider with ChangeNotifier {
   }
 
   Future<void> batchDownloadCoffeeBeans() async {
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user == null || user.isAnonymous) {
       AppLogger.debug('No user logged in or user is anonymous');
       return;
     }
 
     try {
-      final response = await Supabase.instance.client
+      final response = await _client
           .from('user_coffee_beans')
           .select()
           .eq('user_id', user.id);
@@ -804,7 +814,7 @@ class CoffeeBeansProvider with ChangeNotifier {
   }
 
   Future<void> syncNewCoffeeBeans() async {
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user == null || user.isAnonymous) {
       AppLogger.debug('No user logged in or user is anonymous');
       return;
@@ -819,7 +829,7 @@ class CoffeeBeansProvider with ChangeNotifier {
       final localBeansMap = {for (var bean in localBeans) bean.beansUuid: bean};
 
       // Fetch all remote beans, including deleted ones
-      final response = await Supabase.instance.client
+      final response = await _client
           .from('user_coffee_beans')
           .select('beans_uuid, version_vector, is_deleted')
           .eq('user_id', user.id);
@@ -902,7 +912,7 @@ class CoffeeBeansProvider with ChangeNotifier {
       // Perform remote updates with a timeout
       if (remoteUpdates.isNotEmpty) {
         try {
-          await Supabase.instance.client
+          await _client
               .from('user_coffee_beans')
               .upsert(remoteUpdates)
               .timeout(const Duration(seconds: 3));
@@ -939,7 +949,7 @@ class CoffeeBeansProvider with ChangeNotifier {
   Future<List<CoffeeBeansModel>> _fetchFullRemoteBeans(
     List<String> beansUuids,
   ) async {
-    final response = await Supabase.instance.client
+    final response = await _client
         .from('user_coffee_beans')
         .select()
         .inFilter('beans_uuid', beansUuids);

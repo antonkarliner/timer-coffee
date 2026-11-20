@@ -57,21 +57,18 @@ class RecommendationProvider extends ChangeNotifier {
        _prefs = prefs,
        _debugMode = debugMode,
        _clock = clock ?? DateTime.now {
-    // SharedPreferences is already loaded by the time main() constructs this
-    // provider, so a synchronous read is safe.
-    _optedOut = _prefs.getBool(optOutPrefKey) ?? false;
-    // An opt-out whose server-side deletion never ran (the app was closed
-    // while the card's Undo snackbar was up, or the call failed): finish it.
-    if (_optedOut && (_prefs.getBool(pendingDeleteKey) ?? false)) {
+    final ownerId = _refreshOwner();
+    if (ownerId != null && _hasPendingDelete(ownerId)) {
       unawaited(completePendingOptOut());
     }
   }
 
   static const optOutPrefKey = 'bean_recommendations_opt_out';
-
-  /// Set while an opt-out's server-side deletion is owed; cleared once
-  /// `deleteMine()` succeeds or the user opts back in.
   static const pendingDeleteKey = 'bean_recommendations_pending_delete';
+
+  static String optOutKeyFor(String userId) => '$optOutPrefKey.$userId';
+  static String pendingDeleteKeyFor(String userId) =>
+      '$pendingDeleteKey.$userId';
 
   static const _lastGenerateKeyPrefix = 'bean_recs_last_generate_';
 
@@ -88,6 +85,95 @@ class RecommendationProvider extends ChangeNotifier {
   final SharedPreferences _prefs;
   final bool _debugMode;
   final DateTime Function() _clock;
+
+  RecommendationPreferenceClient? get _preferencesClient {
+    final client = _client;
+    return client is RecommendationPreferenceClient
+        ? client as RecommendationPreferenceClient
+        : null;
+  }
+
+  String? _ownerId;
+  bool _preferenceKnown = false;
+  Future<void>? _preferenceLoad;
+  Future<void> _preferenceWrites = Future.value();
+  int _preferenceRevision = 0;
+
+  String? _refreshOwner() {
+    final owner = _currentUserId();
+    if (_ownerId == owner) return owner;
+    _ownerId = owner;
+    _preferenceKnown = _preferencesClient == null;
+    _preferenceLoad = null;
+    _preferenceRevision++;
+    // An older installation opt-out remains a local fallback only. Pending
+    // deletions without an initiating account can never be safely replayed.
+    _optedOut =
+        owner != null &&
+        (_prefs.getBool(optOutKeyFor(owner)) ??
+            _prefs.getBool(optOutPrefKey) ??
+            false);
+    _items = const [];
+    _sessionDismissals.clear();
+    _state = RecommendationState.idle;
+    _isFirstLoad = false;
+    _unavailableStatus = null;
+    _lastCountryCode = null;
+    _lastGenerateAt = null;
+    _lastGenerateStatus = null;
+    _lastGenerateFailed = false;
+    _decided = false;
+    _loadedUserId = null;
+    _loadedLocale = null;
+    _inFlight = null;
+    _backgroundInFlight = null;
+    return owner;
+  }
+
+  bool _hasPendingDelete(String owner) =>
+      _prefs.getBool(pendingDeleteKeyFor(owner)) == true;
+
+  bool _isOwner(String owner) =>
+      !_disposed && _ownerId == owner && _currentUserId() == owner;
+
+  bool get _isActive => _ownerId == _currentUserId();
+
+  bool get preferenceKnown => _isActive && _ownerId != null && _preferenceKnown;
+
+  Future<void> ensurePreferenceLoaded() async {
+    // Also called from Settings during build.
+    await Future<void>.microtask(() {});
+    if (_disposed) return;
+    final owner = _refreshOwner();
+    final preferencesClient = _preferencesClient;
+    if (owner == null || _preferenceKnown || preferencesClient == null) return;
+    final inFlight = _preferenceLoad;
+    if (inFlight != null) return inFlight;
+    final revision = _preferenceRevision;
+    final load = () async {
+      try {
+        final remoteOptedOut = await preferencesClient.fetchOptOut();
+        if (!_isOwner(owner) || revision != _preferenceRevision) return;
+        final localOptedOut = _prefs.getBool(optOutKeyFor(owner));
+        final legacyOptedOut =
+            localOptedOut == null && _prefs.getBool(optOutPrefKey) == true;
+        _optedOut =
+            remoteOptedOut || _hasPendingDelete(owner) || legacyOptedOut;
+        _preferenceKnown = true;
+        _notify();
+        if (_hasPendingDelete(owner)) unawaited(completePendingOptOut());
+      } catch (error) {
+        AppLogger.warning(
+          'Could not load recommendation preference',
+          errorObject: error,
+        );
+      }
+    }();
+    _preferenceLoad = load;
+    await load.whenComplete(() {
+      if (identical(_preferenceLoad, load)) _preferenceLoad = null;
+    });
+  }
 
   RecommendationState _state = RecommendationState.idle;
   List<BeanRecommendation> _items = const [];
@@ -129,24 +215,26 @@ class RecommendationProvider extends ChangeNotifier {
   final Map<String, int> _tasteWriteTokens = {};
   int _nextTasteWriteToken = 0;
 
-  RecommendationState get state => _state;
+  RecommendationState get state =>
+      _isActive ? _state : RecommendationState.hidden;
 
   /// Unmodifiable view of the current picks.
-  List<BeanRecommendation> get items => List.unmodifiable(_items);
+  List<BeanRecommendation> get items =>
+      _isActive ? List.unmodifiable(_items) : const [];
 
   /// True only while the very first generation for this user is running —
   /// the card shows skeleton rows only then.
-  bool get isFirstLoad => _isFirstLoad;
+  bool get isFirstLoad => _isActive && _isFirstLoad;
 
   /// `insufficient_history`, `no_supply`, `error`, or null — for later
   /// analytics; never surfaced in the UI.
-  String? get unavailableStatus => _unavailableStatus;
+  String? get unavailableStatus => _isActive ? _unavailableStatus : null;
 
   /// Last successful country lookup, normalised to a two-letter code.
   /// Unknown until a lookup returns a valid code; lookup failures keep it.
   String? get lastCountryCode => _lastCountryCode;
 
-  bool get optedOut => _optedOut;
+  bool get optedOut => !_isActive || _optedOut;
 
   /// Last generate answer; null before any call or when the call threw.
   BeanRecommendationStatus? get lastGenerateStatus => _lastGenerateStatus;
@@ -345,10 +433,17 @@ class RecommendationProvider extends ChangeNotifier {
     await Future<void>.microtask(() {});
     if (_disposed) return;
     try {
-      final userId = _currentUserId();
+      final userId = _refreshOwner();
       // Gates: flag off, opted out, or anonymous → hidden, no network.
-      if (!_featureFlagEnabled() || _optedOut || userId == null) {
+      if (!_featureFlagEnabled() || userId == null) {
         if (_state != RecommendationState.hidden) _applyHidden();
+        return;
+      }
+      await ensurePreferenceLoaded();
+      if (_abortedFor(userId) || !_preferenceKnown) {
+        if (_isOwner(userId) && _state != RecommendationState.hidden) {
+          _applyHidden();
+        }
         return;
       }
       final inFlight = _inFlight ?? _backgroundInFlight;
@@ -368,7 +463,9 @@ class RecommendationProvider extends ChangeNotifier {
       }
       final load = _load(localeCode, userId, forceRefresh: forceRefresh);
       _inFlight = load;
-      await load.whenComplete(() => _inFlight = null);
+      await load.whenComplete(() {
+        if (identical(_inFlight, load)) _inFlight = null;
+      });
     } catch (e, st) {
       AppLogger.error('ensureLoaded failed', errorObject: e, stackTrace: st);
     }
@@ -378,6 +475,7 @@ class RecommendationProvider extends ChangeNotifier {
   /// failed network call is logged; the item stays removed for this
   /// session. When the last item goes, the state becomes [hidden].
   Future<void> dismiss(String stockId) async {
+    if (!_isActive || _optedOut || _disposed) return;
     final remaining = _items
         .where((item) => item.stockId != stockId)
         .toList(growable: false);
@@ -401,6 +499,7 @@ class RecommendationProvider extends ChangeNotifier {
     String stockId, {
     String surface = 'for_you_card',
   }) async {
+    if (!_isActive || _optedOut || _disposed) return;
     try {
       await _client.logReferredClick(stockId, surface);
     } catch (e, st) {
@@ -426,61 +525,96 @@ class RecommendationProvider extends ChangeNotifier {
   /// snackbar uses this so Undo loses nothing. Either way the deletion is
   /// recorded as owed first, so it is retried on the next launch if it never
   /// runs or fails.
-  Future<void> setOptedOut(bool value, {bool deferServerDelete = false}) async {
-    if (value == _optedOut) return;
-    _optedOut = value;
-    await _prefs.setBool(optOutPrefKey, value);
-    if (value) {
-      await _prefs.setBool(pendingDeleteKey, true);
-    } else {
-      await _prefs.remove(pendingDeleteKey);
-    }
-    if (_disposed) return;
-    if (value) {
+  Future<void> setOptedOut(bool value, {bool deferServerDelete = false}) {
+    final owner = _refreshOwner();
+    if (owner == null) return Future.value();
+    return _writePreference(() async {
+      if (!_isOwner(owner) || value == _optedOut) return;
+      final client = _preferencesClient;
+      if (!value && client != null) {
+        try {
+          await client.setOptOut(false);
+        } catch (error) {
+          AppLogger.warning(
+            'Could not re-enable recommendations',
+            errorObject: error,
+          );
+          return;
+        }
+      }
+      if (!_isOwner(owner)) return;
+      _preferenceRevision++;
+      _optedOut = value;
+      _preferenceKnown = true;
+      await _prefs.setBool(optOutKeyFor(owner), value);
+      if (value) {
+        await _prefs.setBool(pendingDeleteKeyFor(owner), true);
+      } else {
+        await _prefs.remove(pendingDeleteKeyFor(owner));
+        if (!_debugMode) await _prefs.remove(_throttleKey(owner));
+      }
+      if (!_isOwner(owner)) return;
+
       _items = const [];
       _sessionDismissals.clear();
-      _state = RecommendationState.hidden;
-      _isFirstLoad = false;
-      _unavailableStatus = null;
-      // deleteMine() also deletes the taste-profile adjustments (plan 086),
-      // so a re-enable must not show the cached ones while it reloads.
-      _tasteProfile = null;
-      _tasteConfirmed = null;
-      _tasteProfileUserId = null;
-      _tasteProfileState = TasteProfileLoadState.idle;
-      _tasteWriteTokens.clear();
-      _notify();
-      if (!deferServerDelete) await completePendingOptOut();
-    } else {
-      // The throttle entry must go before the state reset notifies: a
-      // re-enable (e.g. the card's Undo) chains ensureLoaded immediately,
-      // and that load is only allowed to generate again if the entry is
-      // already gone.
-      final userId = _currentUserId();
-      if (!_debugMode && userId != null) {
-        await _prefs.remove(_throttleKey(userId));
-      }
-      _state = RecommendationState.idle;
-      _items = const [];
+      _state = value ? RecommendationState.hidden : RecommendationState.idle;
       _isFirstLoad = false;
       _unavailableStatus = null;
       _decided = false;
       _loadedUserId = null;
       _loadedLocale = null;
+      if (value) {
+        _tasteProfile = null;
+        _tasteConfirmed = null;
+        _tasteProfileUserId = null;
+        _tasteProfileState = TasteProfileLoadState.idle;
+        _tasteWriteTokens.clear();
+      }
       _notify();
-    }
+      if (!value) return;
+      if (!deferServerDelete) {
+        await _commitPendingOptOut(owner);
+      } else if (client != null) {
+        try {
+          await client.setOptOut(true);
+        } catch (error) {
+          AppLogger.warning(
+            'Could not pause recommendations',
+            errorObject: error,
+          );
+        }
+      }
+    });
   }
 
-  /// Runs an owed opt-out deletion: stored picks, dismissals and taste
-  /// adjustments (`deleteMine()`). No-op unless the user is still opted out
-  /// and a deletion is pending. Never throws; a failure leaves it pending
-  /// for the next launch.
-  Future<void> completePendingOptOut() async {
-    if (_disposed || !_optedOut) return;
-    if (!(_prefs.getBool(pendingDeleteKey) ?? false)) return;
+  /// Retains failed or unsent deletes for the account that authorized them.
+  Future<void> completePendingOptOut() {
+    final owner = _ownerId;
+    if (owner == null) return Future.value();
+    return _writePreference(() => _commitPendingOptOut(owner));
+  }
+
+  Future<void> _writePreference(Future<void> Function() write) {
+    return _preferenceWrites = _preferenceWrites.then((_) async {
+      try {
+        await write();
+      } catch (error, stackTrace) {
+        AppLogger.error(
+          'Could not save recommendation preference',
+          errorObject: error,
+          stackTrace: stackTrace,
+        );
+      }
+    });
+  }
+
+  Future<void> _commitPendingOptOut(String owner) async {
+    if (!_isOwner(owner) || !_optedOut || !_hasPendingDelete(owner)) return;
     try {
       await _client.deleteMine();
-      if (_optedOut) await _prefs.remove(pendingDeleteKey);
+      if (_isOwner(owner) && _optedOut) {
+        await _prefs.remove(pendingDeleteKeyFor(owner));
+      }
     } catch (e, st) {
       AppLogger.error(
         'Failed to delete stored recommendations on opt-out',
@@ -509,14 +643,14 @@ class RecommendationProvider extends ChangeNotifier {
           userId,
           forceRefresh: true,
         );
-        if (_aborted) return;
+        if (_abortedFor(userId)) return;
         _decide(userId, localeCode);
         _applyGenerated(status, fresh);
         return;
       }
 
       final result = await _client.fetch(locale: localeCode);
-      if (_aborted) return;
+      if (_abortedFor(userId)) return;
 
       if (result == null) {
         _decide(userId, localeCode);
@@ -558,7 +692,7 @@ class RecommendationProvider extends ChangeNotifier {
       _notify();
 
       final (status, fresh) = await _generateAndRefetch(localeCode, userId);
-      if (_aborted) return;
+      if (_abortedFor(userId)) return;
       _decide(userId, localeCode);
       _applyGenerated(status, fresh);
     } catch (e, st) {
@@ -598,7 +732,11 @@ class RecommendationProvider extends ChangeNotifier {
   void _startBackgroundRefresh(String localeCode, String userId) {
     final refresh = _backgroundRefresh(localeCode, userId);
     _backgroundInFlight = refresh;
-    unawaited(refresh.whenComplete(() => _backgroundInFlight = null));
+    unawaited(
+      refresh.whenComplete(() {
+        if (identical(_backgroundInFlight, refresh)) _backgroundInFlight = null;
+      }),
+    );
   }
 
   /// Stale-while-revalidate refresh: generate (subject to the throttle) and
@@ -606,7 +744,7 @@ class RecommendationProvider extends ChangeNotifier {
   /// surfaces errors — on any failure the current state stands.
   Future<void> _backgroundRefresh(String localeCode, String userId) async {
     final (_, fresh) = await _generateAndRefetch(localeCode, userId);
-    if (_aborted) return;
+    if (_abortedFor(userId)) return;
     if (fresh != null && fresh.items.isNotEmpty) {
       _items = _filterDismissed(fresh.items);
       _state = RecommendationState.ready;
@@ -637,6 +775,7 @@ class RecommendationProvider extends ChangeNotifier {
     String? countryCode;
     try {
       countryCode = await _countryCodeLookup(localeCode);
+      if (_abortedFor(userId)) return (BeanRecommendationStatus.unknown, null);
       final normalized = countryCode?.toUpperCase();
       _lastCountryCode =
           normalized != null && RegExp(r'^[A-Z]{2}$').hasMatch(normalized)
@@ -649,7 +788,7 @@ class RecommendationProvider extends ChangeNotifier {
         stackTrace: st,
       );
     }
-    if (_aborted) return (BeanRecommendationStatus.unknown, null);
+    if (_abortedFor(userId)) return (BeanRecommendationStatus.unknown, null);
     BeanRecommendationStatus status;
     _lastGenerateAt = _clock();
     _lastGenerateStatus = null;
@@ -660,11 +799,13 @@ class RecommendationProvider extends ChangeNotifier {
         countryCode: countryCode,
         forceRefresh: forceRefresh,
       );
+      if (_abortedFor(userId)) return (status, null);
       _lastGenerateStatus = status;
-      if (!_aborted) _notify();
+      if (!_abortedFor(userId)) _notify();
     } catch (e, st) {
+      if (_abortedFor(userId)) return (BeanRecommendationStatus.unknown, null);
       _lastGenerateFailed = true;
-      if (!_aborted) _notify();
+      if (!_abortedFor(userId)) _notify();
       AppLogger.warning(
         'recommend-beans invocation failed',
         errorObject: e,
@@ -672,7 +813,7 @@ class RecommendationProvider extends ChangeNotifier {
       );
       return (BeanRecommendationStatus.unknown, null);
     }
-    if (_aborted || status != BeanRecommendationStatus.ok) {
+    if (_abortedFor(userId) || status != BeanRecommendationStatus.ok) {
       return (status, null);
     }
     try {
@@ -720,7 +861,7 @@ class RecommendationProvider extends ChangeNotifier {
   /// Whether the provider should stop applying results (disposed, or the
   /// user opted out mid-flight — in which case setOptedOut already put the
   /// state where it belongs).
-  bool get _aborted => _disposed || _optedOut;
+  bool _abortedFor(String owner) => !_isOwner(owner) || _optedOut;
 
   void _decide(String userId, String localeCode) {
     _decided = true;

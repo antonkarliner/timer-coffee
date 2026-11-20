@@ -3,6 +3,7 @@ import 'package:uuid/uuid.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 import '../../models/brew_step_model.dart';
+import '../../utils/recipe_schedule_limits.dart';
 import '../fields/labeled_field.dart';
 import '../fields/numeric_text_field.dart';
 
@@ -273,9 +274,11 @@ class StepCard extends StatelessWidget {
                       label: l10n.recipeCreationScreenSecondsLabel,
                       initialValue: step.time.inSeconds.toDouble(),
                       allowDecimal: false,
+                      min: 0,
+                      max: maxRecipeDurationSeconds.toDouble(),
                       labelInsideField: true,
                       onChanged: (value) => onTimeChanged?.call(
-                        Duration(seconds: value?.toInt() ?? 0),
+                        Duration(seconds: value != null && value >= 0 && value <= maxRecipeDurationSeconds ? value.toInt() : 0),
                       ),
                     ),
                   ),

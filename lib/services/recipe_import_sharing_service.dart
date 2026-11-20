@@ -1,908 +1,250 @@
-import 'dart:async';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:uuid/uuid.dart';
 
-import '../app_router.gr.dart';
-import '../config/moderation_surfaces.dart';
 import '../database/database.dart';
 import '../l10n/app_localizations.dart';
-import '../theme/design_tokens.dart';
-import '../widgets/base_buttons.dart';
+import '../models/brew_step_model.dart';
 import '../models/recipe_model.dart';
 import '../providers/database_provider.dart';
 import '../providers/recipe_provider.dart';
 import '../providers/user_recipe_provider.dart';
 import '../utils/app_logger.dart';
 import '../utils/input_validator.dart';
+import '../utils/recipe_schedule_limits.dart';
 import 'authentication_service.dart';
+import 'recipe_publication.dart';
 
-/// Result class for recipe import operations
 class RecipeImportResult {
-  final bool success;
   final String? newRecipeId;
+  final RecipeModel? preview;
   final String? errorMessage;
 
-  const RecipeImportResult({
-    required this.success,
-    this.newRecipeId,
-    this.errorMessage,
-  });
+  bool get success => newRecipeId != null || preview != null;
 
-  factory RecipeImportResult.success(String newRecipeId) {
-    return RecipeImportResult(success: true, newRecipeId: newRecipeId);
-  }
-
-  factory RecipeImportResult.error(String errorMessage) {
-    return RecipeImportResult(success: false, errorMessage: errorMessage);
-  }
+  const RecipeImportResult({this.newRecipeId, this.preview, this.errorMessage});
 }
 
-/// Result class for recipe sharing operations
 class RecipeSharingResult {
   final bool success;
   final String? errorMessage;
-  // New: when share flow remaps/derives a stable cloud id, surface it to caller
-  final String? resolvedRecipeId;
 
-  const RecipeSharingResult({
-    required this.success,
-    this.errorMessage,
-    this.resolvedRecipeId,
-  });
-
-  factory RecipeSharingResult.success({String? resolvedRecipeId}) {
-    return RecipeSharingResult(
-      success: true,
-      resolvedRecipeId: resolvedRecipeId,
-    );
-  }
-
-  factory RecipeSharingResult.error(String errorMessage) {
-    return RecipeSharingResult(success: false, errorMessage: errorMessage);
-  }
+  const RecipeSharingResult.success() : success = true, errorMessage = null;
+  const RecipeSharingResult.error(this.errorMessage) : success = false;
 }
 
-/// Service class for handling recipe import and sharing operations
 class RecipeImportSharingService {
   RecipeImportSharingService._();
 
-  /// Performs the initial recipe check and import workflow
-  ///
-  /// This method handles the complex workflow of:
-  /// 1. Checking if recipe exists locally by ID
-  /// 2. Checking if recipe exists locally by import_id
-  /// 3. Fetching recipe metadata from Supabase
-  /// 4. Importing recipe from cloud
-  /// 5. Managing import status and error handling
+  /// A link is a read. Library writes happen only in [importSharedRecipe].
   static Future<RecipeImportResult> performInitialRecipeCheck({
     required BuildContext context,
     required String potentialImportId,
   }) async {
-    AppLogger.debug("performInitialRecipeCheck started");
-
     final l10n = AppLocalizations.of(context)!;
-    final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
-    final dbProvider = Provider.of<DatabaseProvider>(context, listen: false);
-    final userRecipeProvider = Provider.of<UserRecipeProvider>(
-      context,
-      listen: false,
-    );
-    final appDb = Provider.of<AppDatabase>(context, listen: false);
-
-    // Validate and sanitize recipe ID
-    final String? validatedId = InputValidator.validateAndSanitizeRecipeId(
+    final recipeProvider = context.read<RecipeProvider>();
+    final database = context.read<AppDatabase?>();
+    final dbProvider = context.read<DatabaseProvider>();
+    final validatedId = InputValidator.validateAndSanitizeRecipeId(
       potentialImportId,
     );
     if (validatedId == null) {
-      return RecipeImportResult.error('Invalid recipe ID format');
+      return RecipeImportResult(errorMessage: l10n.recipeLoadErrorGeneric);
     }
 
-    AppLogger.debug(
-      "Checking recipe with ID: ${AppLogger.sanitize(validatedId)}",
-    );
-    AppLogger.debug(
-      "Current user: ${AppLogger.sanitize(Supabase.instance.client.auth.currentUser?.id ?? "Not logged in")}",
-    );
-
+    final client = Supabase.instance.client;
+    final userId = client.auth.currentUser?.id;
     try {
-      // 1. First check if recipe exists directly by ID in local database
-      AppLogger.debug("Step 1 - Checking if recipe exists locally by ID");
-      RecipeModel? localRecipe = await recipeProvider.getRecipeById(
+      final localRecipe = await recipeProvider.getRecipeById(validatedId);
+      if (client.auth.currentUser?.id != userId) {
+        return RecipeImportResult(errorMessage: l10n.recipeLoadErrorGeneric);
+      }
+      if (localRecipe != null &&
+          (!validatedId.startsWith('usr-') ||
+              ownsUserRecipe(
+                validatedId,
+                localRecipe.vendorId,
+                localRecipeOwner(database, userId),
+              ))) {
+        return RecipeImportResult(newRecipeId: validatedId);
+      }
+      if (!validatedId.startsWith('usr-')) {
+        return RecipeImportResult(errorMessage: l10n.recipeLoadErrorGeneric);
+      }
+
+      final snapshot = await dbProvider.fetchFullPublicUserRecipeData(
         validatedId,
       );
-
-      if (localRecipe != null) {
-        AppLogger.debug(
-          "Recipe found locally with ID: ${AppLogger.sanitize(validatedId)}",
-        );
-        return RecipeImportResult.success(validatedId);
-      } else if (validatedId.startsWith('usr-')) {
-        AppLogger.debug(
-          "Step 2 - Recipe not found locally. Checking if it exists as an import_id",
-        );
-        final localRecipeByImportId = await appDb.recipesDao
-            .getRecipeByImportId(validatedId);
-
-        if (localRecipeByImportId != null) {
-          AppLogger.debug(
-            "Recipe found locally as import with ID: ${AppLogger.sanitize(localRecipeByImportId.id)} (Import ID: ${AppLogger.sanitize(validatedId)})",
-          );
-          return RecipeImportResult.success(localRecipeByImportId.id);
-        } else {
-          AppLogger.debug(
-            "Step 3 - Recipe not found locally. Checking Supabase for import ID: ${AppLogger.sanitize(validatedId)}",
-          );
-
-          try {
-            final testResponse = await Supabase.instance.client
-                .from('brewing_methods')
-                .select('brewing_method_id')
-                .limit(1)
-                .maybeSingle();
-            AppLogger.debug(
-              "Supabase test query result: ${testResponse != null ? "Success" : "No data"}",
-            );
-          } catch (e) {
-            AppLogger.error("Supabase test query error", errorObject: e);
-          }
-
-          final metadata = await dbProvider.getPublicUserRecipeMetadata(
-            validatedId,
-          );
-          AppLogger.debug(
-            "Metadata response: ${metadata != null ? "Found" : "Not found"}",
-          );
-          if (metadata != null) {
-            AppLogger.debug("Recipe metadata: ${AppLogger.sanitize(metadata)}");
-          }
-
-          if (metadata != null) {
-            AppLogger.debug(
-              "Recipe exists in Supabase, importing from shared link",
-            );
-            final fullData = await dbProvider.fetchFullPublicUserRecipeData(
-              validatedId,
-            );
-            AppLogger.debug(
-              "Full recipe data: ${fullData != null ? "Found" : "Not found"}",
-            );
-
-            if (!context.mounted) {
-              return RecipeImportResult.error('Context not mounted');
-            }
-
-            if (fullData != null) {
-              AppLogger.debug(
-                "Recipe data keys: ${AppLogger.sanitize(fullData.keys.join(', '))}",
-              );
-              AppLogger.debug(
-                "Recipe has localizations: ${(fullData['user_recipe_localizations'] as List?)?.isNotEmpty ?? false}",
-              );
-              AppLogger.debug(
-                "Recipe has steps: ${(fullData['user_steps'] as List?)?.isNotEmpty ?? false}",
-              );
-
-              AppLogger.debug("Importing recipe into local database");
-              final String? newLocalId = await userRecipeProvider
-                  .importSupabaseRecipe(fullData);
-              AppLogger.debug(
-                "Import result - new local ID: ${AppLogger.sanitize(newLocalId)}",
-              );
-
-              if (newLocalId != null) {
-                AppLogger.debug("Recipe imported successfully");
-
-                try {
-                  await Supabase.instance.client.rpc(
-                    'log_recipe_import',
-                    params: {'p_import_id': validatedId},
-                  );
-                } catch (e) {
-                  AppLogger.error(
-                    "log_recipe_import RPC failed",
-                    errorObject: e,
-                  );
-                }
-
-                // Additional diagnostics to ensure local visibility after import
-                try {
-                  final byImport = await appDb.recipesDao.getRecipeByImportId(
-                    validatedId,
-                  );
-                  AppLogger.debug(
-                    "Post-import local lookup by import_id present: ${byImport != null} (id: ${AppLogger.sanitize(byImport?.id)})",
-                  );
-                } catch (e) {
-                  AppLogger.error(
-                    "Post-import diagnostic lookup error",
-                    errorObject: e,
-                  );
-                }
-
-                // Ensure provider state is refreshed before loading
-                await recipeProvider.fetchAllRecipes();
-
-                // Small delay to tolerate any pending SQLite commit scheduling
-                await Future.delayed(const Duration(milliseconds: 20));
-
-                // Show success message
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(l10n.recipeImportSuccess)),
-                  );
-                }
-
-                AppLogger.debug("Triggering immediate sync after import...");
-                final currentUser = Supabase.instance.client.auth.currentUser;
-                if (currentUser != null && !currentUser.isAnonymous) {
-                  if (context.mounted) {
-                    try {
-                      await dbProvider.syncUserRecipes(currentUser.id);
-                      AppLogger.debug("Immediate sync triggered successfully.");
-                    } catch (syncError) {
-                      AppLogger.error(
-                        "Error during immediate sync",
-                        errorObject: syncError,
-                      );
-                    }
-                  } else {
-                    AppLogger.debug(
-                      "Context not mounted, skipping immediate sync.",
-                    );
-                  }
-                } else {
-                  AppLogger.debug(
-                    "User not logged in or anonymous, skipping immediate sync.",
-                  );
-                }
-
-                return RecipeImportResult.success(newLocalId);
-              } else {
-                AppLogger.error("Failed to save imported recipe");
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(l10n.recipeImportFailedSave)),
-                  );
-                }
-                return RecipeImportResult.error(l10n.recipeImportFailedSave);
-              }
-            } else {
-              AppLogger.error("Failed to fetch full recipe data");
-              if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(l10n.recipeImportFailedFetch)),
-                );
-              }
-              return RecipeImportResult.error(l10n.recipeImportFailedFetch);
-            }
-          } else {
-            AppLogger.debug("Recipe not found in Supabase or not public");
-            return RecipeImportResult.error(l10n.recipeNotFoundCloud);
-          }
-        }
-      } else {
-        AppLogger.debug("Not a user recipe ID and not found locally");
-        return RecipeImportResult.error(l10n.recipeLoadErrorGeneric);
+      if (snapshot == null) {
+        return RecipeImportResult(errorMessage: l10n.recipeNotFoundCloud);
       }
-    } catch (e) {
-      AppLogger.error("Error during initial recipe check", errorObject: e);
-      if (e is PostgrestException) {
-        AppLogger.error("Postgrest error code: ${AppLogger.sanitize(e.code)}");
-        AppLogger.error(
-          "Postgrest error message: ${AppLogger.sanitize(e.message)}",
-        );
-        AppLogger.error(
-          "Postgrest error details: ${AppLogger.sanitize(e.details)}",
-        );
-      }
-      return RecipeImportResult.error(l10n.recipeLoadErrorGeneric);
+      return RecipeImportResult(
+        preview: recipePreviewFromSnapshot(
+          snapshot,
+          recipeProvider.currentLocale.languageCode,
+        ),
+      );
+    } catch (error) {
+      AppLogger.error('Failed to open shared recipe', errorObject: error);
+      return RecipeImportResult(errorMessage: l10n.recipeLoadErrorGeneric);
     }
   }
 
-  /// Shows the update dialog to ask user if they want to update a recipe
-  static Future<bool?> showUpdateDialog({
-    required BuildContext context,
-    required String recipeName,
-  }) async {
-    if (!context.mounted) return false;
-    final l10n = AppLocalizations.of(context)!;
-    return showDialog<bool>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(l10n.recipeUpdateAvailableTitle),
-          content: Text(l10n.recipeUpdateAvailableBody(recipeName)),
-          actions: <Widget>[
-            TextButton(
-              child: Text(l10n.dialogCancel),
-              onPressed: () => Navigator.of(context).pop(false),
+  @visibleForTesting
+  static RecipeModel recipePreviewFromSnapshot(
+    Map<String, dynamic> snapshot,
+    String locale,
+  ) {
+    validateImportedRecipeSchedule(snapshot);
+    final localizations = (snapshot['user_recipe_localizations'] as List)
+        .cast<Map<String, dynamic>>();
+    final localization = localizations.firstWhere(
+      (row) => row['locale'] == locale,
+      orElse: () => localizations.first,
+    );
+    final allSteps = (snapshot['user_steps'] as List)
+        .cast<Map<String, dynamic>>();
+    final localizedSteps = allSteps
+        .where((row) => row['locale'] == localization['locale'])
+        .toList();
+    final steps = localizedSteps.isEmpty ? allSteps.toList() : localizedSteps;
+    steps.sort(
+      (a, b) => (a['step_order'] as int).compareTo(b['step_order'] as int),
+    );
+    return RecipeModel(
+      id: snapshot['id'] as String,
+      name: localization['name'] as String,
+      vendorId: snapshot['vendor_id'] as String?,
+      originalAuthorId: snapshot['original_author_id'] as String?,
+      importId: snapshot['import_id'] as String?,
+      brewingMethodId: snapshot['brewing_method_id'] as String,
+      coffeeAmount: (snapshot['coffee_amount'] as num).toDouble(),
+      waterAmount: (snapshot['water_amount'] as num).toDouble(),
+      waterTemp: (snapshot['water_temp'] as num?)?.toDouble(),
+      grindSize: localization['grind_size'] as String? ?? '',
+      shortDescription: localization['short_description'] as String? ?? '',
+      brewTime: Duration(seconds: snapshot['brew_time'] as int),
+      steps: steps
+          .map(
+            (row) => BrewStepModel(
+              id: row['id'] as String,
+              order: row['step_order'] as int,
+              description: row['description'] as String,
+              time: Duration(
+                seconds: int.tryParse(row['time'].toString()) ?? 0,
+              ),
             ),
-            TextButton(
-              child: Text(l10n.dialogUpdate),
-              onPressed: () => Navigator.of(context).pop(true),
-            ),
-          ],
-        );
-      },
+          )
+          .toList(),
+      isPublic: true,
     );
   }
 
-  /// Determines if a recipe needs moderation check based on public status,
-  /// timestamp comparison, and local moderation flags
-  static Future<bool> _needsModerationCheck({
-    required RecipeProvider recipeProvider,
-    required AppDatabase appDb,
-    required String recipeId,
-    required bool isAlreadyPublic,
-    required Map<String, dynamic> remoteData,
-  }) async {
-    // If already public, no moderation needed
-    if (isAlreadyPublic) {
-      AppLogger.debug(
-        "Recipe ${AppLogger.sanitize(recipeId)} is already public. Skipping moderation.",
-      );
-      return false;
+  static Future<RecipeImportResult> importSharedRecipe(
+    BuildContext context,
+    String sourceRecipeId,
+  ) async {
+    final l10n = AppLocalizations.of(context)!;
+    final dbProvider = context.read<DatabaseProvider>();
+    final userRecipeProvider = context.read<UserRecipeProvider>();
+    final recipeProvider = context.read<RecipeProvider>();
+    final client = Supabase.instance.client;
+    final user = client.auth.currentUser;
+    if (user == null) {
+      return RecipeImportResult(errorMessage: l10n.recipeImportFailedSave);
     }
 
     try {
-      // Get local recipe model to verify it exists
-      final localRecipeModel = await recipeProvider.getRecipeById(recipeId);
-      if (localRecipeModel == null) {
-        AppLogger.debug(
-          "Local recipe ${AppLogger.sanitize(recipeId)} not found. Performing moderation.",
-        );
-        return true;
-      }
-
-      // Get the database entity to access moderation flag and timestamp
-      final localRecipeEntity = await (appDb.select(
-        appDb.recipes,
-      )..where((tbl) => tbl.id.equals(recipeId))).getSingleOrNull();
-
-      if (localRecipeEntity == null) {
-        AppLogger.debug(
-          "Local recipe entity ${AppLogger.sanitize(recipeId)} not found. Performing moderation.",
-        );
-        return true;
-      }
-
-      // If local recipe is flagged for moderation review, perform moderation
-      if (localRecipeEntity.needsModerationReview == true) {
-        AppLogger.debug(
-          "Recipe ${AppLogger.sanitize(recipeId)} flagged for moderation review. Performing moderation.",
-        );
-        return true;
-      }
-
-      // Compare timestamps using existing proven logic from DatabaseProvider._syncUserRecipes
-      final remoteLastModifiedStr = remoteData['last_modified'] as String?;
-      final remoteLastModified = remoteLastModifiedStr != null
-          ? DateTime.parse(remoteLastModifiedStr).toUtc()
-          : null;
-
-      final localLastModified = localRecipeEntity.lastModified?.toUtc();
-
-      // If local is newer than remote, perform moderation (recipe was modified locally)
-      if (localLastModified != null && remoteLastModified != null) {
-        if (localLastModified.isAfter(remoteLastModified)) {
-          AppLogger.debug(
-            "Recipe ${AppLogger.sanitize(recipeId)} was modified locally (local: ${localLastModified.toIso8601String()}, remote: ${remoteLastModified.toIso8601String()}). Performing moderation.",
-          );
-          return true;
-        } else {
-          AppLogger.debug(
-            "Recipe ${AppLogger.sanitize(recipeId)} is up-to-date with remote. Skipping moderation.",
-          );
-          return false;
-        }
-      }
-
-      // If we can't compare timestamps reliably, err on the side of caution
-      AppLogger.debug(
-        "Recipe ${AppLogger.sanitize(recipeId)} timestamp comparison inconclusive. Performing moderation.",
+      // Recheck visibility after the user confirms, in case it was withdrawn
+      // while they were viewing the preview.
+      final snapshot = await dbProvider.fetchFullPublicUserRecipeData(
+        sourceRecipeId,
       );
-      return true;
-    } catch (e) {
-      AppLogger.error(
-        "Error checking moderation status for recipe ${AppLogger.sanitize(recipeId)}",
-        errorObject: e,
+      if (!context.mounted ||
+          client.auth.currentUser?.id != user.id ||
+          snapshot == null) {
+        return RecipeImportResult(errorMessage: l10n.recipeImportFailedFetch);
+      }
+      final newLocalId = await userRecipeProvider.importSupabaseRecipe(
+        snapshot,
       );
-      return true; // Err on the side of caution
+      if (newLocalId == null) {
+        return RecipeImportResult(errorMessage: l10n.recipeImportFailedSave);
+      }
+      if (client.auth.currentUser?.id == user.id) {
+        await recipeProvider.fetchAllRecipes();
+        if (!user.isAnonymous) await dbProvider.syncUserRecipes(user.id);
+      }
+      return RecipeImportResult(newRecipeId: newLocalId);
+    } catch (error) {
+      AppLogger.error('Failed to import shared recipe', errorObject: error);
+      return RecipeImportResult(errorMessage: l10n.recipeImportFailedSave);
     }
   }
 
-  /// Handles the complete recipe sharing workflow
-  ///
-  /// This method handles:
-  /// 1. Authentication checks using AuthenticationService
-  /// 2. Content moderation via Supabase functions
-  /// 3. Making recipes public
-  /// 4. Share dialog positioning for different platforms
-  /// 5. Error handling and user feedback
   static Future<RecipeSharingResult> shareRecipe({
     required BuildContext context,
     required RecipeModel recipe,
     required String shareRecipeId,
   }) async {
     if (!context.mounted) {
-      return RecipeSharingResult.error('Context not mounted');
+      return const RecipeSharingResult.error('Context not mounted');
     }
     final l10n = AppLocalizations.of(context)!;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
-    // Track a potentially remapped id to propagate back to caller
-    String? resolvedIdFromRemediation;
 
     try {
-      // --- User Recipe Sharing Logic ---
       if (shareRecipeId.startsWith('usr-')) {
-        // 1. Check Authentication using AuthenticationService
-        final currentUser = Supabase.instance.client.auth.currentUser;
-        if (currentUser == null || currentUser.isAnonymous) {
-          AppLogger.debug(
-            'User not authenticated at start of share. Prompting sign-in...',
-          );
-          // Show prompt; may return before user completes email/OTP
-          final promptResult = await AuthenticationService.promptSignIn(
+        final client = Supabase.instance.client;
+        final user = client.auth.currentUser;
+        if (user == null || user.isAnonymous) {
+          if (user != null &&
+              !ownsUserRecipe(shareRecipeId, recipe.vendorId, user.id)) {
+            return RecipeSharingResult.error(l10n.recipeNotFoundCloud);
+          }
+          await AuthenticationService.promptSignIn(
             context,
             source: 'recipe_share',
             bodyText: l10n.signInRequiredBodyShare,
           );
-          if (!promptResult) {
-            AppLogger.debug('Sign-in cancelled by user. Aborting share.');
-            return RecipeSharingResult.error('Authentication required');
-          }
-          AppLogger.debug('Entering auth wait loop after promptSignIn');
-
-          // Wait until user becomes authenticated (non-anonymous) or timeout
-          const totalTimeout = Duration(minutes: 3);
-          const pollInterval = Duration(milliseconds: 300);
-          final start = DateTime.now();
-          bool authenticated = false;
-
-          while (DateTime.now().difference(start) < totalTimeout) {
-            final u = Supabase.instance.client.auth.currentUser;
-            if (u != null && !u.isAnonymous) {
-              AppLogger.debug(
-                'Auth check shows authenticated user: ${AppLogger.sanitize(u.id)}',
-              );
-              authenticated = true;
-              break;
-            }
-            // Try a quick peek at the stream for immediate events
-            try {
-              final evt = await Supabase
-                  .instance
-                  .client
-                  .auth
-                  .onAuthStateChange
-                  .first
-                  .timeout(const Duration(milliseconds: 1));
-              final streamUser = evt.session?.user;
-              if (streamUser != null && !streamUser.isAnonymous) {
-                AppLogger.debug(
-                  'Auth stream indicates authenticated user: ${AppLogger.sanitize(streamUser.id)}',
-                );
-                authenticated = true;
-                break;
-              }
-            } catch (_) {
-              // No immediate event; continue polling
-            }
-            await Future.delayed(pollInterval);
-          }
-
-          if (!authenticated) {
-            AppLogger.debug(
-              'Sign-in not completed within waiting window. Aborting share.',
-            );
-            if (context.mounted) {
-              scaffoldMessenger.showSnackBar(
-                SnackBar(
-                  content: Text(
-                    l10n.shareErrorGeneric('Authentication required'),
-                  ),
-                ),
-              );
-            }
-            return RecipeSharingResult.error('Authentication required');
-          }
+          // A real account switch rebuilds the account-scoped recipe library.
+          // The owner can share the migrated recipe from the signed-in library.
+          return const RecipeSharingResult.error('Authentication required');
         }
-
-        if (!context.mounted) {
-          return RecipeSharingResult.error('Context not mounted');
-        }
-        final dbProvider = Provider.of<DatabaseProvider>(
-          context,
-          listen: false,
-        );
-        final recipeProvider = Provider.of<RecipeProvider>(
-          context,
-          listen: false,
-        );
-        final appDb = Provider.of<AppDatabase>(context, listen: false);
-
-        // Ensure we have the latest user ID after potential sign-in/sync
-        final userId = Supabase.instance.client.auth.currentUser!.id;
-        AppLogger.debug(
-          'Proceeding with share as authenticated user: ${AppLogger.sanitize(userId)}',
-        );
-
-        // 2. Fetch Recipe Data from Supabase
-        AppLogger.debug(
-          "Fetching recipe ${AppLogger.sanitize(shareRecipeId)} for user ${AppLogger.sanitize(userId)} from Supabase...",
-        );
-        Map<String, dynamic>? response = await Supabase.instance.client
-            .from('user_recipes')
-            .select('*, user_recipe_localizations(*), user_steps(*)')
-            .eq('id', shareRecipeId)
-            .maybeSingle();
-
-        // If not found, attempt anonymous-to-signed-in remediation:
-        // derive usr-<currentUserId>-<timestamp> and create remote rows from local recipe data.
-        if (response == null && shareRecipeId.startsWith('usr-')) {
-          try {
-            AppLogger.debug(
-              "Supabase lookup returned null for ${AppLogger.sanitize(shareRecipeId)}. Attempting remediation for anonymous-to-signed-in sharing.",
-            );
-            // Prefer server-driven sync path first
-            try {
-              AppLogger.debug(
-                'Attempting pre-remediation syncUserRecipes(${AppLogger.sanitize(userId)})',
-              );
-              await dbProvider.syncUserRecipes(userId);
-              // Re-check original id after sync
-              response = await Supabase.instance.client
-                  .from('user_recipes')
-                  .select('*, user_recipe_localizations(*), user_steps(*)')
-                  .eq('id', shareRecipeId)
-                  .maybeSingle();
-            } catch (e) {
-              AppLogger.error(
-                'syncUserRecipes failed or not applicable',
-                errorObject: e,
-              );
-            }
-
-            // Extract timestamp from the original id (last hyphen-separated token)
-            final parts = shareRecipeId.split('-');
-            if (parts.length < 3) {
-              AppLogger.debug("Invalid usr-* id format, skip remediation.");
-            } else {
-              final timestamp = parts.last;
-              final derivedNewId = 'usr-$userId-$timestamp';
-              AppLogger.debug(
-                'Derived new cloud id for current user: ${AppLogger.sanitize(derivedNewId)}',
-              );
-
-              // Try to fetch local recipe for either original or derived id.
-              RecipeModel? localRecipe = await recipeProvider.getRecipeById(
-                derivedNewId,
-              );
-              if (localRecipe == null) {
-                localRecipe = await recipeProvider.getRecipeById(shareRecipeId);
-                if (localRecipe != null) {
-                  AppLogger.debug(
-                    'Found local recipe under old id=${AppLogger.sanitize(shareRecipeId)}; will push to cloud as ${AppLogger.sanitize(derivedNewId)}',
-                  );
-                }
-              } else {
-                AppLogger.debug(
-                  'Found local recipe already remapped to ${AppLogger.sanitize(derivedNewId)}',
-                );
-              }
-
-              if (localRecipe != null) {
-                // Build payloads from local model. Use at least one localization for current locale.
-                final currentLocale = WidgetsBinding
-                    .instance
-                    .platformDispatcher
-                    .locale
-                    .languageCode;
-
-                // Minimal user_recipes row payload
-                final userRecipePayload = {
-                  'id': derivedNewId,
-                  'brewing_method_id': localRecipe.brewingMethodId,
-                  'coffee_amount': localRecipe.coffeeAmount,
-                  'water_amount': localRecipe.waterAmount,
-                  'water_temp': localRecipe.waterTemp ?? 0.0,
-                  'brew_time': localRecipe.brewTime.inSeconds,
-                  'vendor_id': 'usr-$userId',
-                  'ispublic': false,
-                  'is_deleted': false,
-                  'import_id': localRecipe.importId,
-                  'is_imported': localRecipe.isImported,
-                  'original_author_id': localRecipe.originalAuthorId,
-                  'last_modified': DateTime.now().toUtc().toIso8601String(),
-                };
-
-                AppLogger.debug(
-                  'Ensuring user_recipes row for ${AppLogger.sanitize(derivedNewId)}',
-                );
-                final exists = await Supabase.instance.client
-                    .from('user_recipes')
-                    .select('id')
-                    .eq('id', derivedNewId)
-                    .maybeSingle();
-                if (exists == null) {
-                  await Supabase.instance.client
-                      .from('user_recipes')
-                      .insert(userRecipePayload);
-                } else {
-                  await Supabase.instance.client
-                      .from('user_recipes')
-                      .update(userRecipePayload)
-                      .eq('id', derivedNewId);
-                }
-
-                // Insert a single localization from the RecipeModel fields (generate id)
-                final locId = const Uuid().v4();
-                final locPayload = {
-                  'id': locId,
-                  'recipe_id': derivedNewId,
-                  'locale': currentLocale,
-                  'name': localRecipe.name,
-                  'grind_size': localRecipe.grindSize,
-                  'short_description': localRecipe.shortDescription,
-                };
-                AppLogger.debug(
-                  'Inserting user_recipe_localizations for ${AppLogger.sanitize(derivedNewId)} locale=$currentLocale',
-                );
-                await Supabase.instance.client
-                    .from('user_recipe_localizations')
-                    .insert(locPayload);
-
-                // Insert steps for this locale using the steps in the model (generate ids)
-                if (localRecipe.steps.isNotEmpty) {
-                  final stepsPayload = localRecipe.steps
-                      .map(
-                        (s) => {
-                          'id': const Uuid().v4(),
-                          'recipe_id': derivedNewId,
-                          'step_order': s.order,
-                          'description': s.description,
-                          'time': s.time.inSeconds.toString(),
-                          'locale': currentLocale,
-                        },
-                      )
-                      .toList();
-                  AppLogger.debug(
-                    'Inserting user_steps for ${AppLogger.sanitize(derivedNewId)} count=${stepsPayload.length} locale=$currentLocale',
-                  );
-                  await Supabase.instance.client
-                      .from('user_steps')
-                      .insert(stepsPayload);
-                } else {
-                  AppLogger.debug(
-                    'Local recipe has zero steps, skipping steps upsert',
-                  );
-                }
-
-                // Re-fetch from Supabase under the new id
-                AppLogger.debug(
-                  'Re-fetching created cloud recipe ${AppLogger.sanitize(derivedNewId)}',
-                );
-                response = await Supabase.instance.client
-                    .from('user_recipes')
-                    .select('*, user_recipe_localizations(*), user_steps(*)')
-                    .eq('id', derivedNewId)
-                    .maybeSingle();
-
-                if (response != null) {
-                  AppLogger.debug(
-                    'Remediation succeeded, continuing share with id=${AppLogger.sanitize(derivedNewId)}',
-                  );
-                  // Also update shareRecipeId variable to new id so share URL is correct
-                  shareRecipeId = derivedNewId;
-                  // Capture resolved id to inform caller
-                  resolvedIdFromRemediation = derivedNewId;
-                } else {
-                  AppLogger.error(
-                    'Remediation failed to verify created record for ${AppLogger.sanitize(derivedNewId)}',
-                  );
-                }
-              } else {
-                AppLogger.debug(
-                  'No local recipe found for either ${AppLogger.sanitize(derivedNewId)} or ${AppLogger.sanitize(shareRecipeId)}. Cannot remediate.',
-                );
-              }
-            }
-          } catch (remapError, remapStack) {
-            AppLogger.error(
-              'Error during remediation',
-              errorObject: remapError,
-              stackTrace: remapStack,
-            );
-          }
-        }
-
-        if (response == null) {
-          AppLogger.error(
-            "Recipe ${AppLogger.sanitize(shareRecipeId)} not found in Supabase or not owned by user ${AppLogger.sanitize(userId)}.",
-          );
-          if (context.mounted) {
-            scaffoldMessenger.showSnackBar(
-              SnackBar(content: Text(l10n.recipeNotFoundCloud)),
-            );
-          }
+        if (!ownsUserRecipe(shareRecipeId, recipe.vendorId, user.id)) {
           return RecipeSharingResult.error(l10n.recipeNotFoundCloud);
         }
 
-        final recipeData = response;
-        final bool isAlreadyPublic = recipeData['ispublic'] == true;
-
-        // Check if moderation is needed (combines public status, timestamp comparison, and local flag)
-        final bool needsModeration = await _needsModerationCheck(
-          recipeProvider: recipeProvider,
-          appDb: appDb,
-          recipeId: shareRecipeId,
-          isAlreadyPublic: isAlreadyPublic,
-          remoteData: recipeData,
-        );
-
-        // Only perform moderation and update if needed
-        if (needsModeration) {
-          AppLogger.debug(
-            "Recipe ${AppLogger.sanitize(shareRecipeId)} is not public yet. Performing moderation and update...",
-          );
-          final localizations =
-              recipeData['user_recipe_localizations'] as List<dynamic>? ?? [];
-          final steps = recipeData['user_steps'] as List<dynamic>? ?? [];
-
-          // 3. Prepare Moderation Text
-          final currentLocale =
-              WidgetsBinding.instance.platformDispatcher.locale.languageCode;
-          String combinedText = "";
-
-          final currentLocalization = localizations.firstWhere(
-            (loc) => loc['locale'] == currentLocale,
-            orElse: () => localizations.isNotEmpty ? localizations.first : null,
-          );
-
-          if (currentLocalization != null) {
-            combinedText += "${currentLocalization['name'] ?? ''}\n";
-            combinedText +=
-                "${currentLocalization['short_description'] ?? ''}\n";
-            combinedText += "${currentLocalization['grind_size'] ?? ''}\n";
-          }
-
-          final currentSteps = steps
-              .where((step) => step['locale'] == currentLocale)
-              .toList();
-          if (currentSteps.isEmpty && steps.isNotEmpty) {
-            final firstLocale = steps.first['locale'];
-            currentSteps.addAll(
-              steps.where((step) => step['locale'] == firstLocale),
-            );
-          }
-
-          for (var step in currentSteps) {
-            combinedText += "${step['description'] ?? ''}\n";
-          }
-
-          combinedText = combinedText.trim();
-
-          if (combinedText.isEmpty) {
-            AppLogger.warning(
-              "No text content found for moderation for recipe ${AppLogger.sanitize(shareRecipeId)}.",
-            );
-          } else {
-            AppLogger.debug(
-              "Calling content moderation for recipe ${AppLogger.sanitize(shareRecipeId)}...",
-            );
-            // 4. Call Moderation Function
-            final moderationResponse = await Supabase.instance.client.functions
-                .invoke(
-                  'content-moderation',
-                  body: {
-                    'text': combinedText,
-                    'surface': ModerationSurfaces.recipe,
-                  },
-                );
-
-            AppLogger.debug(
-              "Moderation response status: ${moderationResponse.status}",
-            );
-            AppLogger.debug(
-              "Moderation response data: ${AppLogger.sanitize(moderationResponse.data)}",
-            );
-
-            if (moderationResponse.status != 200 ||
-                moderationResponse.data == null) {
-              if (context.mounted) {
-                scaffoldMessenger.showSnackBar(
-                  SnackBar(content: Text(l10n.moderationErrorFunction)),
-                );
-              }
-              return RecipeSharingResult.error(l10n.moderationErrorFunction);
-            }
-
-            final moderationResult =
-                moderationResponse.data as Map<String, dynamic>;
-            if (moderationResult['safe'] != true) {
-              final reason =
-                  moderationResult['reason'] ?? l10n.moderationReasonDefault;
-              // Show specific error dialog
-              if (!context.mounted) {
-                return RecipeSharingResult.error(
-                  'Content moderation failed: $reason',
-                );
-              }
-              final outerContext = context;
-              await showDialog(
-                context: context,
-                builder: (dialogContext) => AlertDialog(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppRadius.card),
-                  ),
-                  title: Text(l10n.moderationFailedTitle),
-                  content: Text(l10n.moderationFailedBody(reason)),
-                  actions: [
-                    AppTextButton(
-                      label: l10n.moderationRulesLearnMore,
-                      onPressed: () {
-                        Navigator.pop(dialogContext);
-                        if (outerContext.mounted) {
-                          outerContext.router.push(
-                            InfoRoute(section: 'moderation'),
-                          );
-                        }
-                      },
-                      isFullWidth: false,
-                      height: AppButton.heightSmall,
-                      padding: AppButton.paddingSmall,
-                    ),
-                    AppTextButton(
-                      label: l10n.ok,
-                      onPressed: () => Navigator.pop(dialogContext),
-                      isFullWidth: false,
-                      height: AppButton.heightSmall,
-                      padding: AppButton.paddingSmall,
-                    ),
-                  ],
-                ),
-              );
-              return RecipeSharingResult.error(
-                'Content moderation failed: $reason',
-              );
-            }
-            AppLogger.debug(
-              "Moderation passed for recipe ${AppLogger.sanitize(shareRecipeId)}.",
-            );
-          }
-
-          // Clear the moderation flag since moderation passed
-          await dbProvider.clearNeedsModerationReview(shareRecipeId);
-          AppLogger.debug(
-            "Cleared moderation flag for recipe ${AppLogger.sanitize(shareRecipeId)}.",
-          );
-          AppLogger.security(
-            "Moderation passed for ${AppLogger.sanitize(shareRecipeId)} - flag cleared before setting isPublic=true",
-          );
-
-          // 5. Make Public (only if moderation passed and it wasn't already public)
-          AppLogger.debug(
-            "Setting recipe ${AppLogger.sanitize(shareRecipeId)} to public...",
-          );
-          await Supabase.instance.client
-              .from('user_recipes')
-              .update({
-                'ispublic': true,
-                'needs_moderation_review': false, // Explicitly clear the flag
-                'last_modified': DateTime.now().toUtc().toIso8601String(),
-              })
-              .eq('id', shareRecipeId);
-        } else {
-          AppLogger.debug(
-            "Recipe ${AppLogger.sanitize(shareRecipeId)} is already public. Skipping moderation and update.",
-          );
+        final dbProvider = context.read<DatabaseProvider>();
+        final prefs = await SharedPreferences.getInstance();
+        if (!context.mounted) {
+          return const RecipeSharingResult.error('Context not mounted');
         }
-      } // --- End of User Recipe Sharing Logic ---
+        if (prefs.getBool(pendingRecipeWithdrawalKey(user.id, shareRecipeId)) ==
+            true) {
+          scaffoldMessenger.showSnackBar(
+            SnackBar(content: Text(l10n.recipeUnpublishPending)),
+          );
+          return RecipeSharingResult.error(l10n.recipeUnpublishPending);
+        }
+        final response = await dbProvider.publishRecipeRevision(
+          shareRecipeId,
+          user.id,
+        );
+        if (!context.mounted || client.auth.currentUser?.id != user.id) {
+          return const RecipeSharingResult.error('Authentication required');
+        }
+        if (!response.published) {
+          final message = response.reason == null
+              ? l10n.moderationErrorFunction
+              : l10n.moderationFailedBody(response.reason!);
+          scaffoldMessenger.showSnackBar(SnackBar(content: Text(message)));
+          return RecipeSharingResult.error(message);
+        }
+      }
 
       // --- Actual Sharing ---
       if (!context.mounted) {
@@ -936,9 +278,7 @@ class RecipeImportSharingService {
         ShareParams(text: textToShare, sharePositionOrigin: shareOrigin),
       );
 
-      return RecipeSharingResult.success(
-        resolvedRecipeId: resolvedIdFromRemediation,
-      );
+      return RecipeSharingResult.success();
     } catch (e, stacktrace) {
       AppLogger.error(
         "Error during sharing process",

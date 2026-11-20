@@ -143,7 +143,7 @@ void main() {
       expect(request.uri.queryParameters['redirect_to'], 'timercoffee://');
     });
 
-    test('request maps email_exists', () async {
+    test('request preserves address privacy on email_exists', () async {
       final requests = <_RecordedRequest>[];
       final auth = await _seededAuth(
         requests,
@@ -153,7 +153,7 @@ void main() {
 
       expect(
         await _service(auth).requestEmailChange('new@example.com'),
-        EmailChangeRequest.emailTaken,
+        EmailChangeRequest.sent,
       );
     });
 

@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:io';
+import 'utils/notification_tap_links.dart';
 import 'package:coffee_timer/config/network_timeouts.dart';
 import 'package:coffee_timer/config/supabase_endpoint_resolver.dart';
+import 'package:coffee_timer/database/account_data_store.dart';
 import 'package:coffee_timer/database/database.dart';
 import 'package:coffee_timer/env/env.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
@@ -121,161 +123,12 @@ class SupabaseLogInterceptor {
   }
 }
 
-/// Top-level function to launch external URLs with delayed execution
-/// This is used by _checkPendingUrlLaunch during app initialization
-Future<void> _launchExternalUrlTopLevel(Uri uri) async {
-  try {
-    // Enhanced logging for URL launch process
-    AppLogger.debug('Starting external URL launch process (top-level): $uri');
-    AppLogger.debug('Current platform: $defaultTargetPlatform');
-    AppLogger.debug('App state: ${WidgetsBinding.instance.lifecycleState}');
-
-    // Ensure the app is fully initialized before launching URL
-    // This is critical for reliability when app is launched from terminated state
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      try {
-        AppLogger.debug('App frame ready, proceeding with URL launch: $uri');
-
-        // Use platform-appropriate launch modes
-        final launchModes = _getLaunchModesForPlatform();
-        AppLogger.debug('Available launch modes for platform: $launchModes');
-
-        // Track launch attempts for better debugging
-        int attemptNumber = 0;
-        final totalAttempts = launchModes.length + 1; // +1 for default mode
-
-        for (final mode in launchModes) {
-          attemptNumber++;
-          try {
-            AppLogger.debug(
-              'Launch attempt $attemptNumber/$totalAttempts: mode=$mode, uri=$uri',
-            );
-            final launched = await launchUrl(uri, mode: mode);
-            if (launched) {
-              AppLogger.debug(
-                'Successfully launched external URL: $uri in mode: $mode (attempt $attemptNumber/$totalAttempts)',
-              );
-              return;
-            } else {
-              AppLogger.warning(
-                'URL launch returned false in mode $mode: $uri (attempt $attemptNumber/$totalAttempts)',
-              );
-            }
-          } catch (e) {
-            AppLogger.warning(
-              'Failed to launch URL in $mode: $uri (attempt $attemptNumber/$totalAttempts)',
-              errorObject: e,
-            );
-          }
-        }
-
-        // If all launch modes failed, try the default mode
-        attemptNumber++;
-        AppLogger.debug(
-          'Final attempt $attemptNumber/$totalAttempts: trying default launch mode',
-        );
-        final defaultLaunched = await launchUrl(uri);
-        if (!defaultLaunched) {
-          AppLogger.warning(
-            'Failed to open external URL with all $totalAttempts launch modes: $uri',
-          );
-        } else {
-          AppLogger.debug(
-            'Successfully launched external URL with default mode: $uri',
-          );
-        }
-      } catch (e) {
-        AppLogger.error(
-          'Error during delayed URL launch: $uri',
-          errorObject: e,
-        );
-      }
-    });
-  } catch (e) {
-    AppLogger.error(
-      'Error scheduling external URL launch: $uri',
-      errorObject: e,
-    );
-  }
-}
-
-Future<void> _checkPendingUrlLaunch(SharedPreferences prefs) async {
-  try {
-    AppLogger.debug(
-      'Checking for pending external URL launch (iOS terminated state recovery)',
-    );
-
-    final pendingUrl = prefs.getString('pending_external_url');
-    if (pendingUrl != null && pendingUrl.isNotEmpty) {
-      AppLogger.debug(
-        'Found pending external URL from iOS terminated state: $pendingUrl',
-      );
-      AppLogger.debug(
-        'Attempting to launch pending URL during app initialization',
-      );
-
-      final uri = Uri.tryParse(pendingUrl);
-      if (uri != null) {
-        try {
-          AppLogger.debug('Pending URL parsed successfully: $uri');
-
-          // Use the top-level URL launch function which handles delayed execution
-          await _launchExternalUrlTopLevel(uri);
-
-          // Clean up after successful launch attempt
-          AppLogger.debug('Cleaning up pending URL after launch attempt');
-          await prefs.remove('pending_external_url');
-        } catch (e) {
-          AppLogger.error(
-            'Error launching pending external URL during app init: $uri',
-            errorObject: e,
-          );
-          // Clean up even if launch failed to prevent retry loops
-          await prefs.remove('pending_external_url');
-        }
-      } else {
-        AppLogger.warning(
-          'Pending URL failed to parse, cleaning up: $pendingUrl',
-        );
-        await prefs.remove('pending_external_url');
-      }
-    } else {
-      AppLogger.debug('No pending external URL found (normal app launch)');
-    }
-  } catch (e) {
-    AppLogger.error(
-      'Error checking pending URL launch during app initialization',
-      errorObject: e,
-    );
-  }
-}
-
 /// Plan 079: the AI recipe review was removed. Drop its stored toggle and
 /// consent so a future feature can never inherit them. Removing a missing
 /// key is a no-op, so this is safe to run on every launch.
 Future<void> _removeRetiredAiReviewPrefs(SharedPreferences prefs) async {
   await prefs.remove('recipe_ai_review_enabled');
   await prefs.remove('recipe_ai_review_consent_accepted');
-}
-
-List<LaunchMode> _getLaunchModesForPlatform() {
-  if (kIsWeb) {
-    return const [LaunchMode.platformDefault];
-  } else if (defaultTargetPlatform == TargetPlatform.android) {
-    // Android: prefer external browser, fallback to in-app browser
-    return const [
-      LaunchMode.externalApplication,
-      LaunchMode.externalNonBrowserApplication,
-      LaunchMode.inAppBrowserView,
-      LaunchMode.inAppWebView,
-    ];
-  } else if (defaultTargetPlatform == TargetPlatform.iOS) {
-    // iOS: prefer external browser, fallback to SFSafariViewController
-    return const [LaunchMode.externalApplication, LaunchMode.inAppBrowserView];
-  } else {
-    // Desktop and other platforms
-    return const [LaunchMode.externalApplication];
-  }
 }
 
 /// Coffee Journey "turn on brew updates" milestone (2026-11-15).
@@ -295,8 +148,9 @@ List<LaunchMode> _getLaunchModesForPlatform() {
 /// replay would fire a duplicate completion for users already on. With it,
 /// the replay lands on an already-completed milestone whose guard makes it a
 /// no-op.
-Future<void> _syncNotificationMilestone(
+Future<StreamSubscription<bool>?> _syncNotificationMilestone(
   OnboardingService onboardingService,
+  bool Function() isCurrent,
 ) async {
   try {
     // All three calls are web-safe: isMasterEnabled reads prefs only, and the
@@ -304,11 +158,14 @@ Future<void> _syncNotificationMilestone(
     // no OS permission and the card never shows the milestone row).
     final notificationsOn =
         await NotificationSettingsService.instance.isMasterEnabled() &&
-            await NotificationService
-                .instance.permissions.hasNotificationPermission;
+        await NotificationService
+            .instance
+            .permissions
+            .hasNotificationPermission;
     final osDenied = await NotificationAskService(
       prefs: await SharedPreferences.getInstance(),
     ).isOsDenied();
+    if (!isCurrent()) return null;
     await onboardingService.syncNotificationMilestone(
       notificationsOn: notificationsOn,
       osDenied: osDenied,
@@ -320,14 +177,16 @@ Future<void> _syncNotificationMilestone(
     );
   }
   try {
-    NotificationSettingsService.instance.masterChanges.listen((on) {
-      if (on) onboardingService.completeMilestoneNotifications();
+    if (!isCurrent()) return null;
+    return NotificationSettingsService.instance.masterChanges.listen((on) {
+      if (on && isCurrent()) onboardingService.completeMilestoneNotifications();
     });
   } catch (e) {
     AppLogger.error(
       'Failed to listen for master notification toggle changes',
       errorObject: e,
     );
+    return null;
   }
 }
 
@@ -454,6 +313,14 @@ void main() async {
     // This matters in regions where Cloudflare (Supabase's edge) is throttled/blocked.
   }
 
+  final prefs = await SharedPreferences.getInstance();
+  final accountDataStore = AccountDataStore(
+    auth: Supabase.instance.client.auth,
+    prefs: prefs,
+    supabaseUrl: supabaseUrl,
+    supabaseKey: Env.supaKey,
+  );
+
   // Check if there is an existing session or logged-in user
   final session = Supabase.instance.client.auth.currentSession;
   if (session == null) {
@@ -463,14 +330,9 @@ void main() async {
     // hang the splash screen. On failure/timeout we continue offline — remote
     // features degrade gracefully and the local DB is seeded from bundled assets.
     try {
-      final authResult = await Supabase.instance.client.auth
-          .signInAnonymously()
-          .timeout(NetworkTimeouts.handshake);
-      if (authResult.user == null) {
-        // Handle error
-      } else {
-        // Successfully signed in
-      }
+      await accountDataStore.startAnonymousSession().timeout(
+        NetworkTimeouts.handshake,
+      );
     } catch (e) {
       AppLogger.error(
         'Anonymous sign-in failed or timed out; continuing offline',
@@ -486,12 +348,6 @@ void main() async {
     }
   }
 
-  // Fire-and-forget: record whether this session reached Supabase directly or
-  // via the reverse proxy (deduped to one report per device per day). Runs after
-  // the endpoint is resolved and auth is attempted, so it routes through the
-  // same active endpoint.
-  unawaited(ConnectionAnalyticsService.reportConnectionType());
-
   final user = Supabase.instance.client.auth.currentUser;
   if (!kIsWeb && user != null) {
     // Note: NotificationService will be initialized lazily when first accessed
@@ -500,18 +356,12 @@ void main() async {
       'User authenticated, notifications will be setup when enabled',
     );
   }
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  final previousAppVersionAtLaunch = prefs.getString('previous_app_version');
 
-  // Check for pending external URL launch (iOS terminated state fix)
-  await _checkPendingUrlLaunch(prefs);
+  // Older clients saved URLs upon receipt, before a notification was tapped.
+  await discardLegacyNotificationLaunch(prefs);
 
   // Remove preferences left over from the removed AI recipe review feature
   await _removeRetiredAiReviewPrefs(prefs);
-
-  bool isFirstLaunch = prefs.getBool('firstLaunched') ?? true;
-  bool hasPerformedUuidBackfill =
-      prefs.getBool('hasPerformedUuidBackfill') ?? false;
 
   // Determine platform/build for feature flags
   final packageInfo = await PackageInfo.fromPlatform();
@@ -529,18 +379,125 @@ void main() async {
     buildNumber: buildNumber,
     fetchTimeout: NetworkTimeouts.handshake,
   );
-  // Kick off refresh but don't block startup
-  unawaited(featureFlagsRepository.refresh());
-
-  final AppDatabase database = AppDatabase.withDefault(
-    enableForeignKeyConstraints: !isFirstLaunch,
+  final refreshFlags = featureFlagsRepository.refresh();
+  await AnalyticsService.initialize(
+    prefs,
+    featureFlags: featureFlagsRepository,
+    ingestionBaseUrl: supabaseUrl,
+  );
+  unawaited(
+    refreshFlags.then((_) => ConnectionAnalyticsService.reportConnectionType()),
   );
 
+  usePathUrlStrategy();
+  runApp(
+    _AccountPartitionApp(
+      store: accountDataStore,
+      featureFlags: featureFlagsRepository,
+    ),
+  );
+}
+
+/// Recreate the router and providers together on an identity change. This also
+/// drops navigation stacks and cached screen results from the previous account.
+class _AccountPartitionApp extends StatefulWidget {
+  const _AccountPartitionApp({required this.store, required this.featureFlags});
+
+  final AccountDataStore store;
+  final FeatureFlagsRepository featureFlags;
+
+  @override
+  State<_AccountPartitionApp> createState() => _AccountPartitionAppState();
+}
+
+class _AccountPartitionAppState extends State<_AccountPartitionApp> {
+  late String? _owner;
+  late Future<CoffeeTimerApp?> _app;
+  StreamSubscription<AuthState>? _authSubscription;
+  int _generation = 0;
+  bool _reportedOpen = false;
+
+  void _prepare() {
+    _owner = widget.store.currentUserId;
+    final generation = ++_generation;
+    _app = _prepareAccountApp(
+      widget.store,
+      widget.featureFlags,
+      () =>
+          mounted &&
+          generation == _generation &&
+          _owner == widget.store.currentUserId,
+      () {
+        if (_reportedOpen) return false;
+        _reportedOpen = true;
+        return true;
+      },
+    ).whenComplete(FlutterNativeSplash.remove);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _prepare();
+    _authSubscription = widget.store.auth.onAuthStateChange.listen(
+      (_) {
+        if (_owner != widget.store.currentUserId) setState(_prepare);
+      },
+      onError: (Object e) {
+        AppLogger.warning('Could not observe auth state', errorObject: e);
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _authSubscription?.cancel();
+    widget.featureFlags.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => FutureBuilder<CoffeeTimerApp?>(
+    future: _app,
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.done &&
+          _owner == widget.store.currentUserId &&
+          snapshot.data != null) {
+        return snapshot.data!;
+      }
+      return MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: Scaffold(
+          body: Center(
+            child: snapshot.hasError
+                ? Builder(
+                    builder: (context) => AppElevatedButton(
+                      label: AppLocalizations.of(context)!.retry,
+                      onPressed: () => setState(_prepare),
+                    ),
+                  )
+                : const CircularProgressIndicator(),
+          ),
+        ),
+      );
+    },
+  );
+}
+
+Future<CoffeeTimerApp?> _prepareAccountApp(
+  AccountDataStore store,
+  FeatureFlagsRepository featureFlagsRepository,
+  bool Function() isCurrent,
+  bool Function() reportAppOpen,
+) async {
+  final database = await store.openCurrent();
+  if (!isCurrent()) return null;
+  final prefs = store.prefs;
+  final isFirstLaunch = prefs.getBool('firstLaunched') ?? true;
+  final previousAppVersionAtLaunch = prefs.getString('previous_app_version');
   final supportedLocalesDao = SupportedLocalesDao(database);
   final brewingMethodsDao = BrewingMethodsDao(database);
-
-  // Initialize databaseProvider before passing it to CoffeeTimerApp
-  // Defer fetching until after database initialization
 
   String themeModeString = prefs.getString('themeMode') ?? 'system';
   ThemeMode themeMode = ThemeMode.values.firstWhere(
@@ -559,7 +516,7 @@ void main() async {
     }
   }
   Locale systemLocale = Locale(
-    WidgetsBinding.instance.window.locale.languageCode,
+    WidgetsBinding.instance.platformDispatcher.locale.languageCode,
   );
   // Choose an initial locale BEFORE DB init so first-launch uses correct language.
   // Constrain to generated l10n locales to avoid empty/unsynced DB lists on first run.
@@ -574,6 +531,11 @@ void main() async {
   }
 
   final DatabaseProvider databaseProvider = DatabaseProvider(database);
+  final owner = database.accountScope?.userId;
+  if (owner != null) {
+    await store.recoverLegacyRecipes(owner);
+  }
+  if (!isCurrent()) return null;
   await databaseProvider.initializeDatabase(
     isFirstLaunch: isFirstLaunch,
     locale: initialLocale.languageCode,
@@ -599,6 +561,7 @@ void main() async {
   )) {
     initialLocale = const Locale('en');
   }
+  if (!isCurrent()) return null;
   ResolvedAppLocale.languageCode.value = initialLocale.languageCode;
   if (!kIsWeb) {
     // NotificationService is initialized before Supabase, so its startup
@@ -608,7 +571,6 @@ void main() async {
   }
 
   final appRouter = AppRouter();
-  usePathUrlStrategy();
 
   final coffeeBeansProvider = CoffeeBeansProvider(database, databaseProvider);
   final userStatProvider = UserStatProvider(database, coffeeBeansProvider);
@@ -622,24 +584,11 @@ void main() async {
   // orphan-recovery pass at launch racing a later FinishScreen mount.
   final brewRecordingService = BrewRecordingService();
 
-  // Initialize analytics (non-blocking, fire-and-forget)
-  final analyticsService = await AnalyticsService.initialize(prefs);
-
-  // Wire up feature flags kill switch for analytics
-  featureFlagsRepository.stream.listen((flags) {
-    final analyticsEnabled = flags['analyticsEnabled'] ?? true;
-    analyticsService.setGlobalKillSwitch(!analyticsEnabled);
-  });
-
-  if (!hasPerformedUuidBackfill) {
-    // Perform legacy user-stat backfill operations. Coffee bean UUIDs are
-    // guaranteed by the migrated database schema and non-null model contract.
-    await userStatProvider.backfillMissingStatUuids();
-    await userStatProvider.backfillMissingCoffeeBeansUuids();
-
-    // Mark backfill as completed
-    await prefs.setBool('hasPerformedUuidBackfill', true);
-  }
+  final catalogRecipes = await database.recipesDao
+      .fetchIdsAndLastModifiedDates();
+  if (!isCurrent()) return null;
+  final analyticsService = AnalyticsService.instance;
+  analyticsService.setCatalogRecipeIds(catalogRecipes.keys);
   try {
     await Future.wait([
       databaseProvider
@@ -670,6 +619,7 @@ void main() async {
     // Continue app startup even if sync fails
   }
 
+  if (!isCurrent()) return null;
   final onboardingSnapshot =
       await OnboardingReconciliationSnapshot.fromPersistence(
         database: database,
@@ -677,14 +627,9 @@ void main() async {
         isFirstLaunch: isFirstLaunch,
         previousAppVersion: previousAppVersionAtLaunch,
       );
+  if (!isCurrent()) return null;
   await onboardingService.reconcileState(onboardingSnapshot);
-
-  // Coffee Journey "turn on brew updates" milestone: reconcile once at
-  // startup, then follow the master toggle for the app's lifetime (see
-  // _syncNotificationMilestone). NotificationService is initialized above
-  // (non-web) and NotificationSettingsService lazily initializes itself, so
-  // both are ready here.
-  unawaited(_syncNotificationMilestone(onboardingService));
+  if (!isCurrent()) return null;
 
   AppLogger.debug('Supported locales (effective): $effectiveSupportedLocales');
   AppLogger.debug('Initial locale chosen: $initialLocale');
@@ -697,7 +642,8 @@ void main() async {
     // Continue app startup even if migration fails
   }
 
-  // Reschedule engagement notifications on every app open (self-healing)
+  if (!isCurrent()) return null;
+  // Reschedule engagement notifications for the selected partition.
   unawaited(
     LocalNotificationSchedulerService.instance.rescheduleAll(
       database: database,
@@ -707,50 +653,52 @@ void main() async {
   );
 
   // Track app open
-  final exactAlarms =
-      kIsWeb ? true : await ExactAlarmService.canScheduleExactAlarms();
-  analyticsService.track(
-    'app_opened',
-    properties: {
-      'locale': initialLocale.languageCode,
-      'is_first_launch': isFirstLaunch,
-      'exact_alarms': exactAlarms,
-      'pour_layout_enabled':
-          prefs.getBool(AdvancedFeaturesService.kPourLayoutKey) ?? false,
-      'layout_arm':
-          prefs.getString(AdvancedFeaturesService.kLayoutArmKey) ?? 'none',
-    },
-  );
-
-  runApp(
-    CoffeeTimerApp(
-      database: database,
-      databaseProvider: databaseProvider,
-      supportedLocales: effectiveSupportedLocales,
-      brewingMethods: brewingMethods,
-      initialLocale: initialLocale,
-      themeMode: themeMode,
-      appRouter: appRouter,
-      coffeeBeansProvider: coffeeBeansProvider,
-      userStatProvider: userStatProvider,
-      beansStatsProvider: beansStatsProvider,
-      featureFlagsRepository: featureFlagsRepository,
-      onboardingService: onboardingService,
-      analyticsService: analyticsService,
-      momentsService: momentsService,
-      brewRecordingService: brewRecordingService,
-      prefs: prefs,
-    ),
-  );
-
+  final exactAlarms = kIsWeb
+      ? true
+      : await ExactAlarmService.canScheduleExactAlarms();
+  if (!isCurrent()) return null;
+  if (reportAppOpen()) {
+    analyticsService.track(
+      'app_opened',
+      properties: {
+        'locale': initialLocale.languageCode,
+        'is_first_launch': isFirstLaunch,
+        'exact_alarms': exactAlarms,
+        'pour_layout_enabled':
+            prefs.getBool(AdvancedFeaturesService.kPourLayoutKey) ?? false,
+        'layout_arm':
+            prefs.getString(AdvancedFeaturesService.kLayoutArmKey) ?? 'none',
+      },
+    );
+  }
   if (isFirstLaunch) {
     await prefs.setBool('firstLaunched', false);
   }
 
-  FlutterNativeSplash.remove();
+  return CoffeeTimerApp(
+    key: ValueKey(database.accountScope?.partitionId),
+    accountDataStore: store,
+    database: database,
+    databaseProvider: databaseProvider,
+    supportedLocales: effectiveSupportedLocales,
+    brewingMethods: brewingMethods,
+    initialLocale: initialLocale,
+    themeMode: themeMode,
+    appRouter: appRouter,
+    coffeeBeansProvider: coffeeBeansProvider,
+    userStatProvider: userStatProvider,
+    beansStatsProvider: beansStatsProvider,
+    featureFlagsRepository: featureFlagsRepository,
+    onboardingService: onboardingService,
+    analyticsService: analyticsService,
+    momentsService: momentsService,
+    brewRecordingService: brewRecordingService,
+    prefs: prefs,
+  );
 }
 
 class CoffeeTimerApp extends StatefulWidget {
+  final AccountDataStore accountDataStore;
   final AppDatabase database;
   final DatabaseProvider databaseProvider;
   final List<Locale> supportedLocales;
@@ -770,6 +718,7 @@ class CoffeeTimerApp extends StatefulWidget {
 
   const CoffeeTimerApp({
     super.key,
+    required this.accountDataStore,
     required this.database,
     required this.databaseProvider,
     required this.supportedLocales,
@@ -796,12 +745,28 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
     with WidgetsBindingObserver {
   StreamSubscription<String?>? _notificationTapSubscription;
   StreamSubscription<AuthState>? _authStateSubscription;
+  StreamSubscription<bool>? _notificationMilestoneSubscription;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _setupNotificationTapHandler();
+    unawaited(
+      _syncNotificationMilestone(
+        widget.onboardingService,
+        () =>
+            mounted &&
+            widget.database.accountScope?.userId ==
+                widget.accountDataStore.currentUserId,
+      ).then((subscription) {
+        if (mounted) {
+          _notificationMilestoneSubscription = subscription;
+        } else {
+          unawaited(subscription?.cancel());
+        }
+      }),
+    );
     if (kIsWeb) {
       _setupPendingWebSignInResume();
     }
@@ -815,14 +780,16 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
       // On iOS, hold background time until the send finishes so the app
       // is not suspended with events still in memory.
       unawaited(
-        IosBackgroundTaskService.instance
-            .runWithBackgroundTime(widget.analyticsService.flushNow),
+        IosBackgroundTaskService.instance.runWithBackgroundTime(
+          widget.analyticsService.flushNow,
+        ),
       );
     } else if (state == AppLifecycleState.resumed) {
       unawaited(
         LocalNotificationSchedulerService.instance
             .rescheduleMorningReminderOnResume(
-              locale: ResolvedAppLocale.languageCode.value ??
+              locale:
+                  ResolvedAppLocale.languageCode.value ??
                   widget.initialLocale.languageCode,
             ),
       );
@@ -834,7 +801,7 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
     WidgetsBinding.instance.removeObserver(this);
     _notificationTapSubscription?.cancel();
     _authStateSubscription?.cancel();
-    widget.featureFlagsRepository.dispose();
+    _notificationMilestoneSubscription?.cancel();
     super.dispose();
   }
 
@@ -879,18 +846,15 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
   }
 
   void _setupNotificationTapHandler() {
-    _notificationTapSubscription = NotificationService
-        .instance
-        .onNotificationTapped
-        .listen((payload) {
-          final deepLink = payload?.trim();
-          if (deepLink == null || deepLink.isEmpty) return;
-
-          // Ensure router is attached before navigating/launching.
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            unawaited(_handleNotificationDeepLink(deepLink));
-          });
+    _notificationTapSubscription = consumeNotificationTapLinks(
+      NotificationService.instance.onNotificationTapped,
+      (link) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) unawaited(_handleNotificationDeepLink(link));
         });
+        WidgetsBinding.instance.ensureVisualUpdate();
+      },
+    );
   }
 
   Future<void> _handleNotificationDeepLink(String deepLink) async {
@@ -900,24 +864,19 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
 
       // NEW: Enhanced logging for link processing
       final uri = Uri.tryParse(deepLink);
-      final isExternalUrl =
-          uri != null &&
-          uri.isAbsolute &&
-          (uri.scheme.toLowerCase() == 'https' ||
-              uri.scheme.toLowerCase() == 'http') &&
-          uri.host.isNotEmpty;
+      final externalUri = validatedExternalNotificationUri(deepLink);
 
       AppLogger.debug(
-        'Link processing details - deepLink: $deepLink, isExternalUrl: $isExternalUrl, uriScheme: ${uri?.scheme}, uriHost: ${uri?.host}',
+        'Link processing details - deepLink: $deepLink, isExternalUrl: ${externalUri != null}, uriScheme: ${uri?.scheme}, uriHost: ${uri?.host}',
       );
 
       // Prioritize external URLs - open in browser immediately
-      if (isExternalUrl) {
+      if (externalUri != null) {
         AppLogger.info(
           '🌐 EXTERNAL URL: Detected external URL, launching browser: $deepLink',
         );
         AppLogger.info('🌐 EXTERNAL URL: Platform: $defaultTargetPlatform');
-        await _launchExternalUrl(uri);
+        await _launchExternalUrl(externalUri);
         return;
       }
 
@@ -934,12 +893,11 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
           final focus = beansUri?.queryParameters['focus'];
           final trigger = beansUri?.queryParameters['t'];
 
-          // Track tap with bean attribution for engagement analytics
+          // The bean stays in local routing and attribution state.
           AnalyticsService.instance.track(
             'notification_tapped',
             properties: {
               'notification_type': notificationType,
-              if (uuid.isNotEmpty) 'bean_uuid': uuid,
               'trigger': ?trigger,
             },
           );
@@ -966,7 +924,7 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
             );
             await _completeOnboardingForInternalRoute(
               Uri(path: '/beans/$uuid'),
-              isValidInternalRoute: true,
+              routeName: CoffeeBeansDetailRoute.name,
             );
             await widget.appRouter.push(
               CoffeeBeansDetailRoute(uuid: uuid, focusSection: focus),
@@ -1064,6 +1022,9 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
   }
 
   Future<void> _launchExternalUrl(Uri uri) async {
+    if (!mounted || validatedExternalNotificationUri(uri.toString()) == null) {
+      return;
+    }
     try {
       // Enhanced logging for URL launch process
       AppLogger.info('🚀 URL LAUNCH: Starting external URL launch process');
@@ -1077,6 +1038,7 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
       // This is critical for reliability when app is launched from terminated state
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         try {
+          if (!mounted) return;
           AppLogger.info(
             '🚀 URL LAUNCH: App frame ready, proceeding with URL launch: $uri',
           );
@@ -1143,6 +1105,7 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
           _showUrlLaunchError(uri);
         }
       });
+      WidgetsBinding.instance.ensureVisualUpdate();
     } catch (e, stackTrace) {
       AppLogger.error(
         '❌ URL LAUNCH ERROR: Error scheduling external URL launch: $uri',
@@ -1211,14 +1174,13 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
     try {
       final uri = Uri.tryParse(routePath);
       if (uri != null) {
-        final isValidInternalRoute =
-            widget.appRouter
-                .buildPageRoutesStack(routePath, includePrefixMatches: false)
-                ?.isNotEmpty ??
-            false;
+        final routeStack = widget.appRouter.buildPageRoutesStack(
+          routePath,
+          includePrefixMatches: false,
+        );
         final decision = await _completeOnboardingForInternalRoute(
           uri,
-          isValidInternalRoute: isValidInternalRoute,
+          routeName: routeStack?.lastOrNull?.flattened.last.routeName,
         );
         if (decision == OnboardingRouteGateDecision.showOnboarding) {
           await widget.appRouter.push(const OnboardingRoute());
@@ -1234,11 +1196,11 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
 
   Future<OnboardingRouteGateDecision> _completeOnboardingForInternalRoute(
     Uri uri, {
-    required bool isValidInternalRoute,
+    required String? routeName,
   }) async {
     final decision = widget.onboardingService.routeGateDecisionForUri(
       uri,
-      isValidInternalRoute: isValidInternalRoute,
+      isValidInternalRoute: routeName != null,
     );
 
     if (decision == OnboardingRouteGateDecision.skipOnboarding) {
@@ -1246,7 +1208,7 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
         'onboarding_completed',
         properties: {
           'completion_type': 'deep_link_skipped',
-          'path': OnboardingService.normalizedRoutePath(uri),
+          'screen_name': ?routeName,
         },
       );
       await widget.onboardingService.completeOnboarding();
@@ -1259,6 +1221,7 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        Provider<AccountDataStore>.value(value: widget.accountDataStore),
         Provider<AppDatabase>.value(value: widget.database),
         ChangeNotifierProvider<RecipeProvider>(
           create: (_) => RecipeProvider(
@@ -1353,13 +1316,11 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
         ChangeNotifierProvider<RecommendationProvider>(
           create: (_) {
             final regionService = RegionService(Supabase.instance.client);
+            final scope = widget.database.accountScope!;
             return RecommendationProvider(
               debugMode: const bool.fromEnvironment('FOR_YOU_DEBUG'),
-              client: SupabaseBeanRecommendationClient(
-                Supabase.instance.client,
-              ),
-              currentUserId: () =>
-                  Supabase.instance.client.auth.currentUser?.id,
+              client: SupabaseBeanRecommendationClient(scope.client),
+              currentUserId: () => scope.currentUser?.id,
               featureFlagEnabled: () =>
                   // Build-time test switch: --dart-define=FOR_YOU_DEBUG=true.
                   const bool.fromEnvironment('FOR_YOU_DEBUG') ||
@@ -1400,7 +1361,7 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
                 final decision = await _completeOnboardingForInternalRoute(
                   // The builder still sees the platform's original URI.
                   _resolveAppDeepLink(deepLink.uri),
-                  isValidInternalRoute: deepLink.isValid,
+                  routeName: deepLink.matches.lastOrNull?.flattened.last.name,
                 );
 
                 if (decision == OnboardingRouteGateDecision.showOnboarding) {

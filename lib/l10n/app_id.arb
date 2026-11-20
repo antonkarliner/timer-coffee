@@ -762,6 +762,7 @@
   "@unpublishRecipeDialogMakePrivate": {
     "description": "Teks tombol untuk menjadikan resep pribadi"
   },
+  "recipeUnpublishPending": "Perubahan resep menjadi privat masih tertunda. Tautan mungkin masih berfungsi hingga sinkronisasi selesai.",
   "recipeUnpublishSuccess": "Resep berhasil dibatalkan publikasinya",
   "@recipeUnpublishSuccess": {
     "description": "Pesan sukses ketika resep dibatalkan publikasinya"
@@ -1223,6 +1224,7 @@
   "moderationDisplayNameFailedBody": "Nama tampilan Anda tidak dapat disimpan karena: {reason}",
   "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "moderationRulesBody": "Konten yang Anda bagikan di Timer.Coffee ditinjau secara otomatis. Kiriman dapat ditolak jika berisi:\n\n- **Tautan atau detail kontak**: URL, nomor telepon, alamat email, atau versi yang disamarkan\n- **Konten kebencian atau ofensif**: ujaran kebencian, pelecehan, atau diskriminasi apa pun\n- **Konten eksplisit**: materi seksual eksplisit atau deskripsi grafis tentang kekerasan\n- **Konten berbahaya**: promosi tindakan menyakiti diri sendiri atau aktivitas berbahaya lainnya\n\nAturan ini berlaku saat menerbitkan resep (resep pribadi tidak ditinjau), untuk teks ulasan biji, nama tampilan, dan foto profil. Peringkat dan bidang nonteks lainnya tidak terpengaruh.\n\nJika kiriman Anda ditolak, Anda akan melihat alasannya dan dapat mengedit serta mengirim ulang. Tidak ada proses banding manual. Jika Anda merasa penolakan itu keliru, coba susun ulang konten Anda.",
+  "originalRecipeByPrefix": "Resep asli oleh ",
   "recipeByPrefix": "Resep dari ",
   "roastersCatalogTitle": "Roaster",
   "hubRoastersSubtitle": "Jelajahi semua roaster kopi",

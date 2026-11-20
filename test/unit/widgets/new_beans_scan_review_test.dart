@@ -148,6 +148,9 @@ void main() {
     List<XFile> reviewedImages = const <XFile>[],
   }) async {
     await tester.tap(find.text(loc.aiScanLabel));
+    await tester.pumpAndSettle();
+    expect(find.text(loc.firstTimePopupMessage), findsOneWidget);
+    await tester.tap(find.text(loc.ok));
     await tester.pump();
 
     if (reviewedImages.isNotEmpty) {

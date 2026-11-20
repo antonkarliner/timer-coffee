@@ -762,6 +762,7 @@
   "@unpublishRecipeDialogMakePrivate": {
     "description": "Knoptekst om het recept privé te maken"
   },
+  "recipeUnpublishPending": "Het recept wordt privé gemaakt zodra de synchronisatie is voltooid. Tot die tijd werkt de link mogelijk nog.",
   "recipeUnpublishSuccess": "Publicatie van recept succesvol ingetrokken",
   "@recipeUnpublishSuccess": {
     "description": "Succesbericht wanneer de publicatie van een recept wordt ingetrokken"
@@ -1223,6 +1224,7 @@
   "moderationDisplayNameFailedBody": "Je weergavenaam kon niet worden opgeslagen omdat: {reason}",
   "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "moderationRulesBody": "Content die je op Timer.Coffee deelt, wordt automatisch beoordeeld. Inzendingen kunnen worden geweigerd als ze het volgende bevatten:\n\n- **Links of contactgegevens**: URL's, telefoonnummers, e-mailadressen of verhulde varianten daarvan\n- **Haatdragende of beledigende content**: haatspraak, intimidatie of discriminatie van welke aard dan ook\n- **Expliciete content**: seksueel expliciet materiaal of grafische beschrijvingen van geweld\n- **Gevaarlijke content**: aanmoediging van zelfbeschadiging of andere gevaarlijke activiteiten\n\nDeze regels gelden bij het publiceren van een recept (privérecepten worden niet beoordeeld), voor tekst in bonenreviews, je weergavenaam en profielfoto's. Beoordelingen en andere niet-tekstvelden worden niet beïnvloed.\n\nAls je inzending wordt geweigerd, zie je een reden en kun je deze aanpassen en opnieuw verzenden. Er is geen handmatige beroepsprocedure. Als je denkt dat de weigering een vergissing was, probeer je content dan anders te formuleren.",
+  "originalRecipeByPrefix": "Oorspronkelijk recept van ",
   "recipeByPrefix": "Recept van ",
   "roastersCatalogTitle": "Branderijen",
   "hubRoastersSubtitle": "Bekijk alle koffiebranderijen",

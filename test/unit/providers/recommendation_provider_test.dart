@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:coffee_timer/models/bean_recommendation_model.dart';
 import 'package:coffee_timer/providers/recommendation_provider.dart';
 import 'package:coffee_timer/services/clients/bean_recommendation_client.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,7 +20,7 @@ class _FakeClient implements BeanRecommendationClient {
   /// Replaces the default fetch behaviour (used to hold loads open).
   Future<RecommendationResult?> Function(String? locale)? fetchImpl;
   Future<BeanRecommendationStatus> Function(String locale, String? cc)?
-      generateImpl;
+  generateImpl;
 
   int fetchCount = 0;
   int generateCount = 0;
@@ -80,6 +81,27 @@ class _FakeClient implements BeanRecommendationClient {
   }
 }
 
+class _PreferenceClient extends _FakeClient
+    implements RecommendationPreferenceClient {
+  _PreferenceClient(this.serverOptOut);
+
+  final ValueNotifier<bool> serverOptOut;
+
+  @override
+  Future<bool> fetchOptOut() async => serverOptOut.value;
+
+  @override
+  Future<void> setOptOut(bool optedOut) async {
+    serverOptOut.value = optedOut;
+  }
+
+  @override
+  Future<void> deleteMine() async {
+    await super.deleteMine();
+    serverOptOut.value = true;
+  }
+}
+
 void main() {
   // Let fire-and-forget / microtask chains in the provider settle. Fake
   // calls only await Completers and microtasks, so this is deterministic.
@@ -94,10 +116,10 @@ void main() {
     bool stale = false,
     List<BeanRecommendation> items = const [],
   }) => RecommendationResult(
-        hasRecommendations: hasRecommendations,
-        stale: stale,
-        items: items,
-      );
+    hasRecommendations: hasRecommendations,
+    stale: stale,
+    items: items,
+  );
 
   BeanRecommendation item(String id, {String name = 'Test Bean'}) =>
       BeanRecommendation(
@@ -248,7 +270,10 @@ void main() {
           if (gate == 'flag') flagOn = false;
           if (gate == 'user') userId = null;
           if (gate == 'opt-out') {
-            await prefs.setBool(RecommendationProvider.optOutPrefKey, true);
+            await prefs.setBool(
+              RecommendationProvider.optOutKeyFor('user-1'),
+              true,
+            );
           }
           final p = make(debugMode: true);
           await p.refresh('en');
@@ -470,7 +495,10 @@ void main() {
       });
 
       test('persisted opt-out → hidden, no network call', () async {
-        await prefs.setBool(RecommendationProvider.optOutPrefKey, true);
+        await prefs.setBool(
+          RecommendationProvider.optOutKeyFor('user-1'),
+          true,
+        );
         final p = make();
         await p.ensureLoaded('en');
 
@@ -522,6 +550,26 @@ void main() {
         expect(p.state, RecommendationState.ready);
       });
 
+      test('late replies cannot show the previous account’s picks', () async {
+        final p = make();
+        final pending = Completer<RecommendationResult?>();
+        client.fetchImpl = (_) async {
+          if (client.fetchCount == 1) return pending.future;
+          return result(items: [item('current')]);
+        };
+
+        final oldLoad = p.ensureLoaded('en');
+        await settle();
+        expect(client.fetchCount, 1);
+        userId = 'user-2';
+        expect(p.items, isEmpty);
+        await p.ensureLoaded('en');
+        pending.complete(result(items: [item('previous')]));
+        await oldLoad;
+
+        expect(p.items.single.stockId, 'current');
+      });
+
       test('user id change reloads', () async {
         final p = make();
         client.fetchResult = result(items: [item('s1')]);
@@ -551,8 +599,11 @@ void main() {
         final done = p.ensureLoaded('en');
         await settle();
         expect(p.state, RecommendationState.loading);
-        expect(p.isFirstLoad, isFalse,
-            reason: 'plain fetches show no skeleton');
+        expect(
+          p.isFirstLoad,
+          isFalse,
+          reason: 'plain fetches show no skeleton',
+        );
 
         initialFetch.complete(result(hasRecommendations: false));
         await settle();
@@ -628,37 +679,38 @@ void main() {
         expect(client.fetchCount, 1);
       });
 
-      test('country lookup failure still generates, with null country',
-          () async {
-        final c = _FakeClient();
-        client = c;
-        final p = RecommendationProvider(
-          client: c,
-          currentUserId: () => userId,
-          featureFlagEnabled: () => flagOn,
-          countryCodeLookup: (localeCode) async => throw Exception('no geo'),
-          prefs: prefs,
-          clock: () => now,
-        );
-        created.add(p);
-        c.generateStatus = BeanRecommendationStatus.ok;
-        c.fetchImpl = (locale) async {
-          if (c.fetchCount == 1) return result(hasRecommendations: false);
-          return result(items: [item('fresh')]);
-        };
+      test(
+        'country lookup failure still generates, with null country',
+        () async {
+          final c = _FakeClient();
+          client = c;
+          final p = RecommendationProvider(
+            client: c,
+            currentUserId: () => userId,
+            featureFlagEnabled: () => flagOn,
+            countryCodeLookup: (localeCode) async => throw Exception('no geo'),
+            prefs: prefs,
+            clock: () => now,
+          );
+          created.add(p);
+          c.generateStatus = BeanRecommendationStatus.ok;
+          c.fetchImpl = (locale) async {
+            if (c.fetchCount == 1) return result(hasRecommendations: false);
+            return result(items: [item('fresh')]);
+          };
 
-        await p.ensureLoaded('en');
+          await p.ensureLoaded('en');
 
-        expect(c.generateCountryCodes, [null]);
-        expect(p.state, RecommendationState.ready);
-      });
+          expect(c.generateCountryCodes, [null]);
+          expect(p.state, RecommendationState.ready);
+        },
+      );
     });
 
     group('nothing-to-show (hasRecommendations true, empty items)', () {
       test('not stale → hidden, no generation', () async {
         final p = make();
-        client.fetchResult =
-            result(hasRecommendations: true, items: const []);
+        client.fetchResult = result(hasRecommendations: true, items: const []);
 
         await p.ensureLoaded('en');
 
@@ -697,33 +749,37 @@ void main() {
     });
 
     group('stale-while-revalidate', () {
-      test('keeps old items immediately and replaces them on success',
-          () async {
-        final p = make();
-        final generateGate = Completer<BeanRecommendationStatus>();
-        client.fetchResult =
-            result(stale: true, items: [item('old-1'), item('old-2')]);
-        client.fetchImpl = (locale) async {
-          if (client.fetchCount == 1) return client.fetchResult;
-          return result(items: [item('new-1')]);
-        };
-        client.generateImpl = (locale, cc) => generateGate.future;
+      test(
+        'keeps old items immediately and replaces them on success',
+        () async {
+          final p = make();
+          final generateGate = Completer<BeanRecommendationStatus>();
+          client.fetchResult = result(
+            stale: true,
+            items: [item('old-1'), item('old-2')],
+          );
+          client.fetchImpl = (locale) async {
+            if (client.fetchCount == 1) return client.fetchResult;
+            return result(items: [item('new-1')]);
+          };
+          client.generateImpl = (locale, cc) => generateGate.future;
 
-        await p.ensureLoaded('en');
+          await p.ensureLoaded('en');
 
-        // Old list is visible right away, no skeleton.
-        expect(p.state, RecommendationState.ready);
-        expect(p.isFirstLoad, isFalse);
-        expect(p.items.map((i) => i.stockId), ['old-1', 'old-2']);
+          // Old list is visible right away, no skeleton.
+          expect(p.state, RecommendationState.ready);
+          expect(p.isFirstLoad, isFalse);
+          expect(p.items.map((i) => i.stockId), ['old-1', 'old-2']);
 
-        generateGate.complete(BeanRecommendationStatus.ok);
-        await settle();
+          generateGate.complete(BeanRecommendationStatus.ok);
+          await settle();
 
-        expect(p.state, RecommendationState.ready);
-        expect(p.items.map((i) => i.stockId), ['new-1']);
-        expect(client.generateCount, 1);
-        expect(p.unavailableStatus, isNull);
-      });
+          expect(p.state, RecommendationState.ready);
+          expect(p.items.map((i) => i.stockId), ['new-1']);
+          expect(client.generateCount, 1);
+          expect(p.unavailableStatus, isNull);
+        },
+      );
 
       test('generate failure keeps the old list', () async {
         final p = make();
@@ -736,16 +792,17 @@ void main() {
         expect(p.state, RecommendationState.ready);
         expect(p.items.map((i) => i.stockId), ['old-1']);
         expect(client.generateCount, 1);
-        expect(client.fetchCount, 1,
-            reason: 'no refetch after failed generate');
+        expect(
+          client.fetchCount,
+          1,
+          reason: 'no refetch after failed generate',
+        );
       });
 
-      test('refresh does not resurrect items dismissed this session',
-          () async {
+      test('refresh does not resurrect items dismissed this session', () async {
         final p = make();
         final generateGate = Completer<BeanRecommendationStatus>();
-        client.fetchResult =
-            result(stale: true, items: [item('a'), item('b')]);
+        client.fetchResult = result(stale: true, items: [item('a'), item('b')]);
         client.fetchImpl = (locale) async {
           if (client.fetchCount == 1) return client.fetchResult;
           return result(items: [item('a'), item('b')]);
@@ -759,8 +816,9 @@ void main() {
         generateGate.complete(BeanRecommendationStatus.ok);
         await settle();
 
-        expect(p.items.map((i) => i.stockId), ['b'],
-            reason: 'refresh landed after dismissal; must not bring a back');
+        expect(p.items.map((i) => i.stockId), [
+          'b',
+        ], reason: 'refresh landed after dismissal; must not bring a back');
       });
     });
 
@@ -802,8 +860,11 @@ void main() {
 
         await second.ensureLoaded('en');
 
-        expect(sharedClient.generateCount, 1,
-            reason: 'throttled: no second call within 6h');
+        expect(
+          sharedClient.generateCount,
+          1,
+          reason: 'throttled: no second call within 6h',
+        );
         expect(second.state, RecommendationState.hidden);
         expect(second.unavailableStatus, isNull);
       });
@@ -867,6 +928,72 @@ void main() {
     });
 
     group('opt-out', () {
+      test(
+        'a fresh installation loads the saved account choice before generation',
+        () async {
+          final remote = ValueNotifier(false);
+          addTearDown(remote.dispose);
+          final firstClient = _PreferenceClient(remote);
+          final first = makeWith(existingClient: firstClient);
+          await first.setOptedOut(true);
+
+          SharedPreferences.setMockInitialValues({});
+          prefs = await SharedPreferences.getInstance();
+          final newClient = _PreferenceClient(remote)
+            ..fetchResult = result(hasRecommendations: false);
+          final fresh = makeWith(existingClient: newClient);
+          expect(fresh.preferenceKnown, isFalse);
+          await fresh.ensureLoaded('en');
+
+          expect(fresh.preferenceKnown, isTrue);
+          expect(fresh.optedOut, isTrue);
+          expect(newClient.generateCount, 0);
+          expect(newClient.fetchCount, 0);
+
+          await fresh.setOptedOut(false);
+          await fresh.ensureLoaded('en');
+          expect(fresh.optedOut, isFalse);
+          expect(newClient.generateCount, 1);
+        },
+      );
+
+      test(
+        'a queued delete is retried only for its initiating account',
+        () async {
+          final first = make();
+          client.deleteMineError = Exception('offline');
+          await first.setOptedOut(true);
+          expect(client.deleteMineCount, 1);
+
+          userId = 'user-2';
+          client.deleteMineError = null;
+          makeWith(existingClient: client);
+          await settle();
+          expect(client.deleteMineCount, 1);
+          expect(
+            prefs.getBool(RecommendationProvider.pendingDeleteKeyFor('user-1')),
+            isTrue,
+          );
+
+          userId = 'user-1';
+          makeWith(existingClient: client);
+          await settle();
+          expect(client.deleteMineCount, 2);
+          expect(
+            prefs.getBool(RecommendationProvider.pendingDeleteKeyFor('user-1')),
+            isNull,
+          );
+        },
+      );
+
+      test('a legacy installation-wide delete is never replayed', () async {
+        await prefs.setBool(RecommendationProvider.optOutPrefKey, true);
+        await prefs.setBool(RecommendationProvider.pendingDeleteKey, true);
+        final p = make();
+        await p.completePendingOptOut();
+        expect(client.deleteMineCount, 0);
+      });
+
       test('persists, clears items, calls deleteMine', () async {
         final p = make();
         client.fetchResult = result(items: [item('a')]);
@@ -879,7 +1006,10 @@ void main() {
         expect(p.state, RecommendationState.hidden);
         expect(p.items, isEmpty);
         expect(client.deleteMineCount, 1);
-        expect(prefs.getBool(RecommendationProvider.optOutPrefKey), isTrue);
+        expect(
+          prefs.getBool(RecommendationProvider.optOutKeyFor('user-1')),
+          isTrue,
+        );
       });
 
       test('deleteMine failure keeps the opt-out stored', () async {
@@ -889,76 +1019,103 @@ void main() {
         await p.setOptedOut(true);
 
         expect(p.optedOut, isTrue);
-        expect(prefs.getBool(RecommendationProvider.optOutPrefKey), isTrue);
+        expect(
+          prefs.getBool(RecommendationProvider.optOutKeyFor('user-1')),
+          isTrue,
+        );
         expect(p.state, RecommendationState.hidden);
       });
 
-      test('deleteMine failure leaves the deletion owed for next launch',
-          () async {
-        final p = make();
-        client.deleteMineError = Exception('offline');
-        await p.setOptedOut(true);
-        expect(prefs.getBool(RecommendationProvider.pendingDeleteKey), isTrue);
-        p.dispose();
-        disposed.add(p);
+      test(
+        'deleteMine failure leaves the deletion owed for next launch',
+        () async {
+          final p = make();
+          client.deleteMineError = Exception('offline');
+          await p.setOptedOut(true);
+          expect(
+            prefs.getBool(RecommendationProvider.pendingDeleteKeyFor('user-1')),
+            isTrue,
+          );
+          p.dispose();
+          disposed.add(p);
 
-        // Next launch: still opted out, the owed deletion runs and clears.
-        client.deleteMineError = null;
-        makeWith(existingClient: client);
-        await Future<void>.delayed(Duration.zero);
-        expect(client.deleteMineCount, 2);
-        expect(prefs.getBool(RecommendationProvider.pendingDeleteKey), isNull);
-      });
+          // Next launch: still opted out, the owed deletion runs and clears.
+          client.deleteMineError = null;
+          makeWith(existingClient: client);
+          await Future<void>.delayed(Duration.zero);
+          expect(client.deleteMineCount, 2);
+          expect(
+            prefs.getBool(RecommendationProvider.pendingDeleteKeyFor('user-1')),
+            isNull,
+          );
+        },
+      );
 
       test('a successful opt-out leaves nothing owed', () async {
         final p = make();
         await p.setOptedOut(true);
         expect(client.deleteMineCount, 1);
-        expect(prefs.getBool(RecommendationProvider.pendingDeleteKey), isNull);
+        expect(
+          prefs.getBool(RecommendationProvider.pendingDeleteKeyFor('user-1')),
+          isNull,
+        );
       });
 
-      test('deferred opt-out hides at once and deletes only on completion',
-          () async {
-        final p = make();
-        client.fetchResult = result(items: [item('a')]);
-        await p.ensureLoaded('en');
+      test(
+        'deferred opt-out hides at once and deletes only on completion',
+        () async {
+          final p = make();
+          client.fetchResult = result(items: [item('a')]);
+          await p.ensureLoaded('en');
 
-        await p.setOptedOut(true, deferServerDelete: true);
-        expect(p.state, RecommendationState.hidden);
-        expect(p.items, isEmpty);
-        expect(client.deleteMineCount, 0);
-        expect(prefs.getBool(RecommendationProvider.pendingDeleteKey), isTrue);
+          await p.setOptedOut(true, deferServerDelete: true);
+          expect(p.state, RecommendationState.hidden);
+          expect(p.items, isEmpty);
+          expect(client.deleteMineCount, 0);
+          expect(
+            prefs.getBool(RecommendationProvider.pendingDeleteKeyFor('user-1')),
+            isTrue,
+          );
 
-        await p.completePendingOptOut();
-        expect(client.deleteMineCount, 1);
-        expect(prefs.getBool(RecommendationProvider.pendingDeleteKey), isNull);
+          await p.completePendingOptOut();
+          expect(client.deleteMineCount, 1);
+          expect(
+            prefs.getBool(RecommendationProvider.pendingDeleteKeyFor('user-1')),
+            isNull,
+          );
 
-        await p.completePendingOptOut();
-        expect(client.deleteMineCount, 1, reason: 'nothing owed any more');
-      });
+          await p.completePendingOptOut();
+          expect(client.deleteMineCount, 1, reason: 'nothing owed any more');
+        },
+      );
 
       test('undo of a deferred opt-out deletes nothing', () async {
         final p = make();
         await p.setOptedOut(true, deferServerDelete: true);
         await p.setOptedOut(false);
-        expect(prefs.getBool(RecommendationProvider.pendingDeleteKey), isNull);
+        expect(
+          prefs.getBool(RecommendationProvider.pendingDeleteKeyFor('user-1')),
+          isNull,
+        );
 
         await p.completePendingOptOut();
         expect(client.deleteMineCount, 0);
       });
 
-      test('a deferred opt-out never completed is finished on next launch',
-          () async {
-        final p = make();
-        await p.setOptedOut(true, deferServerDelete: true);
-        expect(client.deleteMineCount, 0);
-        p.dispose();
-        disposed.add(p);
+      test(
+        'a deferred opt-out never completed is finished on next launch',
+        () async {
+          final p = make();
+          await p.setOptedOut(true, deferServerDelete: true);
+          expect(client.deleteMineCount, 0);
+          p.dispose();
+          disposed.add(p);
 
-        makeWith(existingClient: client);
-        await Future<void>.delayed(Duration.zero);
-        expect(client.deleteMineCount, 1);
-      });
+          makeWith(existingClient: client);
+          await Future<void>.delayed(Duration.zero);
+          expect(client.deleteMineCount, 1);
+        },
+      );
 
       test('re-enable resets to idle and the next call loads', () async {
         final p = make();
@@ -969,7 +1126,10 @@ void main() {
 
         expect(p.optedOut, isFalse);
         expect(p.state, RecommendationState.idle);
-        expect(prefs.getBool(RecommendationProvider.optOutPrefKey), isFalse);
+        expect(
+          prefs.getBool(RecommendationProvider.optOutKeyFor('user-1')),
+          isFalse,
+        );
 
         await p.ensureLoaded('en');
         expect(p.state, RecommendationState.ready);
@@ -1027,28 +1187,33 @@ void main() {
     });
 
     group('dispose safety', () {
-      test('no notifyListeners after dispose (load finishing mid-air)',
-          () async {
-        final p = make();
-        final fetchGate = Completer<RecommendationResult?>();
-        client.fetchImpl = (locale) => fetchGate.future;
+      test(
+        'no notifyListeners after dispose (load finishing mid-air)',
+        () async {
+          final p = make();
+          final fetchGate = Completer<RecommendationResult?>();
+          client.fetchImpl = (locale) => fetchGate.future;
 
-        final done = p.ensureLoaded('en');
-        await settle();
-        expect(p.state, RecommendationState.loading);
+          final done = p.ensureLoaded('en');
+          await settle();
+          expect(p.state, RecommendationState.loading);
 
-        var notifications = 0;
-        p.addListener(() => notifications++);
-        disposeInTearDown(p);
-        p.dispose();
+          var notifications = 0;
+          p.addListener(() => notifications++);
+          disposeInTearDown(p);
+          p.dispose();
 
-        fetchGate.complete(result(items: [item('late')]));
-        await done;
-        await settle();
+          fetchGate.complete(result(items: [item('late')]));
+          await done;
+          await settle();
 
-        expect(notifications, 0,
-            reason: 'late load result must not notify after dispose');
-      });
+          expect(
+            notifications,
+            0,
+            reason: 'late load result must not notify after dispose',
+          );
+        },
+      );
     });
 
     group('concurrency', () {

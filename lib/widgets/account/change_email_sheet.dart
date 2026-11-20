@@ -117,7 +117,6 @@ class _ChangeEmailSheetState extends State<_ChangeEmailSheet> {
     return switch (result) {
       EmailChangeRequest.invalidEmail => l10n.accountEmailInvalid,
       EmailChangeRequest.sameAsCurrent => l10n.accountEmailSameAsCurrent,
-      EmailChangeRequest.emailTaken => l10n.accountEmailTaken,
       EmailChangeRequest.rateLimited => l10n.accountEmailRateLimited,
       EmailChangeRequest.failed => l10n.accountEmailGenericError,
       EmailChangeRequest.sent => '',

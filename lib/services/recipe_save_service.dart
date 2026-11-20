@@ -1,10 +1,8 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../l10n/app_localizations.dart';
-import '../config/moderation_surfaces.dart';
 import '../models/recipe_model.dart';
 import '../providers/user_recipe_provider.dart';
 import '../providers/recipe_provider.dart';
@@ -32,124 +30,9 @@ class RecipeSaveService {
     final dbProvider = Provider.of<DatabaseProvider>(context, listen: false);
     final currentUser = Supabase.instance.client.auth.currentUser;
 
-    bool requiresModeration = false;
-    bool moderationPassed = true;
-    bool supabaseCheckFailed = false;
-    String moderationFailureReason = "Content flagged for review.";
-
     final recipeId = recipeData.id;
-
-    if (isUpdate &&
-        recipeId.startsWith('usr-') &&
-        currentUser != null &&
-        !currentUser.isAnonymous) {
-      AppLogger.debug(
-        "Checking if recipe ${AppLogger.sanitize(recipeId)} is public...",
-      );
-      try {
-        final response = await Supabase.instance.client
-            .from('user_recipes')
-            .select('ispublic')
-            .eq('id', recipeId)
-            .maybeSingle()
-            .timeout(const Duration(seconds: 2));
-
-        if (response != null && response['ispublic'] == true) {
-          AppLogger.debug(
-            "Recipe ${AppLogger.sanitize(recipeId)} is public. Moderation check required.",
-          );
-          requiresModeration = true;
-
-          String combinedText = "";
-          combinedText += "${recipeData.name}\n";
-          combinedText += "${recipeData.shortDescription}\n";
-          combinedText += "${recipeData.grindSize}\n";
-          for (var step in recipeData.steps) {
-            combinedText += "${step.description}\n";
-          }
-          combinedText = combinedText.trim();
-
-          if (combinedText.isEmpty) {
-            AppLogger.warning("Warning: No text content found for moderation.");
-            moderationPassed = true;
-          } else {
-            AppLogger.debug(
-              "Calling content moderation for recipe ${AppLogger.sanitize(recipeId)} update...",
-            );
-            try {
-              final moderationResponse = await Supabase
-                  .instance
-                  .client
-                  .functions
-                  .invoke(
-                    'content-moderation',
-                    body: {
-                      'text': combinedText,
-                      'surface': ModerationSurfaces.recipe,
-                    },
-                  )
-                  .timeout(const Duration(seconds: 5));
-
-              if (moderationResponse.status != 200 ||
-                  moderationResponse.data == null) {
-                AppLogger.error(
-                  "Moderation Error (Function Call): Recipe ${AppLogger.sanitize(recipeId)}. Status: ${moderationResponse.status}",
-                );
-                moderationPassed = false;
-              } else {
-                final moderationResult =
-                    moderationResponse.data as Map<String, dynamic>;
-                if (moderationResult['safe'] != true) {
-                  moderationFailureReason =
-                      moderationResult['reason'] ??
-                      "Content flagged for review.";
-                  AppLogger.warning(
-                    "Moderation Failed (Content Flagged): Recipe ${AppLogger.sanitize(recipeId)}. Reason: ${AppLogger.sanitize(moderationFailureReason)}",
-                  );
-                  moderationPassed = false;
-                } else {
-                  AppLogger.debug(
-                    "Moderation Passed: Recipe ${AppLogger.sanitize(recipeId)}",
-                  );
-                  moderationPassed = true;
-                }
-              }
-            } on TimeoutException {
-              AppLogger.warning(
-                "Moderation check timed out for recipe ${AppLogger.sanitize(recipeId)}.",
-              );
-              supabaseCheckFailed = true;
-              moderationPassed = false;
-            } catch (e) {
-              AppLogger.error(
-                "Moderation check failed with error: ${AppLogger.sanitize(e)}",
-              );
-              supabaseCheckFailed = true;
-              moderationPassed = false;
-            }
-          }
-        } else {
-          AppLogger.debug(
-            "Recipe ${AppLogger.sanitize(recipeId)} is not public or not found. No moderation needed.",
-          );
-          moderationPassed = true;
-        }
-      } on TimeoutException {
-        AppLogger.warning(
-          "Checking public status timed out for recipe ${AppLogger.sanitize(recipeId)}.",
-        );
-        supabaseCheckFailed = true;
-        moderationPassed = false;
-        requiresModeration = true;
-      } catch (e) {
-        AppLogger.error(
-          "Error checking public status for recipe ${AppLogger.sanitize(recipeId)}: ${AppLogger.sanitize(e)}",
-        );
-        supabaseCheckFailed = true;
-        moderationPassed = false;
-        requiresModeration = true;
-      }
-    }
+    String? moderationFailureReason;
+    bool reviewPending = false;
 
     AppLogger.debug("Saving recipe locally: ${AppLogger.sanitize(recipeId)}");
     if (isUpdate) {
@@ -161,14 +44,26 @@ class RecipeSaveService {
       "Local save complete for recipe: ${AppLogger.sanitize(recipeId)}",
     );
 
-    if (requiresModeration && moderationPassed && !supabaseCheckFailed) {
-      AppLogger.debug(
-        "Clearing needs_moderation_review flag for ${AppLogger.sanitize(recipeId)}",
-      );
-      await dbProvider.clearNeedsModerationReview(recipeId);
+    if (isUpdate &&
+        recipeData.isPublic &&
+        currentUser != null &&
+        !currentUser.isAnonymous) {
+      try {
+        final result = await dbProvider.publishRecipeRevision(
+          recipeId,
+          currentUser.id,
+          requirePublic: true,
+        );
+        moderationFailureReason = result.reason;
+        reviewPending = !result.published && result.reason == null;
+      } catch (error) {
+        AppLogger.warning('Recipe review is pending', errorObject: error);
+        reviewPending = true;
+      }
     }
 
-    if (requiresModeration && !moderationPassed && !supabaseCheckFailed) {
+    final failureReason = moderationFailureReason;
+    if (failureReason != null) {
       if (context.mounted) {
         final outerContext = context;
         await showDialog(
@@ -178,15 +73,15 @@ class RecipeSaveService {
               borderRadius: BorderRadius.circular(AppRadius.card),
             ),
             title: Text(l10n.saveLocallyModerationFailedTitle),
-            content: Text(
-              l10n.saveLocallyModerationFailedBody(moderationFailureReason),
-            ),
+            content: Text(l10n.saveLocallyModerationFailedBody(failureReason)),
             actions: [
               AppTextButton(
                 label: l10n.moderationRulesLearnMore,
                 onPressed: () {
                   Navigator.pop(dialogContext);
-                  outerContext.router.push(InfoRoute(section: 'moderation'));
+                  if (outerContext.mounted) {
+                    outerContext.router.push(InfoRoute(section: 'moderation'));
+                  }
                 },
                 isFullWidth: false,
                 height: AppButton.heightSmall,
@@ -203,7 +98,7 @@ class RecipeSaveService {
           ),
         );
       }
-    } else if (supabaseCheckFailed) {
+    } else if (reviewPending) {
       if (context.mounted) {
         scaffoldMessenger.showSnackBar(
           SnackBar(content: Text(l10n.saveLocallyCheckLater)),

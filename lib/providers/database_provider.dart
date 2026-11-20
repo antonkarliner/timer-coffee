@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math' as math;
 
-import 'package:coffee_timer/config/moderation_surfaces.dart';
+import 'package:coffee_timer/services/recipe_publication.dart';
 import 'package:coffee_timer/config/network_timeouts.dart';
 import 'package:coffee_timer/database/database.dart';
 import 'package:flutter/foundation.dart';
@@ -51,6 +51,16 @@ class DatabaseProvider {
   // missed fire-and-forget upload can't be clobbered by stale remote data.
   static const String _pendingPrefSyncKey = 'pendingPrefSyncRecipeIds';
 
+  SupabaseClient get _client =>
+      _db.accountScope?.client ?? Supabase.instance.client;
+
+  User? get _currentUser {
+    final scope = _db.accountScope;
+    return scope == null
+        ? Supabase.instance.client.auth.currentUser
+        : scope.currentUser;
+  }
+
   DatabaseProvider(this._db)
     : _roasterDirectoryService = RoasterDirectoryService.instance {
     _roasterDirectoryCacheGeneration = _roasterDirectoryService.cacheGeneration;
@@ -64,22 +74,34 @@ class DatabaseProvider {
     _roasterDirectoryCacheGeneration = _roasterDirectoryService.cacheGeneration;
   }
 
+  String _accountSyncKey(String key) {
+    final partition = _db.accountScope?.partitionId;
+    return partition == null ? key : '$key.$partition';
+  }
+
   // --- SharedPreferences Helpers ---
 
   Future<DateTime?> _getLastSyncTimestamp() async {
     final prefs = await SharedPreferences.getInstance();
-    final timestampString = prefs.getString(_lastSyncTimestampKey);
+    final timestampString = prefs.getString(
+      _accountSyncKey(_lastSyncTimestampKey),
+    );
     return timestampString != null ? DateTime.parse(timestampString) : null;
   }
 
   Future<void> _setLastSyncTimestamp(DateTime timestamp) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_lastSyncTimestampKey, timestamp.toIso8601String());
+    await prefs.setString(
+      _accountSyncKey(_lastSyncTimestampKey),
+      timestamp.toIso8601String(),
+    );
   }
 
   Future<DateTime?> _getLastDeferredModerationCheckTimestamp() async {
     final prefs = await SharedPreferences.getInstance();
-    final timestampString = prefs.getString(_lastDeferredModerationCheckKey);
+    final timestampString = prefs.getString(
+      _accountSyncKey(_lastDeferredModerationCheckKey),
+    );
     return timestampString != null ? DateTime.parse(timestampString) : null;
   }
 
@@ -88,38 +110,49 @@ class DatabaseProvider {
   ) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(
-      _lastDeferredModerationCheckKey,
+      _accountSyncKey(_lastDeferredModerationCheckKey),
       timestamp.toIso8601String(),
     );
   }
 
   Future<Set<String>> _getPendingPrefSyncIds() async {
     final prefs = await SharedPreferences.getInstance();
-    return (prefs.getStringList(_pendingPrefSyncKey) ?? const <String>[])
+    return (prefs.getStringList(_accountSyncKey(_pendingPrefSyncKey)) ??
+            const <String>[])
         .toSet();
   }
 
   Future<void> _markPendingPrefSync(String recipeId) async {
     final prefs = await SharedPreferences.getInstance();
-    final ids = (prefs.getStringList(_pendingPrefSyncKey) ?? <String>[])
-        .toSet();
+    final ids =
+        (prefs.getStringList(_accountSyncKey(_pendingPrefSyncKey)) ??
+                <String>[])
+            .toSet();
     if (ids.add(recipeId)) {
-      await prefs.setStringList(_pendingPrefSyncKey, ids.toList());
+      await prefs.setStringList(
+        _accountSyncKey(_pendingPrefSyncKey),
+        ids.toList(),
+      );
     }
   }
 
   Future<void> _clearPendingPrefSync(String recipeId) async {
     final prefs = await SharedPreferences.getInstance();
-    final ids = (prefs.getStringList(_pendingPrefSyncKey) ?? <String>[])
-        .toSet();
+    final ids =
+        (prefs.getStringList(_accountSyncKey(_pendingPrefSyncKey)) ??
+                <String>[])
+            .toSet();
     if (ids.remove(recipeId)) {
-      await prefs.setStringList(_pendingPrefSyncKey, ids.toList());
+      await prefs.setStringList(
+        _accountSyncKey(_pendingPrefSyncKey),
+        ids.toList(),
+      );
     }
   }
 
   Future<void> _clearAllPendingPrefSync() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_pendingPrefSyncKey);
+    await prefs.remove(_accountSyncKey(_pendingPrefSyncKey));
   }
 
   // --- End SharedPreferences Helpers ---
@@ -164,7 +197,7 @@ class DatabaseProvider {
   /// network sync failed to deliver (offline or timed out), regardless of cause.
   Future<bool> _shouldSeed() async {
     final ids = await _db.recipesDao.fetchIdsAndLastModifiedDates();
-    return ids.isEmpty;
+    return !ids.keys.any((id) => !id.startsWith('usr-'));
   }
 
   /// Seeds the local Drift DB from the bundled JSON snapshot under
@@ -275,7 +308,7 @@ class DatabaseProvider {
 
   Future<void> _fetchAndStoreCollections({required bool isFirstLaunch}) async {
     try {
-      final base = Supabase.instance.client
+      final base = _client
           .from('recipe_collections')
           .select(
             '*, recipe_collection_localization(*), recipe_collection_members(*)',
@@ -398,7 +431,7 @@ class DatabaseProvider {
   }) async {
     final now = DateTime.now().toUtc();
     try {
-      final response = await Supabase.instance.client
+      final response = await _client
           .from('giftbox_offers')
           .select()
           .eq('is_active', true)
@@ -431,7 +464,7 @@ class DatabaseProvider {
     String? regionCode,
   }) async {
     try {
-      final response = await Supabase.instance.client
+      final response = await _client
           .from('giftbox_offers')
           .select()
           .eq('id', id)
@@ -456,7 +489,7 @@ class DatabaseProvider {
     String? regionCode,
   }) async {
     try {
-      final response = await Supabase.instance.client
+      final response = await _client
           .from('giftbox_offers')
           .select()
           .eq('slug', slug)
@@ -512,14 +545,12 @@ class DatabaseProvider {
   }) async {
     try {
       // Define individual futures
-      final brewingMethodsFuture = Supabase.instance.client
+      final brewingMethodsFuture = _client
           .from('brewing_methods')
           .select(
             'brewing_method_id,brewing_method',
           ); // Removed show_on_main from select
-      final supportedLocalesFuture = Supabase.instance.client
-          .from('supported_locales')
-          .select();
+      final supportedLocalesFuture = _client.from('supported_locales').select();
 
       // Apply timeouts if it's not the first launch
       final brewingMethodsRequest = isFirstLaunch
@@ -570,7 +601,7 @@ class DatabaseProvider {
           .fetchIdsAndLastModifiedDates();
 
       // Fetch all recipes from Supabase
-      var request = Supabase.instance.client
+      var request = _client
           .from('recipes')
           .select('*, recipe_localization(*), steps(*)');
 
@@ -614,7 +645,7 @@ class DatabaseProvider {
       Set<String> supabaseRecipeIds;
       if (!isFirstLaunch && lastModified != null) {
         // We're only fetching updated recipes, so we need to fetch all recipe IDs separately
-        final allRecipesResponse = await Supabase.instance.client
+        final allRecipesResponse = await _client
             .from('recipes')
             .select('id')
             .timeout(NetworkTimeouts.handshake);
@@ -651,7 +682,7 @@ class DatabaseProvider {
       });
 
       // Sync user recipes and imported recipes only for non-anonymous users
-      final user = Supabase.instance.client.auth.currentUser;
+      final user = _currentUser;
       if (user != null && !user.isAnonymous) {
         await _syncUserRecipes(user.id, localRecipeIds);
         await _syncImportedRecipes(user.id);
@@ -677,6 +708,20 @@ class DatabaseProvider {
     );
 
     try {
+      if (_currentUser?.id != userId) return;
+      final prefs = await SharedPreferences.getInstance();
+      final prefix = pendingRecipeWithdrawalPrefix(userId);
+      for (final key in prefs.getKeys().where(
+        (key) => key.startsWith(prefix),
+      )) {
+        await confirmRecipeWithdrawal(
+          _db,
+          _client,
+          userId,
+          key.substring(prefix.length),
+        );
+      }
+
       // --- UPLOAD ---
       AppLogger.debug('Checking for local recipes to upload...');
       // Get local user recipes modified since last sync AND not flagged for moderation
@@ -716,68 +761,49 @@ class DatabaseProvider {
         }
 
         // Fetch current remote status (needed for ispublic check AND to see if it exists)
-        final remoteData = await Supabase.instance.client
+        final remoteData = await _client
             .from('user_recipes')
-            .select(
-              'id, last_modified, is_deleted, ispublic, needs_moderation_review',
-            )
+            .select('id, last_modified, is_deleted, ispublic, revision')
             .eq('id', recipe.id)
+            .eq('vendor_id', 'usr-$userId')
             .maybeSingle()
             .timeout(NetworkTimeouts.handshake);
 
-        // Skip if marked deleted remotely
-        if (remoteData != null && remoteData['is_deleted'] == true) {
-          AppLogger.debug(
-            'Skipping upload for recipe, deleted remotely.',
-            errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
-          );
+        if (remoteData != null) {
+          final isPublic = remoteData['ispublic'] == true;
+          if (recipe.isPublic != isPublic) {
+            await _db.recipesDao.updateRecipe(
+              recipe.id,
+              RecipesCompanion(
+                isPublic: drift.Value(isPublic),
+                needsModerationReview: isPublic
+                    ? const drift.Value(true)
+                    : const drift.Value.absent(),
+              ),
+            );
+          }
+        }
+        if (recipe.isDeleted ||
+            recipe.needsModerationReview ||
+            remoteData?['ispublic'] == true ||
+            remoteData?['is_deleted'] == true) {
           continue;
         }
 
-        // Determine if this is a newly imported recipe needing its first upload
-        final bool isFirstUploadForImport =
-            recipe.isImported == true && remoteData == null;
-
-        // Upload the recipe if:
-        // 1. It's modified locally and newer than remote (handled by getUserRecipesModifiedAfter)
-        // 2. It's a newly imported recipe that doesn't exist remotely yet (isFirstUploadForImport)
-        if (isFirstUploadForImport ||
-            recipesToUpload.any((r) => r.id == recipe.id)) {
-          AppLogger.debug(
-            'Uploading recipe. Reason: ${isFirstUploadForImport ? "Newly imported" : "Modified locally"}',
-            errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
-          );
+        final isFirstUploadForImport = recipe.isImported && remoteData == null;
+        final remoteModified = DateTime.tryParse(
+          remoteData?['last_modified'] as String? ?? '',
+        )?.toUtc();
+        final localModified = recipe.lastModified?.toUtc();
+        final hasNewerLocalEdit =
+            localModified != null &&
+            (remoteModified == null || localModified.isAfter(remoteModified)) &&
+            recipesToUpload.any((row) => row.id == recipe.id);
+        if (isFirstUploadForImport || hasNewerLocalEdit) {
           await _uploadRecipeToSupabase(
-            recipe,
+            recipe.id,
             userId,
-            currentIsPublic: remoteData?['ispublic'],
-          );
-
-          // // If it was the first upload for an imported recipe, mark isImported as false locally
-          // // REMOVED: Keep isImported = true to allow future updates from parent
-          // if (isFirstUploadForImport) {
-          //   AppLogger.debug('Marking recipe as no longer imported locally.',
-          //       errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
-          //   await _db.recipesDao.updateRecipe(
-          //     recipe.id,
-          //     RecipesCompanion(
-          //       isImported: const drift.Value(false),
-          //       lastModified:
-          //           drift.Value(DateTime.now().toUtc()), // Update timestamp
-          //     ),
-          //   );
-          // }
-        } else if (recipe.isImported == true && remoteData != null) {
-          // Exists remotely but wasn't in the 'modified' list - likely already synced or only needs download sync
-          AppLogger.debug(
-            'Skipping upload for imported recipe - already exists remotely and not modified locally.',
-            errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
-          );
-        } else {
-          // Wasn't modified locally and wasn't a new import needing upload
-          AppLogger.debug(
-            'Skipping upload for recipe - not modified locally.',
-            errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
+            remoteData?['revision'] as String?,
           );
         }
       }
@@ -786,7 +812,7 @@ class DatabaseProvider {
       // --- HANDLE DELETIONS ---
       AppLogger.debug('Checking for remotely deleted recipes...');
       // Fetch IDs of all remotely deleted recipes for this user, regardless of timestamp
-      final deletedResponse = await Supabase.instance.client
+      final deletedResponse = await _client
           .from('user_recipes')
           .select('id')
           .eq('vendor_id', 'usr-$userId')
@@ -826,7 +852,7 @@ class DatabaseProvider {
       // --- DOWNLOAD UPDATES/INSERTS ---
       AppLogger.debug('Checking for remote recipe updates/inserts...');
       // Build query to get NON-DELETED remote recipes modified since last sync
-      var downloadQuery = Supabase.instance.client
+      var downloadQuery = _client
           .from('user_recipes')
           .select('*, user_recipe_localizations(*), user_steps(*)')
           .eq('vendor_id', 'usr-$userId')
@@ -879,6 +905,20 @@ class DatabaseProvider {
               recipeJson['needs_moderation_review'] as bool? ?? false;
 
           final localLastModified = localRecipeIds[recipeId];
+
+          final localRow = await (_db.select(
+            _db.recipes,
+          )..where((tbl) => tbl.id.equals(recipeId))).getSingleOrNull();
+          if (localRow != null) {
+            await _db.recipesDao.updateRecipe(
+              recipeId,
+              RecipesCompanion(
+                isPublic: drift.Value(recipeJson['ispublic'] == true),
+              ),
+            );
+            // Keep the owner's edited draft while reconciling the audience.
+            if (localRow.needsModerationReview) continue;
+          }
 
           // Check if remote is newer (or local doesn't exist)
           // Note: The gt filter in the query already handles the timestamp comparison,
@@ -971,195 +1011,171 @@ class DatabaseProvider {
     }
   }
 
-  // Upload a recipe to Supabase (minor adjustments for clarity)
-  Future<void> _uploadRecipeToSupabase(
-    Recipe recipe,
-    String userId, {
-    bool? currentIsPublic,
-  }) async {
-    try {
-      // Add debug logging
-      AppLogger.debug(
-        'UPLOADING RECIPE TO SUPABASE',
-        errorObject: {
-          'timestamp': DateTime.now().toIso8601String(),
-          'recipeId': AppLogger.sanitize(recipe.id),
-          'userId': AppLogger.sanitize(userId),
-          'vendorId': AppLogger.sanitize(recipe.vendorId),
-          'needsModerationReview': recipe.needsModerationReview,
-        },
-      );
-      // recipeJson will be logged after it's declared below
-
-      // Ensure vendor_id uses the full user ID for RLS
-      final String effectiveVendorId = 'usr-$userId';
-
-      // Determine effective flags with moderation policy guard:
-      // - If the recipe is (or is known to be) public, we must not upload a moderation flag.
-      // - Moderation is handled during share and edits; uploads of already-public recipes
-      //   should carry needs_moderation_review = false.
-      final bool effectiveIsPublic = currentIsPublic ?? false;
-      final bool effectiveNeedsModeration = effectiveIsPublic
-          ? false
-          : (recipe.needsModerationReview == true);
-
-      if (recipe.needsModerationReview == true && effectiveIsPublic) {
-        AppLogger.debug(
-          'Guard: Coercing needs_moderation_review=false for already-public recipe',
-          errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
-        );
+  /// Captures one consistent parent and child revision for sync or publication.
+  Future<({Recipe recipe, Map<String, Object?> snapshot})?>
+  _localRecipeRevision(String recipeId, String userId) async {
+    return _db.transaction(() async {
+      final recipe = await (_db.select(
+        _db.recipes,
+      )..where((tbl) => tbl.id.equals(recipeId))).getSingleOrNull();
+      if (recipe == null ||
+          recipe.isDeleted ||
+          !ownsUserRecipe(recipe.id, recipe.vendorId, userId)) {
+        return null;
       }
-
-      // Convert recipe to Supabase format
-      final recipeJson = {
-        'id': recipe.id,
-        'brewing_method_id': recipe.brewingMethodId,
-        'coffee_amount': recipe.coffeeAmount,
-        'water_amount': recipe.waterAmount,
-        'water_temp': recipe.waterTemp,
-        'brew_time': recipe.brewTime,
-        'vendor_id':
-            effectiveVendorId, // Use the effective vendor ID instead of just userId
-        'last_modified':
-            recipe.lastModified?.toUtc().toIso8601String() ??
-            DateTime.now().toUtc().toIso8601String(), // Ensure UTC
-        'import_id': recipe.importId,
-        'is_imported': recipe.isImported,
-        'original_author_id': recipe.originalAuthorId,
-        'ispublic': effectiveIsPublic, // Preserve/reflect known public status
-        'needs_moderation_review':
-            effectiveNeedsModeration, // Guarded by effectiveIsPublic
-        'is_deleted': false,
-      };
-
-      // Log the full recipe JSON after it's been created
-      AppLogger.debug(
-        'Full recipe JSON',
-        errorObject: AppLogger.sanitize(recipeJson),
-      );
-
-      // --- Explicit Insert/Update Logic ---
-      // Check if the recipe already exists remotely
-      final existingRecipe = await Supabase.instance.client
-          .from('user_recipes')
-          .select('id')
-          .eq('id', recipe.id)
-          .maybeSingle()
-          .timeout(NetworkTimeouts.handshake);
-
-      if (existingRecipe == null) {
-        // Recipe doesn't exist, perform INSERT
-        AppLogger.debug(
-          'Recipe not found remotely, performing INSERT',
-          errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
-        );
-        await Supabase.instance.client
-            .from('user_recipes')
-            .insert(recipeJson)
-            .timeout(NetworkTimeouts.smallSync);
-      } else {
-        // Recipe exists, perform UPDATE
-        AppLogger.debug(
-          'Recipe found remotely, performing UPDATE',
-          errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
-        );
-        await Supabase.instance.client
-            .from('user_recipes')
-            .update(recipeJson)
-            .eq('id', recipe.id)
-            .timeout(NetworkTimeouts.smallSync);
-      }
-      // --- End Explicit Insert/Update Logic ---
-
-      // Get localizations and steps for this recipe
       final localizations = await _db.recipeLocalizationsDao
           .getLocalizationsForRecipe(recipe.id);
       final steps = await _db.stepsDao.getStepsForRecipe(recipe.id);
 
-      // Delete existing localizations before upload to prevent accumulation
-      await Supabase.instance.client
-          .from('user_recipe_localizations')
-          .delete()
-          .eq('recipe_id', recipe.id)
-          .timeout(NetworkTimeouts.handshake);
-
-      // Upload localizations (Batch Upsert)
-      final localizationsJsonList = localizations
-          .map(
-            (loc) => {
-              'id': loc.id, // Assuming local ID is stable or handled by upsert
-              'recipe_id': loc.recipeId,
-              'locale': loc.locale,
-              'name': loc.name,
-              'grind_size': loc.grindSize,
-              'short_description': loc.shortDescription,
-            },
-          )
-          .toList();
-      if (localizationsJsonList.isNotEmpty) {
-        await Supabase.instance.client
-            .from('user_recipe_localizations')
-            .upsert(localizationsJsonList)
-            .timeout(NetworkTimeouts.smallSync);
-      }
-
-      // Delete existing steps before upload to prevent accumulation
-      final deletedStepsCount = await Supabase.instance.client
-          .from('user_steps')
-          .delete()
-          .eq('recipe_id', recipe.id)
-          .timeout(NetworkTimeouts.handshake);
-      AppLogger.debug(
-        'Deleted existing steps for recipe before upload',
-        errorObject: {
-          'deletedStepsCount': deletedStepsCount,
-          'recipeId': AppLogger.sanitize(recipe.id),
+      return (
+        recipe: recipe,
+        snapshot: <String, Object?>{
+          'recipe': {
+            'id': recipe.id,
+            'brewing_method_id': recipe.brewingMethodId,
+            'coffee_amount': recipe.coffeeAmount,
+            'water_amount': recipe.waterAmount,
+            'water_temp': recipe.waterTemp,
+            'brew_time': recipe.brewTime,
+            'last_modified': recipe.lastModified?.toUtc().toIso8601String(),
+            'import_id': recipe.importId,
+            'is_imported': recipe.isImported,
+            'original_author_id': recipe.originalAuthorId,
+          },
+          'localizations': localizations
+              .map(
+                (loc) => {
+                  'id': loc.id,
+                  'locale': loc.locale,
+                  'name': loc.name,
+                  'grind_size': loc.grindSize,
+                  'short_description': loc.shortDescription,
+                },
+              )
+              .toList(),
+          'steps': steps
+              .map(
+                (step) => {
+                  'id': step.id,
+                  'step_order': step.stepOrder,
+                  'description': step.description,
+                  'time': step.time,
+                  'locale': step.locale,
+                },
+              )
+              .toList(),
         },
       );
+    });
+  }
 
-      // Upload steps (Batch Upsert)
-      final stepsJsonList = steps
-          .map(
-            (step) => {
-              'id': step.id, // Assuming local ID is stable or handled by upsert
-              'recipe_id': step.recipeId,
-              'step_order': step.stepOrder,
-              'description': step.description,
-              'time': step.time,
-              'locale': step.locale,
-            },
-          )
-          .toList();
-      if (stepsJsonList.isNotEmpty) {
-        await Supabase.instance.client
-            .from('user_steps')
-            .upsert(stepsJsonList)
-            .timeout(NetworkTimeouts.smallSync);
-        AppLogger.debug(
-          'Uploaded steps for recipe',
-          errorObject: {
-            'stepsCount': stepsJsonList.length,
-            'recipeId': AppLogger.sanitize(recipe.id),
+  Future<void> _uploadRecipeToSupabase(
+    String recipeId,
+    String userId,
+    String? expectedRevision,
+  ) async {
+    final local = await _localRecipeRevision(recipeId, userId);
+    if (local == null ||
+        local.recipe.needsModerationReview ||
+        _currentUser?.id != userId) {
+      return;
+    }
+    final saved = await _client
+        .rpc(
+          'save_recipe_revision',
+          params: {
+            'p_snapshot': local.snapshot,
+            'p_expected_revision': expectedRevision,
           },
+        )
+        .timeout(NetworkTimeouts.smallSync);
+    if (saved != true) {
+      throw StateError('Recipe changed before sync could save it');
+    }
+  }
+
+  Future<({bool published, String? reason})> publishRecipeRevision(
+    String recipeId,
+    String userId, {
+    bool requirePublic = false,
+  }) async {
+    final denied = (published: false, reason: null);
+    if (_currentUser?.id != userId) return denied;
+    final local = await _localRecipeRevision(recipeId, userId);
+    if (local == null || _currentUser?.id != userId) return denied;
+
+    final remote = await _client
+        .from('user_recipes')
+        .select('revision, ispublic, is_deleted')
+        .eq('id', recipeId)
+        .eq('vendor_id', 'usr-$userId')
+        .maybeSingle()
+        .timeout(NetworkTimeouts.handshake);
+    if (remote?['is_deleted'] == true || _currentUser?.id != userId) {
+      return denied;
+    }
+    final remotePublic = remote?['ispublic'] == true;
+
+    // A formerly public draft must not make the link public again after a
+    // separate withdrawal. The server compares the revision through commit.
+    if (requirePublic && !remotePublic) {
+      if (remote != null) {
+        await _db.recipesDao.updateRecipe(
+          recipeId,
+          const RecipesCompanion(isPublic: drift.Value(false)),
         );
       }
-
-      AppLogger.debug(
-        'Successfully uploaded recipe and related data',
-        errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
-      );
-    } catch (e, stacktrace) {
-      AppLogger.error(
-        'Error uploading recipe to Supabase',
-        errorObject: e,
-        stackTrace: stacktrace,
-      );
-      AppLogger.debug(
-        'Recipe ID that failed to upload',
-        errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
-      );
-      // Consider how to handle upload errors (e.g., retry later?)
+      return denied;
     }
+    if (!requirePublic &&
+        remotePublic &&
+        local.recipe.isPublic &&
+        !local.recipe.needsModerationReview) {
+      return (published: true, reason: null);
+    }
+
+    final prefs = await SharedPreferences.getInstance();
+    if (_currentUser?.id != userId ||
+        prefs.getBool(pendingRecipeWithdrawalKey(userId, recipeId)) == true) {
+      return denied;
+    }
+    final response = await _client.functions
+        .invoke(
+          'content-moderation',
+          body: {
+            'recipe_publication': local.snapshot,
+            'expected_revision': remote?['revision'],
+            'require_public': requirePublic,
+          },
+        )
+        .timeout(NetworkTimeouts.smallSync);
+    final result = response.data;
+    if (response.status != 200 ||
+        result is! Map<String, dynamic> ||
+        _currentUser?.id != userId) {
+      return denied;
+    }
+    if (result['published'] != true) {
+      return (published: false, reason: result['reason'] as String?);
+    }
+
+    await _db.transaction(() async {
+      final current = await _localRecipeRevision(recipeId, userId);
+      if (current == null ||
+          prefs.getBool(pendingRecipeWithdrawalKey(userId, recipeId)) == true) {
+        return;
+      }
+      final isSameRevision =
+          jsonEncode(current.snapshot) == jsonEncode(local.snapshot);
+      await _db.recipesDao.updateRecipe(
+        recipeId,
+        RecipesCompanion(
+          isPublic: const drift.Value(true),
+          needsModerationReview: drift.Value(!isSameRevision),
+        ),
+      );
+    });
+    return (published: true, reason: null);
   }
 
   // Sync imported recipes with their originals (Minor adjustments for consistency)
@@ -1169,14 +1185,16 @@ class DatabaseProvider {
       final importedRecipes = await _db.recipesDao.getImportedRecipes();
 
       for (final recipe in importedRecipes) {
-        // Skip recipes without importId
-        if (recipe.importId == null) continue;
+        final importId = recipe.importId;
+        if (importId == null ||
+            recipe.vendorId != 'usr-$userId' ||
+            !isExactImportedRecipe(recipe.id, userId, importId) ||
+            recipe.needsModerationReview ||
+            recipe.isPublic) {
+          continue;
+        }
 
-        // Check if original recipe exists and is public
-        final String importId =
-            recipe.importId!; // Non-null assertion is safe here
-
-        final response = await Supabase.instance.client
+        final response = await _client
             .from('user_recipes')
             .select('*, user_recipe_localizations(*), user_steps(*)')
             .eq('id', importId)
@@ -1293,8 +1311,8 @@ class DatabaseProvider {
 
   // Public wrapper for syncing user recipes
   Future<void> syncUserRecipes(String userId) async {
-    final user = Supabase.instance.client.auth.currentUser;
-    if (user == null || user.isAnonymous) {
+    final user = _currentUser;
+    if (user == null || user.isAnonymous || user.id != userId) {
       AppLogger.debug('Skipping user recipe sync for anonymous user.');
       return;
     }
@@ -1311,7 +1329,7 @@ class DatabaseProvider {
 
   // Public wrapper for syncing imported recipes
   Future<void> syncImportedRecipes(String userId) async {
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user == null || user.isAnonymous) {
       AppLogger.debug('Skipping imported recipe sync for anonymous user.');
       return;
@@ -1338,7 +1356,7 @@ class DatabaseProvider {
     }
 
     try {
-      final client = Supabase.instance.client;
+      final client = _client;
       // Cache only: launch must not wait on a geo lookup. The refresh below
       // serves the next launch (popups are skipped in the first session).
       final geo = await RegionService.getCachedGeoLocation();
@@ -1371,23 +1389,17 @@ class DatabaseProvider {
   Future<void> _fetchAndStoreExtraData({required bool isFirstLaunch}) async {
     try {
       // Define individual futures
-      final coffeeFactsFuture = Supabase.instance.client
-          .from('coffee_facts')
-          .select();
+      final coffeeFactsFuture = _client.from('coffee_facts').select();
       final coffeeFactsRequest = isFirstLaunch
           ? coffeeFactsFuture
           : coffeeFactsFuture.timeout(NetworkTimeouts.smallSync);
 
-      final helpCategoriesFuture = Supabase.instance.client
-          .from('help_categories')
-          .select();
+      final helpCategoriesFuture = _client.from('help_categories').select();
       final helpCategoriesRequest = isFirstLaunch
           ? helpCategoriesFuture
           : helpCategoriesFuture.timeout(NetworkTimeouts.smallSync);
 
-      final helpArticlesFuture = Supabase.instance.client
-          .from('help_articles')
-          .select();
+      final helpArticlesFuture = _client.from('help_articles').select();
       final helpArticlesRequest = isFirstLaunch
           ? helpArticlesFuture
           : helpArticlesFuture.timeout(NetworkTimeouts.smallSync);
@@ -1456,12 +1468,8 @@ class DatabaseProvider {
   /// Rethrows on failure so callers (e.g. a retry button) can surface an error.
   Future<void> refreshHelpContent() async {
     try {
-      final categoriesResponse = await Supabase.instance.client
-          .from('help_categories')
-          .select();
-      final articlesResponse = await Supabase.instance.client
-          .from('help_articles')
-          .select();
+      final categoriesResponse = await _client.from('help_categories').select();
+      final articlesResponse = await _client.from('help_articles').select();
 
       final helpCategories = (categoriesResponse as List<dynamic>)
           .map((json) => HelpCategoriesCompanionExtension.fromJson(json))
@@ -1489,7 +1497,7 @@ class DatabaseProvider {
   ) async {
     final startUtc = start.toUtc();
     final endUtc = end.toUtc();
-    final response = await Supabase.instance.client
+    final response = await _client
         .from('global_stats')
         .select('water_amount')
         .gte('created_at', startUtc.toIso8601String())
@@ -1514,7 +1522,7 @@ class DatabaseProvider {
     DateTime start,
     DateTime end,
   ) async {
-    final client = Supabase.instance.client;
+    final client = _client;
     final startDate = formatStatsCivilDate(start);
     final endDate = formatStatsCivilDate(end);
 
@@ -1548,7 +1556,7 @@ class DatabaseProvider {
     DateTime start,
     DateTime end,
   ) async {
-    final client = Supabase.instance.client;
+    final client = _client;
     final startDate = formatStatsCivilDate(start);
     final endDate = formatStatsCivilDate(end);
     try {
@@ -1577,7 +1585,7 @@ class DatabaseProvider {
   ) async {
     final startUtc = start.toUtc();
     final endUtc = end.toUtc();
-    final response = await Supabase.instance.client
+    final response = await _client
         .from('global_stats')
         .select('recipe_id')
         .gte('created_at', startUtc.toIso8601String())
@@ -1609,7 +1617,7 @@ class DatabaseProvider {
     DateTime end, {
     int topN = 3,
   }) async {
-    final client = Supabase.instance.client;
+    final client = _client;
     final startDate = formatStatsCivilDate(start);
     final endDate = formatStatsCivilDate(end);
     try {
@@ -1640,10 +1648,10 @@ class DatabaseProvider {
     int year, {
     double? liters,
   }) async {
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user == null) return null;
     try {
-      final response = await Supabase.instance.client
+      final response = await _client
           .rpc(
             'yearly_user_liters_percentile',
             params: {'p_year': year, 'p_user_id': user.id, 'p_liters': ?liters},
@@ -1751,7 +1759,7 @@ class DatabaseProvider {
 
   Future<List<String>> fetchCountriesForLocale(String locale) async {
     try {
-      final response = await Supabase.instance.client
+      final response = await _client
           .from('coffee_countries')
           .select('country_name')
           .eq('locale', locale)
@@ -1774,7 +1782,7 @@ class DatabaseProvider {
 
   Future<List<String>> fetchTastingNotesForLocale(String locale) async {
     try {
-      final response = await Supabase.instance.client
+      final response = await _client
           .from('coffee_descriptors')
           .select('descriptor_name')
           .eq('locale', locale)
@@ -1797,7 +1805,7 @@ class DatabaseProvider {
 
   Future<List<String>> fetchProcessingMethodsForLocale(String locale) async {
     try {
-      final response = await Supabase.instance.client
+      final response = await _client
           .from('coffee_processing_methods')
           .select('method_name')
           .eq('locale', locale)
@@ -1820,7 +1828,7 @@ class DatabaseProvider {
 
   Future<List<String>> fetchRoasters() async {
     try {
-      final response = await Supabase.instance.client
+      final response = await _client
           .from('roaster_profiles')
           .select('roaster_name')
           .eq('is_active', true)
@@ -1890,7 +1898,7 @@ class DatabaseProvider {
   /// there is nothing to do, e.g. anonymous user), false when the upload failed —
   /// callers use this to decide whether it is safe to pull remote data down.
   Future<bool> uploadUserPreferencesToSupabase() async {
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user == null || user.isAnonymous) {
       AppLogger.debug('No user logged in or user is anonymous');
       return true;
@@ -1917,7 +1925,7 @@ class DatabaseProvider {
         .toList();
 
     try {
-      await Supabase.instance.client
+      await _client
           .from('user_recipe_preferences')
           .upsert(preferencesData)
           .timeout(NetworkTimeouts.smallSync);
@@ -1963,7 +1971,7 @@ class DatabaseProvider {
   /// download entirely, preserving the local edits until the next reconcile.
   Future<void> reconcileUserPreferences() async {
     await _clearDefaultGrindOverrides();
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user == null || user.isAnonymous) return;
 
     final pending = await _getPendingPrefSyncIds();
@@ -1994,7 +2002,7 @@ class DatabaseProvider {
     String? customGrindSize,
     double? customWaterTemp,
   }) async {
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user == null || user.isAnonymous) {
       AppLogger.debug('No user logged in or user is anonymous');
       return;
@@ -2020,7 +2028,7 @@ class DatabaseProvider {
     // on failure record the recipe id so reconcileUserPreferences() re-uploads it
     // before the next startup download can overwrite the local edit.
     try {
-      await Supabase.instance.client
+      await _client
           .from('user_recipe_preferences')
           .upsert(data)
           .timeout(NetworkTimeouts.handshake);
@@ -2040,14 +2048,14 @@ class DatabaseProvider {
   /// A failed call marks the recipe pending, and the startup reconcile then
   /// uploads the local row, null included, before downloading.
   Future<void> clearCustomGrindSizeInSupabase(String recipeId) async {
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user == null || user.isAnonymous) {
       AppLogger.debug('No user logged in or user is anonymous');
       return;
     }
 
     try {
-      await Supabase.instance.client
+      await _client
           .from('user_recipe_preferences')
           .update({
             'custom_grind_size': null,
@@ -2075,9 +2083,7 @@ class DatabaseProvider {
       'getPublicUserRecipeMetadata called',
       errorObject: {
         'recipeId': AppLogger.sanitize(recipeId),
-        'currentUser': AppLogger.sanitize(
-          Supabase.instance.client.auth.currentUser?.id ?? "Not logged in",
-        ),
+        'currentUser': AppLogger.sanitize(_currentUser?.id ?? "Not logged in"),
       },
     );
 
@@ -2093,7 +2099,7 @@ class DatabaseProvider {
         },
       );
 
-      final recipeResponse = await Supabase.instance.client
+      final recipeResponse = await _client
           .from('user_recipes')
           .select('id, last_modified') // Fetch only existing columns
           .eq('id', recipeId)
@@ -2111,7 +2117,7 @@ class DatabaseProvider {
         AppLogger.debug(
           'Checking if recipe exists at all (ignoring public/deleted flags)...',
         );
-        final checkResponse = await Supabase.instance.client
+        final checkResponse = await _client
             .from('user_recipes')
             .select('id, ispublic, is_deleted')
             .eq('id', recipeId)
@@ -2147,7 +2153,7 @@ class DatabaseProvider {
         },
       );
 
-      final localizationResponse = await Supabase.instance.client
+      final localizationResponse = await _client
           .from('user_recipe_localizations')
           .select('name')
           .eq('recipe_id', recipeId)
@@ -2215,9 +2221,7 @@ class DatabaseProvider {
       'fetchFullPublicUserRecipeData called',
       errorObject: {
         'recipeId': AppLogger.sanitize(recipeId),
-        'currentUser': AppLogger.sanitize(
-          Supabase.instance.client.auth.currentUser?.id ?? "Not logged in",
-        ),
+        'currentUser': AppLogger.sanitize(_currentUser?.id ?? "Not logged in"),
       },
     );
 
@@ -2232,7 +2236,7 @@ class DatabaseProvider {
         },
       );
 
-      final response = await Supabase.instance.client
+      final response = await _client
           .from('user_recipes')
           .select('*, user_recipe_localizations(*), user_steps(*)')
           .eq('id', recipeId)
@@ -2278,7 +2282,7 @@ class DatabaseProvider {
         );
 
         // Check if recipe exists but isn't public
-        final checkResponse = await Supabase.instance.client
+        final checkResponse = await _client
             .from('user_recipes')
             .select('id, ispublic, is_deleted')
             .eq('id', recipeId)
@@ -2296,7 +2300,7 @@ class DatabaseProvider {
 
           // Check if related data exists
           AppLogger.debug('Checking if localizations exist...');
-          final localizationsResponse = await Supabase.instance.client
+          final localizationsResponse = await _client
               .from('user_recipe_localizations')
               .select('id, recipe_id')
               .eq('recipe_id', recipeId)
@@ -2310,7 +2314,7 @@ class DatabaseProvider {
           );
 
           AppLogger.debug('Checking if steps exist...');
-          final stepsResponse = await Supabase.instance.client
+          final stepsResponse = await _client
               .from('user_steps')
               .select('id, recipe_id')
               .eq('recipe_id', recipeId)
@@ -2355,11 +2359,11 @@ class DatabaseProvider {
     try {
       // If requested, mark as deleted in Supabase (only for user recipes)
       if (markDeletedInSupabase && recipeId.startsWith('usr-')) {
-        final user = Supabase.instance.client.auth.currentUser;
+        final user = _currentUser;
         // Only mark as deleted if user is logged in and not anonymous
         if (user != null && !user.isAnonymous) {
           try {
-            await Supabase.instance.client
+            await _client
                 .from('user_recipes')
                 .update({
                   'is_deleted': true,
@@ -2403,14 +2407,14 @@ class DatabaseProvider {
   }
 
   Future<void> fetchAndInsertUserPreferencesFromSupabase() async {
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user == null || user.isAnonymous) {
       AppLogger.debug('No user logged in or user is anonymous');
       return;
     }
 
     try {
-      final response = await Supabase.instance.client
+      final response = await _client
           .from('user_recipe_preferences')
           .select()
           .eq('user_id', user.id)
@@ -2503,7 +2507,7 @@ class DatabaseProvider {
 
   // --- Deferred Moderation Check ---
   Future<void> _performDeferredModerationChecks() async {
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user == null || user.isAnonymous) {
       AppLogger.debug('Skipping deferred moderation check for anonymous user.');
       return;
@@ -2541,114 +2545,19 @@ class DatabaseProvider {
       // Verify ownership again just in case
       if (recipe.vendorId != 'usr-${user.id}') continue;
 
-      AppLogger.debug(
-        'Checking recipe',
-        errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
-      );
-      // Fetch full local data (steps, localizations) needed for combinedText
-      final localizations = await _db.recipeLocalizationsDao
-          .getLocalizationsForRecipe(recipe.id);
-      final steps = await _db.stepsDao.getStepsForRecipe(recipe.id);
-
-      // Prepare combinedText
-      final firstLoc = localizations.isNotEmpty ? localizations.first : null;
-      String combinedText = "";
-      combinedText += "${firstLoc?.name ?? recipe.id}\n";
-      combinedText += "${firstLoc?.shortDescription ?? ''}\n";
-      combinedText += "${firstLoc?.grindSize ?? ''}\n";
-      for (var step in steps) {
-        combinedText += "${step.description}\n";
-      }
-      combinedText = combinedText.trim();
-
-      bool moderationPassed = true; // Assume pass initially
-      if (combinedText.isNotEmpty) {
-        try {
-          final moderationResponse = await Supabase.instance.client.functions
-              .invoke(
-                'content-moderation',
-                body: {
-                  'text': combinedText,
-                  'surface': ModerationSurfaces.recipe,
-                },
-              )
-              .timeout(
-                NetworkTimeouts.smallSync,
-              ); // Timeout for moderation call
-
-          if (moderationResponse.status != 200 ||
-              moderationResponse.data == null) {
-            AppLogger.error(
-              "Deferred Moderation Error (Function Call)",
-              errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
-            );
-            moderationPassed = false; // Treat function error as failure
-          } else {
-            final moderationResult =
-                moderationResponse.data as Map<String, dynamic>;
-            if (moderationResult['safe'] != true) {
-              AppLogger.warning(
-                "Deferred Moderation Failed (Content Flagged)",
-                errorObject: {
-                  'recipeId': AppLogger.sanitize(recipe.id),
-                  'reason': AppLogger.sanitize(moderationResult['reason']),
-                },
-              );
-              moderationPassed = false;
-            } else {
-              AppLogger.debug(
-                "Deferred Moderation Passed",
-                errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
-              );
-              moderationPassed = true;
-            }
-          }
-        } catch (e) {
-          AppLogger.error(
-            "Deferred Moderation Error (Exception)",
-            errorObject: {
-              'error': e,
-              'recipeId': AppLogger.sanitize(recipe.id),
-            },
-          );
-          moderationPassed = false; // Treat exceptions as failure
-        }
-      } else {
-        AppLogger.debug(
-          "Deferred Moderation Skipped (No Text), assuming pass",
-          errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
+      bool moderationPassed = false;
+      try {
+        final result = await publishRecipeRevision(
+          recipe.id,
+          user.id,
+          requirePublic: true,
         );
-        moderationPassed = true; // No text, allow it
-      }
-
-      // Update local flag based on result
-      await _db.recipesDao.setNeedsModerationReview(
-        recipe.id,
-        !moderationPassed,
-      );
-
-      // Update Supabase if the recipe was moderated (status changed)
-      if (moderationPassed && !user.isAnonymous) {
-        try {
-          await Supabase.instance.client
-              .from('user_recipes')
-              .update({
-                'needs_moderation_review': false,
-                'last_modified': DateTime.now().toUtc().toIso8601String(),
-              })
-              .eq('id', recipe.id)
-              .timeout(NetworkTimeouts.handshake);
-          AppLogger.debug(
-            'Updated moderation status in Supabase for recipe',
-            errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
-          );
-        } catch (e) {
-          AppLogger.warning(
-            'Failed to update moderation status in Supabase',
-            errorObject: e,
-          );
-          // Don't fail the whole process for this
-        }
+        moderationPassed = result.published;
+      } catch (error) {
+        AppLogger.warning(
+          'Deferred recipe moderation is pending',
+          errorObject: error,
+        );
       }
 
       if (moderationPassed) {
@@ -2686,7 +2595,7 @@ class DatabaseProvider {
   /// Ensures a profile exists for the given user ID in the public profiles table.
   /// If not, creates a default profile.
   Future<void> ensureUserProfileExists(String userId) async {
-    final supabase = Supabase.instance.client;
+    final supabase = _client;
     try {
       // Check if a profile already exists
       final existingProfile = await supabase

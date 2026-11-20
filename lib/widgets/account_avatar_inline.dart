@@ -27,37 +27,12 @@ class _AccountAvatarInlineState extends State<AccountAvatarInline> {
       final prefs = await SharedPreferences.getInstance();
       final user = Supabase.instance.client.auth.currentUser;
 
-      // If no authenticated user, clear any cached user-specific avatar to avoid
-      // showing another user's avatar after sign out.
-      if (user == null || user.id.isEmpty) {
-        final cachedUserId = prefs.getString('user_profile_picture_user_id');
-        if (cachedUserId != null) {
-          await prefs.remove('user_profile_picture_user_id');
-          await prefs.remove('user_profile_picture_url');
-        } else if (prefs.getString('user_profile_picture_url') != null) {
-          // Also remove orphaned url-only cache (pre-existing installs).
-          await prefs.remove('user_profile_picture_url');
-        }
-        return;
-      }
-
-      final cachedUserId = prefs.getString('user_profile_picture_user_id');
-      final cachedUrl = prefs.getString('user_profile_picture_url');
-
-      if (cachedUrl != null &&
-          cachedUrl.isNotEmpty &&
-          cachedUserId != null &&
-          cachedUserId == user.id) {
+      if (user == null) return;
+      final key = 'user_profile_picture_url_${user.id}';
+      final cachedUrl = prefs.getString(key);
+      if (cachedUrl != null && cachedUrl.isNotEmpty) {
         if (mounted) setState(() => _imageUrl = cachedUrl);
         return;
-      }
-
-      if (cachedUserId != null && cachedUserId != user.id) {
-        await prefs.remove('user_profile_picture_user_id');
-        await prefs.remove('user_profile_picture_url');
-      } else if (cachedUserId == null && cachedUrl != null) {
-        // Orphaned url without user id - clear to avoid cross-user leakage.
-        await prefs.remove('user_profile_picture_url');
       }
 
       final response = await Supabase.instance.client
@@ -69,8 +44,8 @@ class _AccountAvatarInlineState extends State<AccountAvatarInline> {
       if (response != null) {
         final url = response['profile_picture_url'] as String?;
         if (url != null && url.isNotEmpty) {
-          await prefs.setString('user_profile_picture_url', url);
-          await prefs.setString('user_profile_picture_user_id', user.id);
+          await prefs.setString(key, url);
+          if (Supabase.instance.client.auth.currentUser?.id != user.id) return;
           if (mounted) setState(() => _imageUrl = url);
         }
       }

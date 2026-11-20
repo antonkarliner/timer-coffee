@@ -216,6 +216,13 @@ class LocalNotificationSchedulerService {
     return await service.settings.isMasterEnabled();
   }
 
+  /// Remove only engagement reminders; brewing timers use other IDs.
+  Future<void> cancelEngagementReminders() async {
+    for (final id in _allIds) {
+      await _cancelNotification(id);
+    }
+  }
+
   Future<void> _cancelAll() async {
     final beanReviewCancellation =
         _enqueueBeanReviewOperation(_cancelBeanReviewNudges);
@@ -811,7 +818,6 @@ class LocalNotificationSchedulerService {
         properties: {
           'notification_type': 'bean_freshness',
           'trigger': trigger,
-          'bean_uuid': uuid,
         },
       );
       pending = null;
@@ -944,7 +950,6 @@ class LocalNotificationSchedulerService {
         properties: {
           'notification_type': 'bean_freshness',
           'trigger': trigger,
-          'bean_uuid': bean.beansUuid,
         },
       );
     }
@@ -1135,7 +1140,6 @@ class LocalNotificationSchedulerService {
             'notification_type': 'bean_review_nudge',
             'trigger': trigger,
             'reason': 'reviewed',
-            'bean_uuid': beansUuid,
           },
         );
       }
@@ -1215,7 +1219,6 @@ class LocalNotificationSchedulerService {
             'notification_type': 'bean_review_nudge',
             'trigger': entry.value,
             'reason': 'setting_off',
-            'bean_uuid': entry.key,
           },
         );
       }
@@ -1318,7 +1321,6 @@ class LocalNotificationSchedulerService {
         properties: {
           'notification_type': 'bean_review_nudge',
           'trigger': trigger,
-          'bean_uuid': bean.beansUuid,
         },
       );
     }
@@ -1397,7 +1399,6 @@ class LocalNotificationSchedulerService {
           properties: {
             'notification_type': 'bean_review_nudge',
             'trigger': entry['t'] ?? 'unknown',
-            'bean_uuid': uuid,
           },
         );
       }

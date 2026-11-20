@@ -1,14 +1,18 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io' show Platform;
 
 import 'package:flutter/foundation.dart'
     show ChangeNotifier, kIsWeb, visibleForTesting;
+import 'package:http/http.dart' as http;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
+import '../config/supabase_endpoint_resolver.dart';
+import '../env/env.dart';
 import '../utils/app_logger.dart';
+import 'feature_flags/feature_flags_repository.dart';
 
 /// Lightweight, fire-and-forget analytics service.
 ///
@@ -67,6 +71,7 @@ class AnalyticsService extends ChangeNotifier {
   // ──────────────────── Constants ────────────────────
 
   static const int _maxBufferSize = 500;
+  static const int _maxBatchSize = 100;
   static const int _flushThreshold = 50;
   static const int _maxConsecutiveFailures = 3;
   static const Duration _flushInterval = Duration(seconds: 60);
@@ -171,6 +176,8 @@ class AnalyticsService extends ChangeNotifier {
     'roaster_claim_link_tapped': 'general',
     // Onboarding & journey
     'onboarding_completed': 'general',
+    'year_story_opened': 'general',
+    'year_story_last_slide_viewed': 'general',
     'journey_started': 'general',
     'journey_milestone_completed': 'general',
     'journey_milestone_suggested': 'general',
@@ -237,6 +244,11 @@ class AnalyticsService extends ChangeNotifier {
   // ──────────────────── State ────────────────────
 
   late final SharedPreferences _prefs;
+  Set<String> _catalogRecipeIds = const {};
+  late final Uri _ingestionUri;
+  late final String _publicApiKey;
+  FeatureFlagsRepository? _featureFlags;
+  StreamSubscription<Map<String, bool>>? _flagSubscription;
   late final String _installId;
   late final String _sessionId;
   late final String _platform;
@@ -262,15 +274,35 @@ class AnalyticsService extends ChangeNotifier {
   @visibleForTesting
   static Future<void> Function(List<Map<String, dynamic>> events)? sendOverride;
 
+  @visibleForTesting
+  static http.Client Function() httpClientFactory = http.Client.new;
+
   // ──────────────────── Initialization ────────────────────
 
   /// Initializes the singleton. Must be called once during app startup,
   /// after [SharedPreferences] is available.
-  static Future<AnalyticsService> initialize(SharedPreferences prefs) async {
+  static Future<AnalyticsService> initialize(
+    SharedPreferences prefs, {
+    FeatureFlagsRepository? featureFlags,
+    Iterable<String> catalogRecipeIds = const [],
+    String? ingestionBaseUrl,
+    String? publicApiKey,
+  }) async {
     if (_instance != null) return _instance!;
 
     final service = AnalyticsService._();
     service._prefs = prefs;
+    service.setCatalogRecipeIds(catalogRecipeIds);
+    service._ingestionUri = Uri.parse(
+      '${ingestionBaseUrl ?? SupabaseEndpointResolver.activeUrl}/functions/v1/$_edgeFunctionName',
+    );
+    service._publicApiKey = publicApiKey ?? Env.supaKey;
+    service._featureFlags = featureFlags;
+    service._flagSubscription = featureFlags?.stream.listen((flags) {
+      if (flags[FeatureFlagKeys.analyticsEnabled] == false) {
+        service._buffer.clear();
+      }
+    });
 
     // Install ID: persisted anonymous UUID
     var installId = prefs.getString(_keyInstallId);
@@ -324,7 +356,13 @@ class AnalyticsService extends ChangeNotifier {
   bool get brewsEnabled => _brewsEnabled;
   bool get beansEnabled => _beansEnabled;
   bool get generalEnabled => _generalEnabled;
+  bool get canTrackGeneral => _isCategoryEnabled('general');
+  bool get canTrackBeans => _isCategoryEnabled('beans');
   String get installId => _installId;
+
+  void setCatalogRecipeIds(Iterable<String> ids) {
+    _catalogRecipeIds = Set.unmodifiable(ids.where(_catalogIdShape.hasMatch));
+  }
 
   /// Number of events currently buffered (for testing/debugging).
   int get bufferLength => _buffer.length;
@@ -358,9 +396,6 @@ class AnalyticsService extends ChangeNotifier {
   /// });
   /// ```
   void track(String eventName, {Map<String, dynamic>? properties}) {
-    // Global kill switch
-    if (_globalKillSwitch) return;
-
     // Category check
     final category = _eventCategory[eventName];
     if (category == null) {
@@ -380,7 +415,8 @@ class AnalyticsService extends ChangeNotifier {
       'client_ts': DateTime.now().toUtc().toIso8601String(),
     };
     if (properties != null && properties.isNotEmpty) {
-      event['properties'] = properties;
+      final safeProperties = _sanitizeProperties(eventName, properties);
+      if (safeProperties.isNotEmpty) event['properties'] = safeProperties;
     }
 
     // Add to buffer (drop oldest if full)
@@ -398,11 +434,13 @@ class AnalyticsService extends ChangeNotifier {
   /// Sets the server-side kill switch. Called from feature flags.
   void setGlobalKillSwitch(bool disabled) {
     _globalKillSwitch = disabled;
+    if (disabled) _buffer.clear();
   }
 
   /// Toggles the **brews** analytics category.
   Future<void> setBrewsEnabled(bool enabled) async {
     _brewsEnabled = enabled;
+    if (!enabled) _removeDisabledEvents();
     await _prefs.setBool(_keyBrewsEnabled, enabled);
     notifyListeners();
   }
@@ -410,6 +448,7 @@ class AnalyticsService extends ChangeNotifier {
   /// Toggles the **beans** analytics category.
   Future<void> setBeansEnabled(bool enabled) async {
     _beansEnabled = enabled;
+    if (!enabled) _removeDisabledEvents();
     await _prefs.setBool(_keyBeansEnabled, enabled);
     notifyListeners();
   }
@@ -417,6 +456,7 @@ class AnalyticsService extends ChangeNotifier {
   /// Toggles the **general** analytics category.
   Future<void> setGeneralEnabled(bool enabled) async {
     _generalEnabled = enabled;
+    if (!enabled) _removeDisabledEvents();
     await _prefs.setBool(_keyGeneralEnabled, enabled);
     notifyListeners();
   }
@@ -427,7 +467,141 @@ class AnalyticsService extends ChangeNotifier {
 
   // ──────────────────── Private ────────────────────
 
+  static const _notificationFields = {'notification_type', 'trigger', 'reason'};
+  static const _notificationTypes = {
+    'bean_freshness',
+    'bean_review_nudge',
+    'brew_escalation',
+    'brew_later',
+    'brew_milestone',
+    'brew_reminder',
+    'feature_discovery_beans',
+    'feature_discovery_pulse',
+    'morning_reminder',
+    'recipe_exploration',
+    'roaster_contribution_nudge',
+    'second_brew',
+    'unknown',
+    'weekly_summary',
+  };
+  static const _reminderTriggers = {
+    'backlog',
+    'brew',
+    'brew_count',
+    'depletion',
+    'idle',
+    'rest',
+    'roaster_contribution',
+    'unknown',
+  };
+  static const _cancellationReasons = {
+    'app_opened',
+    'brewed',
+    'dismissed',
+    'reviewed',
+    'setting_off',
+    'submitted',
+    'user',
+  };
+  static final _catalogIdShape = RegExp(r'^[0-9]{1,12}$');
+  static final _localeShape = RegExp(r'^[a-zA-Z]{2,3}([_-][a-zA-Z0-9]{2,8})*$');
+  static final _routeNameShape = RegExp(r'^[A-Z][A-Za-z]{1,60}Route$');
+  static const _reviewSources = {
+    'unknown',
+    'finish_screen',
+    'roaster_profile',
+    'coffee_beans_detail',
+  };
+
+  Map<String, dynamic> _sanitizeProperties(
+    String eventName,
+    Map<String, dynamic> properties,
+  ) {
+    // Keep reminder routing and review record identifiers out of these events
+    // even if another caller passes a local payload to track().
+    final fields = switch (eventName) {
+      'notification_tapped' ||
+      'notification_scheduled' ||
+      'notification_presumed_delivered' ||
+      'notification_cancelled' => _notificationFields,
+      'review_form_opened' => {'mode', 'source_screen'},
+      'review_added' => {
+        'has_bean',
+        'has_roaster_profile',
+        'has_text',
+        'rating',
+        'has_taste_profile',
+        'has_flavor_tags',
+        'flavor_tags_count',
+        'has_brewing_method',
+        'would_buy_again',
+        'source_screen',
+      },
+      'review_edited' => {
+        'has_bean',
+        'rating',
+        'has_text',
+        'has_taste_profile',
+        'has_flavor_tags',
+        'has_would_buy_again',
+      },
+      'review_deleted' => {'has_bean', 'has_roaster_profile'},
+      'review_added_after_notification' => {
+        'notification_type',
+        'trigger',
+        'seconds_since_tap',
+      },
+      'review_nudge_card_shown' => {'trigger', 'impression_count'},
+      'review_translated' => {'target_locale', 'source_locale', 'status'},
+      'reviews_translated_batch' => {
+        'target_locale',
+        'requested_count',
+        'succeeded_count',
+      },
+      'onboarding_completed' => {
+        'completion_type',
+        'brewing_method_id',
+        'screen_name',
+      },
+      _ => null,
+    };
+    final sanitized = <String, dynamic>{};
+    for (final MapEntry(:key, :value) in properties.entries) {
+      if (fields != null && !fields.contains(key)) continue;
+      if (key == 'recipe_id') {
+        // Only known catalog IDs may cross this boundary. Imports, copies, and
+        // recipes with unfamiliar identifier formats receive a coarse marker.
+        if (value is String) {
+          sanitized[key] = _catalogRecipeIds.contains(value)
+              ? value
+              : 'custom-recipe';
+        }
+      } else if (value is bool ||
+          value is int ||
+          value is double && value.isFinite) {
+        sanitized[key] = value;
+      } else if (value is String) {
+        final allowed = switch (key) {
+          'notification_type' => _notificationTypes.contains(value),
+          'trigger' when fields != null => _reminderTriggers.contains(value),
+          'reason' when fields == _notificationFields =>
+            _cancellationReasons.contains(value),
+          'source_screen' when fields != null => _reviewSources.contains(value),
+          'screen_name' when eventName == 'onboarding_completed' =>
+            _routeNameShape.hasMatch(value),
+          'target_locale' || 'source_locale' => _localeShape.hasMatch(value),
+          _ => true,
+        };
+        if (allowed) sanitized[key] = value;
+      }
+    }
+    return sanitized;
+  }
+
   bool _isCategoryEnabled(String category) {
+    if (_globalKillSwitch || _featureFlags?.analyticsEnabled == false) {
+      return false;
+    }
     switch (category) {
       case 'brews':
         return _brewsEnabled;
@@ -439,6 +613,10 @@ class AnalyticsService extends ChangeNotifier {
         return false;
     }
   }
+
+  void _removeDisabledEvents() => _buffer.removeWhere(
+    (event) => !_isCategoryEnabled(event['category'] as String),
+  );
 
   Future<void> _flush() {
     final inFlight = _inFlight;
@@ -458,6 +636,8 @@ class AnalyticsService extends ChangeNotifier {
   Future<void> _drain() async {
     do {
       _flushAgain = false;
+      _removeDisabledEvents();
+      if (_buffer.isEmpty) break;
 
       // Inject client-side country fallback (server-side detection takes priority)
       if (_country != null) {
@@ -467,34 +647,35 @@ class AnalyticsService extends ChangeNotifier {
       }
 
       // Snapshot current buffer
-      final batch = List<Map<String, dynamic>>.from(_buffer);
+      final batch = _buffer.take(_maxBatchSize).toList();
+      if (batch.length < _buffer.length) _flushAgain = true;
 
       try {
         final send = sendOverride;
         if (send != null) {
           await send(batch).timeout(const Duration(seconds: 20));
         } else {
-          await Supabase.instance.client.functions.invoke(
-            _edgeFunctionName,
-            body: {'events': batch},
-          ).timeout(const Duration(seconds: 20));
+          await _sendBatch(batch);
         }
 
-        // Success — clear flushed events
-        _buffer.removeRange(0, batch.length.clamp(0, _buffer.length));
+        // Entries can be filtered or evicted while this batch is in flight.
+        final sent = Set<Map<String, dynamic>>.identity()..addAll(batch);
+        _buffer.removeWhere(sent.contains);
         _consecutiveFailures = 0;
-      } catch (e) {
+      } catch (_) {
         _consecutiveFailures++;
         AppLogger.warning(
-          'Analytics flush failed ($_consecutiveFailures consecutive): $e',
+          'Analytics flush failed ($_consecutiveFailures consecutive)',
         );
 
         // After too many failures, drop oldest half to prevent memory growth
         if (_consecutiveFailures >= _maxConsecutiveFailures) {
-          final halfSize = _buffer.length ~/ 2;
-          if (halfSize > 0) {
-            _buffer.removeRange(0, halfSize);
-          }
+          final failed = Set<Map<String, dynamic>>.identity()..addAll(batch);
+          final queuedFailures = _buffer.where(failed.contains).toList();
+          final halfSize = queuedFailures.length ~/ 2;
+          final dropped = Set<Map<String, dynamic>>.identity()
+            ..addAll(queuedFailures.take(halfSize));
+          _buffer.removeWhere(dropped.contains);
           _consecutiveFailures = 0;
           AppLogger.warning(
             'Analytics: dropped oldest $halfSize events after repeated failures',
@@ -506,9 +687,34 @@ class AnalyticsService extends ChangeNotifier {
     } while (_flushAgain && _buffer.isNotEmpty);
   }
 
+  Future<void> _sendBatch(List<Map<String, dynamic>> batch) async {
+    final client = httpClientFactory();
+    try {
+      // Keep ingestion independent of the signed-in Supabase client's headers.
+      final response = await client
+          .post(
+            _ingestionUri,
+            headers: {
+              'apikey': _publicApiKey,
+              'content-type': 'application/json',
+            },
+            body: jsonEncode({'events': batch}),
+          )
+          .timeout(const Duration(seconds: 20));
+      if (response.statusCode < 200 || response.statusCode >= 300) {
+        throw StateError(
+          'Analytics ingestion returned HTTP ${response.statusCode}',
+        );
+      }
+    } finally {
+      client.close();
+    }
+  }
+
   @override
   void dispose() {
     _flushTimer?.cancel();
+    unawaited(_flagSubscription?.cancel());
     // Best-effort flush on dispose
     _flush();
     super.dispose();
@@ -516,8 +722,10 @@ class AnalyticsService extends ChangeNotifier {
 
   /// Resets the singleton (for testing only).
   static void resetForTesting() {
+    _instance?._buffer.clear();
     _instance?.dispose();
     _instance = null;
     sendOverride = null;
+    httpClientFactory = http.Client.new;
   }
 }

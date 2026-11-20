@@ -63,12 +63,14 @@ class RoasterContributionService {
     RoasterContributionTargetLoader? targetLoader,
     RoasterContributionAcknowledgementLoader? acknowledgementLoader,
     bool Function()? hasCurrentUser,
+    String? Function()? currentUserId,
     DateTime Function()? now,
     Duration targetCacheTtl = const Duration(minutes: 10),
     Duration acknowledgementCacheTtl = const Duration(minutes: 10),
   }) : _targetLoader = targetLoader,
        _acknowledgementLoader = acknowledgementLoader,
        _hasCurrentUser = hasCurrentUser,
+       _currentUserId = currentUserId,
        _now = now ?? DateTime.now,
        _targetCacheTtl = targetCacheTtl,
        _acknowledgementCacheTtl = acknowledgementCacheTtl;
@@ -82,6 +84,7 @@ class RoasterContributionService {
     required RoasterContributionTargetLoader targetLoader,
     RoasterContributionAcknowledgementLoader? acknowledgementLoader,
     bool Function()? hasCurrentUser,
+    String? Function()? currentUserId,
     DateTime Function()? now,
     Duration targetCacheTtl = const Duration(minutes: 10),
     Duration acknowledgementCacheTtl = const Duration(minutes: 10),
@@ -89,6 +92,7 @@ class RoasterContributionService {
     targetLoader: targetLoader,
     acknowledgementLoader: acknowledgementLoader,
     hasCurrentUser: hasCurrentUser,
+    currentUserId: currentUserId,
     now: now,
     targetCacheTtl: targetCacheTtl,
     acknowledgementCacheTtl: acknowledgementCacheTtl,
@@ -113,6 +117,16 @@ class RoasterContributionService {
   final RoasterContributionTargetLoader? _targetLoader;
   final RoasterContributionAcknowledgementLoader? _acknowledgementLoader;
   final bool Function()? _hasCurrentUser;
+  final String? Function()? _currentUserId;
+  String? _acknowledgementOwner;
+
+  String? get _owner {
+    if (_currentUserId != null) return _currentUserId();
+    if (_hasCurrentUser != null) return _hasCurrentUser() ? 'test-user' : null;
+    return _client.auth.currentUser?.id;
+  }
+
+  String? get acknowledgementUserId => _owner;
   final DateTime Function() _now;
   final Duration _targetCacheTtl;
   final Duration _acknowledgementCacheTtl;
@@ -302,9 +316,13 @@ class RoasterContributionService {
   /// [_acknowledgementCacheTtl] with in-flight request de-dup. Never throws.
   Future<RoasterContributionAcknowledgement?> fetchPendingAcknowledgement() {
     // Requires a session (anonymous is fine), same as contributing itself.
-    final hasCurrentUser =
-        _hasCurrentUser?.call() ?? _client.auth.currentUser != null;
-    if (!hasCurrentUser) return Future.value(null);
+    final owner = _owner;
+    if (_acknowledgementOwner != owner) {
+      _acknowledgementCache = null;
+      _acknowledgementRequest = null;
+      _acknowledgementOwner = owner;
+    }
+    if (owner == null) return Future.value(null);
 
     final cached = _acknowledgementCache;
     final now = _now();
@@ -317,8 +335,11 @@ class RoasterContributionService {
     if (existingRequest != null) return existingRequest;
 
     late final Future<RoasterContributionAcknowledgement?> request;
-    request = _fetchAcknowledgement()
+    request = _fetchAcknowledgement(owner)
         .then((acknowledgement) {
+          if (owner != _owner || !identical(_acknowledgementRequest, request)) {
+            return null;
+          }
           _acknowledgementCache = _CachedAcknowledgement(
             acknowledgement: acknowledgement,
             expiresAt: _now().add(_acknowledgementCacheTtl),
@@ -334,11 +355,15 @@ class RoasterContributionService {
     return request;
   }
 
-  Future<RoasterContributionAcknowledgement?> _fetchAcknowledgement() async {
+  Future<RoasterContributionAcknowledgement?> _fetchAcknowledgement(
+    String owner,
+  ) async {
     try {
       final response = _acknowledgementLoader != null
           ? await _acknowledgementLoader()
-          : await _client.rpc(_rpcAcknowledgements, params: {'p_limit': 1});
+          : await _acknowledgementRpc(owner, _rpcAcknowledgements, {
+              'p_limit': 1,
+            });
       if (response is! List) {
         throw const FormatException('Invalid acknowledgement response');
       }
@@ -362,23 +387,38 @@ class RoasterContributionService {
   /// Marks the acknowledgement for [contributionId] as delivered in-app so the
   /// card never returns (the RPC is idempotent). Clears the cached fetch so the
   /// next read is fresh. Never throws.
-  Future<void> markAcknowledged(int contributionId) async {
+  Future<void> markAcknowledged(int contributionId, {String? userId}) async {
+    final owner = userId ?? _owner;
+    if (owner == null || _owner != owner) return;
     _acknowledgementCache = null;
     try {
-      await _client.rpc(
-        _rpcMarkAcknowledged,
-        params: {'p_contribution_id': contributionId, 'p_channel': 'in_app'},
-      );
+      await _acknowledgementRpc(owner, _rpcMarkAcknowledged, {
+        'p_contribution_id': contributionId,
+        'p_channel': 'in_app',
+      });
     } catch (error) {
       AppLogger.error(
         'mark_contribution_acknowledged failed',
         errorObject: AppLogger.sanitize(error),
       );
     }
+    if (_owner != owner) return;
     AnalyticsService.maybeInstance?.track(
       'roaster_contribution_ack_shown',
       properties: {'contribution_id': contributionId},
     );
+  }
+
+  Future<Object?> _acknowledgementRpc(
+    String owner,
+    String rpc,
+    Map<String, dynamic> params,
+  ) async {
+    final session = _client.auth.currentSession;
+    if (session == null || session.user.id != owner) return null;
+    return _client
+        .rpc(rpc, params: params)
+        .setHeader('Authorization', 'Bearer ${session.accessToken}');
   }
 
   /// Fires when the user taps an acknowledgement card's primary action.

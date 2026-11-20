@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../controllers/user_recipe_management_controller.dart';
 import '../providers/recipe_provider.dart';
 import '../providers/user_recipe_provider.dart';
+import '../services/recipe_publication.dart';
 import '../models/recipe_model.dart';
 import '../widgets/confirm_delete_dialog.dart';
 import '../app_router.gr.dart';
@@ -113,6 +114,12 @@ class _UserRecipeManagementScreenState
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(l10n.recipeUnpublishSuccess)));
+    } on PendingRecipeWithdrawal {
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.recipeUnpublishPending)));
+      }
     } catch (e) {
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(

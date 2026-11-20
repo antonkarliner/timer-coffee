@@ -241,7 +241,7 @@ void main() {
             .toList();
         expect(skipEvents, hasLength(1));
         final properties = skipEvents.single['properties'] as Map;
-        expect(properties['recipe_id'], 'recipe-1');
+        expect(properties['recipe_id'], 'custom-recipe');
         expect(properties['total_steps'], 1);
         expect(properties['seconds_into_step'], isA<int>());
         expect(properties['seconds_remaining'], isA<int>());

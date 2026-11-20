@@ -9,7 +9,6 @@ import '../../utils/app_logger.dart';
 import '../account_avatar_inline.dart';
 
 const String _displayNameKey = 'user_display_name';
-const String _displayNameUserIdKey = 'user_display_name_user_id';
 
 // The last name resolved this session. SharedPreferences only arrives
 // asynchronously, so without this every Settings or Hub visit would draw
@@ -46,33 +45,22 @@ Future<String?> fetchAccountDisplayName(String userId) async {
   return response?['display_name'] as String?;
 }
 
-/// The display name cached for [userId], or null when it cannot be trusted.
-///
-/// Mirrors the avatar cache in `AccountAvatarInline`: a cached value is shown
-/// only when the companion `user_display_name_user_id` key names the same
-/// user — a missing or foreign id key means the name may belong to a
-/// previously signed-in account, so it is never shown.
-String? readTrustedDisplayName(SharedPreferences prefs, String userId) {
-  final cachedUserId = prefs.getString(_displayNameUserIdKey);
-  if (cachedUserId != userId) return null;
-  final name = prefs.getString(_displayNameKey);
-  if (name == null || name.isEmpty) return null;
-  return name;
-}
+/// Keep the owner and value in a single preference write. Legacy paired keys
+/// could be left mismatched by an interrupted write or an old account screen.
+String? readTrustedDisplayName(SharedPreferences prefs, String userId) =>
+    prefs.getString('${_displayNameKey}_$userId');
 
-/// Caches [name] together with the id of the user it belongs to.
-///
-/// Both keys must be written together so [readTrustedDisplayName] can vouch
-/// for the name later. The account screen's rename path keeps writing only
-/// the name; that still reads as trusted because the id key this widget wrote
-/// earlier for the same user stays valid.
 Future<void> writeDisplayNameCache(
   SharedPreferences prefs,
   String userId,
-  String name,
+  String? name,
 ) async {
-  await prefs.setString(_displayNameKey, name);
-  await prefs.setString(_displayNameUserIdKey, userId);
+  final key = '${_displayNameKey}_$userId';
+  if (name == null || name.isEmpty) {
+    await prefs.remove(key);
+  } else {
+    await prefs.setString(key, name);
+  }
 }
 
 /// The signed-in account row: avatar · display name · email.

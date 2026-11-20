@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coffee_timer/config/supabase_endpoint_resolver.dart';
 import 'package:coffeico_plus/coffeico_plus.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,6 +8,7 @@ import 'package:image/image.dart' as img;
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'roaster_logo_cache_manager.dart';
+import '../services/roaster_logo_client.dart';
 
 class RoasterLogo extends StatefulWidget {
   final String? originalUrl;
@@ -66,7 +66,8 @@ class RoasterLogo extends StatefulWidget {
   @visibleForTesting
   static String? sanitizedLogoUrl(String? url) {
     final trimmed = url?.trim();
-    return trimmed == null || trimmed.isEmpty ? null : trimmed;
+    final uri = trimmed == null ? null : Uri.tryParse(trimmed);
+    return uri != null && RoasterLogoClient.isHttpUrl(uri) ? trimmed : null;
   }
 
   @visibleForTesting
@@ -101,6 +102,7 @@ class _RoasterLogoState extends State<RoasterLogo> {
   bool _errorHandlingScheduled = false;
   Color? _bgColor;
   BoxFit? _fit;
+  Uint8List? _logoBytes;
 
   @override
   void initState() {
@@ -132,6 +134,7 @@ class _RoasterLogoState extends State<RoasterLogo> {
     _handlingError = false;
     _errorHandlingScheduled = false;
     _fit = null;
+    _logoBytes = null;
     _bgColor = null;
 
     unawaited(_initialize());
@@ -189,86 +192,49 @@ class _RoasterLogoState extends State<RoasterLogo> {
 
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final cacheKey = _normalizeUrl(loadUrl);
-    final fit = _getFitFromCache(cacheKey);
-    final color = _getBgColorFromCache(cacheKey);
-    final isHorizontal = _getIsHorizontalFromCache(cacheKey);
-    final cacheVersion = _getCacheVersion();
-
-    // Check if we need to force re-analysis (debug mode or cache version mismatch)
-    final forceReanalysis =
-        widget.debugForceReanalysis || cacheVersion != _currentCacheVersion;
-
-    if (forceReanalysis) {
-      log(
-        '🔄 Forcing re-analysis for $loadUrl (debug: ${widget.debugForceReanalysis}, cache version: $cacheVersion vs $_currentCacheVersion)',
+    try {
+      final bytes = await RoasterLogoCacheManager.loadBytes(
+        SupabaseEndpointResolver.localizeStorageUrl(loadUrl),
+        key: cacheKey,
       );
-      // Clear old cache if version mismatch
-      if (cacheVersion != _currentCacheVersion) {
+      if (!mounted || _currentUrl != loadUrl) return;
+      final vector = RoasterLogoClient.isSvg(Uri.parse(loadUrl));
+      final reanalyse =
+          widget.debugForceReanalysis ||
+          _getCacheVersion() != _currentCacheVersion;
+      if (reanalyse) {
         await _clearCacheForUrl(cacheKey);
         await _saveCacheVersion(_currentCacheVersion);
       }
-    }
-
-    if (fit != null && !forceReanalysis) {
-      log(
-        '✅ Using cached metadata for $loadUrl, isHorizontal: ${isHorizontal ?? false}',
-      );
-      if (mounted) {
-        setState(() {
-          _fit = fit;
-          _bgColor = color;
-        });
-
-        // Notify parent widget about the aspect ratio immediately for cached values
-        if (isHorizontal != null) {
-          log(
-            '📢 Notifying parent widget immediately: isHorizontal = $isHorizontal',
-          );
-          // Use WidgetsBinding to ensure callback happens in the same frame
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (mounted) {
-              log(
-                '🚀 Executing callback for cached value: isHorizontal = $isHorizontal',
-              );
-              widget.onAspectRatioDetermined?.call(isHorizontal);
-            }
-          });
+      final cachedFit = reanalyse ? null : _getFitFromCache(cacheKey);
+      final fit = vector
+          ? BoxFit.contain
+          : cachedFit ?? await _computeFit(bytes);
+      final color = vector
+          ? null
+          : cachedFit == null
+          ? await _analyzeEdgeLuminance(bytes, isDarkMode)
+          : _getBgColorFromCache(cacheKey);
+      final horizontal = vector
+          ? null
+          : cachedFit == null
+          ? await _computeIsHorizontal(bytes)
+          : _getIsHorizontalFromCache(cacheKey);
+      if (!vector && cachedFit == null) {
+        await _saveFitToCache(cacheKey, fit);
+        await _saveBgColorToCache(cacheKey, color);
+        if (horizontal != null) {
+          await _saveIsHorizontalToCache(cacheKey, horizontal);
         }
       }
-      return;
-    }
-
-    log(
-      'ℹ️ No cached metadata for $loadUrl or forcing re-analysis, computing...',
-    );
-
-    try {
-      final file = await RoasterLogoCacheManager.instance.getSingleFile(
-        loadUrl,
-        key: cacheKey,
-      );
-      final bytes = await file.readAsBytes();
-
-      final computedFit = await _computeFit(bytes);
-      final computedColor = await _analyzeEdgeLuminance(bytes, isDarkMode);
-      final computedIsHorizontal = await _computeIsHorizontal(bytes);
-
-      await _saveFitToCache(cacheKey, computedFit);
-      await _saveBgColorToCache(cacheKey, computedColor);
-      await _saveIsHorizontalToCache(cacheKey, computedIsHorizontal);
-
-      if (mounted && _currentUrl == loadUrl) {
-        setState(() {
-          _fit = computedFit;
-          _bgColor = computedColor;
-          _terminalFailure = false;
-        });
-
-        // Notify parent widget about the aspect ratio
-        log(
-          '📢 Notifying parent widget: computed isHorizontal = $computedIsHorizontal',
-        );
-        widget.onAspectRatioDetermined?.call(computedIsHorizontal);
+      if (!mounted || _currentUrl != loadUrl) return;
+      setState(() {
+        _logoBytes = bytes;
+        _fit = fit;
+        _bgColor = color;
+      });
+      if (horizontal != null) {
+        widget.onAspectRatioDetermined?.call(horizontal);
       }
     } catch (_) {
       await _handleError(failedUrl: loadUrl);
@@ -300,6 +266,7 @@ class _RoasterLogoState extends State<RoasterLogo> {
             _triedOriginalAfterMirror = true;
             _terminalFailure = false;
             _fit = null;
+            _logoBytes = null;
             _bgColor = null;
           });
           unawaited(_loadLogo());
@@ -318,6 +285,7 @@ class _RoasterLogoState extends State<RoasterLogo> {
             _currentUrl = mirrorUrl;
             _terminalFailure = false;
             _fit = null;
+            _logoBytes = null;
             _bgColor = null;
           });
           unawaited(_loadLogo());
@@ -328,6 +296,7 @@ class _RoasterLogoState extends State<RoasterLogo> {
             _currentUrl = null;
             _terminalFailure = true;
             _fit = null;
+            _logoBytes = null;
             _bgColor = null;
           });
         }
@@ -422,7 +391,9 @@ class _RoasterLogoState extends State<RoasterLogo> {
           return Icon(widget.placeholderIcon, size: widget.height);
         }
 
-        if (_fit == null) {
+        final bytes = _logoBytes;
+        final url = _currentUrl!;
+        if (_fit == null || bytes == null) {
           // Still loading
           return SizedBox(
             height: widget.height,
@@ -433,7 +404,7 @@ class _RoasterLogoState extends State<RoasterLogo> {
           );
         }
 
-        final isSvg = _currentUrl!.toLowerCase().endsWith('.svg');
+        final isSvg = RoasterLogoClient.isSvg(Uri.parse(url));
         final usedFit = widget.forceFit ?? _fit ?? BoxFit.contain;
 
         return Padding(
@@ -451,21 +422,25 @@ class _RoasterLogoState extends State<RoasterLogo> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(widget.borderRadius),
                 child: isSvg
-                    ? SvgPicture.network(
-                        _currentUrl!,
+                    ? SvgPicture.memory(
+                        bytes,
                         fit: BoxFit.contain,
+                        width: widget.width ?? widget.height,
+                        height: widget.height,
                         placeholderBuilder: (context) =>
                             Icon(widget.placeholderIcon, size: widget.height),
+                        errorBuilder: (context, error, _) {
+                          _scheduleHandleError(url);
+                          return Icon(
+                            widget.placeholderIcon,
+                            size: widget.height,
+                          );
+                        },
                       )
-                    : CachedNetworkImage(
-                        cacheKey: _normalizeUrl(_currentUrl!),
-                        imageUrl:
-                            SupabaseEndpointResolver.localizeStorageUrl(_currentUrl!),
-                        cacheManager: RoasterLogoCacheManager.instance,
+                    : Image.memory(
+                        bytes,
                         fit: BoxFit.contain,
-                        placeholder: (context, url) =>
-                            Icon(widget.placeholderIcon, size: widget.height),
-                        errorWidget: (context, url, error) {
+                        errorBuilder: (context, error, _) {
                           _scheduleHandleError(url);
                           return Icon(
                             widget.placeholderIcon,

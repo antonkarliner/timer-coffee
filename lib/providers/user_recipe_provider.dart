@@ -1,3 +1,4 @@
+import '../utils/recipe_schedule_limits.dart';
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import '../models/recipe_model.dart';
@@ -6,6 +7,8 @@ import 'package:drift/drift.dart' as drift;
 import 'package:uuid/uuid.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:coffee_timer/config/network_timeouts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../services/recipe_publication.dart';
 import '../services/analytics_service.dart';
 import '../utils/app_logger.dart';
 
@@ -14,21 +17,34 @@ class UserRecipeProvider with ChangeNotifier {
   final AppDatabase _database;
   final Uuid uuid = const Uuid();
 
+  SupabaseClient get _client =>
+      _database.accountScope?.client ?? Supabase.instance.client;
+
+  User? get _currentUser {
+    final scope = _database.accountScope;
+    return scope == null
+        ? Supabase.instance.client.auth.currentUser
+        : scope.currentUser;
+  }
+
   UserRecipeProvider(this._database);
 
   List<RecipeModel> get userRecipes => [..._userRecipes];
 
   Future<void> createUserRecipe(RecipeModel recipe) async {
+    validateRecipeSchedule(recipe.steps.map((step) => step.time.inSeconds));
     // Get current user from Supabase
-    final user = Supabase.instance.client.auth.currentUser;
+    final owner = localRecipeOwner(_database, _currentUser?.id);
+    if (owner == null || !recipe.id.startsWith('usr-$owner-')) {
+      throw StateError('Recipe belongs to another account');
+    }
     // Locale-agnostic policy for user recipes: canonicalize to 'en' on write
     const String effectiveLocale = 'en';
 
     // Create a recipe with vendor ID
     final recipeWithVendorId = recipe.copyWith(
-      // Use "usr-<user_id>" as vendor ID, but only if user is not null
-      // Make sure to use the full user ID to match the RLS policy
-      vendorId: user != null ? 'usr-${user.id}' : null,
+      vendorId: 'usr-$owner',
+      isPublic: false,
     );
 
     // Add debug logging
@@ -96,6 +112,7 @@ class UserRecipeProvider with ChangeNotifier {
   }
 
   Future<void> updateUserRecipe(RecipeModel recipe) async {
+    validateRecipeSchedule(recipe.steps.map((step) => step.time.inSeconds));
     // Locale-agnostic policy for user recipes: canonicalize to 'en' on write
     const String effectiveLocale = 'en';
     AppLogger.debug(
@@ -103,19 +120,19 @@ class UserRecipeProvider with ChangeNotifier {
     );
 
     // Get current user from Supabase for authentication check
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
 
-    // Check if the recipe is being made public for the first time
     final existingRecipe = await (_database.select(
       _database.recipes,
     )..where((tbl) => tbl.id.equals(recipe.id))).getSingleOrNull();
-    final bool isBecomingPublic =
-        existingRecipe != null &&
-        existingRecipe.isPublic == false &&
-        recipe.isPublic == true;
-    AppLogger.debug(
-      'DEBUG: Recipe ${AppLogger.sanitize(recipe.id)} is becoming public: $isBecomingPublic (existing: ${existingRecipe?.isPublic}, new: ${recipe.isPublic})',
-    );
+    final owner = localRecipeOwner(_database, user?.id);
+    if (!ownsUserRecipe(
+      recipe.id,
+      existingRecipe?.vendorId ?? recipe.vendorId,
+      owner,
+    )) {
+      throw StateError('Recipe belongs to another account');
+    }
 
     // When the recipe's base coffee/water amounts change, any saved per-user
     // custom amount override (written by "Start brewing") becomes stale: it is a
@@ -125,13 +142,6 @@ class UserRecipeProvider with ChangeNotifier {
         existingRecipe != null &&
         (existingRecipe.coffeeAmount != recipe.coffeeAmount ||
             existingRecipe.waterAmount != recipe.waterAmount);
-
-    // Safety log: moderation flag transition
-    if (isBecomingPublic) {
-      AppLogger.security(
-        'Recipe ${AppLogger.sanitize(recipe.id)} becoming public (first time) - setting moderation flag to false',
-      );
-    }
 
     final recipeCompanion = RecipesCompanion(
       id: drift.Value(recipe.id),
@@ -151,13 +161,9 @@ class UserRecipeProvider with ChangeNotifier {
       originalAuthorId: recipe.originalAuthorId != null
           ? drift.Value(recipe.originalAuthorId!)
           : const drift.Value.absent(),
-      isPublic: drift.Value(recipe.isPublic),
-      // Moderation policy:
-      // - Do NOT set needsModerationReview when first becoming public.
-      // - The share flow performs moderation immediately before toggling public
-      //   and explicitly clears the flag. Setting it here would re-flag on restart.
-      // - Future edits to already-public recipes are moderated in the save flow.
-      needsModerationReview: const drift.Value(false),
+      // A content edit cannot change the audience. A public row's new local
+      // content is a draft until the server publishes that exact revision.
+      needsModerationReview: drift.Value(existingRecipe?.isPublic ?? false),
       // Saving over an existing recipe id always produces a live recipe:
       // clear any tombstone so a deleted-then-recreated recipe is visible
       // again instead of staying invisible in every filtered list.
@@ -223,7 +229,9 @@ class UserRecipeProvider with ChangeNotifier {
 
     final index = _userRecipes.indexWhere((element) => element.id == recipe.id);
     if (index >= 0) {
-      _userRecipes[index] = recipe;
+      _userRecipes[index] = recipe.copyWith(
+        isPublic: existingRecipe?.isPublic ?? false,
+      );
       notifyListeners();
     }
   }
@@ -236,7 +244,7 @@ class UserRecipeProvider with ChangeNotifier {
     String userId,
   ) async {
     try {
-      await Supabase.instance.client
+      await _client
           .from('user_recipe_preferences')
           .update({
             'custom_coffee_amount': null,
@@ -263,7 +271,7 @@ class UserRecipeProvider with ChangeNotifier {
     // succeeds; if it fails the error propagates — the delete aborts and the
     // calling screen surfaces it — instead of being swallowed into a log.
     if (recipeId.startsWith('usr-')) {
-      final user = Supabase.instance.client.auth.currentUser;
+      final user = _currentUser;
       // Only perform remote cleanup if user is logged in and not anonymous
       if (user != null && !user.isAnonymous) {
         final userId = user.id;
@@ -274,7 +282,7 @@ class UserRecipeProvider with ChangeNotifier {
         // 1. Tombstone the recipe remotely and make it private. Critical:
         //    failure aborts the whole delete so local and remote cannot
         //    diverge.
-        await Supabase.instance.client
+        await _client
             .from('user_recipes')
             .update({
               'is_deleted': true,
@@ -302,7 +310,7 @@ class UserRecipeProvider with ChangeNotifier {
         // 3. Delete related user_recipe_preferences. Best-effort for the
         //    same reason; the stale preferences are harmless.
         try {
-          await Supabase.instance.client
+          await _client
               .from('user_recipe_preferences')
               .delete()
               .match({'user_id': userId, 'recipe_id': recipeId})
@@ -331,16 +339,22 @@ class UserRecipeProvider with ChangeNotifier {
     final brewCount = await _database.userStatsDao.countBrewsForRecipe(
       recipeId,
     );
-    final recipeRow = await (_database.select(_database.recipes)
-          ..where((tbl) => tbl.id.equals(recipeId)))
-        .getSingleOrNull();
+    final recipeRow = await (_database.select(
+      _database.recipes,
+    )..where((tbl) => tbl.id.equals(recipeId))).getSingleOrNull();
 
     // Local commit: tombstone the recipe row instead of hard-deleting it.
     // The localizations and steps are kept so diary entries logged with the
     // recipe still resolve their name and derived water temperature, and the
     // user_stats rows survive (a hard delete would cascade through
     // user_stats.recipe_id and destroy the brew history).
-    await _database.recipesDao.softDeleteRecipe(recipeId);
+    await _database.transaction(() async {
+      await _database.recipesDao.softDeleteRecipe(recipeId);
+      await _database.recipesDao.updateRecipe(
+        recipeId,
+        const RecipesCompanion(isPublic: drift.Value(false)),
+      );
+    });
 
     // Fired only after the tombstone committed: a failed delete (the remote
     // leg above throws) must not emit.
@@ -378,11 +392,11 @@ class UserRecipeProvider with ChangeNotifier {
     await _database.recipesDao.restoreRecipe(recipeId);
 
     if (recipeId.startsWith('usr-')) {
-      final user = Supabase.instance.client.auth.currentUser;
+      final user = _currentUser;
       if (user != null && !user.isAnonymous) {
         unawaited(() async {
           try {
-            await Supabase.instance.client
+            await _client
                 .from('user_recipes')
                 .update({
                   'is_deleted': false,
@@ -418,67 +432,41 @@ class UserRecipeProvider with ChangeNotifier {
   }
 
   Future<void> unpublishRecipe(String recipeId) async {
-    // Check if this is a user-created recipe
-    if (!recipeId.startsWith('usr-')) {
-      throw Exception("Cannot unpublish non-user created recipe: $recipeId");
+    final client = _client;
+    final user = _currentUser;
+    final row = await (_database.select(
+      _database.recipes,
+    )..where((tbl) => tbl.id.equals(recipeId))).getSingleOrNull();
+    if (user == null ||
+        user.isAnonymous ||
+        row == null ||
+        !ownsUserRecipe(recipeId, row.vendorId, user.id)) {
+      throw StateError('Recipe belongs to another account');
     }
 
-    // Get current user for authentication check
-    final user = Supabase.instance.client.auth.currentUser;
-
-    // Update local database in a transaction
-    await _database.transaction(() async {
-      final recipeCompanion = RecipesCompanion(
-        isPublic: drift.Value(false),
-        needsModerationReview: drift.Value(false),
-        lastModified: drift.Value(DateTime.now().toUtc()),
-      );
-
-      await (_database.update(
-        _database.recipes,
-      )..where((tbl) => tbl.id.equals(recipeId))).write(recipeCompanion);
-    });
-
-    // Update Supabase if user is authenticated and not anonymous
-    if (user != null && !user.isAnonymous) {
-      try {
-        await Supabase.instance.client
-            .from('user_recipes')
-            .update({
-              'ispublic': false,
-              'last_modified': DateTime.now().toUtc().toIso8601String(),
-            })
-            .eq('id', recipeId)
-            .timeout(NetworkTimeouts.handshake);
-        AppLogger.debug(
-          'Successfully unpublished recipe ${AppLogger.sanitize(recipeId)} in Supabase.',
-        );
-      } catch (e) {
-        AppLogger.error(
-          "Error unpublishing recipe ${AppLogger.sanitize(recipeId)} in Supabase",
-          errorObject: e,
-        );
-        // Local update still succeeded, so don't rethrow
-      }
-    } else {
-      AppLogger.debug(
-        'Skipping Supabase update for unpublish - user not authenticated',
-      );
+    final prefs = await SharedPreferences.getInstance();
+    final key = pendingRecipeWithdrawalKey(user.id, recipeId);
+    if (!await prefs.setBool(key, true)) {
+      throw StateError('Could not save pending recipe withdrawal');
+    }
+    if (!await confirmRecipeWithdrawal(_database, client, user.id, recipeId)) {
+      throw const PendingRecipeWithdrawal();
     }
 
-    // Update local state
     final index = _userRecipes.indexWhere((element) => element.id == recipeId);
     if (index >= 0) {
       _userRecipes[index] = _userRecipes[index].copyWith(isPublic: false);
     }
-
     notifyListeners();
   }
 
   // Returns the ID of the newly created recipe, or null on failure.
   Future<String?> copyUserRecipe(RecipeModel originalRecipe) async {
+    validateRecipeSchedule(
+      originalRecipe.steps.map((step) => step.time.inSeconds),
+    );
     // Get current user and locale
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user == null) {
       throw Exception("User not logged in, cannot copy recipe.");
     }
@@ -518,7 +506,7 @@ class UserRecipeProvider with ChangeNotifier {
           originalAuthorId: originalRecipe.originalAuthorId != null
               ? drift.Value(originalRecipe.originalAuthorId!)
               : const drift.Value.absent(),
-          isPublic: drift.Value(originalRecipe.isPublic), // Copy isPublic field
+          isPublic: const drift.Value(false),
           // A copy is always a live recipe.
           isDeleted: const drift.Value(false),
           deletedAt: const drift.Value(null),
@@ -592,7 +580,7 @@ class UserRecipeProvider with ChangeNotifier {
   Future<String?> importSupabaseRecipe(
     Map<String, dynamic> supabaseRecipeData,
   ) async {
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user == null) {
       AppLogger.warning("User not logged in, cannot import recipe.");
       return null; // Or throw an exception
@@ -600,36 +588,52 @@ class UserRecipeProvider with ChangeNotifier {
 
     final String originalSupabaseId = supabaseRecipeData['id'];
     final String userId = user.id;
+    final originalSourceId = supabaseRecipeData['import_id'];
+    final originalAuthorId =
+        supabaseRecipeData['original_author_id'] as String? ??
+        (originalSourceId == null
+            ? _extractAuthorUserId(supabaseRecipeData['vendor_id']) ??
+                  _extractAuthorUserId(originalSupabaseId)
+            : supabaseRecipeData.containsKey('original_author_id')
+            ? null
+            : _extractAuthorUserId(originalSourceId));
 
-    // Generate new local ID
-    final now = DateTime.now(); // Keep local 'now' for timestamp generation
-    final nowUtc = now.toUtc(); // Get UTC time for database storage
-    final timestamp =
-        '${now.year.toString().substring(2)}${now.month.toString().padLeft(2, '0')}${now.day.toString().padLeft(2, '0')}${now.hour.toString().padLeft(2, '0')}${now.minute.toString().padLeft(2, '0')}${now.second.toString().padLeft(2, '0')}';
-    final newLocalRecipeId = 'usr-$userId-$timestamp';
+    final nowUtc = DateTime.now().toUtc();
+    var newLocalRecipeId = importedRecipeId(userId, originalSupabaseId);
     // Make sure to use the full user ID to match the RLS policy
     final newVendorId = 'usr-$userId';
 
     try {
-      await _database.transaction(() async {
+      validateImportedRecipeSchedule(supabaseRecipeData);
+      final added = await _database.transaction(() async {
+        if (_currentUser?.id != userId) {
+          throw StateError('Recipe import account changed');
+        }
+        final matching =
+            await (_database.select(_database.recipes)..where(
+                  (tbl) =>
+                      tbl.importId.equals(originalSupabaseId) &
+                      tbl.vendorId.equals(newVendorId) &
+                      tbl.isImported.equals(true),
+                ))
+                .get();
+        for (final existing in matching) {
+          if (!existing.isDeleted &&
+              isExactImportedRecipe(existing.id, userId, originalSupabaseId)) {
+            newLocalRecipeId = existing.id;
+            return false;
+          }
+        }
+        if (matching.any((row) => row.id == newLocalRecipeId)) {
+          // The old copy's tombstone remains part of cross-device sync.
+          newLocalRecipeId = '$newLocalRecipeId-${uuid.v7()}';
+        }
         // 1. Insert Recipe
         final recipeCompanion = RecipesCompanion(
-          // --- MODIFICATION START ---
-          // Check if the recipe being imported already has an import_id.
-          // If yes, preserve it. Otherwise, use the original recipe's ID.
-          importId: drift.Value(
-            supabaseRecipeData['import_id'] ?? originalSupabaseId,
-          ), // Preserve existing or use original ID
-          // --- MODIFICATION END ---
-          // Attribution provenance: prefer the value already stamped on the
-          // source row (survives re-share chains); for legacy rows derive the
-          // author from the root recipe id / vendor id, which embed it.
-          originalAuthorId: drift.Value(
-            supabaseRecipeData['original_author_id'] ??
-                _extractAuthorUserId(supabaseRecipeData['import_id']) ??
-                _extractAuthorUserId(originalSupabaseId) ??
-                _extractAuthorUserId(supabaseRecipeData['vendor_id']),
-          ),
+          importId: drift.Value(originalSupabaseId),
+          // A present null on an adaptation can be an ON DELETE SET NULL
+          // from the server. Re-deriving that UID would break the sync FK.
+          originalAuthorId: drift.Value(originalAuthorId),
           id: drift.Value(newLocalRecipeId),
           brewingMethodId: drift.Value(supabaseRecipeData['brewing_method_id']),
           coffeeAmount: drift.Value(
@@ -647,9 +651,7 @@ class UserRecipeProvider with ChangeNotifier {
           vendorId: drift.Value(newVendorId),
           lastModified: drift.Value(nowUtc), // Use UTC time
           isImported: drift.Value(true), // Mark as imported
-          isPublic: drift.Value(
-            supabaseRecipeData['ispublic'] ?? false,
-          ), // Include isPublic field from Supabase
+          isPublic: const drift.Value(false),
           // An import (re)creating a recipe id always produces a live recipe;
           // never leave a stale tombstone on it.
           isDeleted: const drift.Value(false),
@@ -657,7 +659,7 @@ class UserRecipeProvider with ChangeNotifier {
         );
         await _database.recipesDao.insertOrUpdateRecipe(recipeCompanion);
 
-        // 2. Insert Localizations (import as-is, then normalize to canonical 'en')
+        // 2. Preserve the publication's localizations.
         final localizationsData =
             supabaseRecipeData['user_recipe_localizations'] as List<dynamic>? ??
             [];
@@ -669,8 +671,7 @@ class UserRecipeProvider with ChangeNotifier {
           final localizationCompanion = RecipeLocalizationsCompanion(
             id: drift.Value(uuid.v4()), // New unique ID
             recipeId: drift.Value(newLocalRecipeId), // Link to new local recipe
-            // Canonicalize to 'en'
-            locale: const drift.Value('en'),
+            locale: drift.Value(locData['locale']),
             name: drift.Value(locData['name']),
             grindSize: drift.Value(locData['grind_size']),
             shortDescription: drift.Value(locData['short_description']),
@@ -680,7 +681,7 @@ class UserRecipeProvider with ChangeNotifier {
           );
         }
 
-        // 3. Insert Steps (import as-is, then normalize to canonical 'en' to avoid duplicates)
+        // 3. Preserve the localized steps.
         final stepsData =
             supabaseRecipeData['user_steps'] as List<dynamic>? ?? [];
         // Delete any pre-existing steps for safety
@@ -691,9 +692,8 @@ class UserRecipeProvider with ChangeNotifier {
             recipeId: drift.Value(newLocalRecipeId), // Link to new local recipe
             stepOrder: drift.Value(stepData['step_order']),
             description: drift.Value(stepData['description']),
-            time: drift.Value(stepData['time']),
-            // Canonicalize to 'en' to keep locale-agnostic behavior
-            locale: const drift.Value('en'),
+            time: drift.Value(stepData['time'].toString()),
+            locale: drift.Value(stepData['locale']),
           );
           await _database.stepsDao.insertOrUpdateStep(stepCompanion);
         }
@@ -703,7 +703,23 @@ class UserRecipeProvider with ChangeNotifier {
           newLocalRecipeId,
           isFavorite: false, // Default value
         );
+        return true;
       });
+      if (added && _currentUser?.id == userId) {
+        try {
+          await _client
+              .rpc(
+                'log_recipe_import',
+                params: {'p_import_id': originalSupabaseId},
+              )
+              .timeout(NetworkTimeouts.handshake);
+        } catch (error) {
+          AppLogger.warning(
+            'Could not record recipe import',
+            errorObject: error,
+          );
+        }
+      }
 
       AppLogger.debug(
         "Recipe imported successfully with new ID: ${AppLogger.sanitize(newLocalRecipeId)}",
@@ -901,7 +917,7 @@ class UserRecipeProvider with ChangeNotifier {
 
   // Method to handle moderation checks after user authentication
   Future<void> checkModerationAfterLogin() async {
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user == null || user.isAnonymous) {
       AppLogger.debug(
         'DEBUG: Skipping post-login moderation check - user not authenticated or anonymous',
@@ -937,7 +953,7 @@ class UserRecipeProvider with ChangeNotifier {
 
   // Method to clear moderation flags for unpublished recipes owned by the current user
   Future<int> clearModerationFlagsForUnpublishedRecipes() async {
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user == null || user.isAnonymous) {
       AppLogger.debug(
         'DEBUG: Skipping moderation cleanup - user not authenticated or anonymous',

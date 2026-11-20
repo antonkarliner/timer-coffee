@@ -43,8 +43,7 @@ void main() {
     test('readTrustedDisplayName returns the cached name for the same user',
         () async {
       final prefs = await freshPrefs({
-        'user_display_name': 'Brewer',
-        'user_display_name_user_id': 'user-1',
+        'user_display_name_user-1': 'Brewer',
       });
       expect(readTrustedDisplayName(prefs, 'user-1'), 'Brewer');
     });
@@ -57,8 +56,7 @@ void main() {
     test('readTrustedDisplayName misses when the id key names another user',
         () async {
       final prefs = await freshPrefs({
-        'user_display_name': 'Someone Else',
-        'user_display_name_user_id': 'user-2',
+        'user_display_name_user-2': 'Someone Else',
       });
       expect(readTrustedDisplayName(prefs, 'user-1'), isNull);
     });
@@ -67,8 +65,7 @@ void main() {
         () async {
       final prefs = await freshPrefs();
       await writeDisplayNameCache(prefs, 'user-1', 'Brewer');
-      expect(prefs.getString('user_display_name'), 'Brewer');
-      expect(prefs.getString('user_display_name_user_id'), 'user-1');
+      expect(prefs.getString('user_display_name_user-1'), 'Brewer');
     });
   });
 
@@ -107,8 +104,7 @@ void main() {
     testWidgets('shows the cached name before the fetch resolves',
         (tester) async {
       await freshPrefs({
-        'user_display_name': 'Cached Name',
-        'user_display_name_user_id': 'user-1',
+        'user_display_name_user-1': 'Cached Name',
       });
       final fetch = Completer<String?>();
       await pumpIdentity(tester, fetch: (userId) => fetch.future);
@@ -184,8 +180,7 @@ void main() {
     testWidgets('never shows a cached name owned by another user',
         (tester) async {
       await freshPrefs({
-        'user_display_name': 'Someone Else',
-        'user_display_name_user_id': 'user-2',
+        'user_display_name_user-2': 'Someone Else',
       });
       final fetch = Completer<String?>();
       await pumpIdentity(tester, fetch: (userId) => fetch.future);
@@ -200,12 +195,11 @@ void main() {
       expect(find.text('Someone Else'), findsNothing);
     });
 
-    testWidgets('a successful fetch writes both cache keys', (tester) async {
+    testWidgets('a successful fetch writes the account-scoped cache', (tester) async {
       final prefs = await freshPrefs();
       await pumpIdentity(tester, fetch: (userId) async => 'Server Name');
 
-      expect(prefs.getString('user_display_name'), 'Server Name');
-      expect(prefs.getString('user_display_name_user_id'), 'user-1');
+      expect(prefs.getString('user_display_name_user-1'), 'Server Name');
     });
 
     testWidgets('a failed fetch keeps the current title and does not throw',
@@ -256,8 +250,7 @@ void main() {
         'a cache change followed by the refresh signal shows the new name',
         (tester) async {
       final prefs = await freshPrefs({
-        'user_display_name': 'Old Name',
-        'user_display_name_user_id': 'user-1',
+        'user_display_name_user-1': 'Old Name',
       });
       final signal = ValueNotifier<int>(0);
       addTearDown(signal.dispose);
@@ -273,7 +266,7 @@ void main() {
 
       // The account screen's rename path writes the name without the id key;
       // the id this widget wrote earlier stays valid for the same user.
-      await prefs.setString('user_display_name', 'New Name');
+      await writeDisplayNameCache(prefs, 'user-1', 'New Name');
       signal.value++;
       await tester.pump();
       await tester.pump();

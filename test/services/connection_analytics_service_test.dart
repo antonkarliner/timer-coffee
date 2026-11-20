@@ -1,4 +1,5 @@
 import 'package:coffee_timer/config/supabase_endpoint_resolver.dart';
+import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/services/connection_analytics_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -30,8 +31,9 @@ void main() {
     await SupabaseEndpointResolver.resolve();
   }
 
-  setUp(() {
+  setUp(() async {
     SharedPreferences.setMockInitialValues({});
+    await AnalyticsService.initialize(await SharedPreferences.getInstance());
     sent = [];
     ConnectionAnalyticsService.debugSendEvent = (endpoint, platform) async {
       sent.add([endpoint, platform]);
@@ -39,6 +41,7 @@ void main() {
   });
 
   tearDown(() {
+    AnalyticsService.resetForTesting();
     SupabaseEndpointResolver.debugClientFactory = http.Client.new;
   });
 
@@ -59,7 +62,7 @@ void main() {
     expect(sent.first.first, 'proxy');
   });
 
-  test('reports again when the endpoint changes within the same day', () async {
+  test('does not report again when the endpoint changes the same day', () async {
     await useDirect();
     await ConnectionAnalyticsService.reportConnectionType();
 
@@ -67,7 +70,36 @@ void main() {
     await useProxy();
     await ConnectionAnalyticsService.reportConnectionType();
 
-    expect(sent.map((e) => e.first), ['direct', 'proxy']);
+    expect(sent.map((e) => e.first), ['direct']);
+  });
+
+  test('honors persisted general opt-out on startup and endpoint change', () async {
+    AnalyticsService.resetForTesting();
+    SharedPreferences.setMockInitialValues({'analytics_general_enabled': false});
+    final prefs = await SharedPreferences.getInstance();
+    await AnalyticsService.initialize(prefs);
+    await useDirect();
+    await ConnectionAnalyticsService.reportConnectionType();
+    await useProxy();
+    await ConnectionAnalyticsService.reportConnectionType();
+    expect(sent, isEmpty);
+    expect(prefs.getString('connection_analytics_last_report'), isNull);
+  });
+
+  test('honors the remote stop control', () async {
+    AnalyticsService.instance.setGlobalKillSwitch(true);
+    await useDirect();
+    await ConnectionAnalyticsService.reportConnectionType();
+    expect(sent, isEmpty);
+  });
+
+  test('recognizes the legacy marker even after changing endpoint', () async {
+    final prefs = await SharedPreferences.getInstance();
+    final day = DateTime.now().toUtc().toIso8601String().substring(0, 10);
+    await prefs.setString('connection_analytics_last_report', '$day|direct');
+    await useProxy();
+    await ConnectionAnalyticsService.reportConnectionType();
+    expect(sent, isEmpty);
   });
 
   test('a failed send is not marked, so the next launch retries', () async {

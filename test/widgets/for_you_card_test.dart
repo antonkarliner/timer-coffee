@@ -14,6 +14,7 @@ import 'package:coffee_timer/widgets/hub_list_tile.dart';
 import 'package:coffee_timer/widgets/stock_bean_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
@@ -244,6 +245,29 @@ void main() {
       AnalyticsService.sendOverride = (_) async {};
     });
     tearDown(AnalyticsService.resetForTesting);
+
+    testWidgets('bean analytics off opens the product without a referral',
+        (tester) async {
+      await AnalyticsService.instance.setBeansEnabled(false);
+      const channel = MethodChannel('plugins.flutter.io/url_launcher');
+      final messenger = tester.binding.defaultBinaryMessenger;
+      final launches = <String>[];
+      messenger.setMockMethodCallHandler(channel, (call) async {
+        launches.add(call.arguments['url'] as String);
+        return true;
+      });
+      addTearDown(() => messenger.setMockMethodCallHandler(channel, null));
+      final env = await _pumpCard(
+        tester,
+        items: [rec('s1', productUrl: 'https://shop.example.com/b1')],
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(_viewLabel));
+      await tester.pumpAndSettle();
+
+      expect(launches.single, startsWith('https://shop.example.com/b1'));
+      expect(env.client.clickedIds, isEmpty);
+    });
 
     List<Map<String, dynamic>> events(String name) => AnalyticsService
         .instance
@@ -659,7 +683,7 @@ void main() {
       }
     });
 
-    testWidgets('valid https productUrl → view button, tap logs the click',
+    testWidgets('valid https productUrl displays a working product button',
         (tester) async {
       final env = await _pumpCard(
         tester,
@@ -672,7 +696,7 @@ void main() {
       await tester.tap(find.text(_viewLabel));
       await tester.pumpAndSettle();
 
-      expect(env.client.clickedIds, ['s1']);
+      expect(env.client.clickedIds, isEmpty);
       expect(tester.takeException(), isNull,
           reason: 'launchUrl has no handler in tests; the handler must '
               'tolerate that');

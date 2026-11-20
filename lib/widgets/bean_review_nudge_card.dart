@@ -127,7 +127,6 @@ class _BeanReviewNudgeCardState extends State<BeanReviewNudgeCard> {
     AnalyticsService.maybeInstance?.track(
       'review_nudge_card_shown',
       properties: {
-        'bean_uuid': widget.bean.beansUuid,
         'trigger': widget.trigger,
         'impression_count': count,
       },

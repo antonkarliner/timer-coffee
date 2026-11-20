@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:coffee_timer/models/brew_step_model.dart';
 import 'package:coffee_timer/models/recipe_model.dart';
 import 'package:drift/drift.dart';
+import 'account_database_scope.dart';
 import 'connection/connection.dart' show connect;
 import '../models/brewing_method_model.dart';
 import '../models/supported_locale_model.dart';
@@ -378,22 +379,28 @@ class HelpArticles extends Table {
 )
 class AppDatabase extends _$AppDatabase {
   final bool enableForeignKeyConstraints;
+  final AccountDatabaseScope? accountScope;
   final Uuid _uuid = Uuid();
 
-  AppDatabase(super.executor, {bool? enableForeignKeyConstraints})
-    : enableForeignKeyConstraints = enableForeignKeyConstraints ?? true;
+  AppDatabase(
+    super.executor, {
+    bool? enableForeignKeyConstraints,
+    this.accountScope,
+  }) : enableForeignKeyConstraints = enableForeignKeyConstraints ?? true;
 
-  AppDatabase.withDefault({bool enableForeignKeyConstraints = true})
-    : this(
-        _openConnection(),
-        enableForeignKeyConstraints: enableForeignKeyConstraints,
-      );
+  AppDatabase.withDefault({
+    bool enableForeignKeyConstraints = true,
+    AccountDatabaseScope? accountScope,
+  }) : this(
+         _openConnection(accountScope?.databaseName ?? 'db.sqlite'),
+         enableForeignKeyConstraints: enableForeignKeyConstraints,
+         accountScope: accountScope,
+       );
 
   factory AppDatabase.fromExecutor(QueryExecutor e) => AppDatabase(e);
 
   @override
-  int get schemaVersion =>
-      41; // Recipe soft-delete marker + deleted_at on stats/beans/recipes
+  int get schemaVersion => 41; // Recipe soft-delete marker + deleted_at on stats/beans/recipes
 
   String _generateUuidV7() {
     return _uuid.v7();
@@ -924,6 +931,6 @@ class AppDatabase extends _$AppDatabase {
   );
 }
 
-DatabaseConnection _openConnection() {
-  return DatabaseConnection.delayed(connect());
+DatabaseConnection _openConnection(String databaseName) {
+  return DatabaseConnection.delayed(connect(databaseName));
 }

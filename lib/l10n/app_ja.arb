@@ -762,6 +762,7 @@
   "@unpublishRecipeDialogMakePrivate": {
     "description": "レシピを非公開にするボタンのテキスト"
   },
+  "recipeUnpublishPending": "レシピの非公開設定は保留中です。同期が完了するまでリンクが有効な場合があります。",
   "recipeUnpublishSuccess": "レシピの公開を正常に停止しました",
   "@recipeUnpublishSuccess": {
     "description": "レシピの公開が停止されたときの成功メッセージ"
@@ -1223,6 +1224,7 @@
   "moderationDisplayNameFailedBody": "表示名を保存できませんでした。理由: {reason}",
   "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "moderationRulesBody": "Timer.Coffeeで共有するコンテンツは自動的に確認されます。次の内容を含む投稿は拒否されることがあります:\n\n- **リンクまたは連絡先情報**: URL、電話番号、メールアドレス、またはそれらを隠した表記\n- **憎悪的または攻撃的な内容**: ヘイトスピーチ、嫌がらせ、あらゆる種類の差別\n- **露骨な内容**: 性的に露骨な素材、または暴力の生々しい描写\n- **危険な内容**: 自傷行為やその他の危険な行為の助長\n\nこれらのルールは、レシピの公開時（非公開レシピは確認されません）、豆レビューの本文、表示名、プロフィール写真に適用されます。評価やその他のテキスト以外の項目には影響しません。\n\n投稿が拒否された場合は理由が表示され、編集して再送信できます。手動の異議申し立て手続きはありません。拒否が誤りだと思う場合は、内容を言い換えてみてください。",
+  "originalRecipeByPrefix": "元のレシピ提供: ",
   "recipeByPrefix": "レシピ提供: ",
   "roastersCatalogTitle": "ロースター",
   "hubRoastersSubtitle": "すべてのコーヒーロースターを見る",

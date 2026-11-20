@@ -192,8 +192,7 @@ class _RoasterStockSectionState extends State<RoasterStockSection> {
                   item,
                   index,
                   l10n,
-                  isPick: pickIds.contains(item.stockId) ||
-                      item.stockId == widget.highlightStockId,
+                  isPick: pickIds.contains(item.stockId),
                 ),
               ),
             ],
@@ -408,7 +407,8 @@ class _RoasterStockSectionState extends State<RoasterStockSection> {
     );
     // Fire-and-forget attribution, signed-in users only; it must never
     // delay or break opening the page.
-    if (widget.currentUserId() != null) {
+    if (AnalyticsService.maybeInstance?.canTrackBeans == true &&
+        widget.currentUserId() != null) {
       unawaited(_logClick(item.stockId));
     }
     unawaited(launchStockProductLink(uri));

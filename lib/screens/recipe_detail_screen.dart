@@ -1,3 +1,4 @@
+import '../database/database.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
@@ -11,6 +12,9 @@ import '../controllers/recipe_detail_controller.dart';
 
 // Services
 import '../services/recipe_import_sharing_service.dart';
+import '../services/recipe_publication.dart';
+import '../widgets/base_buttons.dart';
+import '../widgets/recipe_detail/import_update_dialogs.dart';
 import '../services/recipe_loading_service.dart';
 import '../services/recipe_navigation_service.dart';
 import '../services/bean_selection_service.dart';
@@ -108,6 +112,7 @@ class RecipeDetailScreen extends StatelessWidget {
   final String? prefillGrindSize;
   final double? prefillWaterTemp;
   final String? prefillCoffeeBeansUuid;
+
   /// Non-path route arg: when true, the app bar's favorite heart gets a
   /// highlight treatment (halo + pulse) until first tapped. Set by the
   /// journey card's "favorite a recipe" tile.
@@ -186,6 +191,8 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
   bool _isLoading = true;
   bool _importCheckComplete = false;
   String? _errorMessage;
+  bool _isPreviewing = false;
+  bool _isImporting = false;
   bool _isSharing = false; // Flag to prevent double taps on share
 
   // Authentication state change handling
@@ -227,6 +234,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
         _importCheckComplete = false;
         _errorMessage = null;
         _updatedRecipe = null;
+        _isPreviewing = false;
         _brewAgainApplied = false;
       });
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -246,7 +254,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
 
   Future<void> _loadInitialRecipeAndBean() async {
     await _performInitialRecipeCheck();
-    if (!mounted) return;
+    if (!mounted || _isPreviewing) return;
     final sourceBeanUuid = widget.prefillCoffeeBeansUuid?.trim();
     if (sourceBeanUuid != null && sourceBeanUuid.isNotEmpty) {
       await _updateSelectedBean(sourceBeanUuid);
@@ -288,17 +296,73 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
 
     if (!mounted) return;
 
-    if (result.success && result.newRecipeId != null) {
+    final preview = result.preview;
+    if (preview != null) {
+      final provider = context.read<RecipeProvider>();
+      final brewingMethodName = await provider.fetchBrewingMethodName(
+        preview.brewingMethodId,
+      );
+      if (!mounted) return;
+      RecipeLoadingService.initializeController(_controller, preview);
+      setState(() {
+        _updatedRecipe = preview;
+        _brewingMethodName = brewingMethodName;
+        _isPreviewing = true;
+      });
+    } else if (result.newRecipeId != null) {
       _effectiveRecipeId = result.newRecipeId;
       await _loadRecipeDetails(_effectiveRecipeId!);
     } else {
       setState(() => _errorMessage = result.errorMessage);
     }
 
+    if (!mounted) return;
     setState(() {
       _isLoading = false;
       _importCheckComplete = true;
     });
+  }
+
+  Future<void> _confirmSharedRecipeImport() async {
+    final recipe = _updatedRecipe;
+    if (!_isPreviewing || _isImporting || recipe == null) return;
+    setState(() => _isImporting = true);
+
+    try {
+      final confirmed = await ImportUpdateDialogs.showImportDialog(
+        context,
+        recipe.name,
+      );
+      if (!mounted || confirmed != true) return;
+      final result = await RecipeImportSharingService.importSharedRecipe(
+        context,
+        recipe.id,
+      );
+      if (!mounted) return;
+
+      final l10n = AppLocalizations.of(context)!;
+      final newId = result.newRecipeId;
+      if (newId == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(result.errorMessage ?? l10n.recipeImportFailedSave),
+          ),
+        );
+        return;
+      }
+
+      setState(() {
+        _isPreviewing = false;
+        _effectiveRecipeId = newId;
+      });
+      await _loadRecipeDetails(newId);
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.recipeImportSuccess)));
+    } finally {
+      if (mounted) setState(() => _isImporting = false);
+    }
   }
 
   /// Loads recipe details using RecipeLoadingService
@@ -332,92 +396,20 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     }
   }
 
-  /// Handles authentication state changes and updates recipe ID if needed
-  Future<void> _handleAuthenticationChange(AuthState authState) async {
-    if (!mounted) return;
-
-    final user = authState.session?.user;
-    if (user == null || user.isAnonymous) {
-      AppLogger.debug('Auth state change - user is null or anonymous');
+  void _handleAuthenticationChange(AuthState authState) {
+    final recipe = _updatedRecipe;
+    if (_isPreviewing || recipe == null || !recipe.id.startsWith('usr-')) {
       return;
     }
-
-    final currentUserId = user.id;
-    AppLogger.debug('Auth state change detected for user: $currentUserId');
-
-    // Check if we have an effective recipe ID to work with
-    if (_effectiveRecipeId == null) {
-      AppLogger.debug('No effective recipe ID to check');
-      return;
-    }
-
-    final currentRecipeId = _effectiveRecipeId!;
-    AppLogger.debug('Current effective recipe ID: $currentRecipeId');
-
-    // Only process user-created recipes (those with 'usr-' prefix)
-    if (!currentRecipeId.startsWith('usr-')) {
-      AppLogger.debug('Recipe ID does not start with usr-, skipping auth sync');
-      return;
-    }
-
-    try {
-      // If the recipe already belongs to the current user, nothing to do.
-      final ownsRecipePrefix = 'usr-$currentUserId-';
-      if (currentRecipeId.startsWith(ownsRecipePrefix)) {
-        AppLogger.debug(
-          'Recipe ID already belongs to current user, no remap needed',
-        );
-        return;
-      }
-
-      // We need to attempt a remap to the current user's namespace.
-      // Robust timestamp extraction: take the last hyphen-separated token.
-      final parts = currentRecipeId.split('-');
-      if (parts.length < 3) {
-        AppLogger.debug(
-          'Invalid usr-* recipe ID format, cannot extract timestamp for remap',
-        );
-        return;
-      }
-      final timestamp = parts.last;
-      AppLogger.debug(
-        'Remap path: extracted timestamp="$timestamp" from "$currentRecipeId"',
-      );
-
-      final newRecipeId = 'usr-$currentUserId-$timestamp';
-      AppLogger.debug('Attempting remap to newRecipeId="$newRecipeId"');
-
-      // Regardless of whether the old usr-ID exists locally, we try loading the new ID.
-      if (!mounted) return;
-      final newResult =
-          await RecipeLoadingService.loadRecipeAndInitializeController(
-            context,
-            newRecipeId,
-            RecipeDetailController(), // Temporary controller for checking
-          );
-
-      if (newResult.isSuccess && newResult.recipe != null) {
-        AppLogger.debug(
-          'Remap succeeded: found recipe under newRecipeId="$newRecipeId". Updating effectiveRecipeId and reloading details.',
-        );
-        if (!mounted) return;
-        setState(() {
-          _effectiveRecipeId = newRecipeId;
-        });
-        await _loadRecipeDetails(newRecipeId);
-        AppLogger.debug(
-          'Effective recipe ID updated from "$currentRecipeId" to "$newRecipeId"',
-        );
-      } else {
-        AppLogger.debug(
-          'Remap attempt: recipe not found under newRecipeId="$newRecipeId". Leaving effectiveRecipeId unchanged.',
-        );
-      }
-    } catch (e) {
-      AppLogger.debug(
-        'Error during authentication change handling',
-        errorObject: e,
-      );
+    final owner = localRecipeOwner(
+      context.read<AppDatabase?>(),
+      authState.session?.user.id,
+    );
+    if (!ownsUserRecipe(recipe.id, recipe.vendorId, owner)) {
+      setState(() {
+        _updatedRecipe = null;
+        _errorMessage = AppLocalizations.of(context)?.recipeNotFoundCloud;
+      });
     }
   }
 
@@ -558,10 +550,6 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       recipe: _updatedRecipe!,
       shareRecipeId: shareRecipeId,
     );
-    AppLogger.debug(
-      'Share result - success: ${result.success}, resolvedRecipeId: ${result.resolvedRecipeId}',
-    );
-
     if (result.success) {
       AnalyticsService.instance.track(
         'recipe_shared',
@@ -570,43 +558,9 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
           'brewing_method_id': _updatedRecipe?.brewingMethodId,
         },
       );
-    }
-
-    // If service remapped to a stable usr-<user>-<timestamp> id during share, persist it.
-    if (result.success && result.resolvedRecipeId != null) {
-      final newId = result.resolvedRecipeId!;
-      if (mounted && _effectiveRecipeId != newId) {
-        setState(() {
-          _effectiveRecipeId = newId;
-        });
-        // Refresh to ensure UI and dependent logic align with the new id.
-        await _loadRecipeDetails(newId);
+      if (mounted && shareRecipeId.startsWith('usr-')) {
+        await _loadRecipeDetails(shareRecipeId);
       }
-    }
-
-    // Only user recipes should be marked public in local user-recipe storage.
-    final String effectiveSharedId = result.resolvedRecipeId ?? shareRecipeId;
-    final bool isUserRecipe = effectiveSharedId.startsWith('usr-');
-    if (result.success && isUserRecipe && context.mounted) {
-      setState(() {
-        _updatedRecipe = _updatedRecipe?.copyWith(isPublic: true);
-      });
-      if (_updatedRecipe != null) {
-        final userRecipeProvider = Provider.of<UserRecipeProvider>(
-          context,
-          listen: false,
-        );
-        await userRecipeProvider.updateUserRecipe(
-          _updatedRecipe!.copyWith(isPublic: true),
-        );
-      }
-      AppLogger.debug(
-        'Updated local user recipe database and state - isPublic: true',
-      );
-    } else if (result.success && !isUserRecipe) {
-      AppLogger.debug(
-        'Skipping local user-recipe persistence after sharing built-in recipe: $effectiveSharedId',
-      );
     }
 
     if (mounted) {
@@ -665,6 +619,12 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
 
       // Refresh the recipe data to reflect the privacy status change
       await _loadRecipeDetails(_effectiveRecipeId ?? recipe.id);
+    } on PendingRecipeWithdrawal {
+      if (context.mounted) {
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.recipeUnpublishPending)),
+        );
+      }
     } catch (e) {
       if (context.mounted) {
         scaffoldMessenger.showSnackBar(
@@ -812,6 +772,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
           brewingMethodName: _brewingMethodName,
           idForActions: _effectiveRecipeId ?? widget.initialRecipeId,
           isSharing: _isSharing,
+          isPreview: _isPreviewing,
           highlightFavorite: widget.highlightFavorite,
           onEdit: () => _navigateToEditRecipe(context, recipe),
           onCopy: () => _navigateToCopyRecipe(context, recipe),
@@ -836,6 +797,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
                       recipe: recipe,
                       controller: _controller,
                       effectiveRecipeId: _effectiveRecipeId,
+                      isPreview: _isPreviewing,
                       onSelectBeans: () => _openAddBeansPopup(context),
                       onClearBeanSelection: () => _updateSelectedBean(null),
                       onCoffeeAmountChanged: () {
@@ -859,18 +821,30 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
                   start: 0,
                   end: 0,
                   bottom: 0,
-                  child: BottomActionRow(
-                    leading: BrewLaterLink(
-                      recipeId: _effectiveRecipeId ?? recipe.id,
-                      methodId: recipe.brewingMethodId,
-                      recipeName: recipe.name,
-                      source: 'recipe_detail',
-                    ),
-                    action: FloatingNavButton(
-                      onPressed: () =>
-                          _saveCustomAmountsAndNavigate(context, recipe),
-                    ),
-                  ),
+                  child: _isPreviewing
+                      ? SafeArea(
+                          child: Padding(
+                            padding: const EdgeInsets.all(AppSpacing.base),
+                            child: AppElevatedButton(
+                              label: l10n.dialogImport,
+                              onPressed: _isImporting
+                                  ? null
+                                  : _confirmSharedRecipeImport,
+                            ),
+                          ),
+                        )
+                      : BottomActionRow(
+                          leading: BrewLaterLink(
+                            recipeId: _effectiveRecipeId ?? recipe.id,
+                            methodId: recipe.brewingMethodId,
+                            recipeName: recipe.name,
+                            source: 'recipe_detail',
+                          ),
+                          action: FloatingNavButton(
+                            onPressed: () =>
+                                _saveCustomAmountsAndNavigate(context, recipe),
+                          ),
+                        ),
                 ),
               ],
             );

@@ -87,10 +87,8 @@ class BrewCompletionWriteGate {
 /// resolution); [languageCode] is `Locale.languageCode` (used for
 /// notification scheduling, which resolves its own localizations from a
 /// bare language code). [countryCode] must already be resolved by the
-/// caller — [BrewRecordingService] never touches `RegionService` or
-/// `Localizations` itself. [userId] must likewise already be resolved
-/// (`Supabase.instance.client.auth.currentUser?.id`) — the service never
-/// touches the Supabase auth singleton directly, again for testability.
+/// caller. [userId] is the active remote user of the originating partition
+/// and may be absent for offline recording.
 class BrewRecordingRequest {
   final String statUuid;
   final String recipeId;
@@ -176,7 +174,7 @@ class BrewRecordingService {
   }) async {
     if (_recordedStatUuids.contains(request.statUuid)) return;
 
-    if (request.userId == null) {
+    if (request.userId == null && database.accountScope == null) {
       AppLogger.debug('No user signed in');
       return;
     }
@@ -205,22 +203,22 @@ class BrewRecordingService {
             'brewing_method_id': request.brewingMethodId,
           },
         );
-        unawaited(
-          scheduleBeanReviewNudge(
-            database: database,
-            beansUuid: coffeeBeansUuid,
-            locale: request.languageCode,
-          ),
-        );
-        // Plan 011, Channel B: if this bean's roaster is a pending
-        // candidate, schedule a one-shot "help add this roaster" nudge.
-        unawaited(
-          scheduleRoasterContribNudge(
-            database: database,
-            beansUuid: coffeeBeansUuid,
-            locale: request.languageCode,
-          ),
-        );
+        if (_canScheduleNudges(database, request.userId)) {
+          unawaited(
+            scheduleBeanReviewNudge(
+              database: database,
+              beansUuid: coffeeBeansUuid,
+              locale: request.languageCode,
+            ),
+          );
+          unawaited(
+            scheduleRoasterContribNudge(
+              database: database,
+              beansUuid: coffeeBeansUuid,
+              locale: request.languageCode,
+            ),
+          );
+        }
       }
       AppLogger.debug(
         'Inserted new stat with UUID: ${request.statUuid} and Coffee Beans UUID: $coffeeBeansUuid',
@@ -313,13 +311,15 @@ class BrewRecordingService {
         // ask for a review. updateBeanWeightAfterBrew returns null when the
         // bean was already empty, so this fires only on the crossing brew.
         if (newWeight < 0.1) {
-          unawaited(
-            scheduleBeanReviewNudgeOnDepletion(
-              database: database,
-              beansUuid: coffeeBeansUuid,
-              locale: request.languageCode,
-            ),
-          );
+          if (_canScheduleNudges(database, request.userId)) {
+            unawaited(
+              scheduleBeanReviewNudgeOnDepletion(
+                database: database,
+                beansUuid: coffeeBeansUuid,
+                locale: request.languageCode,
+              ),
+            );
+          }
           return true;
         }
         return false;
@@ -331,5 +331,10 @@ class BrewRecordingService {
       AppLogger.debug('Error updating bean weight', errorObject: e);
       return false;
     }
+  }
+
+  bool _canScheduleNudges(AppDatabase database, String? userId) {
+    final scope = database.accountScope;
+    return scope == null || (userId != null && scope.currentUser?.id == userId);
   }
 }

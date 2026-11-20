@@ -111,11 +111,7 @@ class RoasterColorService {
     SharedPreferences prefs,
   ) async {
     try {
-      final file = await RoasterLogoCacheManager.instance.getSingleFile(
-        url,
-        key: cacheKey,
-      );
-      final bytes = await file.readAsBytes();
+      final bytes = await RoasterLogoCacheManager.loadBytes(url, key: cacheKey);
       final result = await compute(_extractDominantColor, bytes);
       await _storeResult(cacheKey, result, prefs);
       return result;
@@ -125,11 +121,10 @@ class RoasterColorService {
         final mirrorKey = _normalizeUrl(mirrorUrl);
         if (!mirrorUrl.toLowerCase().endsWith('.svg')) {
           try {
-            final file = await RoasterLogoCacheManager.instance.getSingleFile(
+            final bytes = await RoasterLogoCacheManager.loadBytes(
               mirrorUrl,
               key: mirrorKey,
             );
-            final bytes = await file.readAsBytes();
             final result = await compute(_extractDominantColor, bytes);
             await _storeResult(cacheKey, result, prefs);
             return result;
@@ -225,9 +220,16 @@ RoasterColorResult _extractDominantColor(Uint8List bytes) {
     final image = img.decodeImage(bytes);
     if (image == null) return const RoasterColorMonochrome();
 
-    // Keep 100px wide — small enough to be fast, large enough to preserve
-    // fine logo details like colored dots or thin lines.
-    final small = img.copyResize(image, width: 100);
+    // Keep the longest edge at most 100 px. Resizing a very narrow
+    // logo to a fixed width could otherwise allocate a much taller image.
+    final longestEdge = image.width >= image.height ? image.width : image.height;
+    final small = longestEdge <= 100
+        ? image
+        : img.copyResize(
+            image,
+            width: (image.width * 100 / longestEdge).round().clamp(1, 100),
+            height: (image.height * 100 / longestEdge).round().clamp(1, 100),
+          );
     final w = small.width;
     final h = small.height;
 

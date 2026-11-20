@@ -1,9 +1,8 @@
+import '../widgets/coffee_beans/private_bean_photo.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coffeico_plus/coffeico_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:coffee_timer/config/supabase_endpoint_resolver.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 
@@ -80,8 +79,7 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       final animation = ModalRoute.of(context)?.animation;
-      if (animation == null ||
-          animation.status == AnimationStatus.completed) {
+      if (animation == null || animation.status == AnimationStatus.completed) {
         _deferredLoadsUnlocked = true;
         _controller.loadAncillaryData(context);
         _maybeStartReviewLoad();
@@ -396,7 +394,7 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen>
   }
 
   /// Opens a full-screen viewer for [url] with pinch-to-zoom support.
-  void _showFullScreenPhoto(BuildContext context, String url) {
+  void _showFullScreenPhoto(BuildContext context, CoffeeBeansModel bean) {
     showDialog<void>(
       context: context,
       builder: (_) => Dialog(
@@ -406,10 +404,11 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen>
           children: [
             Center(
               child: InteractiveViewer(
-                child: CachedNetworkImage(
-                  imageUrl: SupabaseEndpointResolver.localizeStorageUrl(url),
+                child: PrivateBeanPhoto(
+                  reference: bean.photoUrl!,
+                  beanId: bean.beansUuid,
                   fit: BoxFit.contain,
-                  errorWidget: (_, _, _) => const Icon(
+                  fallback: const Icon(
                     Icons.broken_image,
                     color: Colors.white,
                     size: AppIconSize.large,
@@ -623,22 +622,21 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen>
                 borderRadius: BorderRadius.circular(AppRadius.card),
               ),
               child: GestureDetector(
-                onTap: () => _showFullScreenPhoto(context, bean.photoUrl!),
+                onTap: () => _showFullScreenPhoto(context, bean),
                 child: Padding(
                   padding: const EdgeInsets.all(AppSpacing.sm),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(AppRadius.small),
-                    child: CachedNetworkImage(
-                      imageUrl: SupabaseEndpointResolver.localizeStorageUrl(
-                        bean.photoUrl!,
-                      ),
+                    child: PrivateBeanPhoto(
+                      reference: bean.photoUrl!,
+                      beanId: bean.beansUuid,
                       width: double.infinity,
                       fit: BoxFit.contain,
-                      placeholder: (_, _) => const AspectRatio(
+                      loading: const AspectRatio(
                         aspectRatio: 4 / 3,
                         child: Center(child: CircularProgressIndicator()),
                       ),
-                      errorWidget: (_, _, _) => const SizedBox.shrink(),
+                      fallback: const SizedBox.shrink(),
                     ),
                   ),
                 ),

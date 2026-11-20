@@ -533,6 +533,7 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
             : 'usr-${currentUser?.id ?? 'anonymous'}',
         importId: isUpdate ? widget.recipe!.importId : null,
         isImported: isUpdate ? widget.recipe!.isImported : false,
+        isPublic: isUpdate ? widget.recipe!.isPublic : false,
         originalAuthorId: isUpdate ? widget.recipe!.originalAuthorId : null,
       );
 

@@ -18,17 +18,17 @@ import '../roaster_logo.dart';
 /// ratio against a white chip (WCAG 1.4.11 for non-text graphics).
 @visibleForTesting
 bool roasterLogoWillBeVisible(RoasterColorResult result) => switch (result) {
-      // Vibrant: an actual colour was extracted from the mark — check its
-      // luminance.
-      RoasterColorVibrant(color: final c) => c.computeLuminance() <= 0.3,
-      // Monochrome: fromBackendHex only returns this for a near-black graphic
-      // (maxC < 60) or the literal string 'monochrome', so the mark is dark
-      // → show it.
-      RoasterColorMonochrome() => true,
-      // None: no colour information at all (SVG or fetch failure); we have no
-      // evidence the mark is pale, so attempt the logo rather than hiding it.
-      RoasterColorNone() => true,
-    };
+  // Vibrant: an actual colour was extracted from the mark — check its
+  // luminance.
+  RoasterColorVibrant(color: final c) => c.computeLuminance() <= 0.3,
+  // Monochrome: fromBackendHex only returns this for a near-black graphic
+  // (maxC < 60) or the literal string 'monochrome', so the mark is dark
+  // → show it.
+  RoasterColorMonochrome() => true,
+  // None: no colour information at all (SVG or fetch failure); we have no
+  // evidence the mark is pale, so attempt the logo rather than hiding it.
+  RoasterColorNone() => true,
+};
 
 /// A main-screen banner thanking the user for a roaster contribution that is
 /// now live in the database (plan 062), shown in the home screen's banner slot
@@ -53,6 +53,7 @@ class _RoasterContributionAckBannerState
   bool _resolved = false;
   bool _hidden = false;
   bool _markedAcknowledged = false;
+  String? _acknowledgementUserId;
 
   @override
   void initState() {
@@ -61,28 +62,39 @@ class _RoasterContributionAckBannerState
   }
 
   Future<void> _fetch() async {
+    final service = RoasterContributionService.instance;
+    final owner = service.acknowledgementUserId;
+    if (owner == null) return;
     final fetcher =
-        widget.fetchAcknowledgement ??
-        RoasterContributionService.instance.fetchPendingAcknowledgement;
+        widget.fetchAcknowledgement ?? service.fetchPendingAcknowledgement;
     final acknowledgement = await fetcher();
-    if (!mounted) return;
+    if (!mounted || service.acknowledgementUserId != owner) return;
     setState(() {
+      _acknowledgementUserId = owner;
       _acknowledgement = acknowledgement;
       _resolved = true;
     });
     // One-ask: acknowledge on first display so it never reappears. The banner
     // stays visible; hiding is the user's choice (dismiss or tap through).
-    if (acknowledgement != null && !_markedAcknowledged) {
+    if (acknowledgement == null) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted ||
+          _markedAcknowledged ||
+          service.acknowledgementUserId != owner) {
+        return;
+      }
       _markedAcknowledged = true;
-      RoasterContributionService.instance.markAcknowledged(
-        acknowledgement.contributionId,
-      );
-    }
+      service.markAcknowledged(acknowledgement.contributionId, userId: owner);
+    });
   }
 
   Future<void> _onOpenRoaster() async {
     final acknowledgement = _acknowledgement;
-    if (acknowledgement == null) return;
+    if (acknowledgement == null ||
+        _acknowledgementUserId !=
+            RoasterContributionService.instance.acknowledgementUserId) {
+      return;
+    }
     RoasterContributionService.instance.trackAcknowledgementTapped(
       acknowledgement.contributionId,
     );
@@ -98,7 +110,11 @@ class _RoasterContributionAckBannerState
 
   @override
   Widget build(BuildContext context) {
-    if (!_resolved || _hidden || _acknowledgement == null) {
+    if (!_resolved ||
+        _hidden ||
+        _acknowledgement == null ||
+        _acknowledgementUserId !=
+            RoasterContributionService.instance.acknowledgementUserId) {
       return const SizedBox.shrink();
     }
     final l10n = AppLocalizations.of(context)!;
@@ -179,7 +195,10 @@ class _RoasterContributionAckBannerState
                       ),
                     )
                   else
-                    const Icon(Icons.storefront_outlined, size: AppIconSize.medium),
+                    const Icon(
+                      Icons.storefront_outlined,
+                      size: AppIconSize.medium,
+                    ),
                   const SizedBox(width: AppSpacing.sm),
                   Expanded(
                     child: Column(

@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:io';
+import 'dart:io' show File;
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
@@ -12,6 +12,7 @@ import 'package:coffee_timer/providers/coffee_beans_provider.dart';
 import 'package:coffee_timer/providers/database_provider.dart';
 import 'package:coffee_timer/providers/recipe_provider.dart';
 import 'package:coffee_timer/providers/user_stat_provider.dart';
+import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:coffee_timer/utils/icon_utils.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
@@ -19,14 +20,11 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart' hide TextDirection;
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:uuid/uuid.dart';
 
 import '../app_router.gr.dart';
 
@@ -146,10 +144,6 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
   static const double _emojiTilePad = _emojiTileSize / 2;
   static const double _emojiOverlayOpacity = 0.65;
   static const List<double> _emojiRotationsDeg = [-12.0, -4.0, 6.0, 12.0, -8.0];
-  static const String _trackingSchema = 'service';
-  static const String _trackingTable = 'year_story_clicks';
-  static const String _trackingSource = 'year_story_25';
-  static const String _trackingInstallIdKey = 'year_story_install_id';
 
   AppLocalizations get _l10n => AppLocalizations.of(context)!;
 
@@ -261,8 +255,6 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
   final GlobalKey _ctaDonateKey = GlobalKey();
   final GlobalKey _ctaInstagramKey = GlobalKey();
   OverlayEntry? _shareOverlay;
-  String? _cachedInstallId;
-  String? _cachedAppVersion;
   bool _trackedOpen = false;
   bool _trackedLastSlide = false;
 
@@ -1181,11 +1173,17 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
     if (_stories.isEmpty) return;
     if (index == 0 && !_trackedOpen) {
       _trackedOpen = true;
-      unawaited(_trackStoryEvent('open'));
+      AnalyticsService.maybeInstance?.track(
+        'year_story_opened',
+        properties: {'year': 2025},
+      );
     }
     if (index == _ctaIndex && !_trackedLastSlide) {
       _trackedLastSlide = true;
-      unawaited(_trackStoryEvent('last_slide'));
+      AnalyticsService.maybeInstance?.track(
+        'year_story_last_slide_viewed',
+        properties: {'year': 2025},
+      );
     }
     _slide5IgnorePause = index == _slide5Index && _isPaused;
     if (index != _slide2Index) {
@@ -3016,74 +3014,6 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
       }
     } catch (_) {
       // Ignore and use fallback text.
-    }
-  }
-
-  // ------------------------
-  // Tracking
-  // ------------------------
-  Future<String?> _getOrCreateInstallId() async {
-    if (_cachedInstallId != null) return _cachedInstallId;
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      var iid = prefs.getString(_trackingInstallIdKey);
-      iid ??= const Uuid().v4();
-      await prefs.setString(_trackingInstallIdKey, iid);
-      _cachedInstallId = iid;
-      return iid;
-    } catch (_) {
-      return null;
-    }
-  }
-
-  Future<String?> _getAppVersion() async {
-    if (_cachedAppVersion != null) return _cachedAppVersion;
-    try {
-      final info = await PackageInfo.fromPlatform();
-      _cachedAppVersion = '${info.version}+${info.buildNumber}';
-      return _cachedAppVersion;
-    } catch (_) {
-      return null;
-    }
-  }
-
-  String _platformParam() {
-    if (kIsWeb) return 'web';
-    if (Platform.isIOS) return 'ios';
-    if (Platform.isAndroid) return 'android';
-    if (Platform.isMacOS) return 'macos';
-    if (Platform.isWindows) return 'windows';
-    if (Platform.isLinux) return 'linux';
-    return 'other';
-  }
-
-  Future<void> _trackStoryEvent(String event) async {
-    final supabase = Supabase.instance.client;
-    final user = supabase.auth.currentUser;
-    if (user == null) {
-      AppLogger.debug('YearlyStats25: tracking "$event" skipped (no user)');
-      return;
-    }
-    try {
-      final locale = Localizations.localeOf(context).toLanguageTag();
-      final installId = await _getOrCreateInstallId();
-      final appVersion = await _getAppVersion();
-      final payload = <String, dynamic>{
-        'src': _trackingSource,
-        'event': event,
-        'platform': _platformParam(),
-        'locale': locale,
-        'app_version': ?appVersion,
-        'install_id': ?installId,
-      };
-      await supabase
-          .schema(_trackingSchema)
-          .from(_trackingTable)
-          .insert(payload);
-      AppLogger.debug('YearlyStats25: tracked "$event"');
-    } catch (e) {
-      AppLogger.debug('YearlyStats25: tracking "$event" failed',
-          errorObject: e);
     }
   }
 

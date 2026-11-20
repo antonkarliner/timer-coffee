@@ -13,6 +13,21 @@ struct BrewingData {
     let isPaused: Bool
     let stepTimeRange: ClosedRange<Date>
 
+    // UserDefaults may contain an older or imported recipe. Reject schedules
+    // whose duration arithmetic would overflow or exceed real Date precision.
+    private static func validatedDurations(_ raw: [Any]) -> [Int] {
+        guard raw.count <= 129 else { return [] }
+        var total = 0
+        var result: [Int] = []
+        for value in raw {
+            guard let seconds = Int(String(describing: value)), seconds >= 0,
+                  seconds <= 604800 - total else { return [] }
+            total += seconds
+            result.append(seconds)
+        }
+        return result
+    }
+
     private enum CandidateSource {
         case push
         case schedule
@@ -64,18 +79,7 @@ struct BrewingData {
         let storedIsPaused = (d?.integer(forKey: key("isPaused")) ?? 0) != 0
 
         let rawDurations = d?.array(forKey: key("stepDurationsSeconds")) ?? []
-        let scheduleDurations: [Int] = rawDurations.compactMap { value in
-            if let intValue = value as? Int {
-                return intValue
-            }
-            if let number = value as? NSNumber {
-                return number.intValue
-            }
-            if let stringValue = value as? String, let intValue = Int(stringValue) {
-                return intValue
-            }
-            return nil
-        }.filter { $0 >= 0 }
+        let scheduleDurations = Self.validatedDurations(rawDurations)
 
         let scheduleDescriptions = d?.stringArray(forKey: key("stepDescriptions")) ?? []
         let brewStartMs = d?.double(forKey: key("brewStartDateMs")) ?? d?.double(forKey: key("brewStartDate")) ?? 0
@@ -385,12 +389,7 @@ struct BrewingData {
         guard !isPaused, brewStartMs > 0 else { return [] }
 
         let rawDurations = d?.array(forKey: key("stepDurationsSeconds")) ?? []
-        let durations: [Int] = rawDurations.compactMap { value in
-            if let intValue = value as? Int { return intValue }
-            if let number = value as? NSNumber { return number.intValue }
-            if let stringValue = value as? String, let intValue = Int(stringValue) { return intValue }
-            return nil
-        }.filter { $0 >= 0 }
+        let durations = validatedDurations(rawDurations)
 
         guard !durations.isEmpty else { return [] }
 
@@ -427,12 +426,7 @@ struct BrewingData {
         guard !isPaused, brewStartMs > 0 else { return [] }
 
         let rawDurations = d?.array(forKey: key("stepDurationsSeconds")) ?? []
-        let durations: [Int] = rawDurations.compactMap { value in
-            if let intValue = value as? Int { return intValue }
-            if let number = value as? NSNumber { return number.intValue }
-            if let stringValue = value as? String, let intValue = Int(stringValue) { return intValue }
-            return nil
-        }.filter { $0 >= 0 }
+        let durations = validatedDurations(rawDurations)
         guard !durations.isEmpty else { return [] }
 
         let now = Date()
@@ -470,7 +464,7 @@ struct BrewingData {
         let elapsed = heartbeatTime.timeIntervalSince(brewStart)
         let nextHeartbeat = ceil(elapsed / heartbeatInterval) * heartbeatInterval
         heartbeatTime = brewStart.addingTimeInterval(nextHeartbeat)
-        while heartbeatTime <= brewEnd {
+        while heartbeatTime <= brewEnd && heartbeatDates.count < maxDates {
             if heartbeatTime > pastWindow {
                 heartbeatDates.append(heartbeatTime)
             }

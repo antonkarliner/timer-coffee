@@ -95,6 +95,7 @@ class SettingsPrivacyDataScreen extends StatelessWidget {
     final recommendations = suggestionsAvailable
         ? context.watch<RecommendationProvider>()
         : null;
+    recommendations?.ensurePreferenceLoaded();
 
     return SettingsPageScaffold(
       title: l10n.settingsPrivacyDataTitle,
@@ -135,19 +136,23 @@ class SettingsPrivacyDataScreen extends StatelessWidget {
         else
           SettingsSection(
             children: [
-              SettingsSwitchRow(
-                identifier: 'settingsBeanSuggestionsSwitch',
-                title: l10n.forYouSettingTitle,
-                subtitle: l10n.forYouSettingSubtitle,
-                value: !recommendations.optedOut,
-                onChanged: (value) {
-                  recommendations.setOptedOut(!value);
-                  AnalyticsService.maybeInstance?.track(
-                    'for_you_setting_toggled',
-                    properties: {'enabled': value, 'source': 'settings'},
-                  );
-                },
-              ),
+              if (recommendations.preferenceKnown)
+                SettingsSwitchRow(
+                  identifier: 'settingsBeanSuggestionsSwitch',
+                  title: l10n.forYouSettingTitle,
+                  subtitle: l10n.forYouSettingSubtitle,
+                  value: !recommendations.optedOut,
+                  onChanged: (value) async {
+                    await recommendations.setOptedOut(!value);
+                    if (recommendations.optedOut == value) return;
+                    AnalyticsService.maybeInstance?.track(
+                      'for_you_setting_toggled',
+                      properties: {'enabled': value, 'source': 'settings'},
+                    );
+                  },
+                )
+              else
+                const SizedBox.shrink(),
               // Debug tools use hard-coded English, like DebugNotificationPanel.
               if (_forYouDebug)
                 SettingsActionRow(

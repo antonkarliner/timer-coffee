@@ -1,10 +1,30 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:coffee_timer/app_router.dart';
+import 'package:coffee_timer/app_router.gr.dart';
+import 'package:coffee_timer/services/feature_flags/feature_flags_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/testing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:coffee_timer/services/analytics_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+class _FeatureFlagsSource extends SupabaseFeatureFlagsDataSource {
+  _FeatureFlagsSource(super.client);
+
+  Map<String, bool> nextFlags = {};
+
+  @override
+  Future<Map<String, bool>> fetchFlags({
+    required String platform,
+    required int buildNumber,
+  }) async => nextFlags;
+}
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   setUp(() {
     SharedPreferences.setMockInitialValues({});
     AnalyticsService.resetForTesting();
@@ -103,6 +123,207 @@ void main() {
       expect(sends, 2);
       expect(service.bufferLength, 0);
     });
+
+    test('purges revoked events and preserves unrelated events in flight', () async {
+      final firstSend = Completer<void>();
+      final batches = <List<Map<String, dynamic>>>[];
+      AnalyticsService.sendOverride = (events) async {
+        batches.add(events);
+        if (batches.length == 1) await firstSend.future;
+      };
+
+      service.track('app_opened');
+      service.track('beans_added');
+      final firstFlush = service.flushNow();
+      service.track('screen_viewed');
+      service.track('review_added');
+      await service.setBeansEnabled(false);
+      await service.setBeansEnabled(true);
+      final nextFlush = service.flushNow();
+      firstSend.complete();
+      await Future.wait([firstFlush, nextFlush]);
+
+      expect(batches.map((batch) => batch.map((e) => e['event_name'])), [
+        ['app_opened', 'beans_added'],
+        ['screen_viewed'],
+      ]);
+      expect(service.bufferLength, 0);
+    });
+
+    test('filters categories before retrying a failed upload', () async {
+      service.track('app_opened');
+      service.track('beans_added');
+      AnalyticsService.sendOverride = (_) async => throw StateError('offline');
+      await service.flushNow();
+
+      await service.setGeneralEnabled(false);
+      AnalyticsService.sendOverride = (events) async {
+        expect(events.single['event_name'], 'beans_added');
+      };
+      await service.flushNow();
+      expect(service.bufferLength, 0);
+    });
+  });
+
+  test('canonical kill switch applies to cached and newly refreshed flags', () async {
+    SharedPreferences.setMockInitialValues({
+      'feature_flags_v1': '{"analytics_enabled":false}',
+    });
+    final prefs = await SharedPreferences.getInstance();
+    final client = SupabaseClient('http://localhost:54321', 'public-api-key');
+    final remote = _FeatureFlagsSource(client);
+    final flags = FeatureFlagsRepository(
+      remote: remote,
+      local: LocalFeatureFlagsStore(prefs),
+      platform: 'ios',
+      buildNumber: 1,
+    );
+    addTearDown(client.dispose);
+    addTearDown(flags.dispose);
+    final service = await AnalyticsService.initialize(prefs, featureFlags: flags);
+    final sent = <Map<String, dynamic>>[];
+    AnalyticsService.sendOverride = (events) async => sent.addAll(events);
+    service.track('app_opened');
+    await service.flushNow();
+    expect(sent, isEmpty);
+
+    remote.nextFlags = {FeatureFlagKeys.analyticsEnabled: true};
+    await flags.refresh();
+    service.track('app_opened');
+    expect(service.bufferLength, 1);
+    remote.nextFlags = {FeatureFlagKeys.analyticsEnabled: false};
+    await flags.refresh();
+    service.track('screen_viewed');
+    await service.flushNow();
+    expect(sent, isEmpty);
+    expect(service.bufferLength, 0);
+    expect(service.canTrackBeans, isFalse);
+  });
+
+  test('outbound batch has only public request credentials and safe properties', () async {
+    final prefs = await SharedPreferences.getInstance();
+    await Supabase.initialize(
+      url: 'https://account.example',
+      anonKey: 'public-api-key',
+      httpClient: MockClient((_) async => throw StateError('unexpected account request')),
+    );
+    addTearDown(Supabase.instance.dispose);
+    const account = '9a70f08d-282e-4e47-95ba-72c365097733';
+    const bean = 'd44fd27b-ae7b-4fca-9813-99cc786921e0';
+    final expiry = DateTime.now().add(const Duration(hours: 1));
+    final claims = base64Url.encode(utf8.encode(jsonEncode({
+      'exp': expiry.millisecondsSinceEpoch ~/ 1000,
+      'sub': account,
+      'role': 'authenticated',
+    }))).replaceAll('=', '');
+    final token = 'header.$claims.signature';
+    await Supabase.instance.client.auth.recoverSession(jsonEncode({
+      'access_token': token,
+      'expires_in': 3600,
+      'refresh_token': 'offline-test-refresh',
+      'token_type': 'bearer',
+      'user': {
+        'id': account,
+        'aud': 'authenticated',
+        'app_metadata': {'provider': 'email'},
+        'user_metadata': <String, dynamic>{},
+        'created_at': DateTime.now().toIso8601String(),
+      },
+    }));
+    expect(Supabase.instance.client.auth.currentSession?.accessToken, token);
+
+    final service = await AnalyticsService.initialize(
+      prefs,
+      ingestionBaseUrl: 'https://telemetry.example',
+      publicApiKey: 'public-api-key',
+      catalogRecipeIds: const ['1101'],
+    );
+    final requests = <http.Request>[];
+    AnalyticsService.httpClientFactory = () => MockClient((request) async {
+      requests.add(request);
+      return http.Response('', 202);
+    });
+    for (final (event, recipeId) in [
+      ('brew_started', 'usr-$account-1730000000000'),
+      ('diary_brew_again_tapped', 'usr-$account-1730000000001'),
+      ('recipe_shared', account),
+      ('recipe_shared', '9999'),
+      ('brew_started', '1101'),
+    ]) {
+      service.track(event, properties: {'recipe_id': recipeId});
+    }
+    for (final event in [
+      'review_added', 'review_edited', 'review_deleted', 'review_nudge_card_shown',
+      'review_added_after_notification',
+    ]) {
+      service.track(event, properties: {'bean_uuid': bean, 'review_id': account});
+    }
+    final reviews = service.bufferedEventsForTesting.where((event) =>
+        event['category'] == 'beans');
+    expect(reviews, hasLength(5));
+    expect(reviews.every((event) => !event.containsKey('properties')), isTrue);
+    await service.setBeansEnabled(false);
+    for (final event in [
+      'notification_scheduled', 'notification_presumed_delivered',
+      'notification_cancelled', 'notification_tapped',
+    ]) {
+      service.track(event, properties: {
+        'notification_type': 'bean_freshness',
+        'trigger': 'rest',
+        'bean_uuid': bean,
+        'unexpected_field': {'bean_id': bean},
+      });
+    }
+    final accountPath = '/user/$account';
+    final accountRoute = AppRouter().buildPageRoutesStack(accountPath)?.last;
+    expect(accountRoute?.routeName, AccountRoute.name);
+    service.track('onboarding_completed', properties: {
+      'completion_type': 'deep_link_skipped',
+      'path': accountPath,
+      'screen_name': accountRoute?.routeName,
+    });
+    await service.flushNow();
+
+    final request = requests.single;
+    expect(request.url.path, '/functions/v1/ingest-analytics');
+    expect(request.headers['apikey'], 'public-api-key');
+    expect(request.headers['authorization'], isNull);
+    expect(request.body, isNot(contains(account)));
+    expect(request.body, isNot(contains(bean)));
+    final rows = (jsonDecode(request.body) as Map)['events'] as List;
+    expect(rows.take(5).map((event) => event['properties']['recipe_id']), [
+      'custom-recipe', 'custom-recipe', 'custom-recipe', 'custom-recipe', '1101',
+    ]);
+    expect(rows.where((event) => event['event_name'].startsWith('notification_'))
+      .map((event) => event['properties']), everyElement({
+        'notification_type': 'bean_freshness', 'trigger': 'rest',
+      }));
+    expect(rows.last['properties'], {
+      'completion_type': 'deep_link_skipped',
+      'screen_name': AccountRoute.name,
+    });
+  });
+
+  test('2025 recap events obey general analytics and use the normal queue', () async {
+    final service = await AnalyticsService.initialize(
+      await SharedPreferences.getInstance(),
+    );
+    const eventNames = ['year_story_opened', 'year_story_last_slide_viewed'];
+    final sent = <Map<String, dynamic>>[];
+    AnalyticsService.sendOverride = (events) async => sent.addAll(events);
+    await service.setGeneralEnabled(false);
+    for (final event in eventNames) {
+      service.track(event, properties: {'year': 2025});
+    }
+    await service.flushNow();
+    expect(sent, isEmpty);
+    await service.setGeneralEnabled(true);
+    for (final event in eventNames) {
+      service.track(event, properties: {'year': 2025});
+    }
+    await service.flushNow();
+    expect(sent.map((event) => event['event_name']), eventNames);
+    expect(sent.map((event) => event['category']), everyElement('general'));
   });
 
   group('initialization', () {
@@ -449,7 +670,7 @@ void main() {
       expect(cardProperties['collection_count'], 3);
 
       final recipeProperties = events[2]['properties'] as Map<String, dynamic>;
-      expect(recipeProperties['recipe_id'], 'recipe-123');
+      expect(recipeProperties['recipe_id'], 'custom-recipe');
       expect(recipeProperties['brewing_method_id'], 'v60');
       expect(recipeProperties['recipe_index'], 1);
     });

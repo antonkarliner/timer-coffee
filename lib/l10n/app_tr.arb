@@ -762,6 +762,7 @@
   "@unpublishRecipeDialogMakePrivate": {
     "description": "Tarifi özel yapma düğmesi metni"
   },
+  "recipeUnpublishPending": "Tarifin gizliye alınması beklemede. Eşitleme tamamlanana kadar bağlantı çalışabilir.",
   "recipeUnpublishSuccess": "Tarif yayından başarıyla kaldırıldı",
   "@recipeUnpublishSuccess": {
     "description": "Bir tarifin yayından kaldırıldığında gösterilen başarı mesajı"
@@ -1223,6 +1224,7 @@
   "moderationDisplayNameFailedBody": "Görünen adın kaydedilemedi çünkü: {reason}",
   "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "moderationRulesBody": "Timer.Coffee'de paylaştığın içerik otomatik olarak incelenir. Gönderiler şunları içerirse reddedilebilir:\n\n- **Bağlantılar veya iletişim bilgileri**: URL'ler, telefon numaraları, e-posta adresleri ya da bunların gizlenmiş sürümleri\n- **Nefret içeren veya saldırgan içerik**: nefret söylemi, taciz ya da herhangi bir tür ayrımcılık\n- **Açık içerik**: cinsel açıdan açık materyal veya şiddetin grafik anlatımları\n- **Tehlikeli içerik**: kendine zarar vermeyi veya diğer tehlikeli etkinlikleri teşvik etme\n\nBu kurallar bir tarifi yayımlarken (özel tarifler incelenmez), çekirdek yorumu metinlerinde, görünen adında ve profil fotoğraflarında geçerlidir. Puanlar ve diğer metin dışı alanlar etkilenmez.\n\nGönderin reddedilirse nedeni görür, içeriği düzenleyip yeniden gönderebilirsin. Manuel itiraz süreci yoktur. Reddin hata olduğunu düşünüyorsan içeriğini yeniden ifade etmeyi dene.",
+  "originalRecipeByPrefix": "Orijinal tarif: ",
   "recipeByPrefix": "Tarif: ",
   "roastersCatalogTitle": "Kavurucular",
   "hubRoastersSubtitle": "Tüm kahve kavurucularına göz at",

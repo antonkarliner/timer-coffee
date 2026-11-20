@@ -882,6 +882,7 @@
   "@unpublishRecipeDialogMakePrivate": {
     "description": "Button text to make the recipe private"
   },
+  "recipeUnpublishPending": "레시피를 비공개로 전환하는 중입니다. 동기화가 완료될 때까지 링크가 작동할 수 있습니다.",
   "recipeUnpublishSuccess": "레시피 비공개 성공",
   "@recipeUnpublishSuccess": {
     "description": "Success message when a recipe is unpublished"
@@ -1343,6 +1344,7 @@
   "moderationDisplayNameFailedBody": "표시 이름을 저장할 수 없습니다. 이유: {reason}",
   "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "moderationRulesBody": "Timer.Coffee에 공유하는 콘텐츠는 자동으로 검토됩니다. 제출 내용에 다음이 포함되면 거부될 수 있습니다:\n\n- **링크 또는 연락처 정보**: URL, 전화번호, 이메일 주소 또는 이를 숨긴 표현\n- **혐오 또는 공격적인 콘텐츠**: 혐오 표현, 괴롭힘 또는 모든 종류의 차별\n- **노골적인 콘텐츠**: 성적으로 노골적인 자료 또는 폭력에 대한 상세한 묘사\n- **위험한 콘텐츠**: 자해 또는 기타 위험한 활동의 조장\n\n이 규칙은 레시피를 게시할 때(비공개 레시피는 검토되지 않음), 원두 리뷰 텍스트, 표시 이름, 프로필 사진에 적용됩니다. 평점과 기타 텍스트가 아닌 필드는 영향을 받지 않습니다.\n\n제출 내용이 거부되면 이유가 표시되며, 수정 후 다시 제출할 수 있습니다. 수동 이의 제기 절차는 없습니다. 거부가 실수라고 생각되면 내용을 다시 표현해 보세요.",
+  "originalRecipeByPrefix": "원본 레시피 작성자: ",
   "recipeByPrefix": "레시피 제공: ",
   "roastersCatalogTitle": "로스터리",
   "hubRoastersSubtitle": "모든 커피 로스터리 둘러보기",

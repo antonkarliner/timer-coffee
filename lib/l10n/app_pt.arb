@@ -762,6 +762,7 @@
   "@unpublishRecipeDialogMakePrivate": {
     "description": "Texto do botão para tornar a receita privada"
   },
+  "recipeUnpublishPending": "A alteração da receita para privada está pendente. O link poderá funcionar até a sincronização terminar.",
   "recipeUnpublishSuccess": "Publicação da receita cancelada com sucesso",
   "@recipeUnpublishSuccess": {
     "description": "Mensagem de sucesso quando a publicação de uma receita é cancelada"
@@ -1223,6 +1224,7 @@
   "moderationDisplayNameFailedBody": "Seu nome de exibição não pôde ser salvo porque: {reason}",
   "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
   "moderationRulesBody": "O conteúdo que você compartilha no Timer.Coffee é revisado automaticamente. Envios podem ser rejeitados se contiverem:\n\n- **Links ou dados de contato**: URLs, números de telefone, endereços de e-mail ou versões disfarçadas desses dados\n- **Conteúdo ofensivo ou de ódio**: discurso de ódio, assédio ou discriminação de qualquer tipo\n- **Conteúdo explícito**: material sexualmente explícito ou descrições gráficas de violência\n- **Conteúdo perigoso**: promoção de automutilação ou outras atividades perigosas\n\nEssas regras se aplicam ao publicar uma receita (receitas privadas não são revisadas), ao texto de avaliações de grãos, ao seu nome de exibição e às fotos de perfil. Classificações e outros campos que não são texto não são afetados.\n\nSe o seu envio for rejeitado, você verá o motivo e poderá editar e enviar novamente. Não há processo de recurso manual. Se você acredita que a rejeição foi um erro, tente reformular o conteúdo.",
+  "originalRecipeByPrefix": "Receita original de ",
   "recipeByPrefix": "Receita de ",
   "roastersCatalogTitle": "Torrefações",
   "hubRoastersSubtitle": "Explore todas as torrefações de café",

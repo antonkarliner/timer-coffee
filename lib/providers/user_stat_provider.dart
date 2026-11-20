@@ -14,6 +14,16 @@ import '../utils/app_logger.dart';
 
 class UserStatProvider extends ChangeNotifier {
   final Uuid _uuid = Uuid();
+  SupabaseClient get _client =>
+      db.accountScope?.client ?? Supabase.instance.client;
+
+  User? get _currentUser {
+    final scope = db.accountScope;
+    return scope == null
+        ? Supabase.instance.client.auth.currentUser
+        : scope.currentUser;
+  }
+
   final AppDatabase db;
   final CoffeeBeansProvider coffeeBeansProvider;
   final String deviceId;
@@ -98,13 +108,13 @@ class UserStatProvider extends ChangeNotifier {
     // Remote sync is best-effort and fire-and-forget: the local DB is the source
     // of truth, and the brew-finish flow (and any other caller) must never block
     // on the network. A failed/slow sync is reconciled later by syncNewUserStats().
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user != null && !user.isAnonymous) {
       final supabaseData = _userStatModelToJson(newStat);
       supabaseData['user_id'] = user.id;
       unawaited(() async {
         try {
-          await Supabase.instance.client
+          await _client
               .from('user_stats')
               .upsert(supabaseData)
               .timeout(NetworkTimeouts.handshake);
@@ -235,13 +245,13 @@ class UserStatProvider extends ChangeNotifier {
 
     // Remote sync is best-effort and fire-and-forget — never block the caller on
     // the network. Local DB is the source of truth; syncNewUserStats() reconciles.
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user != null && !user.isAnonymous && refreshedStat != null) {
       final supabaseData = _userStatModelToJson(refreshedStat);
       supabaseData['user_id'] = user.id;
       unawaited(() async {
         try {
-          await Supabase.instance.client
+          await _client
               .from('user_stats')
               .upsert(supabaseData, onConflict: 'user_id,stat_uuid')
               .timeout(NetworkTimeouts.handshake);
@@ -570,13 +580,13 @@ class UserStatProvider extends ChangeNotifier {
   Future<void> _persistDiaryStat(UserStatsModel updatedStat) async {
     await db.userStatsDao.updateUserStat(updatedStat);
 
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user != null && !user.isAnonymous) {
       final supabaseData = _userStatModelToJson(updatedStat)
         ..['user_id'] = user.id;
       unawaited(() async {
         try {
-          await Supabase.instance.client
+          await _client
               .from('user_stats')
               .upsert(supabaseData, onConflict: 'user_id,stat_uuid')
               .timeout(NetworkTimeouts.handshake);
@@ -619,13 +629,13 @@ class UserStatProvider extends ChangeNotifier {
 
     // Remote sync is best-effort and fire-and-forget — never block the caller on
     // the network. Local DB is the source of truth; syncNewUserStats() reconciles.
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user != null && !user.isAnonymous) {
       final supabaseData = _userStatModelToJson(updatedStat);
       supabaseData['user_id'] = user.id;
       unawaited(() async {
         try {
-          await Supabase.instance.client
+          await _client
               .from('user_stats')
               .upsert(supabaseData, onConflict: 'user_id,stat_uuid')
               .timeout(NetworkTimeouts.handshake);
@@ -701,13 +711,13 @@ class UserStatProvider extends ChangeNotifier {
 
     // Remote sync is best-effort and fire-and-forget — never block the caller on
     // the network. Local DB is the source of truth; syncNewUserStats() reconciles.
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user != null && !user.isAnonymous) {
       final supabaseData = _userStatModelToJson(restoredStat);
       supabaseData['user_id'] = user.id;
       unawaited(() async {
         try {
-          await Supabase.instance.client
+          await _client
               .from('user_stats')
               .upsert(supabaseData, onConflict: 'user_id,stat_uuid')
               .timeout(NetworkTimeouts.handshake);
@@ -809,7 +819,7 @@ class UserStatProvider extends ChangeNotifier {
   }
 
   Future<void> batchUploadUserStats() async {
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user == null || user.isAnonymous) {
       AppLogger.debug('No user logged in or user is anonymous');
       return;
@@ -827,7 +837,7 @@ class UserStatProvider extends ChangeNotifier {
       final batch = statsData.skip(i).take(batchSize).toList();
 
       try {
-        await Supabase.instance.client
+        await _client
             .from('user_stats')
             .upsert(batch)
             .timeout(NetworkTimeouts.smallSync);
@@ -847,7 +857,7 @@ class UserStatProvider extends ChangeNotifier {
   }
 
   Future<void> batchDownloadUserStats() async {
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user == null || user.isAnonymous) {
       AppLogger.debug('No user logged in or user is anonymous');
       return;
@@ -858,7 +868,7 @@ class UserStatProvider extends ChangeNotifier {
 
     try {
       while (true) {
-        final response = await Supabase.instance.client
+        final response = await _client
             .from('user_stats')
             .select()
             .eq('user_id', user.id)
@@ -918,10 +928,8 @@ class UserStatProvider extends ChangeNotifier {
     return await db.userStatsDao.fetchTopRecipes(start, end);
   }
 
-  Future<List<({String recipeId, int count})>> fetchTopRecipesWithCountsForPeriod(
-    DateTime start,
-    DateTime end,
-  ) {
+  Future<List<({String recipeId, int count})>>
+  fetchTopRecipesWithCountsForPeriod(DateTime start, DateTime end) {
     return db.userStatsDao.fetchTopRecipesWithCounts(start, end);
   }
 
@@ -1026,7 +1034,7 @@ class UserStatProvider extends ChangeNotifier {
   }
 
   Future<void> syncNewUserStats() async {
-    final user = Supabase.instance.client.auth.currentUser;
+    final user = _currentUser;
     if (user == null || user.isAnonymous) {
       AppLogger.debug('No user logged in or user is anonymous');
       return;
@@ -1048,7 +1056,7 @@ class UserStatProvider extends ChangeNotifier {
       var from = 0;
 
       while (true) {
-        final response = await Supabase.instance.client
+        final response = await _client
             .from('user_stats')
             .select('stat_uuid, version_vector, is_deleted')
             .eq('user_id', user.id)
@@ -1294,7 +1302,7 @@ class UserStatProvider extends ChangeNotifier {
     List<String> statUuids,
   ) async {
     try {
-      final user = Supabase.instance.client.auth.currentUser;
+      final user = _currentUser;
       if (user == null || user.isAnonymous) {
         AppLogger.debug('No user logged in or user is anonymous');
         return [];
@@ -1307,7 +1315,7 @@ class UserStatProvider extends ChangeNotifier {
         final chunk = statUuids.skip(i).take(chunkSize).toList();
 
         try {
-          final response = await Supabase.instance.client
+          final response = await _client
               .from('user_stats')
               .select()
               .eq('user_id', user.id)
@@ -1340,6 +1348,8 @@ class UserStatProvider extends ChangeNotifier {
   }
 
   Future<void> _updateRemoteStats(List<UserStatsModel> stats) async {
+    final user = _currentUser;
+    if (user == null || user.isAnonymous) return;
     const chunkSize = 200;
 
     for (var i = 0; i < stats.length; i += chunkSize) {
@@ -1348,11 +1358,11 @@ class UserStatProvider extends ChangeNotifier {
       try {
         final updates = chunk.map((stat) {
           final data = _userStatModelToJson(stat);
-          data['user_id'] = Supabase.instance.client.auth.currentUser!.id;
+          data['user_id'] = user.id;
           return data;
         }).toList();
 
-        await Supabase.instance.client
+        await _client
             .from('user_stats')
             .upsert(updates)
             .timeout(NetworkTimeouts.smallSync);

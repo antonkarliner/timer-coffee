@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../app_router.gr.dart';
 import '../../config/moderation_surfaces.dart';
+import '../../config/network_timeouts.dart';
 import '../../database/database.dart';
 import '../../l10n/app_localizations.dart';
 import '../../models/bean_review_model.dart';
@@ -43,6 +44,7 @@ Future<bool> showReviewForm(
   CoffeeBeansModel? preselectedBean,
   double? initialRating,
   String sourceScreen = 'unknown',
+  Future<FunctionResponse> Function(String)? moderateReview,
 }) async {
   AnalyticsService.instance.track(
     'review_form_opened',
@@ -75,10 +77,17 @@ Future<bool> showReviewForm(
       preselectedBean: preselectedBean,
       initialRating: initialRating,
       sourceScreen: sourceScreen,
+      moderateReview: moderateReview ?? _moderateReview,
     ),
   );
   return result ?? false;
 }
+
+Future<FunctionResponse> _moderateReview(String text) =>
+    Supabase.instance.client.functions.invoke(
+      'content-moderation',
+      body: {'text': text, 'surface': ModerationSurfaces.review},
+    );
 
 class _ReviewFormSheet extends StatefulWidget {
   final String? roasterProfileId;
@@ -88,10 +97,12 @@ class _ReviewFormSheet extends StatefulWidget {
   final CoffeeBeansModel? preselectedBean;
   final double? initialRating;
   final String sourceScreen;
+  final Future<FunctionResponse> Function(String) moderateReview;
 
   const _ReviewFormSheet({
     required this.roasterProfileId,
     required this.roasterName,
+    required this.moderateReview,
     this.roasterAliases = const [],
     this.existingReview,
     this.preselectedBean,
@@ -359,8 +370,11 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
   }
 
   Future<void> _submit() async {
-    if (_rating == 0) return;
+    if (_submitting || _rating == 0) return;
     if (!_isEditing && _selectedBean == null) return;
+    final auth = Supabase.instance.client.auth;
+    final owner = auth.currentUser?.id;
+    if (owner == null) return;
 
     setState(() => _submitting = true);
 
@@ -369,59 +383,73 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
     final text = _reviewController.text.trim();
     if (text.isNotEmpty) {
       try {
-        final moderationResponse = await Supabase.instance.client.functions
-            .invoke(
-              'content-moderation',
-              body: {'text': text, 'surface': ModerationSurfaces.review},
-            );
+        final moderationResponse = await widget
+            .moderateReview(text)
+            .timeout(NetworkTimeouts.smallSync);
         if (!mounted) return;
-        if (moderationResponse.status == 200 &&
-            moderationResponse.data != null) {
-          final result = moderationResponse.data as Map<String, dynamic>;
-          if (result['safe'] != true) {
-            final l10n = AppLocalizations.of(context)!;
-            final reason =
-                (result['reason'] as String?) ?? l10n.moderationReasonDefault;
-            setState(() => _submitting = false);
-            final outerContext = context;
-            showDialog<void>(
-              context: context,
-              builder: (dialogContext) => AlertDialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppRadius.card),
-                ),
-                title: Text(l10n.moderationFailedTitle),
-                content: Text(l10n.reviewModerationFailedBody(reason)),
-                actions: [
-                  AppTextButton(
-                    label: l10n.moderationRulesLearnMore,
-                    onPressed: () {
-                      Navigator.of(dialogContext).pop();
+        final result = moderationResponse.data;
+        if (moderationResponse.status != 200 ||
+            result is! Map ||
+            result['safe'] is! bool) {
+          throw StateError('Review moderation unavailable');
+        }
+        if (auth.currentUser?.id != owner ||
+            _reviewController.text.trim() != text) {
+          setState(() => _submitting = false);
+          return;
+        }
+        if (result['safe'] != true) {
+          final l10n = AppLocalizations.of(context)!;
+          final reason =
+              (result['reason'] as String?) ?? l10n.moderationReasonDefault;
+          setState(() => _submitting = false);
+          final outerContext = context;
+          showDialog<void>(
+            context: context,
+            builder: (dialogContext) => AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppRadius.card),
+              ),
+              title: Text(l10n.moderationFailedTitle),
+              content: Text(l10n.reviewModerationFailedBody(reason)),
+              actions: [
+                AppTextButton(
+                  label: l10n.moderationRulesLearnMore,
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop();
+                    if (outerContext.mounted) {
                       outerContext.router.push(
                         InfoRoute(section: 'moderation'),
                       );
-                    },
-                    isFullWidth: false,
-                    height: AppButton.heightMedium,
-                    padding: AppButton.paddingMedium,
-                  ),
-                  AppElevatedButton(
-                    label: l10n.dismiss,
-                    onPressed: () => Navigator.of(dialogContext).pop(),
-                    isFullWidth: false,
-                    height: AppButton.heightMedium,
-                    padding: AppButton.paddingMedium,
-                  ),
-                ],
-              ),
-            );
-            return;
-          }
+                    }
+                  },
+                  isFullWidth: false,
+                  height: AppButton.heightMedium,
+                  padding: AppButton.paddingMedium,
+                ),
+                AppElevatedButton(
+                  label: l10n.dismiss,
+                  onPressed: () => Navigator.of(dialogContext).pop(),
+                  isFullWidth: false,
+                  height: AppButton.heightMedium,
+                  padding: AppButton.paddingMedium,
+                ),
+              ],
+            ),
+          );
+          return;
         }
       } catch (_) {
-        // Moderation API failure — proceed with submission rather than
-        // blocking the user on an infrastructure issue.
         if (!mounted) return;
+        setState(() => _submitting = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(context)!.moderationErrorFunction,
+            ),
+          ),
+        );
+        return;
       }
     }
 
@@ -436,9 +464,7 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
         reviewId: widget.existingReview!.id,
         roasterProfileId: widget.roasterProfileId,
         rating: _rating,
-        reviewText: _reviewController.text.trim().isEmpty
-            ? null
-            : _reviewController.text.trim(),
+        reviewText: text.isEmpty ? null : text,
         sweetness: _interactedSliderKeys.contains('sweetness')
             ? _sweetness
             : null,
@@ -463,9 +489,7 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
         beanName: _selectedBean!.name,
         coffeeBeansUuid: _selectedBean!.beansUuid,
         rating: _rating,
-        reviewText: _reviewController.text.trim().isEmpty
-            ? null
-            : _reviewController.text.trim(),
+        reviewText: text.isEmpty ? null : text,
         sweetness: _interactedSliderKeys.contains('sweetness')
             ? _sweetness
             : null,

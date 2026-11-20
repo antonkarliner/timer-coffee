@@ -40,20 +40,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
       AppLogger.debug('Processing background message data');
       // Handle any data payload
     }
-
-    // Handle external URL caching for iOS terminated state
-    final externalUrl = message.data['external_url'];
-    if (externalUrl != null) {
-      try {
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('pending_external_url', externalUrl);
-        AppLogger.debug(
-          'Cached external URL for iOS terminated state: $externalUrl',
-        );
-      } catch (e) {
-        AppLogger.error('Failed to cache external URL for iOS', errorObject: e);
-      }
-    }
   } catch (e) {
     AppLogger.error('Error in background message handler', errorObject: e);
   }
@@ -76,6 +62,7 @@ class FcmService {
   static const String _fallbackLocale = 'en';
 
   String? get cachedToken => _cachedToken;
+  Stream<String> get tokenRefreshes => _messaging.onTokenRefresh;
   bool get isInitialized => _isInitialized;
 
   /// Stream for handling notification tap events
@@ -121,12 +108,6 @@ class FcmService {
         _handleNotificationTap(message);
       });
 
-      // Listen for token refresh
-      _messaging.onTokenRefresh.listen((token) {
-        _cachedToken = token;
-        AppLogger.debug('FCM token refreshed: $token');
-      });
-
       _isInitialized = true;
       AppLogger.debug('FcmService initialized successfully');
 
@@ -170,7 +151,12 @@ class FcmService {
   /// the app language, and the audience fields of [_updateTokenAudience].
   /// Best effort, never throws; called after a language change and on each
   /// launch's token reactivation.
-  Future<void> syncTokenContext({required String token}) async {
+  Future<void> syncTokenContext({
+    required String token,
+    required String userId,
+  }) async {
+    final owner = userId;
+    if (Supabase.instance.client.auth.currentUser?.id != owner) return;
     final languageCode = ResolvedAppLocale.languageCode.value;
     if (languageCode != null) {
       final locale = _normalizeLocaleCode(languageCode);
@@ -179,6 +165,8 @@ class FcmService {
             .schema('service')
             .from('user_fcm_tokens')
             .update({'locale': locale})
+            .eq('user_id', owner)
+            .eq('is_active', true)
             .eq('token', token);
         AppLogger.debug('FCM token locale updated to "$locale"');
       } catch (e) {
@@ -186,7 +174,7 @@ class FcmService {
         AppLogger.error('Failed to update FCM token locale', errorObject: e);
       }
     }
-    await _updateTokenAudience(token);
+    unawaited(_updateTokenAudience(token, owner));
   }
 
   /// Writes `locale_source`, `country` and `timezone` (plan 076 §2), in a
@@ -196,7 +184,7 @@ class FcmService {
   /// A value that can't be determined is left out rather than written as
   /// null, so a failed lookup doesn't erase a known one. Country is IP-only
   /// ([RegionService.getGeoLocation]); a locale-based guess is never stored.
-  Future<void> _updateTokenAudience(String token) async {
+  Future<void> _updateTokenAudience(String token, String owner) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final client = Supabase.instance.client;
@@ -207,15 +195,19 @@ class FcmService {
             ? 'explicit'
             : 'system',
       };
+      if (client.auth.currentUser?.id != owner) return;
       final geo = await RegionService(client).getGeoLocation();
       if (geo != null) fields['country'] = geo.country;
       final timezone = await _deviceTimezone();
       if (timezone != null) fields['timezone'] = timezone;
+      if (client.auth.currentUser?.id != owner) return;
 
       await client
           .schema('service')
           .from('user_fcm_tokens')
           .update(fields)
+          .eq('user_id', owner)
+          .eq('is_active', true)
           .eq('token', token);
       AppLogger.debug('FCM token audience fields updated: ${fields.keys}');
     } catch (e) {
@@ -296,6 +288,7 @@ class FcmService {
       AppLogger.info('FCM token deleted');
     } catch (e) {
       AppLogger.error('Error deleting FCM token', errorObject: e);
+      rethrow;
     }
   }
 
@@ -338,189 +331,32 @@ class FcmService {
         }
       }
 
-      // First, check if this specific token already exists for this user/device
-      final existingTokenRecord = await supabase
-          .schema('service')
-          .from('user_fcm_tokens')
-          .select()
-          .eq('user_id', userId)
-          .eq('device_type', platform)
-          .eq('token', token)
-          .maybeSingle();
-
-      if (existingTokenRecord != null) {
-        // Token exists - check if it's inactive and reactivate it
-        final bool isActive = existingTokenRecord['is_active'] ?? false;
-        if (!isActive) {
-          AppLogger.debug('Reactivating existing inactive token: $token');
-          await runWithLocaleFallback((locale) {
-            return supabase
-                .schema('service')
-                .from('user_fcm_tokens')
-                .update({
-                  'is_active': true,
-                  'updated_at': now,
-                  'last_used_at': now,
-                  'locale': locale,
-                })
-                .eq('user_id', userId)
-                .eq('device_type', platform)
-                .eq('token', token);
-          });
-          AppLogger.info('FCM token reactivated for user: $userId');
-        } else {
-          AppLogger.debug('Token already active, updating timestamp: $token');
-          await runWithLocaleFallback((locale) {
-            return supabase
-                .schema('service')
-                .from('user_fcm_tokens')
-                .update({
-                  'updated_at': now,
-                  'last_used_at': now,
-                  'locale': locale,
-                })
-                .eq('user_id', userId)
-                .eq('device_type', platform)
-                .eq('token', token);
-          });
+      // A Firebase token identifies this installation. A platform or account
+      // can include several independent installations.
+      await runWithLocaleFallback((locale) {
+        if (supabase.auth.currentUser?.id != userId) {
+          throw StateError('Push registration account changed');
         }
-      } else {
-        // Token doesn't exist - check for recently inactive tokens to reuse
-        final recentInactiveTokens = await supabase
-            .schema('service')
-            .from('user_fcm_tokens')
-            .select()
-            .eq('user_id', userId)
-            .eq('device_type', platform)
-            .eq('is_active', false)
-            .gte(
-              'updated_at',
-              DateTime.now()
-                  .subtract(const Duration(hours: 24))
-                  .toIso8601String(),
-            )
-            .order('updated_at', ascending: false)
-            .limit(1)
-            .maybeSingle();
-
-        if (recentInactiveTokens != null) {
-          // Found a recent inactive token - reactivate it instead of creating new one
-          final existingTokenToReactivate =
-              recentInactiveTokens['token'] as String;
-          AppLogger.debug(
-            'Reactivating recent inactive token instead of creating new: $existingTokenToReactivate',
-          );
-
-          await runWithLocaleFallback((locale) {
-            return supabase
-                .schema('service')
-                .from('user_fcm_tokens')
-                .update({
-                  'is_active': true,
-                  'updated_at': now,
-                  'last_used_at': now,
-                  'token': token, // Update to new token from Firebase
-                  'locale': locale,
-                })
-                .eq('user_id', userId)
-                .eq('device_type', platform)
-                .eq('token', existingTokenToReactivate);
-          });
-
-          AppLogger.info(
-            'Existing FCM token reactivated with new token value for user: $userId',
-          );
-        } else {
-          // Check if token exists for ANY user (not just current user) before inserting
-          final tokenExistsForAnyUser = await supabase
-              .schema('service')
-              .from('user_fcm_tokens')
-              .select()
-              .eq('token', token)
-              .maybeSingle();
-
-          if (tokenExistsForAnyUser != null) {
-            // Token exists for different user - reassign it to current user
-            AppLogger.debug(
-              'Token exists for different user, reassigning to current user: $userId',
-            );
-            await runWithLocaleFallback((locale) {
-              return supabase
-                  .schema('service')
-                  .from('user_fcm_tokens')
-                  .update({
-                    'user_id': userId,
-                    'device_type': platform,
-                    'is_active': true,
-                    'updated_at': now,
-                    'last_used_at': now,
-                    'locale': locale,
-                  })
-                  .eq('token', token);
-            });
-            AppLogger.info('Existing FCM token reassigned to user: $userId');
-          } else {
-            // Upsert so that a token already owned by a different user (e.g.
-            // the previous anonymous session) is reassigned instead of
-            // triggering a duplicate-key violation that RLS may have hidden
-            // from the select check above.
-            AppLogger.debug('Upserting FCM token: $token');
-            await runWithLocaleFallback((locale) {
-              return supabase.schema('service').from('user_fcm_tokens').upsert({
-                'user_id': userId,
-                'token': token,
-                'device_type': platform,
-                'is_active': true,
-                'updated_at': now,
-                'created_at': now,
-                'locale': locale,
-              }, onConflict: 'token');
-            });
-            AppLogger.info('FCM token upserted for user: $userId');
-          }
-        }
-      }
-
-      // Mark all other tokens for this user/device as inactive
-      final otherTokens = await supabase
-          .schema('service')
-          .from('user_fcm_tokens')
-          .select()
-          .eq('user_id', userId)
-          .eq('device_type', platform)
-          .neq('token', token);
-
-      final List<Map<String, dynamic>> otherTokensList = otherTokens;
-      for (final tokenData in otherTokensList) {
-        final otherToken = tokenData['token'] as String?;
-        if (otherToken != null && otherToken.isNotEmpty) {
-          AppLogger.debug('Marking other token as inactive: $otherToken');
-          await runWithLocaleFallback((locale) {
-            return supabase
-                .schema('service')
-                .from('user_fcm_tokens')
-                .update({
-                  'is_active': false,
-                  'updated_at': now,
-                  'last_used_at': now,
-                  'locale': locale,
-                })
-                .eq('token', otherToken)
-                .eq('device_type', platform);
-          });
-        }
-      }
+        return supabase.schema('service').from('user_fcm_tokens').upsert({
+          'user_id': userId,
+          'token': token,
+          'device_type': platform,
+          'is_active': true,
+          'updated_at': now,
+          'last_used_at': now,
+          'locale': locale,
+        }, onConflict: 'token');
+      });
 
       AppLogger.info(
         'FCM token storage completed successfully for user: $userId',
       );
       // Not awaited: the geo lookup can outlast the caller's timeout.
-      unawaited(_updateTokenAudience(token));
+      unawaited(_updateTokenAudience(token, userId));
     } catch (e) {
       AppLogger.error('Error storing FCM token', errorObject: e);
       AppLogger.error('FCM token storage error details: ${e.toString()}');
       AppLogger.error('User ID being used: $userId');
-      AppLogger.error('Token being stored: ${token.substring(0, 20)}...');
 
       // Remove special handling for anonymous users - they should be treated same as authenticated users
       // Supabase anonymous users have proper UUIDs, not the string 'anonymous'
@@ -529,7 +365,10 @@ class FcmService {
   }
 
   /// Mark a specific token as inactive
-  Future<void> markTokenInactive({required String token}) async {
+  Future<void> markTokenInactive({
+    required String userId,
+    required String token,
+  }) async {
     try {
       final supabase = Supabase.instance.client;
       final nowIso = DateTime.now().toIso8601String();
@@ -539,15 +378,21 @@ class FcmService {
         'last_used_at': nowIso,
       };
 
-      await supabase
+      final updated = await supabase
           .schema('service')
           .from('user_fcm_tokens')
           .update(updates)
-          .eq('token', token);
+          .eq('user_id', userId)
+          .eq('token', token)
+          .select('token');
+      if (updated.isEmpty) {
+        throw StateError('Device deactivation was not confirmed');
+      }
 
-      AppLogger.info('Marked FCM token as inactive: $token');
+      AppLogger.info('Marked this installation’s FCM token as inactive');
     } catch (e) {
       AppLogger.error('Error marking FCM token inactive', errorObject: e);
+      rethrow;
     }
   }
 
@@ -559,12 +404,16 @@ class FcmService {
     required String userId,
     required String token,
   }) async {
-    await Supabase.instance.client
+    final removed = await Supabase.instance.client
         .schema('service')
         .from('user_fcm_tokens')
         .delete()
         .eq('user_id', userId)
-        .eq('token', token);
+        .eq('token', token)
+        .select('token');
+    if (removed.isEmpty) {
+      throw StateError('Device registration removal was not confirmed');
+    }
   }
 
   String? _extractNotificationLink(Map<String, dynamic> data) {
@@ -700,29 +549,6 @@ class FcmService {
       AppLogger.debug(
         'App opened from terminated state via notification: ${message.messageId}, data=${message.data}',
       );
-
-      // Cache external URL for iOS terminated-state recovery (same key main.dart reads)
-      final linkType = (message.data['link_type'] as String?)
-          ?.trim()
-          .toLowerCase();
-
-      final openInBrowserRaw = message.data['open_in_browser'];
-      final openInBrowser =
-          openInBrowserRaw == true ||
-          (openInBrowserRaw is String &&
-              openInBrowserRaw.trim().toLowerCase() == 'true');
-
-      final candidate =
-          message.data['external_url'] ?? message.data['validated_url'];
-      if ((openInBrowser || linkType == 'external_url') &&
-          candidate is String) {
-        final url = candidate.trim();
-        if (url.isNotEmpty) {
-          final prefs = await SharedPreferences.getInstance();
-          await prefs.setString('pending_external_url', url);
-          AppLogger.debug('Cached external URL from initial message: $url');
-        }
-      }
 
       _handleNotificationTap(message);
     } catch (e) {

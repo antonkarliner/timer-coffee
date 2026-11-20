@@ -1317,6 +1317,8 @@
   "@unpublishRecipeDialogMakePrivate": {
     "description": "Button text to make the recipe private"
   },
+  "recipeUnpublishPending": "Making this recipe private is pending. Its link may still work until sync completes.",
+  "@recipeUnpublishPending": {"description": "Shown while making a public recipe private awaits server confirmation."},
   "recipeUnpublishSuccess": "Recipe unpublished successfully",
   "@recipeUnpublishSuccess": {
     "description": "Success message when a recipe is unpublished"
@@ -2059,6 +2061,8 @@
     }
   },
   "moderationRulesBody": "Content you share on Timer.Coffee is automatically reviewed. Submissions may be rejected if they contain:\n\n- **Links or contact details** — URLs, phone numbers, email addresses, or any obfuscated versions\n- **Hateful or offensive content** — hate speech, harassment, or discrimination of any kind\n- **Explicit content** — sexually explicit material or graphic descriptions of violence\n- **Dangerous content** — promotion of self-harm or other dangerous activities\n\nThese rules apply when publishing a recipe (private recipes are not reviewed), to bean review text, your display name, and profile pictures. Ratings and other non-text fields are not affected.\n\nIf your submission is rejected, you'll see a reason and can edit and resubmit. There is no manual appeal process — if you believe the rejection was a mistake, try rephrasing your content.",
+  "originalRecipeByPrefix": "Original recipe by ",
+  "@originalRecipeByPrefix": {"description": "Attribution for the original author of a recipe adaptation. Followed by the author name."},
   "recipeByPrefix": "Recipe by ",
   "@recipeByPrefix": {
     "description": "Prefix shown before the roaster name attribution on recipe detail. Trailing space is intentional."
