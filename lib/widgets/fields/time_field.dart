@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import '../../theme/design_tokens.dart';
+import '../base_buttons.dart';
 import 'labeled_field.dart';
 
 /// A standardized time selection field component that provides a consistent
@@ -338,14 +339,20 @@ class _TimePickerDialogState extends State<_TimePickerDialog> {
         ),
       ),
       actions: [
-        TextButton(
+        AppTextButton(
+          label: loc.cancel,
           onPressed: () => Navigator.of(context).pop(),
-          child: Text(loc.cancel),
+          isFullWidth: false,
+          height: AppButton.heightSmall,
+          padding: AppButton.paddingSmall,
         ),
-        TextButton(
+        AppTextButton(
+          label: loc.ok,
           onPressed: () => Navigator.of(context)
               .pop(TimeOfDay(hour: _hour, minute: _minute)),
-          child: Text(loc.ok),
+          isFullWidth: false,
+          height: AppButton.heightSmall,
+          padding: AppButton.paddingSmall,
         ),
       ],
     );
@@ -374,10 +381,9 @@ class _TimePickerDialogState extends State<_TimePickerDialog> {
             return Center(
               child: Text(
                 labelBuilder(index),
-                style: TextStyle(
-                  fontSize: isSelected ? 20 : 16,
-                  fontWeight:
-                      isSelected ? FontWeight.w600 : FontWeight.w400,
+                style: (isSelected
+                        ? AppTextStyles.title
+                        : AppTextStyles.body).copyWith(
                   color: isSelected
                       ? colorScheme.primary
                       : colorScheme.onSurface.withValues(alpha: 0.6),
@@ -460,8 +466,7 @@ class _AmPmButton extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           label,
-          style: TextStyle(
-            fontSize: 13,
+          style: AppTextStyles.caption.copyWith(
             fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
             color: selected ? colorScheme.onPrimary : colorScheme.onSurface,
           ),

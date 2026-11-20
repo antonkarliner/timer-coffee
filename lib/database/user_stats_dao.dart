@@ -593,6 +593,26 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
     return resultRows.map((row) => row.read<String>('recipe_id')).toList();
   }
 
+  Future<List<({String recipeId, int count})>> fetchTopRecipesWithCounts(
+    DateTime start,
+    DateTime end,
+  ) async {
+    final query = customSelect(
+      'SELECT recipe_id, COUNT(recipe_id) AS usage_count '
+      'FROM user_stats WHERE created_at BETWEEN ? AND ? AND is_deleted = false '
+      'GROUP BY recipe_id ORDER BY usage_count DESC LIMIT 3',
+      variables: [Variable.withDateTime(start), Variable.withDateTime(end)],
+      readsFrom: {userStats},
+    );
+    final resultRows = await query.get();
+    return resultRows
+        .map((row) => (
+              recipeId: row.read<String>('recipe_id'),
+              count: row.read<int>('usage_count'),
+            ))
+        .toList();
+  }
+
   Future<List<UserStat>> fetchStatsNeedingUuidUpdate() {
     return (select(userStats)..where(
           (tbl) =>

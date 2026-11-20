@@ -141,10 +141,14 @@ class _ExtractionCalculatorScreenState
   }
 
   Future<void> _openHistoryPicker() async {
-    final picked = await showDialog<({UserStatsModel stat, String recipeName})>(
-      context: context,
-      builder: (dialogContext) => const _HistoryPickerDialog(),
-    );
+    final picked =
+        await showModalBottomSheet<({UserStatsModel stat, String recipeName})>(
+          context: context,
+          isScrollControlled: true,
+          showDragHandle: true,
+          useSafeArea: true,
+          builder: (sheetContext) => const ExtractionHistoryPickerSheet(),
+        );
     if (picked == null || !mounted) return;
     _applyStatPrefill(picked.stat, recipeName: picked.recipeName);
   }
@@ -669,11 +673,12 @@ class _HistoryEntryPoint extends StatelessWidget {
   }
 }
 
-/// Dialog listing recent logged brews to prefill the calculator from.
+/// Sheet listing recent logged brews to prefill the calculator from.
 /// Pops with the selected stat plus its already-resolved recipe name (so
 /// the caller doesn't need to look it up again).
-class _HistoryPickerDialog extends StatelessWidget {
-  const _HistoryPickerDialog();
+@visibleForTesting
+class ExtractionHistoryPickerSheet extends StatelessWidget {
+  const ExtractionHistoryPickerSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -683,52 +688,60 @@ class _HistoryPickerDialog extends StatelessWidget {
       listen: false,
     );
 
-    return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      insetPadding: const EdgeInsets.all(20),
+    return SafeArea(
+      top: false,
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxHeight: 500),
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.sizeOf(context).height * 0.75,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            AppBar(
-              title: Semantics(
-                identifier: 'extractionCalcHistoryDialogAppBar',
-                label: l10n.extractionCalcHistoryDialogTitle,
-                child: Text(l10n.extractionCalcHistoryDialogTitle),
-              ),
-              automaticallyImplyLeading: false,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+            Semantics(
+              identifier: 'extractionCalcHistoryDialogAppBar',
+              label: l10n.extractionCalcHistoryDialogTitle,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.base,
+                ),
+                child: Text(
+                  l10n.extractionCalcHistoryDialogTitle,
+                  style: AppTextStyles.title,
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
-            Expanded(
+            const SizedBox(height: AppSpacing.sm),
+            Flexible(
               child: FutureBuilder<List<UserStatsModel>>(
                 future: userStatProvider.fetchRecentStats(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Padding(
+                      padding: EdgeInsets.all(AppSpacing.lg),
+                      child: Center(
+                        heightFactor: 1,
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
                   }
 
                   final stats = snapshot.data!;
                   if (stats.isEmpty) {
-                    return Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(AppSpacing.lg),
-                        child: Text(
-                          l10n.extractionCalcHistoryEmptyHint,
-                          textAlign: TextAlign.center,
-                          style: AppTextStyles.body.copyWith(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onSurfaceVariant,
-                          ),
+                    return Padding(
+                      padding: const EdgeInsets.all(AppSpacing.lg),
+                      child: Text(
+                        l10n.extractionCalcHistoryEmptyHint,
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.body.copyWith(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
                     );
                   }
 
                   return ListView.builder(
+                    shrinkWrap: true,
                     padding: const EdgeInsets.symmetric(
                       vertical: AppSpacing.sm,
                     ),
@@ -740,16 +753,11 @@ class _HistoryPickerDialog extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(AppSpacing.sm),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  AppTextButton(
-                    label: l10n.cancel,
-                    isFullWidth: false,
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
-                ],
+              padding: const EdgeInsets.all(AppSpacing.base),
+              child: AppTextButton(
+                label: l10n.cancel,
+                isFullWidth: true,
+                onPressed: () => Navigator.of(context).pop(),
               ),
             ),
           ],
@@ -759,7 +767,7 @@ class _HistoryPickerDialog extends StatelessWidget {
   }
 }
 
-/// A single selectable row in [_HistoryPickerDialog]: brewing-method icon,
+/// A single selectable row in [ExtractionHistoryPickerSheet]: brewing-method icon,
 /// bold recipe name, an optional bean-name line, and a date + dose/water
 /// summary line. Dose/water values are joined to their unit with a
 /// no-break space so "g" never wraps onto its own line.

@@ -21,6 +21,7 @@ import '../services/date_time_format_service.dart';
 import '../widgets/unsaved_changes_dialog.dart';
 import '../widgets/fields/chip_input.dart';
 import '../widgets/fields/date_field.dart';
+import '../widgets/fields/labeled_field.dart';
 import '../widgets/fields/time_field.dart';
 import '../widgets/fields/numeric_text_field.dart';
 import '../widgets/fields/dropdown_search_field.dart';
@@ -149,8 +150,11 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
   }
 
   void _openAddBeansPopup() {
-    showDialog(
+    showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      useSafeArea: true,
       builder: (dialogContext) {
         return AddCoffeeBeansWidget(
           onSelect: (String selectedBeanUuid) async {
@@ -197,7 +201,7 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
         return AlertDialog(
           title: Text(
             loc.selectBrewingMethod,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            style: AppTextStyles.itemTitle,
           ),
           content: SizedBox(
             width: double.maxFinite,
@@ -249,7 +253,7 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
         return AlertDialog(
           title: Text(
             loc.selectRecipe,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            style: AppTextStyles.itemTitle,
           ),
           content: SizedBox(
             width: double.maxFinite,
@@ -552,12 +556,10 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
                           Row(
                             children: [
                               Expanded(
-                                child: TextFormField(
+                                child: LabeledField(
+                                  label: loc.coffeeamount,
                                   controller: _coffeeController,
-                                  decoration: InputDecoration(
-                                    labelText: loc.coffeeamount,
-                                    border: const OutlineInputBorder(),
-                                  ),
+                                  labelInsideField: true,
                                   keyboardType:
                                       const TextInputType.numberWithOptions(
                                         decimal: true,
@@ -578,12 +580,10 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
                               ),
                               const SizedBox(width: 16),
                               Expanded(
-                                child: TextFormField(
+                                child: LabeledField(
+                                  label: loc.wateramount,
                                   controller: _waterController,
-                                  decoration: InputDecoration(
-                                    labelText: loc.wateramount,
-                                    border: const OutlineInputBorder(),
-                                  ),
+                                  labelInsideField: true,
                                   keyboardType:
                                       const TextInputType.numberWithOptions(
                                         decimal: true,
@@ -762,14 +762,13 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
                           const SizedBox(height: 16),
 
                           // Notes
-                          TextFormField(
+                          LabeledField(
+                            label: loc.notes,
                             controller: _notesController,
-                            decoration: InputDecoration(
-                              labelText: loc.notes,
-                              border: const OutlineInputBorder(),
-                            ),
+                            isMultiline: true,
                             maxLines: 3,
                             keyboardType: TextInputType.multiline,
+                            textCapitalization: TextCapitalization.none,
                           ),
                           const SizedBox(height: AppSpacing.base),
 

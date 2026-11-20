@@ -4,6 +4,7 @@ import 'package:coffee_timer/models/recipe_model.dart';
 import 'package:coffee_timer/providers/coffee_beans_provider.dart';
 import 'package:coffee_timer/providers/roaster_profile_provider.dart';
 import 'package:coffee_timer/providers/user_stat_provider.dart';
+import 'package:coffee_timer/widgets/fields/dropdown_search_field.dart';
 import 'package:coffee_timer/widgets/recipe_detail/recipe_content_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -17,6 +18,13 @@ import 'recipe_detail_grind_autocomplete_test.mocks.dart';
   MockSpec<CoffeeBeansProvider>(),
   MockSpec<UserStatProvider>(),
 ])
+/// The grind-size text field only: the recipe's coffee/water amounts are
+/// LabeledFields (plan 090 G3b) and would match a page-wide finder.
+Finder _grindField() => find.descendant(
+  of: find.byType(DropdownSearchField),
+  matching: find.byType(TextFormField),
+);
+
 void main() {
   late MockCoffeeBeansProvider coffeeBeansProvider;
   late MockUserStatProvider userStatProvider;
@@ -121,7 +129,7 @@ void main() {
         userStatProvider.fetchRecentDistinctGrindSizes(limit: 4),
       ).called(1);
 
-      await tester.enterText(find.byType(TextFormField), 'mEdIuM-f');
+      await tester.enterText(_grindField(), 'mEdIuM-f');
       await tester.pump(const Duration(milliseconds: 300));
       await tester.pumpAndSettle();
       expect(find.text('Medium-Fine'), findsOneWidget);
@@ -129,7 +137,7 @@ void main() {
       expect(find.text('20 clicks'), findsNothing);
       expect(find.text('22 clicks'), findsNothing);
 
-      await tester.enterText(find.byType(TextFormField), '');
+      await tester.enterText(_grindField(), '');
       await tester.pumpAndSettle();
       expect(find.text('18 clicks'), findsOneWidget);
       expect(find.text('20 clicks'), findsOneWidget);
@@ -151,7 +159,7 @@ void main() {
       // the end of the test.
       await tester.pump(const Duration(seconds: 4));
 
-      expect(find.byType(TextFormField), findsNothing);
+      expect(_grindField(), findsNothing);
       // Both the grind-size and water-temperature rows use an edit pencil;
       // the grind-size one is the first in the tree.
       expect(find.byIcon(Icons.edit), findsNWidgets(2));
@@ -159,9 +167,9 @@ void main() {
       await tester.tap(find.byIcon(Icons.edit).first);
       await tester.pump();
 
-      expect(find.byType(TextFormField), findsOneWidget);
+      expect(_grindField(), findsOneWidget);
 
-      await tester.enterText(find.byType(TextFormField), 'Medium-F');
+      await tester.enterText(_grindField(), 'Medium-F');
       await tester.pump(const Duration(milliseconds: 300));
       await tester.pumpAndSettle();
 
@@ -179,7 +187,7 @@ void main() {
       await tester.tap(find.byIcon(Icons.edit).first);
       await tester.pump();
 
-      final fieldCenter = tester.getCenter(find.byType(TextFormField));
+      final fieldCenter = tester.getCenter(_grindField());
       final checkmarkCenter = tester.getCenter(find.byIcon(Icons.check));
 
       expect(checkmarkCenter.dy, closeTo(fieldCenter.dy, 0.5));
@@ -199,7 +207,7 @@ void main() {
       await tester.tap(find.byIcon(Icons.edit).first);
       await tester.pump();
 
-      await tester.enterText(find.byType(TextFormField), 'Medium-F');
+      await tester.enterText(_grindField(), 'Medium-F');
       await tester.pump(const Duration(milliseconds: 300));
       await tester.pumpAndSettle();
 

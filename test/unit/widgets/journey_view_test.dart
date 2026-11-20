@@ -202,8 +202,10 @@ void main() {
     );
     final loc = _localizations(tester);
 
-    expect(find.byIcon(Coffeico.bag_with_bean), findsOneWidget);
-    expect(find.byIcon(Coffeico.bean), findsOneWidget);
+    // The bean-logo placeholder uses bag_with_bean like every other bean
+    // logo slot (plan 090 I1), alongside the header's own bag_with_bean.
+    expect(find.byIcon(Coffeico.bag_with_bean), findsNWidgets(2));
+    expect(find.byIcon(Coffeico.bean), findsNothing);
     expect(find.text('Test beans'), findsNWidgets(2));
     expect(find.text('Test roaster'), findsOneWidget);
     expect(find.text('${loc.origin}: Kenya'), findsOneWidget);

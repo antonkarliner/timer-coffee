@@ -56,6 +56,9 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
   bool _loadingProfile = true;
   String? _error;
   RoasterColorResult? _roasterColorResult;
+  // Set once the header logo reports its shape, so its backing can hug a
+  // square logo instead of letterboxing it in the wide 220×140 area.
+  bool _headerLogoIsHorizontal = false;
 
   // Review state
   bool _loadingReviews = true;
@@ -409,7 +412,6 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
     final profile = _profile!;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final isLight = theme.brightness == Brightness.light;
     final currentUserId =
         Supabase.instance.client.auth.currentUser?.id;
     final isRoasterAdmin = currentUserId != null &&
@@ -422,11 +424,6 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
     final stockFeatureAvailable =
         const bool.fromEnvironment('FOR_YOU_DEBUG') ||
             (flags?[FeatureFlagKeys.beanRecommendations] ?? false);
-
-    final bgStart =
-        isLight ? Colors.grey.shade400 : Colors.grey.shade800;
-    final bgEnd =
-        isLight ? Colors.grey.shade300 : Colors.grey.shade700;
 
     return CustomScrollView(
       controller: _scrollController,
@@ -443,15 +440,8 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
             child: Card(
               margin: EdgeInsets.zero,
               clipBehavior: Clip.antiAlias,
-              child: Container(
+              child: SizedBox(
                 width: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [bgStart, bgEnd],
-                  ),
-                ),
                 child: Column(
                   children: [
                     // Logo area with padding
@@ -463,14 +453,34 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
                         AppSpacing.lg,
                       ),
                       child: Center(
-                        child: RoasterLogo(
-                          placeholderIcon: Icons.storefront_outlined,
-                          originalUrl: profile.roasterLogoUrl,
-                          mirrorUrl: profile.roasterLogoMirrorUrl,
-                          height: 140,
-                          width: 220,
-                          borderRadius: AppRadius.card,
-                          forceFit: BoxFit.contain,
+                        // The backing hugs the logo with an 8 pt margin:
+                        // 140×140 for square or tall logos, 220×140 for wide
+                        // ones, so white logos stay visible without empty
+                        // side bands.
+                        child: Container(
+                          padding: const EdgeInsets.all(AppSpacing.sm),
+                          decoration: BoxDecoration(
+                            color: colorScheme.surfaceContainerHighest,
+                            borderRadius: BorderRadius.circular(AppRadius.card),
+                          ),
+                          child: RoasterLogo(
+                            placeholderIcon: Icons.storefront_outlined,
+                            originalUrl: profile.roasterLogoUrl,
+                            mirrorUrl: profile.roasterLogoMirrorUrl,
+                            height: 140,
+                            width: _headerLogoIsHorizontal ? 220 : 140,
+                            borderRadius: AppRadius.small,
+                            forceFit: BoxFit.contain,
+                            onAspectRatioDetermined: (isHorizontal) {
+                              if (!mounted ||
+                                  isHorizontal == _headerLogoIsHorizontal) {
+                                return;
+                              }
+                              setState(
+                                () => _headerLogoIsHorizontal = isHorizontal,
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ),
@@ -569,7 +579,7 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
               ),
               child: SectionCard(
                 title: l10n.roasterRecipes,
-                icon: Icons.menu_book_outlined,
+                icon: Coffeico.menu,
                 isCollapsible: true,
                 initiallyExpanded: true,
                 paddingChild: false,

@@ -332,8 +332,9 @@ class _QuickActionsHeaderDelegate extends SliverPersistentHeaderDelegate {
     final t = range <= 0 ? 1.0 : (shrinkOffset / range).clamp(0.0, 1.0);
     final theme = Theme.of(context);
 
-    return Container(
+    return Material(
       // Opaque so the list scrolls invisibly beneath the pinned header.
+      // The Material also gives the rows' ink a surface.
       color: background,
       child: Column(
         children: [

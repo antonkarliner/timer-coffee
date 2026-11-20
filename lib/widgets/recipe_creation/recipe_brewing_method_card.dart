@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../../models/brewing_method_model.dart';
 import '../../theme/design_tokens.dart';
+import '../fields/labeled_field.dart';
 
-class RecipeBrewingMethodCard extends StatelessWidget {
+class RecipeBrewingMethodCard extends StatefulWidget {
   final List<BrewingMethodModel> brewingMethods;
   final String? selectedBrewingMethodId;
   final ValueChanged<String?> onBrewingMethodChanged;
@@ -16,6 +17,53 @@ class RecipeBrewingMethodCard extends StatelessWidget {
   });
 
   @override
+  State<RecipeBrewingMethodCard> createState() =>
+      _RecipeBrewingMethodCardState();
+}
+
+class _RecipeBrewingMethodCardState extends State<RecipeBrewingMethodCard> {
+  late final TextEditingController _controller;
+
+  String get _selectedMethodName {
+    final selectedId = widget.selectedBrewingMethodId;
+    if (selectedId == null) return '';
+
+    return widget.brewingMethods
+        .firstWhere(
+          (method) => method.brewingMethodId == selectedId,
+          orElse: () => widget.brewingMethods.first,
+        )
+        .brewingMethod;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: _selectedMethodName);
+  }
+
+  @override
+  void didUpdateWidget(RecipeBrewingMethodCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (_controller.text == _selectedMethodName) return;
+
+    // Changing the controller notifies the enclosing Form. Do that after build.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final name = _selectedMethodName;
+      if (_controller.text != name) {
+        _controller.text = name;
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
@@ -23,55 +71,12 @@ class RecipeBrewingMethodCard extends StatelessWidget {
       margin: EdgeInsets.zero,
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.cardPadding),
-        child: TextFormField(
-          controller: TextEditingController(
-            text: selectedBrewingMethodId != null
-                ? brewingMethods
-                      .firstWhere(
-                        (method) =>
-                            method.brewingMethodId == selectedBrewingMethodId,
-                        orElse: () => brewingMethods.first,
-                      )
-                      .brewingMethod
-                : '',
-          ),
+        child: LabeledField(
+          label: l10n.recipeCreationScreenBrewingMethodLabel,
+          controller: _controller,
           readOnly: true,
           onTap: () => _showBrewingMethodModal(context),
-          decoration: InputDecoration(
-            labelText: l10n.recipeCreationScreenBrewingMethodLabel,
-            suffixIcon: const Icon(Icons.keyboard_arrow_down),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.cardPadding,
-              vertical: AppSpacing.sm,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppRadius.field),
-              borderSide: BorderSide(
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.grey.shade500
-                    : Colors.grey.shade300,
-                width: AppStroke.border,
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppRadius.field),
-              borderSide: BorderSide(
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.grey.shade500
-                    : Colors.grey.shade300,
-                width: AppStroke.border,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppRadius.field),
-              borderSide: BorderSide(
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.grey.shade300
-                    : Colors.grey.shade700,
-                width: AppStroke.focus,
-              ),
-            ),
-          ),
+          suffixIcon: const Icon(Icons.keyboard_arrow_down),
           validator: (value) {
             if (value == null || value.isEmpty) {
               return l10n.recipeCreationScreenBrewingMethodValidator;
@@ -85,15 +90,16 @@ class RecipeBrewingMethodCard extends StatelessWidget {
 
   void _showBrewingMethodModal(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final card = widget;
 
     // Create a custom overlay that appears below the input field
     late OverlayEntry overlay;
     overlay = OverlayEntry(
       builder: (context) => _BrewingMethodOverlay(
-        brewingMethods: brewingMethods,
-        selectedMethodId: selectedBrewingMethodId,
+        brewingMethods: card.brewingMethods,
+        selectedMethodId: card.selectedBrewingMethodId,
         onMethodSelected: (methodId) {
-          onBrewingMethodChanged(methodId);
+          card.onBrewingMethodChanged(methodId);
           // Remove the overlay
           overlay.remove();
         },

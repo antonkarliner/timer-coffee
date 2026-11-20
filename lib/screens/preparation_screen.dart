@@ -25,6 +25,7 @@ import '../utils/icon_utils.dart';
 import '../widgets/app_bar_title.dart';
 import '../utils/recipe_step_resolution.dart';
 import '../widgets/brew_later_link.dart';
+import '../widgets/brewing/bottom_action_row.dart';
 import '../widgets/brewing/layout_choice_sheet.dart';
 import '../widgets/brewing/layout_preview_cards.dart';
 import '../widgets/settings/layout_switch_back_reason_row.dart';
@@ -386,6 +387,11 @@ class _PreparationScreenState extends State<PreparationScreen> {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context)!;
+    final bottomReserve =
+        AppButton.heightLarge +
+        AppSpacing.base +
+        MediaQuery.paddingOf(context).bottom;
+
     return Scaffold(
       appBar: AppBar(
         leading: Semantics(
@@ -401,6 +407,14 @@ class _PreparationScreenState extends State<PreparationScreen> {
         ),
         actions: [
           Semantics(
+            identifier: 'notificationToggleButton',
+            child: IconButton(
+              icon: _buildNotificationIcon(),
+              tooltip: appLocalizations.settingsBrewAlerts,
+              onPressed: _cycleNotificationMode,
+            ),
+          ),
+          Semantics(
             identifier: 'preparationAdvancedFeaturesButton',
             child: IconButton(
               icon: const Icon(Icons.settings),
@@ -410,14 +424,45 @@ class _PreparationScreenState extends State<PreparationScreen> {
           ),
         ],
       ),
-      body: Semantics(
-        identifier: 'preparationBody',
-        child: _buildBody(context),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Semantics(
-        identifier: 'floatingActionButtons',
-        child: _buildFloatingActionButton(context),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(bottom: bottomReserve),
+            child: Semantics(
+              identifier: 'preparationBody',
+              child: _buildBody(context),
+            ),
+          ),
+          PositionedDirectional(
+            start: 0,
+            end: 0,
+            bottom: 0,
+            child: Semantics(
+              identifier: 'floatingActionButtons',
+              child: BottomActionRow(
+                leading: BrewLaterLink(
+                  recipeId: widget.recipe.id,
+                  methodId: widget.recipe.brewingMethodId,
+                  recipeName: widget.recipe.name,
+                  source: 'preparation',
+                ),
+                action: Semantics(
+                  identifier: 'playButton',
+                  child: FloatingActionButton(
+                    heroTag: 'playButton',
+                    onPressed: _startBrew,
+                    child: Icon(
+                      Directionality.of(context) == TextDirection.rtl
+                          ? Icons.arrow_back_ios_new
+                          : Icons.play_arrow,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -450,10 +495,9 @@ class _PreparationScreenState extends State<PreparationScreen> {
     return Center(
       child: Semantics(
         identifier: 'preparationSteps',
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(AppSpacing.base),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: preparationSteps
                 .map(
                   (step) => Semantics(
@@ -474,56 +518,6 @@ class _PreparationScreenState extends State<PreparationScreen> {
                 .toList(),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildFloatingActionButton(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Semantics(
-            identifier: 'notificationToggleButton',
-            child: FloatingActionButton(
-              heroTag: 'notificationButton',
-              onPressed: _cycleNotificationMode,
-              child: _buildNotificationIcon(),
-            ),
-          ),
-          // The brew-later link takes the middle; the Expanded keeps both FABs
-          // pinned at their original ends, and shrinks the link gracefully
-          // (FittedBox scale-down, one line) at narrow widths and large text
-          // scales. Holds the link's own empty slot when it is ineligible, so
-          // the row's shape never changes.
-          Expanded(
-            // heightFactor keeps the Center as tall as the link. Without it the
-            // Center fills the Scaffold's full height, the Row grows with it,
-            // and both buttons jump from the bottom to the middle of the screen.
-            child: Center(
-              heightFactor: 1.0,
-              child: BrewLaterLink(
-                recipeId: widget.recipe.id,
-                methodId: widget.recipe.brewingMethodId,
-                recipeName: widget.recipe.name,
-                source: 'preparation',
-              ),
-            ),
-          ),
-          Semantics(
-            identifier: 'playButton',
-            child: FloatingActionButton(
-              heroTag: 'playButton',
-              onPressed: _startBrew,
-              child: Icon(
-                Directionality.of(context) == TextDirection.rtl
-                    ? Icons.arrow_back_ios_new
-                    : Icons.play_arrow,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

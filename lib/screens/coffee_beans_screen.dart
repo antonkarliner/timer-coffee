@@ -70,6 +70,14 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
       value: _controller,
       child: Consumer<CoffeeBeansController>(
         builder: (context, controller, child) {
+          final showNoBeans =
+              !controller.isLoading &&
+              controller.error == null &&
+              controller.filteredBeans.isEmpty &&
+              !controller.hasActiveFilters;
+          final showAddButton =
+              controller.viewState.isBottomBarVisible && !showNoBeans;
+
           return Scaffold(
             appBar: CoffeeBeansAppBar(
               viewState: controller.viewState,
@@ -111,20 +119,24 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
                   Expanded(
                     child: RefreshIndicator(
                       onRefresh: () => _forceRefresh(context, controller),
-                      child: _buildContent(context, controller),
+                      child: _buildContent(
+                        context,
+                        controller,
+                        showNoBeans: showNoBeans,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
             floatingActionButton: AnimatedScale(
-              scale: controller.viewState.isBottomBarVisible ? 1.0 : 0.0,
+              scale: showAddButton ? 1.0 : 0.0,
               duration: const Duration(milliseconds: 200),
               child: AnimatedOpacity(
-                opacity: controller.viewState.isBottomBarVisible ? 1.0 : 0.0,
+                opacity: showAddButton ? 1.0 : 0.0,
                 duration: const Duration(milliseconds: 200),
                 child: IgnorePointer(
-                  ignoring: !controller.viewState.isBottomBarVisible,
+                  ignoring: !showAddButton,
                   child: Semantics(
                     identifier: 'addCoffeeBeansButton',
                     label: loc.addBeans,
@@ -150,7 +162,11 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
     );
   }
 
-  Widget _buildContent(BuildContext context, CoffeeBeansController controller) {
+  Widget _buildContent(
+    BuildContext context,
+    CoffeeBeansController controller, {
+    required bool showNoBeans,
+  }) {
     final loc = AppLocalizations.of(context)!;
 
     if (controller.isLoading) {
@@ -192,22 +208,19 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
 
     final beans = controller.filteredBeans;
 
-    // Handle empty states
+    if (showNoBeans) {
+      return _buildAlwaysScrollableFill(
+        CoffeeBeansEmptyState.noBeans(
+          onAddBeans: () => controller.navigateToNewBeans(context),
+        ),
+      );
+    }
     if (beans.isEmpty) {
-      // Check if this is due to filters/search or truly no beans
-      if (controller.hasActiveFilters) {
-        return _buildAlwaysScrollableFill(
-          CoffeeBeansEmptyState.noSearchResults(
-            onClearFilters: () => controller.clearAllFilters(context),
-          ),
-        );
-      } else {
-        return _buildAlwaysScrollableFill(
-          CoffeeBeansEmptyState.noBeans(
-            onAddBeans: () => controller.navigateToNewBeans(context),
-          ),
-        );
-      }
+      return _buildAlwaysScrollableFill(
+        CoffeeBeansEmptyState.noSearchResults(
+          onClearFilters: () => controller.clearAllFilters(context),
+        ),
+      );
     }
 
     // Trial placement for evaluation (plan 083 Phase 2), debug builds only.

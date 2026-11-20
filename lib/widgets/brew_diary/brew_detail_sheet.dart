@@ -256,8 +256,11 @@ class _BrewDetailSheetState extends State<BrewDetailSheet> {
   }
 
   Future<void> _openBeanSelector() async {
-    await showDialog<void>(
+    await showModalBottomSheet<void>(
       context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      useSafeArea: true,
       builder: (dialogContext) => AddCoffeeBeansWidget(
         onSelect: (selectedBeanUuid) async {
           final saved = await _updateBeanAssociation(

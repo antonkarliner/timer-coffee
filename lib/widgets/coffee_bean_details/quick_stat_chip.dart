@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 /// It follows the design pattern used in the coffee beans detail screen hero header.
 ///
 /// The chip adapts to the current theme and provides proper contrast in both
-/// light and dark modes with a semi-transparent surface background.
+/// light and dark modes with a themed surface background.
 ///
 /// Example usage:
 /// ```dart
@@ -39,7 +39,7 @@ class QuickStatChip extends StatelessWidget {
   /// Optional custom value text style
   final TextStyle? valueStyle;
 
-  /// Optional custom background color (defaults to theme surface with opacity)
+  /// Optional custom background color (defaults to the highest surface container)
   final Color? backgroundColor;
 
   /// Optional custom border radius (defaults to 8.0)
@@ -85,7 +85,7 @@ class QuickStatChip extends StatelessWidget {
             padding ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(borderRadius),
-          color: backgroundColor ?? theme.colorScheme.surface.withValues(alpha: 0.8),
+          color: backgroundColor ?? theme.colorScheme.surfaceContainerHighest,
         ),
         child: Column(
           mainAxisSize:

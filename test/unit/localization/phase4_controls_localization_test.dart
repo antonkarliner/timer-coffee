@@ -148,7 +148,14 @@ void main() {
       localizedApp(
         Column(
           children: [
-            BeansChip(labelText: 'Test beans', onTap: () {}, onClear: () {}),
+            BeanSelectionRow(
+              selectedBeanUuid: 'bean-1',
+              selectedBeanName: 'Test beans',
+              originalRoasterLogoUrl: null,
+              mirrorRoasterLogoUrl: null,
+              onSelectBeans: () {},
+              onClearSelection: () {},
+            ),
             DeleteButton(onPressed: () {}),
             RecipeDetailAppBarActions(
               isUserRecipe: true,
@@ -161,6 +168,8 @@ void main() {
         ),
       ),
     );
+
+    await tester.pump(const Duration(seconds: 4));
 
     final l10n = AppLocalizations.of(
       tester.element(find.byType(RecipeDetailAppBarActions)),

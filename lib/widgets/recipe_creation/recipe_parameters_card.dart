@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../../theme/design_tokens.dart';
+import '../fields/labeled_field.dart';
+import '../fields/numeric_text_field.dart';
 
 class RecipeParametersCard extends StatelessWidget {
   final double coffeeAmount;
@@ -48,56 +49,18 @@ class RecipeParametersCard extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: TextFormField(
-                    initialValue: coffeeAmount.toString(),
-                    decoration: InputDecoration(
-                      labelText: l10n.recipeCreationScreenCoffeeAmountLabel,
-                      border: OutlineInputBorder(),
-                    ),
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(
-                          RegExp(r'^\d+\.?\d{0,2}')),
-                    ],
-                    onChanged: (value) {
-                      onCoffeeAmountChanged(double.tryParse(value) ?? 0);
-                    },
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return l10n.recipeCreationScreenRequiredValidator;
-                      }
-                      if (double.tryParse(value) == null) {
-                        return l10n.recipeCreationScreenInvalidNumberValidator;
-                      }
-                      return null;
-                    },
+                  child: _RequiredAmountField(
+                    label: l10n.recipeCreationScreenCoffeeAmountLabel,
+                    initialValue: coffeeAmount,
+                    onChanged: onCoffeeAmountChanged,
                   ),
                 ),
                 const SizedBox(width: AppSpacing.fieldGap),
                 Expanded(
-                  child: TextFormField(
-                    initialValue: waterAmount.toString(),
-                    decoration: InputDecoration(
-                      labelText: l10n.recipeCreationScreenWaterAmountLabel,
-                      border: OutlineInputBorder(),
-                    ),
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(
-                          RegExp(r'^\d+\.?\d{0,2}')),
-                    ],
-                    onChanged: (value) {
-                      onWaterAmountChanged(double.tryParse(value) ?? 0);
-                    },
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return l10n.recipeCreationScreenRequiredValidator;
-                      }
-                      if (double.tryParse(value) == null) {
-                        return l10n.recipeCreationScreenInvalidNumberValidator;
-                      }
-                      return null;
-                    },
+                  child: _RequiredAmountField(
+                    label: l10n.recipeCreationScreenWaterAmountLabel,
+                    initialValue: waterAmount,
+                    onChanged: onWaterAmountChanged,
                   ),
                 ),
               ],
@@ -108,31 +71,22 @@ class RecipeParametersCard extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: TextFormField(
-                    initialValue: waterTemp?.toString() ?? '',
-                    decoration: InputDecoration(
-                      labelText: l10n.recipeCreationScreenWaterTempLabel,
-                      border: OutlineInputBorder(),
-                    ),
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(
-                          RegExp(r'^\d+\.?\d{0,2}')),
-                    ],
-                    onChanged: (value) {
-                      onWaterTempChanged(
-                          value.isEmpty ? null : double.tryParse(value));
-                    },
+                  child: NumericTextField(
+                    label: l10n.recipeCreationScreenWaterTempLabel,
+                    initialValue: waterTemp,
+                    allowDecimal: true,
+                    maxDecimalPlaces: 2,
+                    labelInsideField: true,
+                    onChanged: onWaterTempChanged,
                   ),
                 ),
                 const SizedBox(width: AppSpacing.fieldGap),
                 Expanded(
-                  child: TextFormField(
+                  child: LabeledField(
+                    label: l10n.recipeCreationScreenGrindSizeLabel,
                     initialValue: grindSize,
-                    decoration: InputDecoration(
-                      labelText: l10n.recipeCreationScreenGrindSizeLabel,
-                      border: OutlineInputBorder(),
-                    ),
+                    labelInsideField: true,
+                    textCapitalization: TextCapitalization.none,
                     onChanged: onGrindSizeChanged,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -148,48 +102,75 @@ class RecipeParametersCard extends StatelessWidget {
 
             // Brew Time
             Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
+              padding: const EdgeInsets.only(bottom: AppSpacing.fieldGap),
               child: Text(l10n.recipeCreationScreenTotalBrewTimeLabel),
             ),
             Row(
               children: [
                 Expanded(
-                  child: TextFormField(
-                    initialValue: brewMinutes.toString(),
-                    decoration: InputDecoration(
-                      labelText: l10n.recipeCreationScreenMinutesLabel,
-                      border: OutlineInputBorder(),
-                    ),
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                    onChanged: (value) {
-                      onBrewMinutesChanged(int.tryParse(value) ?? 0);
-                    },
+                  child: NumericTextField(
+                    label: l10n.recipeCreationScreenMinutesLabel,
+                    initialValue: brewMinutes.toDouble(),
+                    allowDecimal: false,
+                    labelInsideField: true,
+                    onChanged: (value) =>
+                        onBrewMinutesChanged(value?.toInt() ?? 0),
                   ),
                 ),
                 const SizedBox(width: AppSpacing.fieldGap),
                 Expanded(
-                  child: TextFormField(
-                    initialValue: brewSeconds.toString(),
-                    decoration: InputDecoration(
-                      labelText: l10n.recipeCreationScreenSecondsLabel,
-                      border: OutlineInputBorder(),
-                    ),
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                    onChanged: (value) {
-                      onBrewSecondsChanged(int.tryParse(value) ?? 0);
-                    },
+                  child: NumericTextField(
+                    label: l10n.recipeCreationScreenSecondsLabel,
+                    initialValue: brewSeconds.toDouble(),
+                    allowDecimal: false,
+                    labelInsideField: true,
+                    onChanged: (value) =>
+                        onBrewSecondsChanged(value?.toInt() ?? 0),
                   ),
                 ),
               ],
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _RequiredAmountField extends StatelessWidget {
+  final String label;
+  final double initialValue;
+  final ValueChanged<double> onChanged;
+
+  const _RequiredAmountField({
+    required this.label,
+    required this.initialValue,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
+    // NumericTextField skips its custom validator for empty input. Track the
+    // nullable value here to keep the recipe's required message and label.
+    return FormField<double>(
+      initialValue: initialValue,
+      validator: (value) =>
+          value == null ? l10n.recipeCreationScreenRequiredValidator : null,
+      builder: (field) => NumericTextField(
+        label: label,
+        initialValue: field.value,
+        errorText: field.errorText,
+        allowDecimal: true,
+        maxDecimalPlaces: 2,
+        labelInsideField: true,
+        onChanged: (value) {
+          // The shared field also reports selection-only controller changes.
+          if (value == field.value) return;
+          field.didChange(value);
+          onChanged(value ?? 0);
+        },
       ),
     );
   }

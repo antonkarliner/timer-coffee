@@ -84,23 +84,6 @@ void main() {
   });
 
   Future<_TestRouter> pumpApp(WidgetTester tester) async {
-    // The pinned quick-actions header draws its opaque background with a
-    // ColoredBox around its ListTiles (pre-existing). ListTile's debug check
-    // reports that as a possible hidden ink effect via FlutterError — a
-    // console warning in a real debug run, but the test binding records
-    // reportError calls as unexpected exceptions. Swallow exactly that
-    // message; everything else still fails the test.
-    final originalOnError = FlutterError.onError;
-    FlutterError.onError = (details) {
-      if (details.exception.toString().contains(
-            'ListTile background color or ink splashes may be invisible',
-          )) {
-        return;
-      }
-      originalOnError?.call(details);
-    };
-    addTearDown(() => FlutterError.onError = originalOnError);
-
     final prefs = await SharedPreferences.getInstance();
     final db = openTestDatabase();
     addTearDown(db.close);
@@ -139,7 +122,9 @@ void main() {
           locale: const Locale('en'),
           // BrewingMethodsScreen is a tab page: in the app a Scaffold shell
           // sits above it. Provide one here so its ListTiles find a Material.
-          builder: (context, child) => Scaffold(body: child),
+          // Use a distinct colour so the shell cannot match the header fill.
+          builder: (context, child) =>
+              Scaffold(backgroundColor: Colors.black, body: child),
           routerConfig: router.config(),
         ),
       ),
@@ -147,6 +132,39 @@ void main() {
     await tester.pumpAndSettle();
     return router;
   }
+
+  testWidgets('the favorite recipes row has an unobstructed ink surface', (
+    tester,
+  ) async {
+    await pumpApp(tester);
+
+    final tile = find.descendant(
+      of: find.bySemanticsIdentifier('favoriteRecipes'),
+      matching: find.byType(ListTile),
+    );
+    expect(tile, findsOneWidget);
+
+    final tileElement = tester.element(tile);
+    Material? nearestMaterial;
+    final opaqueBoxes = <ColoredBox>[];
+    tileElement.visitAncestorElements((ancestor) {
+      final widget = ancestor.widget;
+      if (widget is Material) {
+        nearestMaterial = widget;
+        return false;
+      }
+      if (widget is ColoredBox && widget.color.a == 1.0) {
+        opaqueBoxes.add(widget);
+      }
+      return true;
+    });
+
+    expect(opaqueBoxes, isEmpty, reason: 'An opaque box hides the tile ink.');
+    expect(
+      nearestMaterial?.color,
+      Theme.of(tileElement).scaffoldBackgroundColor,
+    );
+  });
 
   testWidgets('the show-or-hide row is the last row of the method list', (
     tester,

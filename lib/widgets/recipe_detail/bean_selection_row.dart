@@ -3,210 +3,13 @@ import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'package:coffeico_plus/coffeico_plus.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/widgets/roaster_logo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 double _hairline(BuildContext context, {double scale = 1.0}) {
   final dpr = MediaQuery.maybeOf(context)?.devicePixelRatio ?? 2.0;
   return math.max(0.5, 1.0 / dpr) * scale; // stable hairline across devices
-}
-
-/// Tokens resolved from Theme.of(context).colorScheme
-@immutable
-class BeansChipTokens {
-  final Color container;
-  final Color border;
-  final Color text;
-  final Color plate;
-  final Color plateBorder;
-  final Color overlay; // pressed/hover overlay
-
-  const BeansChipTokens({
-    required this.container,
-    required this.border,
-    required this.text,
-    required this.plate,
-    required this.plateBorder,
-    required this.overlay,
-  });
-
-  factory BeansChipTokens.resolve(ColorScheme cs, Brightness b) {
-    // Tonal "quiet" defaults using M3 containers + outlineVariant.
-    // Light maps close to: container ~ #F2F3F5, border ~ black@6–10%,
-    // Dark maps close to:   container ~ #2C2C2E, border ~ white@10–12%.
-    return BeansChipTokens(
-      container: b == Brightness.light
-          ? cs.surfaceContainerHighest
-          : cs.surfaceContainerHighest, // works well for both
-      border: cs.outlineVariant,
-      text: cs.onSurface,
-      plate:
-          b == Brightness.light ? Colors.grey.shade400 : Colors.grey.shade700,
-      //: Color(
-      //0xFF5A6268), // Custom medium-grey for better contrast in dark mode
-      plateBorder: cs.outlineVariant,
-      overlay: cs.onSurface.withValues(alpha: 0.06),
-    );
-  }
-}
-
-class BeansChip extends StatelessWidget {
-  const BeansChip({
-    super.key,
-    required this.onTap,
-    this.onClear,
-    this.labelText,
-    this.logoImage,
-    this.placeholderText = 'Select Beans',
-    this.enabled = true,
-    this.ghost = false,
-    this.height = 44,
-    this.minWidth = 0, // allow to shrink in tight spaces
-    this.padding = const EdgeInsets.symmetric(horizontal: 12),
-    this.clearTooltip,
-  });
-
-  final VoidCallback onTap;
-  final VoidCallback? onClear;
-
-  /// When null => empty state (placeholder)
-  final String? labelText;
-
-  /// When null => show generic beans icon in the plate
-  final ImageProvider? logoImage;
-
-  final String placeholderText;
-  final bool enabled;
-
-  /// Transparent container but keeps the plate (even lighter look)
-  final bool ghost;
-
-  final double height;
-  final double minWidth;
-  final EdgeInsets padding;
-  final String? clearTooltip;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final cs = theme.colorScheme;
-    final b = theme.brightness;
-    final t = BeansChipTokens.resolve(cs, b);
-
-    final selected = labelText != null;
-    final containerColor = ghost ? Colors.transparent : t.container;
-    final textStyle = theme.textTheme.bodyMedium?.copyWith(
-      color: t.text.withValues(alpha: enabled ? 1 : 0.5),
-      height: 1.2,
-    );
-
-    final borderSide = BorderSide(
-      color: t.border.withValues(alpha: ghost ? 0.6 : 1),
-      width: _hairline(context),
-    );
-
-    final radius = BorderRadius.circular(14);
-
-    Widget buildPlate() {
-      final hasLogo = logoImage != null;
-      final plate = AnimatedContainer(
-        duration: const Duration(milliseconds: 160),
-        curve: Curves.easeOut,
-        width: 36, // Increased from 28 to 36
-        height: 36, // Increased from 28 to 36
-        decoration: BoxDecoration(
-          color: hasLogo ? t.plate : Colors.transparent,
-          borderRadius: BorderRadius.circular(10), // Increased from 8 to 10
-          border: hasLogo
-              ? Border.all(
-                  color: t.plateBorder.withValues(alpha: 0.8),
-                  width: _hairline(context))
-              : null,
-        ),
-        clipBehavior: Clip.hardEdge,
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 160),
-          transitionBuilder: (child, anim) => FadeTransition(
-              opacity: anim,
-              child: ScaleTransition(
-                  scale: Tween<double>(begin: 0.95, end: 1).animate(anim),
-                  child: child)),
-          child: hasLogo
-              ? Image(
-                  key: const ValueKey('logo'),
-                  image: logoImage!,
-                  fit: BoxFit.contain,
-                )
-              : Icon(
-                  key: const ValueKey('placeholder'),
-                  Coffeico.bag_with_bean,
-                  size: 22, // Increased from 18 to 22
-                  color: t.text.withValues(alpha: 0.55),
-                ),
-        ),
-      );
-      return plate;
-    }
-
-    final label = Flexible(
-      child: Text(
-        selected ? labelText! : placeholderText,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: textStyle?.copyWith(
-          fontWeight: selected ? FontWeight.w500 : FontWeight.w400,
-          color: selected ? t.text : t.text.withValues(alpha: 0.75),
-        ),
-      ),
-    );
-
-    final clear = onClear == null
-        ? const SizedBox()
-        : Tooltip(
-            message: clearTooltip ??
-                AppLocalizations.of(context)!.fieldClearButtonTooltip,
-            child: InkResponse(
-              onTap: enabled ? onClear : null,
-              customBorder: const CircleBorder(),
-              radius: 18,
-              child: Icon(
-                Icons.close_rounded,
-                size: 18,
-                color: t.text.withValues(alpha: 0.6),
-              ),
-            ),
-          );
-
-    final content = Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        buildPlate(),
-        const SizedBox(width: 10),
-        label,
-        const SizedBox(width: 10),
-        if (onClear != null) clear,
-      ],
-    );
-
-    return ConstrainedBox(
-      constraints: BoxConstraints(minWidth: minWidth, minHeight: height),
-      child: Material(
-        color: containerColor,
-        shape: RoundedRectangleBorder(borderRadius: radius, side: borderSide),
-        child: InkWell(
-          onTap: enabled ? onTap : null,
-          borderRadius: radius,
-          overlayColor: WidgetStateProperty.all(t.overlay),
-          child: Padding(
-            padding: padding,
-            child: SizedBox(
-                height: height,
-                child: Align(alignment: Alignment.centerLeft, child: content)),
-          ),
-        ),
-      ),
-    );
-  }
 }
 
 /// Stateless bean selection row used in Recipe Detail.
@@ -375,7 +178,7 @@ class _BeanSelectionRowState extends State<BeanSelectionRow> {
                       .shade700) // Custom medium-grey for better contrast in dark mode
               : Colors.transparent,
           borderRadius:
-              BorderRadius.circular(11), // Middle ground for 44x44 plate
+              BorderRadius.circular(AppRadius.small)
           // Removed border for cleaner appearance
         ),
         clipBehavior: Clip.hardEdge,
@@ -430,40 +233,31 @@ class _BeanSelectionRowState extends State<BeanSelectionRow> {
                   key: const ValueKey('placeholder'),
                   Coffeico.bag_with_bean,
                   size: 28, // Middle ground for 44x44 plate
-                  color:
-                      Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.55),
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
         ),
       );
     }
 
-    // Create a custom implementation of BeansChip that uses our RoasterLogo
-    final theme = Theme.of(context);
-    final cs = theme.colorScheme;
-    final b = theme.brightness;
-    final t = BeansChipTokens.resolve(cs, b);
+    final cs = Theme.of(context).colorScheme;
 
     final selected = widget.selectedBeanUuid != null;
-    final textStyle = theme.textTheme.bodyMedium?.copyWith(
-      color: t.text,
-      height: 1.2,
-    );
+    final textStyle = selected
+        ? AppTextStyles.fieldLabel.copyWith(color: cs.onSurface)
+        : AppTextStyles.body.copyWith(color: cs.onSurface);
 
     final borderSide = BorderSide(
-      color: t.border,
+      color: cs.outlineVariant,
       width: _hairline(context),
     );
 
-    final radius = BorderRadius.circular(14);
+    final radius = BorderRadius.circular(AppRadius.card);
 
     final label = Text(
       selected ? widget.selectedBeanName ?? '' : loc.selectBeans,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
-      style: textStyle?.copyWith(
-        fontWeight: selected ? FontWeight.w500 : FontWeight.w400,
-        color: selected ? t.text : t.text.withValues(alpha: 0.75),
-      ),
+      style: textStyle,
     );
 
     final clear = selected
@@ -475,8 +269,8 @@ class _BeanSelectionRowState extends State<BeanSelectionRow> {
               radius: 18,
               child: Icon(
                 Icons.close_rounded,
-                size: 18,
-                color: t.text.withValues(alpha: 0.6),
+                size: AppIconSize.small,
+                color: cs.onSurface,
               ),
             ),
           )
@@ -486,24 +280,25 @@ class _BeanSelectionRowState extends State<BeanSelectionRow> {
       mainAxisSize: MainAxisSize.min,
       children: [
         buildCustomPlate(),
-        const SizedBox(width: 10),
+        const SizedBox(width: AppSpacing.sm),
         // Use Expanded for text to ensure proper ellipsis handling
         Expanded(
           child: label,
         ),
-        const SizedBox(width: 8),
+        const SizedBox(width: AppSpacing.sm),
         clear,
       ],
     );
 
     return IntrinsicWidth(
       child: Material(
-        color: t.container,
+        color: cs.surfaceContainerHighest,
         shape: RoundedRectangleBorder(borderRadius: radius, side: borderSide),
         child: InkWell(
           onTap: widget.onSelectBeans,
           borderRadius: radius,
-          overlayColor: WidgetStateProperty.all(t.overlay),
+          overlayColor:
+              WidgetStateProperty.all(cs.onSurface.withValues(alpha: 0.06)),
           child: ConstrainedBox(
             constraints: BoxConstraints(
                 minHeight: 54, // Better proportion for 44px plates
@@ -512,7 +307,8 @@ class _BeanSelectionRowState extends State<BeanSelectionRow> {
                     ? maxWidth
                     : double.infinity), // Use parent width as max
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: AppSpacing.base),
               child: SizedBox(
                   height: 54, // Better proportion for 44px plates
                   child:

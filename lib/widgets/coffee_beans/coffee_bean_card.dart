@@ -57,13 +57,8 @@ class CoffeeBeanCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // subtle gradient in light mode for better white logo visibility
-    final isLight = Theme.of(context).brightness == Brightness.light;
-    final bgStart = isLight ? Colors.grey.shade400 : Colors.grey.shade800;
-    final bgEnd = isLight ? Colors.grey.shade300 : Colors.grey.shade700;
-    final iconColor = Theme.of(
-      context,
-    ).colorScheme.onSurface.withAlpha((255 * 0.6).round());
+    final colorScheme = Theme.of(context).colorScheme;
+    final iconColor = colorScheme.onSurface.withAlpha((255 * 0.6).round());
 
     final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
       context,
@@ -92,148 +87,140 @@ class CoffeeBeanCard extends StatelessWidget {
           margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
           child: Stack(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [bgStart, bgEnd],
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      // ───────── LOGO / PHOTO SLOT ─────────
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: SizedBox(
-                          height: photoSlotSize,
-                          width: photoSlotSize,
-                          child: bean.photoUrl != null
-                              ? CachedNetworkImage(
-                                  imageUrl:
-                                      SupabaseEndpointResolver.localizeStorageUrl(
-                                        bean.photoUrl!,
-                                      ),
-                                  height: photoSlotSize,
-                                  width: photoSlotSize,
-                                  fit: BoxFit.cover,
-                                  errorWidget: (_, _, _) => Icon(
+              Padding(
+                padding: const EdgeInsets.all(AppSpacing.sm),
+                child: Row(
+                  children: [
+                    // ───────── LOGO / PHOTO SLOT ─────────
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(AppRadius.small),
+                      child: Container(
+                        height: photoSlotSize,
+                        width: photoSlotSize,
+                        decoration: BoxDecoration(
+                          color: colorScheme.surfaceContainerHighest,
+                        ),
+                        child: bean.photoUrl != null
+                            ? CachedNetworkImage(
+                                imageUrl:
+                                    SupabaseEndpointResolver.localizeStorageUrl(
+                                      bean.photoUrl!,
+                                    ),
+                                height: photoSlotSize,
+                                width: photoSlotSize,
+                                fit: BoxFit.cover,
+                                errorWidget: (_, _, _) => Icon(
+                                  Coffeico.bag_with_bean,
+                                  size: photoSlotSize,
+                                  color: iconColor,
+                                ),
+                              )
+                            : FutureBuilder<Map<String, String?>>(
+                                future: databaseProvider
+                                    .fetchCachedRoasterLogoUrls(bean.roaster),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    final originalUrl =
+                                        snapshot.data!['original'];
+                                    final mirrorUrl = snapshot.data!['mirror'];
+                                    if (originalUrl != null ||
+                                        mirrorUrl != null) {
+                                      return FittedBox(
+                                        fit: BoxFit.contain,
+                                        alignment: Alignment.centerLeft,
+                                        child: RoasterLogo(
+                                          originalUrl: originalUrl,
+                                          mirrorUrl: mirrorUrl,
+                                          height: photoSlotSize,
+                                          borderRadius: 8.0,
+                                          forceFit: BoxFit.contain,
+                                        ),
+                                      );
+                                    }
+                                  }
+                                  return Icon(
                                     Coffeico.bag_with_bean,
                                     size: photoSlotSize,
                                     color: iconColor,
-                                  ),
-                                )
-                              : FutureBuilder<Map<String, String?>>(
-                                  future: databaseProvider
-                                      .fetchCachedRoasterLogoUrls(bean.roaster),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasData) {
-                                      final originalUrl =
-                                          snapshot.data!['original'];
-                                      final mirrorUrl =
-                                          snapshot.data!['mirror'];
-                                      if (originalUrl != null ||
-                                          mirrorUrl != null) {
-                                        return FittedBox(
-                                          fit: BoxFit.contain,
-                                          alignment: Alignment.centerLeft,
-                                          child: RoasterLogo(
-                                            originalUrl: originalUrl,
-                                            mirrorUrl: mirrorUrl,
-                                            height: photoSlotSize,
-                                            borderRadius: 8.0,
-                                            forceFit: BoxFit.contain,
-                                          ),
-                                        );
-                                      }
-                                    }
-                                    return Icon(
-                                      Coffeico.bag_with_bean,
-                                      size: photoSlotSize,
-                                      color: iconColor,
-                                    );
-                                  },
-                                ),
-                        ),
+                                  );
+                                },
+                              ),
                       ),
-                      // ───────── TEXT SECTION ─────────
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              bean.name,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: Theme.of(context).colorScheme.onSurface,
-                              ),
+                    ),
+                    // ───────── TEXT SECTION ─────────
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            bean.name,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Theme.of(context).colorScheme.onSurface,
                             ),
-                            const SizedBox(height: 4),
-                            Text(
-                              bean.roaster,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Theme.of(context).colorScheme.onSurface,
-                              ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            bean.roaster,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Theme.of(context).colorScheme.onSurface,
                             ),
-                            const SizedBox(height: 4),
-                            Text(
-                              sortOption == SortOption.roastDate
-                                  ? (bean.roastDate != null
-                                        ? '${loc.roastDate}: ${app_date_utils.DateUtils.formatMediumDate(bean.roastDate!)}'
-                                        : bean.origin)
-                                  : bean.origin,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Theme.of(context).colorScheme.outline,
-                              ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            sortOption == SortOption.roastDate
+                                ? (bean.roastDate != null
+                                      ? '${loc.roastDate}: ${app_date_utils.DateUtils.formatMediumDate(bean.roastDate!)}'
+                                      : bean.origin)
+                                : bean.origin,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Theme.of(context).colorScheme.outline,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      // ───────── ACTION BUTTONS ─────────
-                      if (isEditMode)
-                        DeleteButton(
-                          onPressed: () async {
-                            final confirmed = await showDialog<bool>(
-                              context: context,
-                              builder: (context) => ConfirmDeleteDialog(
-                                title: loc.beanDeleteTitle,
-                                content: loc.beanDeleteMessage,
-                                confirmLabel: loc.delete,
-                                cancelLabel: loc.cancel,
-                              ),
+                    ),
+                    // ───────── ACTION BUTTONS ─────────
+                    if (isEditMode)
+                      DeleteButton(
+                        onPressed: () async {
+                          final confirmed = await showDialog<bool>(
+                            context: context,
+                            builder: (context) => ConfirmDeleteDialog(
+                              title: loc.beanDeleteTitle,
+                              content: loc.beanDeleteMessage,
+                              confirmLabel: loc.delete,
+                              cancelLabel: loc.cancel,
+                            ),
+                          );
+                          if (confirmed == true) onDelete();
+                        },
+                      ),
+                    IconButton(
+                      icon: Icon(
+                        bean.isFavorite
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        color: bean.isFavorite
+                            ? (Theme.of(context).brightness == Brightness.light
+                                  ? const Color(0xff8e2e2d)
+                                  : const Color(0xffc66564))
+                            : null,
+                      ),
+                      onPressed:
+                          onFavoriteToggle ??
+                          () async {
+                            await coffeeBeansProvider.toggleFavoriteStatus(
+                              bean.beansUuid,
+                              !bean.isFavorite,
                             );
-                            if (confirmed == true) onDelete();
                           },
-                        ),
-                      IconButton(
-                        icon: Icon(
-                          bean.isFavorite
-                              ? Icons.favorite
-                              : Icons.favorite_border,
-                          color: bean.isFavorite
-                              ? (Theme.of(context).brightness ==
-                                        Brightness.light
-                                    ? const Color(0xff8e2e2d)
-                                    : const Color(0xffc66564))
-                              : null,
-                        ),
-                        onPressed:
-                            onFavoriteToggle ??
-                            () async {
-                              await coffeeBeansProvider.toggleFavoriteStatus(
-                                bean.beansUuid,
-                                !bean.isFavorite,
-                              );
-                            },
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               // Weight label in top-right corner if available

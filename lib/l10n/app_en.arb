@@ -145,6 +145,27 @@
   "coffeeBrewed": "Coffee brewed:",
   "litersUnit": "L",
   "mostUsedRecipes": "Most used recipes:",
+  "statsCoffeeBrewedLabel": "Coffee brewed",
+  "statsMostUsedRecipesLabel": "Most used recipes",
+  "@statsCoffeeBrewedLabel": {
+    "description": "Brew Stats row label for the total volume of coffee brewed in the selected period; the value (e.g. 2.40 L) is shown separately on the right, so no trailing colon."
+  },
+  "@statsMostUsedRecipesLabel": {
+    "description": "Brew Stats row label heading the user's most used recipes in the selected period; no trailing colon."
+  },
+  "statsPeriodToday": "Today",
+  "statsPeriodWeek": "Week",
+  "statsPeriodMonth": "Month",
+  "statsPeriodRange": "Range",
+  "@statsPeriodWeek": {
+    "description": "Brew Stats period segment: the current week. One short word; four segments share one row on a phone."
+  },
+  "@statsPeriodMonth": {
+    "description": "Brew Stats period segment: the current month. One short word."
+  },
+  "@statsPeriodRange": {
+    "description": "Brew Stats period segment that opens a date-range picker (the chosen range is shown below). One short word, e.g. de Zeitraum, ru Период."
+  },
   "globalStats": "Global stats",
   "unknownRecipe": "Unknown Recipe",
   "diaryOrphanedRecipeName": "Deleted recipe · {brewingMethod}",
@@ -2131,7 +2152,7 @@
       }
     }
   },
-  "mts_emptyDiaryTitle": "Your first page awaits ☕️",
+  "mts_emptyDiaryTitle": "Your first page awaits",
   "@mts_emptyDiaryTitle": {
     "description": "Empty-state title for the Brew Diary"
   },

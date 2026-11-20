@@ -25,6 +25,7 @@ import '../utils/app_logger.dart'; // Import AppLogger
 import '../widgets/app_bar_title.dart';
 import '../widgets/base_buttons.dart';
 import '../widgets/account/sign_in_methods_section.dart';
+import '../widgets/fields/labeled_field.dart';
 import '../widgets/settings/settings_list.dart';
 
 // --- Top-level function for image processing in isolate ---
@@ -177,12 +178,12 @@ class _AccountScreenState extends State<AccountScreen> {
           title: Text(l10n.editDisplayNameTitle), // Use localization
           content: Form(
             key: formKey,
-            child: TextFormField(
+            child: LabeledField(
+              label: '',
+              hintText: l10n.displayNameHint, // Use localization
               controller: nameController,
               autofocus: true,
-              decoration: InputDecoration(
-                hintText: l10n.displayNameHint, // Use localization
-              ),
+              textCapitalization: TextCapitalization.none,
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
                   return l10n.displayNameEmptyError; // Use localization

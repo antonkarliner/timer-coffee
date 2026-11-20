@@ -1,9 +1,9 @@
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:sign_in_button/sign_in_button.dart';
 
 import '../../theme/design_tokens.dart';
 import '../base_buttons.dart';
+import 'provider_sign_in_button.dart';
 
 /// The option picked in the sign-in sheet.
 enum SignInMethod { apple, google, email, cancel }
@@ -52,8 +52,6 @@ class SignInSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final colorScheme = Theme.of(context).colorScheme;
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return SingleChildScrollView(
       child: Padding(
@@ -78,36 +76,30 @@ class SignInSheet extends StatelessWidget {
             Center(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: _maxButtonWidth),
-                // Stretch gives Apple, Google and Email one width: the
-                // package sizes each to its own text otherwise.
+                // Stretch gives Apple, Google and Email one width: they
+                // would otherwise each size to their own text.
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     if (showApple) ...[
-                      SignInButton(
-                        isDarkMode ? Buttons.apple : Buttons.appleDark,
-                        text: l10n.signInWithApple,
+                      AppleSignInButton(
+                        label: l10n.signInWithApple,
                         onPressed: () =>
                             Navigator.pop(context, SignInMethod.apple),
                       ),
                       const SizedBox(height: AppSpacing.base),
                     ],
-                    SignInButton(
-                      isDarkMode ? Buttons.google : Buttons.googleDark,
-                      text: l10n.signInWithGoogle,
+                    GoogleSignInButton(
+                      label: l10n.signInWithGoogle,
                       onPressed: () =>
                           Navigator.pop(context, SignInMethod.google),
                     ),
                     const SizedBox(height: AppSpacing.base),
-                    SignInButtonBuilder(
-                      text: l10n.signInWithEmail,
-                      icon: Icons.email,
+                    EmailSignInButton(
+                      label: l10n.signInWithEmail,
                       onPressed: () =>
                           Navigator.pop(context, SignInMethod.email),
-                      backgroundColor: colorScheme.primary,
-                      textColor: colorScheme.onPrimary,
-                      iconColor: colorScheme.onPrimary,
                     ),
                   ],
                 ),

@@ -430,6 +430,10 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              // One coffee symbol (the illustration) and a filled action like
+              // My Beans' empty state. The gaps look even on screen: the
+              // icon's glyph padding and the title's line box add ~8 pt above
+              // the title, so the first spacer is one step smaller.
               Icon(
                 Icons.local_cafe_outlined,
                 size: AppIconSize.large,
@@ -441,11 +445,13 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                 style: AppTextStyles.sectionHeader,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: AppSpacing.base),
-              AppTextButton(
+              const SizedBox(height: AppSpacing.lg),
+              AppElevatedButton(
                 label: loc.mts_emptyDiaryAction,
-                icon: Icons.local_cafe,
                 onPressed: () => context.router.navigate(const HomeRoute()),
+                isFullWidth: false,
+                height: AppButton.heightMedium,
+                padding: AppButton.paddingMedium,
               ),
             ],
           ),
