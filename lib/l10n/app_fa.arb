@@ -1359,7 +1359,7 @@
   "mts_coffeeDayBanner": "روز جهانی قهوه مبارک ☕️",
   "mts_coffeeDayBannerDismiss": "بستن",
   "mts_inSyncCelebration": "{count, plural, =1{{count} دوستدار قهوه در یک دقیقه گذشته همراه شما دم کرد ☕️} other{{count} دوستدار قهوه در یک دقیقه گذشته همراه شما دم کردند ☕️}}",
-  "mts_emptyDiaryTitle": "اولین صفحه شما منتظر است ☕️",
+  "mts_emptyDiaryTitle": "اولین صفحه شما منتظر است",
   "mts_emptyDiaryAction": "چیزی دم کنید",
   "mts_momentTitle_anniversary": "سالگرد اولین دم‌آوری",
   "mts_momentTitle_coffee_day": "روز جهانی قهوه",

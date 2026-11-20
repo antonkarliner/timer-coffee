@@ -1237,7 +1237,7 @@
   "mts_coffeeDayBanner": "国际咖啡日快乐 ☕️",
   "mts_coffeeDayBannerDismiss": "关闭",
   "mts_inSyncCelebration": "{count, plural, =1{过去一分钟里，1 位咖啡爱好者和你一起冲煮 ☕️} other{过去一分钟里，{count} 位咖啡爱好者和你一起冲煮 ☕️}}",
-  "mts_emptyDiaryTitle": "你的第一页正等着你 ☕️",
+  "mts_emptyDiaryTitle": "你的第一页正等着你",
   "mts_emptyDiaryAction": "冲煮点什么",
   "mts_momentTitle_anniversary": "首次冲煮周年",
   "mts_momentTitle_coffee_day": "国际咖啡日",

@@ -1357,7 +1357,7 @@
   "mts_coffeeDayBanner": "Sretan Međunarodni dan kave ☕️",
   "mts_coffeeDayBannerDismiss": "Zatvori",
   "mts_inSyncCelebration": "{count, plural, =1{{count} ljubitelj kave pripremao je kavu s tobom u zadnjoj minuti ☕️} other{{count} ljubitelja kave pripremalo je kavu s tobom u zadnjoj minuti ☕️}}",
-  "mts_emptyDiaryTitle": "Tvoja prva stranica čeka ☕️",
+  "mts_emptyDiaryTitle": "Tvoja prva stranica čeka",
   "mts_emptyDiaryAction": "Pripremi nešto",
   "mts_momentTitle_anniversary": "Godišnjica prve pripreme",
   "mts_momentTitle_coffee_day": "Međunarodni dan kave",

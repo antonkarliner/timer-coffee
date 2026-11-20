@@ -1237,7 +1237,7 @@
   "mts_coffeeDayBanner": "С Международным днём кофе ☕️",
   "mts_coffeeDayBannerDismiss": "Закрыть",
   "mts_inSyncCelebration": "{count, plural, =1{{count} любитель кофе заваривал вместе с вами в последнюю минуту ☕️} other{{count} любителей кофе заваривали вместе с вами в последнюю минуту ☕️}}",
-  "mts_emptyDiaryTitle": "Ваша первая страница ждёт ☕️",
+  "mts_emptyDiaryTitle": "Ваша первая страница ждёт",
   "mts_emptyDiaryAction": "Что-нибудь заварить",
   "mts_momentTitle_anniversary": "Годовщина первой заварки",
   "mts_momentTitle_coffee_day": "Международный день кофе",

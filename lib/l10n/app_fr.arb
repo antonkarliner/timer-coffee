@@ -1237,7 +1237,7 @@
   "mts_coffeeDayBanner": "Bonne Journée internationale du café ☕️",
   "mts_coffeeDayBannerDismiss": "Fermer",
   "mts_inSyncCelebration": "{count, plural, =1{{count} amateur de café a préparé en même temps que vous dans la dernière minute ☕️} other{{count} amateurs de café ont préparé en même temps que vous dans la dernière minute ☕️}}",
-  "mts_emptyDiaryTitle": "Votre première page vous attend ☕️",
+  "mts_emptyDiaryTitle": "Votre première page vous attend",
   "mts_emptyDiaryAction": "Préparer un café",
   "mts_momentTitle_anniversary": "Anniversaire de la première préparation",
   "mts_momentTitle_coffee_day": "Journée internationale du café",

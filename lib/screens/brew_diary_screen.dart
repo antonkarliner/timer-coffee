@@ -24,7 +24,6 @@ import 'package:coffee_timer/widgets/brew_diary/diary_filter_sheet.dart';
 import 'package:coffee_timer/widgets/brew_diary/diary_group_list.dart';
 import 'package:coffee_timer/widgets/brew_diary/journey_view.dart';
 import 'package:coffee_timer/widgets/brew_diary/month_strip.dart';
-import 'package:coffeico_plus/coffeico_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -430,6 +429,10 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              // One coffee symbol (the illustration) and a filled action like
+              // My Beans' empty state. The gaps look even on screen: the
+              // icon's glyph padding and the title's line box add ~8 pt above
+              // the title, so the first spacer is one step smaller.
               Icon(
                 Icons.local_cafe_outlined,
                 size: AppIconSize.large,
@@ -441,11 +444,13 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                 style: AppTextStyles.sectionHeader,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: AppSpacing.base),
-              AppTextButton(
+              const SizedBox(height: AppSpacing.lg),
+              AppElevatedButton(
                 label: loc.mts_emptyDiaryAction,
-                icon: Coffeico.coffee_maker,
                 onPressed: () => context.router.navigate(const HomeRoute()),
+                isFullWidth: false,
+                height: AppButton.heightMedium,
+                padding: AppButton.paddingMedium,
               ),
             ],
           ),

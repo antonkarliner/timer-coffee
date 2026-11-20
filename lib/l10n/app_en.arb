@@ -2131,7 +2131,7 @@
       }
     }
   },
-  "mts_emptyDiaryTitle": "Your first page awaits ☕️",
+  "mts_emptyDiaryTitle": "Your first page awaits",
   "@mts_emptyDiaryTitle": {
     "description": "Empty-state title for the Brew Diary"
   },

@@ -1237,7 +1237,7 @@
   "mts_coffeeDayBanner": "Selamat Hari Kopi Internasional ☕️",
   "mts_coffeeDayBannerDismiss": "Tutup",
   "mts_inSyncCelebration": "{count, plural, =1{1 pecinta kopi menyeduh bersama Anda dalam satu menit terakhir ☕️} other{{count} pecinta kopi menyeduh bersama Anda dalam satu menit terakhir ☕️}}",
-  "mts_emptyDiaryTitle": "Halaman pertama Anda menunggu ☕️",
+  "mts_emptyDiaryTitle": "Halaman pertama Anda menunggu",
   "mts_emptyDiaryAction": "Seduh sesuatu",
   "mts_momentTitle_anniversary": "Ulang tahun seduhan pertama",
   "mts_momentTitle_coffee_day": "Hari Kopi Internasional",
