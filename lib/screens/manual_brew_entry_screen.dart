@@ -200,7 +200,7 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
         return AlertDialog(
           title: Text(
             loc.selectBrewingMethod,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            style: AppTextStyles.itemTitle,
           ),
           content: SizedBox(
             width: double.maxFinite,
@@ -252,7 +252,7 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
         return AlertDialog(
           title: Text(
             loc.selectRecipe,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            style: AppTextStyles.itemTitle,
           ),
           content: SizedBox(
             width: double.maxFinite,

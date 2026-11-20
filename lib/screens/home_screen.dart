@@ -601,17 +601,17 @@ class _YearlyStats25BannerState extends State<_YearlyStats25Banner>
       padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
       child: Material(
         color: Colors.transparent,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppRadius.card),
         child: InkWell(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppRadius.card),
           onTap: widget.onTap,
           child: Ink(
             decoration: BoxDecoration(
               color: colorScheme.secondary,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(AppRadius.card),
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(AppRadius.card),
               child: LayoutBuilder(
                 builder: (context, constraints) {
                   final availableWidth = constraints.maxWidth.isFinite
@@ -743,14 +743,14 @@ class _GiftBoxBanner extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
       child: Material(
         color: Colors.transparent,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppRadius.card),
         child: InkWell(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppRadius.card),
           onTap: onTap,
           child: Ink(
             decoration: BoxDecoration(
               gradient: gradient,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(AppRadius.card),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 14),

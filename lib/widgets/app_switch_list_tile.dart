@@ -65,14 +65,16 @@ class AppToggleSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    const double trackHeight = 30;
+    const indicatorSize = Size(22, 22);
 
     return AnimatedToggleSwitch<bool>.dual(
       current: value,
       first: false,
       second: true,
-      height: 30,
+      height: trackHeight,
       spacing: 5,
-      indicatorSize: const Size(22, 22),
+      indicatorSize: indicatorSize,
       borderWidth: 1.5,
       // Horizontal gap between thumb and track edge; vertical kept tight.
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
@@ -84,8 +86,8 @@ class AppToggleSwitch extends StatelessWidget {
         indicatorColor: v
             ? colorScheme.onPrimary
             : colorScheme.outlineVariant,
-        borderRadius: BorderRadius.circular(15),
-        indicatorBorderRadius: BorderRadius.circular(11),
+        borderRadius: BorderRadius.circular(trackHeight / 2),
+        indicatorBorderRadius: BorderRadius.circular(indicatorSize.height / 2),
       ),
       onChanged: onChanged != null ? (v) => onChanged!(v) : null,
     );

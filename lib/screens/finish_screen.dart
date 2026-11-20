@@ -1192,16 +1192,15 @@ class _FinishScreenState extends State<FinishScreen> {
             children: [
               Text(
                 loc.nativeAppPromoTitle,
-                style: const TextStyle(
+                style: AppTextStyles.title.copyWith(
                   fontWeight: FontWeight.bold,
-                  fontSize: 20,
                 ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),
               Text(
                 loc.nativeAppPromoDescription,
-                style: const TextStyle(fontSize: 16),
+                style: AppTextStyles.body,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 12),
@@ -1298,7 +1297,9 @@ class _FinishScreenState extends State<FinishScreen> {
                         child: Text(
                           '${AppLocalizations.of(context)!.finishmsg} ${widget.brewingMethodName}!',
                           textAlign: TextAlign.center,
-                          style: const TextStyle(fontSize: 24),
+                          style: AppTextStyles.headline.copyWith(
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ),
                     ),
@@ -1382,15 +1383,14 @@ class _FinishScreenState extends State<FinishScreen> {
                                           TextSpan(
                                             text:
                                                 '${AppLocalizations.of(context)!.coffeefact}: ',
-                                            style: const TextStyle(
+                                            style: AppTextStyles.title.copyWith(
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 20,
                                             ),
                                           ),
                                           TextSpan(
                                             text: content.factText,
-                                            style: const TextStyle(
-                                              fontSize: 20,
+                                            style: AppTextStyles.title.copyWith(
+                                              fontWeight: FontWeight.w400,
                                             ),
                                           ),
                                         ],
