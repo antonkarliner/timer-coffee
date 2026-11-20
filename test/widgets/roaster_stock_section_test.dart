@@ -7,6 +7,7 @@ import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/services/clients/bean_recommendation_client.dart';
 import 'package:coffee_timer/services/clients/roaster_stock_client.dart';
 import 'package:coffee_timer/services/feature_flags/feature_flags_repository.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:coffee_timer/widgets/containers/section_card.dart';
 import 'package:coffee_timer/widgets/roaster_stock_section.dart';
 import 'package:coffee_timer/widgets/stock_bean_card.dart';
@@ -301,6 +302,35 @@ void main() {
     });
   });
 
+  testWidgets('renders flat listings with a divider between each pair',
+      (tester) async {
+    final client = _FakeStockClient(
+      result: RoasterStockResult(items: [stock('s1'), stock('s2'), stock('s3')]),
+    );
+    await _pumpSection(tester, client: client);
+    await tester.pumpAndSettle();
+
+    final section = tester.widget<SectionCard>(find.byType(SectionCard));
+    final content = find.byWidget(section.child);
+    final listings = find.descendant(
+      of: content,
+      matching: find.byType(StockBeanCard),
+    );
+    expect(listings, findsNWidgets(3));
+    expect(tester.widgetList<StockBeanCard>(listings).map((c) => c.embedded),
+        everyElement(isTrue));
+    expect(
+      find.descendant(of: listings, matching: find.byType(Card)),
+      findsNothing,
+    );
+    // Scope to the content so the section header's divider is excluded.
+    expect(
+      find.descendant(of: content, matching: find.byType(Divider)),
+      findsNWidgets(2),
+    );
+    expect(tester.takeException(), isNull);
+  });
+
   group('section expansion', () {
     testWidgets('starts expanded; header hides and restores cards and note '
         'without repeating analytics or fetching', (tester) async {
@@ -452,6 +482,31 @@ void main() {
   });
 
   group('cards', () {
+    testWidgets('actions use the default button label style', (tester) async {
+      final client = _FakeStockClient(
+        result: RoasterStockResult(
+          total: 6,
+          items: List.generate(
+            6,
+            (i) => stock(
+              's$i',
+              name: 'Bean $i',
+              productUrl: 'https://shop.example.com/b$i',
+            ),
+          ),
+        ),
+      );
+      await _pumpSection(tester, client: client);
+      await tester.pumpAndSettle();
+
+      expect(find.text(_viewLabel), findsNWidgets(4));
+      expect(find.text(_showMoreLabel), findsOneWidget);
+      final buttons =
+          tester.widgetList<AppTextButton>(find.byType(AppTextButton));
+      expect(buttons.length, greaterThanOrEqualTo(5));
+      expect(buttons.map((button) => button.textStyle), everyElement(isNull));
+    });
+
     testWidgets('up to 4 cards collapsed, Show more reveals the rest, '
         'Show less collapses', (tester) async {
       final client = _FakeStockClient(

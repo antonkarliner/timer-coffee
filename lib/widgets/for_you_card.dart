@@ -13,6 +13,7 @@ import '../theme/design_tokens.dart';
 import '../utils/country_names.dart';
 import '../utils/stock_links.dart';
 import 'base_buttons.dart';
+import 'hub_list_tile.dart';
 import 'stock_bean_card.dart';
 
 /// The Hub's "For you" card (plan 017, phase 5a; restyled in phase 5d): up
@@ -252,33 +253,22 @@ class _ForYouCardState extends State<ForYouCard> {
                         top: AppSpacing.xs,
                         bottom: AppSpacing.xs,
                       ),
-                      textStyle: AppTextStyles.body,
                     ),
                   ),
                 ],
-                // Plan 086: the way in to the taste profile that drives these
-                // picks. It sits here, not on the Account page alone, because
-                // anonymous users get suggestions too but have no Account page.
-                Align(
-                  alignment: AlignmentDirectional.centerStart,
-                  child: Semantics(
-                    identifier: 'forYouTasteProfile',
-                    child: AppTextButton(
-                      label: l10n.tasteProfileTitle,
-                      onPressed: () =>
-                          context.router.push(const TasteProfileRoute()),
-                      isFullWidth: false,
-                      padding: const EdgeInsetsDirectional.only(
-                        end: AppSpacing.base,
-                        top: AppSpacing.xs,
-                        bottom: AppSpacing.xs,
-                      ),
-                      textStyle: AppTextStyles.body,
-                    ),
-                  ),
-                ),
               ],
             ),
+          ),
+          // Plan 086: the way in to the taste profile that drives these
+          // picks. It sits here, not on the Account page alone, because
+          // anonymous users get suggestions too but have no Account page.
+          HubListTile(
+            identifier: 'forYouTasteProfile',
+            label: l10n.tasteProfileTitle,
+            icon: Icons.tune,
+            title: l10n.tasteProfileTitle,
+            subtitle: l10n.tasteProfileEntrySubtitle,
+            onTap: () => context.router.push(const TasteProfileRoute()),
           ),
         ],
       ),
@@ -412,7 +402,6 @@ class _ForYouRow extends StatelessWidget {
                 top: AppSpacing.xs,
                 bottom: AppSpacing.xs,
               ),
-              textStyle: AppTextStyles.body,
             ),
           ),
         Semantics(
@@ -428,7 +417,6 @@ class _ForYouRow extends StatelessWidget {
               top: AppSpacing.xs,
               bottom: AppSpacing.xs,
             ),
-            textStyle: AppTextStyles.body,
           ),
         ),
       ],

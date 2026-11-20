@@ -8,7 +8,9 @@ import 'package:coffee_timer/providers/recommendation_provider.dart';
 import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/services/clients/bean_recommendation_client.dart';
 import 'package:coffee_timer/utils/stock_links.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:coffee_timer/widgets/for_you_card.dart';
+import 'package:coffee_timer/widgets/hub_list_tile.dart';
 import 'package:coffee_timer/widgets/stock_bean_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -508,6 +510,47 @@ void main() {
   });
 
   group('rows', () {
+    testWidgets('actions use the default button label style', (tester) async {
+      await _pumpCard(tester, items: [
+        rec('s1', productUrl: 'https://shop.example.com/b1'),
+        rec('s2'),
+      ]);
+      await tester.pumpAndSettle();
+
+      expect(find.text(_viewLabel), findsOneWidget);
+      expect(find.text(_dismissLabel), findsOneWidget);
+      expect(find.text(_showMoreLabel), findsOneWidget);
+      final buttons =
+          tester.widgetList<AppTextButton>(find.byType(AppTextButton));
+      expect(buttons.length, greaterThanOrEqualTo(3));
+      expect(buttons.map((button) => button.textStyle), everyElement(isNull));
+    });
+
+    testWidgets('taste profile uses a HubListTile with a subtitle',
+        (tester) async {
+      const title = 'Your taste profile';
+      const subtitle =
+          'What we think you like, and how to steer your bean suggestions';
+      final handle = tester.ensureSemantics();
+      await _pumpCard(tester, items: [rec('s1')]);
+      await tester.pumpAndSettle();
+
+      final tile = find.byWidgetPredicate(
+        (widget) => widget is HubListTile && widget.title == title,
+      );
+      expect(tile, findsOneWidget);
+      expect(find.descendant(of: tile, matching: find.text(subtitle)),
+          findsOneWidget);
+      expect(find.bySemanticsIdentifier('forYouTasteProfile'), findsOneWidget);
+      expect(
+        find.byWidgetPredicate(
+          (widget) => widget is AppTextButton && widget.label == title,
+        ),
+        findsNothing,
+      );
+      handle.dispose();
+    });
+
     testWidgets('ready with 5 items → collapsed one row, expanded maxItems',
         (tester) async {
       final items = List.generate(
