@@ -9,6 +9,7 @@ import 'package:coffee_timer/providers/recipe_provider.dart';
 import 'package:coffee_timer/providers/roaster_profile_provider.dart';
 import 'package:coffee_timer/providers/user_stat_provider.dart';
 import 'package:coffee_timer/services/stats_realtime_service.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/utils/icon_utils.dart';
 import 'package:coffee_timer/widgets/account_avatar_inline.dart';
 import 'package:coffeico_plus/coffeico_plus.dart';
@@ -229,28 +230,15 @@ class _StatsScreenState extends State<StatsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header with time period selector
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(32.0, 16.0, 16.0, 16.0),
-                  child: Row(
-                    children: [
-                      Text(l10n.statsFor, style: const TextStyle(fontSize: 20)),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: ConstrainedBox(
-                              constraints: const BoxConstraints(maxWidth: 260),
-                              child: StatsTimePeriodSelector(
-                                onChanged: _refreshGlobalTotal,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSpacing.base,
+                    AppSpacing.base,
+                    AppSpacing.base,
+                    AppSpacing.lg,
+                  ),
+                  child: StatsTimePeriodSelector(
+                    onChanged: _refreshGlobalTotal,
                   ),
                 ),
 

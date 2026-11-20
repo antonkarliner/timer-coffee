@@ -13,8 +13,8 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
 /// Recorded on 2026-11-20 at plan 090's H2a commit (7ffaeb61).
-const int _maxFontSizeLiterals = 40;
-const int _maxRadiusLiterals = 15;
+const int _maxFontSizeLiterals = 38;
+const int _maxRadiusLiterals = 13;
 
 /// Files with their own art direction or debug-only UI, not held to tokens.
 const Set<String> _exempt = {
