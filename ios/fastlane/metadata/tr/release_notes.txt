@@ -1,18 +1,24 @@
 Yenilikler:
-• İlk Adımlar kartında yeni bir son adım var: “Demleme güncellemelerini açın”. Bildirimlere doğrudan karttan izin vermek için buna dokunun.
-• İlk Adımlar kartında “Bir tarifi favorilere ekleyin” artık en son demlediğiniz tarifi açıyor ve kalbi vurguluyor; böylece tek dokunuşla kaydedebilirsiniz.
-• Aynı tarifle iki veya daha fazla demleme yaptıktan sonra, “Başka bir tarif deneyin” adımı artık aynı yöntem için belirli bir tarif öneriyor. Tarifi açmak için ona dokunun.
-• İlk demlemenizden sonra, beşinci günü beklemek yerine ertesi sabah bir hatırlatma alırsınız. Hatırlatma tarifinizi açar ve zamanlayıcı başlatmaz. Günlük sabah hatırlatıcınız zaten açıksa bunu almazsınız.
-• Henüz demlemediniz mi? İstediğiniz tarifte “Sonra demle” seçeneğine dokunarak bir saat belirleyin; tarifiniz demlemeye hazır olduğunda size hatırlatacağız.
+• Uygulama genelinde tasarım düzenlemeleri: artık her ekran başlığının eşleşen bir simgesi var, kartlar her yerde aynı görünüyor ve eskiden soluk olan metinlerin okunması daha kolay.
+• Demleme istatistiklerini taramak artık daha kolay. Üstteki tek bir anahtarla dönemi seçin; verileriniz ve genel veriler artık basit satırlar hâlinde düzenleniyor.
+• Bir tarif için çekirdek seçmek artık ekranın altından açılan bir panel açıyor. Ekstraksiyon hesaplayıcısının geçmiş seçicisi de aynı şekilde çalışıyor.
+• Bu cihazda birden fazla hesap kullanıyorsanız, artık her hesap kendi çekirdeklerini, demleme günlüğünü ve tariflerini ayrı tutar. Mevcut çekirdekleriniz ve demleme günlüğünüz, güncelleme yaptığınızda oturum açmış olduğunuz hesapta kalır.
+• Başka birinin tarifinden uyarlanan tariflerde artık orijinal yazara atıf yapılıyor.
 
 İyileştirmeler:
-• Kahve tazelik hatırlatıcıları artık varsayılan olarak açık. Daha önce kapattıysanız kapalı kalırlar. Bunu istediğiniz zaman Ayarlar → Bildirimler bölümünden değiştirebilirsiniz.
-• Sabah uygulamayı zaten açtıysanız günlük sabah hatırlatıcınız o gün için atlanır.
-• Tarif yazarken uygulama artık adımlarınızdaki hangi miktarların kahveye, hangilerinin suya ait olduğunu daha sık tanıyor.
-• Boş bir Favori Tarifler listesi artık listeye nasıl tarif ekleyeceğinizi gösteriyor.
+• Hazırlık ekranında adım uyarıları anahtarı üst çubuğa taşındı ve Oynat düğmesi, tarif sayfasındaki gibi altta kalıyor.
+• Tarif sayfasında, kaydırırken ok ve “Sonra demle” ekranın altında kalır.
+• Bir tarifteki “Çekirdekleri Seçin” düğmesi artık devre dışı görünmüyor.
+• Apple ve Google ile oturum açma düğmeleri artık Apple ve Google’ın güncel tasarımlarını takip ediyor; Apple düğmesi metin boyutunuzla birlikte büyüyor.
+• Üst çubuk, altında kaydırdığınızda rengini korur.
+• Çekirdek fotoğrafları, kavurucu logoları ve koleksiyon kartları artık gri bir gradyan üzerinde yer almıyor.
+• Demleme günlüğü kartları içeriklerine uyum sağlar ve boş günlük daha sakin görünüyor.
+• Hızlı işlem satırları artık dokunduğunuzda görünür şekilde tepki veriyor.
+• Bir kahve etiketini taradığınızda, fotoğrafta saklanan konum verileri fotoğraf tanınmak üzere gönderilmeden önce kaldırılır.
+• Profil resminizi kaldırmak artık saklanan görseli de siler.
 
 Hata Düzeltmeleri:
-• İlk demlemenizin sonunda bildirimlere izin verdikten sonra hatırlatıcıların ayarlanmaması düzeltildi.
-• 5. ve 10. gün demleme hatırlatıcılarının uygulamayı yeniden açtıktan sonra bazen kaybolması düzeltildi.
-• Uzun çekirdek ve kahve kavurucusu adlarının çekirdek sayfasında kelimenin ortasında bölünmesi düzeltildi.
-• Çekirdek yolculuğu grafiğinde “En iyi fincan” etiketinin puanlamaların üzerine gelmesi düzeltildi.
+• Özel miktarları kaydettikten sonra bir tarifin kahve-su oranının hafifçe kayması düzeltildi (örneğin, 30 g kahvenin 500 ml yerine 499,9 ml su vermesi).
+• Boş Çekirdeklerim ekranında iki ekleme düğmesinin görünmesi düzeltildi.
+• Daraltılabilir bölümlerdeki okun yalnızca kısmen dönmesi düzeltildi.
+• Uygulama içindeki bazı bağlantıların doğru sayfa yerine ana ekranı açması düzeltildi.

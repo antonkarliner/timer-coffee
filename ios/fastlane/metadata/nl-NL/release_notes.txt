@@ -1,18 +1,24 @@
 Wat is er nieuw:
-• De kaart Eerste stappen heeft een nieuwe laatste stap: ‘Zet brouwupdates aan’. Tik erop om rechtstreeks vanaf de kaart notificaties toe te staan.
-• Op de kaart Eerste stappen opent ‘Voeg een recept toe aan favorieten’ nu het recept dat je het recentst hebt gezet en wordt het hart gemarkeerd, zodat je het met één tik kunt opslaan.
-• Na twee of meer zetbeurten met hetzelfde recept stelt de stap ‘Probeer een ander recept’ nu een specifiek recept voor dezelfde zetmethode voor. Tik erop om dat recept te openen.
-• Na je eerste zetbeurt krijg je de volgende ochtend één herinnering, in plaats van te wachten tot dag vijf. Deze opent je recept en start geen timer. Je krijgt deze niet als je dagelijkse ochtendherinnering al aanstaat.
-• Nog niet gezet? Tik bij een recept op ‘Later zetten’ om een tijd te kiezen, dan sturen we je een herinnering met dat recept klaar om te starten.
+• Een ontwerpronde in de hele app: elke schermtitel heeft nu een bijpassend pictogram, kaarten zien er overal hetzelfde uit en tekst die voorheen vervaagd was, is beter leesbaar.
+• Brouwstatistieken zijn makkelijker te overzien. Kies de periode met één schakelaar bovenaan, en je statistieken en de wereldwijde statistieken worden nu als eenvoudige rijen weergegeven.
+• Bonen kiezen voor een recept opent nu een venster vanaf de onderkant van het scherm. De geschiedeniskiezer van de extractiecalculator werkt op dezelfde manier.
+• Als je meer dan één account op dit apparaat gebruikt, behoudt elk account nu zijn eigen bonen, brouwdagboek en recepten. Je bestaande bonen en brouwdagboek blijven gekoppeld aan het account waarbij je bent aangemeld wanneer je bijwerkt.
+• Recepten die zijn aangepast van het recept van iemand anders vermelden nu de oorspronkelijke auteur.
 
 Verbeteringen:
-• Versheidsherinneringen staan nu standaard aan. Als je ze eerder hebt uitgezet, blijven ze uit. Je kunt dit op elk moment wijzigen via Instellingen → Notificaties.
-• Als je de app ’s ochtends al hebt geopend, wordt je dagelijkse ochtendherinnering die dag overgeslagen.
-• Wanneer je een recept schrijft, herkent de app vaker welke hoeveelheden in je stappen koffie zijn en welke water.
-• Een lege lijst met Favoriete recepten laat nu zien hoe je er een recept aan toevoegt.
+• Op het scherm Voorbereiding is de schakelaar voor meldingen bij stapwissel naar de bovenbalk verplaatst en blijft de knop Afspelen onderaan staan, net als op de receptpagina.
+• Op de receptpagina blijven de pijl en ‘Later zetten’ onderaan het scherm staan terwijl je scrolt.
+• De knop ‘Kies bonen’ bij een recept ziet er niet langer uit alsof deze is uitgeschakeld.
+• De aanmeldknoppen van Apple en Google volgen nu de huidige ontwerpen van Apple en Google, en de Apple-knop wordt groter met je tekstgrootte.
+• De bovenbalk behoudt zijn kleur wanneer je eronder scrolt.
+• Bonenfoto's, logo's van branderijen en collectiekaarten staan niet langer op een grijze kleurverloopachtergrond.
+• Kaarten in het brouwdagboek passen bij hun inhoud en het lege dagboek oogt rustiger.
+• Rijen voor snelle acties reageren nu zichtbaar wanneer je erop tikt.
+• Wanneer je een koffielabel scant, worden locatiegegevens die in de foto zijn opgeslagen verwijderd voordat de foto voor herkenning wordt verzonden.
+• Als je je profielfoto verwijdert, wordt de opgeslagen afbeelding nu ook verwijderd.
 
-Bugfixes:
-• Opgelost: herinneringen werden niet ingesteld nadat je aan het einde van je eerste zetbeurt notificaties had toegestaan.
-• Opgelost: de zetherinneringen voor dag 5 en dag 10 verdwenen soms nadat je de app opnieuw had geopend.
-• Opgelost: lange namen van bonen en branderijen werden midden in een woord afgebroken op de bonenpagina.
-• Opgelost: het label ‘Beste kop’ overlapte beoordelingen in de grafiek van de Bonenreis.
+Opgeloste problemen:
+• Opgelost dat de koffie-waterverhouding van een recept na het opslaan van aangepaste hoeveelheden licht kon afwijken (bijvoorbeeld 30 g koffie die 499,9 ml water gaf in plaats van 500 ml).
+• Opgelost dat het lege scherm Mijn bonen twee knoppen voor toevoegen toonde.
+• Opgelost dat de pijl bij uitklapbare secties slechts gedeeltelijk draaide.
+• Opgelost dat sommige links naar de app het startscherm openden in plaats van de juiste pagina.

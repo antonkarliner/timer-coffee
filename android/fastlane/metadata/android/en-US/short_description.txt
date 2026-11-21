@@ -1,1 +1,1 @@
-Free, open-source brew timer with 40+ recipes and background brewing.
+Open-source coffee timer with guided recipes, bean tracking and a brew diary.

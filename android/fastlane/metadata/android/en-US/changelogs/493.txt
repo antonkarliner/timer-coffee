@@ -1,0 +1,11 @@
+New:
+• Design pass: icons on screen titles, matching cards, no faded text.
+• Brew Stats: one period switch and simpler rows.
+• Each account on this device keeps its own beans, diary and recipes. Your existing data stays with your current account.
+
+Improved:
+• Play and “Brew later” stay at the bottom of the recipe and Preparation screens.
+• Location data is removed from label photos before scanning.
+
+Fixed:
+• A recipe’s ratio no longer drifts after you save custom amounts.

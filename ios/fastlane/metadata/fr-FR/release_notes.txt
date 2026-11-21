@@ -1,18 +1,24 @@
 Nouveautés :
-• La carte Premiers pas comporte une nouvelle dernière étape : « Activez les rappels de préparation ». Touchez-la pour autoriser les notifications directement depuis la carte.
-• Sur la carte Premiers pas, « Ajoutez une recette aux favoris » ouvre désormais la recette que vous avez préparée le plus récemment et met en évidence le cœur, afin que vous puissiez l’enregistrer en un seul geste.
-• Après deux préparations ou plus de la même recette, l’étape « Essayez une autre recette » suggère désormais une recette précise utilisant la même méthode d’extraction. Touchez-la pour ouvrir cette recette.
-• Après votre première préparation, vous recevez un rappel le lendemain matin au lieu d’attendre le cinquième jour. Il ouvre votre recette sans lancer de minuteur. Vous ne le recevrez pas si votre rappel quotidien du matin est déjà activé.
-• Vous n’avez pas encore préparé de café ? Touchez « Préparer plus tard » sur n’importe quelle recette pour choisir une heure, et nous vous enverrons un rappel avec cette recette prête à être préparée.
+• Une refonte visuelle dans toute l’app : chaque titre d’écran a désormais une icône correspondante, les cartes ont la même apparence partout et le texte auparavant estompé est plus facile à lire.
+• Les Statistiques de préparation sont plus faciles à parcourir. Choisissez la période avec un seul sélecteur en haut, et vos statistiques ainsi que les statistiques globales sont désormais présentées sous forme de simples lignes.
+• La sélection des grains pour une recette ouvre désormais un panneau depuis le bas de l’écran. Le sélecteur d’historique du calculateur d’extraction fonctionne de la même manière.
+• Si vous utilisez plusieurs comptes sur cet appareil, chaque compte conserve désormais ses propres grains, journal de préparation et recettes. Vos grains et votre journal de préparation existants restent associés au compte auquel vous êtes connecté lors de la mise à jour.
+• Les recettes adaptées de la recette de quelqu’un d’autre créditent désormais l’auteur original.
 
 Améliorations :
-• Les rappels de fraîcheur du café sont désormais activés par défaut. Si vous les aviez désactivés auparavant, ils restent désactivés. Vous pouvez les modifier à tout moment dans Paramètres → Notifications.
-• Si vous avez déjà ouvert l’app le matin, votre rappel quotidien du matin est ignoré ce jour-là.
-• Lorsque vous rédigez une recette, l’app reconnaît plus souvent quelles quantités de vos étapes concernent le café et lesquelles concernent l’eau.
-• Une liste Recettes favorites vide indique désormais comment y ajouter une recette.
+• Sur l’écran Préparation, le sélecteur d’alertes d’étape a été déplacé dans la barre supérieure, et le bouton Lecture reste en bas, comme sur la page de recette.
+• Sur la page de recette, la flèche et « Préparer plus tard » restent en bas de l’écran pendant le défilement.
+• Le bouton « Sélectionner les grains » d’une recette ne semble plus désactivé.
+• Les boutons de connexion Apple et Google suivent désormais les designs actuels d’Apple et de Google, et le bouton Apple s’agrandit avec la taille de votre texte.
+• La barre supérieure conserve sa couleur lorsque vous faites défiler le contenu sous elle.
+• Les photos de grains, les logos de torréfacteurs et les cartes de collections ne reposent plus sur un dégradé gris.
+• Les cartes du journal de préparation s’adaptent à leur contenu, et le journal vide a une apparence plus apaisée.
+• Les lignes d’actions rapides réagissent désormais visiblement lorsque vous les touchez.
+• Lorsque vous scannez une étiquette de café, les données de localisation stockées dans la photo sont supprimées avant l’envoi de la photo pour reconnaissance.
+• La suppression de votre photo de profil supprime désormais également l’image stockée.
 
 Corrections de bugs :
-• Correction d’un problème empêchant la configuration des rappels après avoir autorisé les notifications à la fin de votre première préparation.
-• Correction d’un problème où les rappels de préparation du 5e et du 10e jour disparaissaient parfois après la réouverture de l’app.
-• Correction d’un problème où les longs noms de grains et de torréfacteurs se coupaient au milieu d’un mot sur la page du grain.
-• Correction d’un problème où l’étiquette « Meilleure tasse » chevauchait les évaluations sur le graphique du Parcours du café.
+• Correction d’un léger décalage du ratio café-eau d’une recette après l’enregistrement de quantités personnalisées (par exemple, 30 g de café donnaient 499,9 ml d’eau au lieu de 500 ml).
+• Correction de l’écran Mes cafés vide qui affichait deux boutons d’ajout.
+• Correction de la flèche des sections réductibles qui ne tournait qu’en partie.
+• Correction de certains liens vers l’app qui ouvraient l’écran d’accueil au lieu de la bonne page.

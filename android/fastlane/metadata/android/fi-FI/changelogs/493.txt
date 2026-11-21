@@ -1,0 +1,11 @@
+Uutta:
+• Ulkoasu: kuvakkeet otsikoissa, yhtenäiset kortit, ei haaleaa tekstiä.
+• Uuttotilastot: yksi jakson valitsin ja selkeämmät rivit.
+• Jokaisella laitteen tilillä on omat pavut, päiväkirja ja reseptit. Nykyiset tietosi jäävät nykyiselle tilillesi.
+
+Parannettu:
+• Toista ja ”Valmista myöhemmin” pysyvät alhaalla resepti- ja Valmistelu-näkymissä.
+• Sijaintitiedot poistetaan etikettikuvista ennen skannausta.
+
+Korjattu:
+• Reseptin suhde ei enää muutu omien määrien tallennuksen jälkeen.

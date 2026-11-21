@@ -1,0 +1,11 @@
+Nou:
+• Design: pictograme în titluri, carduri potrivite, text clar.
+• Statistici preparare: selector unic de perioadă, rânduri simple.
+• Fiecare cont de pe dispozitiv are boabe, jurnal și rețete proprii. Datele rămân în contul actual.
+
+Îmbunătățit:
+• Redare și „Prepară mai târziu” rămân jos în Rețetă și Pregătire.
+• Locația e eliminată din fotografiile etichetelor înainte de scanare.
+
+Remediat:
+• Raportul rețetei nu se mai modifică după salvarea cantităților personalizate.

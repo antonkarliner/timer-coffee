@@ -1,0 +1,11 @@
+Yeni:
+• Tasarım: ekran başlıklarında simgeler, uyumlu kartlar, soluk metin yok.
+• Demleme istatistikleri: tek dönem seçici ve daha sade satırlar.
+• Bu cihazdaki her hesap kendi çekirdeklerini, günlüğünü ve tariflerini korur. Mevcut verileriniz hesabınızda kalır.
+
+İyileştirildi:
+• Oynat ve “Sonra demle”, Tarif ve Hazırlık ekranlarının altında kalır.
+• Konum verileri, taramadan önce etiket fotoğraflarından kaldırılır.
+
+Düzeltildi:
+• Özel miktarları kaydettikten sonra tarif oranı artık değişmez.

@@ -1,0 +1,11 @@
+Novedades:
+• Diseño: iconos en títulos, tarjetas coherentes y sin texto atenuado.
+• Estadísticas de preparación: un selector de periodo y filas más simples.
+• Cada cuenta conserva sus propios granos, diario y recetas. Tus datos siguen en tu cuenta actual.
+
+Mejoras:
+• Reproducir y «Preparar más tarde» permanecen abajo.
+• Se eliminan los datos de ubicación de las fotos antes del escaneo.
+
+Corregido:
+• La proporción de una receta ya no cambia al guardar cantidades personalizadas.

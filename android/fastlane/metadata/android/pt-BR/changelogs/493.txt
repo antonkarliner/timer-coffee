@@ -1,0 +1,11 @@
+Novidades:
+• Novo visual: ícones nos títulos, cartões padronizados, sem texto apagado.
+• Estatísticas de preparo: um seletor de período e linhas mais simples.
+• Cada conta do aparelho tem seus grãos, diário e receitas. Seus dados ficam na conta atual.
+
+Melhorias:
+• Play e “Preparar mais tarde” ficam embaixo em Receita e Preparação.
+• Localização removida das fotos de rótulos antes da leitura.
+
+Correções:
+• A proporção da receita não muda mais ao salvar quantidades personalizadas.

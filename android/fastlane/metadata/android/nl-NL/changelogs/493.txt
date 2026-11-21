@@ -1,0 +1,11 @@
+Nieuw:
+• Ontwerp: pictogrammen bij titels, bijpassende kaarten en geen vervaagde tekst.
+• Brouwstatistieken: één periodeknop, eenvoudige rijen.
+• Accounts op dit apparaat hebben eigen bonen, brouwdagboek en recepten. Data blijft bij huidig account.
+
+Verbeterd:
+• Afspelen en 'Later zetten' blijven onderaan recept- en voorbereidingsschermen.
+• Locatie wordt vóór scannen uit labelfoto's verwijderd.
+
+Opgelost:
+• Receptverhoudingen verschuiven niet na opslaan van aangepaste hoeveelheden.

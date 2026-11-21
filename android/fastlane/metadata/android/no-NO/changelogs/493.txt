@@ -1,0 +1,11 @@
+Nytt:
+• Design: ikoner i titler, samsvarende kort, ingen uttonet tekst.
+• Bryggestatistikk: én periodevelger og enklere rader.
+• Hver konto på enheten har egne bønner, bryggdagbok og oppskrifter. Dataene dine blir på nåværende konto.
+
+Forbedret:
+• Spill av og «Brygg senere» forblir nederst på oppskrifts- og forberedelsesskjermene.
+• Stedsdata fjernes fra etikettbilder før skanning.
+
+Fikset:
+• Oppskriftens forholdstall endres ikke etter lagring av tilpassede mengder.

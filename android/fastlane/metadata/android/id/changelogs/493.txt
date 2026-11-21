@@ -1,0 +1,11 @@
+Baru:
+• Desain: ikon di judul layar, kartu seragam, tanpa teks pudar.
+• Statistik seduh: satu pengalih periode dan baris lebih sederhana.
+• Setiap akun di perangkat ini punya biji, diari, dan resep sendiri. Data Anda tetap di akun Anda saat ini.
+
+Ditingkatkan:
+• Tombol putar dan “Seduh nanti” tetap di bawah layar resep dan Persiapan.
+• Data lokasi dihapus dari foto label sebelum dipindai.
+
+Diperbaiki:
+• Rasio resep tidak lagi bergeser setelah menyimpan takaran khusus.

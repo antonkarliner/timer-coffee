@@ -1,0 +1,11 @@
+Nowe:
+• Ikony przy tytułach, spójne karty i bez wyblakłego tekstu.
+• Statystyki parzenia: jeden wybór okresu i prostsze wiersze.
+• Każde konto na urządzeniu ma własne ziarna, dziennik i przepisy. Dane pozostają na obecnym koncie.
+
+Ulepszenia:
+• „Start” i „Zaparz później” pozostają u dołu ekranów przepisu i Przygotowania.
+• Przed skanowaniem ze zdjęć etykiet usuwane są dane lokalizacji.
+
+Poprawki:
+• Proporcje przepisu nie zmieniają się po zapisaniu własnych ilości.

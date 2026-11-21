@@ -1,0 +1,11 @@
+Nuevo:
+• Rediseño: íconos en títulos, tarjetas uniformes, sin texto atenuado.
+• Estadísticas de preparación: un selector de período y filas más simples.
+• Cada cuenta del dispositivo guarda sus granos, diario y recetas. Tus datos se quedan en tu cuenta actual.
+
+Mejorado:
+• Reproducir y “Preparar más tarde” quedan abajo en Receta y Preparación.
+• Se quita la ubicación de las fotos de etiquetas al escanear.
+
+Corregido:
+• La proporción de la receta ya no cambia al guardar cantidades propias.

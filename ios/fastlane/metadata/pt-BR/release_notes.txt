@@ -1,18 +1,24 @@
 Novidades:
-• O cartão Primeiros passos tem uma nova etapa final: “Ative os lembretes de preparo”. Toque nela para permitir notificações diretamente pelo cartão.
-• No cartão Primeiros passos, “Adicione uma receita aos favoritos” agora abre a receita que você preparou mais recentemente e destaca o coração, para que você possa salvá-la com um toque.
-• Após dois ou mais preparos da mesma receita, a etapa “Experimente outra receita” agora sugere uma receita específica para o mesmo método. Toque nela para abrir essa receita.
-• Após seu primeiro preparo, você receberá um lembrete na manhã seguinte, em vez de esperar até o quinto dia. Ele abre sua receita e não inicia um temporizador. Você não o receberá se seu lembrete matinal diário já estiver ativado.
-• Ainda não preparou café? Toque em “Preparar mais tarde” em qualquer receita para escolher um horário, e enviaremos um lembrete com essa receita pronta para preparar.
+• Uma revisão visual em todo o app: cada título de tela agora tem um ícone correspondente, os cartões têm a mesma aparência em todos os lugares e os textos que antes estavam esmaecidos estão mais fáceis de ler.
+• As Estatísticas de preparo estão mais fáceis de consultar. Escolha o período com um único seletor na parte superior, e suas estatísticas e as estatísticas globais agora são exibidas em linhas simples.
+• Ao escolher grãos para uma receita, agora é aberto um painel na parte inferior da tela. O seletor de histórico da calculadora de extração funciona da mesma forma.
+• Se você usa mais de uma conta neste dispositivo, cada conta agora mantém seus próprios grãos, diário de preparo e receitas. Seus grãos e diário de preparo existentes permanecem na conta em que você estiver conectado ao atualizar.
+• Receitas adaptadas da receita de outra pessoa agora dão crédito ao autor original.
 
 Melhorias:
-• Os lembretes de frescor do café agora vêm ativados por padrão. Se você os desativou antes, eles permanecerão desativados. Você pode alterar isso a qualquer momento em Configurações → Notificações.
-• Se você já abriu o app pela manhã, seu lembrete matinal diário será ignorado naquele dia.
-• Ao escrever uma receita, o app agora reconhece com mais frequência quais quantidades nos passos são de café e quais são de água.
-• Uma lista vazia de Receitas Favoritas agora mostra como adicionar uma receita a ela.
+• Na tela de Preparação, o seletor de alertas de mudança de etapa foi movido para a barra superior, e o botão Reproduzir permanece na parte inferior, assim como na página da receita.
+• Na página da receita, a seta e “Preparar mais tarde” permanecem na parte inferior da tela enquanto você rola.
+• O botão “Selecione os grãos” em uma receita não parece mais desativado.
+• Os botões de entrada com Apple e Google agora seguem os designs atuais da Apple e do Google, e o botão da Apple aumenta conforme o tamanho do seu texto.
+• A barra superior mantém sua cor quando você rola o conteúdo por baixo dela.
+• Fotos de grãos, logos de torrefações e cartões de coleções não ficam mais sobre um gradiente cinza.
+• Os cartões do diário de preparo se ajustam ao conteúdo, e o diário vazio tem uma aparência mais tranquila.
+• As linhas de ações rápidas agora respondem visualmente quando você toca nelas.
+• Ao escanear um rótulo de café, os dados de localização armazenados na foto são removidos antes que ela seja enviada para reconhecimento.
+• Remover sua foto de perfil agora também exclui a imagem armazenada.
 
 Correções de bugs:
-• Corrigido um problema que impedia a configuração de lembretes após você permitir notificações ao final do seu primeiro preparo.
-• Corrigido um problema em que os lembretes de preparo do dia 5 e do dia 10 às vezes desapareciam após você reabrir o app.
-• Corrigido um problema em que nomes longos de grãos e torrefações quebravam no meio de uma palavra na página do grão.
-• Corrigido um problema em que o rótulo “Melhor xícara” sobrepunha as classificações no gráfico do Percurso do café.
+• Corrigido um problema em que a proporção café-água de uma receita variava levemente após salvar quantidades personalizadas (por exemplo, 30 g de café resultando em 499,9 ml de água em vez de 500 ml).
+• Corrigido o problema em que a tela vazia de Meus grãos mostrava dois botões para adicionar.
+• Corrigido o problema em que a seta das seções recolhíveis girava apenas parcialmente.
+• Corrigido o problema em que alguns links para o app abriam a tela inicial em vez da página correta.

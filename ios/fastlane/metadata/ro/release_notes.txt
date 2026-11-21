@@ -1,18 +1,24 @@
 Noutăți:
-• Cardul Primii pași are un nou ultim pas: „Activează mementourile de preparare”. Atinge-l pentru a permite notificările direct din card.
-• Pe cardul Primii pași, „Adaugă o rețetă la favorite” deschide acum rețeta pe care ai preparat-o cel mai recent și evidențiază inima, astfel încât să o poți salva cu o singură atingere.
-• După două sau mai multe preparări ale aceleiași rețete, pasul „Încearcă o altă rețetă” sugerează acum o rețetă specifică pentru aceeași metodă. Atinge-o pentru a deschide rețeta respectivă.
-• După prima ta preparare, primești un memento a doua zi dimineață, în loc să aștepți până în ziua a cincea. Acesta îți deschide rețeta și nu pornește un cronometru. Nu îl vei primi dacă mementoul tău zilnic de dimineață este deja activat.
-• Nu ai preparat încă? Atinge „Prepară mai târziu” la orice rețetă pentru a alege o oră, iar noi îți vom trimite un memento cu rețeta respectivă gata de preparat.
+• O revizuire a designului în întreaga aplicație: fiecare titlu de ecran are acum o pictogramă corespunzătoare, cardurile arată la fel peste tot, iar textul care era estompat este mai ușor de citit.
+• Statisticile de preparare sunt mai ușor de parcurs. Alege perioada cu un singur comutator în partea de sus, iar statisticile tale și statisticile globale sunt acum afișate ca rânduri simple.
+• Alegerea boabelor pentru o rețetă deschide acum un panou din partea de jos a ecranului. Selectorul istoricului din calculatorul de extracție funcționează la fel.
+• Dacă folosești mai multe conturi pe acest dispozitiv, fiecare cont își păstrează acum propriile boabe, jurnal de preparare și rețete. Boabele și jurnalul de preparare existente rămân în contul în care ești autentificat când actualizezi.
+• Rețetele adaptate după rețeta altcuiva îl menționează acum pe autorul original.
 
 Îmbunătățiri:
-• Mementourile de prospețime a cafelei sunt acum activate implicit. Dacă le-ai dezactivat anterior, rămân dezactivate. Le poți modifica oricând din Setări → Notificări.
-• Dacă ai deschis deja aplicația dimineața, mementoul tău zilnic de dimineață va fi omis în acea zi.
-• Când scrii o rețetă, aplicația recunoaște mai des care cantități din pași sunt de cafea și care sunt de apă.
-• O listă goală de Rețete Favorite arată acum cum să adaugi o rețetă în ea.
+• Pe ecranul Pregătire, comutatorul pentru alertele la schimbarea pasului a fost mutat în bara de sus, iar butonul Redare rămâne în partea de jos, la fel ca pe pagina rețetei.
+• Pe pagina rețetei, săgeata și „Prepară mai târziu” rămân în partea de jos a ecranului în timp ce derulezi.
+• Butonul „Selectează boabe” dintr-o rețetă nu mai pare dezactivat.
+• Butoanele de autentificare cu Apple și Google urmează acum designurile actuale ale Apple și Google, iar butonul Apple se mărește odată cu dimensiunea textului.
+• Bara de sus își păstrează culoarea când derulezi sub ea.
+• Fotografiile boabelor, siglele prăjitoriilor și cardurile colecțiilor nu mai sunt afișate pe un gradient gri.
+• Cardurile din jurnalul de preparare se adaptează conținutului, iar jurnalul gol are un aspect mai calm.
+• Rândurile de acțiuni rapide oferă acum un răspuns vizibil când le atingi.
+• Când scanezi o etichetă de cafea, datele de localizare stocate în fotografie sunt eliminate înainte ca fotografia să fie trimisă pentru recunoaștere.
+• Eliminarea pozei de profil șterge acum și imaginea stocată.
 
 Corectări de erori:
-• Am remediat problema în care mementourile nu erau setate după ce permiteai notificările la finalul primei tale preparări.
-• Am remediat problema în care mementourile de preparare din ziua 5 și ziua 10 dispăreau uneori după redeschiderea aplicației.
-• Am remediat problema în care numele lungi de boabe și prăjitorii se întrerupeau în mijlocul unui cuvânt pe pagina boabelor.
-• Am remediat problema în care eticheta „Cea mai bună ceașcă” se suprapunea peste evaluări în graficul Parcursul cafelei.
+• S-a corectat problema în care raportul cafea-apă al unei rețete se modifica ușor după salvarea cantităților personalizate (de exemplu, 30 g de cafea ofereau 499,9 ml de apă în loc de 500 ml).
+• S-a corectat problema în care ecranul gol Boabele mele afișa două butoane de adăugare.
+• S-a corectat problema în care săgeata din secțiunile extensibile se rotea doar parțial.
+• S-a corectat problema în care unele linkuri către aplicație deschideau ecranul principal în locul paginii corecte.

@@ -1,0 +1,11 @@
+Nuovo:
+• Restyling: icone nei titoli, schede uniformi, niente testo sbiadito.
+• Statistiche di preparazione: un selettore del periodo, righe più semplici.
+• Ogni account sul dispositivo ha chicchi, diario e ricette propri. I dati attuali restano sul tuo account.
+
+Migliorie:
+• Play e “Prepara più tardi” restano in basso in Ricetta e Preparazione.
+• Posizione rimossa dalle foto delle etichette prima di scansionarle.
+
+Correzioni:
+• Il rapporto della ricetta non cambia più salvando quantità proprie.

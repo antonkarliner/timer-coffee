@@ -1,18 +1,24 @@
 Što je novo:
-• Kartica Prvi koraci ima novi posljednji korak: „Uključi podsjetnike za pripremu”. Dodirni ga da omogućiš obavijesti izravno s kartice.
-• Na kartici Prvi koraci opcija „Dodaj recept u favorite” sada otvara recept koji si zadnji pripremao/la i ističe srce kako bi ga mogao/la spremiti jednim dodirom.
-• Nakon dvije ili više priprema prema istom receptu, korak „Isprobaj drugi recept” sada predlaže određeni recept za istu metodu pripreme. Dodirni ga da otvoriš taj recept.
-• Nakon prve pripreme primit ćeš jedan podsjetnik sljedećeg jutra umjesto da čekaš peti dan. Otvara tvoj recept i ne pokreće mjerač vremena. Nećeš ga primiti ako je tvoj dnevni jutarnji podsjetnik već uključen.
-• Još nisi pripremao/la kavu? Dodirni „Pripremi kasnije” na bilo kojem receptu da odabereš vrijeme, a mi ćemo te podsjetiti s tim receptom spremnim za pripremu.
+• Dorađen je dizajn cijele aplikacije: svaki naslov zaslona sada ima odgovarajuću ikonu, kartice svugdje izgledaju jednako, a tekst koji je prije bio izblijedio sada je lakši za čitanje.
+• Statistika pripreme sada je preglednija. Razdoblje odaberi jednim prekidačem pri vrhu, a tvoja statistika i globalna statistika sada su prikazane u jednostavnim redovima.
+• Odabir zrna za recept sada otvara ploču s dna zaslona. Birač povijesti u kalkulatoru ekstrakcije funkcionira na isti način.
+• Ako na ovom uređaju koristiš više računa, svaki račun sada zasebno čuva svoja zrna, dnevnik pripreme i recepte. Postojeća zrna i dnevnik pripreme ostat će povezani s računom na koji si prijavljen/a prilikom ažuriranja.
+• Recepti prilagođeni prema tuđem receptu sada navode izvornog autora.
 
 Poboljšanja:
-• Podsjetnici o svježini kave sada su zadano uključeni. Ako si ih prije isključio/la, ostat će isključeni. To možeš promijeniti u bilo kojem trenutku u Postavke → Obavijesti.
-• Ako si već otvorio/la aplikaciju ujutro, tvoj dnevni jutarnji podsjetnik preskočit će taj dan.
-• Kada pišeš recept, aplikacija sada češće prepoznaje koje su količine u koracima kava, a koje voda.
-• Prazan popis Omiljeni recepti sada prikazuje kako mu dodati recept.
+• Na zaslonu Priprema prekidač za upozorenja o koracima premješten je na gornju traku, a gumb Reproduciraj ostaje pri dnu, baš kao i na stranici recepta.
+• Na stranici recepta strelica i „Pripremi kasnije” ostaju pri dnu zaslona dok se pomičeš kroz sadržaj.
+• Gumb „Odaberi zrna” u receptu više ne izgleda onemogućeno.
+• Gumbi za prijavu putem Applea i Googlea sada slijede trenutačne dizajne Applea i Googlea, a Appleov gumb prilagođava se veličini teksta.
+• Gornja traka zadržava svoju boju kada se sadržaj pomiče ispod nje.
+• Fotografije zrna, logotipi pržionica i kartice zbirki više nisu na sivoj gradijentnoj pozadini.
+• Kartice dnevnika pripreme prilagođavaju se sadržaju, a prazan dnevnik izgleda smirenije.
+• Redovi za brze radnje sada vidljivo reagiraju kada ih dodirneš.
+• Kada skeniraš oznaku kave, podaci o lokaciji pohranjeni u fotografiji uklanjaju se prije slanja fotografije na prepoznavanje.
+• Uklanjanjem profilne slike sada se briše i pohranjena slika.
 
-Ispravci grešaka:
-• Ispravljeno je nepostavljanje podsjetnika nakon što dopustiš obavijesti na kraju prve pripreme.
-• Ispravljeno je povremeno nestajanje podsjetnika za pripremu 5. i 10. dana nakon ponovnog otvaranja aplikacije.
-• Ispravljeno je prelamanje dugih naziva zrna i pržionica usred riječi na stranici zrna.
-• Ispravljeno je preklapanje oznake „Najbolja šalica” s ocjenama na grafikonu Putovanja zrna kave.
+Ispravci pogrešaka:
+• Ispravljeno je neznatno odstupanje omjera kave i vode u receptu nakon spremanja prilagođenih količina (primjerice, 30 g kave davalo je 499,9 ml vode umjesto 500 ml).
+• Ispravljen je prikaz dva gumba za dodavanje na praznom zaslonu Moja zrna.
+• Ispravljena je strelica u sažimajućim odjeljcima koja se okretala samo djelomično.
+• Ispravljeno je otvaranje početnog zaslona umjesto odgovarajuće stranice pri otvaranju nekih poveznica u aplikaciji.

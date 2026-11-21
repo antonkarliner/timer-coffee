@@ -1,18 +1,24 @@
-Neuigkeiten:
-• Die Karte „Erste Schritte“ hat einen neuen letzten Schritt: „Aktiviere Brüh-Erinnerungen“. Tippe darauf, um Benachrichtigungen direkt über die Karte zu erlauben.
-• Auf der Karte „Erste Schritte“ öffnet „Füge ein Rezept zu den Favoriten hinzu“ jetzt das Rezept, das du zuletzt verwendet hast, und hebt das Herz hervor, sodass du es mit einem Tipp speichern kannst.
-• Nach zwei oder mehr Brühvorgängen mit demselben Rezept schlägt der Schritt „Probiere ein anderes Rezept aus“ jetzt ein bestimmtes Rezept für dieselbe Brühmethode vor. Tippe darauf, um dieses Rezept zu öffnen.
-• Nach deinem ersten Brühvorgang erhältst du am nächsten Morgen eine Erinnerung, statt bis zum fünften Tag zu warten. Sie öffnet dein Rezept und startet keinen Timer. Du erhältst sie nicht, wenn deine tägliche Morgen-Erinnerung bereits aktiviert ist.
-• Noch nicht gebrüht? Tippe bei einem beliebigen Rezept auf „Später brühen“, um eine Uhrzeit auszuwählen, und wir erinnern dich mit dem startklaren Rezept.
+Neu:
+• Designüberarbeitung in der gesamten App: Jeder Bildschirmtitel hat jetzt ein passendes Icon, Karten sehen überall gleich aus und zuvor ausgeblendeter Text ist leichter lesbar.
+• Die Brühstatistiken sind leichter zu überblicken. Wähle den Zeitraum mit einem Schalter oben aus; deine Statistiken und die globalen Statistiken werden jetzt als einfache Zeilen dargestellt.
+• Wenn du Bohnen für ein Rezept auswählst, öffnet sich jetzt ein Sheet vom unteren Bildschirmrand. Die Verlaufsauswahl des Extraktionsrechners funktioniert genauso.
+• Wenn du auf diesem Gerät mehr als ein Konto verwendest, behält jedes Konto jetzt seine eigenen Bohnen, sein Brühtagebuch und seine Rezepte. Deine vorhandenen Bohnen und dein Brühtagebuch bleiben bei dem Konto, bei dem du während der Aktualisierung angemeldet bist.
+• Rezepte, die von Rezepten anderer übernommen wurden, nennen jetzt den ursprünglichen Autor.
 
 Verbesserungen:
-• Frische-Erinnerungen für Kaffee sind jetzt standardmäßig aktiviert. Wenn du sie zuvor deaktiviert hast, bleiben sie deaktiviert. Du kannst dies jederzeit unter Einstellungen → Benachrichtigungen ändern.
-• Wenn du die App morgens bereits geöffnet hast, wird deine tägliche Morgen-Erinnerung für diesen Tag übersprungen.
-• Wenn du ein Rezept schreibst, erkennt die App jetzt häufiger, welche Mengen in deinen Schritten Kaffee und welche Wasser sind.
-• Eine leere Liste mit Lieblingsrezepten zeigt jetzt, wie du ein Rezept hinzufügen kannst.
+• Auf dem Vorbereitungsbildschirm wurde der Schalter für Signale bei Schrittwechsel in die obere Leiste verschoben, und die Wiedergabe-Taste bleibt unten – genau wie auf der Rezeptseite.
+• Auf der Rezeptseite bleiben der Pfeil und „Später brühen“ beim Scrollen am unteren Bildschirmrand.
+• Die Taste „Wähle Bohnen“ in einem Rezept sieht nicht mehr deaktiviert aus.
+• Die Anmeldebuttons für Apple und Google entsprechen jetzt den aktuellen Designs von Apple und Google, und der Apple-Button wächst mit deiner Textgröße.
+• Die obere Leiste behält beim Scrollen darunter ihre Farbe.
+• Bohnenfotos, Rösterei-Logos und Sammlungskarten liegen nicht mehr auf einem grauen Farbverlauf.
+• Karten im Brühtagebuch passen sich ihrem Inhalt an, und das leere Brühtagebuch wirkt ruhiger.
+• Schnellaktionszeilen reagieren jetzt sichtbar, wenn du sie antippst.
+• Wenn du ein Kaffeeetikett scannst, werden in dem Foto gespeicherte Standortdaten entfernt, bevor das Foto zur Erkennung gesendet wird.
+• Wenn du dein Profilbild entfernst, wird jetzt auch das gespeicherte Bild gelöscht.
 
 Fehlerbehebungen:
-• Es wurde ein Problem behoben, bei dem Erinnerungen nicht eingerichtet wurden, nachdem du am Ende deines ersten Brühvorgangs Benachrichtigungen erlaubt hattest.
-• Es wurde ein Problem behoben, bei dem die Brüh-Erinnerungen für Tag 5 und Tag 10 nach dem erneuten Öffnen der App manchmal verschwanden.
-• Es wurde ein Problem behoben, bei dem lange Namen von Bohnen und Röstereien auf der Bohnenseite mitten in einem Wort umbrachen.
-• Es wurde ein Problem behoben, bei dem die Beschriftung „Beste Tasse“ Bewertungen im Diagramm der Bohnenreise überlagerte.
+• Es wurde ein Problem behoben, bei dem sich das Kaffee-Wasser-Verhältnis eines Rezepts nach dem Speichern benutzerdefinierter Mengen leicht verschob (zum Beispiel ergaben 30 g Kaffee 499,9 ml Wasser statt 500 ml).
+• Es wurde ein Problem behoben, bei dem auf dem leeren Bildschirm „Meine Bohnen“ zwei Hinzufügen-Buttons angezeigt wurden.
+• Es wurde ein Problem behoben, bei dem der Pfeil in einklappbaren Bereichen nur teilweise gedreht wurde.
+• Es wurde ein Problem behoben, bei dem einige Links in die App die Startseite statt der richtigen Seite öffneten.

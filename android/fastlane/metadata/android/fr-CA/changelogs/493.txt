@@ -1,0 +1,11 @@
+Nouveau :
+• Icônes aux titres, cartes assorties et texte net.
+• Statistiques de préparation : un sélecteur de période, lignes simplifiées.
+• Chaque compte de l’appareil garde ses grains, journal et recettes; vos données restent avec votre compte actuel.
+
+Amélioré :
+• Lecture et « Préparer plus tard » restent en bas de Recette et Préparation.
+• Localisation retirée des photos d’étiquettes avant scan.
+
+Corrigé :
+• Le ratio ne dérive plus après l’enregistrement de quantités personnalisées.

@@ -1,0 +1,11 @@
+Novo:
+• Dorada dizajna: ikone uz naslove zaslona, usklađene kartice, bez izblijedjelog teksta.
+• Statistika pripreme: jedan odabir razdoblja i jednostavniji redci.
+• Svaki račun na ovom uređaju čuva vlastita zrna, dnevnik i recepte. Postojeći podaci ostaju uz trenutačni račun.
+
+Poboljšano:
+• Pokreni i „Pripremi kasnije” ostaju pri dnu zaslona recepta i Priprema.
+• Podaci o lokaciji uklanjaju se s fotografija etiketa prije skeniranja.
+
+Ispravljeno:
+• Omjer recepta više se ne mijenja nakon spreman

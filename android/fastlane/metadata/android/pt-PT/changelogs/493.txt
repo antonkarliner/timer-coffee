@@ -1,0 +1,11 @@
+Novo:
+• Ícones nos títulos, cartões a condizer e sem texto esbatido.
+• Estatísticas: seletor de período e linhas simples.
+• Cada conta neste dispositivo tem os seus grãos, diário e receitas. Os dados atuais ficam na conta atual.
+
+Melhorado:
+• Reproduzir e «Preparar mais tarde» ficam em baixo nos ecrãs de receita e Preparação.
+• Localização removida das fotos dos rótulos antes da análise.
+
+Corrigido:
+• A proporção já não varia ao guardar quantidades personalizadas.

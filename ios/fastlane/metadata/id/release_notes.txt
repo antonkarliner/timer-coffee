@@ -1,18 +1,24 @@
 Yang Baru:
-• Kartu Langkah pertama kini memiliki langkah terakhir baru: “Aktifkan pengingat seduhan”. Ketuk untuk mengizinkan notifikasi langsung dari kartu.
-• Pada kartu Langkah pertama, “Tambahkan resep ke favorit” kini membuka resep yang paling baru Anda seduh dan menyorot ikon hati, sehingga Anda dapat menyimpannya dengan satu ketukan.
-• Setelah dua kali atau lebih menyeduh resep yang sama, langkah “Coba resep lain” kini menyarankan resep tertentu untuk metode yang sama. Ketuk untuk membuka resep tersebut.
-• Setelah seduhan pertama Anda, Anda akan menerima satu pengingat keesokan paginya, alih-alih menunggu hingga hari kelima. Pengingat ini membuka resep Anda dan tidak memulai timer. Anda tidak akan menerimanya jika pengingat seduh pagi harian sudah aktif.
-• Belum pernah menyeduh? Ketuk “Seduh nanti” pada resep apa pun untuk memilih waktu, dan kami akan mengingatkan Anda dengan resep tersebut siap diseduh.
+• Penyempurnaan desain di seluruh aplikasi: setiap judul layar kini memiliki ikon yang sesuai, kartu tampak seragam di mana-mana, dan teks yang sebelumnya pudar kini lebih mudah dibaca.
+• Statistik seduh kini lebih mudah dipindai. Pilih periode dengan satu tombol di bagian atas, dan statistik Anda serta statistik global kini ditampilkan sebagai baris sederhana.
+• Memilih biji kopi untuk resep kini membuka panel dari bagian bawah layar. Pemilih riwayat pada kalkulator ekstraksi juga berfungsi dengan cara yang sama.
+• Jika Anda menggunakan lebih dari satu akun di perangkat ini, setiap akun kini menyimpan biji kopi, diari seduhan, dan resepnya sendiri. Biji kopi dan diari seduhan yang sudah ada akan tetap berada di akun yang Anda gunakan saat memperbarui.
+• Resep yang diadaptasi dari resep orang lain kini mencantumkan kredit untuk penulis asli.
 
 Peningkatan:
-• Pengingat kesegaran kopi kini aktif secara bawaan. Jika sebelumnya Anda menonaktifkannya, pengingat tersebut akan tetap nonaktif. Anda dapat mengubahnya kapan saja di Pengaturan → Notifikasi.
-• Jika Anda sudah membuka aplikasi pada pagi hari, pengingat seduh pagi harian akan melewati hari itu.
-• Saat menulis resep, aplikasi kini lebih sering mengenali jumlah dalam langkah yang merupakan kopi dan yang merupakan air.
-• Daftar Resep favorit yang kosong kini menunjukkan cara menambahkan resep ke dalamnya.
+• Di layar Persiapan, tombol peringatan langkah telah dipindahkan ke bilah atas, dan tombol Putar tetap berada di bagian bawah, seperti di halaman resep.
+• Di halaman resep, panah dan “Seduh nanti” tetap berada di bagian bawah layar saat Anda menggulir.
+• Tombol “Pilih biji kopi” pada resep tidak lagi tampak dinonaktifkan.
+• Tombol masuk dengan Apple dan Google kini mengikuti desain terbaru Apple dan Google, dan tombol Apple menyesuaikan dengan ukuran teks Anda.
+• Bilah atas tetap mempertahankan warnanya saat Anda menggulir di bawahnya.
+• Foto biji kopi, logo roaster, dan kartu koleksi tidak lagi berada di atas gradasi abu-abu.
+• Kartu diari seduhan menyesuaikan dengan kontennya, dan diari kosong kini tampak lebih tenang.
+• Baris tindakan cepat kini memberikan respons visual saat Anda mengetuknya.
+• Saat Anda memindai label kopi, data lokasi yang tersimpan dalam foto dihapus sebelum foto dikirim untuk dikenali.
+• Menghapus gambar profil kini juga menghapus gambar yang tersimpan.
 
 Perbaikan Bug:
-• Memperbaiki pengingat yang tidak disetel setelah Anda mengizinkan notifikasi di akhir seduhan pertama.
-• Memperbaiki pengingat seduh hari ke-5 dan ke-10 yang terkadang hilang setelah Anda membuka kembali aplikasi.
-• Memperbaiki nama biji kopi dan roaster yang panjang terpotong di tengah kata pada halaman biji kopi.
-• Memperbaiki label “Cangkir terbaik” yang tumpang tindih dengan peringkat pada grafik perjalanan biji kopi.
+• Memperbaiki rasio kopi terhadap air pada resep yang sedikit berubah setelah Anda menyimpan jumlah kustom (misalnya, 30 g kopi menghasilkan 499,9 ml air alih-alih 500 ml).
+• Memperbaiki layar Biji Kopiku kosong yang menampilkan dua tombol tambah.
+• Memperbaiki panah pada bagian yang dapat diciutkan yang hanya berputar sebagian.
+• Memperbaiki beberapa tautan ke aplikasi yang membuka layar beranda alih-alih halaman yang tepat.

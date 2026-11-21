@@ -1,18 +1,24 @@
 What’s New:
-• The First Steps card has a new last step: “Turn on brew updates”. Tap it to allow notifications right from the card.
-• On the First Steps card, “Favorite a recipe” now opens the recipe you brewed most recently and highlights the heart, so you can save it in one tap.
-• After two or more brews of the same recipe, the “Try another recipe” step now suggests a specific recipe for the same method. Tap it to open that recipe.
-• After your first brew, you get one reminder the next morning instead of waiting until day five. It opens your recipe and doesn’t start a timer. You won’t get it if your daily morning reminder is already on.
-• Haven’t brewed yet? Tap “Brew later” on any recipe to choose a time, and we’ll remind you with that recipe ready to go.
+• A design pass across the app: every screen title now has a matching icon, cards look the same everywhere, and text that used to be faded is easier to read.
+• Brew Stats is easier to scan. Pick the period with one switch at the top, and your stats and the global stats are now laid out as simple rows.
+• Choosing beans for a recipe now opens a sheet from the bottom of the screen. The extraction calculator’s history picker works the same way.
+• If you use more than one account on this device, each account now keeps its own beans, brew diary and recipes. Your existing beans and brew diary stay with the account you’re signed in to when you update.
+• Recipes adapted from someone else’s recipe now credit the original author.
 
 Improvements:
-• Coffee freshness reminders are now on by default. If you turned them off before, they stay off. You can change this anytime in Settings → Notifications.
-• If you’ve already opened the app in the morning, your daily morning reminder skips that day.
-• When you write a recipe, the app more often recognizes which amounts in your steps are coffee and which are water.
-• An empty Favorite Recipes list now shows how to add a recipe to it.
+• On the Preparation screen, the step alerts switch has moved to the top bar, and the Play button stays at the bottom, just like on the recipe page.
+• On the recipe page, the arrow and “Brew later” stay at the bottom of the screen while you scroll.
+• The “Select Beans” button on a recipe no longer looks disabled.
+• The Apple and Google sign-in buttons now follow Apple’s and Google’s current designs, and the Apple button grows with your text size.
+• The top bar keeps its colour when you scroll under it.
+• Bean photos, roaster logos and collection cards no longer sit on a grey gradient.
+• Brew diary cards fit their content, and the empty diary looks calmer.
+• Quick-action rows now respond visibly when you tap them.
+• When you scan a coffee label, location data stored in the photo is removed before the photo is sent for recognition.
+• Removing your profile picture now also deletes the stored image.
 
 Bug Fixes:
-• Fixed reminders not being set after you allowed notifications at the end of your first brew.
-• Fixed the day 5 and day 10 brew reminders sometimes disappearing after you reopened the app.
-• Fixed long bean and roaster names breaking in the middle of a word on the bean page.
-• Fixed the “Best cup” label overlapping ratings on the bean journey chart.
+• Fixed a recipe’s coffee-to-water ratio drifting slightly after you saved custom amounts (for example, 30 g of coffee giving 499.9 ml of water instead of 500 ml).
+• Fixed the empty My Beans screen showing two add buttons.
+• Fixed the arrow on collapsible sections turning only part of the way.
+• Fixed some links into the app opening the home screen instead of the right page.

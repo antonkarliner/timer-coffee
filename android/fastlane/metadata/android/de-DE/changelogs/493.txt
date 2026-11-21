@@ -1,0 +1,11 @@
+Neu:
+• Design: Symbole in Titeln, passende Karten, kein blasser Text.
+• Brühstatistiken: ein Zeitraum-Schalter, einfachere Zeilen.
+• Konten auf diesem Gerät behalten eigene Bohnen, Brühtagebuch und Rezepte. Daten bleiben beim aktuellen Konto.
+
+Verbessert:
+• Starten und „Später brühen“ bleiben unten auf Rezept- und Vorbereitungsseiten.
+• Standortdaten werden vor dem Scannen aus Etikettfotos entfernt.
+
+Behoben:
+• Das Rezeptverhältnis ändert sich nach Speichern eigener Mengen nicht mehr.

@@ -1,18 +1,24 @@
-Hva er nytt:
-• Kortet Første steg har et nytt siste steg: «Slå på bryggevarsler». Trykk på det for å tillate varsler direkte fra kortet.
-• På kortet Første steg åpner «Legg til en oppskrift i favoritter» nå oppskriften du brygget sist og fremhever hjertet, slik at du kan lagre den med ett trykk.
-• Etter to eller flere brygg av samme oppskrift foreslår steget «Prøv en annen oppskrift» nå en bestemt oppskrift for samme metode. Trykk på den for å åpne oppskriften.
-• Etter ditt første brygg får du én påminnelse neste morgen i stedet for å vente til dag fem. Den åpner oppskriften din og starter ikke en timer. Du får den ikke hvis den daglige morgenpåminnelsen allerede er på.
-• Har du ikke brygget ennå? Trykk på «Brygg senere» på en hvilken som helst oppskrift for å velge et tidspunkt, så minner vi deg på det med oppskriften klar til bruk.
+Dette er nytt:
+• En designoppdatering i hele appen: Alle skjermtitler har nå et tilhørende ikon, kort ser like ut overalt, og tekst som tidligere var uttonet, er lettere å lese.
+• Bryggestatistikk er enklere å få oversikt over. Velg periode med én bryter øverst, og statistikken din og den globale statistikken vises nå som enkle rader.
+• Når du velger bønner til en oppskrift, åpnes nå et panel fra bunnen av skjermen. Historikkvelgeren i ekstraksjonskalkulatoren fungerer på samme måte.
+• Hvis du bruker mer enn én konto på denne enheten, beholder hver konto nå sine egne bønner, bryggdagbok og oppskrifter. Dine eksisterende bønner og bryggdagbok forblir på kontoen du er logget inn på når du oppdaterer.
+• Oppskrifter tilpasset fra andres oppskrifter oppgir nå den opprinnelige forfatteren.
 
 Forbedringer:
-• Ferskhetspåminnelser for kaffe er nå aktivert som standard. Hvis du har slått dem av tidligere, forblir de av. Du kan når som helst endre dette i Innstillinger → Varsler.
-• Hvis du allerede har åpnet appen om morgenen, hopper den daglige morgenpåminnelsen over den dagen.
-• Når du skriver en oppskrift, gjenkjenner appen oftere hvilke mengder i stegene som er kaffe, og hvilke som er vann.
-• En tom liste over Favorittoppskrifter viser nå hvordan du legger til en oppskrift i den.
+• På Forberedelse-skjermen har bryteren for trinnskiftevarsler flyttet til topplinjen, og Spill av-knappen forblir nederst, akkurat som på oppskriftssiden.
+• På oppskriftssiden forblir pilen og «Brygg senere» nederst på skjermen mens du ruller.
+• Knappen «Velg bønner» på en oppskrift ser ikke lenger deaktivert ut.
+• Innloggingsknappene for Apple og Google følger nå Apples og Googles nåværende design, og Apple-knappen tilpasser seg tekststørrelsen din.
+• Topplinjen beholder fargen sin når du ruller under den.
+• Bilder av bønner, brennerilogoer og samlingskort vises ikke lenger på en grå gradientbakgrunn.
+• Kortene i bryggedagboken tilpasser seg innholdet, og den tomme bryggedagboken ser roligere ut.
+• Rader for hurtighandlinger reagerer nå synlig når du trykker på dem.
+• Når du skanner en kaffeetikett, fjernes posisjonsdata lagret i bildet før bildet sendes til gjenkjenning.
+• Når du fjerner profilbildet ditt, slettes nå også det lagrede bildet.
 
 Feilrettinger:
-• Rettet en feil der påminnelser ikke ble satt etter at du tillot varsler på slutten av ditt første brygg.
-• Rettet en feil der bryggepåminnelsene for dag 5 og dag 10 noen ganger forsvant etter at du åpnet appen igjen.
-• Rettet en feil der lange navn på bønner og brennerier ble brutt midt i et ord på bønnesiden.
-• Rettet en feil der etiketten «Beste kopp» overlappet vurderinger i diagrammet for Bønnereise.
+• Rettet en feil som gjorde at forholdet mellom kaffe og vann i en oppskrift endret seg litt etter at du lagret tilpassede mengder (for eksempel 30 g kaffe som ga 499,9 ml vann i stedet for 500 ml).
+• Rettet en feil der den tomme skjermen Mine bønner viste to legg til-knapper.
+• Rettet en feil der pilen på sammenleggbare seksjoner bare snudde deler av veien.
+• Rettet noen lenker til appen som åpnet hjemskjermen i stedet for riktig side.

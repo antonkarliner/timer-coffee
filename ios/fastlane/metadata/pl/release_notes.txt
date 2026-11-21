@@ -1,18 +1,24 @@
 Co nowego:
-• Karta Pierwsze kroki ma nowy ostatni krok: „Włącz przypomnienia o parzeniu”. Dotknij go, aby zezwolić na powiadomienia bezpośrednio z karty.
-• Na karcie Pierwsze kroki opcja „Dodaj przepis do ulubionych” otwiera teraz ostatnio używany przepis i wyróżnia serce, dzięki czemu możesz zapisać go jednym dotknięciem.
-• Po dwóch lub większej liczbie parzeń według tego samego przepisu krok „Wypróbuj inny przepis” sugeruje teraz konkretny przepis dla tej samej metody. Dotknij go, aby otworzyć ten przepis.
-• Po pierwszym parzeniu otrzymasz jedno przypomnienie następnego ranka, zamiast czekać do piątego dnia. Otworzy ono Twój przepis i nie uruchomi timera. Nie otrzymasz go, jeśli codzienne poranne przypomnienie jest już włączone.
-• Jeszcze nie parzyłeś? Dotknij „Zaparz później” przy dowolnym przepisie, aby wybrać godzinę, a przypomnimy Ci o nim, gdy będzie gotowy do zaparzenia.
+• Odświeżyliśmy wygląd całej aplikacji: każdy tytuł ekranu ma teraz pasującą ikonę, karty wszędzie wyglądają tak samo, a tekst, który wcześniej był wyblakły, jest łatwiejszy do odczytania.
+• Statystyki parzenia są łatwiejsze do przejrzenia. Wybierz okres jednym przełącznikiem u góry, a Twoje statystyki i statystyki globalne są teraz przedstawione w prostych wierszach.
+• Wybieranie ziaren do przepisu otwiera teraz panel wysuwany od dołu ekranu. Selektor historii w kalkulatorze ekstrakcji działa tak samo.
+• Jeśli używasz na tym urządzeniu więcej niż jednego konta, każde konto przechowuje teraz własne ziarna, dziennik parzeń i przepisy. Twoje obecne ziarna i dziennik parzeń pozostaną przy koncie, na które jesteś zalogowany podczas aktualizacji.
+• Przepisy zaadaptowane z przepisu innej osoby zawierają teraz informację o oryginalnym autorze.
 
 Ulepszenia:
-• Przypomnienia o świeżości kawy są teraz domyślnie włączone. Jeśli wcześniej je wyłączyłeś, pozostaną wyłączone. Możesz to zmienić w każdej chwili w Ustawienia → Powiadomienia.
-• Jeśli rano otworzyłeś już aplikację, codzienne poranne przypomnienie zostanie pominięte tego dnia.
-• Podczas tworzenia przepisu aplikacja częściej rozpoznaje, które ilości w krokach dotyczą kawy, a które wody.
-• Pusta lista Ulubione przepisy pokazuje teraz, jak dodać do niej przepis.
+• Na ekranie Przygotowanie przełącznik alertów zmiany kroku został przeniesiony na górny pasek, a przycisk Odtwórz pozostaje na dole, tak jak na stronie przepisu.
+• Na stronie przepisu strzałka i „Zaparz później” pozostają na dole ekranu podczas przewijania.
+• Przycisk „Wybierz ziarna” w przepisie nie wygląda już na wyłączony.
+• Przyciski logowania przez Apple i Google są teraz zgodne z aktualnym wyglądem Apple i Google, a przycisk Apple dostosowuje się do rozmiaru tekstu.
+• Górny pasek zachowuje swój kolor podczas przewijania treści pod nim.
+• Zdjęcia ziaren, logo palarni i karty kolekcji nie są już wyświetlane na szarym gradiencie.
+• Karty dziennika parzeń dopasowują się do zawartości, a pusty dziennik wygląda spokojniej.
+• Wiersze szybkich akcji reagują teraz widocznie po dotknięciu.
+• Podczas skanowania etykiety kawy dane lokalizacji zapisane w zdjęciu są usuwane przed wysłaniem zdjęcia do rozpoznania.
+• Usunięcie zdjęcia profilowego usuwa teraz również zapisany obraz.
 
 Poprawki błędów:
-• Naprawiono problem z nieustawianiem przypomnień po zezwoleniu na powiadomienia na końcu pierwszego parzenia.
-• Naprawiono problem z przypomnieniami o parzeniu w 5. i 10. dniu, które czasami znikały po ponownym otwarciu aplikacji.
-• Naprawiono problem z łamaniem długich nazw ziaren i palarni w środku wyrazu na stronie ziarna.
-• Naprawiono problem z nakładaniem się etykiety „Najlepsza filiżanka” na oceny na wykresie Historii ziarna.
+• Naprawiono problem z niewielką zmianą proporcji kawy do wody po zapisaniu niestandardowych ilości (na przykład 30 g kawy dawało 499,9 ml wody zamiast 500 ml).
+• Naprawiono problem z wyświetlaniem dwóch przycisków dodawania na pustym ekranie Moje ziarna.
+• Naprawiono problem ze strzałką w zwijanych sekcjach, która obracała się tylko częściowo.
+• Naprawiono problem z niektórymi linkami do aplikacji, które otwierały ekran główny zamiast właściwej strony.

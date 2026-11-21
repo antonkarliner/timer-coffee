@@ -1,18 +1,24 @@
 Novità:
-• La scheda Primi passi ha un nuovo ultimo passaggio: «Attiva i promemoria di preparazione». Toccala per consentire le notifiche direttamente dalla scheda.
-• Nella scheda Primi passi, «Aggiungi una ricetta ai preferiti» ora apre la ricetta che hai preparato più di recente ed evidenzia il cuore, così puoi salvarla con un solo tocco.
-• Dopo due o più preparazioni della stessa ricetta, il passaggio «Prova un'altra ricetta» ora suggerisce una ricetta specifica per lo stesso metodo. Toccala per aprire quella ricetta.
-• Dopo la tua prima preparazione, riceverai un promemoria la mattina successiva invece di aspettare fino al quinto giorno. Apre la tua ricetta e non avvia un timer. Non lo riceverai se il promemoria giornaliero del mattino è già attivo.
-• Non hai ancora preparato il caffè? Tocca «Prepara più tardi» su qualsiasi ricetta per scegliere un orario e ti invieremo un promemoria con quella ricetta pronta da preparare.
+• Un aggiornamento del design in tutta l’app: ogni titolo di schermata ora ha un’icona corrispondente, le schede hanno lo stesso aspetto ovunque e il testo che prima era sbiadito è più facile da leggere.
+• Le Statistiche di preparazione sono più facili da consultare. Scegli il periodo con un solo selettore in alto e le tue statistiche e le statistiche globali sono ora disposte in semplici righe.
+• La selezione dei chicchi per una ricetta ora apre un pannello dal basso dello schermo. Anche il selettore della cronologia del calcolatore di estrazione funziona allo stesso modo.
+• Se usi più di un account su questo dispositivo, ogni account ora conserva i propri chicchi, il proprio Diario del caffè e le proprie ricette. I chicchi e il Diario del caffè esistenti rimangono nell’account a cui hai effettuato l’accesso al momento dell’aggiornamento.
+• Le ricette adattate dalla ricetta di un’altra persona ora attribuiscono il merito all’autore originale.
 
 Miglioramenti:
-• I promemoria di freschezza del caffè ora sono attivi per impostazione predefinita. Se li avevi già disattivati, rimarranno disattivati. Puoi modificarli in qualsiasi momento in Impostazioni → Notifiche.
-• Se hai già aperto l'app al mattino, il promemoria giornaliero del mattino verrà saltato per quel giorno.
-• Quando scrivi una ricetta, l'app riconosce più spesso quali quantità nei passaggi sono di caffè e quali di acqua.
-• Un elenco vuoto di Ricette preferite ora mostra come aggiungervi una ricetta.
+• Nella schermata Preparazione, l’interruttore degli avvisi dei passaggi è stato spostato nella barra superiore e il pulsante Riproduci resta in basso, proprio come nella pagina della ricetta.
+• Nella pagina della ricetta, la freccia e “Prepara più tardi” restano nella parte inferiore dello schermo durante lo scorrimento.
+• Il pulsante “Seleziona chicchi” in una ricetta non sembra più disattivato.
+• I pulsanti di accesso con Apple e Google ora seguono i design attuali di Apple e Google, e il pulsante Apple si adatta alle dimensioni del testo.
+• La barra superiore mantiene il proprio colore durante lo scorrimento sotto di essa.
+• Le foto dei chicchi, i loghi delle torrefazioni e le schede delle raccolte non sono più su una sfumatura grigia.
+• Le schede del Diario del caffè si adattano al loro contenuto e il diario vuoto ha un aspetto più essenziale.
+• Le righe delle azioni rapide ora rispondono visibilmente quando le tocchi.
+• Quando scansioni un’etichetta di caffè, i dati di posizione memorizzati nella foto vengono rimossi prima che la foto venga inviata per il riconoscimento.
+• La rimozione dell’immagine del profilo ora elimina anche l’immagine memorizzata.
 
 Correzioni di bug:
-• Corretto un problema per cui i promemoria non venivano impostati dopo aver consentito le notifiche al termine della prima preparazione.
-• Corretto un problema per cui i promemoria di preparazione del giorno 5 e del giorno 10 a volte scomparivano dopo aver riaperto l'app.
-• Corretto un problema per cui i nomi lunghi dei chicchi e delle torrefazioni andavano a capo nel mezzo di una parola nella pagina del caffè.
-• Corretto un problema per cui l'etichetta «Tazza migliore» si sovrapponeva alle valutazioni nel grafico Percorso del caffè.
+• Corretto un problema per cui il rapporto caffè-acqua di una ricetta variava leggermente dopo aver salvato quantità personalizzate, ad esempio 30 g di caffè producevano 499,9 ml di acqua anziché 500 ml.
+• Corretto un problema per cui la schermata vuota I miei chicchi mostrava due pulsanti per aggiungere.
+• Corretto un problema per cui la freccia nelle sezioni comprimibili ruotava solo parzialmente.
+• Corretto un problema per cui alcuni link all’app aprivano la schermata Home anziché la pagina corretta.

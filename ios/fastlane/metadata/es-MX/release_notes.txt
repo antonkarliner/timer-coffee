@@ -1,18 +1,24 @@
 Novedades:
-• La tarjeta de Primeros pasos tiene un nuevo último paso: «Activa los recordatorios de preparación». Tócalo para permitir las notificaciones directamente desde la tarjeta.
-• En la tarjeta de Primeros pasos, «Añade una receta a favoritos» ahora abre la receta que preparaste más recientemente y resalta el corazón para que puedas guardarla con un toque.
-• Después de dos o más preparaciones con la misma receta, el paso «Prueba otra receta» ahora sugiere una receta específica para el mismo método. Tócala para abrir esa receta.
-• Después de tu primera preparación, recibirás un recordatorio a la mañana siguiente en lugar de esperar hasta el quinto día. Abre tu receta y no inicia un temporizador. No lo recibirás si ya tienes activado el recordatorio diario de café matutino.
-• ¿Aún no has preparado café? Toca «Preparar más tarde» en cualquier receta para elegir una hora y te recordaremos con esa receta lista para empezar.
+• Un retoque de diseño en toda la app: ahora cada título de pantalla tiene un ícono correspondiente, las tarjetas se ven igual en todas partes y el texto que antes aparecía atenuado es más fácil de leer.
+• Las Estadísticas de preparación son más fáciles de consultar. Elige el período con un solo selector en la parte superior, y ahora tus estadísticas y las estadísticas globales se muestran como filas simples.
+• Al elegir granos para una receta, ahora se abre un panel desde la parte inferior de la pantalla. El selector del historial de la calculadora de extracción funciona de la misma forma.
+• Si usas más de una cuenta en este dispositivo, cada cuenta ahora conserva sus propios granos, diario de preparaciones y recetas. Tus granos y diario de preparaciones existentes permanecerán con la cuenta en la que hayas iniciado sesión al actualizar.
+• Las recetas adaptadas de la receta de otra persona ahora dan crédito al autor original.
 
 Mejoras:
-• Los recordatorios de frescura del café ahora están activados de forma predeterminada. Si los desactivaste antes, permanecerán desactivados. Puedes cambiarlo cuando quieras en Configuración → Notificaciones.
-• Si ya abriste la app por la mañana, tu recordatorio diario de café matutino se omitirá ese día.
-• Al escribir una receta, la app reconoce con mayor frecuencia qué cantidades de los pasos corresponden al café y cuáles al agua.
-• Una lista vacía de Recetas favoritas ahora muestra cómo añadirle una receta.
+• En la pantalla de Preparación, el interruptor de avisos de paso se movió a la barra superior y el botón Reproducir permanece en la parte inferior, igual que en la página de la receta.
+• En la página de la receta, la flecha y «Preparar más tarde» permanecen en la parte inferior de la pantalla mientras te desplazas.
+• El botón «Seleccionar granos» de una receta ya no parece desactivado.
+• Los botones para iniciar sesión con Apple y Google ahora siguen los diseños actuales de Apple y Google, y el botón de Apple crece según el tamaño del texto.
+• La barra superior conserva su color al desplazarte por debajo de ella.
+• Las fotos de granos, los logotipos de tostadurías y las tarjetas de colecciones ya no aparecen sobre un degradado gris.
+• Las tarjetas del diario de preparaciones se ajustan a su contenido y el diario vacío tiene una apariencia más tranquila.
+• Las filas de acciones rápidas ahora responden visiblemente al tocarlas.
+• Al escanear una etiqueta de café, los datos de ubicación almacenados en la foto se eliminan antes de enviar la foto para su reconocimiento.
+• Al eliminar tu foto de perfil, ahora también se elimina la imagen almacenada.
 
 Correcciones de errores:
-• Se corrigió un problema por el que no se configuraban recordatorios después de permitir las notificaciones al final de tu primera preparación.
-• Se corrigió un problema por el que los recordatorios de preparación del día 5 y del día 10 a veces desaparecían después de volver a abrir la app.
-• Se corrigió un problema por el que los nombres largos de granos y tostadurías se dividían en medio de una palabra en la página de granos.
-• Se corrigió un problema por el que la etiqueta «Mejor taza» se superponía con las calificaciones en la gráfica del recorrido del café.
+• Se corrigió un problema por el que la proporción de café y agua de una receta variaba ligeramente después de guardar cantidades personalizadas (por ejemplo, 30 g de café daban 499.9 ml de agua en lugar de 500 ml).
+• Se corrigió un problema por el que la pantalla vacía de Mis granos mostraba dos botones para añadir.
+• Se corrigió un problema por el que la flecha de las secciones desplegables giraba solo parcialmente.
+• Se corrigió un problema por el que algunos enlaces a la app abrían la pantalla de inicio en lugar de la página correcta.
