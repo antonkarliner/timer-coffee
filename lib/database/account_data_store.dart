@@ -16,14 +16,19 @@ class AccountDataStore {
     required this.supabaseUrl,
     required this.supabaseKey,
     AppDatabase Function(AccountDatabaseScope)? databaseFactory,
-  }) : _databaseFactory = databaseFactory ?? _openDatabase;
+    AppDatabase Function()? legacyDatabaseFactory,
+  }) : _databaseFactory = databaseFactory ?? _openDatabase,
+       _legacyDatabaseFactory =
+           legacyDatabaseFactory ?? AppDatabase.withDefault;
 
   final GoTrueClient auth;
   final SharedPreferences prefs;
   final String supabaseUrl;
   final String supabaseKey;
   final AppDatabase Function(AccountDatabaseScope) _databaseFactory;
+  final AppDatabase Function() _legacyDatabaseFactory;
   final _databases = <String, AppDatabase>{};
+  static const _legacyAdoptedKey = 'legacyPrivateDataAdopted';
   static const _offlineKey = 'accountDataGuestPartition';
   static const _offlineHandoffPrefix = 'accountDataGuestHandoff.';
   static const _verifiedHandoffPrefix = 'accountDataVerifiedGuestHandoff.';
@@ -140,7 +145,7 @@ class AccountDataStore {
   Future<void> recoverLegacyRecipes(String userId) async {
     final key = 'legacyRecipesRecovered.$userId';
     if (prefs.getBool(key) == true) return;
-    final legacy = AppDatabase.withDefault();
+    final legacy = _legacyDatabaseFactory();
     try {
       await copyAccountData(
         source: legacy,
@@ -152,6 +157,31 @@ class AccountDataStore {
       await prefs.setBool(key, true);
     } catch (error) {
       AppLogger.warning('Could not recover legacy recipes', errorObject: error);
+    } finally {
+      await legacy.close();
+    }
+  }
+
+  /// Runs once per installation, on the first launch after the upgrade that
+  /// introduced per-account databases. The old database has no owners for
+  /// beans, brews or recipe preferences; a device is almost always used by one
+  /// person, so all of them go to the account signed in at that moment. Later
+  /// accounts on this device start empty. The old file stays intact.
+  Future<void> adoptLegacyData(String userId) async {
+    if (prefs.getBool(_legacyAdoptedKey) == true) return;
+    final legacy = _legacyDatabaseFactory();
+    try {
+      await copyAccountData(
+        source: legacy,
+        destination: openAccount(userId),
+        sourceUserId: userId,
+        destinationUserId: userId,
+        includePrivateRows: true,
+        keepReferencedRecipes: true,
+      );
+      await prefs.setBool(_legacyAdoptedKey, true);
+    } catch (error) {
+      AppLogger.warning('Could not adopt legacy data', errorObject: error);
     } finally {
       await legacy.close();
     }
@@ -205,12 +235,18 @@ class AccountDataStore {
 /// Copy data in a single destination transaction. Recipe dependencies are
 /// selected from the same source snapshot. Only a proven partition can supply
 /// ownerless rows, and only its own custom recipes can be renamed.
+///
+/// [keepReferencedRecipes] also copies other people's private recipes that a
+/// copied brew or preference points at, unchanged, so the entry keeps its
+/// recipe. Recipe sync uploads only the owner's own recipes, so these stay
+/// local. Used only for the one-time legacy adoption.
 Future<void> copyAccountData({
   required AppDatabase source,
   required AppDatabase destination,
   required String sourceUserId,
   required String destinationUserId,
   required bool includePrivateRows,
+  bool keepReferencedRecipes = false,
 }) async {
   final sourceVendor = 'usr-$sourceUserId';
   final destinationVendor = 'usr-$destinationUserId';
@@ -260,7 +296,10 @@ Future<void> copyAccountData({
       final originalVendor = isLegacyOfflineOwner
           ? legacyOfflineVendor
           : sourceVendor;
+      final keepAsReferenced =
+          keepReferencedRecipes && referencedIds.contains(recipe.id);
       if (!isOwned &&
+          !keepAsReferenced &&
           (!includePrivateRows ||
               (recipe.id.startsWith('usr-') && !recipe.isPublic))) {
         continue;

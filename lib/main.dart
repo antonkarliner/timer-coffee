@@ -533,6 +533,7 @@ Future<CoffeeTimerApp?> _prepareAccountApp(
   final DatabaseProvider databaseProvider = DatabaseProvider(database);
   final owner = database.accountScope?.userId;
   if (owner != null) {
+    await store.adoptLegacyData(owner);
     await store.recoverLegacyRecipes(owner);
   }
   if (!isCurrent()) return null;

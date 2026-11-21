@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:coffee_timer/database/account_data_store.dart';
 import 'package:coffee_timer/database/account_database_scope.dart';
@@ -114,6 +115,37 @@ Future<void> _populate(
       UserRecipePreferencesCompanion.insert(recipeId: recipe, isFavorite: true),
     );
   });
+}
+
+Future<void> _restoreSession(GoTrueClient auth, String userId) async {
+  final expiry = DateTime.now().add(const Duration(hours: 1));
+  final claims = base64Url
+      .encode(
+        utf8.encode(
+          jsonEncode({
+            'exp': expiry.millisecondsSinceEpoch ~/ 1000,
+            'sub': userId,
+            'role': 'authenticated',
+          }),
+        ),
+      )
+      .replaceAll('=', '');
+  await auth.recoverSession(
+    jsonEncode({
+      'access_token': 'test.$claims.signature',
+      'expires_in': 3600,
+      'refresh_token': 'test-refresh',
+      'token_type': 'bearer',
+      'user': {
+        'id': userId,
+        'aud': 'authenticated',
+        'app_metadata': {'provider': 'anonymous'},
+        'user_metadata': <String, dynamic>{},
+        'is_anonymous': true,
+        'created_at': '2026-01-01T00:00:00Z',
+      },
+    }),
+  );
 }
 
 void main() {
@@ -325,6 +357,84 @@ void main() {
         await current.select(current.userRecipePreferences).get(),
         isEmpty,
       );
+      expect(await legacy.select(legacy.userStats).get(), hasLength(2));
+    },
+  );
+
+  test(
+    'the first launch after the upgrade gives every legacy entry to the current user, once',
+    () async {
+      SharedPreferences.setMockInitialValues({});
+      final prefs = await SharedPreferences.getInstance();
+      final dir = await Directory.systemTemp.createTemp('legacy-adopt');
+      addTearDown(() => dir.delete(recursive: true));
+      final legacyFile = File('${dir.path}/db.sqlite');
+      AppDatabase openLegacy() => AppDatabase(NativeDatabase(legacyFile));
+
+      final seed = openLegacy();
+      await _populate(seed, 'guest');
+      // A brew of someone else's unlisted shared recipe.
+      await _populate(seed, 'sharer');
+      await seed.close();
+
+      final auth = GoTrueClient(
+        url: 'https://account.example/auth/v1',
+        autoRefreshToken: false,
+        httpClient: MockClient(
+          (_) async => throw StateError('Unexpected request'),
+        ),
+      );
+      addTearDown(auth.dispose);
+      final store = AccountDataStore(
+        auth: auth,
+        prefs: prefs,
+        supabaseUrl: 'https://account.example',
+        supabaseKey: 'anon-key',
+        legacyDatabaseFactory: openLegacy,
+        databaseFactory: (scope) {
+          addTearDown(scope.client.dispose);
+          final db = AppDatabase(NativeDatabase.memory(), accountScope: scope);
+          addTearDown(db.close);
+          return db;
+        },
+      );
+
+      await _restoreSession(auth, 'guest');
+      final guest = await store.openCurrent();
+      await store.adoptLegacyData('guest');
+      await store.recoverLegacyRecipes('guest');
+
+      expect(
+        (await guest.select(guest.coffeeBeans).get()).map((b) => b.beansUuid),
+        unorderedEquals(['bean-guest', 'bean-sharer']),
+      );
+      final brews = await guest.select(guest.userStats).get();
+      expect(
+        {for (final b in brews) b.statUuid: b.recipeId},
+        {'stat-guest': 'usr-guest-brew', 'stat-sharer': 'usr-sharer-brew'},
+      );
+      expect(await guest.select(guest.userRecipePreferences).get(), hasLength(2));
+      final sharedRecipe = await (guest.select(
+        guest.recipes,
+      )..where((r) => r.id.equals('usr-sharer-brew'))).getSingle();
+      // Kept for the brew, still owned by its author, so sync never uploads it.
+      expect(sharedRecipe.vendorId, 'usr-sharer');
+      expect(
+        await (guest.select(
+          guest.steps,
+        )..where((s) => s.recipeId.equals('usr-sharer-brew'))).get(),
+        hasLength(1),
+      );
+
+      // Runs once per installation: a later account on this device starts empty.
+      await _restoreSession(auth, 'second');
+      final second = await store.openCurrent();
+      await store.adoptLegacyData('second');
+      expect(await second.select(second.coffeeBeans).get(), isEmpty);
+      expect(await second.select(second.userStats).get(), isEmpty);
+
+      final legacy = openLegacy();
+      addTearDown(legacy.close);
       expect(await legacy.select(legacy.userStats).get(), hasLength(2));
     },
   );
